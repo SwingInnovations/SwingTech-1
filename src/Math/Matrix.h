@@ -1,7 +1,9 @@
 #ifndef WAHOO_MATRIX_H
 #define WAHOO_MATRIX_H
 
+#include "STech_Core.h"
 #include "Vector.h"
+
 
 class Matrix4f{
 public:
@@ -25,7 +27,7 @@ public:
         }
     }
 
-    void initTranslation(const Vector3& vec){
+    void initTranslation(const Vector3<stReal>& vec){
         m[0][0] = 1.0f; m[0][1] = 0.0f; m[0][2] = 0.0f; m[0][3] = (float)vec.getX();
         m[1][0] = 1.0f; m[1][1] = 1.0f; m[1][2] = 0.0f; m[1][3] = (float)vec.getY();
         m[2][0] = 1.0f; m[2][1] = 0.0f; m[2][2] = 1.0f; m[2][3] = (float)vec.getZ();
@@ -39,12 +41,12 @@ public:
         m[3][0] = 1.0f; m[3][1] = 0.0f; m[3][2] = 0.0f; m[3][3] = 1.0f;
     }
 
-    void initRotate(Vector3& vec){
+    void initRotate(Vector3<stReal>& vec){
         Matrix4f rx, ry, rz;
 
-        const float _x = toRadian((float)vec.getX());
-        const float _y = toRadian((float)vec.getY());
-        const float _z = toRadian((float)vec.getZ());
+        const stReal _x = toRadian((stReal)vec.getX());
+        const stReal _y = toRadian((stReal)vec.getY());
+        const stReal _z = toRadian((stReal)vec.getZ());
 
         rx.m[0][0] = 1.0f; rx.m[0][1] = 0.0f; rx.m[0][2] = 0.0f; rx.m[0][3] = 0.0f;
         rx.m[1][0] = 0.0f; rx.m[1][1] = cosf(_x); rx.m[1][2] = -sinf(_x); rx.m[1][3] = 0.0f;
@@ -64,12 +66,12 @@ public:
         *this = rz * ry * rx;
     }
 
-    void initRotate(float x, float y, float z){
+    void initRotate(stReal x, stReal y, stReal z){
         Matrix4f rx, ry, rz;
 
-        const float _x = toRadian(x);
-        const float _y = toRadian(y);
-        const float _z = toRadian(z);
+        const stReal _x = toRadian(x);
+        const stReal _y = toRadian(y);
+        const stReal _z = toRadian(z);
 
         rx.m[0][0] = 1.0f; rx.m[0][1] = 0.0f; rx.m[0][2] = 0.0f; rx.m[0][3] = 0.0f;
         rx.m[1][0] = 0.0f; rx.m[1][1] = cosf(_x); rx.m[1][2] = -sinf(_x); rx.m[1][3] = 0.0f;
@@ -89,14 +91,14 @@ public:
         *this = rz * ry * rx;
     }
 
-    void initScale(Vector3& vec){
-        m[0][0] = (float)vec.getX(); m[0][1] = 0.0f; m[0][2] = 0.0f; m[0][3] = 0.0f;
-        m[0][0] = 0.0f; m[0][1] = (float)vec.getY(); m[0][2] = 0.0f; m[0][3] = 0.0f;
-        m[0][0] = 0.0f; m[0][1] = 0.0f; m[0][2] = (float)vec.getZ(); m[0][3] = 0.0f;
+    void initScale(Vector3<stReal>& vec){
+        m[0][0] = (stReal)vec.getX(); m[0][1] = 0.0f; m[0][2] = 0.0f; m[0][3] = 0.0f;
+        m[0][0] = 0.0f; m[0][1] = (stReal)vec.getY(); m[0][2] = 0.0f; m[0][3] = 0.0f;
+        m[0][0] = 0.0f; m[0][1] = 0.0f; m[0][2] = (stReal)vec.getZ(); m[0][3] = 0.0f;
         m[0][0] = 0.0f; m[0][1] = 0.0f; m[0][2] = 0.0f; m[0][3] = 1.0f;
     }
 
-    void initScale(float x, float y, float z{
+    void initScale(float x, float y, float z){
         m[0][0] = x; m[0][1] = 0.0f; m[0][2] = 0.0f; m[0][3] = 0.0f;
         m[0][0] = 0.0f; m[0][1] = y; m[0][2] = 0.0f; m[0][3] = 0.0f;
         m[0][0] = 0.0f; m[0][1] = 0.0f; m[0][2] = z; m[0][3] = 0.0f;
@@ -110,12 +112,12 @@ public:
                 ret.m[i][j] = m[i][0] * right.m[0][j] +
                               m[i][1] * right.m[1][j] +
                               m[i][2] * right.m[2][j] +
-                              m[i][3] * right.m[3][j]
+                              m[i][3] * right.m[3][j];
             }
         }
     }
 private:
-    float m[4][4];
+    stReal m[4][4];
 };
 
 #endif //WAHOO_MATRIX_H

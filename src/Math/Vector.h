@@ -5,6 +5,9 @@
 #include <string>
 
 #include "STech_Core.h"
+#include "Quaternion.h"
+
+class Quaternion;
 
 template<typename T>
 class Vector2{
@@ -147,6 +150,28 @@ public:
         m_Val[1] /= getLength();
         m_Val[2] /= getLength();
         return *this;
+    }
+
+    void rotate(stReal angle, Vector3& axis){
+        float hSinF = sinf(toRadian(angle/2));
+        float hCosF = cosf(toRadian(angle/2));
+
+        const float rX = (float)axis.getX() * hSinF;
+        const float rY = (float)axis.getY() * hSinF;
+        const float rZ = (float)axis.getZ() * hSinF;
+        const float rW = hCosF;
+
+        Quaternion rotateQ(rX ,rY, rZ, rW);
+        Quaternion ConjQ, W;
+        ConjQ = rotateQ.conjugate();
+        Vector3 val(this->getX(),
+                            this->getY(),
+                            this->getY());
+        W = rotateQ.multiply(*this).multiply(ConjQ);
+
+        this->m_Val[0] = W.getX();
+        this->m_Val[1] = W.getY();
+        this->m_Val[2] = W.getZ();
     }
 
     double dot(const Vector3& other){

@@ -1,14 +1,7 @@
-//
-// Created by NDanq on 10/14/2015.
-//
-
 #ifndef WAHOO_QUATERNION_H
 #define WAHOO_QUATERNION_H
 
-#include "STech_Core.h
-#include "Vector.h"
-
-class Vector3;
+template<typename>class Vector3;
 
 class Quaternion {
 public:
@@ -36,7 +29,7 @@ public:
     float getZ()const{ return m_val[2]; }
     float getW()const{ return m_val[3]; }
 
-    float getLength(){ return (float)sqrt( pow(m_val[0], 2) + pow(m_val[1], 2) + pow(m_val[2], 2) + pow(m_val[3], 2)) };
+    float getLength(){ return (float)sqrt( pow(m_val[0], 2) + pow(m_val[1], 2) + pow(m_val[2], 2) + pow(m_val[3], 2)); }
     float* getData(){ return m_val; }
 
     Quaternion normalize(){
@@ -52,7 +45,14 @@ public:
         return Quaternion(-m_val[0], -m_val[1], -m_val[2], m_val[3]);
     }
 
-    Vector3<float> inline toVector3f();
+    template<typename T>inline Vector3<T> toVector3(){
+        T _x = (T)m_val[0];
+        T _y = (T)m_val[1];
+        T _z = (T)m_val[2];
+
+        Vector3<T> ret(_x, _y, _z);
+        return ret;
+    }
 
     inline Quaternion multiply(Quaternion& r)const{
         float _x = this->getW()*r.getX() + this->getX()*r.getW() + this->getY()* r.getZ() - this->getZ() * r.getY();
@@ -62,22 +62,16 @@ public:
         return Quaternion(_x, _y, _z, _w);
     }
 
-    inline Quaternion multiply(Vector3& vec)const{
+    template<typename T>inline Quaternion multiply(Vector3<T>& vec)const{
         float _x = (this->getW() * (float)vec.getX()) + (this->getY() * (float)vec.getZ()) - (this->getZ() * (float)vec.getY());
         float _y = (this->getW() * (float)vec.getY()) + (this->getZ() * (float)vec.getX()) - (this->getX() * (float)vec.getZ());
         float _z = (this->getW() * (float)vec.getZ()) + (this->getX() * (float)vec.getY()) - (this->getY() * (float)vec.getX());
-        float _w = -(this->getX() * (float)vec.getX()) - (this->getY() * (float)vec.getY()) - (this->getZ() * (float)vec.getZ()));
+        float _w = -(this->getX() * (float)vec.getX()) - (this->getY() * (float)vec.getY()) - (this->getZ() * (float)vec.getZ());
         return Quaternion(_x, _y, _z, _w);
     }
 
 private:
     float m_val[4];
 };
-
-Vector3<float> inline Quaternion::toVector3f() {
-    Vector3<float> ret(m_val[0], m_val[1], m_val[2]);
-    return ret;
-}
-
 
 #endif //WAHOO_QUATERNION_H

@@ -35,6 +35,17 @@ public:
     void setScaleY(stReal _y){ this->scale.setY(_y); }
     void setScaleZ(stReal _z){ this->scale.setZ(_z); }
 
+    const Matrix4f getModel(){
+        Matrix4f trans, rot, scaleMat;
+        trans.initTranslation(translate);
+        rot.initRotate(rotate);
+        scaleMat.initScale(scale);
+
+        Matrix4f ret;
+        ret = scaleMat * rot * trans;
+        return ret;
+    }
+
     template<typename T> Vector3<T> getTranslate()const{ return Vector3<T>((T)translate.getX(), (T)translate.getY(), (T)translate.getZ()); }
     template<typename T> Vector3<T> getRotate()const{ return Vector3<T>( (T)rotate.getX(), (T)rotate.getY(), (T)rotate.getZ() ); }
     template<typename T> Vector3<T> getScale()const{ return Vector3<T>( (T)scale.getX(), (T)scale.getY(), (T)scale.getZ() ); }

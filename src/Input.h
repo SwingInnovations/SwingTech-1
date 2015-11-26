@@ -157,7 +157,9 @@ public:
     InputMap(const std::string& filePath);
 
     void addMapping(int target, int key);
-    int get(int target); // - Return the Key for the given target
+    int get(int target){
+
+    }// - Return the Key for the given target
 
     std::string info() {
         std::ostringstream ret;
@@ -179,11 +181,20 @@ public:
     void poll(SDL_Event&);
     void requestClose(){ closeRequested = true; }
 
+    void centerMouseInWindow();
+
     void setInputMap(InputMap* map){ inputMap = map; }
     void setMoveSpeed(float speed){ moveSpeed = speed; }
     void setMouseSensitivity(float speed){ mouseSensitivity = speed; }
     void setCursorBound(bool v){ cursorBound = v; }
     InputMap* inputMapping(){ return inputMap; }
+
+    template<typename T> Vector2<T> getMouseCoords(){
+        T _x = (T)mouseX;
+        T _y = (T)mouseY;
+        Vector2<T> ret(_x, _y);
+        return ret;
+    }
 
     void addJoystick(int id);
     void addJoystick();
@@ -194,6 +205,9 @@ public:
     bool isMousePressed(int);
     bool isCursorBound(){ return cursorBound; }
     bool isCloseRequested(){ return closeRequested; }
+
+    float getMouseSensitivity()const{ return mouseSensitivity; }
+    Uint32 getDelta()const{ return delta; }
 
     double getJoystickAxis(int joyIndex, int axis){
         return (double)SDL_JoystickGetAxis(joysticks[joyIndex], axis);

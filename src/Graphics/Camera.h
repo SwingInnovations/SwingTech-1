@@ -5,6 +5,9 @@
 #include "../Input.h"
 #include "../Math/Vector.h"
 #include "../Math/Transform.h"
+#include "../Math/Matrix.h"
+
+class Matrix4f;
 
 struct ViewProfile{
     ViewProfile(){
@@ -51,10 +54,14 @@ public:
     Camera();
     Camera(STechWindow&, Vector3<stReal>&, ViewProfile&);
 
+    void init();
     void update();
+    void update(Input* input);
 
     ViewProfile* viewProf(){ return &m_viewProf; }
     Transform* transform(){ return &m_transform; }
+
+    Matrix4f getViewProjection()const;
 private:
     void processFPS(Input* input);
     Transform m_transform;

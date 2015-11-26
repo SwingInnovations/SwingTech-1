@@ -79,6 +79,12 @@ void Input::poll(SDL_Event& event) {
     }
 }
 
+void Input::centerMouseInWindow() {
+    int cX = screenWidth/2;
+    int cY = screenHeight/2;
+    SDL_WarpMouseInWindow(templateWin, cX, cY);
+}
+
 void Input::addJoystick(int id) {
     if(SDL_NumJoysticks() < 1 || id < SDL_NumJoysticks()){
         std::cout << "Error, invalid amount of Joysticks! " << std::endl;

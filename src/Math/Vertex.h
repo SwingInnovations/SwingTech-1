@@ -11,9 +11,9 @@ public:
         this->_normal = normal;
     }
 
-    Vector3<stReal> *getVertex()const{ return &_vertex; }
-    Vector2<stReal> *getTexCoord()const{ return &_texCoord; }
-    Vector3<stReal> *getNormal()const{ return &_normal; }
+    Vector3<stReal> *getVertex(){ return &_vertex; }
+    Vector2<stReal> *getTexCoord(){ return &_texCoord; }
+    Vector3<stReal> *getNormal(){ return &_normal; }
 private:
     Vector3<stReal> _vertex;
     Vector2<stReal> _texCoord;

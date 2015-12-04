@@ -1,5 +1,9 @@
 #include "STGraphicsComponent.h"
 
+STGraphicsComponent::STGraphicsComponent(Shader *shdr) {
+    m_shdr = shdr;
+}
+
 void STGraphicsComponent::addShdrAttrib(const std::string &name, int value) {
     m_uniforms.push_back(STShader::ShaderAttrib(name, STShader::INT, STShader::toString(value)));
 }

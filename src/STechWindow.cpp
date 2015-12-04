@@ -71,6 +71,17 @@ void STechWindow::setOpenGLVersion(int MajorVersion, int MinorVersion) {
     }
 }
 
+void STechWindow::setClearColor(stReal _x, stReal _y, stReal _z, stReal _w) {
+    m_clearColor.setX(_x);
+    m_clearColor.setY(_y);
+    m_clearColor.setZ(_z);
+    m_clearColor.setW(_w);
+}
+
+void STechWindow::setClearColor(const Vector4<stReal> clearColor) {
+    m_clearColor = clearColor;
+}
+
 void STechWindow::addState(SGameState* gameState) {
     m_gameStates.push_back(gameState);
 }
@@ -137,6 +148,8 @@ void STechWindow::updateInput(SDL_Event& event) {
 }
 
 void STechWindow::render() {
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    glClearColor(m_clearColor.getX(), m_clearColor.getY(), m_clearColor.getZ(), m_clearColor.getW());
 
     if(!m_gameStates.empty()){
         m_gameStates.at(m_currentIndex)->render(this);

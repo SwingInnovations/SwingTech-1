@@ -15,6 +15,7 @@ extern "C"{
 
 #include "Input.h"
 #include "SGameState.h"
+#include "Math/Vector.h"
 
 class Input;
 class SGameState;
@@ -40,6 +41,9 @@ public:
     void setIcon(const std::string& filePath);
     void enterState(unsigned int);
 
+    void setClearColor(stReal, stReal, stReal, stReal);
+    void setClearColor(const Vector4<stReal> clearColor);
+
     /*-The Getters-*/
     Input* getInput();
     int getWidth(){ return this->WIDTH; }
@@ -58,6 +62,7 @@ private:
     bool useLua;
     bool isFullScreen;
     bool isCursorOnDisplay;
+
     unsigned int m_currentIndex;
     std::vector<SGameState*> m_gameStates;
     Input* m_input;
@@ -67,6 +72,7 @@ private:
     unsigned int WIDTH, HEIGHT;
     int m_CurrentState;
     Uint32 delta, oldTime, newTime, fps;
+    Vector4<stReal> m_clearColor;
 };
 
 

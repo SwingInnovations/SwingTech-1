@@ -23,8 +23,8 @@ public:
     void update(Transform& trans, Camera& cam);
     void update(const std::string& name, int val);
     void update(const std::string& name, float val);
-    void update(const std::string& name, Vector3<stReal>& val);
-    void update(const std::string& name, Vector4<stReal>& val);
+    void update(const std::string& name, Vector3<stReal> val);
+    void update(const std::string& name, Vector4<stReal> val);
 
     virtual ~GLShader();
 private:

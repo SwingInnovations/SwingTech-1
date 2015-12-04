@@ -55,30 +55,30 @@ namespace STShader{
         return (float)atof(val.c_str());
     }
 
-    template<typename T> static Vector3<T> toVector3(std::string& val){
-        T _x = 0;
-        T _y = 0;
-        T _z = 0;
-        _x = (T)atof(val.substr(0, val.find('/')).c_str());
-        _y = (T)atof(val.substr(val.find('/')+1, val.find_last_of('/') ).c_str());
-        _z = (T)atof(val.substr(val.find_last_of('/')+1).c_str());
-        Vector3<T> ret(_x, _y, _z);
+    static Vector3<stReal> toVector3(std::string& val){
+        stReal _x = 0;
+        stReal _y = 0;
+        stReal _z = 0;
+        _x = (stReal)atof(val.substr(0, val.find('/')).c_str());
+        _y = (stReal)atof(val.substr(val.find('/')+1, val.find_last_of('/') ).c_str());
+        _z = (stReal)atof(val.substr(val.find_last_of('/')+1).c_str());
+        Vector3<stReal> ret(_x, _y, _z);
         return ret;
     }
 
-    template<typename T>Vector4<T> static toVector4(std::string& value){
-        T _x = 0, _y = 0, _z = 0, _w = 0;
+    static Vector4<stReal> toVector4(std::string& value){
+        stReal _x = 0, _y = 0, _z = 0, _w = 0;
         std::string vX = value.substr(0, value.find('/'));
         std::string d1 = value.substr(value.find('/')+1);
         std::string vY = d1.substr(0, d1.find('/'));
         std::string d2 = d1.substr(d1.find('/')+1);
         std::string vZ = d2.substr(0, d2.find('/'));
         std::string vW = d2.substr(d2.find_last_of('/')+1);
-        _x = (T)atof(vX.c_str());
-        _y = (T)atof(vY.c_str());
-        _z = (T)atof(vZ.c_str());
-        _w = (T)atof(vW.c_str());
-        Vector4<T> ret(_x, _y, _z, _w);
+        _x = (stReal)atof(vX.c_str());
+        _y = (stReal)atof(vY.c_str());
+        _z = (stReal)atof(vZ.c_str());
+        _w = (stReal)atof(vW.c_str());
+        Vector4<stReal> ret(_x, _y, _z, _w);
         return ret;
     }
 
@@ -104,8 +104,8 @@ public:
     virtual void update(Camera& cam){  }
     virtual void update(const std::string& name, int val){}
     virtual void update(const std::string& name, float val){ }
-    virtual void update(const std::string& name, Vector3<stReal>& val){ }
-    virtual void update(const std::string& name, Vector4<stReal>& val){  }
+    virtual void update(const std::string& name, Vector3<stReal> val){ }
+    virtual void update(const std::string& name, Vector4<stReal> val){  }
     virtual ~Shader(){}
     static void SetGraphicsMode(bool val){
         USE_GL = val;

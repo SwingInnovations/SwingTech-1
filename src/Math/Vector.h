@@ -178,62 +178,62 @@ public:
         return sqrt(this->getX() * other.getX() + this->getY() * other.getY() + other.getZ() * other.getZ());
     }
 
-    Vector3 cross(const Vector3& other){
+    Vector3 cross(const Vector3& other)const{
         T _x = (this->getY() * other.getZ()) - (this->getZ() * other.getY());
         T _y = (this->getZ() * other.getX()) - (this->getX() * other.getZ());
         T _z = (this->getX() * other.getY()) - (this->getY() * other.getX());
         return Vector3(_x, _y, _z);
     }
 
-    const Vector3 operator+ (const T other){
+    const Vector3 operator+ (const T& other)const{
         T x = getX() + other;
         T y = getY() + other;
         T z = getZ() + other;
         return Vector3(x, y, z);
     }
 
-    const Vector3 operator+ (const Vector3 other){
+    const Vector3 operator+ (const Vector3& other)const{
         T x = getX() + other.getX();
         T y = getY() + other.getY();
         T z = getZ() + other.getZ();
     }
 
-    const Vector3 operator- (const T other){
+    const Vector3 operator- (const T other)const{
         T x = getX() - other;
         T y = getY() - other;
         T z = getZ() - other;
         return Vector3(x, y, z);
     }
 
-    const Vector3 operator- (const Vector3 other){
+    const Vector3 operator- (const Vector3& other)const{
         T x = getX() - other.getX();
         T y = getY() - other.getY();
         T z = getZ() - other.getZ();
         return Vector3(x, y, z);
     }
 
-    const Vector3 operator* (const T other){
+    const Vector3 operator* (const T& other)const{
         T x = getX() * other;
         T y = getY() * other;
         T z = getZ() * other;
         return Vector3(x, y, z);
     }
 
-    const Vector3 operator* (const Vector3 other){
+    const Vector3 operator* (const Vector3& other)const{
         T x = getX() * other.getX();
         T y = getY() * other.getY();
         T z = getZ() * other.getZ();
         return Vector3(x, y, z);
     }
 
-    const Vector3 operator/ (const T other){
+    const Vector3 operator/ (const T& other)const{
         T x = getX() / other;
         T y = getY() / other;
         T z = getZ() / other;
         return Vector3(x, y, z);
     }
 
-    const Vector3 operator/ (const Vector3& other){
+    const Vector3 operator/ (const Vector3& other)const{
         T x = getX() / other.getX();
         T y = getY() / other.getY();
         T z = getZ() / other.getZ();

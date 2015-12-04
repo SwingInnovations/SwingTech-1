@@ -117,11 +117,11 @@ void GLShader::update(const std::string& name, float val) {
     glUniform1f(glGetUniformLocation(m_Program, name.c_str()), val);
 }
 
-void GLShader::update(const std::string &name, Vector3<stReal> &val) {
+void GLShader::update(const std::string &name, Vector3<stReal> val) {
     glUniform3f(glGetUniformLocation(m_Program, name.c_str()), val.getX(), val.getY(), val.getZ());
 }
 
-void GLShader::update(const std::string &name, Vector4<stReal> &val) {
+void GLShader::update(const std::string &name, Vector4<stReal> val) {
     glUniform4f(glGetUniformLocation(m_Program, name.c_str()), val.getX(), val.getY(), val.getZ(), val.getW());
 }
 

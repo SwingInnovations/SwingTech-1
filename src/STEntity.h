@@ -6,6 +6,7 @@
 #include "Math/Transform.h"
 #include "STComponent.h"
 #include "STGraphicsComponent.h"
+#include "STMeshComponent.h"
 
 class Transform;
 class Camera;
@@ -26,9 +27,18 @@ public:
 
     Transform* transform(){ return m_transform; }
 
+    void draw(){
+        auto grphx = get<STGraphicsComponent>();
+        auto mesh = get<STMeshComponent>();
+        grphx->draw();
+        mesh->draw();
+    }
+
     void draw(Camera* cam){
         auto grphx = get<STGraphicsComponent>();
+        auto mesh = get<STMeshComponent>();
         grphx->draw();
+        mesh->draw();
     }
 private:
     Transform* m_transform;

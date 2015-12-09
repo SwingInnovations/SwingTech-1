@@ -38,6 +38,7 @@ STechWindow::STechWindow(const std::string title, unsigned int WIDTH, unsigned i
         }else{
             //TODO init Input and Graphics Module
             m_input = new Input(this, m_e);
+            g = new STechGraphics(this);
         }
     }
     m_currentIndex = 0;

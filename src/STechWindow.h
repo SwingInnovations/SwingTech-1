@@ -16,6 +16,8 @@ extern "C"{
 #include "Input.h"
 #include "SGameState.h"
 #include "Math/Vector.h"
+#include "Graphics/Camera.h"
+#include "Graphics/STechGraphics.h"
 
 class Input;
 class SGameState;
@@ -30,6 +32,14 @@ public:
     void start();
     void centerCursor();
     void addState(SGameState*); // TODO - Add Structure Level Handler
+
+    void addCamera(Camera* cam){
+        g->setCamera(cam);
+    }
+
+    Camera* camera(){
+        return g->camera();
+    }
 
     /*--General Getters and Setters--*/
     /*-The Setters-*/
@@ -69,6 +79,7 @@ private:
     SDL_Window* m_Window;
     SDL_GLContext m_Context;
     SDL_Event m_e;
+    STechGraphics* g;
     unsigned int WIDTH, HEIGHT;
     int m_CurrentState;
     Uint32 delta, oldTime, newTime, fps;

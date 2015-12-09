@@ -102,6 +102,7 @@ public:
     virtual void bind(){  }
     virtual void update(Transform& trans){  }
     virtual void update(Camera& cam){  }
+    virtual void update(Transform& trans, Camera& cam){ }
     virtual void update(const std::string& name, int val){}
     virtual void update(const std::string& name, float val){ }
     virtual void update(const std::string& name, Vector3<stReal> val){ }

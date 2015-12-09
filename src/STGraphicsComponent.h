@@ -27,6 +27,8 @@ public:
         m_shdr = shdr;
     }
 
+    Shader* shdr(){ return m_shdr; }
+
     virtual void update(STechWindow* window, int delta){
         //Do Nothing
     }

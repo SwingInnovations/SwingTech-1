@@ -1,5 +1,5 @@
 in vec3 position0;
-in vee3 texCoord0;
+in vec2 texCoord0;
 
 out vec4 color;
 

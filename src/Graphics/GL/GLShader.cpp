@@ -48,6 +48,8 @@ GLShader::GLShader(const std::string &filePath) {
     m_uniforms[0] = glGetUniformLocation(m_Program, "model");
     m_uniforms[1] = glGetUniformLocation(m_Program, "camera");
     m_uniforms[2] = glGetUniformLocation(m_Program, "cameraPosition");
+
+    std::cout << "Program Status: " << m_Program << std::endl;
 }
 
 GLShader::GLShader(const std::string &vShaderPath, const std::string &fShaderPath) {
@@ -138,12 +140,13 @@ void GLShader::checkShaderStatus(GLuint shaderID, GLuint flag, bool isProgram, c
     if(success == GL_FALSE){
         if(isProgram){
             glGetProgramInfoLog(shaderID, sizeof(error), NULL, error);
-        }else{
+        }else {
             glGetShaderInfoLog(shaderID, sizeof(error), NULL, error);
         }
+        std::cerr << errMsg << " : " << error << "'" << std::endl;
+    }else{
+        std::cout << "Shader passed validation. Success Code:  " << success << std::endl;
     }
-
-    std::cerr << errMsg << " : " << error << std::endl;
 }
 
 std::string GLShader::loadShader(const std::string &filePath) {
@@ -151,7 +154,7 @@ std::string GLShader::loadShader(const std::string &filePath) {
     file.open(filePath.c_str());
 
     if(!file.good()){
-
+        std::cout << "Error! File not found! " << filePath << std::endl;
     }
 
     std::string output;
@@ -171,14 +174,16 @@ GLuint GLShader::createShader(const std::string &text, unsigned int type) {
     GLuint shader = glCreateShader(type);
     if(shader == 0){
         //TODO - Make err msg
+        std::cout << "Error creating Shader...invalid shader? " << std::endl;
     }
 
-    const GLchar*p [1];
+    const GLchar* p[1];
     p[0] = text.c_str();
     GLint length[1];
     length[0] = text.length();
 
     glShaderSource(shader, 1, p, length);
     glCompileShader(shader);
+    checkShaderStatus(shader, GL_COMPILE_STATUS, false, "Failed to compile shader! ");
     return shader;
 }

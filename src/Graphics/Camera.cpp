@@ -15,6 +15,22 @@ Camera::Camera(STechWindow &win, Vector3<stReal> &pos, ViewProfile &viewProfile)
     m_viewProf = viewProfile;
 }
 
+Camera::Camera(STechWindow &win, Vector3<stReal> &pos, int presetMode) {
+    start = false;
+    m_Width = (float)win.getWidth();
+    m_Height = (float)win.getHeight();
+    m_transform.setTranslate(pos);
+    if(presetMode == DefaultView_PERSP){
+        ViewProfile viewProfile;
+        viewProfile.FOV = 70.0f;
+        viewProfile.moveMode = CAMERA_MOVEMENT::FIRST_PERSON;
+        viewProfile.viewMode = CAMERA_VIEW::PERSPECTIVE;
+        viewProfile.zNear = 0.0f;
+        viewProfile.zFar = 1000.0f;
+        m_viewProf = viewProfile;
+    }
+}
+
 void Camera::update() {
     Vector3<stReal> vAxis(0.0f, 1.0f, 0.0f);
 

@@ -78,16 +78,10 @@ OBJMesh::OBJMesh(const std::string &filename) {
         if(line[0] == 'v' && line[1] == ' '){
             std::string vals = line.substr(2);
             stReal _x = 0.0f, _y = 0.0f, _z = 0.0f;
-
-            std::cout << "Extracting vX. " << std::endl;
             std::string vX = vals.substr(0, vals.find(' '));
             _x = (stReal)atof(vX.c_str());
-
-            std::cout << "Extracting vY. " << std::endl;
             std::string vY = vals.substr(vX.length()-1, vals.find(' '));
             _y = (stReal)atof(vY.c_str());
-
-            std::cout << "Extracting vZ. " << std::endl;
             std::string vZ = vals.substr(vals.find_last_of(' ')+1);
             _z = (stReal)atof(vZ.c_str());
             _vertex.push_back(Vector3<stReal>(_x, _y, _z));
@@ -96,12 +90,8 @@ OBJMesh::OBJMesh(const std::string &filename) {
         if(line[0] == 'v' && line[1] == 't' && line[2] == ' '){
             std::string vals = line.substr(3);
             stReal _u = 0.0f, _v = 0.0f;
-
-            std::cout << "Extracting vU" << std::endl;
             std::string tU = vals.substr(0, vals.find(' '));
             _u = (stReal)atof(tU.c_str());
-
-            std::cout << "Extracting vV" << std::endl;
             std::string tV = vals.substr(tU.length()+1, vals.find(' '));
             _v = (stReal)atof(tV.c_str());
             _texCoord.push_back(Vector2<stReal>(_u, _v));
@@ -110,16 +100,10 @@ OBJMesh::OBJMesh(const std::string &filename) {
         if(line[0] == 'v' && line[1] == 'n'&& line[2] == ' '){
             std::string vals = line.substr(3);
             stReal _x = 0.0f, _y = 0.0f, _z = 0.0f;
-
-            std::cout << "Extracting vNX" << std::endl;
             std::string nX = vals.substr(0, vals.find(' '));
             _x = (stReal)atof(nX.c_str());
-
-            std::cout << "Extracting vNY" << std::endl;
             std::string nY = vals.substr(nX.length()-1, vals.find(' '));
             _y = (stReal)atof(nY.c_str());
-
-            std::cout << "Extracting vNZ" << std::endl;
             std::string nZ = vals.substr(vals.find_last_of(' ')+1);
             _z = (stReal)atof(nZ.c_str());
             _normal.push_back(Vector3<stReal>(_x, _y, _z));

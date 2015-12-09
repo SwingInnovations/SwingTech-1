@@ -36,6 +36,6 @@ int main(int argc, char** argv) {
     window.setTargetFPS(60);
     window.addState(new TestState(0));
     window.enterState(0);
-    window.setClearColor(Vector4<stReal>(1.0f, 0.0f, 0.0f, 1.0f));
+    window.setClearColor(Vector4<stReal>(0.2f, 0.2f, 0.4f, 1.0f));
     window.start();
 }

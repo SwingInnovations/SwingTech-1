@@ -37,6 +37,7 @@ public:
     void draw(Camera* cam){
         auto grphx = get<STGraphicsComponent>();
         auto mesh = get<STMeshComponent>();
+        grphx->shdr()->update(*m_transform, *cam);
         grphx->draw();
         mesh->draw();
     }

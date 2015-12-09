@@ -7,6 +7,8 @@
 #include "../Math/Transform.h"
 #include "../Math/Matrix.h"
 
+
+class Input;
 class Matrix4f;
 
 struct ViewProfile{
@@ -53,6 +55,7 @@ class Camera {
 public:
     Camera();
     Camera(STechWindow&, Vector3<stReal>&, ViewProfile&);
+    Camera(STechWindow&, Vector3<stReal>&, int);
 
     void init();
     void update();
@@ -76,6 +79,9 @@ private:
 
     float m_Width, m_Height;
     ViewProfile m_viewProf;
+    enum{
+        DefaultView_PERSP = 0
+    };
 };
 
 

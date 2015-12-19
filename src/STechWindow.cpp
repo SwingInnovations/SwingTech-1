@@ -1,5 +1,8 @@
 #include "STechWindow.h"
 
+#include "Graphics/STechGraphics.h"
+#include "Graphics/Camera.h"
+
 STechWindow::STechWindow() {
     m_Window = nullptr;
     m_Context = 0;
@@ -157,4 +160,16 @@ void STechWindow::render() {
     }
 
     SDL_GL_SwapWindow(m_Window);
+}
+
+void STechWindow::addCamera(Camera* cam){
+    g->setCamera(cam);
+}
+
+Camera* STechWindow::getCamera(){
+    return g->camera();
+}
+
+void STechWindow::centerCursor() {
+    SDL_WarpMouseInWindow(m_Window, WIDTH / 2, HEIGHT / 2);
 }

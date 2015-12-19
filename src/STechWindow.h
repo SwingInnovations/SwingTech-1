@@ -16,11 +16,11 @@ extern "C"{
 #include "Input.h"
 #include "SGameState.h"
 #include "Math/Vector.h"
-#include "Graphics/Camera.h"
-#include "Graphics/STechGraphics.h"
 
 class Input;
 class SGameState;
+class STechGraphics;
+class Camera;
 
 class STechWindow {
 public:
@@ -32,14 +32,6 @@ public:
     void start();
     void centerCursor();
     void addState(SGameState*); // TODO - Add Structure Level Handler
-
-    void addCamera(Camera* cam){
-        g->setCamera(cam);
-    }
-
-    Camera* camera(){
-        return g->camera();
-    }
 
     /*--General Getters and Setters--*/
     /*-The Setters-*/
@@ -53,9 +45,11 @@ public:
 
     void setClearColor(stReal, stReal, stReal, stReal);
     void setClearColor(const Vector4<stReal> clearColor);
+    void addCamera(Camera* cam);
 
     /*-The Getters-*/
     Input* getInput();
+    Camera* getCamera();
     int getWidth(){ return this->WIDTH; }
     int getHeight(){ return this->HEIGHT; }
     SDL_Window* getWindow(){ return this->m_Window; }

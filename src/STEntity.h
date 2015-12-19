@@ -10,6 +10,9 @@
 
 class Transform;
 class Camera;
+class STComponent;
+class STMeshComponent;
+class STGraphicsComponent;
 
 class STEntity {
 public:

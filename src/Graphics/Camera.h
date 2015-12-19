@@ -1,15 +1,11 @@
 #ifndef WAHOO_CAMERA_H
 #define WAHOO_CAMERA_H
 
-#include "../STechWindow.h"
-#include "../Input.h"
-#include "../Math/Vector.h"
-#include "../Math/Transform.h"
-#include "../Math/Matrix.h"
+#include "../STechGlobal.h"
 
-
-class Input;
+class Transform;
 class Matrix4f;
+class Input;
 
 struct ViewProfile{
     ViewProfile(){

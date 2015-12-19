@@ -1,6 +1,8 @@
 #ifndef WAHOO_STECHGRAPHICS_H
 #define WAHOO_STECHGRAPHICS_H
 
+#include "../STechGlobal.h"
+
 class Camera;
 class STechWindow;
 

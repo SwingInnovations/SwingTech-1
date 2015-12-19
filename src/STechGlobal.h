@@ -24,7 +24,6 @@
 #include "Graphics/Shader.h"
 #include "Graphics/Texture.h"
 
-#include "Graphics/GL/GLGraphics.h"
 #include "Graphics/GL/GLShader.h"
 #include "Graphics/GL/GLTexture.h"
 

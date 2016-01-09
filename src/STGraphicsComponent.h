@@ -31,6 +31,7 @@ public:
 
     virtual void update(STechWindow* window, int delta){
         //Do Nothing
+
     }
 
     void draw(){

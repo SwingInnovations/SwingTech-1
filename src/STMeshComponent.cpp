@@ -14,9 +14,19 @@ STMeshComponent::STMeshComponent(const std::string &fileName, int type) {
         auto tMesh = new OBJMesh(fileName);
         numVert = tMesh->getVerticiesSize();
         m_drawCount = tMesh->getIndiciesSize();
+        std::cout << "Vertex Data: " << std::endl;
+        for(int i = 0; i < numVert; i++){
+            std::cout << tMesh->verticies[i].info() << std::endl;
+        }
+        std::cout << "Index Input: " << std::endl;
+        for(int i = 0; i < m_drawCount; i++){
+            std::cout << tMesh->indicies[i] << std::endl;
+        }
+
         vertex.reserve(numVert);
         texCoord.reserve(numVert);
         normal.reserve(numVert);
+
         for(unsigned int i = 0; i < numVert; i++){
             vertex.push_back(*tMesh->verticies[i].getVertex());
             texCoord.push_back(*tMesh->verticies[i].getTexCoord());
@@ -33,7 +43,6 @@ STMeshComponent::STMeshComponent(const std::string &fileName, int type) {
 
     glGenBuffers(NUM_BUFFERS, m_VBO);
 
-
     glBindBuffer(GL_ARRAY_BUFFER, m_VBO[VERTEX_BUFFER]);
     glBufferData(GL_ARRAY_BUFFER, numVert*sizeof(vertex[0]), &vertex[0], GL_STATIC_DRAW);
     glEnableVertexAttribArray(0);
@@ -42,24 +51,67 @@ STMeshComponent::STMeshComponent(const std::string &fileName, int type) {
     glBindBuffer(GL_ARRAY_BUFFER, m_VBO[TEXCOORD_BUFFER]);
     glBufferData(GL_ARRAY_BUFFER, numVert* sizeof(texCoord[0]), &texCoord[0], GL_STATIC_DRAW);
     glEnableVertexAttribArray(1);
-    glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 0, 0);
+    glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 0, 0);
 
     glBindBuffer(GL_ARRAY_BUFFER, m_VBO[NORMAL_BUFFER]);
     glBufferData(GL_ARRAY_BUFFER, numVert* sizeof(normal[0]), &normal[0], GL_STATIC_DRAW);
     glEnableVertexAttribArray(2);
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, 0);
+    glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, 0, 0);
 
     glBindBuffer(GL_ARRAY_BUFFER, m_VBO[TANGENT_BUFFER]);
     glBufferData(GL_ARRAY_BUFFER, numVert* sizeof(tangent[0]), &tangent[0], GL_STATIC_DRAW);
     glEnableVertexAttribArray(3);
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, 0);
+    glVertexAttribPointer(3, 3, GL_FLOAT, GL_FALSE, 0, 0);
 
     glBindBuffer(GL_ARRAY_BUFFER, m_VBO[BITANGENT_BUFFER]);
     glBufferData(GL_ARRAY_BUFFER, numVert*sizeof(&biTangent[0]), &biTangent[0], GL_STATIC_DRAW);
     glEnableVertexAttribArray(4);
+    glVertexAttribPointer(4, 3, GL_FLOAT, GL_FALSE, 0, 0);
+
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_VBO[INDEX_BUFFER]);
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, m_drawCount * sizeof(index[0]), &index[0], GL_STATIC_DRAW);
+
+    glBindVertexArray(0);
+    std::cout << "Added Mesh Component: " << fileName << std::endl;
+    std::cout << "Vertex Size: " << vertex.size() << std::endl;
+    std::cout << "Indicies Size:" << m_drawCount << std::endl;
+}
+
+STMeshComponent::STMeshComponent(float *vert, int vSize, float *tex, int tSize, int *ind, int indSize) {
+    m_drawCount = indSize;
+    glGenVertexArrays(1, &m_VAO);
+    glBindVertexArray(m_VAO);
+
+    glGenBuffers(NUM_BUFFERS, m_VBO);
+
+    glBindBuffer(GL_ARRAY_BUFFER, m_VBO[VERTEX_BUFFER]);
+    glBufferData(GL_ARRAY_BUFFER, vSize * sizeof(vert[0]), &vert[0], GL_STATIC_DRAW);
+    glEnableVertexAttribArray(0);
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, 0);
 
-    std::cout << "Added Mesh Component: " << fileName << std::endl;
+    glBindBuffer(GL_ARRAY_BUFFER, m_VBO[TEXCOORD_BUFFER]);
+    glBufferData(GL_ARRAY_BUFFER, tSize * sizeof(tex[0]), &tex[0], GL_STATIC_DRAW);
+    glEnableVertexAttribArray(1);
+    glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 0, 0);
+
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_VBO[INDEX_BUFFER]);
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, indSize* sizeof(ind[0]), &ind[0], GL_STATIC_DRAW);
+
+    glBindVertexArray(0);
+
+    std::cout << "Generated Mesh: " << std::endl;
+    std::cout << "Vertex: " << std::endl;
+    for(int i = 0; i < vSize; i+=3){
+        std::cout << vert[i] << " " << vert[i+1] << " " << vert[i+2] << std::endl;
+    }
+    std::cout << "TexCoord: " << std::endl;
+    for(int i = 0; i < tSize; i+=3){
+        std::cout << tex[i] << " " << tex[i+1] << " " << tex[i+2] << std::endl;
+    }
+    std::cout << "Index: " << std::endl;
+    for(int i = 0; i < indSize; i++){
+        std::cout << ind[i] << " ";
+    }
 }
 /*-OBJ Mesh-*/
 OBJMesh::OBJMesh() {

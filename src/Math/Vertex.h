@@ -1,6 +1,9 @@
 #ifndef WAHOO_VERTEX_H
 #define WAHOO_VERTEX_H
 
+#include <string>
+#include <sstream>
+
 #include "Vector.h"
 
 class Vertex{
@@ -9,6 +12,14 @@ public:
         this->_vertex = vert;
         this->_texCoord = tex;
         this->_normal = normal;
+    }
+
+    std::string info(){
+        std::ostringstream buff;
+        buff << "Vertex(X, Y, Z): " << _vertex.getX() << " , " << _vertex.getY() << " , " << _vertex.getZ() << "\n";
+        buff << "Texcoord(X, Y, Z): " << _texCoord.getX()<< " , " << _texCoord.getY() << "\n";
+        buff << "Normal(X, Y, Z): " << _normal.getX() << " , " << _normal.getY() << " , "<< _normal.getZ() << "\n";
+        return buff.str();
     }
 
     Vector3<stReal> *getVertex(){ return &_vertex; }

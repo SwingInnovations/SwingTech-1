@@ -26,11 +26,8 @@ public:
     OBJMesh(const std::string& filename);
     virtual ~OBJMesh();
 
-    Vertex* getVerticies(){ return &verticies[0]; }
-    int* getIndicies(){ return &indicies[0]; }
-
-    int getVerticiesSize(){ return (int)verticies.size(); }
-    int getIndiciesSize(){ return (int)indicies.size(); }
+    int getVerticiesSize(){ return verticies.size(); }
+    int getIndiciesSize(){ return indicies.size(); }
 
     std::vector<int> indicies;
     std::vector<Vertex> verticies;
@@ -46,6 +43,7 @@ class STMeshComponent : public STComponent{
 
 public:
     STMeshComponent(const std::string& fileName, int type);
+    STMeshComponent(float vert[], int vSize, float tex[], int tSize, int ind[], int indSize);
 
     void draw(){
         glBindVertexArray(m_VAO);

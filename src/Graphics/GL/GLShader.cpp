@@ -79,7 +79,7 @@ GLShader::GLShader(const std::string &vShaderPath, const std::string &fShaderPat
 
 GLShader::~GLShader() {
     for(unsigned int i = 0; i < NUM_SHADER; i++){
-        glDetachShader(m_Program, m_Shaders[i]);
+        glDeleteShader(m_Shaders[i]);
     }
     glDeleteProgram(m_Program);
 }
@@ -91,7 +91,7 @@ void GLShader::bind() {
 void GLShader::update(Transform& trans){
     Matrix4f transform;
     transform = trans.getModel();
-        glUniformMatrix4fv(m_uniforms[0], 1, GL_TRUE,  &transform.m[0][0]);
+    glUniformMatrix4fv(m_uniforms[0], 1, GL_TRUE,  &transform.m[0][0]);
 }
 
 void GLShader::update(Camera& cam){
@@ -173,7 +173,6 @@ std::string GLShader::loadShader(const std::string &filePath) {
 GLuint GLShader::createShader(const std::string &text, unsigned int type) {
     GLuint shader = glCreateShader(type);
     if(shader == 0){
-        //TODO - Make err msg
         std::cout << "Error creating Shader...invalid shader? " << std::endl;
     }
 

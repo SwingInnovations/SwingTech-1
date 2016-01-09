@@ -180,6 +180,7 @@ public:
 
     void poll(SDL_Event&);
     void requestClose(){ closeRequested = true; }
+    void setCursorVisible(bool);
 
     void centerMouseInWindow();
 

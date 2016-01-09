@@ -1,6 +1,9 @@
 #ifndef WAHOO_MATRIX_H
 #define WAHOO_MATRIX_H
 
+#include <string>
+#include <sstream>
+
 #include "STech_Core.h"
 #include "Vector.h"
 
@@ -139,7 +142,7 @@ public:
         m[0][0] = U.getX(); m[0][1] = U.getY(); m[0][2] = U.getZ(); m[0][3] = 0.0f;
         m[1][0] = V.getX(); m[1][1] = V.getY(); m[1][2] = V.getZ(); m[1][3] = 0.0f;
         m[2][0] = N.getX(); m[2][1] = N.getY(); m[2][2] = N.getZ(); m[2][3] = 0.0f;
-        m[3][0] = 0.0f; m[3][1] = 0.0f; m[3][2] = 0.0f; m[3][3] = 1.0f;
+        m[3][0] = 0.0f;     m[3][1] = 0.0f;     m[3][2] = 0.0f;     m[3][3] = 1.0f;
     }
 
     inline Matrix4f operator*(const Matrix4f& right)const {
@@ -152,6 +155,14 @@ public:
                               m[i][3] * right.m[3][j];
             }
         }
+    }
+
+    std::string getInfo(){
+        std::ostringstream buff;
+        for(int i = 0; i < 4; i++){
+            buff << "\n[ " << m[i][0] << " , " << m[i][1] << " , " << m[i][2] << " , " << m[i][3] << "]\n";
+        }
+        return buff.str();
     }
 
     stReal m[4][4];

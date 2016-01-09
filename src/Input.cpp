@@ -79,6 +79,14 @@ void Input::poll(SDL_Event& event) {
     }
 }
 
+void Input::setCursorVisible(bool val) {
+    if(val){
+        SDL_ShowCursor(SDL_ENABLE);
+    }else{
+        SDL_ShowCursor(SDL_DISABLE);
+    }
+}
+
 void Input::centerMouseInWindow() {
     int cX = screenWidth/2;
     int cY = screenHeight/2;

@@ -35,11 +35,10 @@ STechWindow::STechWindow(const std::string title, unsigned int WIDTH, unsigned i
     }else{
         m_Window = SDL_CreateWindow(title.c_str(), SDL_WINDOWPOS_CENTERED,
                                     SDL_WINDOWPOS_CENTERED, this->WIDTH,
-                                    this->HEIGHT, SDL_WINDOW_OPENGL);
+                                    this->HEIGHT, SDL_WINDOW_SHOWN | SDL_WINDOW_OPENGL);
         if(m_Window == nullptr){
             std::cout << "Error 400: Failed to load Window:  " << SDL_GetError() << std::endl;
         }else{
-            //TODO init Input and Graphics Module
             m_input = new Input(this, m_e);
             g = new STechGraphics(this);
         }
@@ -68,7 +67,13 @@ void STechWindow::setOpenGLVersion(int MajorVersion, int MinorVersion) {
         std::cout << "Error 401: Unable to initialize GLContext" << std::endl;
     }else{
         glewExperimental = GL_TRUE;
-        glewInit();
+        GLenum err = glewInit();
+
+        if(err != GLEW_OK){
+            std::cout << "Error loading GLEW: " << glewGetErrorString(err);
+        }else{
+            std::cout << "Using GLEW Version: " << glewGetString(GLEW_VERSION) << std::endl;
+        }
 
         std::cout << "Using OpenGL Version: " << glGetString(GL_VERSION) << std::endl;
         std::cout << "Using Graphics Driver: " << glGetString(GL_VENDOR) << std::endl;
@@ -132,7 +137,12 @@ void STechWindow::init() {
 }
 
 void STechWindow::updateLogic() {
-    if(!m_gameStates.empty()){ m_gameStates.at(m_currentIndex)->handleLogic(this, delta); }
+    if(!m_gameStates.empty()){
+        m_gameStates.at(m_currentIndex)->handleLogic(this, delta);
+    }
+    if(getCamera() != nullptr){
+        getCamera()->update(getInput());
+    }
 }
 
 void STechWindow::enterState(unsigned int index) {
@@ -171,5 +181,5 @@ Camera* STechWindow::getCamera(){
 }
 
 void STechWindow::centerCursor() {
-    SDL_WarpMouseInWindow(m_Window, WIDTH / 2, HEIGHT / 2);
+    m_input->centerMouseInWindow();
 }

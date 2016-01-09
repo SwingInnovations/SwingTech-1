@@ -20,6 +20,8 @@ Camera::Camera(STechWindow &win, Vector3<stReal> &pos, int presetMode) {
     m_Width = (float)win.getWidth();
     m_Height = (float)win.getHeight();
     m_transform.setTranslate(pos);
+    m_Forward = Vector3<stReal>(1.0f, 0.0f, 0.0f);
+    m_Up = Vector3<stReal>(0.0f, 1.0f, 0.0f);
     if(presetMode == DefaultView_PERSP){
         ViewProfile viewProfile;
         viewProfile.FOV = 70.0f;
@@ -28,6 +30,9 @@ Camera::Camera(STechWindow &win, Vector3<stReal> &pos, int presetMode) {
         viewProfile.zNear = 0.0f;
         viewProfile.zFar = 1000.0f;
         m_viewProf = viewProfile;
+        win.getInput()->setCursorBound(true);
+        win.getInput()->centerMouseInWindow();
+        win.getInput()->setCursorVisible(false);
     }
 }
 
@@ -107,8 +112,9 @@ void Camera::processFPS(Input *input) {
 
         m_Up = m_Forward.cross(hAxis);
         m_Up.normalize();
-        if(input->isCursorBound()){ input->centerMouseInWindow(); }
-
+        if(input->isCursorBound()){
+            input->centerMouseInWindow();
+        }
     }
 }
 

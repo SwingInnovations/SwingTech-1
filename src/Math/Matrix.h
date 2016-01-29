@@ -11,11 +11,7 @@
 class Matrix4f{
 public:
     Matrix4f(){
-        for(int i = 0; i < 4; i++){
-            for(int j = 0; j < 4; j++){
-                m[i][j] = 0.0f;
-            }
-        }
+        initIdentity();
     }
 
     void initIdentity(){
@@ -32,58 +28,37 @@ public:
 
     void initTranslation(const Vector3<stReal>& vec){
         m[0][0] = 1.0f; m[0][1] = 0.0f; m[0][2] = 0.0f; m[0][3] = (float)vec.getX();
-        m[1][0] = 1.0f; m[1][1] = 1.0f; m[1][2] = 0.0f; m[1][3] = (float)vec.getY();
-        m[2][0] = 1.0f; m[2][1] = 0.0f; m[2][2] = 1.0f; m[2][3] = (float)vec.getZ();
-        m[3][0] = 1.0f; m[3][1] = 0.0f; m[3][2] = 0.0f; m[3][3] = 1.0f;
+        m[1][0] = 0.0f; m[1][1] = 1.0f; m[1][2] = 0.0f; m[1][3] = (float)vec.getY();
+        m[2][0] = 0.0f; m[2][1] = 0.0f; m[2][2] = 1.0f; m[2][3] = (float)vec.getZ();
+        m[3][0] = 0.0f; m[3][1] = 0.0f; m[3][2] = 0.0f; m[3][3] = 1.0f;
     }
 
     void initTranslation(float x, float y, float z){
         m[0][0] = 1.0f; m[0][1] = 0.0f; m[0][2] = 0.0f; m[0][3] = x;
-        m[1][0] = 1.0f; m[1][1] = 1.0f; m[1][2] = 0.0f; m[1][3] = y;
-        m[2][0] = 1.0f; m[2][1] = 0.0f; m[2][2] = 1.0f; m[2][3] = z;
-        m[3][0] = 1.0f; m[3][1] = 0.0f; m[3][2] = 0.0f; m[3][3] = 1.0f;
+        m[1][0] = 0.0f; m[1][1] = 1.0f; m[1][2] = 0.0f; m[1][3] = y;
+        m[2][0] = 0.0f; m[2][1] = 0.0f; m[2][2] = 1.0f; m[2][3] = z;
+        m[3][0] = 0.0f; m[3][1] = 0.0f; m[3][2] = 0.0f; m[3][3] = 1.0f;
     }
 
     void initRotate(Vector3<stReal>& vec){
-        Matrix4f rx, ry, rz;
-
-        const stReal _x = toRadian((stReal)vec.getX());
-        const stReal _y = toRadian((stReal)vec.getY());
-        const stReal _z = toRadian((stReal)vec.getZ());
-
-        rx.m[0][0] = 1.0f; rx.m[0][1] = 0.0f;     rx.m[0][2] = 0.0f;      rx.m[0][3] = 0.0f;
-        rx.m[1][0] = 0.0f; rx.m[1][1] = cosf(_x); rx.m[1][2] = -sinf(_x); rx.m[1][3] = 0.0f;
-        rx.m[2][0] = 0.0f; rx.m[2][1] = sinf(_x); rx.m[2][2] = cosf(_x);  rx.m[2][3] = 0.0f;
-        rx.m[3][0] = 0.0f; rx.m[3][1] = 0.0f;     rx.m[3][2] = 0.0f;      rx.m[3][3] = 1.0f;
-
-        ry.m[0][0] = cosf(_y); ry.m[0][1] = 0.0f; ry.m[0][2] = -sinf(_y); ry.m[0][3] = 0.0f;
-        ry.m[1][0] = 0.0f;     ry.m[1][1] = 1.0f; ry.m[1][2] = 0.0f;      ry.m[1][3] = 0.0f;
-        ry.m[2][0] = sinf(_y); ry.m[2][1] = 0.0f; ry.m[2][2] = cosf(_y);  ry.m[2][3] = 0.0f;
-        ry.m[3][0] = 0.0f;     ry.m[3][1] = 0.0f; ry.m[3][2] = 0.0f;      ry.m[3][3] = 1.0f;
-
-        rz.m[0][0] = cosf(_z); rz.m[0][1] = -sinf(_z); rz.m[0][2] = 0.0f; rz.m[0][3] = 0.0f;
-        rz.m[1][0] = sinf(_z); rz.m[1][1] = cosf(_z);  rz.m[1][2] = 0.0f; rz.m[1][3] = 0.0f;
-        rz.m[2][0] = 0.0f;     rz.m[2][1] = 0.0f;      rz.m[2][2] = 1.0f; rz.m[2][3] = 0.0f;
-        rz.m[3][0] = 0.0f;     rz.m[3][1] = 0.0f;      rz.m[3][2] = 0.0f; rz.m[3][3] = 1.0f;
-
-        *this = rz * ry * rx;
+        initRotate(vec.getX(), vec.getY(), vec.getZ());
     }
 
     void initRotate(stReal x, stReal y, stReal z){
         Matrix4f rx, ry, rz;
 
-        const stReal _x = (stReal)toRadian(x);
-        const stReal _y = (stReal)toRadian(y);
-        const stReal _z = (stReal)toRadian(z);
+        const stReal _x = toRadian(x);
+        const stReal _y = toRadian(y);
+        const stReal _z = toRadian(z);
 
         rx.m[0][0] = 1.0f; rx.m[0][1] = 0.0f;     rx.m[0][2] = 0.0f;      rx.m[0][3] = 0.0f;
         rx.m[1][0] = 0.0f; rx.m[1][1] = cosf(_x); rx.m[1][2] = -sinf(_x); rx.m[1][3] = 0.0f;
         rx.m[2][0] = 0.0f; rx.m[2][1] = sinf(_x); rx.m[2][2] = cosf(_x);  rx.m[2][3] = 0.0f;
         rx.m[3][0] = 0.0f; rx.m[3][1] = 0.0f;     rx.m[3][2] = 0.0f;      rx.m[3][3] = 1.0f;
 
-        ry.m[0][0] = cosf(_y); ry.m[0][1] = 0.0f; ry.m[0][2] = -sinf(_y); ry.m[0][3] = 0.0f;
+        ry.m[0][0] = cosf(_y); ry.m[0][1] = 0.0f; ry.m[0][2] = sinf(_y); ry.m[0][3] = 0.0f;
         ry.m[1][0] = 0.0f;     ry.m[1][1] = 1.0f; ry.m[1][2] = 0.0f;      ry.m[1][3] = 0.0f;
-        ry.m[2][0] = sinf(_y); ry.m[2][1] = 0.0f; ry.m[2][2] = cosf(_y);  ry.m[2][3] = 0.0f;
+        ry.m[2][0] = -sinf(_y); ry.m[2][1] = 0.0f; ry.m[2][2] = cosf(_y);  ry.m[2][3] = 0.0f;
         ry.m[3][0] = 0.0f;     ry.m[3][1] = 0.0f; ry.m[3][2] = 0.0f;      ry.m[3][3] = 1.0f;
 
         rz.m[0][0] = cosf(_z); rz.m[0][1] = -sinf(_z); rz.m[0][2] = 0.0f; rz.m[0][3] = 0.0f;
@@ -91,7 +66,42 @@ public:
         rz.m[2][0] = 0.0f;     rz.m[2][1] = 0.0f;      rz.m[2][2] = 1.0f; rz.m[2][3] = 0.0f;
         rz.m[3][0] = 0.0f;     rz.m[3][1] = 0.0f;      rz.m[3][2] = 0.0f; rz.m[3][3] = 1.0f;
 
-        *this = rz * ry * rx;
+        Matrix4f ret;
+        ret = rz * ry * rx;
+        *this = ret;
+    }
+
+    void initRotation(float angle, const Vector3<stReal>& vec){
+        float L = (float)(pow(vec.getX(), 2) + pow(vec.getY(), 2) + pow(vec.getZ(), 2));
+        angle = toRadian(angle);
+
+        float u = vec.getX();
+        float v = vec.getY();
+        float w = vec.getZ();
+
+        float u2 = (float)pow(vec.getX(), 2);
+        float v2 = (float)pow(vec.getY(), 2);
+        float w2 = (float)pow(vec.getZ(), 2);
+
+        m[0][0] = (float)(u2 + (v2 + w2) * cos((double)angle))/ L;
+        m[0][1] = (float)(u * v * (1-cos((double)angle)) - w * sqrt(L) * sin((double)angle)) / L;
+        m[0][2] = (float)(u * w * (1-cos((double)angle)) + v * sqrt(L) * sin((double)angle)) / L;
+        m[0][3] = 0.0f;
+
+        m[1][0] = (float)(u * v * (1 - cos((double)angle)) + w * sqrt(L) * sin((double)angle)) / L;
+        m[1][1] = (float)(v2 + (u2 + w2) * cos((double)angle)) / L;
+        m[1][2] = (float)(v * w * (1 - cos((double)angle)) - u * sqrt(L) * sin((double)angle)) / L;
+        m[1][3] = 0.0;
+
+        m[2][0] = (float)(u * w * (1 - cos((double)angle)) - v * sqrt(L) * sin((double)angle)) / L;
+        m[2][1] = (float)(v * w * (1 - cos((double)angle)) + u * sqrt(L) * sin((double)angle)) / L;
+        m[2][2] = (float)(w2 + (u2 + v2) * cos((double)angle)) / L;
+        m[2][3] = 0.0;
+
+        m[3][0] = 0.0;
+        m[3][1] = 0.0;
+        m[3][2] = 0.0;
+        m[3][3] = 1.0;
     }
 
     void initScale(Vector3<stReal>& vec){
@@ -129,15 +139,13 @@ public:
     }
 
     template<typename T>void initCamera(const Vector3<T>& target, const Vector3<T>& up){
-        Vector3<stReal> _target = target;
-        Vector3<stReal> _up = up;
-
-        Vector3<stReal> N = _target;
+        Vector3<stReal> N = Vector3<stReal>((stReal)target.getX(), (stReal)target.getY(), (stReal)target.getZ());
         N.normalize();
-        Vector3<stReal> U = _up;
+        Vector3<stReal> U = Vector3<stReal>(U.getX(), U.getY(), U.getZ());
         U.normalize();
         U = U.cross(N);
-        Vector3<stReal> V = N.cross(U);
+        Vector3<stReal> V;
+        V = N.cross(U);
 
         m[0][0] = U.getX(); m[0][1] = U.getY(); m[0][2] = U.getZ(); m[0][3] = 0.0f;
         m[1][0] = V.getX(); m[1][1] = V.getY(); m[1][2] = V.getZ(); m[1][3] = 0.0f;
@@ -155,6 +163,7 @@ public:
                               m[i][3] * right.m[3][j];
             }
         }
+        return ret;
     }
 
     std::string getInfo(){

@@ -13,6 +13,8 @@ Camera::Camera(STechWindow &win, Vector3<stReal> &pos, ViewProfile &viewProfile)
 
     m_transform.setTranslate(pos);
     m_viewProf = viewProfile;
+    m_Forward = Vector3<stReal>(1.0f, 0.0f, 0.0f);
+    m_Up = Vector3<stReal>(0.0f, 1.0f, 0.0f);
 }
 
 Camera::Camera(STechWindow &win, Vector3<stReal> &pos, int presetMode) {
@@ -126,7 +128,13 @@ Matrix4f Camera::getViewProjection() const {
         ViewMode.initOrthographicProjection(m_Width, m_Height, m_viewProf.zNear, m_viewProf.zFar);
     }
     Camera.initCamera(m_Forward, m_Up);
+    std::cout << "m_Forward: " << m_Forward.getInfo() << std::endl;
+    std::cout << "m_Up: " << m_Up.getInfo() << std::endl;
+    
     TransformTranslate.initTranslation(m_transform.getTranslate<stReal>());
+    std::cout << "Camera Matrix: " << Camera.getInfo() << std::endl;
+    //std::cout << "Transform Matrix: " << TransformTranslate.getInfo() << std::end;
+    std::cout << "View Matrix: " << ViewMode.getInfo() << std::endl;
     View = ViewMode * Camera * TransformTranslate;
     return View;
 }

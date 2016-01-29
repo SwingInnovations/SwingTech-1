@@ -29,6 +29,15 @@ public:
     int getVerticiesSize(){ return verticies.size(); }
     int getIndiciesSize(){ return indicies.size(); }
 
+    Vertex* getVertices(){
+        return &verticies[0];
+    }
+
+    int* getIndicies(){
+        int* ret = &indicies[0];
+        return ret;
+    }
+
     std::vector<int> indicies;
     std::vector<Vertex> verticies;
 private:

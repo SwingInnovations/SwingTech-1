@@ -28,10 +28,12 @@
       <sourceFolder url="file://$MODULE_DIR$/src/STGraphicsComponent.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src/STechGlobal.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src/Math/Transform.h" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/src/Math/Vertex.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/src/Math/STech_Core.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src/Math/Vector.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src/Math/Matrix.h" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/src/Math/STech_Core.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/src/Math/Vertex.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/src/Math/Shape/Shape.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/src/Math/Shape/Rect.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src/Math/Quaternion.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src/STGraphicsComponent.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src/STMeshComponent.cpp" isTestSource="false" />

@@ -3,6 +3,7 @@
 
 #include <cmath>
 #include <string>
+#include <sstream>
 
 #include "STech_Core.h"
 #include "Quaternion.h"
@@ -150,6 +151,12 @@ public:
         m_Val[1] /= getLength();
         m_Val[2] /= getLength();
         return *this;
+    }
+
+    std::string getInfo() const {
+        std::ostringstream str;
+        str << "[ X: " << m_Val[0] << " Y: " << m_Val[1] << " Z: " << m_Val[2] <<" ] " << std::endl;
+        return str.str();
     }
 
     void rotate(stReal angle, Vector3& axis){

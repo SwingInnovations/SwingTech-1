@@ -1,7 +1,7 @@
 #include "STEntity.h"
 
 STEntity::STEntity() {
-
+    m_transform = new Transform();
 }
 
 void STEntity::addComponent(std::type_index type, STComponent *component) {

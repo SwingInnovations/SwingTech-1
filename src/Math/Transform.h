@@ -1,6 +1,8 @@
 #ifndef WAHOO_TRANSFORM_H
 #define WAHOO_TRANSFORM_H
 
+#include <iostream>
+
 #include "STech_Core.h"
 #include "Matrix.h"
 #include "Vector.h"
@@ -9,9 +11,9 @@
 class Transform{
 public:
     Transform(){
-        translate = Vector3<stReal>(0.0, 0.0, 0.0);
-        rotate = Vector3<stReal>(0.0, 0.0, 0.0);
-        scale = Vector3<stReal>(1.0, 1.0, 1.0);
+        translate = Vector3<stReal>(0.0f, 0.0f, 0.0f);
+        rotate = Vector3<stReal>(0.0f, 0.0f, 0.0f);
+        scale = Vector3<stReal>(1.0f, 1.0f, 1.0f);
     }
 
     Transform(Vector3<stReal>& translate, Vector3<stReal>& rotate, Vector3<stReal> scale){
@@ -36,7 +38,7 @@ public:
     void setScaleZ(stReal _z){ this->scale.setZ(_z); }
 
     const Matrix4f getModel(){
-        Matrix4f trans, rot, scaleMat;
+        Matrix4f trans, rot, scaleMat, rotX, rotY, rotZ;
         trans.initTranslation(translate);
         rot.initRotate(rotate);
         scaleMat.initScale(scale);

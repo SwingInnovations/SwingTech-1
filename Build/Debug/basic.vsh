@@ -10,7 +10,7 @@ out vec3 position0;
 out vec2 texCoord0;
 
 void main(void){
-    gl_Position = vec4(position.x, position.y, position.z, 1.0);
+    gl_Position = vec4(position, 1.0);
 
     position0 = position;
     texCoord0 = texCoord;

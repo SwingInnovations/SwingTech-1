@@ -128,13 +128,7 @@ Matrix4f Camera::getViewProjection() const {
         ViewMode.initOrthographicProjection(m_Width, m_Height, m_viewProf.zNear, m_viewProf.zFar);
     }
     Camera.initCamera(m_Forward, m_Up);
-    std::cout << "m_Forward: " << m_Forward.getInfo() << std::endl;
-    std::cout << "m_Up: " << m_Up.getInfo() << std::endl;
-    
     TransformTranslate.initTranslation(m_transform.getTranslate<stReal>());
-    std::cout << "Camera Matrix: " << Camera.getInfo() << std::endl;
-    //std::cout << "Transform Matrix: " << TransformTranslate.getInfo() << std::end;
-    std::cout << "View Matrix: " << ViewMode.getInfo() << std::endl;
     View = ViewMode * Camera * TransformTranslate;
     return View;
 }

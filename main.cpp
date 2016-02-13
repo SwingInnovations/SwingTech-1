@@ -37,7 +37,8 @@ public:
         B = 0.0f;
 
         _entity = new STEntity();
-        _entity->addComponent(typeid(STMeshComponent), new STMeshComponent(verts, vSize, tex, tSize, ind, iSize));
+        //_entity->addComponent(typeid(STMeshComponent), new STMeshComponent(verts, vSize, tex, tSize, ind, iSize));
+        _entity->addComponent(typeid(STMeshComponent), new STMeshComponent("sphere.obj", STMesh::OBJ));
         _entity->addComponent(typeid(STGraphicsComponent), new STGraphicsComponent(new GLShader("basic")));
         _entity->get<STGraphicsComponent>()->addShdrAttrib("uniR", R);
         _entity->get<STGraphicsComponent>()->addShdrAttrib("uniG", G);
@@ -82,7 +83,6 @@ public:
 
         counter += sin(0.025f * delta);
         _entity->transform()->setTranslateX(counter);
-        std::cout << "Y Rotation: " << _entity->transform()->getRotate<stReal>().getY() << std::endl;
     }
 
     void render(STechWindow* win){

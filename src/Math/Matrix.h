@@ -138,14 +138,21 @@ public:
         m[3][0] = 0.0f;       m[3][1] = 0.0f;          m[3][2] = 0.0f; m[3][3] = 1.0f;
     }
 
-    template<typename T>void initCamera(const Vector3<T>& target, const Vector3<T>& up){
-        Vector3<stReal> N = Vector3<stReal>((stReal)target.getX(), (stReal)target.getY(), (stReal)target.getZ());
+    void initCamera(const Vector3<stReal>& target, const Vector3<stReal>& up){
+//        Vector3<stReal> N = Vector3<stReal>((stReal)target.getX(), (stReal)target.getY(), (stReal)target.getZ());
+//        N.normalize();
+//        Vector3<stReal> U = Vector3<stReal>(U.getX(), U.getY(), U.getZ());
+//        U.normalize();
+//        U = U.cross(N);
+//        Vector3<stReal> V;
+//        V = N.cross(U);
+        Vector3<stReal> N = target;
         N.normalize();
-        Vector3<stReal> U = Vector3<stReal>(U.getX(), U.getY(), U.getZ());
+        Vector3<stReal> U = up;
         U.normalize();
         U = U.cross(N);
-        Vector3<stReal> V;
-        V = N.cross(U);
+
+        Vector3<stReal> V = N.cross(U);
 
         m[0][0] = U.getX(); m[0][1] = U.getY(); m[0][2] = U.getZ(); m[0][3] = 0.0f;
         m[1][0] = V.getX(); m[1][1] = V.getY(); m[1][2] = V.getZ(); m[1][3] = 0.0f;

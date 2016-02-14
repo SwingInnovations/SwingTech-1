@@ -122,8 +122,9 @@ void STechWindow::start(){
         }
         while(SDL_PollEvent(&m_e)){
             updateInput(m_e);
-            updateLogic();
         }
+        updateLogic();
+
         render();
     }
 }
@@ -163,6 +164,7 @@ void STechWindow::updateInput(SDL_Event& event) {
 
 void STechWindow::render() {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    glEnable(GL_DEPTH_TEST);
     glClearColor(m_clearColor.getX(), m_clearColor.getY(), m_clearColor.getZ(), m_clearColor.getW());
 
     if(!m_gameStates.empty()){

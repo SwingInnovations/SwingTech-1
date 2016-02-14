@@ -6,12 +6,17 @@ layout(location = 2)in vec3 normal;
 layout(location = 3)in vec3 tangent;
 layout(location = 4)in vec3 biTangent;
 
+uniform mat4 model;
+uniform mat4 camera;
+
 out vec3 position0;
 out vec2 texCoord0;
+out vec3 lightDir0;
 
 void main(void){
-    gl_Position = vec4(position, 1.0);
+    gl_Position = model * vec4(position, 1.0);
 
-    position0 = position;
+    position0 = (model * vec4(position, 1.0)).xyz;
     texCoord0 = texCoord;
+    lightDir0 = vec3(0.5, 1.0, -1.0);
 }

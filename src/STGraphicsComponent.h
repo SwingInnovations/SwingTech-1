@@ -4,6 +4,7 @@
 #include <vector>
 
 #include "Graphics/Shader.h"
+#include "Graphics/Texture.h"
 #include "STComponent.h"
 
 #include "Math/Vector.h"
@@ -11,6 +12,7 @@
 class STGraphicsComponent : public STComponent{
 public:
     STGraphicsComponent(Shader* shdr);
+    STGraphicsComponent(Shader* shdr, Texture* tex);
     ~STGraphicsComponent(){  }
 
     void addShdrAttrib(const std::string& name, int value);
@@ -47,10 +49,13 @@ public:
                 m_shdr->update(m_uniforms[i].name, STShader::toVector4(m_uniforms[i].value));
             }
         }
+        if(useTexture) m_tex->bind(0);
         m_shdr->bind();
     }
 private:
     Shader* m_shdr;
+    Texture* m_tex;
+    bool useTexture;
     std::vector<STShader::ShaderAttrib> m_uniforms;
 };
 

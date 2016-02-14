@@ -2,6 +2,13 @@
 
 STGraphicsComponent::STGraphicsComponent(Shader *shdr) {
     m_shdr = shdr;
+    useTexture = false;
+}
+
+STGraphicsComponent::STGraphicsComponent(Shader *shdr, Texture *tex) {
+    m_shdr = shdr;
+    m_tex = tex;
+    useTexture = true;
 }
 
 void STGraphicsComponent::addShdrAttrib(const std::string &name, int value) {

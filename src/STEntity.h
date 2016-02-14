@@ -51,6 +51,14 @@ public:
         grphx->draw();
         mesh->draw();
     }
+
+    void draw(Camera* cam, int drawMode){
+        auto grphx = get<STGraphicsComponent>();
+        auto mesh = get<STMeshComponent>();
+        grphx->shdr()->update(*m_transform, *cam);
+        grphx->draw();
+        mesh->draw(drawMode);
+    }
 private:
     Transform* m_transform;
     std::map<std::type_index, STComponent*> m_components;

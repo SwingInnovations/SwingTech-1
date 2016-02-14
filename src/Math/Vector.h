@@ -143,7 +143,7 @@ public:
         double _x = (double)getX();
         double _y = (double)getY();
         double _z = (double)getZ();
-        return sqrt(_x * _x - _y * _y - _z * _z);
+        return sqrt(pow(_x, 2) + pow(_y, 2) + pow(_z, 2));
     }
 
     Vector3 normalize(){
@@ -189,7 +189,8 @@ public:
         T _x = (this->getY() * other.getZ()) - (this->getZ() * other.getY());
         T _y = (this->getZ() * other.getX()) - (this->getX() * other.getZ());
         T _z = (this->getX() * other.getY()) - (this->getY() * other.getX());
-        return Vector3(_x, _y, _z);
+        Vector3 ret(_x, _y, _z);
+        return ret;
     }
 
     const Vector3 operator+ (const T& other)const{

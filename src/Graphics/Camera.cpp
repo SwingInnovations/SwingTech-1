@@ -15,6 +15,8 @@ Camera::Camera(STechWindow &win, Vector3<stReal> &pos, ViewProfile &viewProfile)
     m_viewProf = viewProfile;
     m_Forward = Vector3<stReal>(1.0f, 0.0f, 0.0f);
     m_Up = Vector3<stReal>(0.0f, 1.0f, 0.0f);
+    hAngle = 0.0f;
+    vAngle = 0.0f;
 }
 
 Camera::Camera(STechWindow &win, Vector3<stReal> &pos, int presetMode) {
@@ -36,6 +38,8 @@ Camera::Camera(STechWindow &win, Vector3<stReal> &pos, int presetMode) {
         win.getInput()->centerMouseInWindow();
         win.getInput()->setCursorVisible(false);
     }
+    hAngle = 0.0f;
+    vAngle = 0.0f;
 }
 
 void Camera::update() {
@@ -71,6 +75,7 @@ void Camera::update(Input* input) {
             transform()->setTranslateZ(_z);
         }
     }
+
 }
 
 void Camera::processFPS(Input *input) {
@@ -114,6 +119,7 @@ void Camera::processFPS(Input *input) {
 
         m_Up = m_Forward.cross(hAxis);
         m_Up.normalize();
+
         if(input->isCursorBound()){
             input->centerMouseInWindow();
         }
@@ -127,6 +133,7 @@ Matrix4f Camera::getViewProjection() const {
     }else{
         ViewMode.initOrthographicProjection(m_Width, m_Height, m_viewProf.zNear, m_viewProf.zFar);
     }
+
     Camera.initCamera(m_Forward, m_Up);
     TransformTranslate.initTranslation(m_transform.getTranslate<stReal>());
     View = ViewMode * Camera * TransformTranslate;

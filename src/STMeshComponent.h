@@ -18,6 +18,12 @@ namespace STMesh{
       GEX = 1,
       FBX = 2
   };
+
+    enum DrawMode{
+        LINES = 0,
+        TRIANGLES = 1,
+        LINE_LOOP = 2
+    };
 };
 
 class OBJMesh{
@@ -58,6 +64,23 @@ public:
         glBindVertexArray(m_VAO);
 
         glDrawElements(GL_TRIANGLES, m_drawCount, GL_UNSIGNED_INT, 0);
+
+        glBindVertexArray(0);
+    }
+
+    void draw(int drawMode){
+        GLenum mode;
+        if(drawMode == STMesh::DrawMode::LINES){
+            mode = GL_LINES;
+        }else if(drawMode == STMesh::DrawMode::TRIANGLES){
+            mode = GL_TRIANGLES;
+        }else if(drawMode == STMesh::DrawMode::LINE_LOOP){
+            mode = GL_LINE_LOOP;
+        }
+
+        glBindVertexArray(m_VAO);
+
+        glDrawElements(mode, m_drawCount, GL_UNSIGNED_INT, 0);
 
         glBindVertexArray(0);
     }

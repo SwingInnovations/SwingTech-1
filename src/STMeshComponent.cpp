@@ -134,8 +134,6 @@ OBJMesh::OBJMesh(const std::string &filename) {
                 std::string vY = vals.substr(vX.length()+1, vals.find(' '));
                 _y = (stReal)atof(vY.c_str());
 
-                std::cout << "vY: " << vY << std::endl;
-
                 std::string vZ = vals.substr(vals.find_last_of(' ')+1);
                 _z = (stReal)atof(vZ.c_str());
 

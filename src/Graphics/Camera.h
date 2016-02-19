@@ -57,6 +57,11 @@ public:
     void update();
     void update(Input* input);
 
+    void centerCam(Input* input);
+
+    void setHAngle(const stReal _h);
+    void setVAngle(const stReal _v);
+
     ViewProfile* viewProf(){ return &m_viewProf; }
     Transform* transform(){ return &m_transform; }
 

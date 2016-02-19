@@ -27,10 +27,7 @@ public:
     }
 
     void initTranslation(const Vector3<stReal>& vec){
-        m[0][0] = 1.0f; m[0][1] = 0.0f; m[0][2] = 0.0f; m[0][3] = (float)vec.getX();
-        m[1][0] = 0.0f; m[1][1] = 1.0f; m[1][2] = 0.0f; m[1][3] = (float)vec.getY();
-        m[2][0] = 0.0f; m[2][1] = 0.0f; m[2][2] = 1.0f; m[2][3] = (float)vec.getZ();
-        m[3][0] = 0.0f; m[3][1] = 0.0f; m[3][2] = 0.0f; m[3][3] = 1.0f;
+        initTranslation(vec.getX(), vec.getY(), vec.getZ());
     }
 
     void initTranslation(float x, float y, float z){
@@ -56,9 +53,9 @@ public:
         rx.m[2][0] = 0.0f; rx.m[2][1] = sinf(_x); rx.m[2][2] = cosf(_x);  rx.m[2][3] = 0.0f;
         rx.m[3][0] = 0.0f; rx.m[3][1] = 0.0f;     rx.m[3][2] = 0.0f;      rx.m[3][3] = 1.0f;
 
-        ry.m[0][0] = cosf(_y); ry.m[0][1] = 0.0f; ry.m[0][2] = sinf(_y); ry.m[0][3] = 0.0f;
+        ry.m[0][0] = cosf(_y); ry.m[0][1] = 0.0f; ry.m[0][2] = -sinf(_y); ry.m[0][3] = 0.0f;
         ry.m[1][0] = 0.0f;     ry.m[1][1] = 1.0f; ry.m[1][2] = 0.0f;      ry.m[1][3] = 0.0f;
-        ry.m[2][0] = -sinf(_y); ry.m[2][1] = 0.0f; ry.m[2][2] = cosf(_y);  ry.m[2][3] = 0.0f;
+        ry.m[2][0] = sinf(_y); ry.m[2][1] = 0.0f; ry.m[2][2] = cosf(_y);  ry.m[2][3] = 0.0f;
         ry.m[3][0] = 0.0f;     ry.m[3][1] = 0.0f; ry.m[3][2] = 0.0f;      ry.m[3][3] = 1.0f;
 
         rz.m[0][0] = cosf(_z); rz.m[0][1] = -sinf(_z); rz.m[0][2] = 0.0f; rz.m[0][3] = 0.0f;
@@ -105,10 +102,10 @@ public:
     }
 
     void initScale(Vector3<stReal>& vec){
-        m[0][0] = (stReal)vec.getX(); m[0][1] = 0.0f; m[0][2] = 0.0f; m[0][3] = 0.0f;
-        m[1][0] = 0.0f; m[1][1] = (stReal)vec.getY(); m[1][2] = 0.0f; m[1][3] = 0.0f;
-        m[2][0] = 0.0f; m[2][1] = 0.0f; m[2][2] = (stReal)vec.getZ(); m[2][3] = 0.0f;
-        m[3][0] = 0.0f; m[3][1] = 0.0f; m[3][2] = 0.0f;               m[3][3] = 1.0f;
+        m[0][0] = vec.getX(); m[0][1] = 0.0f;       m[0][2] = 0.0f; m[0][3] = 0.0f;
+        m[1][0] = 0.0f;       m[1][1] = vec.getY(); m[1][2] = 0.0f; m[1][3] = 0.0f;
+        m[2][0] = 0.0f;       m[2][1] = 0.0f;       m[2][2] = vec.getZ(); m[2][3] = 0.0f;
+        m[3][0] = 0.0f;       m[3][1] = 0.0f;       m[3][2] = 0.0f;       m[3][3] = 1.0f;
     }
 
     void initScale(float x, float y, float z){
@@ -125,8 +122,8 @@ public:
 
         m[0][0] = 1.0f/(tanHalfFOV * ar); m[0][1] = 0.0f; m[0][2] = 0.0f; m[0][3] = 0.0f;
         m[1][0] = 0.0f;                   m[1][1] = 1.0f / tanHalfFOV;    m[1][2] = 0.0f; m[1][3] = 0.0f;
-        m[2][0] = 0.0f;                   m[2][1] = 0.0f; m[2][2] = -zFar/(zFar-zNear);    m[2][3] = -zFar * zNear/(zFar - zNear);
-        m[3][0] = 0.0f;                   m[3][1] = 0.0f; m[3][2] = -1.0f; m[3][3] = 0.0f;
+        m[2][0] = 0.0f;                   m[2][1] = 0.0f; m[2][2] = -zFar/(zNear-zFar);    m[2][3] = zFar * zNear/(zNear - zFar);
+        m[3][0] = 0.0f;                   m[3][1] = 0.0f; m[3][2] = 1.0f; m[3][3] = 0.0f;
     }
 
     void initOrthographicProjection(float width, float height, float zNear, float zFar){
@@ -139,24 +136,45 @@ public:
     }
 
     void initCamera(const Vector3<stReal>& target, const Vector3<stReal>& up){
-//        Vector3<stReal> N = Vector3<stReal>((stReal)target.getX(), (stReal)target.getY(), (stReal)target.getZ());
-//        N.normalize();
-//        Vector3<stReal> U = Vector3<stReal>(U.getX(), U.getY(), U.getZ());
-//        U.normalize();
-//        U = U.cross(N);
-//        Vector3<stReal> V;
-//        V = N.cross(U);
         Vector3<stReal> N = target;
         N.normalize();
         Vector3<stReal> U = up;
         U.normalize();
         U = U.cross(N);
-
         Vector3<stReal> V = N.cross(U);
 
         m[0][0] = U.getX(); m[0][1] = U.getY(); m[0][2] = U.getZ(); m[0][3] = 0.0f;
         m[1][0] = V.getX(); m[1][1] = V.getY(); m[1][2] = V.getZ(); m[1][3] = 0.0f;
         m[2][0] = N.getX(); m[2][1] = N.getY(); m[2][2] = N.getZ(); m[2][3] = 0.0f;
+        m[3][0] = 0.0f;     m[3][1] = 0.0f;     m[3][2] = 0.0f;     m[3][3] = 1.0f;
+    }
+
+    void initCamera(const Vector3<stReal>& target, const Vector3<stReal>& up, Vector3<stReal> translate){
+        Vector3<stReal> N = target;
+        N.normalize();
+        Vector3<stReal> U = up;
+        U.normalize();
+        U = U.cross(N);
+        Vector3<stReal> V = N.cross(U);
+
+        //translate = translate.negate();
+
+        m[0][0] = U.getX(); m[0][1] = U.getY(); m[0][2] = U.getZ(); m[0][3] = translate.getX();
+        m[1][0] = V.getX(); m[1][1] = V.getY(); m[1][2] = V.getZ(); m[1][3] = translate.getY();
+        m[2][0] = N.getX(); m[2][1] = N.getY(); m[2][2] = N.getZ(); m[2][3] = translate.getZ();
+        m[3][0] = 0.0f;     m[3][1] = 0.0f;     m[3][2] = 0.0f;     m[3][3] = 1.0f;
+    }
+
+    void initCamera(const Vector3<stReal>& target, const Vector3<stReal>& up, const Vector3<stReal>& view, Vector3<stReal> translate){
+        Vector3<stReal> N = target;
+        Vector3<stReal> U = up;
+        Vector3<stReal> V = view;
+
+        translate = translate.negate();
+
+        m[0][0] = U.getX(); m[0][1] = U.getY(); m[0][2] = U.getZ(); m[0][3] = translate.getX();
+        m[1][0] = V.getX(); m[1][1] = V.getY(); m[1][2] = V.getZ(); m[1][3] = translate.getY();
+        m[2][0] = N.getX(); m[2][1] = N.getY(); m[2][2] = N.getZ(); m[2][3] = translate.getZ();
         m[3][0] = 0.0f;     m[3][1] = 0.0f;     m[3][2] = 0.0f;     m[3][3] = 1.0f;
     }
 
@@ -171,6 +189,14 @@ public:
             }
         }
         return ret;
+    }
+
+    Vector4<stReal> toVector4()const{
+        const float _x = m[0][0] + m[0][1] + m[0][2] + m[0][3];
+        const float _y = m[1][0] + m[1][1] + m[1][2] + m[1][3];
+        const float _z = m[2][0] + m[2][1] + m[2][2] + m[2][3];
+        const float _w = m[3][0] + m[3][1] + m[3][2] + m[3][3];
+        return Vector4<stReal>(_x, _y, _z, _w);
     }
 
     std::string getInfo(){

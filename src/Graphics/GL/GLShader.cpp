@@ -164,7 +164,6 @@ std::string GLShader::loadShader(const std::string &filePath) {
         while(file.good()){
             std::getline(file, line);
             output.append(line + "\n");
-
         }
     }
     return output;

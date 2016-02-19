@@ -17,13 +17,13 @@ public:
 
     void addShdrAttrib(const std::string& name, int value);
     void addShdrAttrib(const std::string& name, float value);
-    template<typename T> void addShdrAttrib(const std::string& name, Vector3<T> value);
-    template<typename T> void addShdrAttrib(const std::string& name, Vector4<T> value);
+    void addShdrAttrib(const std::string& name, Vector3<stReal> value);
+    void addShdrAttrib(const std::string& name, Vector4<stReal> value);
 
     void setShdrAttrib(const std::string& name, int value);
     void setShdrAttrib(const std::string& name, float value);
-    template<typename T> void setShdrAttrib(const std::string& name, Vector3<T> value);
-    template<typename T> void setShdrAttrib(const std::string& name, Vector4<T> value);
+    void setShdrAttrib(const std::string& name, Vector3<stReal> value);
+    void setShdrAttrib(const std::string& name, Vector4<stReal> value);
 
     void setShader(Shader* shdr){
         m_shdr = shdr;

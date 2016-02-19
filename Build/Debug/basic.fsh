@@ -14,7 +14,7 @@ out vec4 color;
 
 
 void main(void){
-    float shading = max(0.0, dot(position0, lightDir0));
+    float shading = max(0.0, dot(position0, lightPos));
     vec3 diffuse = texture2D(diffuse, texCoord0).rgb;
     //color = vec4(clamp(uniR, 0.0, 1.0), clamp(uniG, 0.0, 1.0), clamp(uniB, 0.0, 1.0), 1.0) * shading;
     color = vec4(diffuse, 1.0) * shading;

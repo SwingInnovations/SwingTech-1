@@ -8,13 +8,14 @@ layout(location = 4)in vec3 biTangent;
 
 uniform mat4 model;
 uniform mat4 camera;
+uniform vec3 camPos;
 
 out vec3 position0;
 out vec2 texCoord0;
 out vec3 lightDir0;
 
 void main(void){
-    gl_Position = model * vec4(position, 1.0);
+    gl_Position = camera * model * vec4(position, 1.0);
 
     position0 = (model * vec4(position, 1.0)).xyz;
     texCoord0 = texCoord;

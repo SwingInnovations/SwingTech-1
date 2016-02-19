@@ -28,11 +28,11 @@ Camera::Camera(STechWindow &win, Vector3<stReal> &pos, int presetMode) {
     m_Up = Vector3<stReal>(0.0f, 1.0f, 0.0f);
     if(presetMode == DefaultView_PERSP){
         ViewProfile viewProfile;
-        viewProfile.FOV = 70.0f;
+        viewProfile.FOV = 33.0f;
         viewProfile.moveMode = CAMERA_MOVEMENT::FIRST_PERSON;
         viewProfile.viewMode = CAMERA_VIEW::PERSPECTIVE;
-        viewProfile.zNear = 0.0f;
-        viewProfile.zFar = 1000.0f;
+        viewProfile.zNear = 1.0f;
+        viewProfile.zFar = 100.0f;
         m_viewProf = viewProfile;
         win.getInput()->setCursorBound(true);
         win.getInput()->centerMouseInWindow();
@@ -69,8 +69,8 @@ void Camera::update(Input* input) {
         if(input->isKeyDown(input->inputMapping()->get(MOVEMENT::FORWARD))){
             stReal _x = transform()->getTranslate<stReal>().getX();
             stReal _z = transform()->getTranslate<stReal>().getZ();
-            _x += m_Forward.getX() * delta;
-            _z += m_Forward.getZ() * delta;
+            _x += 0.025f * delta;
+            _z += 0.025f * delta;
             transform()->setTranslateX(_x);
             transform()->setTranslateZ(_z);
         }
@@ -78,10 +78,22 @@ void Camera::update(Input* input) {
 
 }
 
+void Camera::centerCam(Input* input) {
+    input->centerMouseInWindow();
+    hAngle = 0.0f;
+    vAngle = 0.0f;
+}
+
+void Camera::setHAngle(const stReal _h) {
+    hAngle = _h;
+}
+
+void Camera::setVAngle(const stReal _v) {
+    vAngle = _v;
+}
+
 void Camera::processFPS(Input *input) {
     if(!start){
-        hAngle = (stReal)0.0f;
-        vAngle = (stReal)0.0f;
         Vector3<stReal> vAxis( (stReal)0.0f, (stReal)1.0f, (stReal)0.0f );
 
         m_View = Vector3<stReal>((stReal)1.0f, (stReal)0.0f, (stReal)0.0f);

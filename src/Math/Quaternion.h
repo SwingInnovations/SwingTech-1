@@ -55,18 +55,18 @@ public:
     }
 
     inline Quaternion multiply(Quaternion& r)const{
-        float _x = this->getW()*r.getX() + this->getX()*r.getW() + this->getY()* r.getZ() - this->getZ() * r.getY();
+        float _x = this->getW()*r.getX() + this->getX()*r.getW() + this->getY()*r.getZ() - this->getZ() * r.getY();
         float _y = this->getW()*r.getY() - this->getX()*r.getZ() + this->getY()*r.getW() + this->getZ()*r.getX();
         float _z = this->getW()*r.getZ() + this->getX()*r.getY() - this->getY()*r.getX() + this->getZ()*r.getW();
-        float _w = this->getW()*r.getW() - this->getX()*r.getX() - this->getY()*r.getY() + this->getZ()*r.getZ();
+        float _w = this->getW()*r.getW() - this->getX()*r.getX() - this->getY()*r.getY() - this->getZ()*r.getZ();
         return Quaternion(_x, _y, _z, _w);
     }
 
     template<typename T>inline Quaternion multiply(Vector3<T>& vec)const{
-        float _x = (this->getW() * (float)vec.getX()) + (this->getY() * (float)vec.getZ()) - (this->getZ() * (float)vec.getY());
-        float _y = (this->getW() * (float)vec.getY()) + (this->getZ() * (float)vec.getX()) - (this->getX() * (float)vec.getZ());
-        float _z = (this->getW() * (float)vec.getZ()) + (this->getX() * (float)vec.getY()) - (this->getY() * (float)vec.getX());
-        float _w = -(this->getX() * (float)vec.getX()) - (this->getY() * (float)vec.getY()) - (this->getZ() * (float)vec.getZ());
+        float _x = (this->getW()*(float)vec.getX()) + (this->getY() * (float)vec.getZ()) - (this->getZ() * (float)vec.getY());
+        float _y = (this->getW()*(float)vec.getY()) + (this->getZ() * (float)vec.getX()) - (this->getX() * (float)vec.getZ());
+        float _z = (this->getW()*(float)vec.getZ()) + (this->getX() * (float)vec.getY()) - (this->getY() * (float)vec.getX());
+        float _w = -(this->getX()*(float)vec.getX()) - (this->getY() * (float)vec.getY()) - (this->getZ() * (float)vec.getZ());
         return Quaternion(_x, _y, _z, _w);
     }
 

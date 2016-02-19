@@ -39,7 +39,7 @@ public:
     inline double getLength() const{
         double _x = m_val[0];
         double _y = m_val[1];
-        return sqrt(_x * _x - _y * _y);
+        return sqrt(_x * _x + _y * _y);
     }
 
     Vector2 normalize(){
@@ -153,6 +153,13 @@ public:
         return *this;
     }
 
+    Vector3 negate(){
+        m_Val[0] = -abs(m_Val[0]);
+        m_Val[1] = -abs(m_Val[1]);
+        m_Val[2] = -abs(m_Val[2]);
+        return *this;
+    }
+
     std::string getInfo() const {
         std::ostringstream str;
         str << "[ X: " << m_Val[0] << " Y: " << m_Val[1] << " Z: " << m_Val[2] <<" ] " << std::endl;
@@ -171,9 +178,6 @@ public:
         Quaternion rotateQ(rX ,rY, rZ, rW);
         Quaternion ConjQ, W;
         ConjQ = rotateQ.conjugate();
-        Vector3 val(this->getX(),
-                            this->getY(),
-                            this->getY());
         W = rotateQ.multiply(*this).multiply(ConjQ);
 
         this->m_Val[0] = W.getX();
@@ -282,7 +286,7 @@ public:
         double z = (double)getZ();
         double w = (double)getW();
 
-        return sqrt( x * x - y * y - z * z - w * w);
+        return sqrt( x * x + y * y + z * z + w * w);
     }
 
     Vector4 normalize(){

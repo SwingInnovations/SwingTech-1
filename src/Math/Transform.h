@@ -48,7 +48,7 @@ public:
         return ret;
     }
 
-    template<typename T> Vector3<T> getTranslate()const{ return Vector3<T>((T)translate.getX(), (T)translate.getY(), (T)translate.getZ()); }
+    template<typename T> Vector3<T> getTranslate()const{return Vector3<T>((T)translate.getX(), (T)translate.getY(), (T)translate.getZ()); }
     template<typename T> Vector3<T> getRotate()const{ return Vector3<T>( (T)rotate.getX(), (T)rotate.getY(), (T)rotate.getZ() ); }
     template<typename T> Vector3<T> getScale()const{ return Vector3<T>( (T)scale.getX(), (T)scale.getY(), (T)scale.getZ() ); }
 private:

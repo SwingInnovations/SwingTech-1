@@ -59,6 +59,9 @@ class STMeshComponent : public STComponent{
 public:
     STMeshComponent(const std::string& fileName, int type);
     STMeshComponent(float vert[], int vSize, float tex[], int tSize, int ind[], int indSize);
+    ~STMeshComponent();
+
+    std::string getFileName(){ return m_fileName; }
 
     void draw(){
         glBindVertexArray(m_VAO);

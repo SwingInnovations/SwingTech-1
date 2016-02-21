@@ -3,6 +3,9 @@
 #include "Graphics/STechGraphics.h"
 #include "Graphics/Camera.h"
 
+int STechWindow::RES_WIDTH = 0;
+int STechWindow::RES_HEIGHT = 0;
+
 STechWindow::STechWindow() {
     m_Window = nullptr;
     m_Context = 0;
@@ -25,8 +28,8 @@ STechWindow::~STechWindow() {
 }
 
 STechWindow::STechWindow(const std::string title, unsigned int WIDTH, unsigned int HEIGHT) {
-    this->WIDTH = WIDTH;
-    this->HEIGHT = HEIGHT;
+    setWidth(WIDTH);
+    setHeight(HEIGHT);
     if(SDL_Init(SDL_INIT_EVERYTHING | SDL_INIT_JOYSTICK) == -1){
         std::cout << "Error 399: Failed to load SDL in general: " << SDL_GetError() << std::endl;
         if(SDL_NumJoysticks() < 1){
@@ -43,6 +46,10 @@ STechWindow::STechWindow(const std::string title, unsigned int WIDTH, unsigned i
             g = new STechGraphics(this);
         }
     }
+
+    STechWindow::SetResolutionWidth(WIDTH);
+    STechWindow::SetResolutionHeight(HEIGHT);
+
     m_currentIndex = 0;
     oldTime = 0;
     newTime = SDL_GetTicks();
@@ -165,6 +172,8 @@ void STechWindow::updateInput(SDL_Event& event) {
 void STechWindow::render() {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     glEnable(GL_DEPTH_TEST);
+    glEnable(GL_CULL_FACE);
+    glCullFace(GL_FRONT);
     glClearColor(m_clearColor.getX(), m_clearColor.getY(), m_clearColor.getZ(), m_clearColor.getW());
 
     if(!m_gameStates.empty()){

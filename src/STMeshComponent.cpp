@@ -8,6 +8,8 @@ STMeshComponent::STMeshComponent(const std::string &fileName, int type) {
     std::vector<Vector3<stReal>> biTangent;
     std::vector<int> index;
 
+    m_fileName = fileName;
+
     int numVert = 0;
 
     if(type == STMesh::OBJ){
@@ -27,7 +29,6 @@ STMeshComponent::STMeshComponent(const std::string &fileName, int type) {
         tangent = genTangent(vertex, texCoord);
         biTangent = genBiTangent(vertex, texCoord);
         delete tMesh;
-        tMesh = 0;
     }
 
     glGenVertexArrays(1, &m_VAO);
@@ -89,21 +90,12 @@ STMeshComponent::STMeshComponent(float *vert, int vSize, float *tex, int tSize, 
     glBufferData(GL_ELEMENT_ARRAY_BUFFER, indSize* sizeof(ind[0]), &ind[0], GL_STATIC_DRAW);
 
     glBindVertexArray(0);
-
-    std::cout << "Generated Mesh: " << std::endl;
-    std::cout << "Vertex: " << std::endl;
-    for(int i = 0; i < vSize; i+=3){
-        std::cout << vert[i] << " " << vert[i+1] << " " << vert[i+2] << std::endl;
-    }
-    std::cout << "TexCoord: " << std::endl;
-    for(int i = 0; i < tSize; i+=3){
-        std::cout << tex[i] << " " << tex[i+1] << " " << tex[i+2] << std::endl;
-    }
-    std::cout << "Index: " << std::endl;
-    for(int i = 0; i < indSize; i++){
-        std::cout << ind[i] << " ";
-    }
 }
+
+STMeshComponent::~STMeshComponent() {
+    glDeleteVertexArrays(1, &m_VAO);
+}
+
 /*-OBJ Mesh-*/
 OBJMesh::OBJMesh() {
 

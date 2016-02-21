@@ -18,6 +18,11 @@ class STGraphicsComponent;
 class STEntity {
 public:
     STEntity();
+    STEntity(const std::string& fileName, const int type, Shader* shdr);
+    STEntity(const std::string& fileName, const int type, const std::string& shdrPath);
+    STEntity(const std::string& fileName, const int type, const std::string& shdrPath, const std::string texPath);
+    STEntity(const std::string& fileName, const int type, Shader* shdr, Texture* tex);
+    ~STEntity();
 
     void addComponent(std::type_index, STComponent*);
 
@@ -45,16 +50,19 @@ public:
     }
 
     void draw(Camera* cam){
-        auto grphx = get<STGraphicsComponent>();
-        auto mesh = get<STMeshComponent>();
+        auto grphx = this->get<STGraphicsComponent>();
+        auto mesh = this->get<STMeshComponent>();
+        std::cout << "Using Shader: " << grphx->shdr()->getShaderName() << " to draw: " << mesh->getFileName() << std::endl;
         grphx->shdr()->update(*m_transform, *cam);
         grphx->draw();
         mesh->draw();
+        //grphx->shdr()->unbind();
     }
 
     void draw(Camera* cam, int drawMode){
-        auto grphx = get<STGraphicsComponent>();
-        auto mesh = get<STMeshComponent>();
+        auto grphx = this->get<STGraphicsComponent>();
+        auto mesh = this->get<STMeshComponent>();
+        std::cout << "Using Shader: " << grphx->shdr()->getShaderName() << " to draw: " << mesh->getFileName() << std::endl;
         grphx->shdr()->update(*m_transform, *cam);
         grphx->draw();
         mesh->draw(drawMode);

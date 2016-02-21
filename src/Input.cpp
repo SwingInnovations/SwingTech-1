@@ -110,8 +110,9 @@ void Input::addJoystick() {
     joyStick.push_back(temp);
 }
 
-bool Input::isKeyDown(int key) {
-    return keyPressed[key];
+bool Input::isKeyDown(int key){
+    if(key > -1)    return keyPressed[key];
+    else return false;
 }
 
 bool Input::isKeyPressed(int key) {

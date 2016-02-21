@@ -13,7 +13,12 @@ class STGraphicsComponent : public STComponent{
 public:
     STGraphicsComponent(Shader* shdr);
     STGraphicsComponent(Shader* shdr, Texture* tex);
-    ~STGraphicsComponent(){  }
+    STGraphicsComponent(const std::string& shdr);
+    STGraphicsComponent(const std::string& shdrPath, const std::string& texPath);
+    ~STGraphicsComponent(){
+        delete m_shdr;
+        if(useTexture) delete m_tex;
+    }
 
     void addShdrAttrib(const std::string& name, int value);
     void addShdrAttrib(const std::string& name, float value);

@@ -29,6 +29,7 @@ GLShader::GLShader(const std::string &filePath) {
     m_Program = glCreateProgram();
     m_Shaders[0] = createShader(loadShader(filePath + ".vsh"), GL_VERTEX_SHADER);
     m_Shaders[1] = createShader(loadShader(filePath + ".fsh"), GL_FRAGMENT_SHADER);
+    m_shaderName = filePath;
     for(unsigned int i = 0; i < NUM_SHADER; i++){
         glAttachShader(m_Program, m_Shaders[i]);
     }
@@ -48,6 +49,10 @@ GLShader::GLShader(const std::string &filePath) {
     m_uniforms[0] = glGetUniformLocation(m_Program, "model");
     m_uniforms[1] = glGetUniformLocation(m_Program, "camera");
     m_uniforms[2] = glGetUniformLocation(m_Program, "cameraPosition");
+
+    for(unsigned int i = 0; i < NUM_SHADER; i++){
+        glDeleteShader(m_Shaders[i]);
+    }
 
     std::cout << "Program Status: " << m_Program << std::endl;
 }
@@ -78,14 +83,15 @@ GLShader::GLShader(const std::string &vShaderPath, const std::string &fShaderPat
 }
 
 GLShader::~GLShader() {
-    for(unsigned int i = 0; i < NUM_SHADER; i++){
-        glDeleteShader(m_Shaders[i]);
-    }
     glDeleteProgram(m_Program);
 }
 
 void GLShader::bind() {
     glUseProgram(m_Program);
+}
+
+void GLShader::unbind(){
+    glUseProgram(0);
 }
 
 void GLShader::update(Transform& trans){

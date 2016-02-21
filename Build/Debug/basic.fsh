@@ -3,19 +3,34 @@
 in vec3 position0;
 in vec2 texCoord0;
 in vec3 lightDir0;
+in vec3 Normal;
 
 uniform float uniR;
 uniform float uniG;
 uniform float uniB;
 uniform vec3 lightPos;
+uniform vec3 cameraPosition;
 uniform sampler2D diffuse;
+uniform vec3 objColor;
 
 out vec4 color;
 
-
 void main(void){
-    float shading = max(0.0, dot(position0, lightPos));
-    vec3 diffuse = texture2D(diffuse, texCoord0).rgb;
-    //color = vec4(clamp(uniR, 0.0, 1.0), clamp(uniG, 0.0, 1.0), clamp(uniB, 0.0, 1.0), 1.0) * shading;
-    color = vec4(diffuse, 1.0) * shading;
+
+    vec3 norm = normalize(Normal);
+    vec3 lightDir = normalize(lightPos - position0);
+
+    float specStrength = 0.5f;
+    vec3 viewDir = normalize(cameraPosition - position0);
+    vec3 reflectDir = reflect(-lightDir, norm);
+
+    float spec = pow(max(dot(viewDir, reflectDir), 0.0), 32);
+    vec3 specular = specStrength * spec * vec3(1.0);
+
+    float diff = max(dot(norm, lightDir), 0.0);
+    //vec3 objColor = vec3(1.0, 0.5, 0.31) * diff;
+    vec3 diffColor = objColor * diff;
+    vec3 result = (diffColor + specular);
+    //color = vec4(result, 1.0);
+    color = vec4(1.0, 0.0, 0.0, 1.0);
 }

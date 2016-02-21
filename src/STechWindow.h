@@ -24,6 +24,9 @@ class Camera;
 
 class STechWindow {
 public:
+    static int RES_WIDTH;
+    static int RES_HEIGHT;
+
     STechWindow();
     STechWindow(const std::string title, unsigned int WIDTH, unsigned int HEIGHT);
     void setOpenGLVersion(int majorVersion, int minorVersion);
@@ -46,6 +49,19 @@ public:
     void setClearColor(stReal, stReal, stReal, stReal);
     void setClearColor(const Vector4<stReal> clearColor);
     void addCamera(Camera* cam);
+
+    void setWidth(int val){
+        this->WIDTH = val;
+        STechWindow::SetResolutionWidth(val);
+    }
+
+    void setHeight(int val){
+        this->HEIGHT = val;
+        STechWindow::SetResolutionHeight(val);
+    }
+
+    static void SetResolutionWidth(int val){ STechWindow::RES_WIDTH = val; }
+    static void SetResolutionHeight(int val){ STechWindow::RES_HEIGHT = val; }
 
     /*-The Getters-*/
     Input* getInput();

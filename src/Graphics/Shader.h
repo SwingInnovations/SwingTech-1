@@ -100,6 +100,7 @@ public:
     Shader(const std::string& filePath){;}
     Shader(const std::string& vFilePath, const std::string& fFilePath){;}
     virtual void bind(){  }
+    virtual void unbind(){ }
     virtual void update(Transform& trans){  }
     virtual void update(Camera& cam){  }
     virtual void update(Transform& trans, Camera& cam){ }
@@ -107,6 +108,7 @@ public:
     virtual void update(const std::string& name, float val){ }
     virtual void update(const std::string& name, Vector3<stReal> val){ }
     virtual void update(const std::string& name, Vector4<stReal> val){  }
+    virtual std::string getShaderName(){ return NULL; }
     virtual ~Shader(){}
     static void SetGraphicsMode(bool val){
         USE_GL = val;

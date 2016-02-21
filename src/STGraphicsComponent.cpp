@@ -1,4 +1,5 @@
 #include "STGraphicsComponent.h"
+#include "Graphics/GL/GLShader.h"
 
 STGraphicsComponent::STGraphicsComponent(Shader *shdr) {
     m_shdr = shdr;
@@ -8,6 +9,17 @@ STGraphicsComponent::STGraphicsComponent(Shader *shdr) {
 STGraphicsComponent::STGraphicsComponent(Shader *shdr, Texture *tex) {
     m_shdr = shdr;
     m_tex = tex;
+    useTexture = true;
+}
+
+STGraphicsComponent::STGraphicsComponent(const std::string &shdr) {
+    m_shdr = new GLShader(shdr);
+    useTexture = false;
+}
+
+STGraphicsComponent::STGraphicsComponent(const std::string &shdrPath, const std::string &texPath) {
+    m_shdr = new GLShader(shdrPath);
+    m_tex = new GLTexture(texPath);
     useTexture = true;
 }
 

@@ -18,46 +18,36 @@ public:
     TestState(int id){ this->m_id = id; }
 
     void init(STechWindow* window){
+        window->getCamera()->setHAngle(-135.0f);
         counter = 0;
-        counter2 = 0;
-        currObject = 0;
         drawMode = STMesh::TRIANGLES;
-        float verts[] = { 0.5f, 0.5f, 0.0f,
-                            0.5f, -0.5f, 0.0f,
-                            -0.5f, -0.5f, 0.0f,
-                            -0.5, 0.5, 0.0f};
-        int vSize = sizeof(verts)/sizeof(verts[0]);
-        float tex[] = { 0.0f, 0.5f, 0.0f,
-                          0.5f, -0.5f, 0.0f,
-                          -0.5f, -0.5f, 0.0f,
-                            -0.5f, 0.5f, 0.0f};
-        int tSize = sizeof(tex)/sizeof(tex[0]);
-        int ind[] = { 0, 1, 2, 2, 3, 0 };
-        int iSize = sizeof(ind)/ sizeof(ind[0]);
-
-        R = 0.0f;
-        G = 0.0f;
-        B = 0.0f;
-
-        window->getCamera()->setHAngle(216.0f);
-
-        counter3 = 0.0f;
 
         lightPos = Vector3<stReal>(1.0f, 1.0f, -1.0f);
 
-        _entity = new STEntity();
-        //_entity->addComponent(typeid(STMeshComponent), new STMeshComponent(verts, vSize, tex, tSize, ind, iSize));
-        _entity->addComponent(typeid(STMeshComponent), new STMeshComponent("box.obj", STMesh::OBJ));
-        _entity->addComponent(typeid(STGraphicsComponent), new STGraphicsComponent(new GLShader("basic"), new GLTexture("grid.png")));
-        _entity->get<STGraphicsComponent>()->addShdrAttrib("lightPos", lightPos);
 
-        _ball = new STEntity();
-        _ball->addComponent(typeid(STMeshComponent), new STMeshComponent("sphere.obj", STMesh::OBJ));
-        _ball->addComponent(typeid(STGraphicsComponent), new STGraphicsComponent(new GLShader("basic"), new GLTexture("grid.png")));
+        _ball = new STEntity("box.obj", STMesh::OBJ, new GLShader("objShdr"), new GLTexture("grid.png"));
         _ball->get<STGraphicsComponent>()->addShdrAttrib("lightPos", lightPos);
-        _ball->transform()->setScaleX(2.0f);
-        _ball->transform()->setScaleY(2.0f);
-        _ball->transform()->setScaleZ(2.0f);
+        _ball->transform()->setTranslate(-2.0f);
+
+        //light Color
+        _box2 = new STEntity("sphere.obj", STMesh::OBJ, "lightSource");
+        _box2->get<STGraphicsComponent>()->addShdrAttrib("objColor", Vector3<stReal>(1.0f, 1.0f, 1.0f));
+        _box2->transform()->setTranslateX(1.0f);
+        _box2->transform()->setTranslateY(2.0f);
+        _box2->transform()->setTranslateZ(-1.0f);
+        _box2->transform()->setScaleX(0.5f);
+        _box2->transform()->setScaleY(0.5f);
+        _box2->transform()->setScaleZ(0.5f);
+
+        _box1 = new STEntity("box.obj", STMesh::OBJ, "basic");
+        _box1->get<STGraphicsComponent>()->addShdrAttrib("objColor", Vector3<stReal>(1.0f, 0.5f, 0.31f));
+        _box1->get<STGraphicsComponent>()->addShdrAttrib("lightPos", _box2->transform()->getTranslate<stReal>());
+
+
+        std::cout << "Box1 Mesh: " << _box1->get<STMeshComponent>()->getFileName() << std::endl;
+        std::cout << "Box1 Shader: " << _box1->get<STGraphicsComponent>()->shdr()->getShaderName() << std::endl;
+        std::cout << "Box2 Mesh: " << _box2->get<STMeshComponent>()->getFileName() << std::endl;
+        std::cout << "Box2 Shader: " << _box2->get<STGraphicsComponent>()->shdr()->getShaderName() << std::endl;
     }
 
     void handleInput(STechWindow* win, Uint32 delta){
@@ -69,35 +59,9 @@ public:
             input->requestClose();
         }
 
-        if(input->isKeyPressed(KEY::KEY_1)){
-            drawMode = STMesh::TRIANGLES;
-        }
-        if(input->isKeyPressed(KEY::KEY_2)){
-            drawMode = STMesh::LINES;
-        }
-        if(input->isKeyPressed(KEY::KEY_3)){
-            drawMode = STMesh::LINE_LOOP;
-        }
+        if(input->isKeyPressed(KEY::KEY_6)) currObject = 0;
 
-        if(input->isKeyPressed(KEY::KEY_6)){
-            currObject = 0;
-        }
-
-        if(input->isKeyPressed(KEY::KEY_7)){
-            currObject = 1;
-        }
-
-        if(input->isKeyDown(KEY::KEY_A)){
-            stReal _x = win->getCamera()->transform()->getTranslate<stReal>().getX();
-            _x += 0.0025f * delta;
-            win->getCamera()->transform()->setTranslateX(_x);
-        }
-
-        if(input->isKeyDown(KEY::KEY_D)){
-            stReal _x = win->getCamera()->transform()->getTranslate<stReal>().getX();
-            _x -= 0.0025f * delta;
-            win->getCamera()->transform()->setTranslateX(_x);
-        }
+        if(input->isKeyPressed(KEY::KEY_7)) currObject = 1;
 
         if(input->isKeyPressed(KEY::KEY_0)){
             win->getCamera()->centerCam(input);
@@ -106,29 +70,28 @@ public:
 
     void handleLogic(STechWindow* win, Uint32 delta){
         counter += 0.0025f * delta;
-        _entity->transform()->setRotateY(counter);
-        _ball->transform()->setRotateY(counter);
+        _box1->transform()->setRotateY(counter);
+        _box2->transform()->setRotateY(-counter);
     }
 
     void render(STechWindow* win){
-        if(currObject == 0) _entity->draw(win->getCamera(), drawMode);
-        else if(currObject == 1)_ball->draw(win->getCamera(), drawMode);
-        else std::cout << "Not Drawing Object " << std::endl;
-
+//        if(currObject == 0) _entity->draw(win->getCamera(), drawMode);
+//        else if(currObject == 1) _ball->draw(win->getCamera(), drawMode);
+//        else std::cout << "Not Drawing" << std::endl;
+        _box1->draw(win->getCamera());
+        _box2->draw(win->getCamera());
+        _ball->draw(win->getCamera());
     }
 
 private:
     int drawMode;
     int currObject;
-    float counter;
-    float counter2;
-    float counter3;
+    float counter = 0;
     STEntity* _entity;
     STEntity* _ball;
+    STEntity* _box1;
+    STEntity* _box2;
     Vector3<stReal> lightPos;
-    float R;
-    float G;
-    float B;
 };
 
 int main(int argc, char** argv) {

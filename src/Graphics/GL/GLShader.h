@@ -18,6 +18,7 @@ public:
     GLShader(const std::string& vShaderPath, const std::string& fShaderPath);
 
     void bind();
+    void unbind();
     void update(Transform& trans);
     void update(Camera& cam);
     void update(Transform& trans, Camera& cam);
@@ -25,6 +26,8 @@ public:
     void update(const std::string& name, float val);
     void update(const std::string& name, Vector3<stReal> val);
     void update(const std::string& name, Vector4<stReal> val);
+
+    std::string getShaderName(){ return m_shaderName; }
 
     virtual ~GLShader();
 private:
@@ -34,6 +37,8 @@ private:
     void checkShaderStatus(GLuint, GLuint, bool, const std::string&);
     std::string loadShader(const std::string& filePath);
     GLuint createShader(const std::string& text, unsigned int type);
+
+    std::string m_shaderName;
 
     //Buffer Data
     GLuint m_Program;

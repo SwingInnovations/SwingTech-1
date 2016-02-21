@@ -53,8 +53,8 @@ public:
         auto grphx = this->get<STGraphicsComponent>();
         auto mesh = this->get<STMeshComponent>();
         std::cout << "Using Shader: " << grphx->shdr()->getShaderName() << " to draw: " << mesh->getFileName() << std::endl;
-        grphx->shdr()->update(*m_transform, *cam);
         grphx->draw();
+        grphx->shdr()->update(*m_transform, *cam);
         mesh->draw();
         //grphx->shdr()->unbind();
     }

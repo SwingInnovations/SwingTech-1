@@ -52,7 +52,6 @@ public:
 
     void handleInput(STechWindow* win, Uint32 delta){
         Input* input = win->getInput();
-        input->setCursorBound(false);
         input->setCursorBound(true);
 
         if(input->isKeyPressed(KEY::KEY_ESC)){
@@ -80,9 +79,14 @@ public:
 //        else std::cout << "Not Drawing" << std::endl;
         _box1->draw(win->getCamera());
         _box2->draw(win->getCamera());
-        _ball->draw(win->getCamera());
+
     }
 
+    ~TestState(){
+        delete _box1;
+        delete _box2;
+        delete _ball;
+    }
 private:
     int drawMode;
     int currObject;

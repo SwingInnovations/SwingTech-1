@@ -31,6 +31,5 @@ void main(void){
     //vec3 objColor = vec3(1.0, 0.5, 0.31) * diff;
     vec3 diffColor = objColor * diff;
     vec3 result = (diffColor + specular);
-    //color = vec4(result, 1.0);
-    color = vec4(1.0, 0.0, 0.0, 1.0);
+    color = vec4(result, 1.0);
 }

@@ -43,6 +43,7 @@ public:
 
     void draw(){
         //TODO Include shader handling and other stuff.
+        m_shdr->bind();
         for(unsigned int i = 0, S = m_uniforms.size(); i < S; i++) {
             if (m_uniforms[i].type == STShader::INT) {
                 m_shdr->update(m_uniforms[i].name, STShader::toInt(m_uniforms[i].value));
@@ -55,7 +56,7 @@ public:
             }
         }
         if(useTexture) m_tex->bind(0);
-        m_shdr->bind();
+ //       m_shdr->bind();
     }
 private:
     Shader* m_shdr;

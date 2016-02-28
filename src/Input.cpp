@@ -25,7 +25,7 @@ Input::Input() {
     }
 }
 
-Input::Input(STechWindow* window, SDL_Event& event) {
+Input::Input(STGame * window, SDL_Event& event) {
     this->e = event;
     closeRequested = false;
     cursorBound = false;

@@ -19,18 +19,18 @@ extern "C"{
 
 class Input;
 class SGameState;
-class STechGraphics;
+class STGraphics;
 class Camera;
 
-class STechWindow {
+class STGame {
 public:
     static int RES_WIDTH;
     static int RES_HEIGHT;
 
-    STechWindow();
-    STechWindow(const std::string title, unsigned int WIDTH, unsigned int HEIGHT);
+    STGame();
+    STGame(const std::string title, unsigned int WIDTH, unsigned int HEIGHT);
     void setOpenGLVersion(int majorVersion, int minorVersion);
-    virtual ~STechWindow();
+    virtual ~STGame();
 
     void start();
     void centerCursor();
@@ -52,16 +52,16 @@ public:
 
     void setWidth(int val){
         this->WIDTH = val;
-        STechWindow::SetResolutionWidth(val);
+        STGame::SetResolutionWidth(val);
     }
 
     void setHeight(int val){
         this->HEIGHT = val;
-        STechWindow::SetResolutionHeight(val);
+        STGame::SetResolutionHeight(val);
     }
 
-    static void SetResolutionWidth(int val){ STechWindow::RES_WIDTH = val; }
-    static void SetResolutionHeight(int val){ STechWindow::RES_HEIGHT = val; }
+    static void SetResolutionWidth(int val){ STGame::RES_WIDTH = val; }
+    static void SetResolutionHeight(int val){ STGame::RES_HEIGHT = val; }
 
     /*-The Getters-*/
     Input* getInput();
@@ -89,7 +89,7 @@ private:
     SDL_Window* m_Window;
     SDL_GLContext m_Context;
     SDL_Event m_e;
-    STechGraphics* g;
+    STGraphics * g;
     unsigned int WIDTH, HEIGHT;
     int m_CurrentState;
     Uint32 delta, oldTime, newTime, fps;

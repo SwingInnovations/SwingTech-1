@@ -3,7 +3,7 @@
 
 #include <cstdio>
 
-#include "STechWindow.h"
+#include "STGame.h"
 #include "Input.h"
 
 #include "SGameState.h"
@@ -12,14 +12,14 @@
 #include "STGraphicsComponent.h"
 #include "STEntity.h"
 
-#include "Math/STech_Core.h"
+#include "Math/STCore.h"
 #include "Math/Vector.h"
 #include "Math/Quaternion.h"
 #include "Math/Matrix.h"
 #include "Math/Transform.h"
 #include "Math/Vertex.h"
 
-#include "Graphics/STechGraphics.h"
+#include "Graphics/STGraphics.h"
 #include "Graphics/Camera.h"
 #include "Graphics/Shader.h"
 #include "Graphics/Texture.h"

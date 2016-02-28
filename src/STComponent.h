@@ -1,11 +1,11 @@
 #ifndef WAHOO_STCOMPONENT_H
 #define WAHOO_STCOMPONENT_H
 
-#include "STechWindow.h"
+#include "STGame.h"
 
 class STComponent {
 public:
-    virtual void update(STechWindow*, int){  }
+    virtual void update(STGame *, int){  }
     virtual void draw(){  }
     virtual ~STComponent(){}
 };

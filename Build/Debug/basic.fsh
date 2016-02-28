@@ -8,6 +8,7 @@ in vec3 Normal;
 uniform float uniR;
 uniform float uniG;
 uniform float uniB;
+
 uniform vec3 lightPos;
 uniform vec3 cameraPosition;
 uniform sampler2D diffuse;
@@ -22,14 +23,14 @@ void main(void){
 
     float specStrength = 0.5f;
     vec3 viewDir = normalize(cameraPosition - position0);
-    vec3 reflectDir = reflect(-lightDir, norm);
+    vec3 reflectDir = reflect(lightDir, norm);
 
     float spec = pow(max(dot(viewDir, reflectDir), 0.0), 32);
     vec3 specular = specStrength * spec * vec3(1.0);
 
     float diff = max(dot(norm, lightDir), 0.0);
     //vec3 objColor = vec3(1.0, 0.5, 0.31) * diff;
-    vec3 diffColor = objColor * diff;
+    vec3 diffColor = texture2D(diffuse, texCoord0).xyz * diff;
     vec3 result = (diffColor + specular);
     color = vec4(result, 1.0);
 }

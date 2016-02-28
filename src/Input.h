@@ -10,9 +10,9 @@
 #include <vector>
 #include <c++/sstream>
 
-#include "STechWindow.h"
+#include "STGame.h"
 
-class STechWindow;
+class STGame;
 
 namespace MOVEMENT{
   enum{
@@ -175,7 +175,7 @@ private:
 class Input {
 public:
     Input();
-    Input(STechWindow* app, SDL_Event& e);
+    Input(STGame * app, SDL_Event& e);
     ~Input();
 
     void poll(SDL_Event&);

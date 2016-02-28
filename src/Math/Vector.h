@@ -5,7 +5,7 @@
 #include <string>
 #include <sstream>
 
-#include "STech_Core.h"
+#include "STCore.h"
 #include "Quaternion.h"
 
 class Quaternion;

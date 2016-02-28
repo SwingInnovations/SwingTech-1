@@ -3,7 +3,7 @@
 
 #include <iostream>
 
-#include "STech_Core.h"
+#include "STCore.h"
 #include "Matrix.h"
 #include "Vector.h"
 

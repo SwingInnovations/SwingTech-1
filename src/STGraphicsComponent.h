@@ -36,7 +36,7 @@ public:
 
     Shader* shdr(){ return m_shdr; }
 
-    virtual void update(STechWindow* window, int delta){
+    virtual void update(STGame * window, int delta){
         //Do Nothing
 
     }
@@ -56,7 +56,6 @@ public:
             }
         }
         if(useTexture) m_tex->bind(0);
- //       m_shdr->bind();
     }
 private:
     Shader* m_shdr;

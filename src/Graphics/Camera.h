@@ -1,7 +1,7 @@
 #ifndef WAHOO_CAMERA_H
 #define WAHOO_CAMERA_H
 
-#include "../STechGlobal.h"
+#include "../STGlobal.h"
 
 class Transform;
 class Matrix4f;
@@ -50,8 +50,8 @@ namespace CAMERA_MOVEMENT{
 class Camera {
 public:
     Camera();
-    Camera(STechWindow&, Vector3<stReal>&, ViewProfile&);
-    Camera(STechWindow&, Vector3<stReal>&, int);
+    Camera(STGame &, Vector3<stReal>&, ViewProfile&);
+    Camera(STGame &, Vector3<stReal>&, int);
 
     void init();
     void update();

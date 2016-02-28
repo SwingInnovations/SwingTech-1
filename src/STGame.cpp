@@ -1,12 +1,12 @@
-#include "STechWindow.h"
+#include "STGame.h"
 
-#include "Graphics/STechGraphics.h"
+#include "Graphics/STGraphics.h"
 #include "Graphics/Camera.h"
 
-int STechWindow::RES_WIDTH = 0;
-int STechWindow::RES_HEIGHT = 0;
+int STGame::RES_WIDTH = 0;
+int STGame::RES_HEIGHT = 0;
 
-STechWindow::STechWindow() {
+STGame::STGame() {
     m_Window = nullptr;
     m_Context = 0;
     WIDTH = 800;
@@ -16,7 +16,7 @@ STechWindow::STechWindow() {
     isPause = false;
 }
 
-STechWindow::~STechWindow() {
+STGame::~STGame() {
     m_currentIndex = 0;
     if(!m_gameStates.empty()){
         m_gameStates.clear();
@@ -27,7 +27,7 @@ STechWindow::~STechWindow() {
     m_Context = 0;
 }
 
-STechWindow::STechWindow(const std::string title, unsigned int WIDTH, unsigned int HEIGHT) {
+STGame::STGame(const std::string title, unsigned int WIDTH, unsigned int HEIGHT) {
     setWidth(WIDTH);
     setHeight(HEIGHT);
     if(SDL_Init(SDL_INIT_EVERYTHING | SDL_INIT_JOYSTICK) == -1){
@@ -43,12 +43,12 @@ STechWindow::STechWindow(const std::string title, unsigned int WIDTH, unsigned i
             std::cout << "Error 400: Failed to load Window:  " << SDL_GetError() << std::endl;
         }else{
             m_input = new Input(this, m_e);
-            g = new STechGraphics(this);
+            g = new STGraphics(this);
         }
     }
 
-    STechWindow::SetResolutionWidth(WIDTH);
-    STechWindow::SetResolutionHeight(HEIGHT);
+    STGame::SetResolutionWidth(WIDTH);
+    STGame::SetResolutionHeight(HEIGHT);
 
     m_currentIndex = 0;
     oldTime = 0;
@@ -58,7 +58,7 @@ STechWindow::STechWindow(const std::string title, unsigned int WIDTH, unsigned i
     isPause = false;
 }
 
-void STechWindow::setOpenGLVersion(int MajorVersion, int MinorVersion) {
+void STGame::setOpenGLVersion(int MajorVersion, int MinorVersion) {
     SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, MajorVersion);
     SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, MinorVersion);
     if(MajorVersion < 3 && MinorVersion < 2){
@@ -87,26 +87,26 @@ void STechWindow::setOpenGLVersion(int MajorVersion, int MinorVersion) {
     }
 }
 
-void STechWindow::setClearColor(stReal _x, stReal _y, stReal _z, stReal _w) {
+void STGame::setClearColor(stReal _x, stReal _y, stReal _z, stReal _w) {
     m_clearColor.setX(_x);
     m_clearColor.setY(_y);
     m_clearColor.setZ(_z);
     m_clearColor.setW(_w);
 }
 
-void STechWindow::setClearColor(const Vector4<stReal> clearColor) {
+void STGame::setClearColor(const Vector4<stReal> clearColor) {
     m_clearColor = clearColor;
 }
 
-void STechWindow::addState(SGameState* gameState) {
+void STGame::addState(SGameState* gameState) {
     m_gameStates.push_back(gameState);
 }
 
-Input* STechWindow::getInput() {
+Input*STGame::getInput() {
     return m_input;
 }
 
-void STechWindow::calcDelta() {
+void STGame::calcDelta() {
     if(newTime > oldTime){
         delta = newTime - oldTime;
         Uint32 targetInterval = (Uint32)(1.0/this->fps * 1000);
@@ -118,7 +118,7 @@ void STechWindow::calcDelta() {
     }
 }
 
-void STechWindow::start(){
+void STGame::start(){
     isRunning = true;
     init();
     while(isRunning){
@@ -136,7 +136,7 @@ void STechWindow::start(){
     }
 }
 
-void STechWindow::init() {
+void STGame::init() {
     if(!m_gameStates.empty()){
         for(unsigned int i = 0; i < m_gameStates.size(); i++){
             m_gameStates.at(i)->init(this);
@@ -144,7 +144,7 @@ void STechWindow::init() {
     }
 }
 
-void STechWindow::updateLogic() {
+void STGame::updateLogic() {
     if(!m_gameStates.empty()){
         m_gameStates.at(m_currentIndex)->handleLogic(this, delta);
     }
@@ -153,13 +153,13 @@ void STechWindow::updateLogic() {
     }
 }
 
-void STechWindow::enterState(unsigned int index) {
+void STGame::enterState(unsigned int index) {
     if(!m_gameStates.empty() && index < m_gameStates.size()){
         m_currentIndex = index;
     }
 }
 
-void STechWindow::updateInput(SDL_Event& event) {
+void STGame::updateInput(SDL_Event& event) {
     m_input->poll(event);
 
     if(m_input->isCloseRequested()){
@@ -169,7 +169,7 @@ void STechWindow::updateInput(SDL_Event& event) {
 
 }
 
-void STechWindow::render() {
+void STGame::render() {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     glEnable(GL_DEPTH_TEST);
     glEnable(GL_CULL_FACE);
@@ -183,14 +183,14 @@ void STechWindow::render() {
     SDL_GL_SwapWindow(m_Window);
 }
 
-void STechWindow::addCamera(Camera* cam){
+void STGame::addCamera(Camera* cam){
     g->setCamera(cam);
 }
 
-Camera* STechWindow::getCamera(){
+Camera*STGame::getCamera(){
     return g->camera();
 }
 
-void STechWindow::centerCursor() {
+void STGame::centerCursor() {
     m_input->centerMouseInWindow();
 }

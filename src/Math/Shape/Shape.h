@@ -16,6 +16,15 @@ public:
     int* getIndicies(){
         return &indicies[0];
     }
+
+
+    bool intersects(Vector2<stReal>& point){
+        return false;
+    }
+
+    bool intersects(Shape& other){
+        return false;
+    }
 protected:
     std::vector<int> indicies;
     std::vector<Vertex> vertex;

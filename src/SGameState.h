@@ -2,9 +2,9 @@
 #define WAHOO_SGAMESTATE_H
 
 #include "../ext/SDL2/SDL_stdinc.h"
-#include "STechWindow.h"
+#include "STGame.h"
 
-class STechWindow;
+class STGame;
 
 class SGameState {
 public:
@@ -13,10 +13,10 @@ public:
     virtual ~SGameState();
     int getID(){ return m_id; }
 
-    virtual void init(STechWindow*){} // Initialize game relevant assets here
-    virtual void handleInput(STechWindow*, Uint32){}// Handle all user input here
-    virtual void handleLogic(STechWindow*, Uint32){}//  Handle all game logic in here
-    virtual void render(STechWindow*){} // Handle all rendering here.
+    virtual void init(STGame *){} // Initialize game relevant assets here
+    virtual void handleInput(STGame *, Uint32){}// Handle all user input here
+    virtual void handleLogic(STGame *, Uint32){}//  Handle all game logic in here
+    virtual void render(STGame *){} // Handle all rendering here.
 protected:
     int m_id;
 };

@@ -4,7 +4,7 @@
 #include <string>
 #include <sstream>
 
-#include "STech_Core.h"
+#include "STCore.h"
 #include "Vector.h"
 
 

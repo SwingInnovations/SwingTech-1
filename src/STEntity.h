@@ -2,6 +2,7 @@
 #define WAHOO_STENTITY_H
 
 #include <map>
+#include <vector>
 #include <typeindex>
 #include "Math/Transform.h"
 #include "STComponent.h"
@@ -36,9 +37,9 @@ public:
 
     Transform* transform(){ return m_transform; }
 
-    void BtSUpdate(STechWindow*, int);
+    void BtSUpdate(STGame *, int);
 
-    void update(STechWindow* window){
+    void update(STGame * window){
 
     }
 
@@ -52,7 +53,6 @@ public:
     void draw(Camera* cam){
         auto grphx = this->get<STGraphicsComponent>();
         auto mesh = this->get<STMeshComponent>();
-        std::cout << "Using Shader: " << grphx->shdr()->getShaderName() << " to draw: " << mesh->getFileName() << std::endl;
         grphx->draw();
         grphx->shdr()->update(*m_transform, *cam);
         mesh->draw();
@@ -62,14 +62,15 @@ public:
     void draw(Camera* cam, int drawMode){
         auto grphx = this->get<STGraphicsComponent>();
         auto mesh = this->get<STMeshComponent>();
-        std::cout << "Using Shader: " << grphx->shdr()->getShaderName() << " to draw: " << mesh->getFileName() << std::endl;
-        grphx->shdr()->update(*m_transform, *cam);
         grphx->draw();
+        grphx->shdr()->update(*m_transform, *cam);
         mesh->draw(drawMode);
     }
 private:
+    bool m_hasChildren;
     Transform* m_transform;
     std::map<std::type_index, STComponent*> m_components;
+    std::vector<STEntity*> m_children;
 };
 
 

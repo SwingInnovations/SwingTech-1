@@ -1,7 +1,7 @@
 #include <iostream>
 
-#include "src/Math/STech_Core.h"
-#include "src/STechWindow.h"
+#include "src/Math/STCore.h"
+#include "src/STGame.h"
 #include "src/SGameState.h"
 #include "src/STEntity.h"
 #include "src/Graphics/GL/GLShader.h"
@@ -17,40 +17,29 @@ class TestState : public SGameState{
 public:
     TestState(int id){ this->m_id = id; }
 
-    void init(STechWindow* window){
+    void init(STGame * window){
         window->getCamera()->setHAngle(-135.0f);
         counter = 0;
         drawMode = STMesh::TRIANGLES;
 
         lightPos = Vector3<stReal>(1.0f, 1.0f, -1.0f);
 
-
-        _ball = new STEntity("box.obj", STMesh::OBJ, new GLShader("objShdr"), new GLTexture("grid.png"));
-        _ball->get<STGraphicsComponent>()->addShdrAttrib("lightPos", lightPos);
-        _ball->transform()->setTranslate(-2.0f);
-
         //light Color
-        _box2 = new STEntity("sphere.obj", STMesh::OBJ, "lightSource");
+        _box2 = new STEntity("box.obj", STMesh::OBJ, "lightSource");
         _box2->get<STGraphicsComponent>()->addShdrAttrib("objColor", Vector3<stReal>(1.0f, 1.0f, 1.0f));
-        _box2->transform()->setTranslateX(1.0f);
         _box2->transform()->setTranslateY(2.0f);
-        _box2->transform()->setTranslateZ(-1.0f);
+        _box2->transform()->setTranslateX(2.0f);
         _box2->transform()->setScaleX(0.5f);
         _box2->transform()->setScaleY(0.5f);
         _box2->transform()->setScaleZ(0.5f);
 
-        _box1 = new STEntity("box.obj", STMesh::OBJ, "basic");
+        _box1 = new STEntity("defaultFigure.obj", STMesh::OBJ, "basic", "grid.png");
         _box1->get<STGraphicsComponent>()->addShdrAttrib("objColor", Vector3<stReal>(1.0f, 0.5f, 0.31f));
         _box1->get<STGraphicsComponent>()->addShdrAttrib("lightPos", _box2->transform()->getTranslate<stReal>());
-
-
-        std::cout << "Box1 Mesh: " << _box1->get<STMeshComponent>()->getFileName() << std::endl;
-        std::cout << "Box1 Shader: " << _box1->get<STGraphicsComponent>()->shdr()->getShaderName() << std::endl;
-        std::cout << "Box2 Mesh: " << _box2->get<STMeshComponent>()->getFileName() << std::endl;
-        std::cout << "Box2 Shader: " << _box2->get<STGraphicsComponent>()->shdr()->getShaderName() << std::endl;
+        _box1->transform()->setScale(0.5f);
     }
 
-    void handleInput(STechWindow* win, Uint32 delta){
+    void handleInput(STGame * win, Uint32 delta){
         Input* input = win->getInput();
         input->setCursorBound(true);
 
@@ -67,25 +56,21 @@ public:
         }
     }
 
-    void handleLogic(STechWindow* win, Uint32 delta){
-        counter += 0.0025f * delta;
+    void handleLogic(STGame * win, Uint32 delta){
+        counter += 0.025f * delta;
         _box1->transform()->setRotateY(counter);
         _box2->transform()->setRotateY(-counter);
+        _box1->get<STGraphicsComponent>()->setShdrAttrib("lightPos", _box2->transform()->getTranslate<stReal>());
     }
 
-    void render(STechWindow* win){
-//        if(currObject == 0) _entity->draw(win->getCamera(), drawMode);
-//        else if(currObject == 1) _ball->draw(win->getCamera(), drawMode);
-//        else std::cout << "Not Drawing" << std::endl;
+    void render(STGame * win){
         _box1->draw(win->getCamera());
         _box2->draw(win->getCamera());
-
     }
 
     ~TestState(){
         delete _box1;
         delete _box2;
-        delete _ball;
     }
 private:
     int drawMode;
@@ -99,7 +84,7 @@ private:
 };
 
 int main(int argc, char** argv) {
-    STechWindow window("WAHOO Demo", 1440, 720);
+    STGame window("WAHOO Demo", 1440, 720);
     window.setOpenGLVersion(3, 3);
     window.setTargetFPS(60);
     Vector3<stReal> camPos(-3.0f, 0.0f, 3.0f);

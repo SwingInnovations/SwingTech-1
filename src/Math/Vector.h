@@ -129,6 +129,12 @@ public:
         m_Val[2] = _z;
     }
 
+    Vector3(Vector2<T> in, T _z){
+        m_Val[0] = in.getX();
+        m_Val[1] = in.getY();
+        m_Val[2] = 0.0;
+    }
+
     void setX(const T& _x){ m_Val[0] = _x; }
     void setY(const T& _y){ m_Val[1] = _y; }
     void setZ(const T& _z){ m_Val[2] = _z; }

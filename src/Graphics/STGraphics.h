@@ -6,6 +6,11 @@
 class Camera;
 class STGame;
 
+enum ST_YUpState{
+    YPos_Down = false,
+    YPos_Up = true
+};
+
 class STGraphics {
 public:
     STGraphics();
@@ -16,7 +21,8 @@ public:
         m_Cam = cam;
     }
 
-    void setXUp(bool val){ m_XUp = val; }
+    static void setYUp(bool val){ m_YUp = val; }
+    static bool getYUpSetting(){ return m_YUp; }
 
     Camera* camera(){
         return m_Cam;
@@ -24,7 +30,7 @@ public:
 private:
     unsigned int WIDTH, HEIGHT;
     Camera* m_Cam;
-    bool m_XUp;
+    static bool m_YUp;
 };
 
 

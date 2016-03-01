@@ -17,6 +17,9 @@ public:
         return &indicies[0];
     }
 
+    virtual int getVertexSize(){ return -1; }
+    virtual int getIndexSize(){ return -1; }
+
 
     bool intersects(Vector2<stReal>& point){
         return false;

@@ -11,6 +11,8 @@
 #include <iostream>
 
 #include "../ext/GL/glew.h"
+#include "Math/Shape/Shape.h"
+#include "Math/Shape/Rect.h"
 
 namespace STMesh{
   enum{
@@ -58,6 +60,8 @@ class STMeshComponent : public STComponent{
 
 public:
     STMeshComponent(const std::string& fileName, int type);
+    STMeshComponent(Shape& shape);
+    STMeshComponent(SWRect*);
     STMeshComponent(float vert[], int vSize, float tex[], int tSize, int ind[], int indSize);
     ~STMeshComponent();
 

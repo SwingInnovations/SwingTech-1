@@ -11,9 +11,10 @@
       <sourceFolder url="file://$MODULE_DIR$/src/STComponent.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src/Graphics/Shader.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src/Graphics/Camera.cpp" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/src/Graphics/STGraphics.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/src/Graphics/Interface/STInterWidget.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src/Graphics/Texture.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src/Graphics/STGraphics.cpp" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/src/Graphics/STGraphics.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src/Graphics/GL/GLShader.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src/Graphics/GL/GLTexture.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src/Graphics/GL/GLShader.cpp" isTestSource="false" />

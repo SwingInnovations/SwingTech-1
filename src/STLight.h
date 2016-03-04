@@ -2,7 +2,7 @@
 #define WAHOO_STLIGHT_H
 
 
-#include "STCore.h"
+#include "Math/STCore.h"
 #include "Math/Vector.h"
 #include "Math/Transform.h"
 

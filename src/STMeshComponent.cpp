@@ -121,6 +121,10 @@ STMeshComponent::STMeshComponent(SWRect* rect) {
         normal.push_back(*rect->positions[i].getNormal());
     }
 
+    for(uint32_t i = 0; i < numVert; i++){
+        std::cout << "Vertex: " << rect->positions[i].info() << std::endl;
+    }
+
     glGenVertexArrays(1, &m_VAO);
     glBindVertexArray(m_VAO);
 

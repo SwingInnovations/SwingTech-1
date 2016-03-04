@@ -46,9 +46,13 @@ public:
 
     void handleInput(STGame * win, Uint32 delta){
         Input* input = win->getInput();
-
+        auto cam = win->getCamera();
         if(input->isKeyPressed(KEY::KEY_ESC)){
             input->requestClose();
+        }
+
+        if(input->isKeyDown(KEY::KEY_S)){
+
         }
 
         if(input->isKeyPressed(KEY::KEY_Q)){
@@ -97,7 +101,7 @@ int main(int argc, char** argv) {
     STGame window("WAHOO Demo", 1440, 720);
     window.setOpenGLVersion(3, 3);
     window.setTargetFPS(60);
-    Vector3<stReal> camPos(-0.0f, -0.0f, 0.0f);
+    Vector3<stReal> camPos(-0.0f, -0.0f, 2.0f);
     window.addCamera(new Camera(window, camPos, 0));
     window.addState(new TestState(0));
     window.enterState(0);

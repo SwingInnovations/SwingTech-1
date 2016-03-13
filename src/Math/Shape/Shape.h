@@ -28,6 +28,8 @@ public:
     bool intersects(Shape& other){
         return false;
     }
+
+    virtual bool contains(Vector2<stReal>& point){ return false; }
 protected:
     std::vector<int> indicies;
     std::vector<Vertex> vertex;

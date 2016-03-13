@@ -25,6 +25,11 @@ public:
 
         lightPos = Vector3<stReal>(1.0f, 1.0f, -1.0f);
 
+        auto resManager = window->getResourceManager();
+        resManager->addShader("basic", new GLShader("basic"));
+        resManager->addTexture("grid", new GLTexture("grid.png"));
+        resManager->addShader("sample", new GLShader("sample"));
+
         //light Color
         _box2 = new STEntity("box.obj", STMesh::OBJ, "lightSource");
         _box2->get<STGraphicsComponent>()->addShdrAttrib("objColor", Vector3<stReal>(1.0f, 1.0f, 1.0f));
@@ -34,14 +39,12 @@ public:
         _box2->transform()->setScaleY(0.5f);
         _box2->transform()->setScaleZ(0.5f);
 
-        _box1 = new STEntity("human.obj", STMesh::OBJ, "basic", "grid.png");
+        _box1 = new STEntity("lowPolyBody.obj", STMesh::OBJ, resManager->getShader("basic"), resManager->getTexture("grid"));
         _box1->get<STGraphicsComponent>()->addShdrAttrib("objColor", Vector3<stReal>(1.0f, 0.5f, 0.31f));
         _box1->get<STGraphicsComponent>()->addShdrAttrib("lightPos", _box2->transform()->getTranslate<stReal>());
         _box1->transform()->setScale(0.1f);
 
-        plane = new STEntity();
-        plane->addComponent(typeid(STMeshComponent), new STMeshComponent(new SWRect(Vector2<stReal>(0, 0), Vector2<stReal>(386, 512))));
-        plane->addComponent(typeid(STGraphicsComponent), new STGraphicsComponent(new GLShader("sample")));
+        plane = new STEntity(new SWRect(Vector2<stReal>(0, 0), Vector2<stReal>(128, 128)),resManager->getShader("sample"));
     }
 
     void handleInput(STGame * win, Uint32 delta){
@@ -58,7 +61,7 @@ public:
         if(input->isKeyPressed(KEY::KEY_Q)){
             bool state = input->isCursorBound();
             input->setCursorBound(!state);
-            input->setCursorVisible(!state);
+            input->setCursorVisible(state);
         }
 
         if(input->isKeyPressed(KEY::KEY_6)) currObject = 0;
@@ -106,6 +109,6 @@ int main(int argc, char** argv) {
     window.addState(new TestState(0));
     window.enterState(0);
     window.setClearColor(Vector4<stReal>(0.0f, 0.0f, 0.14f, 1.0f));
-    window.getInput()->setCursorBound(true);
+    //window.getInput()->setCursorBound(true);
     window.start();
 }

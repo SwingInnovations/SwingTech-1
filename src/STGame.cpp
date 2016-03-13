@@ -50,6 +50,8 @@ STGame::STGame(const std::string title, unsigned int WIDTH, unsigned int HEIGHT)
     STGame::SetResolutionWidth(WIDTH);
     STGame::SetResolutionHeight(HEIGHT);
 
+    resourceManager = new STResourceManager();
+
     m_currentIndex = 0;
     oldTime = 0;
     newTime = SDL_GetTicks();
@@ -172,8 +174,8 @@ void STGame::updateInput(SDL_Event& event) {
 void STGame::render() {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     glEnable(GL_DEPTH_TEST);
-//    glEnable(GL_CULL_FACE);
-//    glCullFace(GL_FRONT);
+    glEnable(GL_CULL_FACE);
+    glCullFace(GL_FRONT);
     glClearColor(m_clearColor.getX(), m_clearColor.getY(), m_clearColor.getZ(), m_clearColor.getW());
 
     if(!m_gameStates.empty()){
@@ -189,6 +191,10 @@ void STGame::addCamera(Camera* cam){
 
 Camera*STGame::getCamera(){
     return g->camera();
+}
+
+STResourceManager* STGame::getResourceManager() {
+    return resourceManager;
 }
 
 void STGame::centerCursor() {

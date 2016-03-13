@@ -8,7 +8,7 @@ uniform mat4 camera;
 uniform mat4 model;
 
 void main(void){
-    gl_Position = camera * model * vec4(position, 1.0);
+    gl_Position = model * vec4(position, 1.0);
 
     TexCoord = texCoord;
 }

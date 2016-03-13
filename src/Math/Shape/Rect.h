@@ -54,28 +54,22 @@ public:
     SWRect(Vector2<stReal> pos, Vector2<stReal> dim){
         stReal hWidth = (dim.getX() / 2.0f)/STGame::RES_WIDTH;
         stReal hHeight = (dim.getY() / 2.0f)/STGame::RES_HEIGHT;
+//        auto tX = pos.getX() / STGame::RES_WIDTH;
+//        auto tY = pos.getY() / STGame::RES_HEIGHT;
+        auto tX = ((pos.getX() - STGame::RES_WIDTH/2) / STGame::RES_WIDTH) + hWidth;
+        auto tY = (-(pos.getY() - STGame::RES_HEIGHT/2) / STGame::RES_HEIGHT) - hHeight;
 
         std::vector<Vector3<stReal>> initialCoordinates;
-        initialCoordinates.push_back(Vector3<stReal>(pos.getX()-hWidth, pos.getY() + hHeight, 0.0));
-        initialCoordinates.push_back(Vector3<stReal>(pos.getX()+hWidth, pos.getY() + hHeight, 0.0));
-        initialCoordinates.push_back(Vector3<stReal>(pos.getX()+hWidth, pos.getY() - hHeight, 0.0));
-        initialCoordinates.push_back(Vector3<stReal>(pos.getX() - hWidth, pos.getY() - hHeight, 0.0));
+        initialCoordinates.push_back(Vector3<stReal>(tX-hWidth, tY+hHeight, 0.0));
+        initialCoordinates.push_back(Vector3<stReal>(tX+hWidth, tY+hHeight, 0.0));
+        initialCoordinates.push_back(Vector3<stReal>(tX + hWidth, tY - hHeight, 0.0));
+        initialCoordinates.push_back(Vector3<stReal>(tX-hWidth, tY - hHeight, 0.0));
 
         std::vector<Vector2<stReal>> texCoords;
         texCoords.push_back(Vector2<stReal>(1.0, 0.0));
         texCoords.push_back(Vector2<stReal>(1.0, 1.0));
         texCoords.push_back(Vector2<stReal>(0.0, 1.0));
         texCoords.push_back(Vector2<stReal>(0.0, 0.0));
-
-        Transform trans;
-        trans.setTranslateX(pos.getX());
-        trans.setTranslateY(pos.getY());
-
-        Matrix4f transform = trans.getModel();
-        //Transformed coordinates
-//        for(uint32_t i = 0; i < initialCoordinates.size(); i++){
-//            initialCoordinates[i] = initialCoordinates[i] * transform.toVector4().toVector3();
-//        }
 
         positions.reserve(4);
         for(unsigned int i = 0; i < 4; i++){
@@ -101,7 +95,7 @@ public:
     std::vector<Vertex> positions;
     std::vector<int> index;
 private:
-
+    Transform* _transform;
 };
 
 #endif //WAHOO_RECT_H

@@ -16,6 +16,7 @@ extern "C"{
 #include "Input.h"
 #include "SGameState.h"
 #include "Math/Vector.h"
+#include "STResourceManager.h"
 
 class Input;
 class SGameState;
@@ -66,6 +67,7 @@ public:
     /*-The Getters-*/
     Input* getInput();
     Camera* getCamera();
+    STResourceManager* getResourceManager();
     int getWidth(){ return this->WIDTH; }
     int getHeight(){ return this->HEIGHT; }
     SDL_Window* getWindow(){ return this->m_Window; }
@@ -94,6 +96,7 @@ private:
     int m_CurrentState;
     Uint32 delta, oldTime, newTime, fps;
     Vector4<stReal> m_clearColor;
+    STResourceManager* resourceManager;
 };
 
 

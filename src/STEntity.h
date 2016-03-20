@@ -28,6 +28,27 @@ public:
     ~STEntity();
 
     void addComponent(std::type_index, STComponent*);
+    void addChild(STEntity* entity);
+    STEntity* getChild(int ind);
+
+    //Overload Transforms
+    void setTranslate(Vector3<stReal>& vec);
+    void setTranslate(stReal _value);
+    void setTranslateX(stReal _x);
+    void setTranslateY(stReal _y);
+    void setTranslateZ(stReal _z);
+
+    void setRotate(Vector3<stReal>& vec);
+    void setRotateX(stReal _x);
+    void setRotateY(stReal _y);
+    void setRotateZ(stReal _z);
+
+    void setScale(Vector3<stReal>& vec);
+    void setScale(stReal _value);
+    void setScaleX(stReal _x);
+    void setScaleY(stReal _y);
+    void setScaleZ(stReal _z);
+
 
     template<typename T> T* get(){
         auto it = m_components.find(std::type_index(typeid(T)));
@@ -50,6 +71,11 @@ public:
         auto mesh = get<STMeshComponent>();
         grphx->draw();
         mesh->draw();
+        if(m_hasChildren){
+            for(unsigned int i = 0, lim = m_children.size(); i < lim; i++){
+                m_children.at(i)->draw();
+            }
+        }
     }
 
     void draw(Camera* cam){
@@ -58,7 +84,11 @@ public:
         grphx->draw();
         grphx->shdr()->update(*m_transform, *cam);
         mesh->draw();
-        //grphx->shdr()->unbind();
+        if(m_hasChildren){
+            for(unsigned int i = 0, lim = m_children.size(); i < lim; i++){
+                m_children.at(i)->draw(cam);
+            }
+        }
     }
 
     void draw(Camera* cam, int drawMode){
@@ -67,6 +97,12 @@ public:
         grphx->draw();
         grphx->shdr()->update(*m_transform, *cam);
         mesh->draw(drawMode);
+
+        if(m_hasChildren){
+            for(unsigned int i = 0, lim = m_children.size(); i < lim; i++){
+                m_children.at(i)->draw(cam, drawMode);
+            }
+        }
     }
 private:
     bool m_hasChildren;

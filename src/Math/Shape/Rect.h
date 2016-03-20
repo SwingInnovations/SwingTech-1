@@ -61,14 +61,14 @@ public:
 
         std::vector<Vector3<stReal>> initialCoordinates;
         initialCoordinates.push_back(Vector3<stReal>(tX-hWidth, tY+hHeight, 0.0));
-        initialCoordinates.push_back(Vector3<stReal>(tX+hWidth, tY+hHeight, 0.0));
+        initialCoordinates.push_back(Vector3<stReal>(tX+hWidth, tY+hHeight, 0.0));//upper corner
         initialCoordinates.push_back(Vector3<stReal>(tX + hWidth, tY - hHeight, 0.0));
-        initialCoordinates.push_back(Vector3<stReal>(tX-hWidth, tY - hHeight, 0.0));
+        initialCoordinates.push_back(Vector3<stReal>(tX-hWidth, tY - hHeight, 0.0)); //Lower Corner
 
         std::vector<Vector2<stReal>> texCoords;
-        texCoords.push_back(Vector2<stReal>(1.0, 0.0));
-        texCoords.push_back(Vector2<stReal>(1.0, 1.0));
         texCoords.push_back(Vector2<stReal>(0.0, 1.0));
+        texCoords.push_back(Vector2<stReal>(1.0, 1.0));
+        texCoords.push_back(Vector2<stReal>(1.0, 0.0));
         texCoords.push_back(Vector2<stReal>(0.0, 0.0));
 
         positions.reserve(4);

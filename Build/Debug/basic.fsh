@@ -21,7 +21,7 @@ void main(void){
     vec3 norm = normalize(Normal);
     vec3 lightDir = normalize(lightPos - position0);
 
-    float specStrength = 0.5f;
+    float specStrength = 0.5;
     vec3 viewDir = normalize(cameraPosition - position0);
     vec3 reflectDir = reflect(lightDir, norm);
 

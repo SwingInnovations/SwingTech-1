@@ -44,7 +44,7 @@ public:
         _box1->get<STGraphicsComponent>()->addShdrAttrib("lightPos", _box2->transform()->getTranslate<stReal>());
         _box1->transform()->setScale(0.1f);
 
-        plane = new STEntity(new SWRect(Vector2<stReal>(0, 0), Vector2<stReal>(128, 128)),resManager->getShader("sample"));
+        plane = new STEntity(new SWRect(Vector2<stReal>(0, 0), Vector2<stReal>(64, 64)),resManager->getShader("sample"));
     }
 
     void handleInput(STGame * win, Uint32 delta){
@@ -104,7 +104,7 @@ int main(int argc, char** argv) {
     STGame window("WAHOO Demo", 1440, 720);
     window.setOpenGLVersion(3, 3);
     window.setTargetFPS(60);
-    Vector3<stReal> camPos(-0.0f, -0.0f, 2.0f);
+    Vector3<stReal> camPos(-0.0f, -0.5f, 2.0f);
     window.addCamera(new Camera(window, camPos, 0));
     window.addState(new TestState(0));
     window.enterState(0);

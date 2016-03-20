@@ -151,3 +151,22 @@ Matrix4f Camera::getViewProjection() const {
     View = ViewMode * Camera * TransformTranslate;
     return View;
 }
+
+Matrix4f Camera::getView() const {
+    Matrix4f Camera, TransformTranslate;
+    Camera.initCamera(m_Forward, m_Up);
+    TransformTranslate.initTranslation(m_transform.getTranslate<stReal>());
+    return Camera * TransformTranslate;
+}
+
+Matrix4f Camera::getProjection() const {
+    Matrix4f ViewMode;
+    if(m_viewProf.viewMode == CAMERA_VIEW::PERSPECTIVE){
+        ViewMode.initPerpectiveProjection(m_viewProf.FOV, m_Width, m_Height, m_viewProf.zNear
+        , m_viewProf.zFar);
+    }else{
+        ViewMode.initOrthographicProjection(m_Width, m_Height, m_viewProf.zNear
+        , m_viewProf.zFar);
+    }
+    return ViewMode;
+}

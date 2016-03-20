@@ -1,7 +1,7 @@
-in vec2 TexCoord;
+in vec2 texCoord0;
 
 out vec4 color;
 
 void main(void){
-    color = vec4(1.0f, 0.0f, 0.0f, 0.0f);
+    color = vec4(1.0, 0.0, 0.0, 1.0);
 }

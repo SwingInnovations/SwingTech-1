@@ -23,6 +23,8 @@ GLShader::GLShader() {
     m_uniforms[0] = glGetUniformLocation(m_Program, "model");
     m_uniforms[1] = glGetUniformLocation(m_Program, "camera");
     m_uniforms[2] = glGetUniformLocation(m_Program, "cameraPosition");
+    m_uniforms[3] = glGetUniformLocation(m_Program, "view");
+    m_uniforms[4] = glGetUniformLocation(m_Program, "projection");
 }
 
 GLShader::GLShader(const std::string &filePath) {
@@ -49,6 +51,8 @@ GLShader::GLShader(const std::string &filePath) {
     m_uniforms[0] = glGetUniformLocation(m_Program, "model");
     m_uniforms[1] = glGetUniformLocation(m_Program, "camera");
     m_uniforms[2] = glGetUniformLocation(m_Program, "cameraPosition");
+    m_uniforms[3] = glGetUniformLocation(m_Program, "view");
+    m_uniforms[4] = glGetUniformLocation(m_Program, "projection");
 
     for(unsigned int i = 0; i < NUM_SHADER; i++){
         glDeleteShader(m_Shaders[i]);
@@ -80,6 +84,8 @@ GLShader::GLShader(const std::string &vShaderPath, const std::string &fShaderPat
     m_uniforms[0] = glGetUniformLocation(m_Program, "model");
     m_uniforms[1] = glGetUniformLocation(m_Program, "camera");
     m_uniforms[2] = glGetUniformLocation(m_Program, "cameraPosition");
+    m_uniforms[3] = glGetUniformLocation(m_Program, "view");
+    m_uniforms[4] = glGetUniformLocation(m_Program, "projection");
 }
 
 GLShader::~GLShader() {
@@ -107,14 +113,18 @@ void GLShader::update(Camera& cam){
 }
 
 void GLShader::update(Transform& trans, Camera& cam){
-    Matrix4f transform, camera;
+    Matrix4f transform, camera, view, projection;
     transform = trans.getModel();
     camera = cam.getViewProjection();
+    view = cam.getView();
+    projection = cam.getProjection();
     Vector3<stReal> camPos = cam.transform()->getTranslate<stReal>();
 
     glUniformMatrix4fv(m_uniforms[0], 1, GL_TRUE, &transform.m[0][0]);
     glUniformMatrix4fv(m_uniforms[1], 1, GL_TRUE, &camera.m[0][0]);
     glUniform3f(m_uniforms[2], camPos.getX(), camPos.getY(), camPos.getZ());
+    glUniformMatrix4fv(m_uniforms[3], 1, GL_TRUE, &view.m[0][0]);
+    glUniformMatrix4fv(m_uniforms[4], 1, GL_TRUE, &projection.m[0][0]);
 }
 
 void GLShader::update(const std::string &name, int val) {

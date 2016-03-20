@@ -9,6 +9,7 @@ class STMaterial{
 private:
     Texture* texture;
     Shader* shader;
+    bool useTexture;
 };
 
 #endif //WAHOO_STMATERIAL_H

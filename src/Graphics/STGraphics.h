@@ -11,6 +11,10 @@ enum ST_YUpState{
     YPos_Up = true
 };
 
+struct STRenderPass{
+
+};
+
 class STGraphics {
 public:
     STGraphics();
@@ -27,7 +31,7 @@ public:
     Camera* camera(){
         return m_Cam;
     }
-private:
+protected:
     unsigned int WIDTH, HEIGHT;
     Camera* m_Cam;
     static bool m_YUp;

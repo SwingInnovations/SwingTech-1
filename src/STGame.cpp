@@ -1,6 +1,7 @@
 #include "STGame.h"
 
 #include "Graphics/STGraphics.h"
+#include "Graphics/GL/GLGraphics.h"
 #include "Graphics/Camera.h"
 
 int STGame::RES_WIDTH = 0;
@@ -43,7 +44,6 @@ STGame::STGame(const std::string title, unsigned int WIDTH, unsigned int HEIGHT)
             std::cout << "Error 400: Failed to load Window:  " << SDL_GetError() << std::endl;
         }else{
             m_input = new Input(this, m_e);
-            g = new STGraphics(this);
         }
     }
 
@@ -71,6 +71,8 @@ void STGame::setOpenGLVersion(int MajorVersion, int MinorVersion) {
 
 
     m_Context = SDL_GL_CreateContext(m_Window);
+   // g = new LGraphics(this);
+    g = new GLGraphics(this);
     if(m_Context == NULL){
         //TODO Error Code for if init fails
         std::cout << "Error 401: Unable to initialize GLContext" << std::endl;

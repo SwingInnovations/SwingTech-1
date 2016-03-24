@@ -21,6 +21,7 @@ extern "C"{
 class Input;
 class SGameState;
 class STGraphics;
+class GLGraphics;
 class Camera;
 
 class STGame {

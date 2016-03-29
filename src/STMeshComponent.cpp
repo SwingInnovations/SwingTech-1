@@ -65,8 +65,6 @@ STMeshComponent::STMeshComponent(const std::string &fileName, int type) {
     glBufferData(GL_ELEMENT_ARRAY_BUFFER, m_drawCount * sizeof(index[0]), &index[0], GL_STATIC_DRAW);
 
     glBindVertexArray(0);
-
-    std::cout << "Vertex: " << std::endl;
 }
 
 STMeshComponent::STMeshComponent(Shape& shape) {
@@ -149,7 +147,7 @@ STMeshComponent::STMeshComponent(SWRect* rect) {
     glBindVertexArray(0);
 }
 
-STMeshComponent::STMeshComponent(Quad *quad) {
+STMeshComponent::STMeshComponent(STQuad *quad) {
     m_drawCount = (uint32_t)quad->getIndSize();
     int numVert = quad->getVertSize();
 

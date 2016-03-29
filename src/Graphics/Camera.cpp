@@ -66,14 +66,6 @@ void Camera::update(Input* input) {
 
         int delta = (int)input->getDelta();
         //process FPS movement here
-        if(input->isKeyDown(input->inputMapping()->get(MOVEMENT::FORWARD))){
-            stReal _x = transform()->getTranslate<stReal>().getX();
-            stReal _z = transform()->getTranslate<stReal>().getZ();
-            _x += 0.025f * delta;
-            _z += 0.025f * delta;
-            transform()->setTranslateX(_x);
-            transform()->setTranslateZ(_z);
-        }
     }
 
 }

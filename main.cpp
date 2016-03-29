@@ -15,7 +15,6 @@ using namespace std;
 
 class STGraphicsComponent;
 
-
 class TestState : public SGameState{
 public:
     TestState(int id){ this->m_id = id; }
@@ -49,7 +48,6 @@ public:
         _box1->get<STGraphicsComponent>()->addShdrAttrib("lightPos", _box2->transform()->getTranslate<stReal>());
         _box1->transform()->setScale(0.1f);
 
-        plane = new STEntity(new SWRect(Vector2<stReal>(0, 0), Vector2<stReal>(64, 64)),resManager->getShader("sample"));
         sceneManager->addEntity(_box2);
         sceneManager->addEntity(_box1);
         STGraphics::ClearColor = Vector4<stReal>(0.0, 0.0, 0.168, 1.0);
@@ -86,11 +84,6 @@ public:
     }
 
     void render(STGame * win){
-//        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-//        glEnable(GL_DEPTH_TEST);
-//        _box1->draw(win->getCamera());
-//        _box2->draw(win->getCamera());
-//        plane->draw(win->getCamera());
         win->getGraphics()->drawScene(sceneManager);
     }
 

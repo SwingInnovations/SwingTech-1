@@ -14,20 +14,7 @@
 #include "Math/Shape/Shape.h"
 #include "Math/Shape/Rect.h"
 #include "Math/Shape/Quad.h"
-
-namespace STMesh{
-  enum{
-    OBJ = 0,
-      GEX = 1,
-      FBX = 2
-  };
-
-    enum DrawMode{
-        LINES = 0,
-        TRIANGLES = 1,
-        LINE_LOOP = 2
-    };
-};
+#include "STMesh.h"
 
 class OBJMesh{
 public:
@@ -63,7 +50,7 @@ public:
     STMeshComponent(const std::string& fileName, int type);
     STMeshComponent(Shape& shape);
     STMeshComponent(SWRect*);
-    STMeshComponent(Quad*);
+    STMeshComponent(STQuad*);
     STMeshComponent(float vert[], int vSize, float tex[], int tSize, int ind[], int indSize);
     ~STMeshComponent();
 

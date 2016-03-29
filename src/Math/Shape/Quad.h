@@ -5,9 +5,9 @@
 
 
 
-class Quad : public Shape{
+class STQuad : public Shape{
 public:
-    Quad(){
+    STQuad(){
         std::vector<Vector3<stReal>> points;
         points.push_back(Vector3<stReal>(-1.0f, 1.0f, 0.0f));
         points.push_back(Vector3<stReal>(-1.0f, -1.0f, 0.0f));

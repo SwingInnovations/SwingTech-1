@@ -20,7 +20,8 @@ struct STRenderPass{
 
 class STGraphics {
 public:
-
+    enum RenderMode{ FORWARD, DEFERRED };
+    enum Renderer{ OPENGL, VULKAN };
     static Vector4<stReal> ClearColor;
 
     STGraphics();

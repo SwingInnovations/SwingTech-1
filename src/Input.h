@@ -157,10 +157,7 @@ public:
     InputMap(const std::string& filePath);
 
     void addMapping(int target, int key);
-    int get(int target){
-
-    }// - Return the Key for the given target
-
+    int get(int target);
     std::string info() {
         std::ostringstream ret;
         for (unsigned int i = 0, m = mapping.size(); i < m; i++) {

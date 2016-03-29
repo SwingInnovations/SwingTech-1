@@ -11,7 +11,7 @@ link_directories(${PROJECT_SOURCE_DIR}/lib)
 
 find_package(SDL2)
 find_package(OpenGL REQUIRED)
-set(SOURCE_FILES main.cpp src/Math/Shape/Shape.h src/Math/Shape/Rect.h src/STSceneManager.h src/STLight.h src/Graphics/Interface/STInterWidget.h src/STResourceManager.cpp src/STResourceManager.h src/Graphics/STMaterial.h src/Graphics/STColor.h src/Math/Shape/Quad.h)
+set(SOURCE_FILES main.cpp src/Math/Shape/Shape.h src/Math/Shape/Rect.h src/STSceneManager.h src/STLight.h src/Graphics/Interface/STInterWidget.h src/STResourceManager.cpp src/STResourceManager.h src/Graphics/STMaterial.h src/Graphics/STColor.h src/Math/Shape/Quad.h src/STMesh.h src/Graphics/VK/VKGraphics.cpp src/Graphics/VK/VKGraphics.h src/Graphics/GL/GLMesh.cpp src/Graphics/GL/GLMesh.h)
 set(SDL2main ${PROJECT_SOURCE_DIR}/lib/libSDL2main.a)
 set(SDL2_image ${PROJECT_SOURCE_DIR}/lib/libSDL2_image.a)
 set(SDL2 ${PROJECT_SOURCE_DIR}/lib/libSDL2.a)

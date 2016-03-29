@@ -6,8 +6,6 @@ static const int NUM_MOUSE = 0x40;
 static bool keyPressed[NUM_KEYS];
 static bool mouseButtonPressed[NUM_MOUSE];
 
-//TODO - Constructors for Input Class
-
 Input::Input() {
     closeRequested = false;
     cursorBound = true;
@@ -133,4 +131,32 @@ bool Input::isMousePressed(int button) {
         return true;
     }
     return false;
+}
+
+InputMap::InputMap() {
+
+}
+
+InputMap::InputMap(const std::string &filePath) {
+    // TODO implement file reader to pull keymapping
+
+}
+
+void InputMap::addMapping(int target, int key) {
+    InputKey a;
+    a.setTarget(target);
+    a.setKey(key);
+    mapping.push_back(a);
+}
+
+int InputMap::get(int target){
+    // Return the map for the given enum
+    if(mapping.size() > 0){
+        for(auto ent : mapping){
+            if(ent.getTarget() == target){
+                return ent.getKey();
+            }
+        }
+    }
+    return -1;
 }

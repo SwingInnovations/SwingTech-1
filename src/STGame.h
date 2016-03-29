@@ -68,6 +68,7 @@ public:
     /*-The Getters-*/
     Input* getInput();
     Camera* getCamera();
+    STGraphics* getGraphics();
     STResourceManager* getResourceManager();
     int getWidth(){ return this->WIDTH; }
     int getHeight(){ return this->HEIGHT; }

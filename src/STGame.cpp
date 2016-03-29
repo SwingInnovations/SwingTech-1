@@ -174,11 +174,11 @@ void STGame::updateInput(SDL_Event& event) {
 }
 
 void STGame::render() {
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-    glEnable(GL_DEPTH_TEST);
-    glEnable(GL_CULL_FACE);
-    glCullFace(GL_FRONT);
-    glClearColor(m_clearColor.getX(), m_clearColor.getY(), m_clearColor.getZ(), m_clearColor.getW());
+//    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+//    glEnable(GL_DEPTH_TEST);
+//    glEnable(GL_CULL_FACE);
+//    glCullFace(GL_FRONT);
+//    glClearColor(m_clearColor.getX(), m_clearColor.getY(), m_clearColor.getZ(), m_clearColor.getW());
 
     if(!m_gameStates.empty()){
         m_gameStates.at(m_currentIndex)->render(this);
@@ -197,6 +197,10 @@ Camera*STGame::getCamera(){
 
 STResourceManager* STGame::getResourceManager() {
     return resourceManager;
+}
+
+STGraphics* STGame::getGraphics() {
+    return g;
 }
 
 void STGame::centerCursor() {

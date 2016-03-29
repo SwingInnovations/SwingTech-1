@@ -42,6 +42,7 @@
       <sourceFolder url="file://$MODULE_DIR$/src/Math/Matrix.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src/Math/STCore.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src/Math/Shape/Shape.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/src/Math/Shape/Quad.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src/Math/Shape/Rect.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src/Math/Quaternion.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src/STGraphicsComponent.cpp" isTestSource="false" />

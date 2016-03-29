@@ -16,7 +16,7 @@ struct STRenderPass;
 
 struct GLRenderPass : public STRenderPass{
     unsigned int width, height;
-    GLShader* shdr;
+    GLShader* postShader;
     GLTexture* tex;
     STMeshComponent* mesh;
     GLuint frameBuffer;
@@ -28,6 +28,7 @@ struct GLRenderPass : public STRenderPass{
     GLRenderPass();
     GLRenderPass(unsigned int x, unsigned int y);
     GLRenderPass(unsigned int x, unsigned int y, std::string& name);
+    GLRenderPass(unsigned int x, unsigned int y, GLShader* shdr);
     ~GLRenderPass();
 
     void bind();
@@ -45,14 +46,19 @@ public:
     GLGraphics(STGame*);
 
     virtual void addRenderPass(STSceneManager* scene){
-
+        renderPass.push_back(new GLRenderPass(WIDTH, HEIGHT));
+        renderPass.back()->setEntities(scene->getEntities());
     }
+
+    void addRenderPass(STSceneManager* scene, GLShader* shdr);
+
+    virtual void setShader(int,Shader*);
 
     virtual void drawScene(STSceneManager* scene);
 protected:
 
 private:
-    std::vector<STRenderPass*> renderPass;
+    std::vector<GLRenderPass*> renderPass;
 };
 
 

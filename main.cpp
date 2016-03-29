@@ -5,8 +5,10 @@
 #include "src/SGameState.h"
 #include "src/STEntity.h"
 #include "src/Graphics/GL/GLShader.h"
+#include "src/Graphics/GL/GLGraphics.h"
 #include "src/STGraphicsComponent.h"
 #include "src/Math/Shape/Rect.h"
+#include "src/STSceneManager.h"
 
 
 using namespace std;
@@ -29,6 +31,9 @@ public:
         resManager->addShader("basic", new GLShader("basic"));
         resManager->addTexture("grid", new GLTexture("grid.png"));
         resManager->addShader("sample", new GLShader("sample"));
+        resManager->addShader("screen", new GLShader("screen"));
+
+        sceneManager = new STSceneManager();
 
         //light Color
         _box2 = new STEntity("box.obj", STMesh::OBJ, "lightSource");
@@ -45,6 +50,10 @@ public:
         _box1->transform()->setScale(0.1f);
 
         plane = new STEntity(new SWRect(Vector2<stReal>(0, 0), Vector2<stReal>(64, 64)),resManager->getShader("sample"));
+        sceneManager->addEntity(_box2);
+        sceneManager->addEntity(_box1);
+        STGraphics::ClearColor = Vector4<stReal>(0.0, 0.0, 0.168, 1.0);
+        ((GLGraphics*)window->getGraphics())->addRenderPass(sceneManager,(GLShader*)resManager->getShader("screen"));
     }
 
     void handleInput(STGame * win, Uint32 delta){
@@ -52,10 +61,6 @@ public:
         auto cam = win->getCamera();
         if(input->isKeyPressed(KEY::KEY_ESC)){
             input->requestClose();
-        }
-
-        if(input->isKeyDown(KEY::KEY_S)){
-
         }
 
         if(input->isKeyPressed(KEY::KEY_Q)){
@@ -81,9 +86,12 @@ public:
     }
 
     void render(STGame * win){
-        _box1->draw(win->getCamera());
-        _box2->draw(win->getCamera());
-        plane->draw(win->getCamera());
+//        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+//        glEnable(GL_DEPTH_TEST);
+//        _box1->draw(win->getCamera());
+//        _box2->draw(win->getCamera());
+//        plane->draw(win->getCamera());
+        win->getGraphics()->drawScene(sceneManager);
     }
 
     ~TestState(){
@@ -91,6 +99,7 @@ public:
         delete _box2;
     }
 private:
+    STSceneManager* sceneManager;
     int drawMode;
     int currObject;
     float counter = 0;

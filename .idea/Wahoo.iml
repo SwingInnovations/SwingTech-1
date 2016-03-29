@@ -55,14 +55,14 @@
     <orderEntry type="module-library">
       <library name="Header Search Paths">
         <CLASSES>
-          <root url="file://C:/MinGW/mingw-w64/x86_64-4.8.3-posix-seh-rt_v3-rev2/mingw64/lib/gcc/x86_64-w64-mingw32/4.8.3/include" />
-          <root url="file://C:/MinGW/mingw-w64/x86_64-4.8.3-posix-seh-rt_v3-rev2/mingw64/lib/gcc/x86_64-w64-mingw32/4.8.3/include-fixed" />
-          <root url="file://C:/MinGW/mingw-w64/x86_64-4.8.3-posix-seh-rt_v3-rev2/mingw64/x86_64-w64-mingw32/include" />
+          <root url="file://C:/MinGW/lib/gcc/x86_64-w64-mingw32/4.8.3/include" />
+          <root url="file://C:/MinGW/lib/gcc/x86_64-w64-mingw32/4.8.3/include-fixed" />
+          <root url="file://C:/MinGW/x86_64-w64-mingw32/include" />
         </CLASSES>
         <SOURCES>
-          <root url="file://C:/MinGW/mingw-w64/x86_64-4.8.3-posix-seh-rt_v3-rev2/mingw64/lib/gcc/x86_64-w64-mingw32/4.8.3/include" />
-          <root url="file://C:/MinGW/mingw-w64/x86_64-4.8.3-posix-seh-rt_v3-rev2/mingw64/lib/gcc/x86_64-w64-mingw32/4.8.3/include-fixed" />
-          <root url="file://C:/MinGW/mingw-w64/x86_64-4.8.3-posix-seh-rt_v3-rev2/mingw64/x86_64-w64-mingw32/include" />
+          <root url="file://C:/MinGW/lib/gcc/x86_64-w64-mingw32/4.8.3/include" />
+          <root url="file://C:/MinGW/lib/gcc/x86_64-w64-mingw32/4.8.3/include-fixed" />
+          <root url="file://C:/MinGW/x86_64-w64-mingw32/include" />
         </SOURCES>
       </library>
     </orderEntry>

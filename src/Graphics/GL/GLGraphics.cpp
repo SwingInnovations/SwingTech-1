@@ -47,7 +47,7 @@ GLRenderPass::GLRenderPass(unsigned int x, unsigned int y) {
 GLRenderPass::GLRenderPass(unsigned int x, unsigned int y, GLShader* shdr) {
     width = x;
     height = y;
-    mesh = new STMeshComponent(new SWRect(0, 0, 0.5, 0.5));
+    mesh = new STMeshComponent(new Quad());
     postShader = shdr;
 
     glGenFramebuffers(1, &frameBuffer);

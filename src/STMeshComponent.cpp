@@ -105,6 +105,8 @@ STMeshComponent::STMeshComponent(Shape& shape) {
 
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_VBO[INDEX_BUFFER]);
     glBufferData(GL_ELEMENT_ARRAY_BUFFER, m_drawCount * sizeof(shape.getIndicies()[0]), &shape.getIndicies()[0], GL_STATIC_DRAW);
+
+    glBindVertexArray(0);
 }
 
 STMeshComponent::STMeshComponent(SWRect* rect) {
@@ -119,10 +121,6 @@ STMeshComponent::STMeshComponent(SWRect* rect) {
         vertex.push_back(*rect->positions[i].getVertex());
         texCoord.push_back(*rect->positions[i].getTexCoord());
         normal.push_back(*rect->positions[i].getNormal());
-    }
-
-    for(uint32_t i = 0; i < numVert; i++){
-        std::cout << "Vertex: " << rect->positions[i].info() << std::endl;
     }
 
     glGenVertexArrays(1, &m_VAO);
@@ -147,6 +145,48 @@ STMeshComponent::STMeshComponent(SWRect* rect) {
 
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_VBO[INDEX_BUFFER]);
     glBufferData(GL_ELEMENT_ARRAY_BUFFER, m_drawCount * sizeof(rect->index[0]), &rect->index[0], GL_STATIC_DRAW);
+
+    glBindVertexArray(0);
+}
+
+STMeshComponent::STMeshComponent(Quad *quad) {
+    m_drawCount = (uint32_t)quad->getIndSize();
+    int numVert = quad->getVertSize();
+
+    std::vector<Vector3<stReal>> vertex;
+    std::vector<Vector2<stReal>> texCoord;
+    std::vector<Vector3<stReal>> normal;
+
+    for(uint32_t i = 0; i < numVert; i++){
+        vertex.push_back(*quad->verticies[i].getVertex());
+        texCoord.push_back(*quad->verticies[i].getTexCoord());
+        normal.push_back(*quad->verticies[i].getNormal());
+    }
+
+    glGenVertexArrays(1, &m_VAO);
+    glBindVertexArray(m_VAO);
+
+    glGenBuffers(NUM_BUFFERS, m_VBO);
+
+    glBindBuffer(GL_ARRAY_BUFFER, m_VBO[VERTEX_BUFFER]);
+    glBufferData(GL_ARRAY_BUFFER, numVert * sizeof(vertex[0]), &vertex[0], GL_STATIC_DRAW);
+    glEnableVertexAttribArray(0);
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, 0);
+
+    glBindBuffer(GL_ARRAY_BUFFER, m_VBO[TEXCOORD_BUFFER]);
+    glBufferData(GL_ARRAY_BUFFER, numVert * sizeof(texCoord[0]), &texCoord[0], GL_STATIC_DRAW);
+    glEnableVertexAttribArray(1);
+    glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 0, 0);
+
+    glBindBuffer(GL_ARRAY_BUFFER, m_VBO[NORMAL_BUFFER]);
+    glBufferData(GL_ARRAY_BUFFER, numVert * sizeof(normal[0]), &normal[0], GL_STATIC_DRAW);
+    glEnableVertexAttribArray(2);
+    glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, 0, 0);
+
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_VBO[INDEX_BUFFER]);
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, m_drawCount * sizeof(quad->indicies[0]), &quad->indicies[0], GL_STATIC_DRAW);
+
+    glBindVertexArray(0);
 }
 
 STMeshComponent::STMeshComponent(float *vert, int vSize, float *tex, int tSize, int *ind, int indSize) {

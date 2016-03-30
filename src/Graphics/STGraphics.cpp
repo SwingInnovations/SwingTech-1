@@ -1,6 +1,7 @@
 #include "STGraphics.h"
 
 Vector4<stReal> STGraphics::ClearColor = Vector4<stReal>(0.0f, 0.0f, 0.0f, 1.0f);
+int STGraphics::RENDERER = STGraphics::OPENGL;
 
 STGraphics::STGraphics() {
 

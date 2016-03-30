@@ -1,217 +1,37 @@
 #include "STMeshComponent.h"
+#include "Graphics/STGraphics.h"
+#include "Graphics/GL/GLMesh.h"
 
 STMeshComponent::STMeshComponent(const std::string &fileName, int type) {
-    std::vector<Vector3<stReal>> vertex;
-    std::vector<Vector2<stReal>> texCoord;
-    std::vector<Vector3<stReal>> normal;
-    std::vector<Vector3<stReal>> tangent;
-    std::vector<Vector3<stReal>> biTangent;
-    std::vector<int> index;
-
-    m_fileName = fileName;
-
-    int numVert = 0;
-
-    if(type == STMesh::OBJ){
-        auto tMesh = new OBJMesh(fileName);
-        numVert = tMesh->getVerticiesSize();
-        m_drawCount = tMesh->getIndiciesSize();
-        vertex.reserve(numVert);
-        texCoord.reserve(numVert);
-        normal.reserve(numVert);
-
-        for(unsigned int i = 0; i < numVert; i++){
-            vertex.push_back(*tMesh->verticies[i].getVertex());
-            texCoord.push_back(*tMesh->verticies[i].getTexCoord());
-            normal.push_back(*tMesh->verticies[i].getNormal());
-        }
-        index = tMesh->indicies;
-        tangent = genTangent(vertex, texCoord);
-        biTangent = genBiTangent(vertex, texCoord);
-        delete tMesh;
+    if(STGraphics::RENDERER == STGraphics::OPENGL){
+        mesh = new GLMesh(fileName, type);
     }
-
-    glGenVertexArrays(1, &m_VAO);
-    glBindVertexArray(m_VAO);
-
-    glGenBuffers(NUM_BUFFERS, m_VBO);
-
-    glBindBuffer(GL_ARRAY_BUFFER, m_VBO[VERTEX_BUFFER]);
-    glBufferData(GL_ARRAY_BUFFER, numVert*sizeof(vertex[0]), &vertex[0], GL_STATIC_DRAW);
-    glEnableVertexAttribArray(0);
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, 0);
-
-    glBindBuffer(GL_ARRAY_BUFFER, m_VBO[TEXCOORD_BUFFER]);
-    glBufferData(GL_ARRAY_BUFFER, numVert* sizeof(texCoord[0]), &texCoord[0], GL_STATIC_DRAW);
-    glEnableVertexAttribArray(1);
-    glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 0, 0);
-
-    glBindBuffer(GL_ARRAY_BUFFER, m_VBO[NORMAL_BUFFER]);
-    glBufferData(GL_ARRAY_BUFFER, numVert* sizeof(normal[0]), &normal[0], GL_STATIC_DRAW);
-    glEnableVertexAttribArray(2);
-    glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, 0, 0);
-
-    glBindBuffer(GL_ARRAY_BUFFER, m_VBO[TANGENT_BUFFER]);
-    glBufferData(GL_ARRAY_BUFFER, numVert* sizeof(tangent[0]), &tangent[0], GL_STATIC_DRAW);
-    glEnableVertexAttribArray(3);
-    glVertexAttribPointer(3, 3, GL_FLOAT, GL_FALSE, 0, 0);
-
-    glBindBuffer(GL_ARRAY_BUFFER, m_VBO[BITANGENT_BUFFER]);
-    glBufferData(GL_ARRAY_BUFFER, numVert*sizeof(&biTangent[0]), &biTangent[0], GL_STATIC_DRAW);
-    glEnableVertexAttribArray(4);
-    glVertexAttribPointer(4, 3, GL_FLOAT, GL_FALSE, 0, 0);
-
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_VBO[INDEX_BUFFER]);
-    glBufferData(GL_ELEMENT_ARRAY_BUFFER, m_drawCount * sizeof(index[0]), &index[0], GL_STATIC_DRAW);
-
-    glBindVertexArray(0);
 }
 
 STMeshComponent::STMeshComponent(Shape& shape) {
-    m_drawCount = (unsigned int)shape.getIndexSize();
-    int numVert = shape.getVertexSize();
 
-    std::vector<Vector3<stReal>> vertex;
-    std::vector<Vector2<stReal>> texCoord;
-    std::vector<Vector3<stReal>> normal;
-
-    for(unsigned int i = 0; i < shape.getVertexSize(); i++){
-        vertex.push_back(*shape.getVerticies()[i].getVertex());
-        texCoord.push_back(*shape.getVerticies()[i].getTexCoord());
-        normal.push_back(*shape.getVerticies()[i].getNormal());
-    }
-
-    glGenVertexArrays(1, &m_VAO);
-    glBindVertexArray(m_VAO);
-
-    glGenBuffers(NUM_BUFFERS, m_VBO);
-
-    glBindBuffer(GL_ARRAY_BUFFER, m_VBO[VERTEX_BUFFER]);
-    glBufferData(GL_ARRAY_BUFFER, numVert* sizeof(vertex[0]), &vertex[0], GL_STATIC_DRAW);
-    glEnableVertexAttribArray(0);
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, 0);
-
-    glBindBuffer(GL_ARRAY_BUFFER, m_VBO[TEXCOORD_BUFFER]);
-    glBufferData(GL_ARRAY_BUFFER, numVert * sizeof(texCoord[0]), &texCoord[0], GL_STATIC_DRAW);
-    glEnableVertexAttribArray(1);
-    glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 0, 0);
-
-    glBindBuffer(GL_ARRAY_BUFFER, m_VBO[NORMAL_BUFFER]);
-    glBufferData(GL_ARRAY_BUFFER, numVert * sizeof(normal[0]), &normal[0], GL_STATIC_DRAW);
-    glEnableVertexAttribArray(2);
-    glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, 0, 0);
-
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_VBO[INDEX_BUFFER]);
-    glBufferData(GL_ELEMENT_ARRAY_BUFFER, m_drawCount * sizeof(shape.getIndicies()[0]), &shape.getIndicies()[0], GL_STATIC_DRAW);
-
-    glBindVertexArray(0);
-}
-
-STMeshComponent::STMeshComponent(SWRect* rect) {
-    m_drawCount = (unsigned int)rect->getIndexSize();
-    int numVert = rect->getVertexSize();
-
-    std::vector<Vector3<stReal>> vertex;
-    std::vector<Vector2<stReal>> texCoord;
-    std::vector<Vector3<stReal>> normal;
-
-    for(unsigned int i = 0; i < numVert; i++){
-        vertex.push_back(*rect->positions[i].getVertex());
-        texCoord.push_back(*rect->positions[i].getTexCoord());
-        normal.push_back(*rect->positions[i].getNormal());
-    }
-
-    glGenVertexArrays(1, &m_VAO);
-    glBindVertexArray(m_VAO);
-
-    glGenBuffers(NUM_BUFFERS, m_VBO);
-
-    glBindBuffer(GL_ARRAY_BUFFER, m_VBO[VERTEX_BUFFER]);
-    glBufferData(GL_ARRAY_BUFFER, numVert* sizeof(vertex[0]), &vertex[0], GL_STATIC_DRAW);
-    glEnableVertexAttribArray(0);
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, 0);
-
-    glBindBuffer(GL_ARRAY_BUFFER, m_VBO[TEXCOORD_BUFFER]);
-    glBufferData(GL_ARRAY_BUFFER, numVert * sizeof(texCoord[0]), &texCoord[0], GL_STATIC_DRAW);
-    glEnableVertexAttribArray(1);
-    glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 0, 0);
-
-    glBindBuffer(GL_ARRAY_BUFFER, m_VBO[NORMAL_BUFFER]);
-    glBufferData(GL_ARRAY_BUFFER, numVert * sizeof(normal[0]), &normal[0], GL_STATIC_DRAW);
-    glEnableVertexAttribArray(2);
-    glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, 0, 0);
-
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_VBO[INDEX_BUFFER]);
-    glBufferData(GL_ELEMENT_ARRAY_BUFFER, m_drawCount * sizeof(rect->index[0]), &rect->index[0], GL_STATIC_DRAW);
-
-    glBindVertexArray(0);
 }
 
 STMeshComponent::STMeshComponent(STQuad *quad) {
-    m_drawCount = (uint32_t)quad->getIndSize();
-    int numVert = quad->getVertSize();
-
-    std::vector<Vector3<stReal>> vertex;
-    std::vector<Vector2<stReal>> texCoord;
-    std::vector<Vector3<stReal>> normal;
-
-    for(uint32_t i = 0; i < numVert; i++){
-        vertex.push_back(*quad->verticies[i].getVertex());
-        texCoord.push_back(*quad->verticies[i].getTexCoord());
-        normal.push_back(*quad->verticies[i].getNormal());
+    if(STGraphics::RENDERER == STGraphics::OPENGL){
+        mesh = new GLMesh(quad);
     }
+}
 
-    glGenVertexArrays(1, &m_VAO);
-    glBindVertexArray(m_VAO);
-
-    glGenBuffers(NUM_BUFFERS, m_VBO);
-
-    glBindBuffer(GL_ARRAY_BUFFER, m_VBO[VERTEX_BUFFER]);
-    glBufferData(GL_ARRAY_BUFFER, numVert * sizeof(vertex[0]), &vertex[0], GL_STATIC_DRAW);
-    glEnableVertexAttribArray(0);
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, 0);
-
-    glBindBuffer(GL_ARRAY_BUFFER, m_VBO[TEXCOORD_BUFFER]);
-    glBufferData(GL_ARRAY_BUFFER, numVert * sizeof(texCoord[0]), &texCoord[0], GL_STATIC_DRAW);
-    glEnableVertexAttribArray(1);
-    glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 0, 0);
-
-    glBindBuffer(GL_ARRAY_BUFFER, m_VBO[NORMAL_BUFFER]);
-    glBufferData(GL_ARRAY_BUFFER, numVert * sizeof(normal[0]), &normal[0], GL_STATIC_DRAW);
-    glEnableVertexAttribArray(2);
-    glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, 0, 0);
-
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_VBO[INDEX_BUFFER]);
-    glBufferData(GL_ELEMENT_ARRAY_BUFFER, m_drawCount * sizeof(quad->indicies[0]), &quad->indicies[0], GL_STATIC_DRAW);
-
-    glBindVertexArray(0);
+STMeshComponent::STMeshComponent(STRect *rect) {
+    if(STGraphics::RENDERER == STGraphics::OPENGL){
+        mesh = new GLMesh(rect);
+    }
 }
 
 STMeshComponent::STMeshComponent(float *vert, int vSize, float *tex, int tSize, int *ind, int indSize) {
-    m_drawCount = indSize;
-    glGenVertexArrays(1, &m_VAO);
-    glBindVertexArray(m_VAO);
-
-    glGenBuffers(NUM_BUFFERS, m_VBO);
-
-    glBindBuffer(GL_ARRAY_BUFFER, m_VBO[VERTEX_BUFFER]);
-    glBufferData(GL_ARRAY_BUFFER, vSize * sizeof(vert[0]), &vert[0], GL_STATIC_DRAW);
-    glEnableVertexAttribArray(0);
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, 0);
-
-    glBindBuffer(GL_ARRAY_BUFFER, m_VBO[TEXCOORD_BUFFER]);
-    glBufferData(GL_ARRAY_BUFFER, tSize * sizeof(tex[0]), &tex[0], GL_STATIC_DRAW);
-    glEnableVertexAttribArray(1);
-    glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 0, 0);
-
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_VBO[INDEX_BUFFER]);
-    glBufferData(GL_ELEMENT_ARRAY_BUFFER, indSize* sizeof(ind[0]), &ind[0], GL_STATIC_DRAW);
-
-    glBindVertexArray(0);
+    if(STGraphics::RENDERER == STGraphics::OPENGL){
+        mesh = new GLMesh(vert, vSize, tex, tSize, ind, indSize);
+    }
 }
 
 STMeshComponent::~STMeshComponent() {
-    glDeleteVertexArrays(1, &m_VAO);
+    delete mesh;
 }
 
 /*-OBJ Mesh-*/
@@ -320,7 +140,6 @@ OBJMesh::OBJMesh(const std::string &filename) {
 
     std::cout << "Found: " << counter << " lines." << std::endl;
 
-    std::cout << "Finished Extracting verticies "<< std::endl;
     int inCount = 0;
 
     for(unsigned int i = 0, S = (int)_index.size(); i < S; i+=3){

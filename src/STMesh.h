@@ -6,6 +6,35 @@
 #include "Math/Shape/Rect.h"
 #include "Math/Shape/Quad.h"
 
+class OBJMesh{
+public:
+    OBJMesh();
+    OBJMesh(const std::string& filename);
+    virtual ~OBJMesh();
+
+    int getVerticiesSize(){ return verticies.size(); }
+    int getIndiciesSize(){ return indicies.size(); }
+
+    Vertex* getVertices(){
+        return &verticies[0];
+    }
+
+    int* getIndicies(){
+        int* ret = &indicies[0];
+        return ret;
+    }
+
+    std::vector<int> indicies;
+    std::vector<Vertex> verticies;
+private:
+
+    std::vector<Vector3<stReal>> _vertex;
+    std::vector<Vector2<stReal>> _texCoord;
+    std::vector<Vector3<stReal>> _normal;
+    std::vector<int> _index;
+};
+
+
 class STMesh {
 public:
     enum Type{
@@ -23,8 +52,10 @@ public:
     STMesh(){}
     STMesh(const std::string& fileName, int type){}
     STMesh(Shape& shape){ }
-    STMesh(SWRect* rect){ }
+    STMesh(STRect* rect){ }
     STMesh(STQuad* quad){  }
+    STMesh(float vert[], int vSize, float tex[], int tSize, int ind[], int indSize){ }
+    ~STMesh(){  }
 
     virtual void draw(){}
     virtual void draw(int drawMode){  }

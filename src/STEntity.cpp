@@ -29,13 +29,7 @@ STEntity::STEntity(const std::string &fileName, const int type, const std::strin
     addComponent(typeid(STGraphicsComponent), new STGraphicsComponent(shdrPath, texPath));
 }
 
-STEntity::STEntity(SWRect *rect, const std::string &shdrPath) {
-    m_transform = new Transform();
-    addComponent(typeid(STMeshComponent), new STMeshComponent(rect));
-    addComponent(typeid(STGraphicsComponent), new STGraphicsComponent(shdrPath));
-}
-
-STEntity::STEntity(SWRect *rect, Shader *shdr) {
+STEntity::STEntity(STRect *rect,Shader *shdr) {
     m_transform = new Transform();
     addComponent(typeid(STMeshComponent), new STMeshComponent(rect));
     addComponent(typeid(STGraphicsComponent), new STGraphicsComponent(shdr));

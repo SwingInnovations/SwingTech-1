@@ -7,7 +7,7 @@ GLRenderPass::GLRenderPass() {
 GLRenderPass::GLRenderPass(unsigned int x, unsigned int y) {
     width = x;
     height = y;
-    mesh = new STMeshComponent(new SWRect(0, 0, 2, 2));
+    mesh = new STMeshComponent(new STQuad);
     postShader = new GLShader("Shader/screen", "Shader/default");
 
     glGenFramebuffers(1, &frameBuffer);

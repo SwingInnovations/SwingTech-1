@@ -73,6 +73,7 @@ void STGame::setOpenGLVersion(int MajorVersion, int MinorVersion) {
     m_Context = SDL_GL_CreateContext(m_Window);
    // g = new LGraphics(this);
     g = new GLGraphics(this);
+    STGraphics::RENDERER = STGraphics::OPENGL;
     if(m_Context == NULL){
         //TODO Error Code for if init fails
         std::cout << "Error 401: Unable to initialize GLContext" << std::endl;

@@ -31,6 +31,7 @@ public:
         resManager->addTexture("grid", new GLTexture("grid.png"));
         resManager->addShader("sample", new GLShader("sample"));
         resManager->addShader("screen", new GLShader("screen"));
+        resManager->addShader("objShdr", new GLShader("objShdr"));
 
         sceneManager = new STSceneManager();
 
@@ -48,8 +49,11 @@ public:
         _box1->get<STGraphicsComponent>()->addShdrAttrib("lightPos", _box2->transform()->getTranslate<stReal>());
         _box1->transform()->setScale(0.1f);
 
+        plane = new STEntity(new STRect(), resManager->getShader("objShdr"));
+
         sceneManager->addEntity(_box2);
         sceneManager->addEntity(_box1);
+        sceneManager->addEntity(plane);
         STGraphics::ClearColor = Vector4<stReal>(0.0, 0.0, 0.168, 1.0);
         ((GLGraphics*)window->getGraphics())->addRenderPass(sceneManager,(GLShader*)resManager->getShader("screen"));
     }

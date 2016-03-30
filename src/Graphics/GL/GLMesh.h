@@ -12,8 +12,10 @@ class GLMesh : public STMesh{
 public:
     GLMesh();
     GLMesh(const std::string& fileName, int type);
-    GLMesh(SWRect* rect);
+    GLMesh(STRect* rect);
     GLMesh(STQuad* quad);
+    GLMesh(float vert[], int vSize, float tex[], int tSize, int ind[], int indSize);
+    ~GLMesh();
 
     void draw();
     void draw(int drawMode);

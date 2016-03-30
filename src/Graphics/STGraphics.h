@@ -22,6 +22,7 @@ class STGraphics {
 public:
     enum RenderMode{ FORWARD, DEFERRED };
     enum Renderer{ OPENGL, VULKAN };
+    static int RENDERER;
     static Vector4<stReal> ClearColor;
 
     STGraphics();

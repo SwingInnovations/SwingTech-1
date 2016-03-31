@@ -49,7 +49,7 @@ public:
         _box1->get<STGraphicsComponent>()->addShdrAttrib("lightPos", _box2->transform()->getTranslate<stReal>());
         _box1->transform()->setScale(0.1f);
 
-        plane = new STEntity(new STRect(), resManager->getShader("objShdr"));
+        plane = new STEntity(new STRect(730.0f, 600.0f, 1000, 500), resManager->getShader("objShdr"));
 
         sceneManager->addEntity(_box2);
         sceneManager->addEntity(_box1);

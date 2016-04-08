@@ -115,7 +115,7 @@ void GLRenderPass::setScene(STSceneManager* sceneManager){
     entities = sceneManager->getEntities();
     lights = sceneManager->getLights();
 
-    skyboxMesh = new GLMesh(new STCube);
+    skyboxMesh = new GLMesh(new STCube(1000));
     skyBox = GLTexture::loadCubemapTexture(sceneManager->getSkyboxName().c_str());
     skyboxShdr = new GLShader(sceneManager->getSkyboxShader().c_str());
 }

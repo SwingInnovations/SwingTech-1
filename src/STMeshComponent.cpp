@@ -24,6 +24,10 @@ STMeshComponent::STMeshComponent(STRect *rect) {
     }
 }
 
+STMeshComponent::STMeshComponent(STCube* cube) {
+    if(STGraphics::RENDERER == STGraphics::OPENGL) mesh = new GLMesh(cube);
+}
+
 STMeshComponent::STMeshComponent(float *vert, int vSize, float *tex, int tSize, int *ind, int indSize) {
     if(STGraphics::RENDERER == STGraphics::OPENGL){
         mesh = new GLMesh(vert, vSize, tex, tSize, ind, indSize);

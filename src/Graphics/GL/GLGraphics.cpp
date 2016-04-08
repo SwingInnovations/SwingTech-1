@@ -111,6 +111,15 @@ void GLRenderPass::unbind() {
     mesh->draw();
 }
 
+void GLRenderPass::setScene(STSceneManager* sceneManager){
+    entities = sceneManager->getEntities();
+    lights = sceneManager->getLights();
+
+    skyboxMesh = new GLMesh(new STCube);
+    skyBox = GLTexture::loadCubemapTexture(sceneManager->getSkyboxName().c_str());
+    skyboxShdr = new GLShader(sceneManager->getSkyboxShader().c_str());
+}
+
 void GLRenderPass::setEntities(std::vector<STEntity *> _entities) {
     entities = _entities;
 }
@@ -119,8 +128,19 @@ void GLRenderPass::setLights(std::vector<STLight *> _lights) {
     lights = _lights;
 }
 
+void GLRenderPass::drawSkybox(GLGraphics *g) {
+    glDepthFunc(GL_LEQUAL);
+    skyboxShdr->bind();
+    skyboxShdr->update(*g->camera());
+    glActiveTexture(GL_TEXTURE0);
+    glBindTexture(GL_TEXTURE_CUBE_MAP, skyBox);
+    skyboxMesh->draw();
+    glDepthFunc(GL_LESS);
+}
+
 void GLRenderPass::draw(GLGraphics *g) {
     bind();
+    drawSkybox(g);
     if(entities.size() >= 1){
         for(auto ent : entities){
             ent->draw(g->camera());
@@ -147,7 +167,7 @@ void GLGraphics::setShader(int ind, Shader *shdr) {
 void GLGraphics::addRenderPass(STSceneManager *scene, GLShader *shdr) {
     renderPass.push_back(new GLRenderPass(WIDTH, HEIGHT, shdr));
     auto rend = renderPass.back();
-    rend->setEntities(scene->getEntities());
+    rend->setScene(scene);
 }
 
 void GLGraphics::drawScene(STSceneManager *scene) {

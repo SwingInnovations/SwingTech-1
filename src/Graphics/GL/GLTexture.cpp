@@ -65,6 +65,18 @@ GLuint GLTexture::genTex(const std::string& filename){
     return m_tex[m_texIndex];
 }
 
+GLenum  GLTexture::getMode(int numOfColors, int mask) {
+    if(numOfColors == 4){
+        if(mask == 0x000000ff) return GL_RGBA;
+        else return GL_BGRA;
+    }else if(numOfColors == 3){
+        if(mask == 0x000000ff) return GL_RGB;
+        else return GL_BGR;
+    }else{
+        return GL_FALSE;
+    }
+}
+
 void GLTexture::reBind() {
     glGenTextures(1, m_tex);
     for(unsigned int i = 0; i < m_fileReference.size(); i++){
@@ -112,4 +124,38 @@ void GLTexture::bind(unsigned int index){
 
     glActiveTexture(GL_TEXTURE0 + index);
     glBindTexture(GL_TEXTURE_2D, m_tex[index]);
+}
+
+GLuint GLTexture::loadCubemapTexture(const std::string &fileName) {
+    std::vector<std::string> faces;
+    faces.push_back(fileName+"/right.jpg");
+    faces.push_back(fileName+"/left.jpg");
+    faces.push_back(fileName+"/top.jpg");
+    faces.push_back(fileName+"/bottom.jpg");
+    faces.push_back(fileName+"/back.jpg");
+    faces.push_back(fileName+"/front.jpg");
+    GLuint texID;
+    glGenTextures(1, &texID);
+    glActiveTexture(GL_TEXTURE0);
+    glBindTexture(GL_TEXTURE_CUBE_MAP, texID);
+
+    SDL_Surface* img = NULL;
+    for(uint32_t i = 0, S = faces.size(); i < S; i++){
+        img = IMG_Load(faces[i].c_str());
+        if(img == NULL){
+            std::cout << "Could not find file!" << std::endl;
+            break;
+        }
+        GLenum  mode = getMode(img->format->BytesPerPixel, img->format->Rmask);
+        glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X + i, 0, mode, img->w, img->h, 0, mode, GL_UNSIGNED_BYTE, img->pixels);
+    }
+
+    glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+    glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+    glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_R, GL_CLAMP_TO_EDGE);
+    glBindTexture(GL_TEXTURE_CUBE_MAP, 0);
+
+    return texID;
 }

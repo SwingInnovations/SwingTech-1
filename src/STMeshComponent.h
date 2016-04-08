@@ -29,6 +29,7 @@ public:
     STMeshComponent(Shape& shape);
     STMeshComponent(STQuad*);
     STMeshComponent(STRect*);
+    STMeshComponent(STCube*);
     STMeshComponent(float *vert, int vSize, float *tex, int tSize, int *ind, int indSize);
     ~STMeshComponent();
 

@@ -107,9 +107,13 @@ void GLShader::update(Transform& trans){
 }
 
 void GLShader::update(Camera& cam){
-    Matrix4f camera;
+    Matrix4f camera, view, projection;
     camera = cam.getViewProjection();
+    view = cam.getView();
+    projection = cam.getProjection();
     glUniformMatrix4fv(m_uniforms[1], 1, GL_TRUE, &camera.m[0][0]);
+    glUniformMatrix4fv(m_uniforms[3], 1, GL_TRUE, &view.m[0][0]);
+    glUniformMatrix4fv(m_uniforms[4], 1, GL_TRUE, &projection.m[0][0]);
 }
 
 void GLShader::update(Transform& trans, Camera& cam){

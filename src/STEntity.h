@@ -24,11 +24,16 @@ public:
     STEntity(const std::string& fileName, const int type, const std::string& shdrPath, const std::string texPath);
     STEntity(const std::string& fileName, const int type, Shader* shdr, Texture* tex);
     STEntity(STRect*,Shader*);
+    STEntity(STQuad*,Shader*);
+    STEntity(STCube*,Shader*);
+    STEntity(STCube*,Shader*, Texture*);
     ~STEntity();
 
     void addComponent(std::type_index, STComponent*);
     void addChild(STEntity* entity);
     STEntity* getChild(int ind);
+
+    bool hasChildren(){ return m_children.size() > 0; }
 
     //Overload Transforms
     void setTranslate(Vector3<stReal>& vec);
@@ -47,6 +52,16 @@ public:
     void setScaleX(stReal _x);
     void setScaleY(stReal _y);
     void setScaleZ(stReal _z);
+
+    void addShdrAttrib(const std::string& name, int value);
+    void addShdrAttrib(const std::string& name, float value);
+    void addShdrAttrib(const std::string& name, Vector3<stReal> value);
+    void addShdrAttrib(const std::string& name, Vector4<stReal> value);
+
+    void setShdrAttrib(const std::string& name, int value);
+    void setShdrAttrib(const std::string& name, float value);
+    void setShdrAttrib(const std::string& name, Vector3<stReal> value);
+    void setShdrAttrib(const std::string& name, Vector4<stReal> value);
 
 
     template<typename T> T* get(){
@@ -70,7 +85,7 @@ public:
         auto mesh = get<STMeshComponent>();
         grphx->draw();
         mesh->draw();
-        if(m_hasChildren){
+        if(hasChildren()){
             for(unsigned int i = 0, lim = m_children.size(); i < lim; i++){
                 m_children.at(i)->draw();
             }
@@ -83,7 +98,7 @@ public:
         grphx->draw();
         grphx->shdr()->update(*m_transform, *cam);
         mesh->draw();
-        if(m_hasChildren){
+        if(hasChildren()){
             for(unsigned int i = 0, lim = m_children.size(); i < lim; i++){
                 m_children.at(i)->draw(cam);
             }
@@ -97,14 +112,13 @@ public:
         grphx->shdr()->update(*m_transform, *cam);
         mesh->draw(drawMode);
 
-        if(m_hasChildren){
+        if(hasChildren()){
             for(unsigned int i = 0, lim = m_children.size(); i < lim; i++){
                 m_children.at(i)->draw(cam, drawMode);
             }
         }
     }
 private:
-    bool m_hasChildren;
     Transform* m_transform;
     std::map<std::type_index, STComponent*> m_components;
     std::vector<STEntity*> m_children;

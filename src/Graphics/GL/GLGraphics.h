@@ -8,6 +8,7 @@
 #include "../STGraphics.h"
 #include "GLShader.h"
 #include "GLTexture.h"
+#include "GLMesh.h"
 
 
 class GLGraphics;
@@ -19,9 +20,12 @@ struct GLRenderPass : public STRenderPass{
     GLShader* postShader;
     GLTexture* tex;
     STMeshComponent* mesh;
+    GLMesh* skyboxMesh;
     GLuint frameBuffer;
     GLuint texBuffer;
     GLuint renderBuffer;
+    GLuint skyBox;
+    GLShader* skyboxShdr;
     std::vector<STEntity*> entities;
     std::vector<STLight*> lights;
 
@@ -33,6 +37,10 @@ struct GLRenderPass : public STRenderPass{
 
     void bind();
     void unbind();
+
+    void drawSkybox(GLGraphics* g);
+
+    void setScene(STSceneManager*);
 
     void setEntities(std::vector<STEntity*> _entities);
     void setLights(std::vector<STLight*> _lights);

@@ -20,6 +20,9 @@ public:
     void addTexture(const std::string& fileName);
     void bind(unsigned int index);
     unsigned int getTextureCount(){ return m_fileReference.size();}
+    static GLenum getMode(int, int);
+
+    static GLuint loadCubemapTexture(const std::string& fileName);
 
 protected:
     void reBind();

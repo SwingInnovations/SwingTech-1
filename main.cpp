@@ -29,31 +29,32 @@ public:
         auto resManager = window->getResourceManager();
         resManager->addShader("basic", new GLShader("basic"));
         resManager->addTexture("grid", new GLTexture("grid.png"));
+        resManager->addShader("lightSource", new GLShader("lightSource"));
         resManager->addShader("sample", new GLShader("sample"));
         resManager->addShader("screen", new GLShader("screen"));
         resManager->addShader("objShdr", new GLShader("objShdr"));
+        resManager->addShader("rectShdr", new GLShader("rectShdr"));
 
         sceneManager = new STSceneManager();
 
         //light Color
-        _box2 = new STEntity("box.obj", STMesh::OBJ, "lightSource");
-        _box2->get<STGraphicsComponent>()->addShdrAttrib("objColor", Vector3<stReal>(1.0f, 1.0f, 1.0f));
-        _box2->transform()->setTranslateY(7.0f);
+        //_box2 = new STEntity("sphere.obj", STMesh::OBJ, "lightSource");
+        _box2 = new STEntity(new STCube, resManager->getShader("lightSource"));
+        _box2->get<STGraphicsComponent>()->addShdrAttrib("objColor", Vector3<stReal>(1.0f, 0.0f, 1.0f));
+        _box2->transform()->setTranslateY(2.0f);
         _box2->transform()->setTranslateX(6.0f);
-        _box2->transform()->setScaleX(0.5f);
-        _box2->transform()->setScaleY(0.5f);
-        _box2->transform()->setScaleZ(0.5f);
+        _box2->setScale(0.5f);
 
-        _box1 = new STEntity("lowPolyBody.obj", STMesh::OBJ, resManager->getShader("basic"), resManager->getTexture("grid"));
+        _box1 = new STEntity("sphere.obj", STMesh::OBJ, resManager->getShader("basic"), resManager->getTexture("grid"));
+//        _box1 = new STEntity(new STCube, resManager->getShader("basic"), resManager->getTexture("grid"));
         _box1->get<STGraphicsComponent>()->addShdrAttrib("objColor", Vector3<stReal>(1.0f, 0.5f, 0.31f));
         _box1->get<STGraphicsComponent>()->addShdrAttrib("lightPos", _box2->transform()->getTranslate<stReal>());
-        _box1->transform()->setScale(0.1f);
+        _box1->setScale(0.8f);
+        _box1->setRotateY(180.0f);
 
-        plane = new STEntity(new STRect(730.0f, 600.0f, 1000, 500), resManager->getShader("objShdr"));
-
+        sceneManager->addSkyBox("mystic", "skybox");
         sceneManager->addEntity(_box2);
         sceneManager->addEntity(_box1);
-        sceneManager->addEntity(plane);
         STGraphics::ClearColor = Vector4<stReal>(0.0, 0.0, 0.168, 1.0);
         ((GLGraphics*)window->getGraphics())->addRenderPass(sceneManager,(GLShader*)resManager->getShader("screen"));
     }
@@ -82,9 +83,8 @@ public:
 
     void handleLogic(STGame * win, Uint32 delta){
         counter += 0.025f * delta;
-        _box1->transform()->setRotateY(counter);
         _box2->transform()->setRotateY(-counter);
-        _box1->get<STGraphicsComponent>()->setShdrAttrib("lightPos", _box2->transform()->getTranslate<stReal>());
+        _box1->get<STGraphicsComponent>()->setShdrAttrib("lightPos", _box2->transform()->getModel().toVector4());
     }
 
     void render(STGame * win){
@@ -101,6 +101,7 @@ private:
     int currObject;
     float counter = 0;
     STEntity* plane;
+    STEntity* rect2;
     STEntity* _box1;
     STEntity* _box2;
     Vector3<stReal> lightPos;
@@ -110,7 +111,7 @@ int main(int argc, char** argv) {
     STGame window("WAHOO Demo", 1440, 720);
     window.setOpenGLVersion(3, 3);
     window.setTargetFPS(60);
-    Vector3<stReal> camPos(-0.0f, -0.5f, 2.0f);
+    Vector3<stReal> camPos(-0.0f, -0.5f, 0.8f);
     window.addCamera(new Camera(window, camPos, 0));
     window.addState(new TestState(0));
     window.enterState(0);

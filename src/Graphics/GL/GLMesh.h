@@ -14,6 +14,7 @@ public:
     GLMesh(const std::string& fileName, int type);
     GLMesh(STRect* rect);
     GLMesh(STQuad* quad);
+    GLMesh(STCube* cube);
     GLMesh(float vert[], int vSize, float tex[], int tSize, int ind[], int indSize);
     ~GLMesh();
 

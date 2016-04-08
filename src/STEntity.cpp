@@ -35,6 +35,24 @@ STEntity::STEntity(STRect *rect,Shader *shdr) {
     addComponent(typeid(STGraphicsComponent), new STGraphicsComponent(shdr));
 }
 
+STEntity::STEntity(STCube* cube, Shader* shdr){
+    m_transform = new Transform();
+    addComponent(typeid(STMeshComponent), new STMeshComponent(cube));
+    addComponent(typeid(STGraphicsComponent), new STGraphicsComponent(shdr));
+}
+
+STEntity::STEntity(STCube* cube, Shader* shdr, Texture* tex){
+    m_transform = new Transform();
+    addComponent(typeid(STMeshComponent), new STMeshComponent(cube));
+    addComponent(typeid(STGraphicsComponent), new STGraphicsComponent(shdr, tex));
+}
+
+STEntity::STEntity(STQuad *quad, Shader *shdr) {
+    m_transform = new Transform();
+    addComponent(typeid(STMeshComponent), new STMeshComponent(quad));
+    addComponent(typeid(STGraphicsComponent), new STGraphicsComponent(shdr));
+}
+
 STEntity::~STEntity() {
     delete m_transform;
     m_transform = 0;
@@ -154,3 +172,76 @@ void STEntity::setScaleY(stReal _y) {
 void STEntity::setScaleZ(stReal _z) {
     m_transform->setScaleZ(_z);
 }
+
+void STEntity::addShdrAttrib(const std::string &name, int value) {
+    get<STGraphicsComponent>()->addShdrAttrib(name, value);
+    if(hasChildren()){
+        for(auto child : m_children){
+            child->addShdrAttrib(name, value);
+        }
+    }
+}
+
+void STEntity::addShdrAttrib(const std::string &name, float value) {
+    get<STGraphicsComponent>()->addShdrAttrib(name, value);
+    if(hasChildren()){
+        for(auto child : m_children){
+            child->addShdrAttrib(name, value);
+        }
+    }
+}
+
+void STEntity::addShdrAttrib(const std::string& name, Vector3<stReal> value){
+    get<STGraphicsComponent>()->addShdrAttrib(name, value);
+    if(hasChildren()){
+        for(auto child : m_children){
+            child->addShdrAttrib(name, value);
+        }
+    }
+}
+
+void STEntity::addShdrAttrib(const std::string &name, Vector4<stReal> value) {
+    get<STGraphicsComponent>()->addShdrAttrib(name, value);
+    if(hasChildren()){
+        for(auto child : m_children){
+            child->addShdrAttrib(name, value);
+        }
+    }
+}
+
+void STEntity::setShdrAttrib(const std::string &name,int value) {
+    get<STGraphicsComponent>()->setShdrAttrib(name, value);
+    if(hasChildren()){
+        for(auto child : m_children){
+            child->setShdrAttrib(name, value);
+        }
+    }
+}
+
+void STEntity::setShdrAttrib(const std::string &name, float value) {
+    get<STGraphicsComponent>()->setShdrAttrib(name, value);
+    if(hasChildren()){
+        for(auto child : m_children){
+            child->setShdrAttrib(name, value);
+        }
+    }
+}
+
+void STEntity::setShdrAttrib(const std::string &name, Vector3<stReal> value) {
+    get<STGraphicsComponent>()->setShdrAttrib(name, value);
+    if(hasChildren()){
+        for(auto child : m_children){
+            child->setShdrAttrib(name, value);
+        }
+    }
+}
+
+void STEntity::setShdrAttrib(const std::string &name, Vector4<stReal> value) {
+    get<STGraphicsComponent>()->setShdrAttrib(name, value);
+    if(hasChildren()){
+        for(auto child : m_children){
+            child->setShdrAttrib(name, value);
+        }
+    }
+}
+

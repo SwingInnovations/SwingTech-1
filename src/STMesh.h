@@ -5,6 +5,7 @@
 #include "Math/Shape/Shape.h"
 #include "Math/Shape/Rect.h"
 #include "Math/Shape/Quad.h"
+#include "Math/Shape/Cube.h"
 
 class OBJMesh{
 public:
@@ -54,6 +55,7 @@ public:
     STMesh(Shape& shape){ }
     STMesh(STRect* rect){ }
     STMesh(STQuad* quad){  }
+    STMesh(STCube* cube){  }
     STMesh(float vert[], int vSize, float tex[], int tSize, int ind[], int indSize){ }
     ~STMesh(){  }
 

@@ -158,3 +158,21 @@ OBJMesh::OBJMesh(const std::string &filename) {
 OBJMesh::~OBJMesh() {
 
 }
+
+//void OBJMesh::SplitUp(const std::string &filename, std::vector<Vector2> bounds, std::vector<std::string> tags) {
+//    int counter = 0;
+//    std::ifstream in(filename.c_str(), std::ios_base::in);
+//    std::vector<int> ind;
+//    if(in.good()){
+//        std::string line;
+//        while(std::getline(in, line)) {
+//            if (line[0] == 'g') {
+//                ind.push_back(counter);
+//                tags.push_back(line.substr(1));
+//                if (counter != 0) ind.push_back(counter - 1);
+//            }
+//            if(ind.size() >= 2){ bounds.push_back(Vector2(ind[0], ind[1])); }
+//            counter++;
+//        }
+//    }
+//}

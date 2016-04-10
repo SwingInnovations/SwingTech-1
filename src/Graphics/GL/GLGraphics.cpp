@@ -1,3 +1,6 @@
+#include "../../../ext/ft2build.h"
+#include FT_FREETYPE_H
+
 #include "GLGraphics.h"
 
 GLRenderPass::GLRenderPass() {
@@ -95,8 +98,10 @@ void GLRenderPass::bind() {
     glBindFramebuffer(GL_FRAMEBUFFER, frameBuffer);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     glEnable(GL_DEPTH_TEST);
+
     Vector4<stReal> clearColor = STGraphics::ClearColor;
     glClearColor(clearColor.getX(), clearColor.getY(), clearColor.getZ(), clearColor.getW());
+
 }
 
 void GLRenderPass::unbind() {
@@ -104,6 +109,7 @@ void GLRenderPass::unbind() {
 
     glClear(GL_COLOR_BUFFER_BIT);
     glDisable(GL_DEPTH_TEST);
+    glDisable(GL_CULL_FACE);
     glClearColor(1.0, 1.0, 1.0, 1.0);
 
     postShader->bind();
@@ -129,6 +135,7 @@ void GLRenderPass::setLights(std::vector<STLight *> _lights) {
 }
 
 void GLRenderPass::drawSkybox(GLGraphics *g) {
+    glDisable(GL_CULL_FACE);
     glDepthFunc(GL_LEQUAL);
     skyboxShdr->bind();
     skyboxShdr->update(*g->camera());
@@ -136,6 +143,8 @@ void GLRenderPass::drawSkybox(GLGraphics *g) {
     glBindTexture(GL_TEXTURE_CUBE_MAP, skyBox);
     skyboxMesh->draw();
     glDepthFunc(GL_LESS);
+    glEnable(GL_CULL_FACE);
+    glCullFace(GL_FRONT);
 }
 
 void GLRenderPass::draw(GLGraphics *g) {
@@ -156,6 +165,32 @@ GLGraphics::GLGraphics() {
 GLGraphics::GLGraphics(STGame *game) {
     WIDTH = (unsigned int)game->getWidth();
     HEIGHT = (unsigned int)game->getHeight();
+
+    FT_Library ft;
+    if(FT_Init_FreeType(&ft)){ std::cout << "foo" << std::endl; }else{ std::cout << "Successfully loaded FreeType!" << std::endl; }
+
+    FT_Face face;
+    if(FT_New_Face(ft, "fonts/arial.ttf", 0, &face)){ std::cout << "Something went wrong" << std::endl; }
+    FT_Set_Pixel_Sizes(face, 0, 48);
+
+    glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
+
+    for(GLubyte c = 0; c < 128; c++){
+        if(FT_Load_Char(face, c, FT_LOAD_RENDER)){
+            std::cout << "Failed to load Character" << std::endl;
+            continue;
+        }
+        GLuint texture;
+        glGenTextures(1, &texture);
+        glBindTexture(GL_TEXTURE_2D, texture);
+        glTexImage2D(GL_TEXTURE_2D, 0, GL_RED, face->glyph->bitmap.width, face->glyph->bitmap.rows, 0, GL_RED, GL_UNSIGNED_BYTE, face->glyph->bitmap.buffer);
+
+        Character character = { texture, Vector2<int>(face->glyph->bitmap.width, face->glyph->bitmap.rows), Vector2<int>(face->glyph->bitmap_left, face->glyph->bitmap_top), (GLuint)face->glyph->advance.x };
+        characters.insert(std::pair<GLchar, Character>(c, character));
+    }
+    glBindTexture(GL_TEXTURE_2D, 0);
+    FT_Done_Face(face);
+    FT_Done_FreeType(ft);
 }
 
 void GLGraphics::setShader(int ind, Shader *shdr) {
@@ -173,5 +208,21 @@ void GLGraphics::addRenderPass(STSceneManager *scene, GLShader *shdr) {
 void GLGraphics::drawScene(STSceneManager *scene) {
     for(auto rendPass : renderPass){
         rendPass->draw(this);
+    }
+}
+
+void GLGraphics::drawText(Vector2<stReal> &pos, const std::string &text, stReal fontSize, Vector3<stReal> &color) {
+    textShader->bind();
+    glActiveTexture(GL_TEXTURE0);
+    glBindVertexArray(textVAO);
+
+    std::string::const_iterator c;
+    for(c = text.begin(); c != text.end(); c++){
+        Character ch = characters[*c];
+
+        GLfloat xPos = pos.getX() + ch.bearing.getX() * fontSize;
+        GLfloat yPos = pos.getY() - (ch.size.getY() - ch.bearing.getY()) * fontSize;
+
+
     }
 }

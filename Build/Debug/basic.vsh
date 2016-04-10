@@ -18,7 +18,7 @@ out vec2 texCoord0;
 out vec3 lightDir0;
 
 void main(void){
-    gl_Position = projection * view * model * vec4(position, 1.0);
+    gl_Position = camera * model * vec4(position, 1.0);
 
     position0 = (model * vec4(position, 1.0)).xyz;
     Normal = (model * vec4(normal, 1.0)).xyz;

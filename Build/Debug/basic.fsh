@@ -13,6 +13,7 @@ uniform vec3 lightPos;
 uniform vec3 cameraPosition;
 uniform sampler2D diffuse;
 uniform vec3 objColor;
+uniform samplerCube skyBox;
 
 out vec4 color;
 
@@ -24,13 +25,17 @@ void main(void){
     float specStrength = 0.5;
     vec3 viewDir = normalize(cameraPosition - position0);
     vec3 reflectDir = reflect(lightDir, norm);
+    vec3 reflectCol = reflect(viewDir, norm);
+
+    vec4 reflectionTex = vec4(texture(skyBox, reflectCol) * 0.2);
 
     float spec = pow(max(dot(viewDir, reflectDir), 0.0), 32);
     vec3 specular = specStrength * spec * vec3(1.0);
 
     float diff = max(dot(norm, lightDir), 0.0);
-    //vec3 objColor = vec3(1.0, 0.5, 0.31) * diff;
-    vec3 diffColor = texture2D(diffuse, texCoord0).xyz * diff;
+    vec3 objColor = vec3(1.0, 0.5, 0.31);
+    vec3 diffColor = ((texture2D(diffuse, texCoord0).xyz * diff) * 0.5) + (reflectionTex.xyz);
+    //vec3 diffColor = ((objColor * diff) * 0.5) + (reflectionTex.xyz * diff);
     vec3 result = (diffColor + specular);
     color = vec4(result, 1.0);
 }

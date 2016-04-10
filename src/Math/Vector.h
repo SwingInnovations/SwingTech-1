@@ -332,6 +332,12 @@ public:
         return Vector3<T>(x, y, z);
     }
 
+    Vector3<T> toVector3Norm()const{
+        T x = this->getX() / this->getW();
+        T y = this->getY() / this->getW();
+        T z = this->getZ() / this->getW();
+        return Vector3<T>(x, y, z);
+    }
 
 private:
     T m_Val[4];

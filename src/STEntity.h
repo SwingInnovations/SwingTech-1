@@ -63,6 +63,7 @@ public:
     void setShdrAttrib(const std::string& name, Vector3<stReal> value);
     void setShdrAttrib(const std::string& name, Vector4<stReal> value);
 
+    STEntity* childAtTag(const std::string& tag);
 
     template<typename T> T* get(){
         auto it = m_components.find(std::type_index(typeid(T)));
@@ -119,6 +120,7 @@ public:
         }
     }
 private:
+    std::string tag;
     Transform* m_transform;
     std::map<std::type_index, STComponent*> m_components;
     std::vector<STEntity*> m_children;

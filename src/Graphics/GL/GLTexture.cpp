@@ -50,6 +50,9 @@ GLuint GLTexture::genTex(const std::string& filename){
         std::cout << "Invalid Texture!" << std::endl;
     }
 
+    texWidth = (uint32_t)img->w;
+    texHeight = (uint32_t)img->h;
+
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
 
@@ -143,7 +146,7 @@ GLuint GLTexture::loadCubemapTexture(const std::string &fileName) {
     for(uint32_t i = 0, S = faces.size(); i < S; i++){
         img = IMG_Load(faces[i].c_str());
         if(img == NULL){
-            std::cout << "Could not find file!" << std::endl;
+            std::cout << "Could not find " << faces[i].c_str() << std::endl;
             break;
         }
         GLenum  mode = getMode(img->format->BytesPerPixel, img->format->Rmask);

@@ -19,6 +19,7 @@ extern "C"{
 #include "STResourceManager.h"
 
 class Input;
+
 class SGameState;
 class STGraphics;
 class GLGraphics;

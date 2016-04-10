@@ -196,6 +196,7 @@ public:
 
     void addJoystick(int id);
     void addJoystick();
+    void setDelta(Uint32 d){ delta = d; }
 
     bool isKeyDown(int);
     bool isKeyPressed(int);

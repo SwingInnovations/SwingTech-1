@@ -15,6 +15,13 @@ class GLGraphics;
 
 struct STRenderPass;
 
+struct Character{
+    GLuint texID;
+    Vector2<int> size;
+    Vector2<int> bearing;
+    GLuint Advance;
+};
+
 struct GLRenderPass : public STRenderPass{
     unsigned int width, height;
     GLShader* postShader;
@@ -58,6 +65,8 @@ public:
         renderPass.back()->setEntities(scene->getEntities());
     }
 
+    void drawText(Vector2<stReal>& pos, const std::string& text, stReal fontSize, Vector3<stReal>& color);
+
     void addRenderPass(STSceneManager* scene, GLShader* shdr);
 
     virtual void setShader(int,Shader*);
@@ -67,6 +76,9 @@ protected:
 
 private:
     std::vector<GLRenderPass*> renderPass;
+    std::map<GLchar, Character> characters;
+    GLuint textVAO;
+    GLShader* textShader;
 };
 
 

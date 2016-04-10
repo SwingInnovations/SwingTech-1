@@ -199,6 +199,16 @@ public:
         return Vector4<stReal>(_x, _y, _z, _w);
     }
 
+    const Matrix4f transpose()const {
+        Matrix4f ret;
+        for(int i = 0; i < 4; i++){
+            for(int j = 0; j < 4; j++){
+                ret.m[i][j] = m[j][i];
+            }
+        }
+        return ret;
+    }
+
     std::string getInfo(){
         std::ostringstream buff;
         for(int i = 0; i < 4; i++){

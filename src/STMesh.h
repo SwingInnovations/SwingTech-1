@@ -25,6 +25,8 @@ public:
         return ret;
     }
 
+//    static void SplitUp(const std::string& filename, std::vector<Vector2> bounds, std::vector<std::string> tags);
+
     std::vector<int> indicies;
     std::vector<Vertex> verticies;
 private:

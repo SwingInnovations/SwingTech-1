@@ -9,6 +9,11 @@
 
 #include "Math/Vector.h"
 
+struct SpriteSheet{
+    int width, height;
+    uint32_t rowCount, colCount, rowIndex, colIndex;
+};
+
 class STGraphicsComponent : public STComponent{
 public:
     STGraphicsComponent(Shader* shdr);
@@ -30,6 +35,10 @@ public:
     void setShdrAttrib(const std::string& name, Vector3<stReal> value);
     void setShdrAttrib(const std::string& name, Vector4<stReal> value);
 
+    void addSpriteSheet(Texture* tex, uint32_t rowCount, uint32_t colCount);
+    void setSpriteSheetIndex(int, int);
+    void nextFrame();
+
     void setShader(Shader* shdr){
         m_shdr = shdr;
     }
@@ -44,7 +53,7 @@ public:
     void draw(){
         //TODO Include shader handling and other stuff.
         m_shdr->bind();
-        for(unsigned int i = 0, S = m_uniforms.size(); i < S; i++) {
+        for(unsigned int i = 0, S = (unsigned int)m_uniforms.size(); i < S; i++) {
             if (m_uniforms[i].type == STShader::INT) {
                 m_shdr->update(m_uniforms[i].name, STShader::toInt(m_uniforms[i].value));
             } else if (m_uniforms[i].type == STShader::FLOAT) {
@@ -58,6 +67,7 @@ public:
         if(useTexture) m_tex->bind(0);
     }
 private:
+    SpriteSheet spriteSheet;
     Shader* m_shdr;
     Texture* m_tex;
     bool useTexture;

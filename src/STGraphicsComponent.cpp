@@ -70,3 +70,19 @@ void STGraphicsComponent::setShdrAttrib(const std::string &name, Vector4<stReal>
         }
     }
 }
+
+void STGraphicsComponent::addSpriteSheet(Texture *tex, uint32_t rowCount, uint32_t colCount) {
+    if(!useTexture) useTexture = true;
+    m_tex = tex;
+    spriteSheet.width = tex->getTextureWidth();
+    spriteSheet.height = tex->getTextureHeight();
+}
+
+void STGraphicsComponent::setSpriteSheetIndex(int row, int col) {
+    spriteSheet.rowIndex = (uint32_t)row;
+    spriteSheet.colIndex = (uint32_t)col;
+}
+
+void STGraphicsComponent::nextFrame() {
+
+}

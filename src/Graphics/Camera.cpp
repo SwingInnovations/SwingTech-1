@@ -64,8 +64,50 @@ void Camera::update(Input* input) {
     if(m_viewProf.moveMode == CAMERA_MOVEMENT::FIRST_PERSON){
         processFPS(input);
 
-        int delta = (int)input->getDelta();
-        //process FPS movement here
+        auto delta = input->getDelta();
+        if(input->isKeyDown(input->inputMapping()->get(MOVEMENT::FORWARD))){
+            stReal x = transform()->getTranslate<stReal>().getX();
+            stReal y = transform()->getTranslate<stReal>().getY();
+            stReal z = transform()->getTranslate<stReal>().getZ();
+            x -= m_Forward.getX() * 0.0005f * delta;
+            y -= m_Forward.getY() * 0.0005f * delta;
+            z -= m_Forward.getZ() * 0.0005f * delta;
+            transform()->setTranslateX(x);
+            transform()->setTranslateY(y);
+            transform()->setTranslateZ(z);
+        }
+        if(input->isKeyDown(input->inputMapping()->get(MOVEMENT::BACKWARD))){
+            stReal x = transform()->getTranslate<stReal>().getX();
+            stReal y = transform()->getTranslate<stReal>().getY();
+            stReal z = transform()->getTranslate<stReal>().getZ();
+            x += m_Forward.getX() * 0.0005f * delta;
+            y += m_Forward.getY() * 0.0005f * delta;
+            z += m_Forward.getZ() * 0.0005f * delta;
+            transform()->setTranslateX(x);
+            transform()->setTranslateY(y);
+            transform()->setTranslateZ(z);
+        }
+        Vector3<stReal> right = m_Forward.cross(m_Up);
+        right.normalize();
+        if(input->isKeyDown(input->inputMapping()->get(MOVEMENT::STRAFE_LEFT))){
+            stReal x = transform()->getTranslate<stReal>().getX();
+            stReal z = transform()->getTranslate<stReal>().getZ();
+
+            x -= right.getX() * 0.0005f * delta;
+            z -= right.getZ() * 0.0005f * delta;
+            transform()->setTranslateX(x);
+            transform()->setTranslateZ(z);
+        }
+
+        if(input->isKeyDown(input->inputMapping()->get(MOVEMENT::STRAFE_RIGHT))){
+            stReal x = transform()->getTranslate<stReal>().getX();
+            stReal z = transform()->getTranslate<stReal>().getZ();
+
+            x += right.getX() * 0.0005f * delta;
+            z += right.getZ() * 0.0005f * delta;
+            transform()->setTranslateX(x);
+            transform()->setTranslateZ(z);
+        }
     }
 
 }
@@ -104,8 +146,8 @@ void Camera::processFPS(Input *input) {
         start = true;
     }else{
         if(input->isCursorBound()){
-            hAngle += input->getMouseSensitivity() * ((m_Width/2) - input->getMouseCoords<int>().getX());
-            vAngle += input->getMouseSensitivity() * ((m_Height/2) - input->getMouseCoords<int>().getY());
+            hAngle -= input->getMouseSensitivity() * ((m_Width/2) - input->getMouseCoords<int>().getX());
+            vAngle -= input->getMouseSensitivity() * ((m_Height/2) - input->getMouseCoords<int>().getY());
         }
 
         Vector3<stReal> vAxis(0.0f, 1.0f, 0.0f);

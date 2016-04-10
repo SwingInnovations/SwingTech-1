@@ -22,6 +22,9 @@ public:
     unsigned int getTextureCount(){ return m_fileReference.size();}
     static GLenum getMode(int, int);
 
+    unsigned int getTextureWidth(){ return texWidth; }
+    unsigned int getTextureHeight(){ return texHeight; }
+
     static GLuint loadCubemapTexture(const std::string& fileName);
 
 protected:

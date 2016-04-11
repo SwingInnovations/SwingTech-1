@@ -40,7 +40,7 @@ public:
     virtual void drawScene(STSceneManager* sceneManager){;}
     virtual void setShader(int,Shader*){;}
 
-    virtual void drawText(Vector2<stReal>& pos, const std::string& text, stReal fontSize, Vector3<stReal>& color){ ; }
+    virtual void drawText(Vector2<stReal> pos, const std::string& text, stReal fontSize, Vector3<stReal> color){ ; }
 
     Camera* camera(){
         return m_Cam;

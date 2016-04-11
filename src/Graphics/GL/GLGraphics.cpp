@@ -166,6 +166,8 @@ GLGraphics::GLGraphics(STGame *game) {
     WIDTH = (unsigned int)game->getWidth();
     HEIGHT = (unsigned int)game->getHeight();
 
+
+
     FT_Library ft;
     if(FT_Init_FreeType(&ft)){ std::cout << "foo" << std::endl; }else{ std::cout << "Successfully loaded FreeType!" << std::endl; }
 
@@ -188,9 +190,27 @@ GLGraphics::GLGraphics(STGame *game) {
         Character character = { texture, Vector2<int>(face->glyph->bitmap.width, face->glyph->bitmap.rows), Vector2<int>(face->glyph->bitmap_left, face->glyph->bitmap_top), (GLuint)face->glyph->advance.x };
         characters.insert(std::pair<GLchar, Character>(c, character));
     }
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+
     glBindTexture(GL_TEXTURE_2D, 0);
     FT_Done_Face(face);
     FT_Done_FreeType(ft);
+
+    textShader = new GLShader("text");
+    orthoProjection.initOrthographicProjection(WIDTH, HEIGHT, 1.0f, 1000.0f);
+
+    glGenVertexArrays(1, &textVAO);
+    glGenBuffers(1, &textVBO);
+    glBindVertexArray(textVAO);
+    glBindBuffer(GL_ARRAY_BUFFER, textVBO);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(GL_FLOAT) * 6 * 4, NULL, GL_DYNAMIC_DRAW);
+    glEnableVertexAttribArray(0);
+    glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, 4* sizeof(GL_FLOAT), 0);
+    glBindBuffer(GL_ARRAY_BUFFER, 0);
+    glBindVertexArray(0);
 }
 
 void GLGraphics::setShader(int ind, Shader *shdr) {
@@ -211,18 +231,46 @@ void GLGraphics::drawScene(STSceneManager *scene) {
     }
 }
 
-void GLGraphics::drawText(Vector2<stReal> &pos, const std::string &text, stReal fontSize, Vector3<stReal> &color) {
+void GLGraphics::drawText(Vector2<stReal> pos, const std::string &text, stReal fontSize, Vector3<stReal> color) {
+    glEnable(GL_BLEND);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     textShader->bind();
+    textShader->update("projection", orthoProjection);
+    textShader->update("textColor", color);
     glActiveTexture(GL_TEXTURE0);
     glBindVertexArray(textVAO);
+
+    GLfloat x = pos.getX();
+    GLfloat y = pos.getY();
 
     std::string::const_iterator c;
     for(c = text.begin(); c != text.end(); c++){
         Character ch = characters[*c];
 
-        GLfloat xPos = pos.getX() + ch.bearing.getX() * fontSize;
-        GLfloat yPos = pos.getY() - (ch.size.getY() - ch.bearing.getY()) * fontSize;
+        GLfloat xPos = x + ch.bearing.getX() * fontSize;
+        GLfloat yPos = y - (ch.size.getY() - ch.bearing.getY()) * fontSize;
 
+        GLfloat w = ch.size.getX() * fontSize;
+        GLfloat h = ch.size.getY() * fontSize;
 
+        GLfloat verts[6][4] = {
+                {xPos, yPos+h, 0.0, 0.0},
+                {xPos, yPos,   0.0, 1.0},
+                {xPos + w, yPos, 1.0, 1.0},
+
+                {xPos, yPos+h, 0.0, 0.0},
+                {xPos + w, yPos, 1.0, 1.0},
+                {xPos + w, yPos + h, 1.0, 0.0}
+        };
+        glBindBuffer(GL_TEXTURE_2D, ch.texID);
+        glBindBuffer(GL_ARRAY_BUFFER, textVBO);
+        glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(verts), verts);
+        glBindBuffer(GL_ARRAY_BUFFER, 0);
+        glDrawArrays(GL_TRIANGLES, 0, 6);
+
+        x+=( ch.Advance >> 6 ) * fontSize;
     }
+    glBindVertexArray(0);
+    glBindTexture(GL_TEXTURE_2D, 0);
+    glDisable(GL_BLEND);
 }

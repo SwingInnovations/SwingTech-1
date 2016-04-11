@@ -37,7 +37,6 @@ public:
         resManager->addShader("rectShdr", new GLShader("rectShdr"));
 
         //light Color
-        //_box2 = new STEntity("sphere.obj", STMesh::OBJ, "lightSource");
         _box2 = new STEntity("sphere.obj", STMesh::OBJ, resManager->getShader("lightSource"));
         _box2->get<STGraphicsComponent>()->addShdrAttrib("objColor", Vector3<stReal>(1.0f, 0.0f, 1.0f));
         _box2->setTranslateY(5.0f);
@@ -90,6 +89,7 @@ public:
 
     void render(STGame * win){
         win->getGraphics()->drawScene(sceneManager);
+        win->getGraphics()->drawText(Vector2<stReal>(10, 50), "Hello Text", 1.0f, Vector3<stReal>(1.0f, 1.0f, 1.0f));
     }
 
     ~TestState(){

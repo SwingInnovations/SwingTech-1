@@ -147,6 +147,10 @@ void GLShader::update(const std::string &name, Vector4<stReal> val) {
     glUniform4f(glGetUniformLocation(m_Program, name.c_str()), val.getX(), val.getY(), val.getZ(), val.getW());
 }
 
+void GLShader::update(const std::string &name, Matrix4f& mat) {
+    glUniformMatrix4fv(glGetUniformLocation(m_Program, name.c_str()),1, GL_FALSE, &mat.m[0][0]);
+}
+
 void GLShader::checkShaderStatus(GLuint shaderID, GLuint flag, bool isProgram, const std::string &errMsg) {
     GLint success = 0;
     GLchar error[1024] = {0};

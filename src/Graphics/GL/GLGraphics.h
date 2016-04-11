@@ -65,7 +65,7 @@ public:
         renderPass.back()->setEntities(scene->getEntities());
     }
 
-    void drawText(Vector2<stReal>& pos, const std::string& text, stReal fontSize, Vector3<stReal>& color);
+    void drawText(Vector2<stReal> pos, const std::string& text, stReal fontSize, Vector3<stReal> color);
 
     void addRenderPass(STSceneManager* scene, GLShader* shdr);
 
@@ -78,7 +78,9 @@ private:
     std::vector<GLRenderPass*> renderPass;
     std::map<GLchar, Character> characters;
     GLuint textVAO;
+    GLuint textVBO;
     GLShader* textShader;
+    Matrix4f orthoProjection;
 };
 
 

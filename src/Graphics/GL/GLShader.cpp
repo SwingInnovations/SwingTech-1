@@ -28,6 +28,7 @@ GLShader::GLShader() {
 }
 
 GLShader::GLShader(const std::string &filePath) {
+    m_shaderName = filePath;
     m_Program = glCreateProgram();
     m_Shaders[0] = createShader(loadShader(filePath + ".vsh"), GL_VERTEX_SHADER);
     m_Shaders[1] = createShader(loadShader(filePath + ".fsh"), GL_FRAGMENT_SHADER);
@@ -62,6 +63,7 @@ GLShader::GLShader(const std::string &filePath) {
 }
 
 GLShader::GLShader(const std::string &vShaderPath, const std::string &fShaderPath) {
+    m_shaderName = vShaderPath;
     m_Program = glCreateProgram();
     m_Shaders[0] = createShader(loadShader(vShaderPath + ".vsh"), GL_VERTEX_SHADER);
     m_Shaders[1] = createShader(loadShader(fShaderPath + ".fsh"), GL_FRAGMENT_SHADER);
@@ -162,7 +164,7 @@ void GLShader::checkShaderStatus(GLuint shaderID, GLuint flag, bool isProgram, c
         }else {
             glGetShaderInfoLog(shaderID, sizeof(error), NULL, error);
         }
-        std::cerr << errMsg << " : " << error << "'" << std::endl;
+        std::cerr <<"Error occured on " << m_shaderName << " : " << errMsg << " : " << error << "'" << std::endl;
     }else{
         std::cout << "Shader passed validation. Success Code:  " << success << std::endl;
     }

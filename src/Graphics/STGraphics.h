@@ -41,6 +41,8 @@ public:
     virtual void setShader(int,Shader*){;}
 
     virtual void drawText(Vector2<stReal> pos, const std::string& text, stReal fontSize, Vector3<stReal> color){ ; }
+    virtual void drawText(Vector2<stReal> pos, const std::string& text, stReal fontSize ){ ; }
+    virtual void drawText(Vector2<stReal> pos, const std::string& text, stReal fontSize, stReal value){ ; }
 
     Camera* camera(){
         return m_Cam;

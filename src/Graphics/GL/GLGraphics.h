@@ -1,6 +1,8 @@
 #ifndef WAHOO_GLGRAPHICS_H
 #define WAHOO_GLGRAPHICS_H
 
+#include <regex>
+
 #include "../../../ext/GL/glew.h"
 #include "../../STLight.h"
 #include "../../STEntity.h"
@@ -66,12 +68,15 @@ public:
     }
 
     void drawText(Vector2<stReal> pos, const std::string& text, stReal fontSize, Vector3<stReal> color);
+    void drawText(Vector2<stReal> pos, const std::string& text, stReal fontSize );
+    void drawText(Vector2<stReal> pos, const std::string& text, stReal fontSize, stReal value);
 
     void addRenderPass(STSceneManager* scene, GLShader* shdr);
 
     virtual void setShader(int,Shader*);
 
     virtual void drawScene(STSceneManager* scene);
+    static Vector3<stReal> TextColor;
 protected:
 
 private:

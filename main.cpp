@@ -31,7 +31,6 @@ public:
         resManager->addShader("basic", new GLShader("basic"));
         resManager->addTexture("grid", new GLTexture("grid.png"));
         resManager->addShader("lightSource", new GLShader("lightSource"));
-        resManager->addShader("sample", new GLShader("sample"));
         resManager->addShader("screen", new GLShader("screen"));
         resManager->addShader("objShdr", new GLShader("objShdr"));
         resManager->addShader("rectShdr", new GLShader("rectShdr"));
@@ -89,7 +88,8 @@ public:
 
     void render(STGame * win){
         win->getGraphics()->drawScene(sceneManager);
-        win->getGraphics()->drawText(Vector2<stReal>(10, 50), "Wahoo v. 0.0.25", 1.0f, Vector3<stReal>(0.0f, 0.0f, 0.68f));
+        GLGraphics::TextColor = Vector3<stReal>(1.0, 1.0, 1.0);
+        win->getGraphics()->drawText(Vector2<stReal>(0, 0), "Test: %d" , 64.0f, win->getDelta());
     }
 
     ~TestState(){
@@ -125,6 +125,5 @@ int main(int argc, char** argv) {
     window.addState(new TestState(0));
     window.enterState(0);
     window.setClearColor(Vector4<stReal>(0.0f, 0.0f, 0.14f, 1.0f));
-    //window.getInput()->setCursorBound(true);
     window.start();
 }

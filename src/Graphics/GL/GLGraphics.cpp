@@ -3,6 +3,8 @@
 
 #include "GLGraphics.h"
 
+Vector3<stReal> GLGraphics::TextColor = Vector3<stReal>(1.0, 1.0, 1.0);
+
 GLRenderPass::GLRenderPass() {
 
 }
@@ -173,7 +175,7 @@ GLGraphics::GLGraphics(STGame *game) {
 
     FT_Face face;
     if(FT_New_Face(ft, "fonts/arial.ttf", 0, &face)){ std::cout << "Something went wrong" << std::endl; }
-    FT_Set_Pixel_Sizes(face, 0, 48);
+    FT_Set_Pixel_Sizes(face, 0, 128);
 
     glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
 
@@ -258,8 +260,109 @@ void GLGraphics::drawText(Vector2<stReal> pos, const std::string &text, stReal f
     GLfloat x = pos.getX();
     GLfloat y = pos.getY();
 
+    fontSize /= 128.0f;
+
     std::string::const_iterator c;
     for(c = text.begin(); c != text.end(); c++){
+        Character ch = characters[*c];
+
+        GLfloat xPos = x + ch.bearing.getX() * fontSize;
+        GLfloat yPos = y - (ch.size.getY() - ch.bearing.getY()) * fontSize;
+
+        GLfloat w = ch.size.getX() * fontSize;
+        GLfloat h = ch.size.getY() * fontSize;
+
+        GLfloat verts[6][4] = {
+                {xPos, yPos, 0.0, 1.0},
+                {xPos + w, yPos, 1.0, 1.0 },
+                {xPos, yPos+h,  0.0, 0.0},
+
+                {xPos, yPos+h,  0.0, 0.0},
+                {xPos + w, yPos + h, 1.0, 0.0},
+                {xPos + w, yPos, 1.0, 1.0 }
+        };
+        glBindTexture(GL_TEXTURE_2D, ch.texID);
+        glBindBuffer(GL_ARRAY_BUFFER, textVBO);
+        glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(verts), verts);
+        glBindBuffer(GL_ARRAY_BUFFER, 0);
+        glDrawArrays(GL_TRIANGLES, 0, 6);
+
+
+        x+=( ch.Advance >> 6 ) * fontSize;
+    }
+    glBindVertexArray(0);
+    glBindTexture(GL_TEXTURE_2D, 0);
+    glDisable(GL_BLEND);
+}
+
+void GLGraphics::drawText(Vector2<stReal> pos, const std::string& text, stReal fontSize) {
+    glEnable(GL_BLEND);
+    glEnable(GL_TEXTURE_2D);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+    textShader->bind();
+    textShader->update("projection", orthoProjection);
+    textShader->update("textColor", GLGraphics::TextColor);
+    glActiveTexture(GL_TEXTURE0);
+    glBindVertexArray(textVAO);
+
+    GLfloat x = pos.getX();
+    GLfloat y = pos.getY();
+
+    fontSize /= 128.0f;
+
+    std::string::const_iterator c;
+    for(c = text.begin(); c != text.end(); c++){
+        Character ch = characters[*c];
+
+        GLfloat xPos = x + ch.bearing.getX() * fontSize;
+        GLfloat yPos = y - (ch.size.getY() - ch.bearing.getY()) * fontSize;
+
+        GLfloat w = ch.size.getX() * fontSize;
+        GLfloat h = ch.size.getY() * fontSize;
+
+        GLfloat verts[6][4] = {
+                {xPos, yPos, 0.0, 1.0},
+                {xPos + w, yPos, 1.0, 1.0 },
+                {xPos, yPos+h,  0.0, 0.0},
+
+                {xPos, yPos+h,  0.0, 0.0},
+                {xPos + w, yPos + h, 1.0, 0.0},
+                {xPos + w, yPos, 1.0, 1.0 }
+        };
+        glBindTexture(GL_TEXTURE_2D, ch.texID);
+        glBindBuffer(GL_ARRAY_BUFFER, textVBO);
+        glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(verts), verts);
+        glBindBuffer(GL_ARRAY_BUFFER, 0);
+        glDrawArrays(GL_TRIANGLES, 0, 6);
+
+
+        x+=( ch.Advance >> 6 ) * fontSize;
+    }
+    glBindVertexArray(0);
+    glBindTexture(GL_TEXTURE_2D, 0);
+    glDisable(GL_BLEND);
+}
+
+void GLGraphics::drawText(Vector2<stReal> pos, const std::string &text, stReal fontSize, stReal value) {
+    std::string string = text;
+    string = string.replace(string.find("%d"), sizeof(std::to_string(value))-1, std::to_string(value));
+
+    glEnable(GL_BLEND);
+    glEnable(GL_TEXTURE_2D);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+    textShader->bind();
+    textShader->update("projection", orthoProjection);
+    textShader->update("textColor", GLGraphics::TextColor);
+    glActiveTexture(GL_TEXTURE0);
+    glBindVertexArray(textVAO);
+
+    GLfloat x = pos.getX();
+    GLfloat y = pos.getY();
+
+    fontSize /= 128.0f;
+
+    std::string::const_iterator c;
+    for(c = string.begin(); c != string.end(); c++){
         Character ch = characters[*c];
 
         GLfloat xPos = x + ch.bearing.getX() * fontSize;

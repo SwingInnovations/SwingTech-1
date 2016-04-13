@@ -185,22 +185,36 @@ GLGraphics::GLGraphics(STGame *game) {
         GLuint texture;
         glGenTextures(1, &texture);
         glBindTexture(GL_TEXTURE_2D, texture);
-        glTexImage2D(GL_TEXTURE_2D, 0, GL_RED, face->glyph->bitmap.width, face->glyph->bitmap.rows, 0, GL_RED, GL_UNSIGNED_BYTE, face->glyph->bitmap.buffer);
+        glTexImage2D(GL_TEXTURE_2D,
+                     0,
+                     GL_RED,
+                     face->glyph->bitmap.width,
+                     face->glyph->bitmap.rows,
+                     0,
+                     GL_RED,
+                     GL_UNSIGNED_BYTE,
+                     face->glyph->bitmap.buffer);
 
-        Character character = { texture, Vector2<int>(face->glyph->bitmap.width, face->glyph->bitmap.rows), Vector2<int>(face->glyph->bitmap_left, face->glyph->bitmap_top), (GLuint)face->glyph->advance.x };
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+
+        Character character = { texture,
+                                Vector2<int>(face->glyph->bitmap.width,
+                                             face->glyph->bitmap.rows),
+                                Vector2<int>(face->glyph->bitmap_left,
+                                             face->glyph->bitmap_top),
+                                (GLuint)face->glyph->advance.x };
         characters.insert(std::pair<GLchar, Character>(c, character));
     }
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
     glBindTexture(GL_TEXTURE_2D, 0);
     FT_Done_Face(face);
     FT_Done_FreeType(ft);
 
     textShader = new GLShader("text");
-    orthoProjection.initOrthographicProjection(WIDTH, HEIGHT, 1.0f, 1000.0f);
+    orthoProjection.initOrthographicProjection(0, WIDTH, HEIGHT, 0, 0, 1000.0f);
 
     glGenVertexArrays(1, &textVAO);
     glGenBuffers(1, &textVBO);
@@ -233,6 +247,7 @@ void GLGraphics::drawScene(STSceneManager *scene) {
 
 void GLGraphics::drawText(Vector2<stReal> pos, const std::string &text, stReal fontSize, Vector3<stReal> color) {
     glEnable(GL_BLEND);
+    glEnable(GL_TEXTURE_2D);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     textShader->bind();
     textShader->update("projection", orthoProjection);
@@ -254,19 +269,20 @@ void GLGraphics::drawText(Vector2<stReal> pos, const std::string &text, stReal f
         GLfloat h = ch.size.getY() * fontSize;
 
         GLfloat verts[6][4] = {
-                {xPos, yPos+h, 0.0, 0.0},
-                {xPos, yPos,   0.0, 1.0},
-                {xPos + w, yPos, 1.0, 1.0},
+                {xPos, yPos, 0.0, 1.0},
+                {xPos + w, yPos, 1.0, 1.0 },
+                {xPos, yPos+h,  0.0, 0.0},
 
-                {xPos, yPos+h, 0.0, 0.0},
-                {xPos + w, yPos, 1.0, 1.0},
-                {xPos + w, yPos + h, 1.0, 0.0}
+                {xPos, yPos+h,  0.0, 0.0},
+                {xPos + w, yPos + h, 1.0, 0.0},
+                {xPos + w, yPos, 1.0, 1.0 }
         };
-        glBindBuffer(GL_TEXTURE_2D, ch.texID);
+        glBindTexture(GL_TEXTURE_2D, ch.texID);
         glBindBuffer(GL_ARRAY_BUFFER, textVBO);
         glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(verts), verts);
         glBindBuffer(GL_ARRAY_BUFFER, 0);
         glDrawArrays(GL_TRIANGLES, 0, 6);
+
 
         x+=( ch.Advance >> 6 ) * fontSize;
     }

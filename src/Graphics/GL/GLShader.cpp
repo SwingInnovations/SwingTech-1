@@ -116,19 +116,14 @@ void GLShader::update(Camera& cam){
     glUniformMatrix4fv(m_uniforms[4], 1, GL_TRUE, &projection.m[0][0]);
 }
 
-void GLShader::update(Transform& trans, Camera& cam){
-    Matrix4f transform, camera, view, projection;
-    transform = trans.getModel();
-    camera = cam.getViewProjection();
-    view = cam.getView();
-    projection = cam.getProjection();
+void GLShader::update(Transform& trans, Camera& cam){ ;
     Vector3<stReal> camPos = cam.transform()->getTranslate<stReal>();
 
-    glUniformMatrix4fv(m_uniforms[0], 1, GL_TRUE, &transform.m[0][0]);
-    glUniformMatrix4fv(m_uniforms[1], 1, GL_TRUE, &camera.m[0][0]);
+    glUniformMatrix4fv(m_uniforms[0], 1, GL_TRUE, &trans.getModel().m[0][0]);
+    glUniformMatrix4fv(m_uniforms[1], 1, GL_TRUE, &cam.getViewProjection().m[0][0]);
     glUniform3f(m_uniforms[2], camPos.getX(), camPos.getY(), camPos.getZ());
-    glUniformMatrix4fv(m_uniforms[3], 1, GL_TRUE, &view.m[0][0]);
-    glUniformMatrix4fv(m_uniforms[4], 1, GL_TRUE, &projection.m[0][0]);
+    glUniformMatrix4fv(m_uniforms[3], 1, GL_TRUE, &cam.getView().m[0][0]);
+    glUniformMatrix4fv(m_uniforms[4], 1, GL_TRUE, &cam.getProjection().m[0][0]);
 }
 
 void GLShader::update(const std::string &name, int val) {

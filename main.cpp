@@ -89,7 +89,7 @@ public:
 
     void render(STGame * win){
         win->getGraphics()->drawScene(sceneManager);
-        win->getGraphics()->drawText(Vector2<stReal>(10, 50), "Hello Text", 1.0f, Vector3<stReal>(1.0f, 1.0f, 1.0f));
+        win->getGraphics()->drawText(Vector2<stReal>(10, 50), "Wahoo v. 0.0.25", 1.0f, Vector3<stReal>(0.0f, 0.0f, 0.68f));
     }
 
     ~TestState(){

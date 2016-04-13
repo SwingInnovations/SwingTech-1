@@ -129,10 +129,18 @@ public:
     void initOrthographicProjection(float width, float height, float zNear, float zFar){
         const float zRange = zFar - zNear;
 
-        m[0][0] = 2.0f/width; m[0][1] = 0.0f;          m[0][2] = 0.0f; m[0][3] = 0.0f;
-        m[1][0] = 0.0f;       m[1][1] = 2.0f / height; m[1][2] = 0.0f; m[1][3] = 0.0f;
-        m[2][0] = 0.0f;       m[2][1] = 0.0f;          m[2][2] = 2.0f/zRange;    m[2][3] = (-zFar - zNear)/zRange;
+        m[0][0] = 1.0f/width; m[0][1] = 0.0f;          m[0][2] = 0.0f; m[0][3] = 0.0f;
+        m[1][0] = 0.0f;       m[1][1] = 1.0f / height; m[1][2] = 0.0f; m[1][3] = 0.0f;
+        m[2][0] = 0.0f;       m[2][1] = 0.0f;          m[2][2] = -2.0f/zRange;    m[2][3] = (-zFar - zNear)/zRange;
         m[3][0] = 0.0f;       m[3][1] = 0.0f;          m[3][2] = 0.0f; m[3][3] = 1.0f;
+    }
+
+    void initOrthographicProjection(float left, float right, float top, float bottom, float zNear, float zFar){
+
+        m[0][0] = 2.0f / (right - left); m[0][1] = 0.0f;                m[0][2] = 0.0f;                 m[0][3] = -(right + left)/(right - left);
+        m[1][0] = 0.0f;                  m[1][1] = 2.0f/(top-bottom); m[1][2] = 0.0f;                 m[1][3] = -(top+bottom)/(top-bottom);
+        m[2][0] = 0.0f;                  m[2][1] = 0.0f;                m[2][2] = -2.0f/(zFar - zNear); m[2][3] = -(zFar + zNear)/ (zFar - zNear);
+        m[3][0] = 0.0f;                  m[3][1] = 0.0f;                m[3][2] = 0.0f;                 m[3][3] = 1.0f;
     }
 
     void initCamera(const Vector3<stReal>& target, const Vector3<stReal>& up){

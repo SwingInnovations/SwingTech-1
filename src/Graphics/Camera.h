@@ -65,6 +65,9 @@ public:
     ViewProfile* viewProf(){ return &m_viewProf; }
     Transform* transform(){ return &m_transform; }
 
+    stReal getHAngle(){ return hAngle; }
+    stReal getVAngle(){ return vAngle; }
+
     Matrix4f getViewProjection()const;
     Matrix4f getView()const;
     Matrix4f getProjection()const;

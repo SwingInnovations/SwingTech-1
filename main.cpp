@@ -20,7 +20,7 @@ public:
     TestState(int id){ this->m_id = id; }
 
     void init(STGame * window){
-        window->getCamera()->setHAngle(135.0f);
+        window->getCamera()->setHAngle(90.0f);
         counter = 0;
         drawMode = STMesh::TRIANGLES;
         sceneManager = new STSceneManager();
@@ -37,7 +37,7 @@ public:
 
         //light Color
         _box2 = new STEntity("sphere.obj", STMesh::OBJ, resManager->getShader("lightSource"));
-        _box2->get<STGraphicsComponent>()->addShdrAttrib("objColor", Vector3<stReal>(1.0f, 0.0f, 1.0f));
+        _box2->get<STGraphicsComponent>()->addShdrAttrib("objColor", Vector3<stReal>(1.0f, 0.5f, 0.0f));
         _box2->setTranslateY(5.0f);
         _box2->setTranslateX(12.0f);
         _box2->setScale(0.5f);
@@ -45,13 +45,21 @@ public:
         _box1 = new STEntity("sphere.obj", STMesh::OBJ, resManager->getShader("basic"), resManager->getTexture("grid"));
         _box1->addShdrAttrib("objColor", Vector3<stReal>(1.0, 0.5f, 0.31f));
         _box1->addShdrAttrib("lightPos", _box2->transform()->getTranslate<stReal>());
+        _box1->addShdrAttrib("lightColor", Vector3<stReal>(1.0f, 0.5f, 0.0f));
         _box1->setScale(3.0f);
 
+        _ball = new STEntity("sphere.obj", STMesh::OBJ, resManager->getShader("basic"), resManager->getTexture("grid"));
+        _ball->setTranslateX(-1.0f);
+        _ball->setTranslateZ(-1.0f);
+        _ball->addShdrAttrib("lightPos", _box2->transform()->getTranslate<stReal>());
+        _ball->addShdrAttrib("lightColor", Vector3<stReal>(1.0f, 0.5f, 0.0f));
+        _ball->setScale(3.0f);
         std::cout << "Now loading skybox! "<< std::endl;
 
         sceneManager->addSkyBox("green", "skybox");
         sceneManager->addEntity(_box2);
         sceneManager->addEntity(_box1);
+        sceneManager->addEntity(_ball);
         STGraphics::ClearColor = Vector4<stReal>(0.0, 0.0, 0.168, 1.0);
         ((GLGraphics*)window->getGraphics())->addRenderPass(sceneManager,(GLShader*)resManager->getShader("screen"));
     }
@@ -84,12 +92,15 @@ public:
         _box2->setTranslateY(5.0f * sin(counter * 0.01f));
         _box1->setRotateY(counter);
         _box1->get<STGraphicsComponent>()->setShdrAttrib("lightPos", _box2->transform()->getModel().toVector4().toVector3Norm());
+        _ball->setShdrAttrib("lightPos", _box2->transform()->getModel().toVector4().toVector3Norm());
     }
 
     void render(STGame * win){
+        auto grphx = win->getGraphics();
         win->getGraphics()->drawScene(sceneManager);
         GLGraphics::TextColor = Vector3<stReal>(1.0, 1.0, 1.0);
-        win->getGraphics()->drawText(Vector2<stReal>(0, 0), "Test: %d" , 64.0f, win->getDelta());
+        win->getGraphics()->drawText(Vector2<stReal>(0, 48), "Camera Orientation| x: %d | y: %d | %d", 48, win->getCamera()->getHAngle(), win->getCamera()->getVAngle(), 5.0f);
+        win->getGraphics()->drawText(Vector2<stReal>(0, 0), "Mouse Coords| x: %d | y: %d", 48, win->getInput()->getMouseCoords<stReal>());
     }
 
     ~TestState(){
@@ -101,10 +112,9 @@ private:
     int drawMode;
     int currObject;
     float counter = 0;
-    STEntity* plane;
-    STEntity* rect2;
     STEntity* _box1;
     STEntity* _box2;
+    STEntity* _ball;
     Vector3<stReal> lightPos;
 };
 

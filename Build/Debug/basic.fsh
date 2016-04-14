@@ -13,6 +13,7 @@ uniform vec3 lightPos;
 uniform vec3 cameraPosition;
 uniform sampler2D diffuse;
 uniform vec3 objColor;
+uniform vec3 lightColor;
 uniform samplerCube skyBox;
 
 out vec4 color;
@@ -30,7 +31,7 @@ void main(void){
     vec4 reflectionTex = vec4(texture(skyBox, reflectCol) * 0.2);
 
     float spec = pow(max(dot(viewDir, reflectDir), 0.0), 32);
-    vec3 specular = specStrength * spec * vec3(1.0);
+    vec3 specular = specStrength * spec * lightColor;
 
     float diff = max(dot(norm, lightDir), 0.0);
     vec3 objColor = vec3(1.0, 0.5, 0.31);

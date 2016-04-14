@@ -40,9 +40,15 @@ public:
     virtual void drawScene(STSceneManager* sceneManager){;}
     virtual void setShader(int,Shader*){;}
 
-    virtual void drawText(Vector2<stReal> pos, const std::string& text, stReal fontSize, Vector3<stReal> color){ ; }
     virtual void drawText(Vector2<stReal> pos, const std::string& text, stReal fontSize ){ ; }
     virtual void drawText(Vector2<stReal> pos, const std::string& text, stReal fontSize, stReal value){ ; }
+    virtual void drawText(Vector2<stReal> pos, const std::string& text, stReal fontSize, int value){  }
+    virtual void drawText(Vector2<stReal> pos, const std::string& text, stReal fontSize, stReal v1, stReal v2){ ; }
+    virtual void drawText(Vector2<stReal> pos, const std::string& text, stReal fontSize, Vector2<stReal> vector){ ; }
+    virtual void drawText(Vector2<stReal> pos, const std::string& text, stReal fontSize, stReal v1, stReal v2, stReal v3){ ; }
+    virtual void drawText(Vector2<stReal> pos, const std::string& text, stReal fontSize, Vector3<stReal> vector){ ; }
+    virtual void drawText(Vector2<stReal> pos, const std::string& text, stReal fontSize, stReal v1, stReal v2, stReal v3, stReal v4){ ; }
+    virtual void drawText(Vector2<stReal> pos, const std::string& text, stReal fontSize, Vector4<stReal> vector){;}
 
     Camera* camera(){
         return m_Cam;

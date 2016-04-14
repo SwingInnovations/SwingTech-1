@@ -67,9 +67,14 @@ public:
         renderPass.back()->setEntities(scene->getEntities());
     }
 
-    void drawText(Vector2<stReal> pos, const std::string& text, stReal fontSize, Vector3<stReal> color);
     void drawText(Vector2<stReal> pos, const std::string& text, stReal fontSize );
     void drawText(Vector2<stReal> pos, const std::string& text, stReal fontSize, stReal value);
+    void drawText(Vector2<stReal> pos, const std::string& text, stReal fontSize, stReal v1, stReal v2);
+    void drawText(Vector2<stReal> pos, const std::string& text, stReal fontSize, Vector2<stReal> vector);
+    void drawText(Vector2<stReal> pos, const std::string& text, stReal fontSize, stReal v1, stReal v2, stReal v3);
+    void drawText(Vector2<stReal> pos, const std::string& text, stReal fontSize, Vector3<stReal> vector);
+    void drawText(Vector2<stReal> pos, const std::string& text, stReal fontSize, stReal v1, stReal v2, stReal v3, stReal v4);
+    void drawText(Vector2<stReal> pos, const std::string& text, stReal fontSize, Vector4<stReal> vector);
 
     void addRenderPass(STSceneManager* scene, GLShader* shdr);
 

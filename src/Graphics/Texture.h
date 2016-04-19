@@ -9,6 +9,7 @@ public:
     Texture(const std::string& fileName){}
     ~Texture(){}
     virtual void addTexture(const std::string& fileName){ }
+    virtual void addTexture(const std::string& fileName, int ind){ }
     virtual void bind(unsigned int index){ }
     virtual unsigned int getTextureCount(){ return -1; }
     virtual unsigned int getTextureWidth(){ return -1; }

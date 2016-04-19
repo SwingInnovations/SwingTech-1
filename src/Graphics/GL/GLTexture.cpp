@@ -15,6 +15,34 @@ void GLTexture::addTexture(const std::string &fileName) {
     reBind();
 }
 
+void GLTexture::addTexture(const std::string &fileName, int ind) {
+    texCount++;
+    SDL_Surface* img = NULL;
+    img = IMG_Load(fileName.c_str());
+    if(img == NULL){
+        std::cout << "Error: " << IMG_GetError() << std::endl;
+    }
+    glGenTextures(1, m_tex);
+    glActiveTexture(GL_TEXTURE0 + ind);
+    glBindTexture(GL_TEXTURE_2D, m_tex[0]);
+    GLenum mode = getMode(img->format->BytesPerPixel, img->format->Rmask);
+
+    texWidth = (uint32_t)img->w;
+    texHeight = (uint32_t)img->h;
+
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+
+    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+
+    glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
+
+    glTexImage2D(GL_TEXTURE_2D, 0, mode, img->w, img->h, 0, mode, GL_UNSIGNED_BYTE, img->pixels);
+    SDL_FreeSurface(img);
+    img = 0;
+}
+
 GLTexture::~GLTexture() {
     glDeleteTextures(1, m_tex);
 
@@ -126,7 +154,7 @@ void GLTexture::bind(unsigned int index){
     glEnable(GL_TEXTURE_2D);
 
     glActiveTexture(GL_TEXTURE0 + index);
-    glBindTexture(GL_TEXTURE_2D, m_tex[index]);
+    glBindTexture(GL_TEXTURE_2D, m_tex[0]);
 }
 
 GLuint GLTexture::loadCubemapTexture(const std::string &fileName) {
@@ -162,3 +190,5 @@ GLuint GLTexture::loadCubemapTexture(const std::string &fileName) {
 
     return texID;
 }
+
+

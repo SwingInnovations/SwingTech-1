@@ -18,8 +18,9 @@ public:
 
     GLuint genTex(const std::string& fileName);
     void addTexture(const std::string& fileName);
+    void addTexture(const std::string& fileName, int ind);
     void bind(unsigned int index);
-    unsigned int getTextureCount(){ return m_fileReference.size();}
+    unsigned int getTextureCount(){ return texCount; }
     static GLenum getMode(int, int);
 
     unsigned int getTextureWidth(){ return texWidth; }
@@ -31,6 +32,7 @@ protected:
     void reBind();
 private:
     GLuint m_tex[32];
+    unsigned int texCount;
     unsigned int m_texIndex;
     std::vector<std::string> m_fileReference;
 };

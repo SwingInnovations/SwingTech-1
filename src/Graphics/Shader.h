@@ -5,6 +5,7 @@
 #include <cstdlib>
 #include <iostream>
 #include <sstream>
+#include <vector>
 
 #include "../Math/Vector.h"
 #include "../Math/Transform.h"
@@ -108,6 +109,7 @@ public:
     virtual void update(const std::string& name, float val){ }
     virtual void update(const std::string& name, Vector3<stReal> val){ }
     virtual void update(const std::string& name, Vector4<stReal> val){  }
+    void updateUniforms(std::vector<STShader::ShaderAttrib> _uniforms);
     virtual std::string getShaderName(){ return NULL; }
     virtual ~Shader(){}
     static void SetGraphicsMode(bool val){

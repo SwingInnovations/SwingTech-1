@@ -56,7 +56,7 @@ public:
         _ball->setScale(3.0f);
         std::cout << "Now loading skybox! "<< std::endl;
 
-        sceneManager->addSkyBox("green", "skybox");
+        sceneManager->addSkyBox("mystic", "skybox");
         sceneManager->addEntity(_box2);
         sceneManager->addEntity(_box1);
         sceneManager->addEntity(_ball);
@@ -99,8 +99,8 @@ public:
         auto grphx = win->getGraphics();
         win->getGraphics()->drawScene(sceneManager);
         GLGraphics::TextColor = Vector3<stReal>(1.0, 1.0, 1.0);
-        win->getGraphics()->drawText(Vector2<stReal>(0, 48), "Camera Orientation| x: %d | y: %d | %d", 48, win->getCamera()->getHAngle(), win->getCamera()->getVAngle(), 5.0f);
-        win->getGraphics()->drawText(Vector2<stReal>(0, 0), "Mouse Coords| x: %d | y: %d", 48, win->getInput()->getMouseCoords<stReal>());
+        win->getGraphics()->drawText(Vector2<stReal>(0, 32), "Camera Orientation| x: %d | y: %d", 32, win->getCamera()->getHAngle(), win->getCamera()->getVAngle());
+        grphx->drawText(Vector2<stReal>(0, 0), "Camera Position: x: %d, y: %d, z: %d", 32, win->getCamera()->transform()->getTranslate<stReal>());
     }
 
     ~TestState(){

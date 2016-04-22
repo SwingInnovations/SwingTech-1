@@ -5,6 +5,7 @@
 
 #include "Texture.h"
 #include "Shader.h"
+#include "GL/GLTexture.h"
 
 class STMaterial{
 public:
@@ -15,6 +16,11 @@ public:
     STMaterial(Shader* shdr){
         shader = shdr;
         texture = new Texture();
+    }
+
+    STMaterial(Shader* shdr, Texture* tex){
+        shader = shdr;
+        texture = tex;
     }
 
     ~STMaterial(){
@@ -53,6 +59,23 @@ public:
         for(unsigned int i = 0; i < texture->getTextureCount(); i++){
             texture->bind(i);
         }
+    }
+
+    Shader* shdr(){ return shader; }
+
+    void update(std::vector<STShader::ShaderAttrib> entityUniforms){
+        shader->bind();
+        shader->updateUniforms(_uniforms);
+        shader->updateUniforms(entityUniforms);
+        if(texture->getTextureCount() > 31){
+            texture->bind(0);
+            std::cout << "Using Texture Fallback Mode" << std::endl;
+        }else{
+            for(unsigned int i = 0, S = texture->getTextureCount(); i < S; i++){
+                texture->bind(i);
+            }
+        }
+
     }
 private:
     Texture* texture;

@@ -20,7 +20,7 @@ public:
     void addTexture(const std::string& fileName);
     void addTexture(const std::string& fileName, int ind);
     void bind(unsigned int index);
-    unsigned int getTextureCount(){ return texCount; }
+    unsigned int getTextureCount();
     static GLenum getMode(int, int);
 
     unsigned int getTextureWidth(){ return texWidth; }

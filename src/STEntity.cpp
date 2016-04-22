@@ -29,6 +29,13 @@ STEntity::STEntity(const std::string &fileName, const int type, const std::strin
     addComponent(typeid(STGraphicsComponent), new STGraphicsComponent(shdrPath, texPath));
 }
 
+STEntity::STEntity(const std::string &fileName, const int type, STMaterial *mat) {
+    m_transform = new Transform;
+    addComponent(typeid(STMeshComponent), new STMeshComponent(fileName, type));
+    addComponent(typeid(STGraphicsComponent), new STGraphicsComponent(mat));
+}
+
+
 STEntity::STEntity(STRect *rect,Shader *shdr) {
     m_transform = new Transform();
     addComponent(typeid(STMeshComponent), new STMeshComponent(rect));
@@ -245,3 +252,6 @@ void STEntity::setShdrAttrib(const std::string &name, Vector4<stReal> value) {
     }
 }
 
+STEntity *STEntity::childAtTag(const std::string &tag) {
+    return nullptr;
+}

@@ -4,23 +4,32 @@
 STGraphicsComponent::STGraphicsComponent(Shader *shdr) {
     m_shdr = shdr;
     useTexture = false;
+    useMaterial = false;
 }
 
 STGraphicsComponent::STGraphicsComponent(Shader *shdr, Texture *tex) {
     m_shdr = shdr;
     m_tex = tex;
     useTexture = true;
+    useMaterial = false;
 }
 
 STGraphicsComponent::STGraphicsComponent(const std::string &shdr) {
     m_shdr = new GLShader(shdr);
     useTexture = false;
+    useMaterial = false;
 }
 
 STGraphicsComponent::STGraphicsComponent(const std::string &shdrPath, const std::string &texPath) {
     m_shdr = new GLShader(shdrPath);
     m_tex = new GLTexture(texPath);
     useTexture = true;
+    useMaterial = false;
+}
+
+STGraphicsComponent::STGraphicsComponent(STMaterial *mat) {
+    material = mat;
+    useMaterial = true;
 }
 
 void STGraphicsComponent::addShdrAttrib(const std::string &name, int value) {
@@ -56,7 +65,7 @@ void STGraphicsComponent::setShdrAttrib(const std::string &name, float value) {
 }
 
 void STGraphicsComponent::setShdrAttrib(const std::string &name, Vector3<stReal> value) {
-    for(unsigned int i = 0, S = m_uniforms.size(); i < S; i++){
+    for(unsigned int i = 0, S = (unsigned int)m_uniforms.size(); i < S; i++){
         if(m_uniforms[i].name == name){
             m_uniforms[i].value = STShader::toString(value);
         }

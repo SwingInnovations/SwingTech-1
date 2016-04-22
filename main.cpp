@@ -34,6 +34,7 @@ public:
         resManager->addShader("screen", new GLShader("screen"));
         resManager->addShader("objShdr", new GLShader("objShdr"));
         resManager->addShader("rectShdr", new GLShader("rectShdr"));
+        resManager->addMaterial("basic", new STMaterial(new GLShader("basic"), new GLTexture("grid.png")));
 
         //light Color
         _box2 = new STEntity("sphere.obj", STMesh::OBJ, resManager->getShader("lightSource"));
@@ -42,7 +43,8 @@ public:
         _box2->setTranslateX(12.0f);
         _box2->setScale(0.5f);
 
-        _box1 = new STEntity("sphere.obj", STMesh::OBJ, resManager->getShader("basic"), resManager->getTexture("grid"));
+        _box1 = new STEntity("sphere.obj", STMesh::OBJ, resManager->getMaterial("basic"));
+        //_box1 = new STEntity("sphere.obj", STMesh::OBJ, resManager->getShader("basic"), resManager->getTexture("grid"));
         _box1->addShdrAttrib("objColor", Vector3<stReal>(1.0, 0.5f, 0.31f));
         _box1->addShdrAttrib("lightPos", _box2->transform()->getTranslate<stReal>());
         _box1->addShdrAttrib("lightColor", Vector3<stReal>(1.0f, 0.5f, 0.0f));
@@ -56,7 +58,7 @@ public:
         _ball->setScale(3.0f);
         std::cout << "Now loading skybox! "<< std::endl;
 
-        sceneManager->addSkyBox("mystic", "skybox");
+        sceneManager->addSkyBox("green", "skybox");
         sceneManager->addEntity(_box2);
         sceneManager->addEntity(_box1);
         sceneManager->addEntity(_ball);
@@ -106,6 +108,7 @@ public:
     ~TestState(){
         delete _box1;
         delete _box2;
+        delete _ball;
     }
 private:
     STSceneManager* sceneManager;
@@ -128,7 +131,7 @@ int main(int argc, char** argv) {
 
     STGame window("WAHOO Demo", 1440, 720);
     window.setOpenGLVersion(3, 3);
-    window.setTargetFPS(60);
+    window.setTargetFPS(120);
     window.getInput()->setInputMap(inputMap);
     Vector3<stReal> camPos(-0.0f, -0.2f, -5.0f);
     window.addCamera(new Camera(window, camPos, 0));

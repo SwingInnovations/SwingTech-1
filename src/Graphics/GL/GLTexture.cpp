@@ -8,11 +8,13 @@ GLTexture::GLTexture(const std::string &fileName) {
     m_texIndex = 0;
     m_fileReference.push_back(fileName);
     reBind();
+    texCount++;
 }
 
 void GLTexture::addTexture(const std::string &fileName) {
     m_fileReference.push_back(fileName);
     reBind();
+    texCount++;
 }
 
 void GLTexture::addTexture(const std::string &fileName, int ind) {
@@ -192,3 +194,6 @@ GLuint GLTexture::loadCubemapTexture(const std::string &fileName) {
 }
 
 
+unsigned int GLTexture::getTextureCount() {
+    return texCount;
+}

@@ -11,7 +11,7 @@ public:
     virtual void addTexture(const std::string& fileName){ }
     virtual void addTexture(const std::string& fileName, int ind){ }
     virtual void bind(unsigned int index){ }
-    virtual unsigned int getTextureCount(){ return -1; }
+    virtual unsigned int getTextureCount(){ return 32; }
     virtual unsigned int getTextureWidth(){ return -1; }
     virtual unsigned int getTextureHeight(){ return -1; }
 protected:

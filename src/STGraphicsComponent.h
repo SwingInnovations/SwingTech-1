@@ -18,6 +18,7 @@ class STGraphicsComponent : public STComponent{
 public:
     STGraphicsComponent(Shader* shdr);
     STGraphicsComponent(Shader* shdr, Texture* tex);
+    STGraphicsComponent(STMaterial* mat);
     STGraphicsComponent(const std::string& shdr);
     STGraphicsComponent(const std::string& shdrPath, const std::string& texPath);
     ~STGraphicsComponent(){
@@ -43,7 +44,14 @@ public:
         m_shdr = shdr;
     }
 
-    Shader* shdr(){ return m_shdr; }
+    Shader* shdr(){
+        if(useMaterial){
+            return material->shdr();
+        }else{
+            return m_shdr;
+        }
+
+    }
 
     virtual void update(STGame * window, int delta){
         //Do Nothing
@@ -52,15 +60,21 @@ public:
 
     void draw(){
         //TODO Include shader handling and other stuff.
-        m_shdr->bind();
-        m_shdr->updateUniforms(m_uniforms);
-        if(useTexture) m_tex->bind(0);
+        if(!useMaterial){
+            m_shdr->bind();
+            m_shdr->updateUniforms(m_uniforms);
+            if(useTexture) m_tex->bind(0);
+        }else{
+            material->update(m_uniforms);
+        }
     }
 private:
     SpriteSheet spriteSheet;
     Shader* m_shdr;
     Texture* m_tex;
+    STMaterial* material;
     bool useTexture;
+    bool useMaterial;
     std::vector<STShader::ShaderAttrib> m_uniforms;
 };
 

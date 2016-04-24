@@ -5,7 +5,6 @@
 
 #include "Texture.h"
 #include "Shader.h"
-#include "GL/GLTexture.h"
 
 class STMaterial{
 public:

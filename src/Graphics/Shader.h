@@ -112,11 +112,7 @@ public:
     void updateUniforms(std::vector<STShader::ShaderAttrib> _uniforms);
     virtual std::string getShaderName(){ return NULL; }
     virtual ~Shader(){}
-    static void SetGraphicsMode(bool val){
-        USE_GL = val;
-    }
 private:
-    static bool USE_GL;
 };
 
 #endif //WAHOO_SHADER_H

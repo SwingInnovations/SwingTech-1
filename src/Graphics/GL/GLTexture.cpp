@@ -2,13 +2,14 @@
 
 GLTexture::GLTexture() {
     m_texIndex = 0;
+    texCount = 0;
 }
 
 GLTexture::GLTexture(const std::string &fileName) {
     m_texIndex = 0;
     m_fileReference.push_back(fileName);
     reBind();
-    texCount++;
+    texCount=1;
 }
 
 void GLTexture::addTexture(const std::string &fileName) {
@@ -135,6 +136,9 @@ void GLTexture::reBind() {
         }else{
             std::cout << "Invalid Textures" << std::endl;
         }
+
+        texWidth = (uint32_t)img->w;
+        texHeight = (uint32_t)img->h;
 
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);

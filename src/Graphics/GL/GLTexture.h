@@ -32,7 +32,6 @@ protected:
     void reBind();
 private:
     GLuint m_tex[32];
-    unsigned int texCount;
     unsigned int m_texIndex;
     std::vector<std::string> m_fileReference;
 };

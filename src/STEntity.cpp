@@ -180,74 +180,74 @@ void STEntity::setScaleZ(stReal _z) {
     m_transform->setScaleZ(_z);
 }
 
-void STEntity::addShdrAttrib(const std::string &name, int value) {
-    get<STGraphicsComponent>()->addShdrAttrib(name, value);
+void STEntity::addShdrUniform(const std::string &name, int value) {
+    get<STGraphicsComponent>()->addShdrUniform(name, value);
     if(hasChildren()){
         for(auto child : m_children){
-            child->addShdrAttrib(name, value);
+            child->addShdrUniform(name, value);
         }
     }
 }
 
-void STEntity::addShdrAttrib(const std::string &name, float value) {
-    get<STGraphicsComponent>()->addShdrAttrib(name, value);
+void STEntity::addShdrUniform(const std::string &name, float value) {
+    get<STGraphicsComponent>()->addShdrUniform(name, value);
     if(hasChildren()){
         for(auto child : m_children){
-            child->addShdrAttrib(name, value);
+            child->addShdrUniform(name, value);
         }
     }
 }
 
-void STEntity::addShdrAttrib(const std::string& name, Vector3<stReal> value){
-    get<STGraphicsComponent>()->addShdrAttrib(name, value);
+void STEntity::addShdrUniform(const std::string& name, Vector3<stReal> value){
+    get<STGraphicsComponent>()->addShdrUniform(name, value);
     if(hasChildren()){
         for(auto child : m_children){
-            child->addShdrAttrib(name, value);
+            child->addShdrUniform(name, value);
         }
     }
 }
 
-void STEntity::addShdrAttrib(const std::string &name, Vector4<stReal> value) {
-    get<STGraphicsComponent>()->addShdrAttrib(name, value);
+void STEntity::addShdrUniform(const std::string &name, Vector4<stReal> value) {
+    get<STGraphicsComponent>()->addShdrUniform(name, value);
     if(hasChildren()){
         for(auto child : m_children){
-            child->addShdrAttrib(name, value);
+            child->addShdrUniform(name, value);
         }
     }
 }
 
-void STEntity::setShdrAttrib(const std::string &name,int value) {
-    get<STGraphicsComponent>()->setShdrAttrib(name, value);
+void STEntity::setShdrUniform(const std::string &name,int value) {
+    get<STGraphicsComponent>()->setShdrUniform(name, value);
     if(hasChildren()){
         for(auto child : m_children){
-            child->setShdrAttrib(name, value);
+            child->setShdrUniform(name, value);
         }
     }
 }
 
-void STEntity::setShdrAttrib(const std::string &name, float value) {
-    get<STGraphicsComponent>()->setShdrAttrib(name, value);
+void STEntity::setShdrUniform(const std::string &name, float value) {
+    get<STGraphicsComponent>()->setShdrUniform(name, value);
     if(hasChildren()){
         for(auto child : m_children){
-            child->setShdrAttrib(name, value);
+            child->setShdrUniform(name, value);
         }
     }
 }
 
-void STEntity::setShdrAttrib(const std::string &name, Vector3<stReal> value) {
-    get<STGraphicsComponent>()->setShdrAttrib(name, value);
+void STEntity::setShdrUniform(const std::string &name, Vector3<stReal> value) {
+    get<STGraphicsComponent>()->setShdrUniform(name, value);
     if(hasChildren()){
         for(auto child : m_children){
-            child->setShdrAttrib(name, value);
+            child->setShdrUniform(name, value);
         }
     }
 }
 
-void STEntity::setShdrAttrib(const std::string &name, Vector4<stReal> value) {
-    get<STGraphicsComponent>()->setShdrAttrib(name, value);
+void STEntity::setShdrUniform(const std::string &name, Vector4<stReal> value) {
+    get<STGraphicsComponent>()->setShdrUniform(name, value);
     if(hasChildren()){
         for(auto child : m_children){
-            child->setShdrAttrib(name, value);
+            child->setShdrUniform(name, value);
         }
     }
 }

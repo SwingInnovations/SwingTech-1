@@ -38,23 +38,23 @@ public:
 
         //light Color
         _box2 = new STEntity("sphere.obj", STMesh::OBJ, resManager->getShader("lightSource"));
-        _box2->get<STGraphicsComponent>()->addShdrAttrib("objColor", Vector3<stReal>(1.0f, 0.5f, 0.0f));
+        _box2->get<STGraphicsComponent>()->addShdrUniform("objColor", Vector3<stReal>(1.0f, 0.5f, 0.0f));
         _box2->setTranslateY(5.0f);
         _box2->setTranslateX(12.0f);
         _box2->setScale(0.5f);
 
         _box1 = new STEntity("sphere.obj", STMesh::OBJ, resManager->getMaterial("basic"));
         //_box1 = new STEntity("sphere.obj", STMesh::OBJ, resManager->getShader("basic"), resManager->getTexture("grid"));
-        _box1->addShdrAttrib("objColor", Vector3<stReal>(1.0, 0.5f, 0.31f));
-        _box1->addShdrAttrib("lightPos", _box2->transform()->getTranslate<stReal>());
-        _box1->addShdrAttrib("lightColor", Vector3<stReal>(1.0f, 0.5f, 0.0f));
+        _box1->addShdrUniform("objColor", Vector3<stReal>(1.0, 0.5f, 0.31f));
+        _box1->addShdrUniform("lightPos", _box2->transform()->getTranslate<stReal>());
+        _box1->addShdrUniform("lightColor", Vector3<stReal>(1.0f, 0.5f, 0.0f));
         _box1->setScale(3.0f);
 
         _ball = new STEntity("sphere.obj", STMesh::OBJ, resManager->getShader("basic"), resManager->getTexture("grid"));
         _ball->setTranslateX(-1.0f);
         _ball->setTranslateZ(-1.0f);
-        _ball->addShdrAttrib("lightPos", _box2->transform()->getTranslate<stReal>());
-        _ball->addShdrAttrib("lightColor", Vector3<stReal>(1.0f, 0.5f, 0.0f));
+        _ball->addShdrUniform("lightPos", _box2->transform()->getTranslate<stReal>());
+        _ball->addShdrUniform("lightColor", Vector3<stReal>(1.0f, 0.5f, 0.0f));
         _ball->setScale(3.0f);
         std::cout << "Now loading skybox! "<< std::endl;
 
@@ -93,8 +93,8 @@ public:
         _box2->transform()->setRotateY(-counter);
         _box2->setTranslateY(5.0f * sin(counter * 0.01f));
         _box1->setRotateY(counter);
-        _box1->get<STGraphicsComponent>()->setShdrAttrib("lightPos", _box2->transform()->getModel().toVector4().toVector3Norm());
-        _ball->setShdrAttrib("lightPos", _box2->transform()->getModel().toVector4().toVector3Norm());
+        _box1->get<STGraphicsComponent>()->setShdrUniform("lightPos", _box2->transform()->getModel().toVector4().toVector3Norm());
+        _ball->setShdrUniform("lightPos", _box2->transform()->getModel().toVector4().toVector3Norm());
     }
 
     void render(STGame * win){

@@ -26,15 +26,15 @@ public:
         if(useTexture) delete m_tex;
     }
 
-    void addShdrAttrib(const std::string& name, int value);
-    void addShdrAttrib(const std::string& name, float value);
-    void addShdrAttrib(const std::string& name, Vector3<stReal> value);
-    void addShdrAttrib(const std::string& name, Vector4<stReal> value);
+    void addShdrUniform(const std::string& name, int value);
+    void addShdrUniform(const std::string& name, float value);
+    void addShdrUniform(const std::string& name, Vector3<stReal> value);
+    void addShdrUniform(const std::string& name, Vector4<stReal> value);
 
-    void setShdrAttrib(const std::string& name, int value);
-    void setShdrAttrib(const std::string& name, float value);
-    void setShdrAttrib(const std::string& name, Vector3<stReal> value);
-    void setShdrAttrib(const std::string& name, Vector4<stReal> value);
+    void setShdrUniform(const std::string& name, int value);
+    void setShdrUniform(const std::string& name, float value);
+    void setShdrUniform(const std::string& name, Vector3<stReal> value);
+    void setShdrUniform(const std::string& name, Vector4<stReal> value);
 
     void addSpriteSheet(Texture* tex, uint32_t rowCount, uint32_t colCount);
     void setSpriteSheetIndex(int, int);

@@ -8,6 +8,7 @@
 #include "STComponent.h"
 #include "STGraphicsComponent.h"
 #include "STMeshComponent.h"
+#include "STScriptComponent.h"
 #include "Math/Matrix.h"
 
 class Transform;
@@ -15,6 +16,7 @@ class Camera;
 class STComponent;
 class STMeshComponent;
 class STGraphicsComponent;
+class STScriptComponent;
 
 class STEntity {
 public:
@@ -31,6 +33,7 @@ public:
     ~STEntity();
 
     void addComponent(std::type_index, STComponent*);
+    void addScriptComponent(const std::string& script);
     void addChild(STEntity* entity);
     STEntity* getChild(int ind);
 

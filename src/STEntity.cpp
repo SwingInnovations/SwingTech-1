@@ -255,3 +255,7 @@ void STEntity::setShdrUniform(const std::string &name, Vector4<stReal> value) {
 STEntity *STEntity::childAtTag(const std::string &tag) {
     return nullptr;
 }
+
+void STEntity::addScriptComponent(const std::string &script) {
+    addComponent(typeid(STScriptComponent*), new STScriptComponent(this, script));
+}

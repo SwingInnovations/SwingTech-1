@@ -49,6 +49,7 @@ public:
         _box1->addShdrUniform("lightPos", _box2->transform()->getTranslate<stReal>());
         _box1->addShdrUniform("lightColor", Vector3<stReal>(1.0f, 0.5f, 0.0f));
         _box1->setScale(3.0f);
+        _box1->addScriptComponent("test.lua");
 
         _ball = new STEntity("sphere.obj", STMesh::OBJ, resManager->getShader("basic"), resManager->getTexture("grid"));
         _ball->setTranslateX(-1.0f);

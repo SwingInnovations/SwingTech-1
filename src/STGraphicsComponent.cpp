@@ -95,3 +95,7 @@ void STGraphicsComponent::setSpriteSheetIndex(int row, int col) {
 void STGraphicsComponent::nextFrame() {
 
 }
+
+void STGraphicsComponent::update(STEntity *entity, STGame *game, int delta) {
+
+}

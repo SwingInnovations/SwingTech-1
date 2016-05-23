@@ -40,8 +40,11 @@ public:
     virtual void drawScene(STSceneManager* sceneManager){;}
     virtual void setShader(int,Shader*){;}
 
+    virtual std::string getVendor(){ return NULL; }
+
     virtual void drawText(Vector2<stReal> pos, const std::string& text, stReal fontSize ){ ; }
     virtual void drawText(Vector2<stReal> pos, const std::string& text, stReal fontSize, stReal value){ ; }
+    virtual void drawText(Vector2<stReal> pos, const std::string& text, stReal fontSize, std::string& msg){ ; }
     virtual void drawText(Vector2<stReal> pos, const std::string& text, stReal fontSize, int value){  }
     virtual void drawText(Vector2<stReal> pos, const std::string& text, stReal fontSize, stReal v1, stReal v2){ ; }
     virtual void drawText(Vector2<stReal> pos, const std::string& text, stReal fontSize, Vector2<stReal> vector){ ; }

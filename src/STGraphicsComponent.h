@@ -14,6 +14,8 @@ struct SpriteSheet{
     uint32_t rowCount, colCount, rowIndex, colIndex;
 };
 
+class STComponent;
+
 class STGraphicsComponent : public STComponent{
 public:
     STGraphicsComponent(Shader* shdr);
@@ -57,6 +59,8 @@ public:
         //Do Nothing
 
     }
+
+    virtual void update(STEntity* entity, STGame* game, int delta);
 
     void draw(){
         //TODO Include shader handling and other stuff.

@@ -102,8 +102,7 @@ public:
         auto grphx = win->getGraphics();
         win->getGraphics()->drawScene(sceneManager);
         GLGraphics::TextColor = Vector3<stReal>(1.0, 1.0, 1.0);
-        win->getGraphics()->drawText(Vector2<stReal>(0, 32), "Camera Orientation| x: %d | y: %d", 32, win->getCamera()->getHAngle(), win->getCamera()->getVAngle());
-        grphx->drawText(Vector2<stReal>(0, 0), "Camera Position: x: %d, y: %d, z: %d", 32, win->getCamera()->transform()->getTranslate<stReal>());
+        win->getGraphics()->drawText(Vector2<stReal>(0, 32), "Renderer: " + grphx->getVendor(), 32);
     }
 
     ~TestState(){

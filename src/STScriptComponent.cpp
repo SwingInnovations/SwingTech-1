@@ -29,3 +29,7 @@ int STScriptComponent::l_test(lua_State *state) {
     std::cout << str << std::endl;
     return 0;
 }
+
+void STScriptComponent::update(STEntity *entity, STGame *game, int delta) {
+
+}

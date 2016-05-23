@@ -82,7 +82,9 @@ public:
     void BtSUpdate(STGame *, int);
 
     void update(STGame * window){
-
+        for(auto comp : m_components){
+            comp.second->update(this, window, window->getDelta());
+        }
     }
 
     void draw(){

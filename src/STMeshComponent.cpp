@@ -176,3 +176,6 @@ OBJMesh::~OBJMesh() {
 //        }
 //    }
 //}
+void STMeshComponent::update(STEntity *entity, STGame *game, int delta) {
+
+}

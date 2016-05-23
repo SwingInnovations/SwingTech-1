@@ -5,6 +5,12 @@
 #include "STEntity.h"
 #include "STLight.h"
 
+template<typename GameEntity>
+class QuadNode;
+
+template<typename GameEntity>
+class OctNode;
+
 class STSceneManager{
 public:
     STSceneManager(){ m_NumLights = 0; }
@@ -48,6 +54,22 @@ private:
     std::string skybox_shader;
 
     int m_NumLights;
+};
+
+template <class GameObject>
+class QuadNode{
+public:
+    QuadNode(GameObject* object){}
+private:
+    GameObject* children[4];
+};
+
+template<class GameObject>
+class OctNode{
+public:
+    OctNode(GameObject* object){  }
+private:
+    GameObject* children[8];
 };
 
 #endif //WAHOO_STSCENEMANAGER_H

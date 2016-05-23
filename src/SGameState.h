@@ -13,10 +13,10 @@ public:
     virtual ~SGameState();
     int getID(){ return m_id; }
 
-    virtual void init(STGame *){} // Initialize game relevant assets here
-    virtual void handleInput(STGame *, Uint32){}// Handle all user input here
-    virtual void handleLogic(STGame *, Uint32){}//  Handle all game logic in here
-    virtual void render(STGame *){} // Handle all rendering here.
+    virtual void init(STGame *) = 0; // Initialize game relevant assets here
+    virtual void handleInput(STGame *, Uint32) = 0;// Handle all user input here
+    virtual void handleLogic(STGame *, Uint32) = 0;//  Handle all game logic in here
+    virtual void render(STGame *) = 0; // Handle all rendering here.
 protected:
     int m_id;
 };

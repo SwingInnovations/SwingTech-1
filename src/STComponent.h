@@ -3,9 +3,12 @@
 
 #include "STGame.h"
 
+class STEntity;
+
 class STComponent {
 public:
     virtual void update(STGame *, int){  }
+    virtual void update(STEntity*, STGame*, int) = 0;
     virtual void draw(){  }
     virtual ~STComponent(){}
 };

@@ -15,6 +15,8 @@
 #include "Math/Shape/Quad.h"
 #include "STMesh.h"
 
+class STComponent;
+
 class STMeshComponent : public STComponent{
 
 /*
@@ -32,6 +34,8 @@ public:
     STMeshComponent(STCube*);
     STMeshComponent(float *vert, int vSize, float *tex, int tSize, int *ind, int indSize);
     ~STMeshComponent();
+
+    void update(STEntity* entity, STGame* game, int delta);
 
     void draw(){
         mesh->draw();

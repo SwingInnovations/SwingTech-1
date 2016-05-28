@@ -9,6 +9,7 @@
 #include "src/STGraphicsComponent.h"
 #include "src/Math/Shape/Rect.h"
 #include "src/STSceneManager.h"
+#include "src/STEventComponent.h"
 
 
 using namespace std;
@@ -39,6 +40,8 @@ public:
         //light Color
         _box2 = new STEntity("sphere.obj", STMesh::OBJ, resManager->getShader("lightSource"));
         _box2->get<STGraphicsComponent>()->addShdrUniform("objColor", Vector3<stReal>(1.0f, 0.5f, 0.0f));
+        _box2->addComponent(typeid(STEventComponent), new STEventComponent());
+        _box2->get<STEventComponent>()->onHit( [](void){ std::cout << "Test" << std::endl; } );
         _box2->setTranslateY(5.0f);
         _box2->setTranslateX(12.0f);
         _box2->setScale(0.5f);
@@ -84,12 +87,17 @@ public:
 
         if(input->isKeyPressed(KEY::KEY_7)) currObject = 1;
 
+        if(input->isKeyPressed(KEY::KEY_SPACE)){
+            _box2->get<STEventComponent>()->setIsHit(true);
+        }
+
         if(input->isKeyPressed(KEY::KEY_0)){
             win->getCamera()->centerCam(input);
         }
     }
 
     void handleLogic(STGame * win, Uint32 delta){
+        _box2->update(win);
         counter += 0.025f * delta;
         _box2->transform()->setRotateY(-counter);
         _box2->setTranslateY(5.0f * sin(counter * 0.01f));

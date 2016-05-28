@@ -3,12 +3,13 @@
   <component name="NewModuleRootManager">
     <content url="file://$MODULE_DIR$">
       <sourceFolder url="file://$MODULE_DIR$/src/Input.cpp" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/src/SGameState.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/src/STEventComponent.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src/SGameState.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src/STGlobal.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/src/STScriptComponent.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src/STMesh.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src/STGame.h" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/src/STScriptComponent.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/src/SGameState.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src/STScriptComponent.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src/STComponent.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src/Graphics/Shader.cpp" isTestSource="false" />
@@ -38,6 +39,7 @@
       <sourceFolder url="file://$MODULE_DIR$/src/STEntity.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src/STGame.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src/Input.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/src/STEventComponent.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src/STResourceManager.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src/STSceneManager.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src/STGraphicsComponent.h" isTestSource="false" />

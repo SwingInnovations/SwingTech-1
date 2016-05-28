@@ -1,5 +1,7 @@
 #include "STScriptComponent.h"
 
+#include "STGlobal.h"
+
 STScriptComponent::STScriptComponent(STEntity *entity, const std::string &fileName) {
     this->entity = entity;
     lua_State* L = luaL_newstate();
@@ -7,6 +9,7 @@ STScriptComponent::STScriptComponent(STEntity *entity, const std::string &fileNa
     if(luaL_loadfile(L, fileName.c_str())){
         std::cout << "Failed to load file!" << std::endl;
     }
+    initFunctions<stReal, stReal, stReal>(L);
     lua_pushcfunction(L, l_test);
     lua_setglobal(L, "test");
     lua_pcall(L, 0, 0,0);
@@ -32,4 +35,23 @@ int STScriptComponent::l_test(lua_State *state) {
 
 void STScriptComponent::update(STEntity *entity, STGame *game, int delta) {
 
+}
+
+template<typename T, typename R, typename  S>
+void STScriptComponent::initFunctions(lua_State *L) {
+    getGlobalNamespace(L)
+            .beginClass<STScriptComponent>("STScriptComponent")
+            .ADD_FUNC(test)
+            .ADD_FUNC(test2)
+            .endClass()
+            .beginClass<Vector2<T>>("Vector2")
+            .addFunction("setX", &Vector2<T>::setX)
+            .addFunction("setY", &Vector2<T>::setY)
+            .addFunction("getX", &Vector2<T>::getX)
+            .addFunction("getY", &Vector2<T>::getY)
+            .endClass();
+}
+
+void STScriptComponent::test2() {
+    std::cout << "This is another test!" << std::endl;
 }

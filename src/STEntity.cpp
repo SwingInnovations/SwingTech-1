@@ -78,12 +78,6 @@ STEntity* STEntity::getChild(int ind) {
     return m_children.at(ind);
 }
 
-void STEntity::BtSUpdate(STGame *window, int delta) {
-    for (auto& component : m_components) {
-        component.second->update(window, delta);
-    }
-}
-
 void STEntity::setTranslate(Vector3<stReal> &vec) {
     m_transform->setTranslate(vec);
     if(!m_children.empty()){
@@ -93,7 +87,6 @@ void STEntity::setTranslate(Vector3<stReal> &vec) {
             entity->setTranslate(childPosition);
         }
     }
-
 }
 
 void STEntity::setTranslate(stReal _value){
@@ -253,6 +246,9 @@ void STEntity::setShdrUniform(const std::string &name, Vector4<stReal> value) {
 }
 
 STEntity *STEntity::childAtTag(const std::string &tag) {
+    for(auto ent : m_children){
+        if(ent->tag == tag) return ent;
+    }
     return nullptr;
 }
 

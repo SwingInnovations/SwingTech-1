@@ -15,6 +15,8 @@ extern "C"{
 #include "STComponent.h"
 #include "STEntity.h"
 
+#define ADD_FUNC(x) addFunction(#x, &STScriptComponent::x)
+
 using namespace luabridge;
 
 class STEntity;
@@ -27,8 +29,11 @@ public:
     void update(STEntity* entity, STGame* game, int delta);
 
     void test();
+    void test2();
     static int l_test(lua_State*);
 private:
+    template<typename T, typename R, typename  S>
+    void initFunctions(lua_State* L);
     STEntity* entity;
 };
 

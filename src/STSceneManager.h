@@ -61,6 +61,7 @@ class QuadNode{
 public:
     QuadNode(GameObject* object){}
 private:
+    Vector2<stReal> bounds[4];
     GameObject* children[4];
 };
 
@@ -69,6 +70,7 @@ class OctNode{
 public:
     OctNode(GameObject* object){  }
 private:
+    Vector3<stReal> bounds[8];
     GameObject* children[8];
 };
 

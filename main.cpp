@@ -40,8 +40,6 @@ public:
         //light Color
         _box2 = new STEntity("sphere.obj", STMesh::OBJ, resManager->getShader("lightSource"));
         _box2->get<STGraphicsComponent>()->addShdrUniform("objColor", Vector3<stReal>(1.0f, 0.5f, 0.0f));
-        _box2->addComponent(typeid(STEventComponent), new STEventComponent());
-        _box2->get<STEventComponent>()->onHit( [](void){ std::cout << "Test" << std::endl; } );
         _box2->setTranslateY(5.0f);
         _box2->setTranslateX(12.0f);
         _box2->setScale(0.5f);
@@ -51,6 +49,13 @@ public:
         _box1->addShdrUniform("objColor", Vector3<stReal>(1.0, 0.5f, 0.31f));
         _box1->addShdrUniform("lightPos", _box2->transform()->getTranslate<stReal>());
         _box1->addShdrUniform("lightColor", Vector3<stReal>(1.0f, 0.5f, 0.0f));
+        _box1->addComponent(typeid(STEventComponent), new STEventComponent);
+        _box1->get<STEventComponent>()->inputEvent([](STEntity* self, Input* input){
+            if(input->isKeyPressed(KEY::KEY_SPACE)){
+                self->setTranslateY(1.0f);
+                std::cout << "Set Transform to : " << self->transform()->getInfo() << std::endl;
+            }
+        });
         _box1->setScale(3.0f);
         _box1->addScriptComponent("test.lua");
 
@@ -87,10 +92,6 @@ public:
 
         if(input->isKeyPressed(KEY::KEY_7)) currObject = 1;
 
-        if(input->isKeyPressed(KEY::KEY_SPACE)){
-            _box2->get<STEventComponent>()->setIsHit(true);
-        }
-
         if(input->isKeyPressed(KEY::KEY_0)){
             win->getCamera()->centerCam(input);
         }
@@ -98,6 +99,7 @@ public:
 
     void handleLogic(STGame * win, Uint32 delta){
         _box2->update(win);
+        _box1->update(win);
         counter += 0.025f * delta;
         _box2->transform()->setRotateY(-counter);
         _box2->setTranslateY(5.0f * sin(counter * 0.01f));

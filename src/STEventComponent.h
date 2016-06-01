@@ -6,21 +6,35 @@
 
 class STEventComponent : public STComponent{
 public:
+    enum Event_State{
+        DEFAULT,
+        HIT,
+        INTERSECT
+    };
+
     STEventComponent();
+    ~STEventComponent();
 
     void update(STEntity*, STGame*, int);
     void draw();
-    void onHit(std::function<void(void)> func);
 
-    void setIsHit(bool isHit) {
-        this->isHit = isHit;
-    }
+    void setEventState(Event_State eState){ event_state = eState; }
+
+    void hitEvent(std::function<void (STEntity*)> hitFunction);
+    void intersectEvent(std::function<void (STEntity*)> intersectFunction);
+    void inputEvent(std::function< void (STEntity*, Input*) > inputFunction);
 
 private:
-    bool isHit;
-    void invokeOnHit();
 
-    std::function<void (void)> onHitFunc;
+    void invokeOnHit();
+    void invokeInputEvent(STEntity*, Input*);
+    void invokeHitEvent(STEntity*);
+    void invokeIntersectEvent(STEntity*);
+
+    std::function<void (STEntity*)> hitEvents = 0;
+    std::function<void (STEntity*)> intersectEvents = 0;
+    std::function<void (STEntity*, Input*)> inputEvents = 0;
+    Event_State event_state;
 };
 
 

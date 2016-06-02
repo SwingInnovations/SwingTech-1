@@ -1,4 +1,5 @@
 #include "STEntity.h"
+#include "STEventComponent.h"
 
 STEntity::STEntity() {
     m_transform = new Transform();
@@ -8,18 +9,21 @@ STEntity::STEntity(const std::string &fileName, const int type, Shader *shdr) {
     m_transform = new Transform();
     addComponent(typeid(STMeshComponent), new STMeshComponent(fileName, type));
     addComponent(typeid(STGraphicsComponent), new STGraphicsComponent(shdr));
+    addComponent(typeid(STEventComponent), new STEventComponent);
 }
 
 STEntity::STEntity(const std::string &fileName, const int type, Shader *shdr, Texture *tex) {
     m_transform = new Transform();
     addComponent(typeid(STMeshComponent), new STMeshComponent(fileName, type));
     addComponent(typeid(STGraphicsComponent), new STGraphicsComponent(shdr, tex));
+    addComponent(typeid(STEventComponent), new STEventComponent);
 }
 
 STEntity::STEntity(const std::string &fileName, const int type, const std::string &shdrPath) {
     m_transform = new Transform();
     addComponent(typeid(STMeshComponent), new STMeshComponent(fileName, type));
     addComponent(typeid(STGraphicsComponent), new STGraphicsComponent(shdrPath));
+    addComponent(typeid(STEventComponent), new STEventComponent);
 }
 
 STEntity::STEntity(const std::string &fileName, const int type, const std::string &shdrPath,
@@ -27,12 +31,14 @@ STEntity::STEntity(const std::string &fileName, const int type, const std::strin
     m_transform = new Transform();
     addComponent(typeid(STMeshComponent), new STMeshComponent(fileName, type));
     addComponent(typeid(STGraphicsComponent), new STGraphicsComponent(shdrPath, texPath));
+    addComponent(typeid(STEventComponent), new STEventComponent);
 }
 
 STEntity::STEntity(const std::string &fileName, const int type, STMaterial *mat) {
     m_transform = new Transform;
     addComponent(typeid(STMeshComponent), new STMeshComponent(fileName, type));
     addComponent(typeid(STGraphicsComponent), new STGraphicsComponent(mat));
+    addComponent(typeid(STEventComponent), new STEventComponent);
 }
 
 
@@ -40,24 +46,28 @@ STEntity::STEntity(STRect *rect,Shader *shdr) {
     m_transform = new Transform();
     addComponent(typeid(STMeshComponent), new STMeshComponent(rect));
     addComponent(typeid(STGraphicsComponent), new STGraphicsComponent(shdr));
+    addComponent(typeid(STEventComponent), new STEventComponent);
 }
 
 STEntity::STEntity(STCube* cube, Shader* shdr){
     m_transform = new Transform();
     addComponent(typeid(STMeshComponent), new STMeshComponent(cube));
     addComponent(typeid(STGraphicsComponent), new STGraphicsComponent(shdr));
+    addComponent(typeid(STEventComponent), new STEventComponent);
 }
 
 STEntity::STEntity(STCube* cube, Shader* shdr, Texture* tex){
     m_transform = new Transform();
     addComponent(typeid(STMeshComponent), new STMeshComponent(cube));
     addComponent(typeid(STGraphicsComponent), new STGraphicsComponent(shdr, tex));
+    addComponent(typeid(STEventComponent), new STEventComponent);
 }
 
 STEntity::STEntity(STQuad *quad, Shader *shdr) {
     m_transform = new Transform();
     addComponent(typeid(STMeshComponent), new STMeshComponent(quad));
     addComponent(typeid(STGraphicsComponent), new STGraphicsComponent(shdr));
+    addComponent(typeid(STEventComponent), new STEventComponent);
 }
 
 STEntity::~STEntity() {
@@ -247,7 +257,7 @@ void STEntity::setShdrUniform(const std::string &name, Vector4<stReal> value) {
 
 STEntity *STEntity::childAtTag(const std::string &tag) {
     for(auto ent : m_children){
-        if(ent->tag == tag) return ent;
+        if(ent->m_tag == tag) return ent;
     }
     return nullptr;
 }

@@ -24,16 +24,16 @@ public:
     }
 
     void addSkyBox(const std::string& file, const std::string& shader){
-        skybox_Name = file;
-        skybox_shader = shader;
+        m_skyboxName = file;
+        m_skyboxShader = shader;
     }
 
     void addSkyCube(const std::string& file){
-        skybox_Name = file;
+        m_skyboxName = file;
     }
 
     void addSkyboxShader(const std::string& shader){
-        skybox_shader = shader;
+        m_skyboxShader = shader;
     }
 
     const std::vector<STEntity *> &getEntities() const {
@@ -44,14 +44,14 @@ public:
         return m_Lights;
     }
 
-    const std::string getSkyboxName()const{ return skybox_Name; }
-    const std::string getSkyboxShader()const{return skybox_shader;}
+    const std::string getSkyboxName()const{ return m_skyboxName; }
+    const std::string getSkyboxShader()const{return m_skyboxShader;}
 private:
     std::vector<STEntity*> m_Entities;
     std::vector<STLight*> m_Lights;
 
-    std::string skybox_Name;
-    std::string skybox_shader;
+    std::string m_skyboxName;
+    std::string m_skyboxShader;
 
     int m_NumLights;
 };

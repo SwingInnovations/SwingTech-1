@@ -23,6 +23,7 @@ void STEventComponent::update(STEntity *entity, STGame *game, int delta) {
     }
 
     invokeInputEvent(entity, game->getInput());
+    invokeUpdateEvent(entity, game);
 }
 
 
@@ -59,3 +60,10 @@ void STEventComponent::invokeInputEvent(STEntity *entity, Input *input) {
     if(inputEvents != 0) this->inputEvents(entity, input);
 }
 
+void STEventComponent::updateEvent(std::function<void(STEntity *entity, STGame* game)> updateFunction) {
+    updateEvents = updateFunction;
+}
+
+void STEventComponent::invokeUpdateEvent(STEntity *entity, STGame* game) {
+    if(updateEvents != 0) updateEvents(entity, game);
+}

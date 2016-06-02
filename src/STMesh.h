@@ -13,8 +13,8 @@ public:
     OBJMesh(const std::string& filename);
     virtual ~OBJMesh();
 
-    int getVerticiesSize(){ return verticies.size(); }
-    int getIndiciesSize(){ return indicies.size(); }
+    int getVerticiesSize(){ return (int)verticies.size(); }
+    int getIndiciesSize(){ return (int)indicies.size(); }
 
     Vertex* getVertices(){
         return &verticies[0];
@@ -23,9 +23,7 @@ public:
     int* getIndicies(){
         int* ret = &indicies[0];
         return ret;
-    }
-
-//    static void SplitUp(const std::string& filename, std::vector<Vector2> bounds, std::vector<std::string> tags);
+    };
 
     std::vector<int> indicies;
     std::vector<Vertex> verticies;

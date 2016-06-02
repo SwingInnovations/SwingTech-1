@@ -7,7 +7,6 @@
 #include "Matrix.h"
 #include "Vector.h"
 
-
 class Transform{
 public:
     Transform(){

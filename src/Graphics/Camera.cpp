@@ -1,13 +1,13 @@
 #include "Camera.h"
 
 Camera::Camera() {
-    start = false;
+    m_start = false;
     m_Width = 0;
     m_Height = 0;
 }
 
 Camera::Camera(STGame &win, Vector3<stReal> &pos, ViewProfile &viewProfile) {
-    start = false;
+    m_start = false;
     m_Width = (float)win.getWidth();
     m_Height = (float)win.getHeight();
 
@@ -20,7 +20,7 @@ Camera::Camera(STGame &win, Vector3<stReal> &pos, ViewProfile &viewProfile) {
 }
 
 Camera::Camera(STGame &win, Vector3<stReal> &pos, int presetMode) {
-    start = false;
+    m_start = false;
     m_Width = (float)win.getWidth();
     m_Height = (float)win.getHeight();
     m_transform.setTranslate(pos);
@@ -127,7 +127,7 @@ void Camera::setVAngle(const stReal _v) {
 }
 
 void Camera::processFPS(Input *input) {
-    if(!start){
+    if(!m_start){
         Vector3<stReal> vAxis( (stReal)0.0f, (stReal)1.0f, (stReal)0.0f );
 
         m_View = Vector3<stReal>((stReal)1.0f, (stReal)0.0f, (stReal)0.0f);
@@ -143,7 +143,7 @@ void Camera::processFPS(Input *input) {
 
         m_Up = m_Forward.cross(hAxis);
         m_Up.normalize();
-        start = true;
+        m_start = true;
     }else{
         if(input->isCursorBound()){
             hAngle -= input->getMouseSensitivity() * ((m_Width/2) - input->getMouseCoords<int>().getX());

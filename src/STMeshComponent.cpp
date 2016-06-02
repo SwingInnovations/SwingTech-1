@@ -4,7 +4,7 @@
 
 STMeshComponent::STMeshComponent(const std::string &fileName, int type) {
     if(STGraphics::RENDERER == STGraphics::OPENGL){
-        mesh = new GLMesh(fileName, type);
+        m_mesh = new GLMesh(fileName, type);
     }
 }
 
@@ -14,28 +14,28 @@ STMeshComponent::STMeshComponent(Shape& shape) {
 
 STMeshComponent::STMeshComponent(STQuad *quad) {
     if(STGraphics::RENDERER == STGraphics::OPENGL){
-        mesh = new GLMesh(quad);
+        m_mesh = new GLMesh(quad);
     }
 }
 
 STMeshComponent::STMeshComponent(STRect *rect) {
     if(STGraphics::RENDERER == STGraphics::OPENGL){
-        mesh = new GLMesh(rect);
+        m_mesh = new GLMesh(rect);
     }
 }
 
 STMeshComponent::STMeshComponent(STCube* cube) {
-    if(STGraphics::RENDERER == STGraphics::OPENGL) mesh = new GLMesh(cube);
+    if(STGraphics::RENDERER == STGraphics::OPENGL) m_mesh = new GLMesh(cube);
 }
 
 STMeshComponent::STMeshComponent(float *vert, int vSize, float *tex, int tSize, int *ind, int indSize) {
     if(STGraphics::RENDERER == STGraphics::OPENGL){
-        mesh = new GLMesh(vert, vSize, tex, tSize, ind, indSize);
+        m_mesh = new GLMesh(vert, vSize, tex, tSize, ind, indSize);
     }
 }
 
 STMeshComponent::~STMeshComponent() {
-    delete mesh;
+    delete m_mesh;
 }
 
 /*-OBJ Mesh-*/

@@ -34,7 +34,7 @@ public:
 private:
     template<typename T, typename R, typename  S>
     void initFunctions(lua_State* L);
-    STEntity* entity;
+    STEntity*m_entity;
 };
 
 

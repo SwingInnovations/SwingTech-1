@@ -2,7 +2,7 @@
 
 #include "src/Math/STCore.h"
 #include "src/STGame.h"
-#include "src/SGameState.h"
+#include "src/STGameState.h"
 #include "src/STEntity.h"
 #include "src/Graphics/GL/GLShader.h"
 #include "src/Graphics/GL/GLGraphics.h"
@@ -16,7 +16,7 @@ using namespace std;
 
 class STGraphicsComponent;
 
-class TestState : public SGameState{
+class TestState : public STGameState {
 public:
     TestState(int id){ this->m_id = id; }
 
@@ -50,12 +50,14 @@ public:
         _box1->addShdrUniform("lightPos", _box2->transform()->getTranslate<stReal>());
         _box1->addShdrUniform("lightColor", Vector3<stReal>(1.0f, 0.5f, 0.0f));
         _box1->addComponent(typeid(STEventComponent), new STEventComponent);
+
         _box1->get<STEventComponent>()->inputEvent([](STEntity* self, Input* input){
             if(input->isKeyPressed(KEY::KEY_SPACE)){
                 self->setTranslateY(1.0f);
-                std::cout << "Set Transform to : " << self->transform()->getInfo() << std::endl;
+                std::cout << "Set entity transform to: " << self->transform()->getInfo() << std::endl << std::endl;
             }
         });
+
         _box1->setScale(3.0f);
         _box1->addScriptComponent("test.lua");
 
@@ -67,7 +69,7 @@ public:
         _ball->setScale(3.0f);
         std::cout << "Now loading skybox! "<< std::endl;
 
-        sceneManager->addSkyBox("green", "skybox");
+        sceneManager->addSkyBox("mystic", "skybox");
         sceneManager->addEntity(_box2);
         sceneManager->addEntity(_box1);
         sceneManager->addEntity(_ball);

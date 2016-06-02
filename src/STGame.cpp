@@ -104,7 +104,7 @@ void STGame::setClearColor(const Vector4<stReal> clearColor) {
     m_clearColor = clearColor;
 }
 
-void STGame::addState(SGameState* gameState) {
+void STGame::addState(STGameState * gameState) {
     m_gameStates.push_back(gameState);
 }
 

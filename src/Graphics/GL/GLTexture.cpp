@@ -2,24 +2,24 @@
 
 GLTexture::GLTexture() {
     m_texIndex = 0;
-    texCount = 0;
+    m_texCount = 0;
 }
 
 GLTexture::GLTexture(const std::string &fileName) {
     m_texIndex = 0;
     m_fileReference.push_back(fileName);
     reBind();
-    texCount=1;
+    m_texCount =1;
 }
 
 void GLTexture::addTexture(const std::string &fileName) {
     m_fileReference.push_back(fileName);
     reBind();
-    texCount++;
+    m_texCount++;
 }
 
 void GLTexture::addTexture(const std::string &fileName, int ind) {
-    texCount++;
+    m_texCount++;
     SDL_Surface* img = NULL;
     img = IMG_Load(fileName.c_str());
     if(img == NULL){
@@ -30,8 +30,8 @@ void GLTexture::addTexture(const std::string &fileName, int ind) {
     glBindTexture(GL_TEXTURE_2D, m_tex[0]);
     GLenum mode = getMode(img->format->BytesPerPixel, img->format->Rmask);
 
-    texWidth = (uint32_t)img->w;
-    texHeight = (uint32_t)img->h;
+    m_texWidth = (uint32_t)img->w;
+    m_texHeight = (uint32_t)img->h;
 
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
@@ -81,8 +81,8 @@ GLuint GLTexture::genTex(const std::string& filename){
         std::cout << "Invalid Texture!" << std::endl;
     }
 
-    texWidth = (uint32_t)img->w;
-    texHeight = (uint32_t)img->h;
+    m_texWidth = (uint32_t)img->w;
+    m_texHeight = (uint32_t)img->h;
 
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
@@ -137,8 +137,8 @@ void GLTexture::reBind() {
             std::cout << "Invalid Textures" << std::endl;
         }
 
-        texWidth = (uint32_t)img->w;
-        texHeight = (uint32_t)img->h;
+        m_texWidth = (uint32_t)img->w;
+        m_texHeight = (uint32_t)img->h;
 
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
@@ -199,5 +199,5 @@ GLuint GLTexture::loadCubemapTexture(const std::string &fileName) {
 
 
 unsigned int GLTexture::getTextureCount() {
-    return texCount;
+    return m_texCount;
 }

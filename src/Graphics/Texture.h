@@ -16,7 +16,7 @@ public:
     virtual unsigned int getTextureHeight(){ return 0; }
 protected:
     virtual void reBind(){ }
-    uint32_t texWidth, texHeight, texCount;
+    uint32_t m_texWidth, m_texHeight, m_texCount;
 private:
 
 };

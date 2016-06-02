@@ -74,7 +74,7 @@ public:
 private:
     void processFPS(Input* input);
     Transform m_transform;
-    bool start;
+    bool m_start;
 
     Vector3<stReal> m_Forward;
     Vector3<stReal> m_Up;

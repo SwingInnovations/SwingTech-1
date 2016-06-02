@@ -22,7 +22,7 @@ class STMeshComponent : public STComponent{
 /*
  *  @Author Nathan Danque
  *
- *  Purpose: Handle Mesh operations within the entity.
+ *  Purpose: Handle Mesh operations within the m_entity.
  *
  */
 
@@ -38,16 +38,16 @@ public:
     void update(STEntity* entity, STGame* game, int delta);
 
     void draw(){
-        mesh->draw();
+        m_mesh->draw();
     }
 
     void draw(int drawMode){
-        mesh->draw(drawMode);
+        m_mesh->draw(drawMode);
     }
 
 private:
 
-    STMesh* mesh;
+    STMesh*m_mesh;
 };
 
 

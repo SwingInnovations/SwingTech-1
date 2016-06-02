@@ -6,7 +6,7 @@
 #include "STGame.h"
 #include "Input.h"
 
-#include "SGameState.h"
+#include "STGameState.h"
 #include "STComponent.h"
 #include "STMeshComponent.h"
 #include "STGraphicsComponent.h"

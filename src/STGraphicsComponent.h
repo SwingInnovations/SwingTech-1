@@ -48,7 +48,7 @@ public:
 
     Shader* shdr(){
         if(useMaterial){
-            return material->shdr();
+            return m_material->shdr();
         }else{
             return m_shdr;
         }
@@ -69,14 +69,14 @@ public:
             m_shdr->updateUniforms(m_uniforms);
             if(useTexture) m_tex->bind(0);
         }else{
-            material->update(m_uniforms);
+            m_material->update(m_uniforms);
         }
     }
 private:
-    SpriteSheet spriteSheet;
+    SpriteSheet m_spriteSheet;
     Shader* m_shdr;
     Texture* m_tex;
-    STMaterial* material;
+    STMaterial* m_material;
     bool useTexture;
     bool useMaterial;
     std::vector<STShader::ShaderAttrib> m_uniforms;

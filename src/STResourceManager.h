@@ -20,9 +20,9 @@ public:
     Texture* getTexture(std::string);
     STMaterial* getMaterial(std::string);
 private:
-    std::map<std::string, Shader*> _shaders;
-    std::map<std::string, Texture*> _textures;
-    std::map<std::string, STMaterial*> _materials;
+    std::map<std::string, Shader*> m_shaders;
+    std::map<std::string, Texture*> m_textures;
+    std::map<std::string, STMaterial*> m_materials;
 };
 
 

@@ -124,7 +124,7 @@ public:
         }
     }
 private:
-    std::string tag;
+    std::string m_tag;
     Transform* m_transform;
     std::map<std::type_index, STComponent*> m_components;
     std::vector<STEntity*> m_children;

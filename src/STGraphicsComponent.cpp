@@ -28,7 +28,7 @@ STGraphicsComponent::STGraphicsComponent(const std::string &shdrPath, const std:
 }
 
 STGraphicsComponent::STGraphicsComponent(STMaterial *mat) {
-    material = mat;
+    m_material = mat;
     useMaterial = true;
 }
 
@@ -83,13 +83,13 @@ void STGraphicsComponent::setShdrUniform(const std::string &name, Vector4<stReal
 void STGraphicsComponent::addSpriteSheet(Texture *tex, uint32_t rowCount, uint32_t colCount) {
     if(!useTexture) useTexture = true;
     m_tex = tex;
-    spriteSheet.width = tex->getTextureWidth();
-    spriteSheet.height = tex->getTextureHeight();
+    m_spriteSheet.width = tex->getTextureWidth();
+    m_spriteSheet.height = tex->getTextureHeight();
 }
 
 void STGraphicsComponent::setSpriteSheetIndex(int row, int col) {
-    spriteSheet.rowIndex = (uint32_t)row;
-    spriteSheet.colIndex = (uint32_t)col;
+    m_spriteSheet.rowIndex = (uint32_t)row;
+    m_spriteSheet.colIndex = (uint32_t)col;
 }
 
 void STGraphicsComponent::nextFrame() {

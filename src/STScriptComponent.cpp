@@ -3,7 +3,7 @@
 #include "STGlobal.h"
 
 STScriptComponent::STScriptComponent(STEntity *entity, const std::string &fileName) {
-    this->entity = entity;
+    this->m_entity = entity;
     lua_State* L = luaL_newstate();
     luaL_openlibs(L);
     if(luaL_loadfile(L, fileName.c_str())){

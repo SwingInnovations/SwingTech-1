@@ -85,6 +85,6 @@ public:
     std::vector<Vertex> positions;
     std::vector<int> index;
 private:
-    Transform* transform;
+    Transform* m_transform;
 };
 #endif //WAHOO_RECT_H

@@ -3,7 +3,7 @@
 
 #include <regex>
 
-#include "../../../ext/GL/glew.h"
+#include "../../../include/GL/glew.h"
 #include "../../STLight.h"
 #include "../../STEntity.h"
 #include "../../STSceneManager.h"

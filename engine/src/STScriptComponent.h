@@ -3,12 +3,12 @@
 
 #include <iostream>
 
-#include "../ext/LuaBridge.h"
+#include "../include/LuaBridge.h"
 
 extern "C"{
-    #include "../ext/lualib.h"
-    #include "../ext/lauxlib.h"
-    #include "../ext/lua.h"
+    #include "../include/lualib.h"
+    #include "../include/lauxlib.h"
+    #include "../include/lua.h"
 
 };
 

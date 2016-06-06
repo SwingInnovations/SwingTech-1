@@ -6,7 +6,7 @@
 #include <sstream>
 #include <cstdlib>
 
-#include "../../../ext/GL/glew.h"
+#include "../../../include/GL/glew.h"
 #include "../Shader.h"
 #include "../Camera.h"
 #include "../../Math/Vector.h"

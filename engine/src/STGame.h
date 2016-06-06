@@ -1,10 +1,10 @@
 #ifndef WAHOO_STECHWINDOW_H
 #define WAHOO_STECHWINDOW_H
 
-#include "../ext/GL/glew.h"
+#include "../include/GL/glew.h"
 extern "C"{
-    #include "../ext/SDL2/SDL.h"
-    #include "../ext/SDL2/SDL_opengl.h"
+    #include "../include/SDL2/SDL.h"
+    #include "../include/SDL2/SDL_opengl.h"
 };
 
 #define GLEW_STATIC

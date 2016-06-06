@@ -1,9 +1,9 @@
 #ifndef WAHOO_INPUT_H
 #define WAHOO_INPUT_H
 
-#include "../ext/SDL2/SDL.h"
-#include "../ext/SDL2/SDL_joystick.h"
-#include "../ext/SDL2/SDL_gamecontroller.h"
+#include "../include/SDL2/SDL.h"
+#include "../include/SDL2/SDL_joystick.h"
+#include "../include/SDL2/SDL_gamecontroller.h"
 #include "Math/Vector.h"
 
 #include <string>

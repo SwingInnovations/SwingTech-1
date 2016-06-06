@@ -5,7 +5,6 @@
       <sourceFolder url="file://$MODULE_DIR$/src/Input.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src/STEventComponent.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src/STGlobal.h" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/src/STResourceManager.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src/STSceneManager.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src/STGame.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src/STScriptComponent.h" isTestSource="false" />
@@ -15,36 +14,37 @@
       <sourceFolder url="file://$MODULE_DIR$/src/Graphics/STGraphics.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src/Graphics/Interface/STInterWidget.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src/Graphics/STColor.h" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/src/Graphics/Shader.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/src/Graphics/Camera.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src/Graphics/Texture.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src/Graphics/VK/VKGraphics.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src/Graphics/VK/VKGraphics.cpp" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/src/Graphics/STGraphics.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/src/Graphics/Texture.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src/Graphics/STMaterial.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src/Graphics/GL/GLShader.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src/Graphics/GL/GLGraphics.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src/Graphics/GL/GLMesh.h" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/src/Graphics/GL/GLShader.h" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/src/Graphics/GL/GLTexture.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src/Graphics/GL/GLTexture.cpp" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/src/Graphics/GL/GLTexture.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src/Graphics/GL/GLGraphics.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/src/Graphics/GL/GLShader.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src/Graphics/GL/GLMesh.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src/Graphics/Camera.cpp" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/src/Graphics/Texture.h" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/src/Graphics/Camera.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/src/Graphics/Shader.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/src/Graphics/STGraphics.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/src/STEntity.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src/STComponent.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src/STMeshComponent.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src/STEntity.cpp" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/src/STEntity.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/src/STMesh.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src/STGame.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src/Input.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src/STGameState.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src/STEventComponent.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src/STResourceManager.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src/STGraphicsComponent.h" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/src/STLight.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src/STScriptComponent.cpp" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/src/STMesh.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/src/STLight.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/src/STResourceManager.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src/Math/Transform.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src/Math/Vertex.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src/Math/Vector.h" isTestSource="false" />

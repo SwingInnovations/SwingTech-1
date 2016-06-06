@@ -4,7 +4,7 @@
 #include <string>
 #include <vector>
 
-#include "../../../ext/GL/glew.h"
+#include "../../../include/GL/glew.h"
 
 #include "../../STMesh.h"
 

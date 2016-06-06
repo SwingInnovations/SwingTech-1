@@ -6,8 +6,8 @@
 #include <iostream>
 #include <cassert>
 
-#include "../../../ext/GL/glew.h"
-#include "../../../ext/SDL2/SDL_image.h"
+#include "../../../include/GL/glew.h"
+#include "../../../include/SDL2/SDL_image.h"
 #include "../Texture.h"
 
 class GLTexture : public Texture{

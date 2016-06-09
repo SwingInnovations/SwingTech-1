@@ -85,17 +85,37 @@ void STGraphicsComponent::addSpriteSheet(Texture *tex, uint32_t rowCount, uint32
     m_tex = tex;
     m_spriteSheet.width = tex->getTextureWidth();
     m_spriteSheet.height = tex->getTextureHeight();
+    m_spriteSheet.row_cellSize = rowCount / tex->getTextureHeight();
+    m_spriteSheet.col_cellSize = colCount / tex->getTextureWidth();
+    addShdrUniform("sprite-xOffset", 0.0f);
+    addShdrUniform("sprite-yOffset", 0.0f);
 }
 
 void STGraphicsComponent::setSpriteSheetIndex(int row, int col) {
-    m_spriteSheet.rowIndex = (uint32_t)row;
-    m_spriteSheet.colIndex = (uint32_t)col;
+    if( row < m_spriteSheet.rowCount )m_spriteSheet.rowIndex = (uint32_t)row; else m_spriteSheet.rowIndex = 0;
+    if( col < m_spriteSheet.colCount )m_spriteSheet.colIndex = (uint32_t)col; else m_spriteSheet.colIndex = 0;
 }
 
 void STGraphicsComponent::nextFrame() {
-
+    if(m_spriteSheet.colIndex < m_spriteSheet.colCount){
+        m_spriteSheet.colIndex++;
+    }else{
+        m_spriteSheet.colIndex = 0;
+    }
+    stReal rowOffset = m_spriteSheet.rowIndex * m_spriteSheet.row_cellSize;
+    stReal colOffset = m_spriteSheet.colIndex * m_spriteSheet.col_cellSize;
+    setShdrUniform("sprite-xOffset", colOffset);
+    setShdrUniform("sprite-yOffset", rowOffset);
 }
+
+void STGraphicsComponent::setSpriteSheetRow(int row) {
+    if(row < m_spriteSheet.rowCount) m_spriteSheet.rowIndex = (uint32_t)row; else m_spriteSheet.rowIndex = 0;
+    stReal rowOffset = m_spriteSheet.rowIndex * m_spriteSheet.row_cellSize;
+    setShdrUniform("sprite-yOffset", rowOffset);
+}
+
 
 void STGraphicsComponent::update(STEntity *entity, STGame *game, int delta) {
 
 }
+

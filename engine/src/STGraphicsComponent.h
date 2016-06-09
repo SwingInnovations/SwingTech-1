@@ -11,7 +11,7 @@
 
 struct SpriteSheet{
     int width, height;
-    uint32_t rowCount, colCount, rowIndex, colIndex;
+    uint32_t rowCount, colCount, rowIndex, colIndex, row_cellSize, col_cellSize;
 };
 
 class STComponent;
@@ -40,6 +40,7 @@ public:
 
     void addSpriteSheet(Texture* tex, uint32_t rowCount, uint32_t colCount);
     void setSpriteSheetIndex(int, int);
+    void setSpriteSheetRow(int);
     void nextFrame();
 
     void setShader(Shader* shdr){

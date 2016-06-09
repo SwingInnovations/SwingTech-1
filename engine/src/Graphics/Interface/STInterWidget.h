@@ -15,6 +15,9 @@ public:
     virtual void clickEvent() = 0;
     virtual void pressEvent() = 0;
     virtual void releaseEvent() = 0;
+protected:
+    std::string text;
+
 };
 
 #endif //WAHOO_STINTERWIDGET_H

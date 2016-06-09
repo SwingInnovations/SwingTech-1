@@ -1,5 +1,10 @@
-#include "../../../include/ft2build.h"
-#include FT_FREETYPE_H
+//#include "../../../include/ft2build.h"
+//#include FT_FREETYPE_H
+
+extern "C"{
+    #include <ft2build.h>
+    #include FT_FREETYPE_H
+}
 
 #include "GLGraphics.h"
 

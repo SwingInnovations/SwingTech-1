@@ -11,55 +11,7 @@
     </ADDITIONAL_GENERATION_ENVIRONMENT>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="5ee8588a-b915-4eb2-8583-18cd73e205f4" name="Default" comment="0.0.91">
-      <change type="DELETED" beforePath="$PROJECT_DIR$/include/freetype2/freetype/config/ftconfig.h" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/include/freetype2/freetype/config/ftheader.h" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/include/freetype2/freetype/config/ftmodule.h" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/include/freetype2/freetype/config/ftoption.h" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/include/freetype2/freetype/config/ftstdlib.h" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/include/freetype2/freetype/freetype.h" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/include/freetype2/freetype/ftbbox.h" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/include/freetype2/freetype/ftbdf.h" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/include/freetype2/freetype/ftbitmap.h" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/include/freetype2/freetype/ftcache.h" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/include/freetype2/freetype/ftchapters.h" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/include/freetype2/freetype/fterrdef.h" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/include/freetype2/freetype/fterrors.h" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/include/freetype2/freetype/ftgasp.h" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/include/freetype2/freetype/ftglyph.h" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/include/freetype2/freetype/ftgxval.h" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/include/freetype2/freetype/ftgzip.h" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/include/freetype2/freetype/ftimage.h" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/include/freetype2/freetype/ftincrem.h" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/include/freetype2/freetype/ftlcdfil.h" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/include/freetype2/freetype/ftlist.h" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/include/freetype2/freetype/ftlzw.h" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/include/freetype2/freetype/ftmac.h" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/include/freetype2/freetype/ftmm.h" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/include/freetype2/freetype/ftmodapi.h" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/include/freetype2/freetype/ftmoderr.h" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/include/freetype2/freetype/ftotval.h" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/include/freetype2/freetype/ftoutln.h" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/include/freetype2/freetype/ftpfr.h" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/include/freetype2/freetype/ftrender.h" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/include/freetype2/freetype/ftsizes.h" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/include/freetype2/freetype/ftsnames.h" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/include/freetype2/freetype/ftstroke.h" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/include/freetype2/freetype/ftsynth.h" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/include/freetype2/freetype/ftsystem.h" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/include/freetype2/freetype/fttrigon.h" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/include/freetype2/freetype/fttypes.h" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/include/freetype2/freetype/ftwinfnt.h" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/include/freetype2/freetype/ftxf86.h" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/include/freetype2/freetype/t1tables.h" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/include/freetype2/freetype/ttnameid.h" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/include/freetype2/freetype/tttables.h" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/include/freetype2/freetype/tttags.h" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/include/freetype2/freetype/ttunpat.h" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/include/ft2build.h" afterPath="$PROJECT_DIR$/include/ft2build.h" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Graphics/GL/GLGraphics.cpp" afterPath="$PROJECT_DIR$/src/Graphics/GL/GLGraphics.cpp" />
-    </list>
+    <list default="true" id="5ee8588a-b915-4eb2-8583-18cd73e205f4" name="Default" comment="0.0.91" />
     <ignored path="Wahoo.iws" />
     <ignored path=".idea/workspace.xml" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -500,21 +452,21 @@
     <property name="settings.editor.splitter.proportion" value="0.20674269" />
     <property name="last_opened_file_path" value="C:/Program Files/Git/bin/git.exe" />
     <property name="js-jscs-nodeInterpreter" value="C:\Program Files\nodejs\node.exe" />
-    <property name="FileHistory.git4idea.history.GitHistoryProvider_flatWidth0" value="528" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_flatWidth0" value="260" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_flatOrder0" value="0" />
-    <property name="FileHistory.git4idea.history.GitHistoryProvider_flatWidth1" value="578" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_flatWidth1" value="283" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_flatOrder1" value="1" />
-    <property name="FileHistory.git4idea.history.GitHistoryProvider_flatWidth2" value="580" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_flatWidth2" value="284" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_flatOrder2" value="2" />
-    <property name="FileHistory.git4idea.history.GitHistoryProvider_flatWidth3" value="1929" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_flatWidth3" value="928" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_flatOrder3" value="3" />
-    <property name="FileHistory.git4idea.history.GitHistoryProvider_treeWidth0" value="517" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_treeWidth0" value="253" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_treeOrder0" value="0" />
-    <property name="FileHistory.git4idea.history.GitHistoryProvider_treeWidth1" value="591" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_treeWidth1" value="288" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_treeOrder1" value="1" />
-    <property name="FileHistory.git4idea.history.GitHistoryProvider_treeWidth2" value="592" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_treeWidth2" value="288" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_treeOrder2" value="2" />
-    <property name="FileHistory.git4idea.history.GitHistoryProvider_treeWidth3" value="1941" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_treeWidth3" value="926" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_treeOrder3" value="3" />
     <property name="SearchEverywhereHistoryKey" value="&#9;FILE&#9;file://C:/Users/NDanq/Documents/Projects/Wahoo/src/Graphics/GL/GLGraphics.cpp" />
   </component>
@@ -593,15 +545,15 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="145" y="-13" width="3708" height="2186" extended-state="6" />
-    <editor active="true" />
+    <editor active="false" />
     <layout>
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.14883216" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.28773347" sideWeight="0.63253665" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="CMake" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3276123" sideWeight="0.48479086" order="11" side_tool="false" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.19535588" sideWeight="0.50841933" order="8" side_tool="true" content_ui="tabs" />
-      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3296315" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.19535588" sideWeight="0.49158067" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.3296315" sideWeight="0.50108635" order="8" side_tool="true" content_ui="tabs" />
+      <window_info id="Version Control" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.3296315" sideWeight="0.49891365" order="9" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.19535588" sideWeight="0.49158067" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />

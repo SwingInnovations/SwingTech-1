@@ -87,4 +87,5 @@ public:
 private:
     Transform* m_transform;
 };
+
 #endif //WAHOO_RECT_H

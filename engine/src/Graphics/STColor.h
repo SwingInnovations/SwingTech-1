@@ -24,9 +24,45 @@ struct STColor{
         switch(col){
             case RED:
                 color = Vector4<stReal>(1.0f, 0.0f, 0.0f, 1.0f);
+                break;
+            case MAGENTA:
+                color = Vector4<stReal>(1.0f, 0.0f, 1.0f, 1.0f);
+                break;
+            case YELLOW:
+                color = Vector4<stReal>(1.0f, 1.0f, 0.0f, 1.0f);
+                break;
+            case GREEN:
+                color = Vector4<stReal>(0.0f, 1.0f, 0.0f, 1.0f);
+                break;
+            case CYAN:
+                color = Vector4<stReal>(0.0f, 1.0f, 1.0f, 1.0f);
+                break;
+            case BLUE:
+                color = Vector4<stReal>(0.0f, 0.0f, 1.0f, 1.0f);
+                break;
+            case BLACK:
+                color = Vector4<stReal>(0.0f, 0.0f, 0.0f, 1.0f);
+                break;
+            case WHITE:
+                color = Vector4<stReal>(1.0f, 1.0f, 1.0f, 1.0f);
             default:
                 ;
         }
+    }
+
+    void setRed(stReal value){
+        if(value > 1.0f) value /= 255.0f;
+        color.setX(value);
+    }
+
+    void setGreen(stReal value){
+        if(value > 1.0f) value /= 255.0f;
+        color.setY(value);
+    }
+
+    void setBlue(stReal value){
+        if(value > 1.0f) value /= 255.0f;
+        color.setZ(value);
     }
 
     Vector4<stReal> color;

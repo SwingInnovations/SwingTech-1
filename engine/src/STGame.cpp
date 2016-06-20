@@ -115,7 +115,7 @@ Input*STGame::getInput() {
 void STGame::calcDelta() {
     if(newTime > oldTime){
         delta = newTime - oldTime;
-        Uint32 targetInterval = (Uint32)(1.0/this->fps * 1000);
+        Uint32 targetInterval = (Uint32)(1000 / this->fps);
         if(delta < targetInterval || delta > targetInterval){
             delta = targetInterval;
         }

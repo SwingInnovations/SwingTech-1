@@ -58,7 +58,6 @@ public:
 
     virtual void update(STGame * window, int delta){
         //Do Nothing
-
     }
 
     virtual void update(STEntity* entity, STGame* game, int delta);

@@ -79,7 +79,7 @@ public:
 
     Transform* transform(){ return m_transform; }
 
-    void update(STGame* window){
+    virtual void update(STGame* window){
         for(auto comp : m_components){
             comp.second->update(this, window, window->getDelta());
         }

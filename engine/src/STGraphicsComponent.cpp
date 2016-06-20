@@ -81,8 +81,10 @@ void STGraphicsComponent::setShdrUniform(const std::string &name, Vector4<stReal
 }
 
 void STGraphicsComponent::addSpriteSheet(Texture *tex, uint32_t rowCount, uint32_t colCount) {
-    if(!useTexture) useTexture = true;
-    m_tex = tex;
+    if(!useTexture) {
+        useTexture = true;
+        m_tex = tex;
+    }
     m_spriteSheet.width = tex->getTextureWidth();
     m_spriteSheet.height = tex->getTextureHeight();
     m_spriteSheet.row_cellSize = rowCount / tex->getTextureHeight();
@@ -102,10 +104,8 @@ void STGraphicsComponent::nextFrame() {
     }else{
         m_spriteSheet.colIndex = 0;
     }
-    stReal rowOffset = m_spriteSheet.rowIndex * m_spriteSheet.row_cellSize;
     stReal colOffset = m_spriteSheet.colIndex * m_spriteSheet.col_cellSize;
     setShdrUniform("sprite-xOffset", colOffset);
-    setShdrUniform("sprite-yOffset", rowOffset);
 }
 
 void STGraphicsComponent::setSpriteSheetRow(int row) {

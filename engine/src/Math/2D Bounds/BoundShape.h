@@ -5,13 +5,11 @@
 #include <stdint-gcc.h>
 #include "../STCore.h"
 
-template<typename T> class Vector2<T>;
-
 class BoundShape{
 public:
 
     virtual bool contains(const BoundShape& other) = 0;
-    virtual bool contains(const Vector2<stReal>& point) = 0;
+    virtual bool contains(Vector2<stReal>& point) = 0;
 
     const uint32_t &iterations() const {
         return m_iterations;

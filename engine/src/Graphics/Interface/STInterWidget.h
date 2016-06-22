@@ -7,6 +7,12 @@
 
 class STInterWidget : public STEntity{
 public:
+    enum Event{
+        Hover,
+        Click,
+        None
+    };
+
     STInterWidget(){}
 
     STInterWidget(STEntity* parent){
@@ -32,6 +38,7 @@ protected:
     STColor m_backgroundColor;
     STColor m_foregroundColor;
     bool m_visible;
+    Event eventType;
 };
 
 #endif //WAHOO_STINTERWIDGET_H

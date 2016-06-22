@@ -47,7 +47,7 @@ public:
 
 private:
 
-    STMesh*m_mesh;
+    STMesh* m_mesh;
 };
 
 

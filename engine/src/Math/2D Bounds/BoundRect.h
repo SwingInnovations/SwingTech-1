@@ -28,7 +28,7 @@ public:
         return false;
     }
 
-    virtual bool contains(Vector2<stReal> &cursor){
+    virtual bool contains(const Vector2<stReal> &cursor){
         stReal x = points.at(0);
         stReal y = points.at(1);
         stReal w = points.at(2);

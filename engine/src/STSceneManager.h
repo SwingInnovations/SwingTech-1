@@ -56,13 +56,22 @@ private:
     int m_NumLights;
 };
 
+class Node{
+public:
+    Node(){;}
+protected:
+    virtual void split() = 0;
+    Node* next = nullptr;
+};
+
 template <class GameObject>
 class QuadNode{
 public:
     QuadNode(GameObject* object){}
 private:
     Vector2<stReal> bounds[4];
-    GameObject* children[4];
+    GameObject* entity = nullptr;
+    QuadNode* children[4] = {nullptr, nullptr, nullptr, nullptr};
 };
 
 template<class GameObject>
@@ -71,7 +80,8 @@ public:
     OctNode(GameObject* object){  }
 private:
     Vector3<stReal> bounds[8];
-    GameObject* children[8];
+    GameObject* entity = nullptr;
+    OctNode* children[8] = {nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr};
 };
 
 #endif //WAHOO_STSCENEMANAGER_H

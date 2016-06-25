@@ -86,7 +86,8 @@ private:
     float m_Width, m_Height;
     ViewProfile m_viewProf;
     enum{
-        DefaultView_PERSP = 0
+        DefaultView_PERSP = 0,
+        DefaultView_ORTHO = 1
     };
 };
 

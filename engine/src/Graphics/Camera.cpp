@@ -26,9 +26,9 @@ Camera::Camera(STGame &win, Vector3<stReal> &pos, int presetMode) {
     m_transform.setTranslate(pos);
     m_Forward = Vector3<stReal>(1.0f, 0.0f, 0.0f);
     m_Up = Vector3<stReal>(0.0f, 1.0f, 0.0f);
+    ViewProfile viewProfile;
     if(presetMode == DefaultView_PERSP){
-        ViewProfile viewProfile;
-        viewProfile.FOV = 33.0f;
+        viewProfile.FOV = 45.0f;
         viewProfile.moveMode = CAMERA_MOVEMENT::FIRST_PERSON;
         viewProfile.viewMode = CAMERA_VIEW::PERSPECTIVE;
         viewProfile.zNear = 1.0f;
@@ -37,6 +37,15 @@ Camera::Camera(STGame &win, Vector3<stReal> &pos, int presetMode) {
         win.getInput()->setCursorBound(true);
         win.getInput()->centerMouseInWindow();
         win.getInput()->setCursorVisible(false);
+    }else if(presetMode == DefaultView_ORTHO){
+        viewProfile.FOV = 45;
+        viewProfile.moveMode = CAMERA_MOVEMENT::LOCKED;
+        viewProfile.viewMode = CAMERA_VIEW::ORTHOGRAPHIC;
+        viewProfile.zNear = 1.0f;
+        viewProfile.zFar = 100.0f;
+        m_viewProf = viewProfile;
+        win.getInput()->setCursorBound(false);
+        win.getInput()->setCursorVisible(true);
     }
     hAngle = 0.0f;
     vAngle = 0.0f;

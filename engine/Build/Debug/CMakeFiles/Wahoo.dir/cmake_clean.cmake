@@ -9,7 +9,6 @@ file(REMOVE_RECURSE
   "CMakeFiles/Wahoo.dir/src/Graphics/Shader.cpp.obj"
   "CMakeFiles/Wahoo.dir/src/SComponent.cpp.obj"
   "CMakeFiles/Wahoo.dir/src/Graphics/GL/GLShader.cpp.obj"
-  "CMakeFiles/Wahoo.dir/src/Graphics/Texture.cpp.obj"
   "CMakeFiles/Wahoo.dir/src/Graphics/GL/GLTexture.cpp.obj"
   "CMakeFiles/Wahoo.dir/src/STEntity.cpp.obj"
   "CMakeFiles/Wahoo.dir/src/STComponent.cpp.obj"

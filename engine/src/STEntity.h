@@ -18,8 +18,25 @@ class STMeshComponent;
 class STGraphicsComponent;
 class STScriptComponent;
 
+struct STAttribute{
+    enum Type{
+        Int = 0,
+        Float = 1,
+        Double = 2,
+        String = 3,
+        Vector3 = 4,
+        Vector4 = 5
+    };
+};
+
 class STEntity {
 public:
+    enum Type{
+        Actor = 0,
+        Light = 1,
+        GUI = 2
+    };
+
     STEntity();
     STEntity(const std::string& fileName, const int type, Shader* shdr);
     STEntity(const std::string& fileName, const int type, const std::string& shdrPath);
@@ -91,7 +108,7 @@ public:
         grphx->draw();
         mesh->draw();
         if(hasChildren()){
-            for(unsigned int i = 0, lim = m_children.size(); i < lim; i++){
+            for(unsigned int i = 0, lim = (unsigned int)m_children.size(); i < lim; i++){
                 m_children.at(i)->draw();
             }
         }
@@ -104,11 +121,12 @@ public:
         grphx->shdr()->update(*m_transform, *cam);
         mesh->draw();
         if(hasChildren()){
-            for(unsigned int i = 0, lim = m_children.size(); i < lim; i++){
+            for(unsigned int i = 0, lim = (unsigned int)m_children.size(); i < lim; i++){
                 m_children.at(i)->draw(cam);
             }
         }
     }
+
 
     void draw(Camera* cam, int drawMode){
         auto grphx = this->get<STGraphicsComponent>();
@@ -118,11 +136,12 @@ public:
         mesh->draw(drawMode);
 
         if(hasChildren()){
-            for(unsigned int i = 0, lim = m_children.size(); i < lim; i++){
+            for(unsigned int i = 0, lim = (unsigned int)m_children.size(); i < lim; i++){
                 m_children.at(i)->draw(cam, drawMode);
             }
         }
     }
+
 private:
     std::string m_tag;
     Transform* m_transform;

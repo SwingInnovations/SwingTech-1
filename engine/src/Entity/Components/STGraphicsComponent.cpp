@@ -1,5 +1,5 @@
 #include "STGraphicsComponent.h"
-#include "Graphics/GL/GLShader.h"
+#include "../../Graphics/GL/GLShader.h"
 
 STGraphicsComponent::STGraphicsComponent(Shader *shdr) {
     m_shdr = shdr;

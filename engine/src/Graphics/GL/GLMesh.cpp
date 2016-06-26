@@ -1,5 +1,5 @@
 #include "GLMesh.h"
-#include "../../STMeshComponent.h"
+#include "../../Entity/Components/STMeshComponent.h"
 
 GLMesh::GLMesh() {
 

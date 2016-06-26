@@ -1,7 +1,7 @@
 #ifndef WAHOO_STCOMPONENT_H
 #define WAHOO_STCOMPONENT_H
 
-#include "STGame.h"
+#include "../../STGame.h"
 
 class STEntity;
 

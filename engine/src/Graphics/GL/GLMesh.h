@@ -6,7 +6,7 @@
 
 #include "../../../include/GL/glew.h"
 
-#include "../../STMesh.h"
+#include "../../Entity/Util/STMesh.h"
 
 class GLMesh : public STMesh{
 public:

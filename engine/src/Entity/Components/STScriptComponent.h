@@ -3,17 +3,17 @@
 
 #include <iostream>
 
-#include "../include/LuaBridge.h"
+#include "LuaBridge.h"
 
 extern "C"{
-    #include "../include/lualib.h"
-    #include "../include/lauxlib.h"
-    #include "../include/lua.h"
+    #include "lualib.h"
+    #include "lauxlib.h"
+    #include "lua.h"
 
 };
 
 #include "STComponent.h"
-#include "STEntity.h"
+#include "../STEntity.h"
 
 #define ADD_FUNC(x) addFunction(#x, &STScriptComponent::x)
 

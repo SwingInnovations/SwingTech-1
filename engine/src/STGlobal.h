@@ -7,10 +7,10 @@
 #include "Input.h"
 
 #include "STGameState.h"
-#include "STComponent.h"
-#include "STMeshComponent.h"
-#include "STGraphicsComponent.h"
-#include "STEntity.h"
+#include "Entity/Components/STComponent.h"
+#include "Entity/Components/STMeshComponent.h"
+#include "Entity/Components/STGraphicsComponent.h"
+#include "Entity/STEntity.h"
 
 #include "Math/STCore.h"
 #include "Math/Vector.h"

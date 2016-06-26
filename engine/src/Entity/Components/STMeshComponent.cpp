@@ -1,6 +1,6 @@
 #include "STMeshComponent.h"
-#include "Graphics/STGraphics.h"
-#include "Graphics/GL/GLMesh.h"
+#include "../../Graphics/STGraphics.h"
+#include "../../Graphics/GL/GLMesh.h"
 
 STMeshComponent::STMeshComponent(const std::string &fileName, int type) {
     if(STGraphics::RENDERER == STGraphics::OPENGL){

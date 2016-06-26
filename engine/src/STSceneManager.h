@@ -2,8 +2,8 @@
 #define WAHOO_STSCENEMANAGER_H
 
 #include <vector>
-#include "STEntity.h"
-#include "STLight.h"
+#include "Entity/STEntity.h"
+#include "Entity/STLight.h"
 
 template<typename GameEntity>
 class QuadNode;

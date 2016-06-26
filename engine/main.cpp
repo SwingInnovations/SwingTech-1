@@ -3,13 +3,14 @@
 #include "src/Math/STCore.h"
 #include "src/STGame.h"
 #include "src/STGameState.h"
-#include "src/STEntity.h"
+#include "src/Entity/STEntity.h"
 #include "src/Graphics/GL/GLShader.h"
 #include "src/Graphics/GL/GLGraphics.h"
-#include "src/STGraphicsComponent.h"
+#include "src/Entity/Components/STGraphicsComponent.h"
 #include "src/Math/Shape/Rect.h"
 #include "src/STSceneManager.h"
-#include "src/STEventComponent.h"
+#include "src/Entity/Components/STEventComponent.h"
+#include "src/Entity/STActor.h"
 
 
 using namespace std;
@@ -36,6 +37,10 @@ public:
         resManager->addShader("objShdr", new GLShader("objShdr"));
         resManager->addShader("rectShdr", new GLShader("rectShdr"));
         resManager->addMaterial("basic", new STMaterial(new GLShader("basic"), new GLTexture("grid.png")));
+        resManager->addMaterial("lit", new STMaterial(new GLShader("lightSource")));
+
+        _testActor = new STActor("sphere.obj", STMesh::OBJ, resManager->getMaterial("lit"));
+        _testActor->addShdrUniform("objColor", Vector3<stReal>(1.0, 0.5, 0.31f));
 
         //light Color
         _box2 = new STEntity("sphere.obj", STMesh::OBJ, resManager->getShader("lightSource"));
@@ -73,6 +78,7 @@ public:
         sceneManager->addEntity(_box2);
         sceneManager->addEntity(_box1);
         sceneManager->addEntity(_ball);
+        sceneManager->addEntity(_testActor);
         STGraphics::ClearColor = Vector4<stReal>(0.0, 0.0, 0.168, 1.0);
         ((GLGraphics*)window->getGraphics())->addRenderPass(sceneManager,(GLShader*)resManager->getShader("screen"));
     }
@@ -130,6 +136,7 @@ private:
     STEntity* _box1;
     STEntity* _box2;
     STEntity* _ball;
+    STActor* _testActor;
     Vector3<stReal> lightPos;
 };
 

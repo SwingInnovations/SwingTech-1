@@ -4,8 +4,8 @@
 #include <regex>
 
 #include "../../../include/GL/glew.h"
-#include "../../STLight.h"
-#include "../../STEntity.h"
+#include "../../Entity/STLight.h"
+#include "../../Entity/STEntity.h"
 #include "../../STSceneManager.h"
 #include "../STGraphics.h"
 #include "GLShader.h"

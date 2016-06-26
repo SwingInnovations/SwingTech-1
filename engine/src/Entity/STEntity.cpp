@@ -1,5 +1,5 @@
 #include "STEntity.h"
-#include "STEventComponent.h"
+#include "Components/STEventComponent.h"
 
 STEntity::STEntity() {
     m_transform = new Transform();

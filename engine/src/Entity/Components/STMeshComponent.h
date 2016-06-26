@@ -7,13 +7,13 @@
 #include <iostream>
 
 #include "STComponent.h"
-#include "Math/Vector.h"
-#include "Math/Vertex.h"
+#include "../../Math/Vector.h"
+#include "../../Math/Vertex.h"
 
-#include "Math/Shape/Shape.h"
-#include "Math/Shape/Rect.h"
-#include "Math/Shape/Quad.h"
-#include "STMesh.h"
+#include "../../Math/Shape/Shape.h"
+#include "../../Math/Shape/Rect.h"
+#include "../../Math/Shape/Quad.h"
+#include "../Util/STMesh.h"
 
 class STComponent;
 

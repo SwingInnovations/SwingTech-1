@@ -6,10 +6,10 @@
 #include <fstream>
 #include <iostream>
 
-#include "Math/Shape/Shape.h"
-#include "Math/Shape/Rect.h"
-#include "Math/Shape/Quad.h"
-#include "Math/Shape/Cube.h"
+#include "../../Math/Shape/Shape.h"
+#include "../../Math/Shape/Rect.h"
+#include "../../Math/Shape/Quad.h"
+#include "../../Math/Shape/Cube.h"
 
 class OBJMesh{
 public:

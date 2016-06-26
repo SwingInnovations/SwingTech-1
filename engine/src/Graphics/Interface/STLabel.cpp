@@ -1,5 +1,5 @@
 #include "STLabel.h"
-#include "../../STRectBoundsComponent.h"
+#include "../../Entity/Components/STRectBoundsComponent.h"
 
 STLabel::STLabel() {
 

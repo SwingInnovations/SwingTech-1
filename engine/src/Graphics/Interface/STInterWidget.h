@@ -2,7 +2,7 @@
 #define WAHOO_STINTERWIDGET_H
 
 #include "../../STGame.h"
-#include "../../STEntity.h"
+#include "../../Entity/STEntity.h"
 #include "../STColor.h"
 
 class STInterWidget : public STEntity{

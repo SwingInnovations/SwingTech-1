@@ -4,12 +4,12 @@
 #include <map>
 #include <vector>
 #include <typeindex>
-#include "Math/Transform.h"
-#include "STComponent.h"
-#include "STGraphicsComponent.h"
-#include "STMeshComponent.h"
-#include "STScriptComponent.h"
-#include "Math/Matrix.h"
+#include "../Math/Transform.h"
+#include "Components/STComponent.h"
+#include "Components/STGraphicsComponent.h"
+#include "Components/STMeshComponent.h"
+#include "Components/STScriptComponent.h"
+#include "../Math/Matrix.h"
 
 class Transform;
 class Camera;
@@ -27,6 +27,17 @@ struct STAttribute{
         Vector3 = 4,
         Vector4 = 5
     };
+    STAttribute(const int value){
+        type = Int;
+
+    }
+
+    STAttribute(const float value){
+
+    }
+private:
+    Type type;
+    std::string value;
 };
 
 class STEntity {
@@ -102,7 +113,7 @@ public:
         }
     }
 
-    void draw(){
+    virtual void draw(){
         auto grphx = get<STGraphicsComponent>();
         auto mesh = get<STMeshComponent>();
         grphx->draw();
@@ -142,10 +153,12 @@ public:
         }
     }
 
-private:
+protected:
+    Type m_type;
     std::string m_tag;
     Transform* m_transform;
     std::map<std::type_index, STComponent*> m_components;
+    std::map<std::string, STAttribute*> m_attributes;
     std::vector<STEntity*> m_children;
 };
 

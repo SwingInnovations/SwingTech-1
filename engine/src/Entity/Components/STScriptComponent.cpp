@@ -1,6 +1,6 @@
 #include "STScriptComponent.h"
 
-#include "STGlobal.h"
+#include "../../STGlobal.h"
 
 STScriptComponent::STScriptComponent(STEntity *entity, const std::string &fileName) {
     this->m_entity = entity;

@@ -2,7 +2,7 @@
 #define WAHOO_STRECTBOUNDSCOMPONENT_H
 
 #include "STComponent.h"
-#include "Math/2D Bounds/BoundRect.h"
+#include "../../Math/2D Bounds/BoundRect.h"
 
 class STRectBoundsComponent : public STComponent {
 public:

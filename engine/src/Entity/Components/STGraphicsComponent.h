@@ -3,11 +3,11 @@
 
 #include <vector>
 
-#include "Graphics/Shader.h"
-#include "Graphics/Texture.h"
+#include "../../Graphics/Shader.h"
+#include "../../Graphics/Texture.h"
 #include "STComponent.h"
 
-#include "Math/Vector.h"
+#include "../../Math/Vector.h"
 
 struct SpriteSheet{
     int width, height;

@@ -22,7 +22,7 @@ public:
     TestState(int id){ this->m_id = id; }
 
     void init(STGame * window){
-        window->getCamera()->setHAngle(90.0f);
+        //window->getCamera()->setHAngle(90.0f);
         counter = 0;
         drawMode = STMesh::TRIANGLES;
         sceneManager = new STSceneManager();

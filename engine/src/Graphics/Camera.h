@@ -53,7 +53,7 @@ public:
     Camera(STGame &, Vector3<stReal>&, ViewProfile&);
     Camera(STGame &, Vector3<stReal>&, int);
 
-    void init();
+    void init(ViewProfile viewProfile);
     void update();
     void update(Input* input);
 

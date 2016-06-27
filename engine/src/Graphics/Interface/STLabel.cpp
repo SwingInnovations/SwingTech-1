@@ -18,5 +18,12 @@ void STLabel::update(STGame *window) {
     eventType = None;
 }
 
+STLabel::STLabel(stReal x, stReal y, std::string &text) {
+    m_text = text;
+    m_position.set(x, y);
+    m_fontColor.set(BLACK);
+}
 
+void STLabel::draw(){
 
+}

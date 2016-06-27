@@ -13,10 +13,8 @@ public:
         None
     };
 
-    STInterWidget(){}
-
-    STInterWidget(STEntity* parent){
-
+    STInterWidget(){
+        m_type = GUI;
     }
 
     void setText(const std::string& text){ m_text = text; }

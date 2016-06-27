@@ -7,10 +7,11 @@
 class STLabel : public STInterWidget {
 public:
     STLabel();
-    STLabel(stReal x, stReal y, stReal width, stReal height, std::string& text);
-
-
+    STLabel(stReal x, stReal y, std::string& text);
     virtual void update(STGame *window) override;
+    void draw();
+private:
+    Vector2<stReal> m_position;
 };
 
 

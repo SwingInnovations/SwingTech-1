@@ -14,9 +14,7 @@ struct Light{
     float coneAngle;
     Vector3<stReal> coneDirection;
 };
-
-class STLight: public STEntity{
-private:
+class STLight{
 
 };
 #endif //WAHOO_STLIGHT_H

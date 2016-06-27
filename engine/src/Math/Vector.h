@@ -31,6 +31,11 @@ public:
         m_val[1] = _y;
     }
 
+    void set(T _x, T _y){
+        m_val[0] = _x;
+        m_val[1] = _y;
+    }
+
     T getX() const{ return m_val[0]; }
     T getY() const{ return m_val[1]; }
 

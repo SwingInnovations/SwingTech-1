@@ -24,7 +24,7 @@ Camera::Camera(STGame &win, Vector3<stReal> &pos, int presetMode) {
     m_Width = (float)win.getWidth();
     m_Height = (float)win.getHeight();
     m_transform.setTranslate(pos);
-    m_Forward = Vector3<stReal>(1.0f, 0.0f, 0.0f);
+    m_Forward = Vector3<stReal>(0.0f, 0.0f, 1.0f);
     m_Up = Vector3<stReal>(0.0f, 1.0f, 0.0f);
     ViewProfile viewProfile;
     if(presetMode == DefaultView_PERSP){
@@ -51,10 +51,18 @@ Camera::Camera(STGame &win, Vector3<stReal> &pos, int presetMode) {
     vAngle = 0.0f;
 }
 
+void Camera::init(ViewProfile viewProfile) {
+    m_viewProf= viewProfile;
+    m_start = false;
+    m_Forward = Vector3<stReal>(0.0f, 0.0f, 1.0f);
+    hAngle = 0.0f;
+    vAngle = 0.0f;
+}
+
 void Camera::update() {
     Vector3<stReal> vAxis(0.0f, 1.0f, 0.0f);
 
-    m_View = Vector3<stReal>(1.0f, 0.0f, 0.0f);
+    m_View = Vector3<stReal>(0.0f, 0.0f, 1.0f);
     m_View.rotate(hAngle, vAxis);
     m_View.normalize();
 

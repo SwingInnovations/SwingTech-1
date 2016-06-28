@@ -1,6 +1,8 @@
 #include "../src/STGlobal.h"
+#include "../src/Input.h"
 
 class InputMap;
+class STGame;
 
 int main(int argc, char** argv){
     InputMap* inputMap = new InputMap;

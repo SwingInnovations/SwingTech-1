@@ -265,3 +265,16 @@ STEntity *STEntity::childAtTag(const std::string &tag) {
 void STEntity::addScriptComponent(const std::string &script) {
     addComponent(typeid(STScriptComponent*), new STScriptComponent(this, script));
 }
+
+//Start moving to this method of drawing
+void STEntity::draw(STGraphics *grphx) {
+    auto graphics = this->get<STGraphicsComponent>();
+    auto mesh = this->get<STMeshComponent>();
+    auto camera = grphx->camera();
+
+    graphics->draw();
+    graphics->shdr()->update(*m_transform, *camera);
+    mesh->draw();
+
+    graphics->draw();
+}

@@ -42,7 +42,12 @@ public:
 
     virtual std::string getVendor(){ return NULL; }
 
+    void setFontColor(const Vector4<stReal> vec){ m_fontColor = vec; }
+
+    Vector4<stReal> getFontColor()const { return m_fontColor; }
+
     virtual void drawText(Vector2<stReal> pos, const std::string& text, stReal fontSize ){ ; }
+    virtual void drawText(Vector2<stReal> pos, const std::string& text, stReal fontSize, Vector4<stReal>& color){ ; }
     virtual void drawText(Vector2<stReal> pos, const std::string& text, stReal fontSize, stReal value){ ; }
     virtual void drawText(Vector2<stReal> pos, const std::string& text, stReal fontSize, std::string& msg){ ; }
     virtual void drawText(Vector2<stReal> pos, const std::string& text, stReal fontSize, int value){  }
@@ -50,8 +55,6 @@ public:
     virtual void drawText(Vector2<stReal> pos, const std::string& text, stReal fontSize, Vector2<stReal> vector){ ; }
     virtual void drawText(Vector2<stReal> pos, const std::string& text, stReal fontSize, stReal v1, stReal v2, stReal v3){ ; }
     virtual void drawText(Vector2<stReal> pos, const std::string& text, stReal fontSize, Vector3<stReal> vector){ ; }
-    virtual void drawText(Vector2<stReal> pos, const std::string& text, stReal fontSize, stReal v1, stReal v2, stReal v3, stReal v4){ ; }
-    virtual void drawText(Vector2<stReal> pos, const std::string& text, stReal fontSize, Vector4<stReal> vector){;}
 
     Camera* camera(){
         return m_Cam;
@@ -62,7 +65,7 @@ protected:
     unsigned int WIDTH, HEIGHT;
     Camera* m_Cam;
     static bool m_YUp;
-
+    Vector4<stReal> m_fontColor;
 
 };
 

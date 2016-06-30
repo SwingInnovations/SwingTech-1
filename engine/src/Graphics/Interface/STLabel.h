@@ -9,7 +9,7 @@ public:
     STLabel();
     STLabel(stReal x, stReal y, std::string& text);
     virtual void update(STGame *window) override;
-    void draw();
+    void draw(STGraphics* grphx);
 private:
     Vector2<stReal> m_position;
 };

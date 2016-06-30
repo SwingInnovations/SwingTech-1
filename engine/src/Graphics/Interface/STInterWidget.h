@@ -19,6 +19,7 @@ public:
 
     void setText(const std::string& text){ m_text = text; }
     void setFontColor(STColor& color){ m_fontColor = color; }
+    void setFontSize(unsigned int size){ m_fontSize = size; }
     void setBackgroundColor(STColor& color){ m_backgroundColor = color; }
     void setForegroundColor(STColor& color){ m_foregroundColor = color; }
 
@@ -33,6 +34,7 @@ public:
 protected:
     std::string m_text;
     STColor m_fontColor;
+    unsigned int m_fontSize;
     STColor m_backgroundColor;
     STColor m_foregroundColor;
     bool m_visible;

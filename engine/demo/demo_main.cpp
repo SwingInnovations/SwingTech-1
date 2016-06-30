@@ -18,5 +18,6 @@ int main(int argc, char** argv){
     Vector3<stReal> camPos(0.0f, -0.2f, -5.0f);
     game.addCamera(new Camera(game, camPos, 0));
     game.start();
+    return 0;
 }
 

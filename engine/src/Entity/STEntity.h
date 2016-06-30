@@ -10,9 +10,11 @@
 #include "Components/STMeshComponent.h"
 #include "Components/STScriptComponent.h"
 #include "../Math/Matrix.h"
+#include "../Graphics/STGraphics.h"
 
 class Transform;
 class Camera;
+class STGraphics;
 class STComponent;
 class STMeshComponent;
 class STGraphicsComponent;
@@ -124,6 +126,8 @@ public:
             }
         }
     }
+
+    virtual void draw(STGraphics* grphx);
 
     void draw(Camera* cam){
         auto grphx = this->get<STGraphicsComponent>();

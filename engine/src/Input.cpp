@@ -47,7 +47,7 @@ Input::Input(STGame * window, SDL_Event& event) {
 }
 
 Input::~Input() {
-    //TODO Cleanup stuff here
+    delete inputMap;
 }
 
 void Input::poll(SDL_Event& event) {

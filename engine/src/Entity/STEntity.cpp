@@ -10,6 +10,7 @@ STEntity::STEntity(const std::string &fileName, const int type, Shader *shdr) {
     addComponent(typeid(STMeshComponent), new STMeshComponent(fileName, type));
     addComponent(typeid(STGraphicsComponent), new STGraphicsComponent(shdr));
     addComponent(typeid(STEventComponent), new STEventComponent);
+    m_visible = true;
 }
 
 STEntity::STEntity(const std::string &fileName, const int type, Shader *shdr, Texture *tex) {
@@ -17,6 +18,7 @@ STEntity::STEntity(const std::string &fileName, const int type, Shader *shdr, Te
     addComponent(typeid(STMeshComponent), new STMeshComponent(fileName, type));
     addComponent(typeid(STGraphicsComponent), new STGraphicsComponent(shdr, tex));
     addComponent(typeid(STEventComponent), new STEventComponent);
+    m_visible = true;
 }
 
 STEntity::STEntity(const std::string &fileName, const int type, const std::string &shdrPath) {
@@ -24,6 +26,7 @@ STEntity::STEntity(const std::string &fileName, const int type, const std::strin
     addComponent(typeid(STMeshComponent), new STMeshComponent(fileName, type));
     addComponent(typeid(STGraphicsComponent), new STGraphicsComponent(shdrPath));
     addComponent(typeid(STEventComponent), new STEventComponent);
+    m_visible = true;
 }
 
 STEntity::STEntity(const std::string &fileName, const int type, const std::string &shdrPath,
@@ -32,6 +35,7 @@ STEntity::STEntity(const std::string &fileName, const int type, const std::strin
     addComponent(typeid(STMeshComponent), new STMeshComponent(fileName, type));
     addComponent(typeid(STGraphicsComponent), new STGraphicsComponent(shdrPath, texPath));
     addComponent(typeid(STEventComponent), new STEventComponent);
+    m_visible = true;
 }
 
 STEntity::STEntity(const std::string &fileName, const int type, STMaterial *mat) {
@@ -39,6 +43,7 @@ STEntity::STEntity(const std::string &fileName, const int type, STMaterial *mat)
     addComponent(typeid(STMeshComponent), new STMeshComponent(fileName, type));
     addComponent(typeid(STGraphicsComponent), new STGraphicsComponent(mat));
     addComponent(typeid(STEventComponent), new STEventComponent);
+    m_visible = true;
 }
 
 
@@ -47,6 +52,7 @@ STEntity::STEntity(STRect *rect,Shader *shdr) {
     addComponent(typeid(STMeshComponent), new STMeshComponent(rect));
     addComponent(typeid(STGraphicsComponent), new STGraphicsComponent(shdr));
     addComponent(typeid(STEventComponent), new STEventComponent);
+    m_visible = true;
 }
 
 STEntity::STEntity(STCube* cube, Shader* shdr){
@@ -54,6 +60,7 @@ STEntity::STEntity(STCube* cube, Shader* shdr){
     addComponent(typeid(STMeshComponent), new STMeshComponent(cube));
     addComponent(typeid(STGraphicsComponent), new STGraphicsComponent(shdr));
     addComponent(typeid(STEventComponent), new STEventComponent);
+    m_visible = true;
 }
 
 STEntity::STEntity(STCube* cube, Shader* shdr, Texture* tex){
@@ -61,6 +68,7 @@ STEntity::STEntity(STCube* cube, Shader* shdr, Texture* tex){
     addComponent(typeid(STMeshComponent), new STMeshComponent(cube));
     addComponent(typeid(STGraphicsComponent), new STGraphicsComponent(shdr, tex));
     addComponent(typeid(STEventComponent), new STEventComponent);
+    m_visible = true;
 }
 
 STEntity::STEntity(STQuad *quad, Shader *shdr) {
@@ -68,6 +76,7 @@ STEntity::STEntity(STQuad *quad, Shader *shdr) {
     addComponent(typeid(STMeshComponent), new STMeshComponent(quad));
     addComponent(typeid(STGraphicsComponent), new STGraphicsComponent(shdr));
     addComponent(typeid(STEventComponent), new STEventComponent);
+    m_visible = true;
 }
 
 STEntity::~STEntity() {
@@ -277,4 +286,12 @@ void STEntity::draw(STGraphics *grphx) {
     mesh->draw();
 
     graphics->draw();
+}
+
+void STEntity::setVisible(bool value) {
+    m_visible = value;
+}
+
+bool STEntity::isVisible() {
+    return m_visible;
 }

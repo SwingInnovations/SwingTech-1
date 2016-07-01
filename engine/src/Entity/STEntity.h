@@ -99,6 +99,9 @@ public:
 
     STEntity* childAtTag(const std::string& tag);
 
+    void setVisible(bool value);
+    bool isVisible();
+
     template<typename T> T* get(){
         auto it = m_components.find(std::type_index(typeid(T)));
         if(it != m_components.end()){
@@ -161,6 +164,7 @@ protected:
     Type m_type;
     std::string m_tag;
     Transform* m_transform;
+    bool m_visible;
     std::map<std::type_index, STComponent*> m_components;
     std::map<std::string, STAttribute*> m_attributes;
     std::vector<STEntity*> m_children;

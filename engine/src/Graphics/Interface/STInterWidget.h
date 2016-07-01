@@ -33,6 +33,7 @@ public:
     virtual void releaseEvent() = 0;
 protected:
     std::string m_text;
+    std::string m_font;
     STColor m_fontColor;
     unsigned int m_fontSize;
     STColor m_backgroundColor;

@@ -10,17 +10,20 @@ STActor::STActor(const std::string &filePath, const int type, STMaterial *materi
     addComponent(typeid(STMeshComponent), new STMeshComponent(filePath, type));
     addComponent(typeid(STGraphicsComponent), new STGraphicsComponent(material));
     addComponent(typeid(STEventComponent), new STEventComponent());
+    m_visible = true;
 }
 
 void STActor::draw() {
-    auto mesh = this->get<STMeshComponent>();
-    auto grphx = this->get<STGraphicsComponent>();
+    if(m_visible){
+        auto mesh = this->get<STMeshComponent>();
+        auto grphx = this->get<STGraphicsComponent>();
 
-    grphx->draw();
-    mesh->draw();
-    if(m_children.size() > 0){
-        for(auto child : m_children){
-            child->draw();
+        grphx->draw();
+        mesh->draw();
+        if(m_children.size() > 0){
+            for(auto child : m_children){
+                child->draw();
+            }
         }
     }
 }

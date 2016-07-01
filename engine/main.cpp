@@ -9,6 +9,7 @@
 #include "src/Entity/Components/STGraphicsComponent.h"
 #include "src/Math/Shape/Rect.h"
 #include "src/STSceneManager.h"
+#include "src/Graphics/STFontMetrics.h"
 #include "src/Entity/Components/STEventComponent.h"
 #include "src/Entity/STActor.h"
 
@@ -138,6 +139,7 @@ private:
     STEntity* _ball;
     STActor* _testActor;
     Vector3<stReal> lightPos;
+    int width = 0, height = 0;
 };
 
 int main(int argc, char** argv) {

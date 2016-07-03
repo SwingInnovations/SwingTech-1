@@ -40,23 +40,3 @@ void STLabel::invokeHoverEvent(STEntity *entity, STGame *game) {
 void STLabel::hoverEvent(std::function<void(STEntity *, STGame *)> hoverEvent) {
     hoverEvents = hoverEvent;
 }
-
-void STLabel::keyEvent() {
-
-}
-
-void STLabel::mouseEvent() {
-
-}
-
-void STLabel::clickEvent() {
-
-}
-
-void STLabel::pressEvent() {
-
-}
-
-void STLabel::releaseEvent() {
-
-}

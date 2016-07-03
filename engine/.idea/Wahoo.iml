@@ -26,9 +26,11 @@
       <sourceFolder url="file://$MODULE_DIR$/src/STGlobal.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src/Input.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src/Graphics/Shader.cpp" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/src/Graphics/Interface/STButton.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src/Graphics/Interface/STLabel.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src/Graphics/Interface/STInterWidget.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src/Graphics/Interface/STLabel.cpp" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/src/Graphics/Interface/STButton.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src/Graphics/Camera.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src/Graphics/STColor.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src/Graphics/Texture.h" isTestSource="false" />

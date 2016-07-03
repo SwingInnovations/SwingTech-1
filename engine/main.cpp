@@ -2,17 +2,12 @@
 
 #include "src/Math/STCore.h"
 #include "src/STGame.h"
-#include "src/STGameState.h"
 #include "src/Entity/STEntity.h"
-#include "src/Graphics/GL/GLShader.h"
 #include "src/Graphics/GL/GLGraphics.h"
-#include "src/Entity/Components/STGraphicsComponent.h"
-#include "src/Math/Shape/Rect.h"
-#include "src/STSceneManager.h"
-#include "src/Graphics/STFontMetrics.h"
 #include "src/Entity/Components/STEventComponent.h"
 #include "src/Entity/STActor.h"
 #include "src/Graphics/Interface/STLabel.h"
+#include "src/Graphics/Interface/STButton.h"
 
 
 using namespace std;
@@ -74,11 +69,17 @@ public:
         _ball->addShdrUniform("lightPos", _box2->transform()->getTranslate<stReal>());
         _ball->addShdrUniform("lightColor", Vector3<stReal>(1.0f, 0.5f, 0.0f));
         _ball->setScale(3.0f);
-        std::cout << "Now loading skybox! "<< std::endl;
-
         lbl = new STLabel(0, 96, "This is a test");
         lbl->hoverEvent([](STEntity* self, STGame* game){
             std::cout << "You are in me!" << std::endl;
+        });
+
+        btn = new STButton(0, 680, "Quit");
+        btn->inputEvent([](STEntity* self, STGame* game){
+            auto input = game->getInput();
+            if(input->isMousePressed(1)){
+                input->requestClose();
+            }
         });
 
         sceneManager->addSkyBox("green", "skybox");
@@ -116,6 +117,7 @@ public:
         _box2->update(win);
         _box1->update(win);
         lbl->update(win);
+        btn->update(win);
         counter += 0.025f * delta;
         _box2->transform()->setRotateY(-counter);
         _box2->setTranslateY(5.0f * sin(counter * 0.01f));
@@ -127,9 +129,10 @@ public:
     void render(STGame * win){
         auto grphx = win->getGraphics();
         win->getGraphics()->drawScene(sceneManager);
-        GLGraphics::TextColor = Vector3<stReal>(1.0, 1.0, 1.0);
+        GLGraphics::TextColor = Vector3<stReal>(1.0, 0.0, 0.0);
         win->getGraphics()->drawText(Vector2<stReal>(0, 32), "Renderer: " + grphx->getVendor(), 32);
         lbl->draw(grphx);
+        btn->draw(grphx);
     }
 
     ~TestState(){
@@ -145,6 +148,7 @@ private:
     STEntity* _box1;
     STEntity* _box2;
     STEntity* _ball;
+    STButton* btn;
     STActor* _testActor;
     STLabel* lbl;
     Vector3<stReal> lightPos;

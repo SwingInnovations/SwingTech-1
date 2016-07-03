@@ -26,11 +26,11 @@ public:
     void setVisible(bool val){ m_visible = val; }
     bool isVisible(){ return m_visible; }
 
-    virtual void keyEvent() = 0;
-    virtual void mouseEvent() = 0;
-    virtual void clickEvent() = 0;
-    virtual void pressEvent() = 0;
-    virtual void releaseEvent() = 0;
+//    virtual void keyEvent() = 0;
+//    virtual void mouseEvent() = 0;
+//    virtual void clickEvent() = 0;
+//    virtual void pressEvent() = 0;
+//    virtual void releaseEvent() = 0;
 protected:
     std::string m_text;
     std::string m_font;
@@ -40,6 +40,7 @@ protected:
     STColor m_foregroundColor;
     bool m_visible;
     Event eventType;
+    Vector2<stReal> m_position;
 };
 
 #endif //WAHOO_STINTERWIDGET_H

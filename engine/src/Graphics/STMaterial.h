@@ -68,7 +68,6 @@ public:
         shader->updateUniforms(entityUniforms);
         if(texture->getTextureCount() > 31){
             texture->bind(0);
-            std::cout << "Using Texture Fallback Mode" << std::endl;
         }else{
             for(unsigned int i = 0, S = texture->getTextureCount(); i < S; i++){
                 texture->bind(i);

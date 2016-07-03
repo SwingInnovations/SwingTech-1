@@ -10,6 +10,7 @@ public:
 
     void update(STEntity* self, STGame* game, int);
     BoundRect* bounds(){ return rect; }
+    std::string info();
 private:
     BoundRect* rect;
 };

@@ -13,8 +13,6 @@ extern "C"{
 
 struct STFontMetrics{
     static void bounds(const std::string& text, const int fontSize, const std::string fontFile, int* width, int* height){
-        std::cout << text << std::endl;
-
         struct Character{
             Vector2<int> size;
             Vector2<int> bearing;
@@ -55,12 +53,9 @@ struct STFontMetrics{
 
         std::string::const_iterator c;
         for(c = text.begin(); c != text.end(); c++){
-            std::cout << *c << std::endl;
             Character ch = characters[*c];
-//            *height = ((ch.size.getY() * fontSize) > *height) ? ch.size.getY()* fontSize : *height;
-//            x += (ch.advance >> 6) * fontSize + (ch.size.getX() * fontSize);
             int charHeight = (int)(ch.size.getY() * fs);
-            x += (ch.advance >> 6) * fs + (ch.size.getX() * fs) + (ch.bearing.getX() * fs);
+            x += ((ch.advance >> 6)) * fs;
             h = (charHeight > h) ? charHeight : h;
         }
         *width = (int)x;

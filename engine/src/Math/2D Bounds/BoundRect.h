@@ -28,6 +28,14 @@ public:
         return false;
     }
 
+    std::string info(){
+        std::ostringstream ss;
+        for(unsigned int i = 0; i < 4; i++){
+            if(i < 3) ss << points.at(i) << " : ";
+            else ss << points.at(i) << "\n";
+        }
+        return ss.str();
+    }
     virtual bool contains(const Vector2<stReal> &cursor){
         stReal x = points.at(0);
         stReal y = points.at(1);

@@ -12,6 +12,7 @@
 #include "src/Graphics/STFontMetrics.h"
 #include "src/Entity/Components/STEventComponent.h"
 #include "src/Entity/STActor.h"
+#include "src/Graphics/Interface/STLabel.h"
 
 
 using namespace std;
@@ -75,6 +76,11 @@ public:
         _ball->setScale(3.0f);
         std::cout << "Now loading skybox! "<< std::endl;
 
+        lbl = new STLabel(0, 96, "This is a test");
+        lbl->hoverEvent([](STEntity* self, STGame* game){
+            std::cout << "You are in me!" << std::endl;
+        });
+
         sceneManager->addSkyBox("green", "skybox");
         sceneManager->addEntity(_box2);
         sceneManager->addEntity(_box1);
@@ -109,6 +115,7 @@ public:
     void handleLogic(STGame * win, Uint32 delta){
         _box2->update(win);
         _box1->update(win);
+        lbl->update(win);
         counter += 0.025f * delta;
         _box2->transform()->setRotateY(-counter);
         _box2->setTranslateY(5.0f * sin(counter * 0.01f));
@@ -122,6 +129,7 @@ public:
         win->getGraphics()->drawScene(sceneManager);
         GLGraphics::TextColor = Vector3<stReal>(1.0, 1.0, 1.0);
         win->getGraphics()->drawText(Vector2<stReal>(0, 32), "Renderer: " + grphx->getVendor(), 32);
+        lbl->draw(grphx);
     }
 
     ~TestState(){
@@ -138,6 +146,7 @@ private:
     STEntity* _box2;
     STEntity* _ball;
     STActor* _testActor;
+    STLabel* lbl;
     Vector3<stReal> lightPos;
     int width = 0, height = 0;
 };

@@ -13,3 +13,6 @@ void STRectBoundsComponent::update(STEntity *self, STGame *game, int i) {
 
 }
 
+std::string STRectBoundsComponent::info() {
+    return rect->info();
+}

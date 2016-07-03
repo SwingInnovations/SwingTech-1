@@ -27,6 +27,7 @@ public:
     void update(const std::string& name, Vector3<stReal> val);
     void update(const std::string& name, Vector4<stReal> val);
     void update(const std::string& name, Matrix4f&);
+    void update(const std::string& name, Matrix4f&, bool);
 
     std::string getShaderName(){ return m_shaderName; }
 

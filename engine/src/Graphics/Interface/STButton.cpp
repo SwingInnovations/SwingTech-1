@@ -9,7 +9,7 @@ STButton::STButton() {
 STButton::STButton(stReal x, stReal y, std::string text) {
     m_text = text;
     m_position.set(x, y);
-    m_fontColor.set(0);
+    m_fontColor.set(WHITE);
     m_fontSize = 36;
     m_font = "fonts/arial.ttf";
     int width = 0, height = 0;

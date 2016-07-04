@@ -9,7 +9,7 @@ STLabel::STLabel() {
 STLabel::STLabel(stReal x, stReal y, std::string text) {
     m_text = text;
     m_position.set(x, y);
-    m_fontColor.set(BLACK);
+    m_fontColor.set(0);
     m_fontSize = 36;
     m_font = "fonts/arial.ttf";
     int width = 0, height = 0;
@@ -30,7 +30,7 @@ void STLabel::update(STGame *window) {
 }
 
 void STLabel::draw(STGraphics* grphx){
-    if(m_visible) grphx->drawText(m_position, m_text, m_fontSize, m_fontColor.color);
+    if(m_visible) grphx->drawText(m_position, m_text, m_fontSize, &m_fontColor.color);
 }
 
 void STLabel::invokeHoverEvent(STEntity *entity, STGame *game) {

@@ -297,13 +297,13 @@ void GLGraphics::drawText(Vector2<stReal> pos, const std::string& text, stReal f
     glDisable(GL_BLEND);
 }
 
-void GLGraphics::drawText(Vector2<stReal> pos, const std::string &text, stReal fontSize, Vector4<stReal> &color) {
+void GLGraphics::drawText(Vector2<stReal> pos, const std::string &text, stReal fontSize, Vector4<stReal> *color) {
     glEnable(GL_BLEND);
     glEnable(GL_TEXTURE_2D);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     textShader->bind();
     textShader->update("projection", orthoProjection);
-    textShader->update("textColor", color);
+    textShader->update("textColor", *color);
     glActiveTexture(GL_TEXTURE0);
     glBindVertexArray(textVAO);
 

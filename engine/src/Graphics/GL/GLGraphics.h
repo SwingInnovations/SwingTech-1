@@ -70,7 +70,7 @@ public:
     std::string getVendor();
 
     void drawText(Vector2<stReal> pos, const std::string& text, stReal fontSize );
-    void drawText(Vector2<stReal> pos, const std::string& text, stReal fontSize, Vector4<stReal>& color);
+    void drawText(Vector2<stReal> pos, const std::string& text, stReal fontSize, Vector4<stReal>* color);
     void drawText(Vector2<stReal> pos, const std::string& text, stReal fontSize, stReal value);
     void drawText(Vector2<stReal> pos, const std::string& text, stReal fontSize, std::string& msg);
     void drawText(Vector2<stReal> pos, const std::string& text, stReal fontSize, stReal v1, stReal v2);

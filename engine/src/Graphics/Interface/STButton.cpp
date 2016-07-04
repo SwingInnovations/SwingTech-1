@@ -9,7 +9,7 @@ STButton::STButton() {
 STButton::STButton(stReal x, stReal y, std::string text) {
     m_text = text;
     m_position.set(x, y);
-    m_fontColor.set(RED);
+    m_fontColor.set(0);
     m_fontSize = 36;
     m_font = "fonts/arial.ttf";
     int width = 0, height = 0;
@@ -26,7 +26,7 @@ void STButton::update(STGame *window) {
 }
 
 void STButton::draw(STGraphics *grphx) {
-    if(m_visible) grphx->drawText(m_position, m_text, m_fontSize, m_fontColor.color);
+    if(m_visible) grphx->drawText(m_position, m_text, m_fontSize, &m_fontColor.color);
 }
 
 void STButton::inputEvent(std::function<void(STEntity*, STGame*)> function) {

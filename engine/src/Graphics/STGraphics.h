@@ -47,7 +47,7 @@ public:
     Vector4<stReal> getFontColor()const { return m_fontColor; }
 
     virtual void drawText(Vector2<stReal> pos, const std::string& text, stReal fontSize ){ ; }
-    virtual void drawText(Vector2<stReal> pos, const std::string& text, stReal fontSize, Vector4<stReal>& color){ ; }
+    virtual void drawText(Vector2<stReal> pos, const std::string& text, stReal fontSize, Vector4<stReal>* color){ ; }
     virtual void drawText(Vector2<stReal> pos, const std::string& text, stReal fontSize, stReal value){ ; }
     virtual void drawText(Vector2<stReal> pos, const std::string& text, stReal fontSize, std::string& msg){ ; }
     virtual void drawText(Vector2<stReal> pos, const std::string& text, stReal fontSize, int value){  }

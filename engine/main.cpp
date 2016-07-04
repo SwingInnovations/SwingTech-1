@@ -129,8 +129,6 @@ public:
     void render(STGame * win){
         auto grphx = win->getGraphics();
         win->getGraphics()->drawScene(sceneManager);
-        GLGraphics::TextColor = Vector3<stReal>(1.0, 0.0, 0.0);
-        win->getGraphics()->drawText(Vector2<stReal>(0, 32), "Renderer: " + grphx->getVendor(), 32);
         lbl->draw(grphx);
         btn->draw(grphx);
     }

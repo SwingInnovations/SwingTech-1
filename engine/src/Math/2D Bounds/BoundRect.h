@@ -2,6 +2,7 @@
 #define WAHOO_BOUNDRECT_H
 
 #include "BoundShape.h"
+#include "../Shape/Rect.h"
 
 class BoundRect : public BoundShape{
 public:
@@ -23,6 +24,9 @@ public:
         points.push_back(height);
     }
 
+    BoundRect(const STRect& rect){
+
+    }
 
     virtual bool contains(const BoundShape &other){
         return false;

@@ -4,6 +4,7 @@
 #include "../../STGame.h"
 #include "../../Entity/STEntity.h"
 #include "../STColor.h"
+#include "../../Entity/Components/STRectBoundsComponent.h"
 
 class STInterWidget : public STEntity{
 public:
@@ -18,14 +19,24 @@ public:
     }
 
     void setText(const std::string& text){ m_text = text; }
-    void setFontColor(STColor& color){ m_fontColor = color; }
+    void setFontColor(const STColor& color){ m_fontColor = color; }
     void setFontSize(unsigned int size){ m_fontSize = size; }
-    void setBackgroundColor(STColor& color){ m_backgroundColor = color; }
-    void setForegroundColor(STColor& color){ m_foregroundColor = color; }
+    void setBackgroundColor(const STColor& color){ m_backgroundColor = color; }
+    void setForegroundColor(const STColor& color){ m_foregroundColor = color; }
 
-    void setVisible(bool val){ m_visible = val; }
-    bool isVisible(){ return m_visible; }
+    void setPadding(unsigned int padding){ m_padding = padding; }
+    void setPosition(const Vector2<stReal> position){
+        m_position = position;
+        auto rect = get<STRectBoundsComponent>();
+        if(rect != nullptr){
+            stReal width = rect->bounds()->getWidth();
+            stReal height = rect->bounds()->getHeight();
+            stReal y = abs((int)m_position.getY() - STGame::RES_HEIGHT) - height;
+            rect->reset(m_position.getX(), y, width, height);
+        }
+    }
 
+    // TODO - Move these to Event Component
 //    virtual void keyEvent() = 0;
 //    virtual void mouseEvent() = 0;
 //    virtual void clickEvent() = 0;
@@ -34,11 +45,14 @@ public:
 protected:
     std::string m_text;
     std::string m_font;
-    STColor m_fontColor;
+
     unsigned int m_fontSize;
+    unsigned int m_padding;
+
+    STColor m_fontColor;
     STColor m_backgroundColor;
     STColor m_foregroundColor;
-    bool m_visible;
+
     Event eventType;
     Vector2<stReal> m_position;
 };

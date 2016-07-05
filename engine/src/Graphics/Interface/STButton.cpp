@@ -6,6 +6,19 @@ STButton::STButton() {
 
 }
 
+STButton::STButton(const std::string &text) {
+    m_text =  text;
+    m_position.set(0, 0);
+    m_fontColor.set(WHITE);
+    m_fontSize = 36;
+    m_font = "fonts/arial.ttf";
+    m_visible = true;
+    int width = 0, height  = 0;
+    STFontMetrics::bounds(m_text, m_fontSize, m_font, &width, &height);
+    stReal y = STGame::RES_HEIGHT - height;
+    addComponent(typeid(STRectBoundsComponent), new STRectBoundsComponent(0, y, width, height));
+}
+
 STButton::STButton(stReal x, stReal y, std::string text) {
     m_text = text;
     m_position.set(x, y);
@@ -36,3 +49,4 @@ void STButton::inputEvent(std::function<void(STEntity*, STGame*)> function) {
 void STButton::invokeInputEvent(STEntity *entity, STGame *game) {
     this->inputEvents(entity, game);
 }
+

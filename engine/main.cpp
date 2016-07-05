@@ -74,7 +74,10 @@ public:
             std::cout << "You are in me!" << std::endl;
         });
 
-        btn = new STButton(0, 680, "Quit");
+        btn = new STButton("Quit");
+        btn->setFontColor(STColor(MAGENTA));
+        int btnWidth = (int)btn->get<STRectBoundsComponent>()->bounds()->getWidth();
+        btn->setPosition(Vector2<stReal>(STGame::RES_WIDTH - btnWidth, 32));
         btn->inputEvent([](STEntity* self, STGame* game){
             auto input = game->getInput();
             if(input->isMousePressed(1)){

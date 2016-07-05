@@ -16,3 +16,7 @@ void STRectBoundsComponent::update(STEntity *self, STGame *game, int i) {
 std::string STRectBoundsComponent::info() {
     return rect->info();
 }
+
+void STRectBoundsComponent::reset(const stReal x, const stReal y, const stReal w, const stReal h) {
+    rect->reset(x, y, w, h);
+}

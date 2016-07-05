@@ -7,6 +7,7 @@
 class STButton : public STInterWidget{
 public:
     STButton();
+    STButton(const std::string& text);
     STButton(stReal x, stReal y, std::string text);
     void update(STGame* window) override;
     void draw(STGraphics* grphx) override;

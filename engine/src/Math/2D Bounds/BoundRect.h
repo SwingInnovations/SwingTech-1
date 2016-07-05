@@ -28,6 +28,13 @@ public:
 
     }
 
+    void reset(const stReal x, const stReal y, const stReal w, const stReal h){
+        points[0] = x;
+        points[1] = y;
+        points[2] = w;
+        points[3] = h;
+    }
+
     virtual bool contains(const BoundShape &other){
         return false;
     }
@@ -40,6 +47,7 @@ public:
         }
         return ss.str();
     }
+
     virtual bool contains(const Vector2<stReal> &cursor){
         stReal x = points.at(0);
         stReal y = points.at(1);
@@ -51,6 +59,9 @@ public:
         cursor.getY() >= y &&
         cursor.getY() <= y + h;
     }
+
+    stReal getWidth() const { return points.at(2); }
+    stReal getHeight() const { return points.at(3); }
 };
 
 #endif //WAHOO_BOUNDRECT_H

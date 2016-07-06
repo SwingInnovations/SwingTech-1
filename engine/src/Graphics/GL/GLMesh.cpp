@@ -73,18 +73,35 @@ GLMesh::GLMesh(const std::string &fileName, int type) {
 }
 
 GLMesh::GLMesh(STRect *rect) {
-    _drawCount = (uint32_t)rect->getIndexSize();
-    int numVert = rect->getVertexSize();
+    _drawCount = 6;
+    int numVert = 4;
+    std::vector<int> indicies;
 
-    std::vector<Vector3<stReal>> vertex;
-    std::vector<Vector2<stReal>> texCoord;
-    std::vector<Vector3<stReal>> normal;
+    std::vector<Vector3<stReal>> initialCoordinates;
+    stReal x = rect->points.at(0);
+    stReal y = rect->points.at(1);
+    stReal width = rect->points.at(2);
+    stReal height = rect->points.at(3);
 
-    for(uint32_t i = 0; i < numVert; i++){
-        vertex.push_back(*rect->positions[i].getVertex());
-        texCoord.push_back(*rect->positions[i].getTexCoord());
-        normal.push_back(*rect->positions[i].getNormal());
-    }
+    initialCoordinates.push_back(Vector3<stReal>(x, y, 0.0));
+    initialCoordinates.push_back(Vector3<stReal>(x, y + height, 0.0));
+    initialCoordinates.push_back(Vector3<stReal>(x + width, y + height, 0.0));
+    initialCoordinates.push_back(Vector3<stReal>(x + width, y, 0.0));
+
+    std::vector<Vector2<stReal>> texCoords;
+    texCoords.push_back(Vector2<stReal>(0.0f, 1.0f));
+    texCoords.push_back(Vector2<stReal>(0.0f, 0.0f));
+    texCoords.push_back(Vector2<stReal>(1.0f, 0.0f));
+    texCoords.push_back(Vector2<stReal>(1.0f, 1.0f));
+
+    indicies.push_back(0);
+    indicies.push_back(1);
+    indicies.push_back(2);
+    indicies.push_back(2);
+    indicies.push_back(3);
+    indicies.push_back(0);
+
+    Vector3<stReal> norm(0.0f, 0.0f, 0.0f);
 
     glGenVertexArrays(1, &_VAO);
     glBindVertexArray(_VAO);
@@ -92,22 +109,22 @@ GLMesh::GLMesh(STRect *rect) {
     glGenBuffers(NUM_BUFFERS, _VBO);
 
     glBindBuffer(GL_ARRAY_BUFFER, _VBO[VERTEX_BUFFER]);
-    glBufferData(GL_ARRAY_BUFFER, numVert * sizeof(vertex[0]), &vertex[0], GL_STATIC_DRAW);
+    glBufferData(GL_ARRAY_BUFFER, numVert * sizeof(initialCoordinates[0]), &initialCoordinates[0], GL_STATIC_DRAW);
     glEnableVertexAttribArray(0);
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, 0);
 
     glBindBuffer(GL_ARRAY_BUFFER, _VBO[TEXCOORD_BUFFER]);
-    glBufferData(GL_ARRAY_BUFFER, numVert * sizeof(texCoord[0]), &texCoord[0], GL_STATIC_DRAW);
+    glBufferData(GL_ARRAY_BUFFER, numVert * sizeof(texCoords[0]), &texCoords[0], GL_STATIC_DRAW);
     glEnableVertexAttribArray(1);
     glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 0, 0);
 
     glBindBuffer(GL_ARRAY_BUFFER, _VBO[NORMAL_BUFFER]);
-    glBufferData(GL_ARRAY_BUFFER, numVert * sizeof(normal[0]), &normal[0], GL_STATIC_DRAW);
+    glBufferData(GL_ARRAY_BUFFER, numVert * sizeof(norm), &norm, GL_STATIC_DRAW);
     glEnableVertexAttribArray(2);
     glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, 0, 0);
 
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _VBO[INDEX_BUFFER]);
-    glBufferData(GL_ELEMENT_ARRAY_BUFFER, _drawCount * sizeof(rect->index[0]), &rect->index[0], GL_STATIC_DRAW);
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, _drawCount * sizeof(indicies[0]), &indicies[0], GL_STATIC_DRAW);
 
     glBindVertexArray(0);
 }
@@ -151,6 +168,7 @@ GLMesh::GLMesh(STCube* cube){
 
     glBindVertexArray(0);
 }
+
 
 GLMesh::GLMesh(STQuad *quad) {
     _drawCount = (uint32_t)quad->getIndSize();

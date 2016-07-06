@@ -1,5 +1,6 @@
 #include <c++/fstream>
 #include "STMesh.h"
+#include "../../Graphics/STGraphics.h"
 
 /*-OBJ Mesh-*/
 OBJMesh::OBJMesh() {

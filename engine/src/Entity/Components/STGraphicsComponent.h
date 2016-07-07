@@ -61,6 +61,7 @@ public:
     }
 
     virtual void update(STEntity* entity, STGame* game, int delta);
+    virtual void update(STEntity* entity, STGame* game);
 
     void draw(){
         //TODO Include shader handling and other stuff.

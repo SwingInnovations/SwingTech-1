@@ -26,7 +26,7 @@ public:
     ~STScriptComponent();
 
     void update(STEntity* entity, STGame* game, int delta);
-
+    void update(STEntity* entity, STGame* game);
     void test();
     void test2();
     static int l_test(lua_State*);

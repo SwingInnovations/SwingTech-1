@@ -69,7 +69,7 @@ public:
         _ball->addShdrUniform("lightPos", _box2->transform()->getTranslate<stReal>());
         _ball->addShdrUniform("lightColor", Vector3<stReal>(1.0f, 0.5f, 0.0f));
         _ball->setScale(3.0f);
-        lbl = new STLabel(0, 96, "This is a test");
+        lbl = new STLabel(0, 32, "SwingTech 1 - Indev");
         lbl->hoverEvent([](STEntity* self, STGame* game){
             std::cout << "You are in me!" << std::endl;
         });

@@ -119,3 +119,6 @@ void STGraphicsComponent::update(STEntity *entity, STGame *game, int delta) {
 
 }
 
+void STGraphicsComponent::update(STEntity *entity, STGame *game) {
+
+}

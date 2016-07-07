@@ -36,6 +36,7 @@ public:
     ~STMeshComponent();
 
     void update(STEntity* entity, STGame* game, int delta);
+    void update(STEntity* entity, STGame* game);
 
     void draw(){
         m_mesh->draw();

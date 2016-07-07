@@ -6,6 +6,12 @@
 
 class STButton : public STInterWidget{
 public:
+    enum ButtonType{
+        PUSH = 0,
+        TOOL = 1,
+        RADIO = 2
+    };
+
     STButton();
     STButton(const std::string& text);
     STButton(stReal x, stReal y, std::string text);

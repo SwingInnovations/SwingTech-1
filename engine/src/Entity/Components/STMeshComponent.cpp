@@ -41,3 +41,7 @@ STMeshComponent::~STMeshComponent() {
 void STMeshComponent::update(STEntity *entity, STGame *game, int delta) {
 
 }
+
+void STMeshComponent::update(STEntity *entity, STGame *game) {
+
+}

@@ -26,17 +26,17 @@
       <sourceFolder url="file://$MODULE_DIR$/src/STGlobal.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src/Input.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src/Graphics/Shader.cpp" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/src/Graphics/Camera.cpp" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/src/Graphics/STGraphics.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/src/Graphics/STColor.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/src/Graphics/STFontMetrics.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src/Graphics/Interface/STPanel.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src/Graphics/Interface/STLabel.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src/Graphics/Interface/STButton.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/src/Graphics/Interface/STLabel.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src/Graphics/Interface/STInterWidget.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src/Graphics/Interface/STButton.cpp" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/src/Graphics/Interface/STLabel.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src/Graphics/Interface/STPanel.cpp" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/src/Graphics/Camera.h" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/src/Graphics/STColor.h" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/src/Graphics/Texture.h" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/src/Graphics/STFontMetrics.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src/Graphics/VK/VKGraphics.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src/Graphics/VK/VKGraphics.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src/Graphics/STGraphics.cpp" isTestSource="false" />
@@ -49,9 +49,9 @@
       <sourceFolder url="file://$MODULE_DIR$/src/Graphics/GL/GLGraphics.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src/Graphics/GL/GLShader.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src/Graphics/GL/GLMesh.cpp" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/src/Graphics/Camera.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src/Graphics/Shader.h" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/src/Graphics/STGraphics.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/src/Graphics/Texture.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/src/Graphics/Camera.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src/Math/Transform.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src/Math/Vertex.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src/Math/Vector.h" isTestSource="false" />
@@ -78,15 +78,15 @@
     <orderEntry type="module-library">
       <library name="Header Search Paths">
         <CLASSES>
-          <root url="file://C:/Program Files/mingw-w64/x86_64-4.8.3-posix-seh-rt_v3-rev2/mingw64/lib/gcc/x86_64-w64-mingw32/4.8.3/include" />
-          <root url="file://C:/Program Files/mingw-w64/x86_64-4.8.3-posix-seh-rt_v3-rev2/mingw64/lib/gcc/x86_64-w64-mingw32/4.8.3/include-fixed" />
-          <root url="file://C:/Program Files/mingw-w64/x86_64-4.8.3-posix-seh-rt_v3-rev2/mingw64/x86_64-w64-mingw32/include" />
+          <root url="file://C:/MinGW/mingw-w64/x86_64-4.8.3-posix-seh-rt_v3-rev2/mingw64/lib/gcc/x86_64-w64-mingw32/4.8.3/include" />
+          <root url="file://C:/MinGW/mingw-w64/x86_64-4.8.3-posix-seh-rt_v3-rev2/mingw64/lib/gcc/x86_64-w64-mingw32/4.8.3/include-fixed" />
+          <root url="file://C:/MinGW/mingw-w64/x86_64-4.8.3-posix-seh-rt_v3-rev2/mingw64/x86_64-w64-mingw32/include" />
           <root url="file://$MODULE_DIR$/include" />
         </CLASSES>
         <SOURCES>
-          <root url="file://C:/Program Files/mingw-w64/x86_64-4.8.3-posix-seh-rt_v3-rev2/mingw64/lib/gcc/x86_64-w64-mingw32/4.8.3/include" />
-          <root url="file://C:/Program Files/mingw-w64/x86_64-4.8.3-posix-seh-rt_v3-rev2/mingw64/lib/gcc/x86_64-w64-mingw32/4.8.3/include-fixed" />
-          <root url="file://C:/Program Files/mingw-w64/x86_64-4.8.3-posix-seh-rt_v3-rev2/mingw64/x86_64-w64-mingw32/include" />
+          <root url="file://C:/MinGW/mingw-w64/x86_64-4.8.3-posix-seh-rt_v3-rev2/mingw64/lib/gcc/x86_64-w64-mingw32/4.8.3/include" />
+          <root url="file://C:/MinGW/mingw-w64/x86_64-4.8.3-posix-seh-rt_v3-rev2/mingw64/lib/gcc/x86_64-w64-mingw32/4.8.3/include-fixed" />
+          <root url="file://C:/MinGW/mingw-w64/x86_64-4.8.3-posix-seh-rt_v3-rev2/mingw64/x86_64-w64-mingw32/include" />
           <root url="file://$MODULE_DIR$/include" />
         </SOURCES>
       </library>

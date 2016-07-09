@@ -8,7 +8,7 @@ void STEventComponent::update(STEntity *entity, STGame *game, int delta) {
 
     switch(event_state){
         case HIT:
-            invokeHitEvent(entity);
+            invokeHitEvent(entity, game, other);
             event_state = DEFAULT;
             break;
         case INTERSECT:
@@ -24,6 +24,8 @@ void STEventComponent::update(STEntity *entity, STGame *game, int delta) {
 
     invokeInputEvent(entity, game->getInput());
     invokeUpdateEvent(entity, game);
+
+    if(other != nullptr) other = nullptr;
 }
 
 
@@ -36,16 +38,18 @@ STEventComponent::~STEventComponent() {
 
 }
 
-void STEventComponent::hitEvent(std::function<void(STEntity *)> hitFunction) {
-    hitEvents = hitFunction;
-}
+
 
 void STEventComponent::intersectEvent(std::function<void(STEntity *)> intersectFunction) {
     intersectEvents = intersectFunction;
 }
 
-void STEventComponent::invokeHitEvent(STEntity *entity) {
-    if(hitEvents != 0) this->hitEvents(entity);
+void STEventComponent::hitEvent(std::function<void(STEntity*, STGame*, STEntity*)> hitFunction) {
+    hitEvents = hitFunction;
+}
+
+void STEventComponent::invokeHitEvent(STEntity *entity, STGame *game, STEntity *stEntity) {
+    if(hitEvents != 0) hitEvents(entity, game, stEntity);
 }
 
 void STEventComponent::invokeIntersectEvent(STEntity *entity) {
@@ -66,4 +70,10 @@ void STEventComponent::updateEvent(std::function<void(STEntity *entity, STGame* 
 
 void STEventComponent::invokeUpdateEvent(STEntity *entity, STGame* game) {
     if(updateEvents != 0) updateEvents(entity, game);
+}
+
+
+void STEventComponent::triggerHitEvent(STEntity *entity) {
+    other = entity;
+    event_state = HIT;
 }

@@ -23,6 +23,7 @@ public:
     enum RenderMode{ FORWARD, DEFERRED };
     enum Renderer{ OPENGL, VULKAN };
     static int RENDERER;
+    static bool YUp;
     static Vector4<stReal> ClearColor;
 
     STGraphics();
@@ -33,8 +34,8 @@ public:
         m_Cam = cam;
     }
 
-    static void setYUp(bool val){ m_YUp = val; }
-    static bool getYUpSetting(){ return m_YUp; }
+    static void SetYUp(bool val){ YUp = val; }
+    static bool getYUpSetting(){ return YUp; }
 
     virtual void addRenderPass(STSceneManager* scene){;}
     virtual void drawScene(STSceneManager* sceneManager){;}
@@ -64,7 +65,6 @@ public:
 protected:
     unsigned int WIDTH, HEIGHT;
     Camera* m_Cam;
-    static bool m_YUp;
     Vector4<stReal> m_fontColor;
 
 };

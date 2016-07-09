@@ -8,6 +8,15 @@ STRectBoundsComponent::STRectBoundsComponent(stReal _x, stReal _y, stReal _width
     rect = new BoundRect(_x, _y, _width, _height);
 }
 
+STRectBoundsComponent::STRectBoundsComponent(stReal _x, stReal _y, stReal _width, stReal _height, bool YUpFlag) {
+    stReal y;
+    if(!YUpFlag){
+        y = abs(_y - STGame::RES_HEIGHT) - _height;
+    }else y = _y;
+
+    rect = new BoundRect(_x, y, _width, _height);
+}
+
 // Unused, but implemented so it doesn't break the engine.
 void STRectBoundsComponent::update(STEntity *self, STGame *game, int i) {
 

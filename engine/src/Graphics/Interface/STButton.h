@@ -3,6 +3,7 @@
 
 #include <c++/functional>
 #include "STInterWidget.h"
+#include "../STGraphics.h"
 
 class STButton : public STInterWidget{
 public:

@@ -2,6 +2,8 @@
 #include "../STFontMetrics.h"
 #include "../../Entity/Components/STRectBoundsComponent.h"
 
+class STGraphics;
+
 STButton::STButton() {
 
 }
@@ -15,8 +17,7 @@ STButton::STButton(const std::string &text) {
     m_visible = true;
     int width = 0, height  = 0;
     STFontMetrics::bounds(m_text, m_fontSize, m_font, &width, &height);
-    stReal y = STGame::RES_HEIGHT - height;
-    addComponent(typeid(STRectBoundsComponent), new STRectBoundsComponent(0, y, width, height));
+    addComponent(typeid(STRectBoundsComponent), new STRectBoundsComponent(0, 0, width, height, STGraphics::YUp));
 }
 
 STButton::STButton(stReal x, stReal y, std::string text) {
@@ -28,8 +29,7 @@ STButton::STButton(stReal x, stReal y, std::string text) {
     int width = 0, height = 0;
     m_visible = true;
     STFontMetrics::bounds(m_text, m_fontSize, m_font, &width, &height);
-    y = abs((int)y - STGame::RES_HEIGHT) - height;
-    addComponent(typeid(STRectBoundsComponent), new STRectBoundsComponent(x, y, width, height));
+    addComponent(typeid(STRectBoundsComponent), new STRectBoundsComponent(x, y, width, height, STGraphics::getYUpSetting()));
 }
 
 void STButton::update(STGame *window) {

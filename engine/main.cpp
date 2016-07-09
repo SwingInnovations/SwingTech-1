@@ -38,6 +38,9 @@ public:
 
         _testActor = new STActor("sphere.obj", STMesh::OBJ, resManager->getMaterial("lit"));
         _testActor->addShdrUniform("objColor", Vector3<stReal>(1.0, 0.5, 0.31f));
+        _testActor->get<STEventComponent>()->inputEvent([](STEntity* self, Input* input){
+            if(input->isKeyPressed(KEY::KEY_SPACE)) self->setTranslateY(1.0f);
+        });
 
         //light Color
         _box2 = new STEntity("sphere.obj", STMesh::OBJ, resManager->getShader("lightSource"));
@@ -56,7 +59,6 @@ public:
         _box1->get<STEventComponent>()->inputEvent([](STEntity* self, Input* input){
             if(input->isKeyPressed(KEY::KEY_SPACE)){
                 self->setTranslateY(1.0f);
-                std::cout << "Set entity transform to: " << self->transform()->getInfo() << std::endl << std::endl;
             }
         });
 
@@ -70,9 +72,7 @@ public:
         _ball->addShdrUniform("lightColor", Vector3<stReal>(1.0f, 0.5f, 0.0f));
         _ball->setScale(3.0f);
         lbl = new STLabel(0, 32, "SwingTech 1 - Indev");
-        lbl->hoverEvent([](STEntity* self, STGame* game){
-            std::cout << "You are in me!" << std::endl;
-        });
+        lbl->setFontColor(STColor(GREEN));
 
         btn = new STButton("Quit");
         btn->setFontColor(STColor(MAGENTA));
@@ -97,6 +97,7 @@ public:
     void handleInput(STGame * win, Uint32 delta){
         Input* input = win->getInput();
         auto cam = win->getCamera();
+        _testActor->update(win);
         if(input->isKeyPressed(KEY::KEY_ESC)){
             input->requestClose();
         }
@@ -167,6 +168,7 @@ int main(int argc, char** argv) {
     STGame window("WAHOO Demo", 1440, 720);
     window.setOpenGLVersion(3, 3);
     window.setTargetFPS(120);
+    STGraphics::YUp = false;
     window.getInput()->setInputMap(inputMap);
     Vector3<stReal> camPos(-0.0f, -0.2f, -5.0f);
     window.addCamera(new Camera(window, camPos, 0));

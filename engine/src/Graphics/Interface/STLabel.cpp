@@ -14,10 +14,8 @@ STLabel::STLabel(stReal x, stReal y, std::string text) {
     m_font = "fonts/arial.ttf";
     int width = 0, height = 0;
     m_visible = true;
-    y -= STGame::RES_HEIGHT;
     STFontMetrics::bounds(m_text, m_fontSize, m_font, &width, &height);
-    y = abs(y) - height;
-    addComponent(typeid(STRectBoundsComponent), new STRectBoundsComponent(x, y, width, height));
+    addComponent(typeid(STRectBoundsComponent), new STRectBoundsComponent(x, y, width, height, STGraphics::YUp));
 }
 
 void STLabel::update(STGame *window) {

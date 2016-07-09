@@ -7,6 +7,7 @@ STPanel::STPanel(int x, int y, int width, int height) {
     int bY = abs( y - STGame::RES_HEIGHT) - height;
     addComponent(typeid(STMeshComponent), new STMeshComponent(new STRect(x, y, width, height)));
     addComponent(typeid(STGraphicsComponent), new STGraphicsComponent(new STMaterial(new Shader("shdr/panel"))));
+    addComponent(typeid(STRectBoundsComponent), new STRectBoundsComponent(x, y, width, height, STGraphics::YUp));
 
     auto grphx = get<STGraphicsComponent>();
     grphx->addShdrUniform("foregoundColor", m_foregroundColor.color);

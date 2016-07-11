@@ -68,6 +68,15 @@ public:
         *this = ret;
     }
 
+    void initRotation(const Quaternion& q){
+        Matrix4f ret;
+        ret.m[0][0] = 1.0f - (2.0f * (stReal)pow(q.getY(), 2) - (2 * (stReal)pow(q.getZ(), 2))); ret.m[0][1] = (2.0f * q.getX() * q.getY()) - (2 * q.getW() * q.getZ());               ret.m[0][2] = (2* q.getX() * q.getZ()) - (2 * q.getW() * q.getY());                ret.m[0][3] = 0.0f;
+        ret.m[1][0] = (2 * q.getX() * q.getY()) - (2 * q.getW() * q.getZ());                     ret.m[0][1] = 1.0f - (2 * (stReal)pow(q.getX(), 2)) - (2 * (stReal)pow(q.getZ(), 2)); ret.m[1][2] = (2 * q.getY() * q.getZ()) + (2 * q.getW() * q.getX());               ret.m[1][3] = 0.0f;
+        ret.m[2][0] = (2 * q.getX() * q.getZ()) + (2 * q.getW() * q.getX());                     ret.m[2][1] = (2 * q.getY() * q.getZ()) - (2 * q.getW() * q.getX());                  ret.m[2][2] = 1.0f - (2 * (stReal)pow(q.getX(), 2)) - (2 * (stReal)(q.getY(), 2)); ret.m[2][3] = 0.0f;
+        ret.m[3][0] = 0.0f;                                                                      ret.m[3][1] = 0.0f;                                                                   ret.m[3][2] = 0.0f;                                                                ret.m[3][3] = 1.0f;
+        *this = ret;
+    }
+
     void initRotation(float angle, const Vector3<stReal>& vec){
         float L = (float)(pow(vec.getX(), 2) + pow(vec.getY(), 2) + pow(vec.getZ(), 2));
         angle = toRadian(angle);
@@ -129,10 +138,10 @@ public:
     void initOrthographicProjection(float width, float height, float zNear, float zFar){
         const float zRange = zFar - zNear;
 
-        m[0][0] = 1.0f/width; m[0][1] = 0.0f;          m[0][2] = 0.0f; m[0][3] = 0.0f;
-        m[1][0] = 0.0f;       m[1][1] = 1.0f / height; m[1][2] = 0.0f; m[1][3] = 0.0f;
-        m[2][0] = 0.0f;       m[2][1] = 0.0f;          m[2][2] = -2.0f/zRange;    m[2][3] = (-zFar - zNear)/zRange;
-        m[3][0] = 0.0f;       m[3][1] = 0.0f;          m[3][2] = 0.0f; m[3][3] = 1.0f;
+        m[0][0] = 1.0f/width; m[0][1] = 0.0f;          m[0][2] = 0.0f;             m[0][3] = 0.0f;
+        m[1][0] = 0.0f;       m[1][1] = 1.0f / height; m[1][2] = 0.0f;             m[1][3] = 0.0f;
+        m[2][0] = 0.0f;       m[2][1] = 0.0f;          m[2][2] = -2.0f/zRange;     m[2][3] = (-zFar - zNear)/zRange;
+        m[3][0] = 0.0f;       m[3][1] = 0.0f;          m[3][2] = 0.0f;             m[3][3] = 1.0f;
     }
 
     void initOrthographicProjection(float left, float right, float top, float bottom, float zNear, float zFar){

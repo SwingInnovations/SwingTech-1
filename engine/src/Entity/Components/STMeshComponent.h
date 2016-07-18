@@ -35,7 +35,6 @@ public:
     STMeshComponent(float *vert, int vSize, float *tex, int tSize, int *ind, int indSize);
     ~STMeshComponent();
 
-    void update(STEntity* entity, STGame* game, int delta);
     void update(STEntity* entity, STGame* game);
 
     void draw(){

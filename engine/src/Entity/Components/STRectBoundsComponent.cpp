@@ -17,15 +17,14 @@ STRectBoundsComponent::STRectBoundsComponent(stReal _x, stReal _y, stReal _width
     rect = new BoundRect(_x, y, _width, _height);
 }
 
-// Unused, but implemented so it doesn't break the engine.
-void STRectBoundsComponent::update(STEntity *self, STGame *game, int i) {
-
-}
-
 std::string STRectBoundsComponent::info() {
     return rect->info();
 }
 
 void STRectBoundsComponent::reset(const stReal x, const stReal y, const stReal w, const stReal h) {
     rect->reset(x, y, w, h);
+}
+
+void STRectBoundsComponent::update(STEntity *self, STGame *game) {
+
 }

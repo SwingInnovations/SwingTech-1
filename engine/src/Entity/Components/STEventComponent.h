@@ -15,7 +15,7 @@ public:
     STEventComponent();
     ~STEventComponent();
 
-    void update(STEntity*, STGame*, int);
+    void update(STEntity*, STGame*);
     void draw();
 
     void triggerHitEvent(STEntity*);
@@ -25,6 +25,8 @@ public:
     void intersectEvent(std::function<void (STEntity*)> intersectFunction);
     void inputEvent(std::function< void (STEntity*, Input*) > inputFunction);
     void updateEvent(std::function<void (STEntity*, STGame*) > updateFunction);
+
+    void set(Event_State state){ event_state = state; }
 
 private:
     void invokeHitEvent(STEntity*, STGame*, STEntity*);

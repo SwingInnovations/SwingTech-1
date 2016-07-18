@@ -4,30 +4,6 @@ STEventComponent::STEventComponent() {
 
 }
 
-void STEventComponent::update(STEntity *entity, STGame *game, int delta) {
-
-    switch(event_state){
-        case HIT:
-            invokeHitEvent(entity, game, other);
-            event_state = DEFAULT;
-            break;
-        case INTERSECT:
-            invokeIntersectEvent(entity);
-            event_state = DEFAULT;
-            break;
-        case DEFAULT:
-            // Do Nothing;
-            break;
-        default:
-            ;
-    }
-
-    invokeInputEvent(entity, game->getInput());
-    invokeUpdateEvent(entity, game);
-
-    if(other != nullptr) other = nullptr;
-}
-
 
 void STEventComponent::draw() {
     STComponent::draw();
@@ -76,4 +52,28 @@ void STEventComponent::invokeUpdateEvent(STEntity *entity, STGame* game) {
 void STEventComponent::triggerHitEvent(STEntity *entity) {
     other = entity;
     event_state = HIT;
+}
+
+void STEventComponent::update(STEntity *entity, STGame *game) {
+
+    switch(event_state){
+        case HIT:
+            invokeHitEvent(entity, game, other);
+            event_state = DEFAULT;
+            break;
+        case INTERSECT:
+            invokeIntersectEvent(entity);
+            event_state = DEFAULT;
+            break;
+        case DEFAULT:
+
+            break;
+        default:
+            ;
+    }
+
+    invokeInputEvent(entity, game->getInput());
+    invokeUpdateEvent(entity, game);
+
+    if(other != nullptr) other = nullptr;
 }

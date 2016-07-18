@@ -114,7 +114,7 @@ public:
 
     virtual void update(STGame* window){
         for(auto comp : m_components){
-            comp.second->update(this, window, window->getDelta());
+            comp.second->update(this, window);
         }
     }
 

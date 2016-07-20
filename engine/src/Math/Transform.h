@@ -6,19 +6,24 @@
 #include "STCore.h"
 #include "Matrix.h"
 #include "Vector.h"
+#include "Euler.h"
 
 class Transform{
 public:
+    enum RotationMode{Global = 0, Local = 1};
+
     Transform(){
         translate = Vector3<stReal>(0.0f, 0.0f, 0.0f);
         rotate = Vector3<stReal>(0.0f, 0.0f, 0.0f);
         scale = Vector3<stReal>(1.0f, 1.0f, 1.0f);
+        localRotate = Euler<stReal>(0.0f, 0.0f, 0.0f);
     }
 
     Transform(Vector3<stReal>& translate, Vector3<stReal>& rotate, Vector3<stReal> scale){
         this->translate = translate;
         this->rotate = rotate;
         this->scale = scale;
+        localRotate = Euler<stReal>(0.0f, 0.0f, 0.0f);
     }
 
     void setTranslate(Vector3<stReal>& vec){ this->translate = vec; }
@@ -49,7 +54,11 @@ public:
     const Matrix4f getModel(){
         Matrix4f trans, rot, scaleMat, rotX, rotY, rotZ;
         trans.initTranslation(translate);
-        rot.initRotate(rotate);
+        if(rotateMode == Global){
+            rot.initRotate(rotate);
+        }else{
+            rot.initRotation(localRotate);
+        }
         scaleMat.initScale(scale);
 
         Matrix4f ret;
@@ -64,11 +73,14 @@ public:
 
     template<typename T> Vector3<T> getTranslate()const{return Vector3<T>((T)translate.getX(), (T)translate.getY(), (T)translate.getZ()); }
     template<typename T> Vector3<T> getRotate()const{ return Vector3<T>( (T)rotate.getX(), (T)rotate.getY(), (T)rotate.getZ() ); }
+    Euler<stReal> getLocalRotate()const{ return localRotate; }
     template<typename T> Vector3<T> getScale()const{ return Vector3<T>( (T)scale.getX(), (T)scale.getY(), (T)scale.getZ() ); }
 private:
     Vector3<stReal> translate;
     Vector3<stReal> rotate;
+    Euler<stReal> localRotate;
     Vector3<stReal> scale;
+    RotationMode rotateMode;
 };
 
 #endif //WAHOO_TRANSFORM_H

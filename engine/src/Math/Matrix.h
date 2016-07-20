@@ -6,6 +6,7 @@
 
 #include "STCore.h"
 #include "Vector.h"
+#include "Euler.h"
 
 
 class Matrix4f{
@@ -68,7 +69,25 @@ public:
         *this = ret;
     }
 
-    void initRotation(const Quaternion& q){
+    void initRotation(const Euler<stReal>& euler){
+        Matrix4f z, y, x;
+        z.initRotation(Vector3<stReal>(0.0f, 0.0f, 1.0f), euler.getZ());
+        y.initRotation(Vector3<stReal>(0.0f, 1.0f, 0.0f), euler.getY());
+        x.initRotation(Vector3<stReal>(1.0f, 0.0f, 0.0f), euler.getX());
+        Matrix4f ret;
+        ret = z * y * x;
+        *this = ret;
+    }
+
+    void initRotation(const Vector3<stReal>& vec, const stReal angle){
+        stReal a = toRadian(angle);
+        Quaternion q;
+
+        q.setX(vec.getX() * sinf(a / 2.0f));
+        q.setY(vec.getY() * sinf(a / 2.0f));
+        q.setZ(vec.getZ() * sinf(a / 2.0f));
+        q.setW(cosf(a / 2.0f));
+
         Matrix4f ret;
         ret.m[0][0] = 1.0f - (2.0f * (stReal)pow(q.getY(), 2) - (2 * (stReal)pow(q.getZ(), 2))); ret.m[0][1] = (2.0f * q.getX() * q.getY()) - (2 * q.getW() * q.getZ());               ret.m[0][2] = (2* q.getX() * q.getZ()) - (2 * q.getW() * q.getY());                ret.m[0][3] = 0.0f;
         ret.m[1][0] = (2 * q.getX() * q.getY()) - (2 * q.getW() * q.getZ());                     ret.m[0][1] = 1.0f - (2 * (stReal)pow(q.getX(), 2)) - (2 * (stReal)pow(q.getZ(), 2)); ret.m[1][2] = (2 * q.getY() * q.getZ()) + (2 * q.getW() * q.getX());               ret.m[1][3] = 0.0f;

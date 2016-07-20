@@ -57,6 +57,7 @@
       <sourceFolder url="file://$MODULE_DIR$/src/Math/Matrix.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src/Math/2D Bounds/BoundRect.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src/Math/2D Bounds/BoundShape.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/src/Math/Euler.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src/Math/STCore.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src/Math/Shape/Shape.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src/Math/Shape/Cube.h" isTestSource="false" />

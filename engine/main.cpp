@@ -63,6 +63,7 @@ public:
         });
 
         _box1->transform()->setRotationMode(Transform::Local);
+        _box1->setTranslateX(2);
 
         _box1->setScale(3.0f);
         _box1->addScriptComponent("test.lua");
@@ -127,7 +128,7 @@ public:
         counter += 0.025f * delta;
         _box2->transform()->setRotateY(-counter);
         _box2->setTranslateY(5.0f * sin(counter * 0.01f));
-        _box1->setRotateY(counter);
+        //_box1->setRotateY(counter);
         _box1->get<STGraphicsComponent>()->setShdrUniform("lightPos", _box2->transform()->getModel().toVector4().toVector3Norm());
         _ball->setShdrUniform("lightPos", _box2->transform()->getModel().toVector4().toVector3Norm());
     }

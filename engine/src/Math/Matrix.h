@@ -96,13 +96,17 @@ public:
         stReal z2 = q.getZ() * q.getZ();
 
         stReal xy = q.getX() * q.getY();
+        stReal xz = q.getX() * q.getZ();
+        stReal yz = q.getY() * q.getZ();
         stReal wz = q.getW() * q.getZ();
+        stReal xw = q.getX() * q.getW();
+        stReal yw = q.getY() * q.getW();
 
         Matrix4f ret;
-        ret.m[0][0] = 1 - (2 * x2) - (2 * y2);                                  ret.m[0][1] = (2.0f * xy) - (2.0f * wz);                                              ret.m[0][2] = (2* q.getX() * q.getZ()) - (2 * q.getW() * q.getY());                ret.m[0][3] = 0.0f;
-        ret.m[1][0] = (2 * q.getX() * q.getY()) - (2 * q.getW() * q.getZ());    ret.m[1][1] = 1.0f - (2 * (stReal)pow(q.getX(), 2)) - (2 * (stReal)pow(q.getZ(), 2)); ret.m[1][2] = (2 * q.getY() * q.getZ()) + (2 * q.getW() * q.getX());               ret.m[1][3] = 0.0f;
-        ret.m[2][0] = (2 * q.getX() * q.getZ()) + (2 * q.getW() * q.getX());    ret.m[2][1] = (2 * q.getY() * q.getZ()) - (2 * q.getW() * q.getX());                  ret.m[2][2] = 1.0f - (2 * x2) - (2 * y2);                                          ret.m[2][3] = 0.0f;
-        ret.m[3][0] = 0.0f;                                                     ret.m[3][1] = 0.0f;                                                                   ret.m[3][2] = 0.0f;                                                                ret.m[3][3] = 1.0f;
+        ret.m[0][0] = 1 - (2 * x2) - (2 * y2);      ret.m[0][1] = (2.0f * xy) + (2.0f * wz);        ret.m[0][2] = (2 * xz) - ( 2.0f * yw);     ret.m[0][3] = 0.0f;
+        ret.m[1][0] = (2.0f * xy) - (2.0f * wz);    ret.m[1][1] = 1.0f - (2.0f * x2) - (2.0f * z2); ret.m[1][2] = (2.0f * yz) + (2.0f * xw);   ret.m[1][3] = 0.0f;
+        ret.m[2][0] = (2.0f * xz) + (2.0f * yw);    ret.m[2][1] = (2.0f * yz) - (2.0f * xw);        ret.m[2][2] = 1.0f - (2 * x2) - (2 * y2);  ret.m[2][3] = 0.0f;
+        ret.m[3][0] = 0.0f;                         ret.m[3][1] = 0.0f;                             ret.m[3][2] = 0.0f;                        ret.m[3][3] = 1.0f;
         *this = ret;
     }
 

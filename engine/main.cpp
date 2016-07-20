@@ -62,6 +62,8 @@ public:
             }
         });
 
+        _box1->transform()->setRotationMode(Transform::Local);
+
         _box1->setScale(3.0f);
         _box1->addScriptComponent("test.lua");
 

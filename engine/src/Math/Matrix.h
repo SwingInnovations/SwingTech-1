@@ -69,7 +69,7 @@ public:
         *this = ret;
     }
 
-    void initRotation(const Euler<stReal>& euler){
+    void initRotate(const Euler<stReal> &euler){
         Matrix4f z, y, x;
         z.initRotation(Vector3<stReal>(0.0f, 0.0f, 1.0f), euler.getZ());
         y.initRotation(Vector3<stReal>(0.0f, 1.0f, 0.0f), euler.getY());
@@ -88,11 +88,21 @@ public:
         q.setZ(vec.getZ() * sinf(a / 2.0f));
         q.setW(cosf(a / 2.0f));
 
+//        Quaternion conj = q.conjugate();
+//        q = q.multiply(conj);
+
+        stReal x2 = q.getX() * q.getX();
+        stReal y2 = q.getY() * q.getY();
+        stReal z2 = q.getZ() * q.getZ();
+
+        stReal xy = q.getX() * q.getY();
+        stReal wz = q.getW() * q.getZ();
+
         Matrix4f ret;
-        ret.m[0][0] = 1.0f - (2.0f * (stReal)pow(q.getY(), 2) - (2 * (stReal)pow(q.getZ(), 2))); ret.m[0][1] = (2.0f * q.getX() * q.getY()) - (2 * q.getW() * q.getZ());               ret.m[0][2] = (2* q.getX() * q.getZ()) - (2 * q.getW() * q.getY());                ret.m[0][3] = 0.0f;
-        ret.m[1][0] = (2 * q.getX() * q.getY()) - (2 * q.getW() * q.getZ());                     ret.m[0][1] = 1.0f - (2 * (stReal)pow(q.getX(), 2)) - (2 * (stReal)pow(q.getZ(), 2)); ret.m[1][2] = (2 * q.getY() * q.getZ()) + (2 * q.getW() * q.getX());               ret.m[1][3] = 0.0f;
-        ret.m[2][0] = (2 * q.getX() * q.getZ()) + (2 * q.getW() * q.getX());                     ret.m[2][1] = (2 * q.getY() * q.getZ()) - (2 * q.getW() * q.getX());                  ret.m[2][2] = 1.0f - (2 * (stReal)pow(q.getX(), 2)) - (2 * (stReal)(q.getY(), 2)); ret.m[2][3] = 0.0f;
-        ret.m[3][0] = 0.0f;                                                                      ret.m[3][1] = 0.0f;                                                                   ret.m[3][2] = 0.0f;                                                                ret.m[3][3] = 1.0f;
+        ret.m[0][0] = 1 - (2 * x2) - (2 * y2);                                  ret.m[0][1] = (2.0f * xy) - (2.0f * wz);                                              ret.m[0][2] = (2* q.getX() * q.getZ()) - (2 * q.getW() * q.getY());                ret.m[0][3] = 0.0f;
+        ret.m[1][0] = (2 * q.getX() * q.getY()) - (2 * q.getW() * q.getZ());    ret.m[1][1] = 1.0f - (2 * (stReal)pow(q.getX(), 2)) - (2 * (stReal)pow(q.getZ(), 2)); ret.m[1][2] = (2 * q.getY() * q.getZ()) + (2 * q.getW() * q.getX());               ret.m[1][3] = 0.0f;
+        ret.m[2][0] = (2 * q.getX() * q.getZ()) + (2 * q.getW() * q.getX());    ret.m[2][1] = (2 * q.getY() * q.getZ()) - (2 * q.getW() * q.getX());                  ret.m[2][2] = 1.0f - (2 * x2) - (2 * y2);                                          ret.m[2][3] = 0.0f;
+        ret.m[3][0] = 0.0f;                                                     ret.m[3][1] = 0.0f;                                                                   ret.m[3][2] = 0.0f;                                                                ret.m[3][3] = 1.0f;
         *this = ret;
     }
 

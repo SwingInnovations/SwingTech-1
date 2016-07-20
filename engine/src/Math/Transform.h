@@ -17,6 +17,7 @@ public:
         rotate = Vector3<stReal>(0.0f, 0.0f, 0.0f);
         scale = Vector3<stReal>(1.0f, 1.0f, 1.0f);
         localRotate = Euler<stReal>(0.0f, 0.0f, 0.0f);
+        rotateMode = Global;
     }
 
     Transform(Vector3<stReal>& translate, Vector3<stReal>& rotate, Vector3<stReal> scale){
@@ -24,6 +25,7 @@ public:
         this->rotate = rotate;
         this->scale = scale;
         localRotate = Euler<stReal>(0.0f, 0.0f, 0.0f);
+        rotateMode = Global;
     }
 
     void setTranslate(Vector3<stReal>& vec){ this->translate = vec; }
@@ -36,10 +38,25 @@ public:
         setTranslateZ(_value);
     }
 
-    void setRotate(Vector3<stReal>& vec){ this->rotate = vec; }
-    void setRotateX(stReal _x){ this->rotate.setX(_x); }
-    void setRotateY(stReal _y){ this->rotate.setY(_y); }
-    void setRotateZ(stReal _z){ this->rotate.setZ(_z); }
+    void setRotate(Vector3<stReal>& vec){
+        if(rotateMode == Global) this->rotate = vec;
+        else this->localRotate.set(vec);
+    }
+
+    void setRotateX(stReal _x){
+        if(rotateMode == Global) this->rotate.setX(_x);
+        else this->localRotate.setX(_x);
+    }
+
+    void setRotateY(stReal _y){
+        if(rotateMode == Global) this->rotate.setY(_y);
+        else this->localRotate.setY(_y);
+    }
+
+    void setRotateZ(stReal _z){
+        if(rotateMode == Global) this->rotate.setZ(_z);
+        else this->localRotate.setZ(_z);
+    }
 
     void setScale(Vector3<stReal>& vec){ this->scale = vec; }
     void setScaleX(stReal _x){ this->scale.setX(_x); }
@@ -51,13 +68,17 @@ public:
         setScaleZ(_value);
     }
 
+    void setRotationMode(RotationMode rotMode){
+        rotateMode = rotMode;
+    }
+
     const Matrix4f getModel(){
         Matrix4f trans, rot, scaleMat, rotX, rotY, rotZ;
         trans.initTranslation(translate);
         if(rotateMode == Global){
             rot.initRotate(rotate);
         }else{
-            rot.initRotation(localRotate);
+            rot.initRotate(localRotate);
         }
         scaleMat.initScale(scale);
 

@@ -16,6 +16,12 @@ public:
         m_val[2] = _z;
     }
 
+    void set(const Vector3<stReal> other){
+        m_val[0] = (T)other.getX();
+        m_val[1] = (T)other.getY();
+        m_val[2] = (T)other.getZ();
+    }
+
     void setX(const T& _x){ m_val[0] = _x; }
     void setY(const T& _y){ m_val[1] = _y; }
     void setZ(const T& _z){ m_val[2] = _z; }

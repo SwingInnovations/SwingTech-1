@@ -62,7 +62,6 @@ public:
             }
         });
 
-        _box1->transform()->setRotationMode(Transform::Local);
         _box1->setTranslateX(2);
 
         _box1->setScale(3.0f);

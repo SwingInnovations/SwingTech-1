@@ -1,0 +1,9 @@
+#ifndef SWINGTECH1_STMENU_H
+#define SWINGTECH1_STMENU_H
+
+class STMenu {
+
+};
+
+
+#endif //SWINGTECH1_STMENU_H

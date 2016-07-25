@@ -30,11 +30,15 @@
       <sourceFolder url="file://$MODULE_DIR$/src/Graphics/STColor.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src/Graphics/STFontMetrics.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src/Graphics/Interface/STPanel.h" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/src/Graphics/Interface/STLabel.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/src/Graphics/Interface/STMenu.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/src/Graphics/Interface/STButton.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src/Graphics/Interface/STButton.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/src/Graphics/Interface/STButtonGroup.cpp" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/src/Graphics/Interface/STButtonGroup.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src/Graphics/Interface/STLabel.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src/Graphics/Interface/STInterWidget.h" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/src/Graphics/Interface/STButton.cpp" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/src/Graphics/Interface/STMenu.cpp" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/src/Graphics/Interface/STLabel.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src/Graphics/Interface/STPanel.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src/Graphics/VK/VKGraphics.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src/Graphics/VK/VKGraphics.cpp" isTestSource="false" />

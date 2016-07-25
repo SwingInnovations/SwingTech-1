@@ -18,6 +18,7 @@ STButton::STButton(const std::string &text) {
     int width = 0, height  = 0;
     STFontMetrics::bounds(m_text, m_fontSize, m_font, &width, &height);
     addComponent(typeid(STRectBoundsComponent), new STRectBoundsComponent(0, 0, width, height, STGraphics::YUp));
+    buttonType = PUSH;
 }
 
 STButton::STButton(stReal x, stReal y, std::string text) {
@@ -30,6 +31,20 @@ STButton::STButton(stReal x, stReal y, std::string text) {
     m_visible = true;
     STFontMetrics::bounds(m_text, m_fontSize, m_font, &width, &height);
     addComponent(typeid(STRectBoundsComponent), new STRectBoundsComponent(x, y, width, height, STGraphics::getYUpSetting()));
+    buttonType = PUSH;
+}
+
+STButton::STButton(stReal x, stReal y, std::string text, STButton::ButtonType type) {
+    m_text = text;
+    m_position.set(x, y);
+    m_fontColor.set(WHITE);
+    m_fontSize = 36;
+    m_font = "fonts/arial.ttf";
+    int width = 0, height = 0;
+    m_visible = true;
+    STFontMetrics::bounds(m_text, m_fontSize, m_font, &width, &height);
+    addComponent(typeid(STRectBoundsComponent), new STRectBoundsComponent(x, y, width, height, STGraphics::getYUpSetting()));
+    buttonType = type;
 }
 
 void STButton::update(STGame *window) {
@@ -50,3 +65,6 @@ void STButton::invokeInputEvent(STEntity *entity, STGame *game) {
     this->inputEvents(entity, game);
 }
 
+void STButton::setIndex(unsigned int i) {
+    index = i;
+}

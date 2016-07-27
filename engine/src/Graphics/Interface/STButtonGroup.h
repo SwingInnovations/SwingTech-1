@@ -2,8 +2,9 @@
 #define SWINGTECH1_STBUTTONGROUP_H
 
 //Button group handler for radio buttons
+#include <vector>
 
-#include "STButton.h"
+class STButton;
 
 class STButtonGroup {
 public:

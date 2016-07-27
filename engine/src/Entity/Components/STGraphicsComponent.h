@@ -43,11 +43,9 @@ public:
     void setSpriteSheetRow(int);
     void nextFrame();
 
-    void setShader(Shader* shdr){
-        m_shdr = shdr;
-    }
+    inline void setShader(Shader* shdr){ m_shdr = shdr; }
 
-    Shader* shdr(){
+    inline Shader* shdr(){
         if(useMaterial){
             return m_material->shdr();
         }else{
@@ -58,7 +56,7 @@ public:
 
     virtual void update(STEntity* entity, STGame* game);
 
-    void draw(){
+    inline void draw(){
         //TODO Include shader handling and other stuff.
         if(!useMaterial){
             m_shdr->bind();

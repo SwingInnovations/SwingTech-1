@@ -62,11 +62,11 @@ public:
     void setHAngle(const stReal _h);
     void setVAngle(const stReal _v);
 
-    ViewProfile* viewProf(){ return &m_viewProf; }
-    Transform* transform(){ return &m_transform; }
+    inline ViewProfile* viewProf(){ return &m_viewProf; }
+    inline Transform* transform(){ return &m_transform; }
 
-    stReal getHAngle(){ return hAngle; }
-    stReal getVAngle(){ return vAngle; }
+    inline stReal getHAngle(){ return hAngle; }
+    inline stReal getVAngle(){ return vAngle; }
 
     Matrix4f getViewProjection()const;
     Matrix4f getView()const;

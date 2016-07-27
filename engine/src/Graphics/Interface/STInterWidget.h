@@ -18,14 +18,15 @@ public:
         m_type = GUI;
     }
 
-    void setText(const std::string& text){ m_text = text; }
-    void setFontColor(const STColor& color){ m_fontColor = color; }
-    void setFontSize(unsigned int size){ m_fontSize = size; }
-    void setBackgroundColor(const STColor& color){ m_backgroundColor = color; }
-    void setForegroundColor(const STColor& color){ m_foregroundColor = color; }
+    inline void setText(const std::string& text){ m_text = text; }
+    inline void setFontColor(const STColor& color){ m_fontColor = color; }
+    inline void setFont(const std::string& font){ ; }
+    inline void setFontSize(unsigned int size){ m_fontSize = size; }
+    inline void setBackgroundColor(const STColor& color){ m_backgroundColor = color; }
+    inline void setForegroundColor(const STColor& color){ m_foregroundColor = color; }
 
-    void setPadding(unsigned int padding){ m_padding = padding; }
-    void setPosition(const Vector2<stReal> position){
+    inline void setPadding(unsigned int padding){ m_padding = padding; }
+    inline void setPosition(const Vector2<stReal>& position){
         m_position = position;
         auto rect = get<STRectBoundsComponent>();
         if(rect != nullptr){
@@ -36,12 +37,6 @@ public:
         }
     }
 
-    // TODO - Move these to Event Component
-//    virtual void keyEvent() = 0;
-//    virtual void mouseEvent() = 0;
-//    virtual void clickEvent() = 0;
-//    virtual void pressEvent() = 0;
-//    virtual void releaseEvent() = 0;
 protected:
     std::string m_text;
     std::string m_font;

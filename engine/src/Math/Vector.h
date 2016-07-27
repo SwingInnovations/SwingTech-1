@@ -140,44 +140,44 @@ public:
         m_Val[2] = 0.0;
     }
 
-    void setX(const T& _x){ m_Val[0] = _x; }
-    void setY(const T& _y){ m_Val[1] = _y; }
-    void setZ(const T& _z){ m_Val[2] = _z; }
+    inline void setX(const T& _x){ m_Val[0] = _x; }
+    inline void setY(const T& _y){ m_Val[1] = _y; }
+    inline void setZ(const T& _z){ m_Val[2] = _z; }
 
-    T getX() const{ return m_Val[0]; }
-    T getY() const{ return m_Val[1]; }
-    T getZ() const{ return m_Val[2]; }
+    inline T getX() const{ return m_Val[0]; }
+    inline T getY() const{ return m_Val[1]; }
+    inline T getZ() const{ return m_Val[2]; }
 
-    T* getData(){ return m_Val; }
+    inline T* getData(){ return m_Val; }
 
-    double getLength(){
+    inline double getLength(){
         double _x = (double)getX();
         double _y = (double)getY();
         double _z = (double)getZ();
         return sqrt(pow(_x, 2) + pow(_y, 2) + pow(_z, 2));
     }
 
-    Vector3 normalize(){
+    inline Vector3 normalize(){
         m_Val[0] /= getLength();
         m_Val[1] /= getLength();
         m_Val[2] /= getLength();
         return *this;
     }
 
-    Vector3 negate(){
+    inline Vector3 negate(){
         m_Val[0] = -abs(m_Val[0]);
         m_Val[1] = -abs(m_Val[1]);
         m_Val[2] = -abs(m_Val[2]);
         return *this;
     }
 
-    std::string getInfo() const {
+    inline std::string getInfo() const {
         std::ostringstream str;
         str << "[ X: " << m_Val[0] << " Y: " << m_Val[1] << " Z: " << m_Val[2] <<" ] " << std::endl;
         return str.str();
     }
 
-    void rotate(stReal angle, Vector3& axis){
+    inline void rotate(stReal angle, Vector3& axis){
         float hSinF = sinf(toRadian(angle/2));
         float hCosF = cosf(toRadian(angle/2));
 
@@ -196,11 +196,11 @@ public:
         this->m_Val[2] = W.getZ();
     }
 
-    double dot(const Vector3& other){
+    inline double dot(const Vector3& other){
         return sqrt(this->getX() * other.getX() + this->getY() * other.getY() + other.getZ() * other.getZ());
     }
 
-    Vector3 cross(const Vector3& other)const{
+    inline Vector3 cross(const Vector3& other)const{
         T _x = (this->getY() * other.getZ()) - (this->getZ() * other.getY());
         T _y = (this->getZ() * other.getX()) - (this->getX() * other.getZ());
         T _z = (this->getX() * other.getY()) - (this->getY() * other.getX());
@@ -260,6 +260,7 @@ public:
         T x = getX() / other.getX();
         T y = getY() / other.getY();
         T z = getZ() / other.getZ();
+        return Vector3(x, y, z);
     }
 
 private:
@@ -281,17 +282,17 @@ public:
         m_Val[3] = _w;
     }
 
-    void setX(T _x){ m_Val[0] = _x; }
-    void setY(T _y){ m_Val[1] = _y; }
-    void setZ(T _z){ m_Val[2] = _z; }
-    void setW(T _w){ m_Val[3] = _w; }
+    inline void setX(T _x){ m_Val[0] = _x; }
+    inline void setY(T _y){ m_Val[1] = _y; }
+    inline void setZ(T _z){ m_Val[2] = _z; }
+    inline void setW(T _w){ m_Val[3] = _w; }
 
-    T getX()const{ return m_Val[0]; }
-    T getY()const{ return m_Val[1]; }
-    T getZ()const{ return m_Val[2]; }
-    T getW()const{ return m_Val[3]; }
+    inline T getX()const{ return m_Val[0]; }
+    inline T getY()const{ return m_Val[1]; }
+    inline T getZ()const{ return m_Val[2]; }
+    inline T getW()const{ return m_Val[3]; }
 
-    double getLength(){
+    inline double getLength()const{
         double x = (double)getX();
         double y = (double)getY();
         double z = (double)getZ();
@@ -300,7 +301,7 @@ public:
         return sqrt( x * x + y * y + z * z + w * w);
     }
 
-    Vector4 normalize(){
+    inline Vector4 normalize()const{
         double len = getLength();
         m_Val[0] /= len;
         m_Val[1] /= len;

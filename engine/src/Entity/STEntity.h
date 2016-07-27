@@ -102,7 +102,7 @@ public:
     void setVisible(bool value);
     bool isVisible();
 
-    template<typename T> T* get(){
+    template<typename T> inline T* get(){
         auto it = m_components.find(std::type_index(typeid(T)));
         if(it != m_components.end()){
             return dynamic_cast<T*>(it->second);
@@ -110,7 +110,7 @@ public:
         return nullptr;
     }
 
-    Transform* transform(){ return m_transform; }
+    inline Transform* transform(){ return m_transform; }
 
     virtual void update(STGame* window){
         for(auto comp : m_components){

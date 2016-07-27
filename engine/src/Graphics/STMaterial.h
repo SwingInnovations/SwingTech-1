@@ -27,32 +27,33 @@ public:
         delete shader;
     }
 
-    void addDiffuse(const std::string& fileName){
+    inline void addDiffuse(const std::string& fileName){
         _uniforms.push_back(STShader::ShaderAttrib("STMaterial.diffuse", STShader::INT, "0"));
         texture->addTexture(fileName, 0);
     }
 
-    void addDiffuse(Vector3<stReal> diffuse){
+    inline void addDiffuse(Vector3<stReal> diffuse){
         _uniforms.push_back(STShader::ShaderAttrib("STMaterial.diffuse", STShader::VEC3, STShader::toString(diffuse)));
     }
 
-    void addSpecular(const std::string& fileName){
+    inline void addSpecular(const std::string& fileName){
         _uniforms.push_back(STShader::ShaderAttrib("STMaterial.diffuse", STShader::INT, "1"));
         texture->addTexture(fileName, 1);
     }
 
-    void addSpecular(Vector3<stReal> specular){
+    inline void addSpecular(Vector3<stReal> specular){
         _uniforms.push_back(STShader::ShaderAttrib("STMaterial.specular", STShader::VEC3, STShader::toString(specular)));
     }
-    void addNormal(Vector3<stReal> normal){
+    inline void addNormal(Vector3<stReal> normal){
         _uniforms.push_back(STShader::ShaderAttrib("STMaterial.normal", STShader::VEC3, STShader::toString(normal)));
     }
-    void addNormal(const std::string& fileName){
+
+    inline void addNormal(const std::string& fileName){
         _uniforms.push_back(STShader::ShaderAttrib("STMaterial.normal", STShader::INT, "2"));
         texture->addTexture(fileName, 2);
     }
 
-    void update(){
+    inline void update(){
         shader->bind();
         shader->updateUniforms(_uniforms);
         for(unsigned int i = 0; i < texture->getTextureCount(); i++){
@@ -62,7 +63,7 @@ public:
 
     Shader* shdr(){ return shader; }
 
-    void update(std::vector<STShader::ShaderAttrib> entityUniforms){
+    inline void update(std::vector<STShader::ShaderAttrib> entityUniforms){
         shader->bind();
         shader->updateUniforms(_uniforms);
         shader->updateUniforms(entityUniforms);

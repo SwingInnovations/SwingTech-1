@@ -20,7 +20,7 @@ public:
 
     void triggerHitEvent(STEntity*);
 
-    void setEventState(Event_State eState){ event_state = eState; }
+    inline void setEventState(Event_State eState){ event_state = eState; }
     void hitEvent(std::function<void (STEntity*, STGame*, STEntity*)>);
     void intersectEvent(std::function<void (STEntity*)> intersectFunction);
     void inputEvent(std::function< void (STEntity*, Input*) > inputFunction);

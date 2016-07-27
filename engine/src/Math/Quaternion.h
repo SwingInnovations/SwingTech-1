@@ -19,20 +19,20 @@ public:
         m_val[3] = _w;
     }
 
-    void setX(const float _x){ m_val[0] = _x; }
-    void setY(const float _y){ m_val[1] = _y; }
-    void setZ(const float _z){ m_val[2] = _z; }
-    void setW(const float _w){ m_val[3] = _w; }
+    inline void setX(const float _x){ m_val[0] = _x; }
+    inline void setY(const float _y){ m_val[1] = _y; }
+    inline void setZ(const float _z){ m_val[2] = _z; }
+    inline void setW(const float _w){ m_val[3] = _w; }
 
-    float getX()const{ return m_val[0]; }
-    float getY()const{ return m_val[1]; }
-    float getZ()const{ return m_val[2]; }
-    float getW()const{ return m_val[3]; }
+    inline float getX()const{ return m_val[0]; }
+    inline float getY()const{ return m_val[1]; }
+    inline float getZ()const{ return m_val[2]; }
+    inline float getW()const{ return m_val[3]; }
 
-    float getLength(){ return (float)sqrt( pow(m_val[0], 2) + pow(m_val[1], 2) + pow(m_val[2], 2) + pow(m_val[3], 2)); }
-    float* getData(){ return m_val; }
+    inline float getLength(){ return (float)sqrt( pow(m_val[0], 2) + pow(m_val[1], 2) + pow(m_val[2], 2) + pow(m_val[3], 2)); }
+    inline float* getData(){ return m_val; }
 
-    Quaternion normalize(){
+    inline Quaternion normalize(){
         float len = getLength();
         m_val[0] /= len;
         m_val[1] /= len;
@@ -41,7 +41,7 @@ public:
         return *this;
     }
 
-    Quaternion conjugate(){
+    inline Quaternion conjugate(){
         return Quaternion(-m_val[0], -m_val[1], -m_val[2], m_val[3]);
     }
 

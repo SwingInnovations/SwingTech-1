@@ -71,17 +71,17 @@ public:
 
     /*--General Getters and Setters--*/
     /*-The Setters-*/
-    void useScript(bool v){ this->useLua = v; }
+    inline void useScript(bool v){ this->useLua = v; }
     //! Sets Game to Fullscreen
     /*!
      *  \param v Fullscreen state.
      */
-    void useFullScreen(bool v){ this->isFullScreen = v; }
+    inline void useFullScreen(bool v){ this->isFullScreen = v; }
     //! Sets Game to Pause.
     /*!
      *  \param v Pause state.
      */
-    void setPause(bool v){ this->isPause = v; }
+    inline void setPause(bool v){ this->isPause = v; }
 
     //! Sets Target FPS for game.
     /*!

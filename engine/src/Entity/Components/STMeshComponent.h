@@ -37,11 +37,11 @@ public:
 
     void update(STEntity* entity, STGame* game);
 
-    void draw(){
+    inline void draw(){
         m_mesh->draw();
     }
 
-    void draw(int drawMode){
+    inline void draw(int drawMode){
         m_mesh->draw(drawMode);
     }
 

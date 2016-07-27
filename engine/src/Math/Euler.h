@@ -16,19 +16,19 @@ public:
         m_val[2] = _z;
     }
 
-    void set(const Vector3<stReal> other){
+    inline void set(const Vector3<stReal> other){
         m_val[0] = (T)other.getX();
         m_val[1] = (T)other.getY();
         m_val[2] = (T)other.getZ();
     }
 
-    void setX(const T& _x){ m_val[0] = _x; }
-    void setY(const T& _y){ m_val[1] = _y; }
-    void setZ(const T& _z){ m_val[2] = _z; }
+    inline void setX(const T& _x){ m_val[0] = _x; }
+    inline void setY(const T& _y){ m_val[1] = _y; }
+    inline void setZ(const T& _z){ m_val[2] = _z; }
 
-    T getX()const{ return m_val[0]; }
-    T getY()const{ return m_val[1]; }
-    T getZ()const{ return m_val[2]; }
+    inline T getX()const{ return m_val[0]; }
+    inline T getY()const{ return m_val[1]; }
+    inline T getZ()const{ return m_val[2]; }
 
 private:
     T m_val[3];

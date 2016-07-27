@@ -6,6 +6,8 @@
 #include "../STGraphics.h"
 #include "STButtonGroup.h"
 
+class STButtonGroup;
+
 class STButton : public STInterWidget{
 public:
     enum ButtonType{
@@ -23,13 +25,13 @@ public:
     void draw(STGraphics* grphx) override;
     void inputEvent(std::function<void(STEntity*, STGame*)>);
 
-    void setToggle(bool val){
+    inline void setToggle(bool val){
         toggled = val;
         parent->toggleGroup(index);
     }
-    bool isToggled(){ return toggled; }
+    inline bool isToggled(){ return toggled; }
     void setIndex(unsigned int);
-    void toggle(){ toggled =! toggled; }
+    inline void toggle(){ toggled =! toggled; }
 private:
     void invokeInputEvent(STEntity*, STGame*);
     std::function<void(STEntity*, STGame*)> inputEvents = 0;

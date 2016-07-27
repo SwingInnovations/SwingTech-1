@@ -50,7 +50,7 @@ struct STColor{
         }
     }
 
-    void set(int col){
+    inline void set(int col){
         switch(col){
             case RED:
                 color = Vector4<stReal>(1.0f, 0.0f, 0.0f, 1.0f);
@@ -80,17 +80,17 @@ struct STColor{
         }
     }
 
-    void setRed(stReal value){
+    inline void setRed(stReal value){
         if(value > 1.0f) value /= 255.0f;
         color.setX(value);
     }
 
-    void setGreen(stReal value){
+    inline void setGreen(stReal value){
         if(value > 1.0f) value /= 255.0f;
         color.setY(value);
     }
 
-    void setBlue(stReal value){
+    inline void setBlue(stReal value){
         if(value > 1.0f) value /= 255.0f;
         color.setZ(value);
     }

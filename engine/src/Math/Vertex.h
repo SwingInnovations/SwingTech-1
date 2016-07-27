@@ -14,7 +14,7 @@ public:
         this->_normal = normal;
     }
 
-    std::string info(){
+    inline std::string info(){
         std::ostringstream buff;
         buff << "Vertex(X, Y, Z): " << _vertex.getX() << " , " << _vertex.getY() << " , " << _vertex.getZ() << "\n";
         buff << "Texcoord(X, Y, Z): " << _texCoord.getX()<< " , " << _texCoord.getY() << "\n";

@@ -65,6 +65,6 @@ void STButton::invokeInputEvent(STEntity *entity, STGame *game) {
     this->inputEvents(entity, game);
 }
 
-void STButton::setIndex(unsigned int i) {
+void STButton::setIndex(unsigned stInt i) {
     index = i;
 }

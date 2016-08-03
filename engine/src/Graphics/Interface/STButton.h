@@ -5,6 +5,7 @@
 #include "STInterWidget.h"
 #include "../STGraphics.h"
 #include "STButtonGroup.h"
+#include "STMenu.h"
 
 class STButtonGroup;
 
@@ -29,6 +30,8 @@ public:
         toggled = val;
         parent->toggleGroup(index);
     }
+
+    inline void setMenu(STMenu* menu){ this->menu = menu; }
     inline bool isToggled(){ return toggled; }
     void setIndex(unsigned int);
     inline void toggle(){ toggled =! toggled; }
@@ -38,6 +41,7 @@ private:
     ButtonType buttonType;
     bool toggled;
     STButtonGroup* parent = NULL;
+    STMenu* menu;
     unsigned int index;
 };
 

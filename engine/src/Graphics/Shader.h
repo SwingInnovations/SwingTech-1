@@ -14,6 +14,9 @@ class Transform;
 class Camera;
 class Matrix4f;
 
+/*!
+ * @brief Contains information to describing how uniforms are updated.
+ */
 namespace STShader{
    enum Type{
     INT = 0,
@@ -24,39 +27,74 @@ namespace STShader{
        STRING = 5
    };
 
-    static std::string toString(int val){
+    /*!
+     *
+     * @param val - Input integer
+     * @return Stringified integer for uniform use.
+     */
+    static std::string toString(const int& val) {
         std::ostringstream buff;
         buff << val;
         return buff.str();
     }
 
-    static std::string toString(float val){
+    /*!
+     *
+     * @param val Input float
+     * @return Stringified float for uniform use.
+     */
+    static std::string toString(const float& val) {
         std::ostringstream buff;
         buff << val;
         return buff.str();
     }
 
-    template<typename T> static std::string toString(Vector3<T> val){
+    /*!
+     *
+     * @param val Input Vector3
+     * @return Stringified Vector3 for uniform use.
+     */
+    template<typename T> static std::string toString(const Vector3<T>& val) {
         std::ostringstream buff;
         buff << val.getX() << "/" << val.getY() << "/" << val.getZ();
         return buff.str();
     }
 
-    template<typename T> static std::string toString(Vector4<T> val){
+    /*!
+     *
+     * @param val Input Vector4
+     * @return Strngified Vector4 for uniform use.
+     */
+    template<typename T> static std::string toString(const Vector4<T>& val){
         std::ostringstream buff;
         buff << val.getX() << "/" << val.getY() << "/" << val.getZ() << "/" << val.getW();
         return buff.str();
     }
 
-    static int toInt(std::string val){
+    /*!
+     *
+     * @param val Input stringified integer uniform
+     * @return Integer value
+     */
+    static int toInt(const std::string val){
         return atoi(val.c_str());
     }
 
-    static float toFloat(std::string val){
+    /*!
+     *
+     * @param val Input stringified float uniform
+     * @return Float value
+     */
+    static float toFloat(const std::string val){
         return (float)atof(val.c_str());
     }
 
-    static Vector3<stReal> toVector3(std::string& val){
+    /*!
+     *
+     * @param val Input stringified Vector3 uniform
+     * @return Vector3 value as Vector3<stReal>
+     */
+    static Vector3<stReal> toVector3(const std::string& val){
         stReal _x = 0;
         stReal _y = 0;
         stReal _z = 0;
@@ -67,7 +105,12 @@ namespace STShader{
         return ret;
     }
 
-    static Vector4<stReal> toVector4(std::string& value){
+    /*!
+     *
+     * @param value Input stringified Vector4 uniform
+     * @return value as Vector4<stReal>
+     */
+    static Vector4<stReal> toVector4(const std::string& value){
         stReal _x = 0, _y = 0, _z = 0, _w = 0;
         std::string vX = value.substr(0, value.find('/'));
         std::string d1 = value.substr(value.find('/')+1);
@@ -84,6 +127,13 @@ namespace STShader{
     }
 
     struct ShaderAttrib{
+        /*!
+         *
+         * @param name Unique name for the uniform
+         * @param type Type of uniform. Options: {INT, FLOAT, VEC3, VEC4}
+         * @param value Stringified uniform value
+         * @return
+         */
         ShaderAttrib(const std::string& name, const int type, const std::string& value){
             this->name = name;
             this->type = type;

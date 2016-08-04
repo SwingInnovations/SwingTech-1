@@ -4,14 +4,14 @@
 #include <c++/functional>
 #include <string>
 
-class STMenuEntry{
-public:
-    STMenuEntry();
-    STMenuEntry(const std::string& name, std::function function);
-private:
-    std::string name;
-    std::function function;
-};
+//class STMenuEntry{
+//public:
+//    STMenuEntry();
+//    STMenuEntry(const std::string& name, std::function function);
+//private:
+//    std::string name;
+//    std::function function;
+//};
 
 class STMenu {
 

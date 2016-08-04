@@ -41,9 +41,13 @@ public:
     virtual void drawScene(STSceneManager* sceneManager){;}
     virtual void setShader(int,Shader*){;}
 
+    /*!
+     *
+     * @return REturns the Graphics Card Driver
+     */
     virtual std::string getVendor(){ return NULL; }
 
-    void setFontColor(const Vector4<stReal> vec){ m_fontColor = vec; }
+    void setFontColor(const Vector4<stReal>& vec){ m_fontColor = vec; }
 
     Vector4<stReal> getFontColor()const { return m_fontColor; }
 

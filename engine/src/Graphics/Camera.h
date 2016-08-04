@@ -53,13 +53,25 @@ public:
     Camera(STGame &, Vector3<stReal>&, ViewProfile&);
     Camera(STGame &, Vector3<stReal>&, int);
 
+    /*!
+     *
+     * @param viewProfile Viewprofile to define the camera.
+     */
     void init(ViewProfile viewProfile);
     void update();
     void update(Input* input);
 
     void centerCam(Input* input);
 
+    /*!
+     * @name
+     * @param _h Horizontal rotation in radians.
+     */
     void setHAngle(const stReal _h);
+    /*!
+     *
+     * @param _v Vertical Rotation in radians.
+     */
     void setVAngle(const stReal _v);
 
     inline ViewProfile* viewProf(){ return &m_viewProf; }
@@ -68,9 +80,13 @@ public:
     inline stReal getHAngle(){ return hAngle; }
     inline stReal getVAngle(){ return vAngle; }
 
-    Matrix4f getViewProjection()const;
-    Matrix4f getView()const;
-    Matrix4f getProjection()const;
+    /*!
+     *
+     * @return Returns the combined view projection matrix.
+     */
+    Matrix4f getViewProjection() const;
+    Matrix4f getView() const;
+    Matrix4f getProjection() const;
 private:
     void processFPS(Input* input);
     Transform m_transform;

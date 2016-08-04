@@ -12,6 +12,14 @@ extern "C"{
 #include "../Math/Vector.h"
 
 struct STFontMetrics{
+    /*!
+     * @brief Gets font information based on given string
+     * @param text Input text to analyze
+     * @param fontSize Intended font size
+     * @param fontFile Intended font
+     * @param width Reference to width, maximum width will be stored here.
+     * @param height Reference to height, maximum height will be stored here.
+     */
     static void bounds(const std::string& text, const int fontSize, const std::string fontFile, int* width, int* height){
         struct Character{
             Vector2<int> size;

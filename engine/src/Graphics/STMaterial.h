@@ -12,6 +12,11 @@ public:
 
     }
 
+    /*!
+     * @name STMaterial
+     * @param shdr STShader for use
+     * @return
+     */
     STMaterial(Shader* shdr){
         shader = shdr;
         texture = new Texture();
@@ -27,20 +32,35 @@ public:
         delete shader;
     }
 
+    /*!
+     * @param fileName Adds diffuse texture and assigns to texture index 0
+     */
     inline void addDiffuse(const std::string& fileName){
         _uniforms.push_back(STShader::ShaderAttrib("STMaterial.diffuse", STShader::INT, "0"));
         texture->addTexture(fileName, 0);
     }
 
+    /*!
+     *
+     * @param diffuse Adds diffuse texture and assigns to texture index 0
+     */
     inline void addDiffuse(Vector3<stReal> diffuse){
         _uniforms.push_back(STShader::ShaderAttrib("STMaterial.diffuse", STShader::VEC3, STShader::toString(diffuse)));
     }
 
+    /*!
+     *
+     * @param fileName Adds Specular map and assigns to texture index 1
+     */
     inline void addSpecular(const std::string& fileName){
         _uniforms.push_back(STShader::ShaderAttrib("STMaterial.diffuse", STShader::INT, "1"));
         texture->addTexture(fileName, 1);
     }
 
+    /*!
+     *
+     * @param specular Adds Specular map and assigns to texture index 1
+     */
     inline void addSpecular(Vector3<stReal> specular){
         _uniforms.push_back(STShader::ShaderAttrib("STMaterial.specular", STShader::VEC3, STShader::toString(specular)));
     }
@@ -53,6 +73,9 @@ public:
         texture->addTexture(fileName, 2);
     }
 
+    /*!
+     * @details Main update that gets called in the render loop.
+     */
     inline void update(){
         shader->bind();
         shader->updateUniforms(_uniforms);
@@ -62,6 +85,7 @@ public:
     }
 
     Shader* shdr(){ return shader; }
+    Texture* tex(){ return texture; }
 
     inline void update(std::vector<STShader::ShaderAttrib> entityUniforms){
         shader->bind();

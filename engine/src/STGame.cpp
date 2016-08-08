@@ -6,6 +6,7 @@
 
 int STGame::RES_WIDTH = 0;
 int STGame::RES_HEIGHT = 0;
+STGame* STGame::m_instance = nullptr;
 
 STGame::STGame() {
     m_Window = nullptr;
@@ -43,7 +44,7 @@ STGame::STGame(const std::string title, unsigned int WIDTH, unsigned int HEIGHT)
         if(m_Window == nullptr){
             std::cout << "Error 400: Failed to load Window:  " << SDL_GetError() << std::endl;
         }else{
-            m_input = new Input(this, m_e);
+            Input::Start(this, m_e);
         }
     }
 
@@ -107,8 +108,8 @@ void STGame::addState(STGameState * gameState) {
     m_gameStates.push_back(gameState);
 }
 
-Input*STGame::getInput() {
-    return m_input;
+Input* STGame::getInput() {
+    return Input::Get();
 }
 
 void STGame::calcDelta() {
@@ -129,7 +130,7 @@ void STGame::start(){
     while(isRunning){
         if(!isPause){
             calcDelta();
-            m_input->setDelta(delta);
+            Input::Get()->setDelta(delta);
         }else{
             delta = 0;
         }
@@ -166,9 +167,9 @@ void STGame::enterState(unsigned int index) {
 }
 
 void STGame::updateInput(SDL_Event& event) {
-    m_input->poll(event);
+    Input::Get()->poll(event);
 
-    if(m_input->isCloseRequested()){
+    if(Input::Get()->isCloseRequested()){
         isRunning = false;
     }
     if(!m_gameStates.empty()){ m_gameStates.at(m_currentIndex)->handleInput(this, delta); }
@@ -200,5 +201,14 @@ STGraphics* STGame::getGraphics() {
 }
 
 void STGame::centerCursor() {
-    m_input->centerMouseInWindow();
+    Input::Get()->centerMouseInWindow();
+}
+
+STGame *STGame::Init(const std::string &title, const stUint WIDTH, const stUint HEIGHT) {
+    m_instance = new STGame(title, WIDTH, HEIGHT);
+    return m_instance;
+}
+
+STGame *STGame::Get() {
+    return m_instance;
 }

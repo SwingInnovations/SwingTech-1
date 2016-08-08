@@ -9,7 +9,7 @@
 
 #define stReal float
 #define stInt int
-#define stUint Uint32;
+#define stUint uint32_t
 
 
 #endif //WAHOO_STECH_CORE_H

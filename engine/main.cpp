@@ -166,16 +166,16 @@ int main(int argc, char** argv) {
     inputMap->addMapping(MOVEMENT::BACKWARD, KEY::KEY_S);
     inputMap->addMapping(MOVEMENT::STRAFE_LEFT, KEY::KEY_A);
     inputMap->addMapping(MOVEMENT::STRAFE_RIGHT, KEY::KEY_D);
-
-    STGame window("WAHOO Demo", 1440, 720);
-    window.setOpenGLVersion(3, 3);
-    window.setTargetFPS(120);
+    
+    auto win = STGame::Init("Swing Tech 1", 1440, 720);
+    win->setOpenGLVersion(3, 3);
+    win->setTargetFPS(120);
     STGraphics::YUp = false;
-    window.getInput()->setInputMap(inputMap);
-    Vector3<stReal> camPos(-0.0f, -0.2f, -5.0f);
-    window.addCamera(new Camera(window, camPos, 0));
-    window.addState(new TestState(0));
-    window.enterState(0);
-    window.setClearColor(Vector4<stReal>(0.0f, 0.0f, 0.14f, 1.0f));
-    window.start();
+    win->getInput()->setInputMap(inputMap);
+    Vector3<stReal> campos(0.0, -0.2f, -5.0f);
+    win->addCamera(new Camera(*win, campos, 0));
+    win->addState(new TestState(0));
+    win->enterState(0);
+    win->setClearColor(Vector4<stReal>(0.0f, 0.0f, 0.14f, 1.0f));
+    win->start();
 }

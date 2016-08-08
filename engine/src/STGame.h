@@ -35,6 +35,12 @@ class STGame {
 public:
     static int RES_WIDTH;
     static int RES_HEIGHT;
+
+    static STGame* m_instance;
+
+    static STGame* Init(const std::string& title, const stUint WIDTH, const stUint HEIGHT);
+    static STGame* Get();
+
     //! Constructor
     /*!
      *  Default Constructor.
@@ -189,7 +195,6 @@ private:
 
     unsigned int m_currentIndex;
     std::vector<STGameState *> m_gameStates;
-    Input* m_input;
     SDL_Window* m_Window;
     SDL_GLContext m_Context;
     SDL_Event m_e;

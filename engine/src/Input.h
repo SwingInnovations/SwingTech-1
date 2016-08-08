@@ -170,7 +170,9 @@ private:
 };
 
 class Input {
+
 public:
+    static Input* m_instance;
     Input();
     Input(STGame * app, SDL_Event& e);
     ~Input();
@@ -180,6 +182,9 @@ public:
     void setCursorVisible(bool);
 
     void centerMouseInWindow();
+
+    static Input* Get();
+    static Input* Start(STGame* app, SDL_Event& e);
 
     inline void setInputMap(InputMap* map){ inputMap = map; }
     inline void setMoveSpeed(float speed){ moveSpeed = speed; }
@@ -228,6 +233,7 @@ private:
     unsigned int screenWidth, screenHeight;
     Uint32 delta;
     SDL_Window* templateWin;
+    STGame* parent;
     InputMap* inputMap;
     float moveSpeed;
     float mouseSensitivity;

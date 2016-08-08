@@ -38,7 +38,8 @@ public:
 
         _testActor = new STActor("sphere.obj", STMesh::OBJ, resManager->getMaterial("lit"));
         _testActor->addShdrUniform("objColor", Vector3<stReal>(1.0, 0.5, 0.31f));
-        _testActor->get<STEventComponent>()->inputEvent([](STEntity* self, Input* input){
+        _testActor->get<STEventComponent>()->inputEvent([](STEntity* self){
+            auto input = Input::Get();
             if(input->isKeyPressed(KEY::KEY_SPACE)) self->setTranslateY(1.0f);
         });
 
@@ -56,7 +57,8 @@ public:
         _box1->addShdrUniform("lightColor", Vector3<stReal>(1.0f, 0.5f, 0.0f));
         _box1->addComponent(typeid(STEventComponent), new STEventComponent);
 
-        _box1->get<STEventComponent>()->inputEvent([](STEntity* self, Input* input){
+        _box1->get<STEventComponent>()->inputEvent([](STEntity* self){
+            auto input = Input::Get();
             if(input->isKeyPressed(KEY::KEY_SPACE)){
                 self->setTranslateY(1.0f);
             }
@@ -166,7 +168,7 @@ int main(int argc, char** argv) {
     inputMap->addMapping(MOVEMENT::BACKWARD, KEY::KEY_S);
     inputMap->addMapping(MOVEMENT::STRAFE_LEFT, KEY::KEY_A);
     inputMap->addMapping(MOVEMENT::STRAFE_RIGHT, KEY::KEY_D);
-    
+
     auto win = STGame::Init("Swing Tech 1", 1440, 720);
     win->setOpenGLVersion(3, 3);
     win->setTargetFPS(120);
@@ -178,4 +180,6 @@ int main(int argc, char** argv) {
     win->enterState(0);
     win->setClearColor(Vector4<stReal>(0.0f, 0.0f, 0.14f, 1.0f));
     win->start();
+
+    return 0;
 }

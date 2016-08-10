@@ -82,8 +82,8 @@ public:
         btn->setFontColor(STColor(MAGENTA));
         int btnWidth = (int)btn->get<STRectBoundsComponent>()->bounds()->getWidth();
         btn->setPosition(Vector2<stReal>(STGame::RES_WIDTH - btnWidth, 32));
-        btn->inputEvent([](STEntity* self, STGame* game){
-            auto input = game->getInput();
+        btn->inputEvent([](STEntity* self){
+            auto input = Input::Get();
             if(input->isMousePressed(1)){
                 input->requestClose();
             }

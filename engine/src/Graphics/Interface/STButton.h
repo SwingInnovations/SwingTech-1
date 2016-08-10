@@ -24,7 +24,7 @@ public:
 
     void update(STGame* window) override;
     void draw(STGraphics* grphx) override;
-    void inputEvent(std::function<void(STEntity*, STGame*)>);
+    void inputEvent(std::function<void(STEntity*)>);
 
     inline void setToggle(bool val){
         toggled = val;
@@ -36,8 +36,8 @@ public:
     void setIndex(unsigned int);
     inline void toggle(){ toggled =! toggled; }
 private:
-    void invokeInputEvent(STEntity*, STGame*);
-    std::function<void(STEntity*, STGame*)> inputEvents = 0;
+    void invokeInputEvent(STEntity*);
+    std::function<void(STEntity*)> inputEvents = 0;
     ButtonType buttonType;
     bool toggled;
     STButtonGroup* parent = NULL;

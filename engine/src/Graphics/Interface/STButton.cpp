@@ -49,7 +49,7 @@ STButton::STButton(stReal x, stReal y, std::string text, STButton::ButtonType ty
 
 void STButton::update(STGame *window) {
     if(get<STRectBoundsComponent>()->bounds()->contains(window->getInput()->getMouseCoords<stReal>())){
-        if(inputEvents != 0)invokeInputEvent(this, window);
+        if(inputEvents != 0)invokeInputEvent(this);
     }
 }
 
@@ -57,12 +57,12 @@ void STButton::draw(STGraphics *grphx) {
     if(m_visible) grphx->drawText(m_position, m_text, m_fontSize, &m_fontColor.color);
 }
 
-void STButton::inputEvent(std::function<void(STEntity*, STGame*)> function) {
+void STButton::inputEvent(std::function<void(STEntity*)> function) {
     inputEvents = function;
 }
 
-void STButton::invokeInputEvent(STEntity *entity, STGame *game) {
-    this->inputEvents(entity, game);
+void STButton::invokeInputEvent(STEntity *entity) {
+    this->inputEvents(entity);
 }
 
 void STButton::setIndex(unsigned stInt value) {

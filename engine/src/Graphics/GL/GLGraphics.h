@@ -45,7 +45,7 @@ struct GLRenderPass : public STRenderPass{
     ~GLRenderPass();
 
     void bind();
-    void unbind();
+    void unBind();
 
     void drawSkybox(GLGraphics* g);
 

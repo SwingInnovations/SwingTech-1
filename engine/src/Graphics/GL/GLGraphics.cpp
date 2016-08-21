@@ -108,7 +108,7 @@ void GLRenderPass::bind() {
 
 }
 
-void GLRenderPass::unbind() {
+void GLRenderPass::unBind() {
     glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
     glClear(GL_COLOR_BUFFER_BIT);
@@ -159,7 +159,7 @@ void GLRenderPass::draw(GLGraphics *g) {
             ent->draw(g);
         }
     }
-    unbind();
+    unBind();
 }
 
 GLGraphics::GLGraphics() {

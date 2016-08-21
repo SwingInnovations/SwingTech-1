@@ -13,8 +13,8 @@ enum ST_YUpState{
 };
 
 struct STRenderPass{
-    virtual void bind(){;}
-    virtual void unBind(){;}
+    virtual void bind() = 0;
+    virtual void unBind() = 0;
     virtual void draw(STGraphics*){;}
 };
 

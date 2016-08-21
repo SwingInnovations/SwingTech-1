@@ -13,6 +13,13 @@ class OctNode;
 
 class STSceneManager{
 public:
+    static STSceneManager* m_instance;
+
+    static STSceneManager* Get(){
+        if(m_instance == nullptr) m_instance = new STSceneManager;
+        return m_instance;
+    }
+
     STSceneManager(){ m_NumLights = 0; }
 
     void addEntity(STEntity* entity){

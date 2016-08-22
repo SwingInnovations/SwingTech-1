@@ -8,21 +8,124 @@ class STActor;
 class STLight;
 class STInterWidget;
 
+template<typename G>
+class Node{
+protected:
+    Node* parent;
+    G* data;
+    virtual void split() = 0;
+};
 
+template<typename GameObject>
+class QuadNode : public Node<GameObject>{
+public:
+    QuadNode(){
+        this->parent = nullptr;
+        this->data = nullptr;
+        childCount = 0;
+    }
+
+    QuadNode(GameObject* data){
+        this->parent = nullptr;
+        this->data = data;
+        childCount = 0;
+    }
+
+    QuadNode(QuadNode* parent, GameObject* data){
+        this->parent = parent;
+        this->data = data;
+        childCount = 0;
+    }
+
+    inline void setData(GameObject* data){
+        this->data = data;
+    }
+
+    inline void addChild(GameObject* childData){
+        if(childCount < 4){
+            if(this->data != nullptr){
+                children[childCount] = new QuadNode(this, this->data);
+                delete this->data;
+                childCount++;
+            }
+            children[childCount] = new QuadNode(this, childData);
+            childCount++;
+        }
+        //Do something when all children are filled;
+    }
+
+    GameObject* getData(){ return this->data; }
+
+protected:
+    inline void split() override {
+        //Do something to split.
+    }
+private:
+    QuadNode* children[4] = {nullptr, nullptr, nullptr, nullptr};
+    stUint childCount;
+};
+
+template<typename GameObject>
+class OctoNode : public Node<GameObject> {
+public:
+    OctoNode(){
+        this->parent = nullptr;
+        this->data = nullptr;
+        this->childCount = 0;
+    }
+
+    OctoNode(GameObject* data){
+        this->parent = nullptr;
+        this->data = data;
+        this->childCount = 0;
+    }
+
+    OctoNode(OctoNode* parent, GameObject* data){
+        this->parent = parent;
+        this->data = data;
+        this->childCount = 0;
+    }
+
+    inline void setParent(OctoNode* parent){ this->parent = parent; }
+    inline void setData(GameObject* data){ this->data = data; }
+
+    inline void addChild(GameObject* data){
+        if(this->childCount < 8){
+            if(this->data != nullptr){
+                children[this->childCount] = new OctoNode(this, this->data);
+                delete this->data;
+                this->data = nullptr;
+                this->childCount++;
+            }
+            children[this->childCount] = new OctoNode(this, data);
+            this->childCount++;
+        }
+
+    }
+protected:
+    inline void split() override {
+        // Do something to split
+
+    }
+
+private:
+    OctoNode* children[8] = {nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr};
+    stUint childCount;
+};
 
 class STScene{
 public:
     STScene(){;}
 
-    void addActor(STActor* actor){
+    inline void addActor(STActor* actor){
         actors.push_back(actor);
     }
 
-    void addLight(STLight* light){
+    inline void addLight(STLight* light){
         lights.push_back(light);
     }
 
-    void addUIElement(STInterWidget* ui){
+    inline void addUIElement(STInterWidget* ui){
         uiElements.push_back(ui);
     }
 

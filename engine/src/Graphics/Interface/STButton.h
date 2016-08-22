@@ -42,7 +42,7 @@ private:
     bool toggled;
     STButtonGroup* parent = NULL;
     STMenu* menu;
-    unsigned int index;
+    stUint index;
 };
 
 

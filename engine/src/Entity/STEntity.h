@@ -112,11 +112,7 @@ public:
 
     inline Transform* transform(){ return m_transform; }
 
-    virtual void update(STGame* window){
-        for(auto comp : m_components){
-            comp.second->update(this, window);
-        }
-    }
+    virtual void update();
 
     virtual void draw(){
         auto grphx = get<STGraphicsComponent>();

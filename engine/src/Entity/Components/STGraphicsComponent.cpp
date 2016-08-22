@@ -114,6 +114,6 @@ void STGraphicsComponent::setSpriteSheetRow(int row) {
     setShdrUniform("sprite-yOffset", rowOffset);
 }
 
-void STGraphicsComponent::update(STEntity *entity, STGame *game) {
+void STGraphicsComponent::update() {
 
 }

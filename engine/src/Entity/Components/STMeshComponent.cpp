@@ -38,6 +38,6 @@ STMeshComponent::~STMeshComponent() {
     delete m_mesh;
 }
 
-void STMeshComponent::update(STEntity *entity, STGame *game) {
+void STMeshComponent::update() {
 
 }

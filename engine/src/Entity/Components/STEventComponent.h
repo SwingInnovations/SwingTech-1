@@ -15,7 +15,7 @@ public:
     STEventComponent();
     ~STEventComponent();
 
-    void update(STEntity*, STGame*);
+    void update();
     void draw();
 
     void triggerHitEvent(STEntity*);

@@ -22,7 +22,7 @@ public:
     STButton(stReal x, stReal y, std::string text);
     STButton(stReal x, stReal y, std::string text, ButtonType type);
 
-    void update(STGame* window) override;
+    void update(STGame* window);
     void draw(STGraphics* grphx) override;
     void inputEvent(std::function<void(STEntity*)>);
 

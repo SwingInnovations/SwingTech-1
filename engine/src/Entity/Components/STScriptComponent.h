@@ -25,8 +25,7 @@ public:
     STScriptComponent(STEntity* entity, const std::string& fileName);
     ~STScriptComponent();
 
-    void update(STEntity* entity, STGame* game, int delta);
-    void update(STEntity* entity, STGame* game);
+    void update();
     void test();
     void test2();
     static int l_test(lua_State*);

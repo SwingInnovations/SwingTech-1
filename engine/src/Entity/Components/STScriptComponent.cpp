@@ -33,14 +33,6 @@ int STScriptComponent::l_test(lua_State *state) {
     return 0;
 }
 
-void STScriptComponent::update(STEntity *entity, STGame *game, int delta) {
-
-}
-
-void STScriptComponent::update(STEntity *entity, STGame *game) {
-
-}
-
 
 template<typename T, typename R, typename  S>
 void STScriptComponent::initFunctions(lua_State *L) {
@@ -59,5 +51,9 @@ void STScriptComponent::initFunctions(lua_State *L) {
 
 void STScriptComponent::test2() {
     std::cout << "This is another test!" << std::endl;
+}
+
+void STScriptComponent::update() {
+
 }
 

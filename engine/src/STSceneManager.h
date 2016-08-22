@@ -2,6 +2,7 @@
 #define WAHOO_STSCENEMANAGER_H
 
 #include <vector>
+#include <map>
 #include "Entity/STEntity.h"
 
 class STActor;
@@ -150,6 +151,16 @@ public:
 
     STSceneManager(){ m_NumLights = 0; }
 
+    inline void initScene(){
+        scenes.push_back(new STScene());
+    }
+
+    inline STScene* getScene(stUint index){
+        if(index < scenes.size()){
+            return scenes.at(index);
+        }
+    }
+
     void addEntity(STEntity* entity){
         m_Entities.push_back(entity);
     }
@@ -189,6 +200,8 @@ private:
     std::string m_skyboxShader;
 
     int m_NumLights;
+
+    std::vector<STScene*> scenes;
 };
 
 #endif //WAHOO_STSCENEMANAGER_H

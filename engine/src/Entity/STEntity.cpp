@@ -87,6 +87,7 @@ STEntity::~STEntity() {
 
 void STEntity::addComponent(std::type_index type, STComponent *component) {
     m_components[type] = component;
+    m_components[type]->setParent(this);
 }
 
 void STEntity::addChild(STEntity *entity) {
@@ -294,4 +295,10 @@ void STEntity::setVisible(bool value) {
 
 bool STEntity::isVisible() {
     return m_visible;
+}
+
+void STEntity::update() {
+    for(auto comp : m_components){
+        comp.second->update();
+    }
 }

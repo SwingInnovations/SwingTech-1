@@ -35,7 +35,7 @@ public:
     STMeshComponent(float *vert, int vSize, float *tex, int tSize, int *ind, int indSize);
     ~STMeshComponent();
 
-    void update(STEntity* entity, STGame* game);
+    void update();
 
     inline void draw(){
         m_mesh->draw();

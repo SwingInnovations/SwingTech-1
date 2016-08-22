@@ -101,7 +101,7 @@ public:
     void handleInput(STGame * win, Uint32 delta){
         Input* input = win->getInput();
         auto cam = win->getCamera();
-        _testActor->update(win);
+        _testActor->update();
         if(input->isKeyPressed(KEY::KEY_ESC)){
             input->requestClose();
         }
@@ -122,8 +122,8 @@ public:
     }
 
     void handleLogic(STGame * win, Uint32 delta){
-        _box2->update(win);
-        _box1->update(win);
+        _box2->update();
+        _box1->update();
         lbl->update(win);
         btn->update(win);
         counter += 0.025f * delta;

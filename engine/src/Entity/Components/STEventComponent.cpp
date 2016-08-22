@@ -54,26 +54,22 @@ void STEventComponent::triggerHitEvent(STEntity *entity) {
     event_state = HIT;
 }
 
-void STEventComponent::update(STEntity *entity, STGame* game) {
-
+void STEventComponent::update() {
     switch(event_state){
         case HIT:
-            invokeHitEvent(entity, other);
+            invokeHitEvent(this->getParent(), other);
             event_state = DEFAULT;
             break;
         case INTERSECT:
-            invokeIntersectEvent(entity);
+            invokeIntersectEvent(this->getParent());
             event_state = DEFAULT;
             break;
         case DEFAULT:
-
             break;
         default:
-            ;
+            break;
     }
-
-    invokeInputEvent(entity);
-    invokeUpdateEvent(entity);
-
+    invokeInputEvent(this->getParent());
+    invokeUpdateEvent(this->getParent());
     if(other != nullptr) other = nullptr;
 }

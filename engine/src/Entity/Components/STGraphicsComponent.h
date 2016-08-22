@@ -54,8 +54,7 @@ public:
 
     }
 
-    virtual void update(STEntity* entity, STGame* game);
-
+    void update();
     inline void draw(){
         //TODO Include shader handling and other stuff.
         if(!useMaterial){

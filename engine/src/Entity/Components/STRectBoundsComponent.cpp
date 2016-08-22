@@ -25,6 +25,6 @@ void STRectBoundsComponent::reset(const stReal x, const stReal y, const stReal w
     rect->reset(x, y, w, h);
 }
 
-void STRectBoundsComponent::update(STEntity *self, STGame *game) {
+void STRectBoundsComponent::update() {
 
 }

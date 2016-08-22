@@ -9,8 +9,7 @@ public:
     STRectBoundsComponent(stReal _x, stReal _y, stReal _width, stReal _height);
     STRectBoundsComponent(stReal _x, stReal _y, stReal _width, stReal _height, bool YUpFlag);
 
-    void update(STEntity* self, STGame* game);
-
+    void update();
     inline BoundRect* bounds(){ return rect; }
     void reset(const stReal x, const stReal y, const stReal w, const stReal h);
     std::string info();

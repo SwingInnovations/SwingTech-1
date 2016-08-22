@@ -3,13 +3,38 @@
 
 #include <vector>
 #include "Entity/STEntity.h"
-#include "Entity/STLight.h"
 
-template<typename GameEntity>
-class QuadNode;
+class STActor;
+class STLight;
+class STInterWidget;
 
-template<typename GameEntity>
-class OctNode;
+
+
+class STScene{
+public:
+    STScene(){;}
+
+    void addActor(STActor* actor){
+        actors.push_back(actor);
+    }
+
+    void addLight(STLight* light){
+        lights.push_back(light);
+    }
+
+    void addUIElement(STInterWidget* ui){
+        uiElements.push_back(ui);
+    }
+
+    const std::vector<STActor*> &getActors()const{ return actors; }
+    const std::vector<STLight*> &getLights()const{ return lights; }
+    const std::vector<STInterWidget*> &getUIElements()const{ return uiElements; }
+
+private:
+    std::vector<STActor*> actors;
+    std::vector<STLight*> lights;
+    std::vector<STInterWidget*> uiElements;
+};
 
 class STSceneManager{
 public:
@@ -61,34 +86,6 @@ private:
     std::string m_skyboxShader;
 
     int m_NumLights;
-};
-
-class Node{
-public:
-    Node(){;}
-protected:
-    virtual void split() = 0;
-    Node* next = nullptr;
-};
-
-template <class GameObject>
-class QuadNode{
-public:
-    QuadNode(GameObject* object){}
-private:
-    Vector2<stReal> bounds[4];
-    GameObject* entity = nullptr;
-    QuadNode* children[4] = {nullptr, nullptr, nullptr, nullptr};
-};
-
-template<class GameObject>
-class OctNode{
-public:
-    OctNode(GameObject* object){  }
-private:
-    Vector3<stReal> bounds[8];
-    GameObject* entity = nullptr;
-    OctNode* children[8] = {nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr};
 };
 
 #endif //WAHOO_STSCENEMANAGER_H

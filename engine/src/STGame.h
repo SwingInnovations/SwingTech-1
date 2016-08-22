@@ -41,6 +41,11 @@ public:
     static STGame* Init(const std::string& title, const stUint WIDTH, const stUint HEIGHT);
     static STGame* Get();
 
+    enum DIMENSION_MODE{
+        DIM_2D = 0,
+        DIM_3D = 1
+    };
+
     //! Constructor
     /*!
      *  Default Constructor.
@@ -127,6 +132,10 @@ public:
      */
     void addCamera(Camera* cam);
 
+    inline void setDimension(DIMENSION_MODE dim){
+        this->dimMode = dim;
+    }
+
     static void SetResolutionWidth(int val){ STGame::RES_WIDTH = val; }
     static void SetResolutionHeight(int val){ STGame::RES_HEIGHT = val; }
 
@@ -161,6 +170,8 @@ public:
     STResourceManager* getResourceManager();
     int getWidth(){ return this->WIDTH; }
     int getHeight(){ return this->HEIGHT; }
+
+    const DIMENSION_MODE getDimensionMode()const{ return this->dimMode; }
     //! Gets Pointer to SDL_Window
     SDL_Window* getWindow(){ return this->m_Window; }/*! \return pointer to SDL_Window */
     //! Gets Delta time.
@@ -204,6 +215,7 @@ private:
     Uint32 delta, oldTime, newTime, fps;
     Vector4<stReal> m_clearColor;
     STResourceManager* resourceManager;
+    DIMENSION_MODE dimMode;
 };
 
 

@@ -6,21 +6,18 @@
 #include "Texture.h"
 #include "Shader.h"
 
+class GLTexture;
+class STGraphics;
+
 class STMaterial{
 public:
-    STMaterial(){
-
-    }
-
+    STMaterial();
     /*!
      * @name STMaterial
      * @param shdr STShader for use
      * @return
      */
-    STMaterial(Shader* shdr){
-        shader = shdr;
-        texture = new Texture();
-    }
+    STMaterial(Shader* shdr);
 
     STMaterial(Shader* shdr, Texture* tex){
         shader = shdr;
@@ -98,8 +95,9 @@ public:
                 texture->bind(i);
             }
         }
-
     }
+
+    void draw(std::vector<STShader::ShaderAttrib>& entityUniforms, Transform& T, Camera& C);
 private:
     Texture* texture;
     Shader* shader;

@@ -4,8 +4,8 @@
 #include <vector>
 #include <map>
 #include "Entity/STEntity.h"
+#include "Entity/STActor.h"
 
-class STActor;
 class STLight;
 class STInterWidget;
 
@@ -110,7 +110,7 @@ protected:
     }
 
 private:
-    OctoNode* children[8] = {nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr};
+    OctoNode* children[8] = {nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr};
     stUint childCount;
 };
 
@@ -130,34 +130,45 @@ public:
         uiElements.push_back(ui);
     }
 
+    inline void addSkybox(const std::string& file, const std::string& shader){
+        this->skyboxName = file;
+        this->skyboxShader = shader;
+    }
+
     const std::vector<STActor*> &getActors()const{ return actors; }
     const std::vector<STLight*> &getLights()const{ return lights; }
     const std::vector<STInterWidget*> &getUIElements()const{ return uiElements; }
+
+    const std::string& getSkyboxName()const{ return skyboxName; }
+    const std::string& getSkyboxShader()const{ return skyboxShader; }
 
 private:
     std::vector<STActor*> actors;
     std::vector<STLight*> lights;
     std::vector<STInterWidget*> uiElements;
+    std::string skyboxName;
+    std::string skyboxShader;
 };
 
 class STSceneManager{
 public:
-    static STSceneManager* m_instance;
+    static STSceneManager* m_Instance;
 
     static STSceneManager* Get(){
-        if(m_instance == nullptr) m_instance = new STSceneManager;
-        return m_instance;
+        if(m_Instance == nullptr) m_Instance = new STSceneManager;
+        return m_Instance;
     }
 
     STSceneManager(){ m_NumLights = 0; }
 
-    inline void initScene(){
-        scenes.push_back(new STScene());
+    inline STScene* initScene(const stUint index){
+        scenes.insert(std::pair<stUint, STScene*>(index, new STScene));
+        return scenes[index];
     }
 
     inline STScene* getScene(stUint index){
         if(index < scenes.size()){
-            return scenes.at(index);
+            return scenes[index];
         }
     }
 
@@ -201,7 +212,7 @@ private:
 
     int m_NumLights;
 
-    std::vector<STScene*> scenes;
+    std::map<stUint, STScene*> scenes;
 };
 
 #endif //WAHOO_STSCENEMANAGER_H

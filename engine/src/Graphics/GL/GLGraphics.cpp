@@ -130,6 +130,15 @@ void GLRenderPass::setScene(STSceneManager* sceneManager){
     skyboxShdr = new GLShader(sceneManager->getSkyboxShader().c_str());
 }
 
+void GLRenderPass::setScene(STScene *scene) {
+    actors = scene->getActors();
+    lights = scene->getLights();
+
+    skyboxMesh = new GLMesh(new STCube(1000));
+    skyBox = GLTexture::loadCubemapTexture(scene->getSkyboxName().c_str());
+    skyboxShdr = new GLShader(scene->getSkyboxShader().c_str());
+}
+
 void GLRenderPass::setEntities(std::vector<STEntity *> _entities) {
     entities = _entities;
 }
@@ -159,8 +168,17 @@ void GLRenderPass::draw(GLGraphics *g) {
             ent->draw(g);
         }
     }
+
+    if(actors.size() >= 1){
+        for(auto act : actors){
+            act->draw();
+        }
+    }
+
     unBind();
 }
+
+
 
 GLGraphics::GLGraphics() {
 
@@ -244,6 +262,12 @@ void GLGraphics::addRenderPass(STSceneManager *scene, GLShader *shdr) {
 }
 
 void GLGraphics::drawScene(STSceneManager *scene) {
+    for(auto rendPass : renderPass){
+        rendPass->draw(this);
+    }
+}
+
+void GLGraphics::drawScene(STScene *scene) {
     for(auto rendPass : renderPass){
         rendPass->draw(this);
     }

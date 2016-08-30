@@ -9,7 +9,7 @@ GLTexture::GLTexture(const std::string &fileName) {
     m_texIndex = 0;
     m_fileReference.push_back(fileName);
     reBind();
-    m_texCount =1;
+    m_texCount = 1;
 }
 
 void GLTexture::addTexture(const std::string &fileName) {

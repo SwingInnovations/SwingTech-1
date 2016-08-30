@@ -23,6 +23,13 @@ public:
         m_val[1] = _y;
     }
 
+    static Vector2 Lerp(const Vector2& start, const Vector2& end, const stReal& step){
+        stReal st1 = 1.0f - step;
+        T x = (st1 * start.getX()) + (step * end.getX());
+        T y = (st1 * start.getY()) + (step * end.getY());
+        return Vector2(x, y);
+    }
+
     void setX(T _x){
         m_val[0] = _x;
     }
@@ -138,6 +145,14 @@ public:
         m_Val[0] = in.getX();
         m_Val[1] = in.getY();
         m_Val[2] = 0.0;
+    }
+
+    static Vector3 Lerp(const Vector3& start, const Vector3& end, const stReal& step){
+        stReal st1 = 1.0f - step;
+        const T x = (st1 * start.getX()) + (step * end.getX());
+        const T y = (st1 * start.getY()) + (step * end.getY());
+        const T z = (st1 * start.getZ()) + (step * end.getZ());
+        return Vector3(x, y, z);
     }
 
     inline void setX(const T& _x){ m_Val[0] = _x; }

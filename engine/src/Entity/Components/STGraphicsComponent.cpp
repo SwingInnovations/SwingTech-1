@@ -117,3 +117,7 @@ void STGraphicsComponent::setSpriteSheetRow(int row) {
 void STGraphicsComponent::update() {
 
 }
+
+void STGraphicsComponent::draw(Transform &T, Camera &C) {
+    m_material->draw(m_uniforms, T, C);
+}

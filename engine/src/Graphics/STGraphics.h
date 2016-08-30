@@ -2,10 +2,12 @@
 #define WAHOO_STECHGRAPHICS_H
 
 #include "../STGlobal.h"
-#include "../STSceneManager.h"
+
 
 class Camera;
 class STGame;
+class STSceneManager;
+class STScene;
 
 enum ST_YUpState{
     YPos_Down = false,
@@ -39,6 +41,7 @@ public:
 
     virtual void addRenderPass(STSceneManager* scene){;}
     virtual void drawScene(STSceneManager* sceneManager){;}
+    virtual void drawScene(STScene* scene) = 0;
     virtual void setShader(int,Shader*){;}
 
     /*!

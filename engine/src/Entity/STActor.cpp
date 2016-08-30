@@ -17,8 +17,9 @@ void STActor::draw() {
     if(m_visible){
         auto mesh = this->get<STMeshComponent>();
         auto grphx = this->get<STGraphicsComponent>();
+        auto cam = STGame::Get()->getCamera();
 
-        grphx->draw();
+        grphx->draw(*m_transform, *cam);
         mesh->draw();
         if(m_children.size() > 0){
             for(auto child : m_children){

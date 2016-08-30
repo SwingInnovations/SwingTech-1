@@ -65,6 +65,8 @@ public:
             m_material->update(m_uniforms);
         }
     }
+
+    void draw(Transform& T, Camera& C);
 private:
     SpriteSheet m_spriteSheet;
     Shader* m_shdr;

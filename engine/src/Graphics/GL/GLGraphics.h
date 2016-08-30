@@ -36,6 +36,7 @@ struct GLRenderPass : public STRenderPass{
     GLuint skyBox;
     GLShader* skyboxShdr;
     std::vector<STEntity*> entities;
+    std::vector<STActor*> actors;
     std::vector<STLight*> lights;
 
     GLRenderPass();
@@ -50,6 +51,7 @@ struct GLRenderPass : public STRenderPass{
     void drawSkybox(GLGraphics* g);
 
     void setScene(STSceneManager*);
+    void setScene(STScene*);
 
     void setEntities(std::vector<STEntity*> _entities);
     void setLights(std::vector<STLight*> _lights);
@@ -67,6 +69,11 @@ public:
         renderPass.back()->setEntities(scene->getEntities());
     }
 
+    inline void addRenderPass(STScene* scene, GLShader* shdr){
+        renderPass.push_back(new GLRenderPass(WIDTH, HEIGHT, shdr));
+        renderPass.back()->setScene(scene);
+    }
+
     std::string getVendor();
 
     void drawText(Vector2<stReal> pos, const std::string& text, stReal fontSize );
@@ -82,6 +89,7 @@ public:
     virtual void setShader(int,Shader*);
 
     virtual void drawScene(STSceneManager* scene);
+    virtual void drawScene(STScene* scene);
     static Vector3<stReal> TextColor;
 protected:
 

@@ -22,7 +22,7 @@ public:
         //window->getCamera()->setHAngle(90.0f);
         counter = 0;
         drawMode = STMesh::TRIANGLES;
-        sceneManager = new STSceneManager();
+        auto scene = STSceneManager::Get()->initScene((stUint)getID());
 
         lightPos = Vector3<stReal>(1.0f, 1.0f, -1.0f);
 
@@ -43,38 +43,6 @@ public:
             if(input->isKeyPressed(KEY::KEY_SPACE)) self->setTranslateY(1.0f);
         });
 
-        //light Color
-        _box2 = new STEntity("sphere.obj", STMesh::OBJ, resManager->getShader("lightSource"));
-        _box2->get<STGraphicsComponent>()->addShdrUniform("objColor", Vector3<stReal>(1.0f, 0.5f, 0.0f));
-        _box2->setTranslateY(5.0f);
-        _box2->setTranslateX(12.0f);
-        _box2->setScale(0.5f);
-
-        _box1 = new STEntity("sphere.obj", STMesh::OBJ, resManager->getMaterial("basic"));
-        //_box1 = new STEntity("sphere.obj", STMesh::OBJ, resManager->getShader("basic"), resManager->getTexture("grid"));
-        _box1->addShdrUniform("objColor", Vector3<stReal>(1.0, 0.5f, 0.31f));
-        _box1->addShdrUniform("lightPos", _box2->transform()->getTranslate<stReal>());
-        _box1->addShdrUniform("lightColor", Vector3<stReal>(1.0f, 0.5f, 0.0f));
-        _box1->addComponent(typeid(STEventComponent), new STEventComponent);
-
-        _box1->get<STEventComponent>()->inputEvent([](STEntity* self){
-            auto input = Input::Get();
-            if(input->isKeyPressed(KEY::KEY_SPACE)){
-                self->setTranslateY(1.0f);
-            }
-        });
-
-        _box1->setTranslateX(2);
-
-        _box1->setScale(3.0f);
-        _box1->addScriptComponent("test.lua");
-
-        _ball = new STEntity("sphere.obj", STMesh::OBJ, resManager->getShader("basic"), resManager->getTexture("grid"));
-        _ball->setTranslateX(-1.0f);
-        _ball->setTranslateZ(-1.0f);
-        _ball->addShdrUniform("lightPos", _box2->transform()->getTranslate<stReal>());
-        _ball->addShdrUniform("lightColor", Vector3<stReal>(1.0f, 0.5f, 0.0f));
-        _ball->setScale(3.0f);
         lbl = new STLabel(0, 32, "SwingTech 1 - Indev");
         lbl->setFontColor(STColor(GREEN));
 
@@ -89,19 +57,15 @@ public:
             }
         });
 
-        sceneManager->addSkyBox("green", "skybox");
-        sceneManager->addEntity(_box2);
-        sceneManager->addEntity(_box1);
-        sceneManager->addEntity(_ball);
-        sceneManager->addEntity(_testActor);
+        scene->addSkybox("green", "skybox");
+        scene->addActor(_testActor);
         STGraphics::ClearColor = Vector4<stReal>(0.0, 0.0, 0.168, 1.0);
-        ((GLGraphics*)window->getGraphics())->addRenderPass(sceneManager,(GLShader*)resManager->getShader("screen"));
+        ((GLGraphics*)window->getGraphics())->addRenderPass(scene,(GLShader*)resManager->getShader("screen"));
     }
 
     void handleInput(STGame * win, Uint32 delta){
         Input* input = win->getInput();
         auto cam = win->getCamera();
-        _testActor->update();
         if(input->isKeyPressed(KEY::KEY_ESC)){
             input->requestClose();
         }
@@ -122,38 +86,30 @@ public:
     }
 
     void handleLogic(STGame * win, Uint32 delta){
-        _box2->update();
-        _box1->update();
         lbl->update(win);
         btn->update(win);
+        _testActor->update();
         counter += 0.025f * delta;
-        _box2->transform()->setRotateY(-counter);
-        _box2->setTranslateY(5.0f * sin(counter * 0.01f));
-        //_box1->setRotateY(counter);
-        _box1->get<STGraphicsComponent>()->setShdrUniform("lightPos", _box2->transform()->getModel().toVector4().toVector3Norm());
-        _ball->setShdrUniform("lightPos", _box2->transform()->getModel().toVector4().toVector3Norm());
     }
 
     void render(STGame * win){
         auto grphx = win->getGraphics();
-        win->getGraphics()->drawScene(sceneManager);
-        lbl->draw(grphx);
-        btn->draw(grphx);
+        //win->getGraphics()->drawScene(sceneManager);
+        win->getGraphics()->drawScene(STSceneManager::Get()->getScene((stUint)getID()));
+//        lbl->draw(grphx);
+//        btn->draw(grphx);
     }
 
     ~TestState(){
-        delete _box1;
-        delete _box2;
-        delete _ball;
+        delete _testActor;
+        delete btn;
+        delete lbl;
     }
 private:
     STSceneManager* sceneManager;
     int drawMode;
     int currObject;
     float counter = 0;
-    STEntity* _box1;
-    STEntity* _box2;
-    STEntity* _ball;
     STButton* btn;
     STActor* _testActor;
     STLabel* lbl;

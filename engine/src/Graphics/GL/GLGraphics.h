@@ -59,6 +59,38 @@ struct GLRenderPass : public STRenderPass{
     void draw(GLGraphics* g);
 };
 
+struct RenderScene{
+    RenderScene(){
+        m_skybox = 0;
+        m_skyboxShdr = nullptr;
+        m_initiated = false;
+        skyboxMesh = new GLMesh(new STCube(1000));
+    }
+
+    inline void initSkybox(const std::string& shdr, const std::string& map){
+        m_skybox = GLTexture::loadCubemapTexture(map);
+        m_skyboxShdr = new GLShader(shdr);
+    }
+
+    inline void drawSkybox(Camera& cam){
+        glDisable(GL_CULL_FACE);
+        glDepthFunc(GL_LEQUAL);
+        m_skyboxShdr->bind();
+        m_skyboxShdr->update(cam);
+        glActiveTexture(GL_TEXTURE0);
+        glBindTexture(GL_TEXTURE_CUBE_MAP, m_skybox);
+        skyboxMesh->draw();
+        glDepthFunc(GL_LESS);
+        glEnable(GL_CULL_FACE);
+        glCullFace(GL_FRONT);
+    }
+
+    GLuint m_skybox;
+    GLShader* m_skyboxShdr;
+    GLMesh* skyboxMesh;
+    bool m_initiated;
+};
+
 class GLGraphics : public STGraphics{
 public:
     GLGraphics();
@@ -90,16 +122,23 @@ public:
 
     virtual void drawScene(STSceneManager* scene);
     virtual void drawScene(STScene* scene);
+    virtual void initScene(stUint index);
     static Vector3<stReal> TextColor;
 protected:
 
 private:
     std::vector<GLRenderPass*> renderPass;
     std::map<GLchar, Character> characters;
+    std::map<stUint, RenderScene> scenes;
     GLuint textVAO;
     GLuint textVBO;
     GLShader* textShader;
     Matrix4f orthoProjection;
+    GLuint frameBuffer;
+    GLuint frameTexBuffer;
+    GLuint rendBuffer;
+    GLShader* screenShdr;
+    GLMesh* screenQuad;
 };
 
 

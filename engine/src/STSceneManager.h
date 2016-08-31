@@ -116,7 +116,13 @@ private:
 
 class STScene{
 public:
-    STScene(){;}
+    STScene(){
+        m_index = 0;
+    }
+
+    STScene(stUint index){
+        m_index = index;
+    }
 
     inline void addActor(STActor* actor){
         actors.push_back(actor);
@@ -142,7 +148,10 @@ public:
     const std::string& getSkyboxName()const{ return skyboxName; }
     const std::string& getSkyboxShader()const{ return skyboxShader; }
 
+    const stUint getIndex()const{ return m_index; }
+
 private:
+    stUint m_index;
     std::vector<STActor*> actors;
     std::vector<STLight*> lights;
     std::vector<STInterWidget*> uiElements;
@@ -162,7 +171,10 @@ public:
     STSceneManager(){ m_NumLights = 0; }
 
     inline STScene* initScene(const stUint index){
-        scenes.insert(std::pair<stUint, STScene*>(index, new STScene));
+        scenes.insert(std::pair<stUint, STScene*>(index, new STScene(index)));
+        //Allocate something to manage the scene
+        auto grphx = STGame::Get()->getGraphics();
+        grphx->initScene(index);
         return scenes[index];
     }
 
@@ -172,24 +184,24 @@ public:
         }
     }
 
-    void addEntity(STEntity* entity){
+    inline void addEntity(STEntity* entity){
         m_Entities.push_back(entity);
     }
 
-    void addLight(STLight* light){
+    inline void addLight(STLight* light){
 
     }
 
-    void addSkyBox(const std::string& file, const std::string& shader){
+    inline void addSkyBox(const std::string& file, const std::string& shader){
         m_skyboxName = file;
         m_skyboxShader = shader;
     }
 
-    void addSkyCube(const std::string& file){
+    inline void addSkyCube(const std::string& file){
         m_skyboxName = file;
     }
 
-    void addSkyboxShader(const std::string& shader){
+    inline void addSkyboxShader(const std::string& shader){
         m_skyboxShader = shader;
     }
 

@@ -96,8 +96,8 @@ public:
         auto grphx = win->getGraphics();
         //win->getGraphics()->drawScene(sceneManager);
         win->getGraphics()->drawScene(STSceneManager::Get()->getScene((stUint)getID()));
-//        lbl->draw(grphx);
-//        btn->draw(grphx);
+        lbl->draw(grphx);
+        btn->draw(grphx);
     }
 
     ~TestState(){

@@ -39,6 +39,8 @@ public:
     static void SetYUp(bool val){ YUp = val; }
     static bool getYUpSetting(){ return YUp; }
 
+    virtual void initScene(stUint index){;}
+
     virtual void addRenderPass(STSceneManager* scene){;}
     virtual void drawScene(STSceneManager* sceneManager){;}
     virtual void drawScene(STScene* scene) = 0;

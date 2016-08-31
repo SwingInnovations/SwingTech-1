@@ -105,7 +105,6 @@ void GLRenderPass::bind() {
 
     Vector4<stReal> clearColor = STGraphics::ClearColor;
     glClearColor(clearColor.getX(), clearColor.getY(), clearColor.getZ(), clearColor.getW());
-
 }
 
 void GLRenderPass::unBind() {
@@ -188,7 +187,8 @@ GLGraphics::GLGraphics(STGame *game) {
     WIDTH = (unsigned int)game->getWidth();
     HEIGHT = (unsigned int)game->getHeight();
 
-
+    screenQuad = new GLMesh(new STQuad);
+    screenShdr = new GLShader("screen");
 
     FT_Library ft;
     if(FT_Init_FreeType(&ft)){ std::cout << "foo" << std::endl; }else{ std::cout << "Successfully loaded FreeType!" << std::endl; }
@@ -268,9 +268,70 @@ void GLGraphics::drawScene(STSceneManager *scene) {
 }
 
 void GLGraphics::drawScene(STScene *scene) {
-    for(auto rendPass : renderPass){
-        rendPass->draw(this);
+//    for(auto rendPass : renderPass){
+//        rendPass->draw(this);
+//    }
+
+    auto rendScene = scenes[scene->getIndex()];
+    if(!rendScene.m_initiated){
+        //TODO - Handle initiazion of frame buffer and all the other crap.
+        scenes[scene->getIndex()].initSkybox(scene->getSkyboxShader(), scene->getSkyboxName());
+
+        glGenFramebuffers(1, &frameBuffer);
+        glGenTextures(1, &frameTexBuffer);
+
+        auto w = STGame::RES_WIDTH;
+        auto h = STGame::RES_HEIGHT;
+
+        glBindTexture(GL_TEXTURE_2D, frameTexBuffer);
+        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, w, h, 0, GL_RGB, GL_UNSIGNED_BYTE, NULL);
+        glGenerateMipmap(GL_TEXTURE_2D);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+
+        glBindFramebuffer(GL_FRAMEBUFFER, frameBuffer);
+        glFramebufferParameteri(GL_FRAMEBUFFER, GL_FRAMEBUFFER_DEFAULT_WIDTH, w);
+        glFramebufferParameteri(GL_FRAMEBUFFER, GL_FRAMEBUFFER_DEFAULT_HEIGHT, h);
+        glFramebufferParameteri(GL_FRAMEBUFFER, GL_FRAMEBUFFER_DEFAULT_SAMPLES, 4);
+        glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, frameTexBuffer, 0);
+
+        glGenRenderbuffers(1, &rendBuffer);
+        glBindRenderbuffer(GL_RENDERBUFFER, rendBuffer);
+        glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH24_STENCIL8, w, h);
+        glBindRenderbuffer(GL_RENDERBUFFER, 0);
+        glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT, GL_RENDERBUFFER, rendBuffer);
+
+        GLenum drawBuffers[] = {GL_COLOR_ATTACHMENT0};
+        glDrawBuffers(1, drawBuffers);
+        if(glCheckFramebufferStatus(GL_FRAMEBUFFER) == GL_FRAMEBUFFER_COMPLETE){
+            std::cout << "Successfully generated framebuffer!" << std::endl;
+        }
+        glBindFramebuffer(GL_FRAMEBUFFER, 0);
+        glViewport(0, 0, w, h);
+
+        scenes[scene->getIndex()].m_initiated = true;
     }
+    // Bind the frame buffer
+    glBindFramebuffer(GL_FRAMEBUFFER, frameBuffer);
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    glEnable(GL_DEPTH_TEST);
+    auto clearColor = STGraphics::ClearColor;
+    glClearColor(clearColor.getX(), clearColor.getY(), clearColor.getZ(), clearColor.getZ());
+
+    scenes[scene->getIndex()].drawSkybox(*camera());
+
+    glBindFramebuffer(GL_FRAMEBUFFER, 0);
+
+    glClear(GL_COLOR_BUFFER_BIT);
+    glDisable(GL_DEPTH_TEST);
+    glDisable(GL_CULL_FACE);
+    glClearColor(1.0, 1.0, 1.0, 1.0);
+
+    screenShdr->bind();
+    glBindTexture(GL_TEXTURE_2D, frameTexBuffer);
+    screenQuad->draw();
 }
 
 void GLGraphics::drawText(Vector2<stReal> pos, const std::string& text, stReal fontSize) {
@@ -726,5 +787,9 @@ void GLGraphics::drawText(Vector2<stReal> pos, const std::string &text, stReal f
 
 std::string GLGraphics::getVendor() {
     return reinterpret_cast<char const* >( glGetString(GL_VENDOR) );
+}
+
+void GLGraphics::initScene(stUint index) {
+    scenes.insert(std::pair<stUint, RenderScene>(index, RenderScene()));
 }
 

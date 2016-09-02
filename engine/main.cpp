@@ -27,13 +27,6 @@ public:
         lightPos = Vector3<stReal>(1.0f, 1.0f, -1.0f);
 
         auto resManager = window->getResourceManager();
-        resManager->addShader("basic", new GLShader("basic"));
-        resManager->addTexture("grid", new GLTexture("grid.png"));
-        resManager->addShader("lightSource", new GLShader("lightSource"));
-        resManager->addShader("screen", new GLShader("screen"));
-        resManager->addShader("objShdr", new GLShader("objShdr"));
-        resManager->addShader("rectShdr", new GLShader("rectShdr"));
-        resManager->addMaterial("basic", new STMaterial(new GLShader("basic"), new GLTexture("grid.png")));
         resManager->addMaterial("lit", new STMaterial(new GLShader("lightSource")));
 
         _testActor = new STActor("sphere.obj", STMesh::OBJ, resManager->getMaterial("lit"));
@@ -60,7 +53,6 @@ public:
         scene->addSkybox("green", "skybox");
         scene->addActor(_testActor);
         STGraphics::ClearColor = Vector4<stReal>(0.0, 0.0, 0.168, 1.0);
-        ((GLGraphics*)window->getGraphics())->addRenderPass(scene,(GLShader*)resManager->getShader("screen"));
     }
 
     void handleInput(STGame * win, Uint32 delta){

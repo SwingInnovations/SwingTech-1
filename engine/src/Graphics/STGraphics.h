@@ -14,10 +14,10 @@ enum ST_YUpState{
     YPos_Up = true
 };
 
-struct STRenderPass{
-    virtual void bind() = 0;
-    virtual void unBind() = 0;
-    virtual void draw(STGraphics*){;}
+struct STRenderScene{
+    virtual void initSkybox(const std::string& shdr, const std::string& skybox) = 0;
+    virtual void drawSkybox(Camera& cam) = 0;
+    bool m_initiated;
 };
 
 class STGraphics {
@@ -40,15 +40,12 @@ public:
     static bool getYUpSetting(){ return YUp; }
 
     virtual void initScene(stUint index){;}
-
-    virtual void addRenderPass(STSceneManager* scene){;}
-    virtual void drawScene(STSceneManager* sceneManager){;}
     virtual void drawScene(STScene* scene) = 0;
     virtual void setShader(int,Shader*){;}
 
     /*!
      *
-     * @return REturns the Graphics Card Driver
+     * @return Returns the Graphics Card Driver
      */
     virtual std::string getVendor(){ return NULL; }
 

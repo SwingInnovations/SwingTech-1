@@ -15,7 +15,7 @@ STButton::STButton(const std::string &text) {
     m_fontSize = 36;
     m_font = "fonts/arial.ttf";
     m_visible = true;
-    int width = 0, height  = 0;
+    stInt width = 0, height  = 0;
     STFontMetrics::bounds(m_text, m_fontSize, m_font, &width, &height);
     addComponent(typeid(STRectBoundsComponent), new STRectBoundsComponent(0, 0, width, height, STGraphics::YUp));
     buttonType = PUSH;

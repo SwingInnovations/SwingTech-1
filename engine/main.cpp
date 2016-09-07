@@ -33,7 +33,10 @@ public:
         _testActor->addShdrUniform("objColor", Vector3<stReal>(1.0, 0.5, 0.31f));
         _testActor->get<STEventComponent>()->inputEvent([](STEntity* self){
             auto input = Input::Get();
-            if(input->isKeyPressed(KEY::KEY_SPACE)) self->setTranslateY(1.0f);
+            if(input->isKeyPressed(KEY::KEY_SPACE)){
+                self->setScale(5.0);
+                self->setShdrUniform("objColor", Vector3<stReal>(0.0, 0.2, 0.88));
+            }
         });
 
         lbl = new STLabel(0, 32, "SwingTech 1 - Indev");

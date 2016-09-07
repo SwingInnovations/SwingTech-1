@@ -1,13 +1,18 @@
-//
-// Created by NDanq on 7/29/2016.
-//
-
 #ifndef SWINGTECH1_STENTRY_H
 #define SWINGTECH1_STENTRY_H
 
+#include "STInterWidget.h"
 
-class STEntry {
+class STEntry : public STInterWidget {
+public:
+    STEntry();
 
+    void update(STGame* window);
+
+    void setDefaultText(const std::string& text);
+private:
+    std::string defaultText;
+    bool m_inFocus;
 };
 
 

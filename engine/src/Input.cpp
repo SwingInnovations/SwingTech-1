@@ -145,6 +145,10 @@ Input *Input::Start(STGame *app, SDL_Event &e) {
     return m_instance;
 }
 
+const char Input::getInputCharacter() const {
+    return m_currentCharacter;
+}
+
 
 InputMap::InputMap() {
 

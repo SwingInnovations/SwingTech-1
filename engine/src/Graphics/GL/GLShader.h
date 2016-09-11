@@ -42,7 +42,6 @@ private:
 
     std::string m_shaderName;
 
-    //Buffer Data
     GLuint m_Program;
     GLuint m_Shaders[NUM_SHADER];
     GLuint m_uniforms[5]; // 3 pre-defined uniforms that are essential

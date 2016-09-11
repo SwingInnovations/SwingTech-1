@@ -13,6 +13,18 @@ STActor::STActor(const std::string &filePath, const int type, STMaterial *materi
     m_visible = true;
 }
 
+STActor::STActor(const std::string &filePath, STMaterial *material) {
+    m_transform = new Transform();
+    stInt flag = 0;
+    std::vector<std::string> tags;
+    std::vector<Vector2<stReal>> bounds;
+    //TODO - Add something to split up the mesh if there are multiple in the scene.
+    addComponent(typeid(STMeshComponent), new STMeshComponent(filePath));
+    addComponent(typeid(STGraphicsComponent), new STGraphicsComponent(material));
+    addComponent(typeid(STEventComponent), new STEventComponent());
+}
+
+
 void STActor::draw() {
     if(m_visible){
         auto mesh = this->get<STMeshComponent>();
@@ -28,3 +40,4 @@ void STActor::draw() {
         }
     }
 }
+

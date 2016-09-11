@@ -84,7 +84,6 @@ void GLGraphics::drawScene(STScene *scene) {
 
     auto rendScene = scenes[scene->getIndex()];
     if(!rendScene.m_initiated){
-        //TODO - Handle initiazion of frame buffer and all the other crap.
         scenes[scene->getIndex()].initSkybox(scene->getSkyboxShader(), scene->getSkyboxName());
 
         glGenFramebuffers(1, &frameBuffer);

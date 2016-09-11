@@ -15,6 +15,8 @@ class OBJMesh{
 public:
     OBJMesh();
     OBJMesh(const std::string& filename);
+    static void Validate(const std::string& fileName, std::vector<std::string> *tags, std::vector<Vector2<stReal>>* bounds);
+    static void Validate(const std::string& fileName, int* typeFlag, std::vector<std::string>* tags, std::vector<Vector2<stReal>>* bounds);
     virtual ~OBJMesh();
 
     int getVerticiesSize(){ return (int)verticies.size(); }
@@ -53,6 +55,8 @@ public:
         TRIANGLES = 1,
         LINE_LOOP = 2,
     };
+
+    static void Validate(const std::string& fileName, int* typeFlag, std::vector<std::string>* tags, std::vector<Vector2<stReal>>* bounds);
 
     STMesh(){}
     STMesh(const std::string& fileName, int type){}

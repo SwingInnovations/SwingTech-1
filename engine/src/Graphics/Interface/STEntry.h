@@ -9,9 +9,13 @@ public:
 
     void update(STGame* window);
 
-    void setDefaultText(const std::string& text);
+    inline void setDefaultText(const std::string& text) {
+        m_defaultText = text;
+    }
+
+    void draw(STGraphics* g);
 private:
-    std::string defaultText;
+    std::string m_defaultText;
     bool m_inFocus;
 };
 

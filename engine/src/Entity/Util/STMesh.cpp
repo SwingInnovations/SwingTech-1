@@ -123,6 +123,24 @@ OBJMesh::~OBJMesh() {
 
 }
 
+void OBJMesh::Validate(const std::string& fileName, std::vector<std::string> *tags, std::vector<Vector2<stReal>>* bounds) {
+    stInt lowerBound, upperBound;
+    lowerBound = upperBound = -1;
+    stUint counter = 0;
+
+    std::ifstream in(fileName.c_str(), std::ios_base::in);
+    if(!in) return;
+    std::string line;
+    if(in.good()){
+        while(std::getline(in, line)){
+            if(line[0] == 'v' && line[1] == ' ' && lowerBound == -1){ lowerBound = counter;}
+            if(line[0] == 'g'){ (*tags).push_back(line.substr(2));}
+            //TODO - Figure out the upper bound and push onto vector.
+        }
+        in.close();
+    }
+}
+
 //void OBJMesh::SplitUp(const std::string &filename, std::vector<Vector2> bounds, std::vector<std::string> tags) {
 //    int counter = 0;
 //    std::ifstream in(filename.c_str(), std::ios_base::in);

@@ -221,6 +221,8 @@ public:
         return SDL_JoystickGetButton(joysticks[joyIndex], button);
     }
 
+    const char getInputCharacter()const;
+
 private:
     bool closeRequested;
     bool cursorBound;
@@ -237,6 +239,7 @@ private:
     InputMap* inputMap;
     float moveSpeed;
     float mouseSensitivity;
+    char m_currentCharacter;
 };
 
 

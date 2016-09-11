@@ -27,22 +27,22 @@ public:
     void inputEvent(std::function<void(STEntity*)>);
 
     inline void setToggle(bool val){
-        toggled = val;
-        parent->toggleGroup(index);
+        m_toggled = val;
+        parent->toggleGroup(m_index);
     }
 
-    inline void setMenu(STMenu* menu){ this->menu = menu; }
-    inline bool isToggled(){ return toggled; }
+    inline void setMenu(STMenu* menu){ this->m_menu = menu; }
+    inline bool isToggled(){ return m_toggled; }
     void setIndex(unsigned int);
-    inline void toggle(){ toggled =! toggled; }
+    inline void toggle(){ m_toggled =! m_toggled; }
 private:
     void invokeInputEvent(STEntity*);
     std::function<void(STEntity*)> inputEvents = 0;
     ButtonType buttonType;
-    bool toggled;
+    bool m_toggled;
     STButtonGroup* parent = NULL;
-    STMenu* menu;
-    stUint index;
+    STMenu* m_menu;
+    stUint m_index;
 };
 
 

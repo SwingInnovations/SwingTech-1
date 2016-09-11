@@ -66,5 +66,5 @@ void STButton::invokeInputEvent(STEntity *entity) {
 }
 
 void STButton::setIndex(stUint value) {
-    index = value;
+    m_index = value;
 }

@@ -10,6 +10,7 @@ class STActor : public STEntity {
 public:
     STActor(const std::string& filePath, const int type, STMaterial* material);
     STActor(const std::string& filePath, STMaterial* material);
+    STActor(const std::string& filePath, const int type, std::string& tag, Vector2<stInt> bounds, STMaterial* material);
     void draw();
 private:
     STEntity* m_parent;

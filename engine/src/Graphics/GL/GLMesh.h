@@ -13,6 +13,7 @@ public:
     GLMesh();
     GLMesh(const std::string& fileName, int type);
     GLMesh(const std::string& fileName);
+    GLMesh(const std::string& fileName, int type, Vector2<stInt> bounds);
     GLMesh(STRect* rect);
     GLMesh(STQuad* quad);
     GLMesh(STCube* cube);

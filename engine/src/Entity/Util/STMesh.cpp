@@ -227,12 +227,20 @@ OBJMesh::OBJMesh(const std::string &fileName, Vector2<stInt> lineBounds) {
     std::cout << "TexCoord Size: " << _texCoord.size() << std::endl;
     int indSize  = _index.size();
 
+    auto vDisp = _index.at(0);
+    auto tDisp = _index.at(1);
+    auto nDisp = _index.at(2);
+
     for(unsigned int i = 0, S = (int)_index.size(); i < S; i+=3){
-        //Vertex vert(_vertex.at((int)_index.at(i)), _texCoord.at((int)_index.at(i+1)), _normal.at((int)_index.at(i+2)));
-        _vertex.at((int)_index.at(i));
-        _texCoord.at((int)_index.at(i+1));
-        _normal.at((int)_index.at(i+2));
-        //verticies.push_back(vert);
+        _index[i] = _index[i] - vDisp;
+        _index[i + 1]  = _index[i+1] - tDisp;
+        _index[i + 2] = _index[i+2] - nDisp;
+        Vertex vert(_vertex.at((int)_index.at(i)), _texCoord.at((int)_index.at(i+1)), _normal.at((int)_index.at(i+2)));
+
+//        _vertex.at((int)_index.at(i));
+//        _texCoord.at((int)_index.at(i+1));
+//        _normal.at((int)_index.at(i+2));
+        verticies.push_back(vert);
         indicies.push_back(inCount);
         inCount++;
     }

@@ -237,9 +237,6 @@ OBJMesh::OBJMesh(const std::string &fileName, Vector2<stInt> lineBounds) {
         _index[i + 2] = _index[i+2] - nDisp;
         Vertex vert(_vertex.at((int)_index.at(i)), _texCoord.at((int)_index.at(i+1)), _normal.at((int)_index.at(i+2)));
 
-//        _vertex.at((int)_index.at(i));
-//        _texCoord.at((int)_index.at(i+1));
-//        _normal.at((int)_index.at(i+2));
         verticies.push_back(vert);
         indicies.push_back(inCount);
         inCount++;

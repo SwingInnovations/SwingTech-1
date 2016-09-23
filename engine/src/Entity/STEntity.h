@@ -67,7 +67,7 @@ public:
     void addChild(STEntity* entity);
     STEntity* getChild(int ind);
 
-    bool hasChildren(){ return m_children.size() > 0; }
+    inline bool hasChildren(){ return m_children.size() > 0; }
 
     //Overload Transforms
     void setTranslate(Vector3<stReal>& vec);

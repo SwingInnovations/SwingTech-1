@@ -30,6 +30,7 @@ public:
     STMeshComponent(const std::string& fileName, int type);
     STMeshComponent(const std::string& fileName);
     STMeshComponent(const std::string& fileName, int type, Vector2<stInt> bounds);
+    STMeshComponent(const std::string& fileName, int type, Vector2<stInt> bounds, Vector3<stInt> maxSizes);
     STMeshComponent(Shape& shape);
     STMeshComponent(STQuad*);
     STMeshComponent(STRect*);

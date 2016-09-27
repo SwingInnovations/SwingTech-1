@@ -29,12 +29,12 @@ public:
         auto resManager = window->getResourceManager();
         resManager->addMaterial("lit", new STMaterial(new GLShader("lightSource")));
 
-        _testActor = new STActor("sphere.obj", resManager->getMaterial("lit"));
+        _testActor = new STActor("scene.obj", resManager->getMaterial("lit"));
         _testActor->addShdrUniform("objColor", Vector3<stReal>(1.0, 0.5, 0.31f));
         _testActor->get<STEventComponent>()->inputEvent([](STEntity* self){
             auto input = Input::Get();
             if(input->isKeyPressed(KEY::KEY_SPACE)){
-                self->setScale(5.0);
+                self->setVisible(false);
                 self->setShdrUniform("objColor", Vector3<stReal>(0.0, 0.2, 0.88));
             }
         });
@@ -89,7 +89,6 @@ public:
 
     void render(STGame * win){
         auto grphx = win->getGraphics();
-        //win->getGraphics()->drawScene(sceneManager);
         win->getGraphics()->drawScene(STSceneManager::Get()->getScene((stUint)getID()));
         lbl->draw(grphx);
         btn->draw(grphx);

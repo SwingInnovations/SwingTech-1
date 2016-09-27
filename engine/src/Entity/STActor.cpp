@@ -26,6 +26,18 @@ STActor::STActor(const std::string &filePath, const int type, std::string& tag, 
     addComponent(typeid(STEventComponent), new STEventComponent);
 }
 
+STActor::STActor(const std::string &filePath, const int type, std::string &tag, Vector2<stInt> bounds,
+                 Vector3<stInt> maxSizes, STMaterial *material) {
+    m_transform = new Transform;
+    m_tag = tag;
+    m_type = Actor;
+    m_visible = true;
+    addComponent(typeid(STMeshComponent), new STMeshComponent(filePath, type, bounds, maxSizes));
+    addComponent(typeid(STGraphicsComponent), new STGraphicsComponent(material));
+    addComponent(typeid(STEventComponent), new STEventComponent);
+}
+
+
 STActor::STActor(const std::string &filePath, STMaterial *material) {
     m_transform = new Transform();
     m_type = Actor;
@@ -33,9 +45,11 @@ STActor::STActor(const std::string &filePath, STMaterial *material) {
     stInt flag = 0;
     std::vector<std::string> tags;
     std::vector<Vector2<stInt>> bounds;
+    std::vector<Vector3<stInt>> maxSizes; //Keeps track of the largest vertices.
+    maxSizes.push_back(Vector3<stInt>(0, 0, 0));
     addComponent(typeid(STEventComponent), new STEventComponent());
 
-    if(STMesh::Validate(filePath, &flag, &tags, &bounds)){
+    if(STMesh::Validate(filePath, &flag, &tags, &bounds, &maxSizes)){
         if(tags.size() < bounds.size()){
             for(unsigned int i = 0, N = bounds.size(); i < N; i++){
                 tags.clear();
@@ -44,12 +58,14 @@ STActor::STActor(const std::string &filePath, STMaterial *material) {
             }
         }
         for(stInt i = 0, boundSize = (stInt)bounds.size(); i < boundSize; i++){
-            this->addChild_Actor( new STActor(filePath, flag, tags.at(0), bounds.at(i), material));
+            this->addChild_Actor( new STActor(filePath, flag, tags.at(i), bounds.at(i), material));
         }
         return;
     }
 
-    if(tags.size() > 0) m_tag = tags.at(0);
+    if(tags.size() > 0)
+        m_tag = tags.at(0);
+    else m_tag = "Actor";
     addComponent(typeid(STMeshComponent), new STMeshComponent(filePath, flag));
     addComponent(typeid(STGraphicsComponent), new STGraphicsComponent(material));
 }
@@ -63,11 +79,17 @@ void STActor::draw() {
 
         if(grphx != nullptr)grphx->draw(*m_transform, *cam);
         if(mesh != nullptr)mesh->draw();
-        if(m_children.size() > 0){
-            for(auto child : m_children){
-                child->draw();
-            }
+        for(auto child : m_children){
+            dynamic_cast<STActor*>(child)->draw();
         }
     }
 }
 
+void STActor::draw(Camera *camera, int drawMode) {
+    if(m_visible){
+        auto mesh = this->get<STMeshComponent>();
+        auto grphx = this->get<STGraphicsComponent>();
+        grphx->draw(*m_transform, *camera);
+        mesh->draw(drawMode);
+    }
+}

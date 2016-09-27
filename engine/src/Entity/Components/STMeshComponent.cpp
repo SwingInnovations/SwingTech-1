@@ -20,6 +20,11 @@ STMeshComponent::STMeshComponent(const std::string &fileName, int type, Vector2<
     }
 }
 
+STMeshComponent::STMeshComponent(const std::string &fileName, int type, Vector2<stInt> bounds,
+                                 Vector3<stInt> maxSizes) {
+    if(STGraphics::RENDERER == STGraphics::OPENGL) m_mesh = new GLMesh(fileName, type, bounds, maxSizes);
+}
+
 STMeshComponent::STMeshComponent(Shape& shape) {
 
 }
@@ -53,6 +58,8 @@ STMeshComponent::~STMeshComponent() {
 void STMeshComponent::update() {
 
 }
+
+
 
 
 

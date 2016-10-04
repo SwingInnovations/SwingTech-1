@@ -71,6 +71,7 @@ public:
     virtual void drawScene(STScene* scene);
     virtual void initScene(stUint index);
     static Vector3<stReal> TextColor;
+
 protected:
 
 private:
@@ -82,9 +83,16 @@ private:
     Matrix4f orthoProjection;
     GLuint frameBuffer;
     GLuint frameTexBuffer;
+    GLuint velocityBuffer;
+    GLuint velocityTexBuffer;
     GLuint rendBuffer;
     GLShader* screenShdr;
     GLMesh* screenQuad;
+    STMaterial* m_directionalLightMat;
+    STMaterial* m_pointLightMat;
+    STMaterial* m_spotLightMat;
+    STMaterial* m_albedoMat;
+
 };
 
 

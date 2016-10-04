@@ -66,6 +66,11 @@ GLGraphics::GLGraphics(STGame *game) {
     textShader = new GLShader("text");
     orthoProjection.initOrthographicProjection(0, WIDTH, HEIGHT, 0, 0, 1000.0f);
 
+    //Setup Albedo and lit materials for forward rendering
+    m_directionalLightMat = new STMaterial(new GLShader("standard","standard_directional_forward"));
+    m_pointLightMat = new STMaterial(new GLShader("standard","standard_point_forward"));
+    m_albedoMat = new STMaterial(new GLShader("standard","standard_abledo_forward"));
+
     glGenVertexArrays(1, &textVAO);
     glGenBuffers(1, &textVBO);
     glBindVertexArray(textVAO);
@@ -84,12 +89,21 @@ void GLGraphics::drawScene(STScene *scene) {
 
         glGenFramebuffers(1, &frameBuffer);
         glGenTextures(1, &frameTexBuffer);
+        glGenTextures(1, &velocityTexBuffer);
 
         auto w = STGame::RES_WIDTH;
         auto h = STGame::RES_HEIGHT;
 
         glBindTexture(GL_TEXTURE_2D, frameTexBuffer);
-        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, w, h, 0, GL_RGB, GL_UNSIGNED_BYTE, NULL);
+        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB32F, w, h, 0, GL_RGB, GL_FLOAT, NULL);
+        glGenerateMipmap(GL_TEXTURE_2D);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+
+        glBindTexture(GL_TEXTURE_2D, velocityTexBuffer);
+        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB32F, w, h, 0, GL_RGB, GL_FLOAT, NULL);
         glGenerateMipmap(GL_TEXTURE_2D);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
@@ -100,7 +114,7 @@ void GLGraphics::drawScene(STScene *scene) {
         glFramebufferParameteri(GL_FRAMEBUFFER, GL_FRAMEBUFFER_DEFAULT_WIDTH, w);
         glFramebufferParameteri(GL_FRAMEBUFFER, GL_FRAMEBUFFER_DEFAULT_HEIGHT, h);
         glFramebufferParameteri(GL_FRAMEBUFFER, GL_FRAMEBUFFER_DEFAULT_SAMPLES, 4);
-        glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, frameTexBuffer, 0);
+
 
         glGenRenderbuffers(1, &rendBuffer);
         glBindRenderbuffer(GL_RENDERBUFFER, rendBuffer);
@@ -118,23 +132,85 @@ void GLGraphics::drawScene(STScene *scene) {
 
         scenes[scene->getIndex()].m_initiated = true;
     }
+
     // Bind the frame buffer
     glBindFramebuffer(GL_FRAMEBUFFER, frameBuffer);
+    glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, velocityTexBuffer, 0);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     glEnable(GL_DEPTH_TEST);
     auto clearColor = STGraphics::ClearColor;
+    glClearColor(0,0,0,1);
+
+
+
+    auto actors = scene->getActors();
+    auto lights = scene->getLights();
+
+    //Depth Pre-Pass
+    for(int i =0; i< actors.size(); i++){
+        actors[i]->setShdrUniform("_GlobalAmbient",GlobalAmbient);
+        actors[i]->draw(m_albedoMat);
+    }
+
+    glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, frameTexBuffer, 0);
+
     glClearColor(clearColor.getX(), clearColor.getY(), clearColor.getZ(), clearColor.getZ());
+    glClear(GL_COLOR_BUFFER_BIT);
+
 
     scenes[scene->getIndex()].drawSkybox(*camera());
-    for(auto act : scene->getActors()){
-        act->draw();
+
+
+    //Forward Pass
+    glEnable(GL_BLEND);
+    glDepthFunc(GL_EQUAL);
+    glBlendFunc(GL_ONE, GL_ONE);
+    glDepthMask(GL_FALSE);
+
+    for(int i =0; i< actors.size(); i++){
+        actors[i]->setShdrUniform("_GlobalAmbient",GlobalAmbient);
+        actors[i]->draw(m_albedoMat);
     }
+
+    for(int i =0; i < actors.size(); i++){
+        for(int j =0; j < lights.size(); j++) {
+
+            actors[i]->setShdrUniform("_LightColor", lights[j]->color);
+            actors[i]->setShdrUniform("_LightAttenuation", lights[j]->attenuation);
+            actors[i]->setShdrUniform("_LightPosition", lights[j]->transform()->getTranslate<stReal>());
+
+            switch(lights[j]->type) {
+                case DirectionalLight: {
+                    actors[i]->setShdrUniform("_LightDirection", lights[j]->direction);
+                    actors[i]->draw(m_directionalLightMat);
+                    break;
+                }
+                case PointLight: {
+                    actors[i]->setShdrUniform("_LightRadius", lights[j]->radius);
+                    actors[i]->draw(m_pointLightMat);
+                    break;
+                }
+                case SpotLight: {
+                    break;
+                }
+            }
+        }
+    }
+
+
+    glDisable(GL_BLEND);
+    glDepthFunc(GL_LESS);
+    glDepthMask(GL_TRUE);
 
     glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
-    glClear(GL_COLOR_BUFFER_BIT);
+
     glDisable(GL_DEPTH_TEST);
+    glClear(GL_COLOR_BUFFER_BIT);
+
     glDisable(GL_CULL_FACE);
+
+
     glClearColor(1.0, 1.0, 1.0, 1.0);
 
     screenShdr->bind();

@@ -27,7 +27,7 @@ public:
     static int RENDERER;
     static bool YUp;
     static Vector4<stReal> ClearColor;
-
+    static Vector3<stReal> GlobalAmbient;
     STGraphics();
     STGraphics(STGame *);
     ~STGraphics();

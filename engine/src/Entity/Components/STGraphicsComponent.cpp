@@ -57,27 +57,39 @@ void STGraphicsComponent::setShdrUniform(const std::string &name, int value) {
 }
 
 void STGraphicsComponent::setShdrUniform(const std::string &name, float value) {
+    bool uniformFound;
     for(unsigned int i = 0, S = m_uniforms.size(); i < S; i++){
         if(m_uniforms[i].name == name){
             m_uniforms[i].value = STShader::toString(value);
+            uniformFound=true;
         }
     }
+    if(!uniformFound)
+        addShdrUniform(name,value);
 }
 
 void STGraphicsComponent::setShdrUniform(const std::string &name, Vector3<stReal> value) {
+    bool uniformFound;
     for(unsigned int i = 0, S = (unsigned int)m_uniforms.size(); i < S; i++){
         if(m_uniforms[i].name == name){
             m_uniforms[i].value = STShader::toString(value);
+            uniformFound=true;
         }
     }
+    if(!uniformFound)
+        addShdrUniform(name,value);
 }
 
 void STGraphicsComponent::setShdrUniform(const std::string &name, Vector4<stReal> value) {
+    bool uniformFound;
     for(unsigned int i = 0, S = m_uniforms.size(); i < S; i++){
         if(m_uniforms[i].name == name){
             m_uniforms[i].value = STShader::toString(value);
+            uniformFound=true;
         }
     }
+    if(!uniformFound)
+        addShdrUniform(name,value);
 }
 
 void STGraphicsComponent::addSpriteSheet(Texture *tex, uint32_t rowCount, uint32_t colCount) {

@@ -1,6 +1,8 @@
 #include "STGraphics.h"
 
 Vector4<stReal> STGraphics::ClearColor = Vector4<stReal>(0.0f, 0.0f, 0.0f, 1.0f);
+
+Vector3<stReal> STGraphics::GlobalAmbient = Vector3<stReal>(.4f, .4f, .4f);
 int STGraphics::RENDERER = STGraphics::OPENGL;
 bool STGraphics::YUp = false;
 

@@ -36,6 +36,10 @@ public:
         m_Cam = cam;
     }
 
+    /**
+     * Sets whether Y-Up should be up or down relative to the window.
+     * @param val
+     */
     static void SetYUp(bool val){ YUp = val; }
     static bool getYUpSetting(){ return YUp; }
 

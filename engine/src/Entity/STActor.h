@@ -16,6 +16,7 @@ public:
         this->m_children.push_back((STEntity*)actor);
     }
     void draw();
+    void draw(STMaterial*);
     void draw(Camera*, int);
 private:
     STEntity* m_parent;

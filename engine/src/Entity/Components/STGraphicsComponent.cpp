@@ -121,3 +121,7 @@ void STGraphicsComponent::update() {
 void STGraphicsComponent::draw(Transform &T, Camera &C) {
     m_material->draw(m_uniforms, T, C);
 }
+
+std::vector<STShader::ShaderAttrib> &STGraphicsComponent::getUniforms() {
+    return m_uniforms;
+}

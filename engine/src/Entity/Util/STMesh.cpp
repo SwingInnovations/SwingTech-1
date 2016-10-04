@@ -342,6 +342,8 @@ OBJMesh::OBJMesh(const std::string &fileName, Vector2<stInt> lineBounds, Vector3
     auto tDisp = maxSize.getY();
     auto nDisp = maxSize.getZ();
 
+    //TODO - Fix out of Range Index.
+
     for(unsigned int i = 0, S = (int)_index.size(); i < S; i+=3){
         auto vInd = _index[i] - vDisp;
         auto tInd = _index[i+1] - tDisp;
@@ -415,8 +417,11 @@ bool OBJMesh::Validate(const std::string &fileName, std::vector<std::string> *ta
         while(std::getline(in, line)){
             if(line[0] == 'v' && line[1] == ' '){
                 vertDisp++;
-                lastTag = "v";
-                if(lowerBound == -1) lowerBound = counter;
+
+                if(lowerBound == -1){
+                    lowerBound = counter;
+                    lastTag = "v";
+                }
             }
 
             if(line[0] == 'v' && line[1] == 't') texDisp++;
@@ -426,7 +431,7 @@ bool OBJMesh::Validate(const std::string &fileName, std::vector<std::string> *ta
             if(line[0] == 'v' && line[1] == ' ' && lastTag == "f"){
                 upperBound = counter-1;
                 (*bounds).push_back(Vector2<stInt>(lowerBound, upperBound));
-                (*maxSizes).push_back(Vector3<stInt>(vertDisp, texDisp, normDisp));
+                (*maxSizes).push_back(Vector3<stInt>(vertDisp-1, texDisp, normDisp));
                 lowerBound = -1;
                 lastTag = "v";
             }
@@ -443,11 +448,16 @@ bool OBJMesh::Validate(const std::string &fileName, std::vector<std::string> *ta
         if(lastTag == "f"){
             upperBound = counter;
             (*bounds).push_back(Vector2<stInt>(lowerBound, upperBound));
-            (*maxSizes).push_back(Vector3<stInt>(vertDisp, texDisp, normDisp));
+            (*maxSizes).push_back(Vector3<stInt>(vertDisp-1, texDisp, normDisp));
         }
         in.close();
     }
     return (*bounds).size() > 1;
+}
+
+bool OBJMesh::Validate(const std::string &fileName, std::vector<std::string> *tags,
+                       std::vector<STMesh_Structure> *dataMesh) {
+    return false;
 }
 
 

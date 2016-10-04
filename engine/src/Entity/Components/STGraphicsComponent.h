@@ -66,6 +66,8 @@ public:
         }
     }
 
+    std::vector<STShader::ShaderAttrib> &getUniforms();
+
     void draw(Transform& T, Camera& C);
 private:
     SpriteSheet m_spriteSheet;

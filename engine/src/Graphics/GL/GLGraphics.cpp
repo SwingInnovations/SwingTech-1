@@ -78,10 +78,6 @@ GLGraphics::GLGraphics(STGame *game) {
 }
 
 void GLGraphics::drawScene(STScene *scene) {
-//    for(auto rendPass : renderPass){
-//        rendPass->draw(this);
-//    }
-
     auto rendScene = scenes[scene->getIndex()];
     if(!rendScene.m_initiated){
         scenes[scene->getIndex()].initSkybox(scene->getSkyboxShader(), scene->getSkyboxName());

@@ -13,16 +13,33 @@ class Quaternion;
 template<typename T>
 class Vector2{
 public:
+    /**
+     * Constructs a new Vector2
+     * @return
+     */
     Vector2(){
         m_val[0] = 0;
         m_val[1] = 0;
     }
 
+    /**
+     * Constructs a new Vector 2
+     * @param _x X Component
+     * @param _y Y Component
+     * @return
+     */
     Vector2(T _x, T _y){
         m_val[0] = _x;
         m_val[1] = _y;
     }
 
+    /**
+     * Linearly interpolates between two vectors.
+     * @param start Start Vector
+     * @param end   Destination Vector
+     * @param step  Progression between two vectors(0.0-1.0)
+     * @return
+     */
     static Vector2 Lerp(const Vector2& start, const Vector2& end, const stReal& step){
         stReal st1 = 1.0f - step;
         T x = (st1 * start.getX()) + (step * end.getX());
@@ -30,24 +47,54 @@ public:
         return Vector2(x, y);
     }
 
+    /**
+     * Sets the X Component
+     * @param _x
+     */
     void setX(T _x){
         m_val[0] = _x;
     }
 
+    /**
+     * Sets the Y Component
+     * @param _y
+     */
     void setY(T _y){
         m_val[1] = _y;
     }
 
+    /**
+     * Sets the X and Y Components
+     * @param _x X Component
+     * @param _y Y Component
+     */
     void set(T _x, T _y){
         m_val[0] = _x;
         m_val[1] = _y;
     }
 
+    /**
+     * Returns the X Component of Vector2
+     * @return X Component
+     */
     T getX() const{ return m_val[0]; }
+
+    /**
+     * Returns the Y Component
+     * @return Y Component
+     */
     T getY() const{ return m_val[1]; }
 
+    /**
+     * Returns the data of the Vector as an array of type T.
+     * @return data
+     */
     T* getData(){ return m_val; }
 
+    /**
+     * Returns the magnitude of the vector.
+     * @return Magnitude.
+     */
     inline double getLength() const{
         double _x = m_val[0];
         double _y = m_val[1];

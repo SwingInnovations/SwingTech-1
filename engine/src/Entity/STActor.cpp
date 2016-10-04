@@ -37,7 +37,12 @@ STActor::STActor(const std::string &filePath, const int type, std::string &tag, 
     addComponent(typeid(STEventComponent), new STEventComponent);
 }
 
-
+/**
+ * Creates a new Actor Entity based on file path and material.
+ * If multiple meshes are present in the file, then they will be added as children.
+ * @param filePath Input File Path.
+ * @param material Material to be applied to actor.
+ */
 STActor::STActor(const std::string &filePath, STMaterial *material) {
     m_transform = new Transform();
     m_type = Actor;
@@ -58,7 +63,7 @@ STActor::STActor(const std::string &filePath, STMaterial *material) {
             }
         }
         for(stInt i = 0, boundSize = (stInt)bounds.size(); i < boundSize; i++){
-            this->addChild_Actor( new STActor(filePath, flag, tags.at(i), bounds.at(i), material));
+            this->addChild_Actor( new STActor(filePath, flag, tags.at(i), bounds.at(i), maxSizes.at(i), material));
         }
         return;
     }
@@ -70,6 +75,7 @@ STActor::STActor(const std::string &filePath, STMaterial *material) {
     addComponent(typeid(STGraphicsComponent), new STGraphicsComponent(material));
 }
 
+//TODO - Implement draw using specified material.
 
 void STActor::draw() {
     if(m_visible){
@@ -80,7 +86,7 @@ void STActor::draw() {
         if(grphx != nullptr)grphx->draw(*m_transform, *cam);
         if(mesh != nullptr)mesh->draw();
         for(auto child : m_children){
-            dynamic_cast<STActor*>(child)->draw();
+            dynamic_cast<STActor*>(child)->draw(cam, 2);
         }
     }
 }
@@ -91,5 +97,15 @@ void STActor::draw(Camera *camera, int drawMode) {
         auto grphx = this->get<STGraphicsComponent>();
         grphx->draw(*m_transform, *camera);
         mesh->draw(drawMode);
+    }
+}
+
+void STActor::draw(STMaterial *material) {
+    if(m_visible){
+        auto mesh = this->get<STMeshComponent>();
+        auto grphx = this->get<STGraphicsComponent>();
+        auto cam = STGame::Get()->getCamera();
+        material->draw(grphx->getUniforms(), *m_transform, *cam);
+        mesh->draw();
     }
 }

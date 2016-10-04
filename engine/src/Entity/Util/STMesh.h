@@ -11,6 +11,14 @@
 #include "../../Math/Shape/Quad.h"
 #include "../../Math/Shape/Cube.h"
 
+struct STMesh_Structure{
+    std::vector<int> m_indices;
+    std::vector<Vertex> m_vertices;
+
+    Vertex* getVertices(){ return &m_vertices[0]; }
+    int* getIndicies(){ return &m_indices[0]; }
+};
+
 class OBJMesh{
 public:
     OBJMesh();
@@ -19,6 +27,7 @@ public:
     OBJMesh(const std::string& fileName, Vector2<stInt> lineBounds, Vector3<stInt> maxSize);
     static bool Validate(const std::string& fileName, std::vector<std::string> *tags, std::vector<Vector2<stInt>>* bounds);
     static bool Validate(const std::string& fileName, std::vector<std::string> *tags, std::vector<Vector2<stInt>>* bounds, std::vector<Vector3<stInt>>* maxSizes);
+    static bool Validate(const std::string& fileName, std::vector<std::string> *tags, std::vector<STMesh_Structure> *dataMesh);
     virtual ~OBJMesh();
 
     int getVerticiesSize(){ return (int)verticies.size(); }

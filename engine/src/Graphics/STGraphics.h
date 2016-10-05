@@ -47,7 +47,7 @@ public:
     virtual void drawScene(STScene* scene) = 0;
     virtual void setShader(int,Shader*){;}
 
-    /*!
+    /*
      *
      * @return Returns the Graphics Card Driver
      */

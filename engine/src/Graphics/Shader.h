@@ -24,7 +24,9 @@ namespace STShader{
        VEC3 = 2,
        VEC4 = 3,
        MAT4 = 4,
-       STRING = 5
+       TEX = 5,
+       CUBE_MAP = 6,
+       STRING = 7
    };
 
     /*!
@@ -72,6 +74,26 @@ namespace STShader{
     }
 
     /*!
+     * @param mat Input Matrix
+     * @return Stringified Matrix for uniform use.
+     */
+    static std::string toString(const Matrix4f& mat){
+        std::ostringstream buff;
+        for(stUint i = 0, I = 4; i < I; i++){
+            for(stUint j = 0, J = 4; j < J; j++){
+                buff << mat.m[i][j] << " ";
+            }
+        }
+        return buff.str();
+    }
+
+    static std::string toString(const stUint& val){
+        std::ostringstream buff;
+        buff << val;
+        return buff.str();
+    }
+
+    /*!
      *
      * @param val Input stringified integer uniform
      * @return Integer value
@@ -87,6 +109,10 @@ namespace STShader{
      */
     static float toFloat(const std::string val){
         return (float)atof(val.c_str());
+    }
+
+    static stUint toSTUint(const std::string val){
+        return (stUint)atol(val.c_str());
     }
 
     /*!
@@ -125,6 +151,22 @@ namespace STShader{
         Vector4<stReal> ret(_x, _y, _z, _w);
         return ret;
     }
+    //TODO - Test this.
+    static Matrix4f toMatrix4f(const std::string& value){
+        std::vector<stReal> elements;
+        Matrix4f ret;
+        std::stringstream str(value);
+        stReal temp;
+        stUint counter = 0;
+        while(str >> temp) elements.push_back(temp);
+        for(stUint i = 0, I = 4; i < I; i++){
+            for(stUint j = 0, J = 4; j < J; j++){
+                ret.m[i][j] = elements.at(counter);
+                counter++;
+            }
+        }
+        return ret;
+    }
 
     struct ShaderAttrib{
         /*!
@@ -159,6 +201,9 @@ public:
     virtual void update(const std::string& name, float val){ }
     virtual void update(const std::string& name, Vector3<stReal> val){ }
     virtual void update(const std::string& name, Vector4<stReal> val){  }
+    virtual void update(const std::string& name, Matrix4f mat){ }
+    virtual void update_Texture(const std::string& name, stUint){ }
+    virtual void update_CubeMap(const std::string& name, stUint){ }
     void updateUniforms(std::vector<STShader::ShaderAttrib> _uniforms);
     virtual std::string getShaderName(){ return NULL; }
     virtual ~Shader(){}

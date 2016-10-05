@@ -48,6 +48,19 @@ void STGraphicsComponent::addShdrUniform(const std::string &name, Vector4<stReal
     m_uniforms.push_back(STShader::ShaderAttrib(name, STShader::VEC4, STShader::toString(value)));
 }
 
+void STGraphicsComponent::addShdrUniform(const std::string &name, Matrix4f value) {
+    m_uniforms.push_back(STShader::ShaderAttrib(name, STShader::MAT4, STShader::toString(value)));
+}
+
+void STGraphicsComponent::addShdrUniform_Texture(const std::string &name, stUint value) {
+    m_uniforms.push_back(STShader::ShaderAttrib(name, STShader::TEX, STShader::toString(value)));
+}
+
+void STGraphicsComponent::addShdrUniform_CubeMap(const std::string &name, stUint value) {
+    m_uniforms.push_back(STShader::ShaderAttrib(name, STShader::CUBE_MAP, STShader::toString(value)));
+}
+
+
 void STGraphicsComponent::setShdrUniform(const std::string &name, int value) {
     for(unsigned int i = 0, S = m_uniforms.size(); i < S; i++){
         if(m_uniforms[i].name == name){
@@ -90,6 +103,40 @@ void STGraphicsComponent::setShdrUniform(const std::string &name, Vector4<stReal
     }
     if(!uniformFound)
         addShdrUniform(name,value);
+}
+
+void STGraphicsComponent::setShdrUniform(const std::string &name, Matrix4f value) {
+    bool uniformFound;
+    for(stUint i = 0, S = m_uniforms.size(); i < S; i++){
+        if(m_uniforms[i].name == name){
+            m_uniforms[i].value = STShader::toString(value);
+            uniformFound = true;
+        }
+    }
+    if(!uniformFound) addShdrUniform(name, value);
+}
+
+void STGraphicsComponent::setShdrUniform_Texture(const std::string &name, stUint value) {
+    bool uniformFound;
+    for(stUint i = 0, S = m_uniforms.size(); i < S; i++){
+        if(m_uniforms[i].name == name){
+            m_uniforms[i].value = STShader::toString(value);
+            uniformFound = true;
+        }
+    }
+    if(!uniformFound) addShdrUniform_Texture(name, value);
+}
+
+void STGraphicsComponent::setShdrUniform_CubeMap(const std::string &name, stUint value) {
+    bool uniformFound;
+    for(stUint i = 0, S = m_uniforms.size(); i < S; i++){
+        if(m_uniforms[i].name == name){
+            m_uniforms[i].value = STShader::toString(value);
+            uniformFound = true;
+            return;
+        }
+    }
+    if(!uniformFound) addShdrUniform_CubeMap(name, value);
 }
 
 void STGraphicsComponent::addSpriteSheet(Texture *tex, uint32_t rowCount, uint32_t colCount) {

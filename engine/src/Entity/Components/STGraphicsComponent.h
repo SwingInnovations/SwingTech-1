@@ -32,11 +32,17 @@ public:
     void addShdrUniform(const std::string& name, float value);
     void addShdrUniform(const std::string& name, Vector3<stReal> value);
     void addShdrUniform(const std::string& name, Vector4<stReal> value);
+    void addShdrUniform(const std::string& name, Matrix4f value);
+    void addShdrUniform_Texture(const std::string& name, stUint value);
+    void addShdrUniform_CubeMap(const std::string& name, stUint value);
 
     void setShdrUniform(const std::string& name, int value);
     void setShdrUniform(const std::string& name, float value);
     void setShdrUniform(const std::string& name, Vector3<stReal> value);
     void setShdrUniform(const std::string& name, Vector4<stReal> value);
+    void setShdrUniform(const std::string& name, Matrix4f value);
+    void setShdrUniform_Texture(const std::string& name, stUint value);
+    void setShdrUniform_CubeMap(const std::string& name, stUint value);
 
     void addSpriteSheet(Texture* tex, uint32_t rowCount, uint32_t colCount);
     void setSpriteSheetIndex(int, int);

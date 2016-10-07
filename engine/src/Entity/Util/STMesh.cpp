@@ -495,7 +495,7 @@ bool OBJMesh::Validate(const std::string &fileName, std::vector<std::string> *ta
                         }
                     } adjustedIndicies = _index;
                     for(stUint i = 0, S = (stUint)adjustedIndicies.size(); i < S; i+= 3){
-                        Vertex vert(_vertex[adjustedIndicies.at(i)], _texCoord[adjustedIndicies.at(i+1), _normal[_index.at(i+2)]);
+                        Vertex vert(_vertex[adjustedIndicies.at(i)], _texCoord[adjustedIndicies.at(i+1)], _normal[_index.at(i+2)]);
                         vertexList.push_back(vert);
                         indexList.push_back(ind);
                         ind++;
@@ -609,7 +609,7 @@ bool OBJMesh::Validate(const std::string &fileName, std::vector<std::string> *ta
                 }
             } adjustedIndicies = _index;
             for(stUint i = 0, S = (stUint)adjustedIndicies.size(); i < S; i+= 3){
-                Vertex vert(_vertex[adjustedIndicies.at(i)], _texCoord[adjustedIndicies.at(i+1), _normal[_index.at(i+2)]);
+                Vertex vert(_vertex[adjustedIndicies.at(i)], _texCoord[adjustedIndicies.at(i+1)], _normal[_index.at(i+2)]);
                 vertexList.push_back(vert);
                 indexList.push_back(ind);
                 ind++;

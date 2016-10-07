@@ -15,6 +15,7 @@ public:
     GLMesh(const std::string& fileName);
     GLMesh(const std::string& fileName, int type, Vector2<stInt> bounds);
     GLMesh(const std::string& fileName, int type, Vector2<stInt> bounds, Vector3<stInt> maxSizes);
+    GLMesh(STMesh_Structure structure);
     GLMesh(STRect* rect);
     GLMesh(STQuad* quad);
     GLMesh(STCube* cube);

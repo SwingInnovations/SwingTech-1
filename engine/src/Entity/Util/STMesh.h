@@ -17,6 +17,9 @@ struct STMesh_Structure{
 
     Vertex* getVertices(){ return &m_vertices[0]; }
     int* getIndicies(){ return &m_indices[0]; }
+
+    inline stInt getVertexSize()const { return (stInt)m_vertices.size(); }
+    inline stInt getIndexSize() const { return (stInt)m_indices.size(); }
 };
 
 class OBJMesh{
@@ -69,6 +72,7 @@ public:
 
     static bool Validate(const std::string& fileName, int* typeFlag, std::vector<std::string>* tags, std::vector<Vector2<stInt>>* bounds);
     static bool Validate(const std::string& fileName, int* typeFlag, std::vector<std::string>* tags, std::vector<Vector2<stInt>>* bounds, std::vector<Vector3<stInt>>* maxSizes);
+    static bool Validate(const std::string& fileName, int* typeFlag, std::vector<std::string>* tags, std::vector<STMesh_Structure>* meshes);
 
     STMesh(){}
     STMesh(const std::string& fileName, int type){}

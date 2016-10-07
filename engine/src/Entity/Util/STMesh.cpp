@@ -467,6 +467,8 @@ bool OBJMesh::Validate(const std::string &fileName, std::vector<std::string> *ta
     std::vector<Vector3<stReal>> _normal;
     std::vector<int> _index;
 
+    stInt counter = 0;
+
     std::ifstream in(fileName.c_str(), std::ios_base::in);
     if(!in){
         std::cout << "Invalid file! Could not load: " << fileName << std::endl;
@@ -510,6 +512,7 @@ bool OBJMesh::Validate(const std::string &fileName, std::vector<std::string> *ta
                     _normal.clear();
                     _index.clear();
                 }
+
                 std::string vals = line.substr(2);
                 stReal _x = 0.0f, _y = 0.0f, _z = 0.0f;
 
@@ -592,9 +595,12 @@ bool OBJMesh::Validate(const std::string &fileName, std::vector<std::string> *ta
                 k = atoi(n3.c_str());
                 i--; j--; k--;
                 _index.push_back(i); _index.push_back(j); _index.push_back(k);
+                lastTag = "f";
             }
+            counter++;
         }
         in.close();
+
         if(lastTag == "f"){
             std::vector<int> adjustedIndicies;
             adjustedIndicies.reserve(_index.size());
@@ -625,7 +631,7 @@ bool OBJMesh::Validate(const std::string &fileName, std::vector<std::string> *ta
             _index.clear();
         }
     }
-
+    auto size = (*dataMesh).size();
     return (*dataMesh).size() > 1;
 }
 
@@ -657,6 +663,26 @@ bool STMesh::Validate(const std::string &fileName, int *typeFlag, std::vector<st
     if(fileExtension == ".obj"){
         *typeFlag = STMesh::OBJ;
         return OBJMesh::Validate(fileName, tags, bounds, maxSizes);
+    }
+    else if(fileExtension == ".fbx"){
+        *typeFlag = STMesh::FBX;
+        //TODO FBX File Validation and Splitup.
+        return true;
+    }else if(fileExtension == ".gex"){
+        *typeFlag = STMesh::GEX;
+        //TODO GEX File Validation and Splitup.
+        return true;
+    }
+    return false;
+}
+
+bool STMesh::Validate(const std::string &fileName, int *typeFlag, std::vector<std::string> *tags,
+                      std::vector<STMesh_Structure> *meshes) {
+    stUint extenPoint = (stUint)fileName.size() - 4;
+    std::string fileExtension = fileName.substr(extenPoint);
+    if(fileExtension == ".obj"){
+        *typeFlag = STMesh::OBJ;
+        return OBJMesh::Validate(fileName, tags, meshes);
     }
     else if(fileExtension == ".fbx"){
         *typeFlag = STMesh::FBX;

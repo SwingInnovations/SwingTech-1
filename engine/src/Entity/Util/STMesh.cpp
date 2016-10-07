@@ -458,8 +458,8 @@ bool OBJMesh::Validate(const std::string &fileName, std::vector<std::string> *ta
 bool OBJMesh::Validate(const std::string &fileName, std::vector<std::string> *tags,
                        std::vector<STMesh_Structure> *dataMesh) {
     //TODO - implement this.
-    stUint vertCount, texCount, normCount, objCount;
-    vertCount = texCount = normCount = objCount = 0;
+    stUint vertCount, texCount, normCount, objCount, lastVertCount, lastTexCount, lastNormCount;
+    vertCount = texCount = normCount = objCount = lastVertCount = lastNormCount = lastTexCount = 0;
     std::string lastTag = "";
     std::vector<Vector3<stUint>> vertCounts;
     std::vector<Vector3<stReal>> _vertex;
@@ -468,6 +468,19 @@ bool OBJMesh::Validate(const std::string &fileName, std::vector<std::string> *ta
     std::vector<int> _index;
 
     stInt counter = 0;
+
+    //Internal function to extract face and store in Vector3
+    auto extractFace = [](std::string& str){
+        std::vector<stInt> ext_ind;
+        stInt temp;
+        for(stUint i = 0, L = (stUint)str.length(); i < L; i++){
+            if(str[i] == '/') str[i] = ' ';
+        }
+        std::stringstream buff(str);
+        while(buff >> temp) ext_ind.push_back(temp);
+
+        return Vector3<stInt>(ext_ind[0], ext_ind[1], ext_ind[2]);
+    };
 
     std::ifstream in(fileName.c_str(), std::ios_base::in);
     if(!in){
@@ -489,13 +502,14 @@ bool OBJMesh::Validate(const std::string &fileName, std::vector<std::string> *ta
                     std::vector<Vertex> vertexList;
                     std::vector<int> indexList;
                     stUint ind = 0;
+
                     if((*dataMesh).size() > 0){
                         for(stUint i = 0, S = (stUint)_index.size(); i < S; i+= 3){
-                            adjustedIndicies[i] = _index.at(i) - vertCount;
-                            adjustedIndicies[i+1] = _index.at(i+1) - texCount;
-                            adjustedIndicies[i+2] = _index.at(i+2) - normCount;
+                            adjustedIndicies.push_back(_index.at(i) - lastVertCount);
+                            adjustedIndicies.push_back(_index.at(i+1) - lastTexCount);
+                            adjustedIndicies.push_back(_index.at(i+2) - lastNormCount);
                         }
-                    } adjustedIndicies = _index;
+                    } else adjustedIndicies = _index;
                     for(stUint i = 0, S = (stUint)adjustedIndicies.size(); i < S; i+= 3){
                         Vertex vert(_vertex[adjustedIndicies.at(i)], _texCoord[adjustedIndicies.at(i+1)], _normal[_index.at(i+2)]);
                         vertexList.push_back(vert);
@@ -507,10 +521,15 @@ bool OBJMesh::Validate(const std::string &fileName, std::vector<std::string> *ta
                     mesh.m_indices = indexList;
                     (*dataMesh).push_back(mesh);//Mesh has been added to the list.
 
+                    lastVertCount = vertCount - 1;
+                    lastTexCount = texCount - 1;
+                    lastNormCount = normCount - 1;
+
                     _vertex.clear();
                     _texCoord.clear();
                     _normal.clear();
                     _index.clear();
+                    adjustedIndicies.clear();
                 }
 
                 std::string vals = line.substr(2);
@@ -565,36 +584,15 @@ bool OBJMesh::Validate(const std::string &fileName, std::vector<std::string> *ta
                 int i = 0, j = 0, k = 0;
                 //first element
                 std::string face1 = hLine.substr(0, hLine.find(' '));
-                std::string v1 = face1.substr(0, face1.find('/'));
-                i = atoi(v1.c_str());
-                int midLen1 = face1.find_last_of('/') - face1.find('/')+1;
-                std::string t1 = face1.substr(face1.find('/')+1, midLen1);
-                j = atoi(t1.c_str());
-                std::string n1 = face1.substr(face1.find_last_of('/') + 1);
-                k = atoi(n1.c_str());
-                i--; j--; k--;
-                _index.push_back(i); _index.push_back(j); _index.push_back(k);
+                auto vals = extractFace(face1);
+                _index.push_back(vals.getX() - 1); _index.push_back(vals.getY() - 1); _index.push_back(vals.getZ() - 1);
                 int midLen = hLine.find_last_of(' ') - hLine.find(' ') + 1;
                 std::string face2 = hLine.substr(hLine.find(' ') + 1, midLen);
-                std::string v2 = face2.substr(0, face2.find('/'));
-                i = atoi(v2.c_str());
-                int midLen2 = face2.find_last_of('/') - face2.find('/') + 1;
-                std::string t2 = face2.substr(v2.length()+1, midLen2);
-                j = atoi(t2.c_str());
-                std::string n2 = face2.substr(face2.find_last_of('/') + 1);
-                k = atoi(n2.c_str());
-                i--; j--; k--;
-                _index.push_back(i); _index.push_back(j); _index.push_back(k);
+                vals = extractFace(face2);
+                _index.push_back(vals.getX() - 1); _index.push_back(vals.getY() - 1); _index.push_back(vals.getZ() - 1);
                 std::string face3 = hLine.substr(hLine.find_last_of(' ') + 1);
-                std::string v3 = face3.substr(0, face3.find('/'));
-                i = atoi(v3.c_str());
-                int midLen3 = face3.find_last_of('/')-face3.find('/') + 1;
-                std::string t3 = face3.substr(face3.find('/')+1, midLen3);
-                j = atoi(t3.c_str());
-                std::string n3 = face3.substr(face3.find_last_of('/')+1);
-                k = atoi(n3.c_str());
-                i--; j--; k--;
-                _index.push_back(i); _index.push_back(j); _index.push_back(k);
+                vals = extractFace(face3);
+                _index.push_back(vals.getX() - 1); _index.push_back(vals.getY() - 1); _index.push_back(vals.getZ() - 1);
                 lastTag = "f";
             }
             counter++;
@@ -603,17 +601,20 @@ bool OBJMesh::Validate(const std::string &fileName, std::vector<std::string> *ta
 
         if(lastTag == "f"){
             std::vector<int> adjustedIndicies;
-            adjustedIndicies.reserve(_index.size());
+            auto check = adjustedIndicies.empty();
             std::vector<Vertex> vertexList;
             std::vector<int> indexList;
             stUint ind = 0;
             if((*dataMesh).size() > 0){
                 for(stUint i = 0, S = (stUint)_index.size(); i < S; i+= 3){
-                    adjustedIndicies[i] = _index.at(i) - vertCount;
-                    adjustedIndicies[i+1] = _index.at(i+1) - texCount;
-                    adjustedIndicies[i+2] = _index.at(i+2) - normCount;
+                    adjustedIndicies.push_back(_index.at(i) - lastVertCount);
+                    adjustedIndicies.push_back(_index.at(i+1) - lastTexCount);
+                    adjustedIndicies.push_back(_index.at(i+2) - lastNormCount);
                 }
-            } adjustedIndicies = _index;
+            }else{
+                adjustedIndicies = _index;
+            }
+            auto adSize = adjustedIndicies.size();
             for(stUint i = 0, S = (stUint)adjustedIndicies.size(); i < S; i+= 3){
                 Vertex vert(_vertex[adjustedIndicies.at(i)], _texCoord[adjustedIndicies.at(i+1)], _normal[_index.at(i+2)]);
                 vertexList.push_back(vert);
@@ -631,7 +632,6 @@ bool OBJMesh::Validate(const std::string &fileName, std::vector<std::string> *ta
             _index.clear();
         }
     }
-    auto size = (*dataMesh).size();
     return (*dataMesh).size() > 1;
 }
 

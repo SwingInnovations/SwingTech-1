@@ -85,8 +85,11 @@ void STActor::draw() {
         if(grphx != nullptr)grphx->draw(*m_transform, *cam);
         if(mesh != nullptr)mesh->draw();
         for(auto child : m_children){
-            dynamic_cast<STActor*>(child)->draw(cam, 0);
+            dynamic_cast<STActor*>(child)->draw();
         }
+//        for(stUint i = 0, S = m_children.size(); i < S; i++){
+//            m_children.at(1)->draw(cam, 2);
+//        }
     }
 }
 

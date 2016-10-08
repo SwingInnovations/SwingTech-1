@@ -482,6 +482,15 @@ bool OBJMesh::Validate(const std::string &fileName, std::vector<std::string> *ta
         return Vector3<stInt>(ext_ind[0], ext_ind[1], ext_ind[2]);
     };
 
+    auto splitFace = [](std::string str){
+        std::vector<std::string> ret;
+        std::string temp;
+        std::stringstream buff(str);
+        while (buff >> temp) ret.push_back(temp);
+
+        return ret;
+    };
+
     std::ifstream in(fileName.c_str(), std::ios_base::in);
     if(!in){
         std::cout << "Invalid file! Could not load: " << fileName << std::endl;
@@ -580,18 +589,13 @@ bool OBJMesh::Validate(const std::string &fileName, std::vector<std::string> *ta
 
             //Index Extraction
             if(line[0] == 'f' && line[1] == ' '){
-                std::string hLine = line.substr(2);
-                int i = 0, j = 0, k = 0;
+                auto faceString = splitFace(line.substr(2));
                 //first element
-                std::string face1 = hLine.substr(0, hLine.find(' '));
-                auto vals = extractFace(face1);
+                auto vals = extractFace(faceString.at(0));
                 _index.push_back(vals.getX() - 1); _index.push_back(vals.getY() - 1); _index.push_back(vals.getZ() - 1);
-                int midLen = hLine.find_last_of(' ') - hLine.find(' ') + 1;
-                std::string face2 = hLine.substr(hLine.find(' ') + 1, midLen);
-                vals = extractFace(face2);
+                vals = extractFace(faceString.at(1));
                 _index.push_back(vals.getX() - 1); _index.push_back(vals.getY() - 1); _index.push_back(vals.getZ() - 1);
-                std::string face3 = hLine.substr(hLine.find_last_of(' ') + 1);
-                vals = extractFace(face3);
+                vals = extractFace(faceString.at(2));
                 _index.push_back(vals.getX() - 1); _index.push_back(vals.getY() - 1); _index.push_back(vals.getZ() - 1);
                 lastTag = "f";
             }

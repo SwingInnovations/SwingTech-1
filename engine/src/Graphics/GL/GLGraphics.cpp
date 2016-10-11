@@ -67,7 +67,7 @@ GLGraphics::GLGraphics(STGame *game) {
     orthoProjection.initOrthographicProjection(0, WIDTH, HEIGHT, 0, 0, 1000.0f);
 
     //Setup Albedo and lit materials for forward rendering
-    m_directionalLightMat = new STMaterial(new GLShader("standard","standard_directional_forward"));
+    m_directionalLightMat = new STMaterial(new GLShader("standard","standard_directional_forward_Cook_Torrence"));
     m_pointLightMat = new STMaterial(new GLShader("standard","standard_point_forward"));
     m_albedoMat = new STMaterial(new GLShader("standard","standard_abledo_forward"));
 
@@ -145,13 +145,13 @@ void GLGraphics::drawScene(STScene *scene) {
 
     auto actors = scene->getActors();
     auto lights = scene->getLights();
-
+/*
     //Depth Pre-Pass
     for(int i =0; i< actors.size(); i++){
         actors[i]->setShdrUniform("_GlobalAmbient",GlobalAmbient);
         actors[i]->draw(m_albedoMat);
     }
-
+*/
     glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, frameTexBuffer, 0);
 
     glClearColor(clearColor.getX(), clearColor.getY(), clearColor.getZ(), clearColor.getZ());
@@ -162,19 +162,21 @@ void GLGraphics::drawScene(STScene *scene) {
 
 
     //Forward Pass
-    glEnable(GL_BLEND);
-    glDepthFunc(GL_EQUAL);
-    glBlendFunc(GL_ONE, GL_ONE);
-    glDepthMask(GL_FALSE);
 
-    for(int i =0; i< actors.size(); i++){
-        actors[i]->setShdrUniform("_GlobalAmbient",GlobalAmbient);
-        actors[i]->draw(m_albedoMat);
-    }
+   // glDepthFunc(GL_EQUAL);
+
+  //  glDepthMask(GL_FALSE);
+
+
+
+  //  glEnable(GL_BLEND);
+    //glBlendFunc(GL_ONE, GL_ONE);
 
     for(int i =0; i < actors.size(); i++){
         for(int j =0; j < lights.size(); j++) {
-
+            actors[i]->setShdrUniform("_GlobalAmbient",GlobalAmbient);
+            actors[i]-> setShdrUniform_CubeMap("_WorldCubeMap",scenes[scene->getIndex()].m_skybox);
+            actors[i]->setShdrUniform("_CameraPos", camera()->transform()->getTranslate<stReal>());
             actors[i]->setShdrUniform("_LightColor", lights[j]->color);
             actors[i]->setShdrUniform("_LightAttenuation", lights[j]->attenuation);
             actors[i]->setShdrUniform("_LightPosition", lights[j]->transform()->getTranslate<stReal>());

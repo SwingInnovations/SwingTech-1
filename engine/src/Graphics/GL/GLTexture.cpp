@@ -157,7 +157,7 @@ void GLTexture::reBind() {
 void GLTexture::bind(unsigned int index){
     assert(index >= 0 && index <= 31);
 
-    glEnable(GL_TEXTURE_2D);
+    //glEnable(GL_TEXTURE_2D);
 
     glActiveTexture(GL_TEXTURE0 + index);
     glBindTexture(GL_TEXTURE_2D, m_tex[0]);

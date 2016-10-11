@@ -1,4 +1,4 @@
-#version 330 core
+#version 400 core
 
 in vec3 Position;
 in vec3 Normal;
@@ -195,8 +195,8 @@ vec2 IntegrateBRDF( float R, float NdotV){
 
 vec2 IntegrateBRDFMobile( float R, float NdotV){
 
-	 vec4 c0 = { -1, -0.0275, -0.572, 0.022 };
-	 vec4 c1 = { 1, 0.0425, 1.04, -0.04 };
+	 vec4 c0 = vec4( -1, -0.0275, -0.572, 0.022 );
+	 vec4 c1 = vec4( 1, 0.0425, 1.04, -0.04 );
 	vec4 r = R * c0 + c1;
 	float a004 = min( r.x * r.x, exp2( -9.28 * NdotV ) ) * r.x + r.y;
 	vec2 AB = vec2( -1.04, 1.04 ) * a004 + r.zw;
@@ -234,10 +234,10 @@ void main(void){
 	vec3 V = normalize(  _CameraPos - Position );
 	vec3 H = normalize(L + V);
 
-	float NdotL = 	 clamp(dot( Normal , L ),0,1);
+	float NdotL = 	 clamp(dot( Normal , L ),0.0,1.0);
 
 	vec3 baseColor= vec3(1);
-    float roughness =clamp(_Roughness,.01,1);
+    float roughness = clamp(_Roughness,.01, 1.0);
 	// _Metallic = texture(_RoughnessTex,TexCoord).r;
 	
  	vec3 Norm = Normal;

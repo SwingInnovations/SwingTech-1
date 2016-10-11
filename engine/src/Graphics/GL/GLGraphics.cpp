@@ -222,7 +222,6 @@ void GLGraphics::drawScene(STScene *scene) {
 
 void GLGraphics::drawText(Vector2<stReal> pos, const std::string& text, stReal fontSize) {
     glEnable(GL_BLEND);
-    glEnable(GL_TEXTURE_2D);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     textShader->bind();
     textShader->update("projection", orthoProjection);
@@ -270,7 +269,6 @@ void GLGraphics::drawText(Vector2<stReal> pos, const std::string& text, stReal f
 
 void GLGraphics::drawText(Vector2<stReal> pos, const std::string &text, stReal fontSize, Vector4<stReal> *color) {
     glEnable(GL_BLEND);
-    glEnable(GL_TEXTURE_2D);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     textShader->bind();
     textShader->update("projection", orthoProjection);
@@ -321,7 +319,6 @@ void GLGraphics::drawText(Vector2<stReal> pos, const std::string &text, stReal f
     string = string.replace(string.find("%d"), sizeof(std::to_string(value))-1, std::to_string(value));
 
     glEnable(GL_BLEND);
-    glEnable(GL_TEXTURE_2D);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     textShader->bind();
     textShader->update("projection", orthoProjection);
@@ -381,7 +378,6 @@ void GLGraphics::drawText(Vector2<stReal> pos, const std::string &text, stReal f
     }
 
     glEnable(GL_BLEND);
-    glEnable(GL_TEXTURE_2D);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     textShader->bind();
     textShader->update("projection", orthoProjection);
@@ -441,7 +437,6 @@ void GLGraphics::drawText(Vector2<stReal> pos, const std::string &text, stReal f
     }
 
     glEnable(GL_BLEND);
-    glEnable(GL_TEXTURE_2D);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     textShader->bind();
     textShader->update("projection", orthoProjection);
@@ -507,7 +502,6 @@ void GLGraphics::drawText(Vector2<stReal> pos, const std::string &text, stReal f
     }
 
     glEnable(GL_BLEND);
-    glEnable(GL_TEXTURE_2D);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     textShader->bind();
     textShader->update("projection", orthoProjection);
@@ -574,7 +568,6 @@ void GLGraphics::drawText(Vector2<stReal> pos, const std::string &text, stReal f
 
 
     glEnable(GL_BLEND);
-    glEnable(GL_TEXTURE_2D);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     textShader->bind();
     textShader->update("projection", orthoProjection);
@@ -625,7 +618,6 @@ void GLGraphics::drawText(Vector2<stReal> pos, const std::string &text, stReal f
     string = string.replace(string.find("%s"), msg.length()-1, msg);
 
     glEnable(GL_BLEND);
-    glEnable(GL_TEXTURE_2D);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     textShader->bind();
     textShader->update("projection", orthoProjection);

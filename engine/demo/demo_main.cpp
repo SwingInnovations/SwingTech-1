@@ -46,7 +46,7 @@ public:
 //         }
 
 
-        _testActor2 = new STActor("monkey.obj", STMesh::OBJ, resManager->getMaterial("default"));
+        _testActor2 = new STActor("sphere.obj", STMesh::OBJ, resManager->getMaterial("default"));
         _testActor2->setTranslateX(1);
         _testActor2->setShdrUniform("_Metallic", 1.0f);
         _testActor2->setShdrUniform("_Roughness",0.0f);
@@ -59,7 +59,7 @@ public:
         _testLight->setTranslateZ(1.2f);
         _testLight->setTranslateX(1.2f);
 
-        scene->addSkybox("mystic", "skybox");
+        scene->addSkybox("Yokohama", "skybox");
 
 
         scene->addLight(_testLight);
@@ -145,7 +145,7 @@ int main(int argc, char** argv){
 
 
     auto win = STGame::Init("Swing Tech 1", 1440, 720);
-    win->setOpenGLVersion(3,3);
+    win->setOpenGLVersion(4,0);
     win->setClearColor(0.0f, 0.0f, 1.0f, 1.0f);
     win->setTargetFPS(120);
     STGraphics::YUp = false;

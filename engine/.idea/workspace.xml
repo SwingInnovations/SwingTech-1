@@ -18,16 +18,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="5ee8588a-b915-4eb2-8583-18cd73e205f4" name="Default" comment="0.0.91">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Build/Debug/bunny.obj" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Build/Debug/monkey.obj" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Build/Debug/plane.obj" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Build/Debug/teapot.obj" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Build/Debug/standard_point_forward_Cook_Torrence.fsh" afterPath="" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Build/Debug/standard.vsh" afterPath="$PROJECT_DIR$/Build/Debug/standard.vsh" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/demo/demo_main.cpp" afterPath="$PROJECT_DIR$/demo/demo_main.cpp" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Graphics/GL/GLGraphics.cpp" afterPath="$PROJECT_DIR$/src/Graphics/GL/GLGraphics.cpp" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Graphics/GL/GLGraphics.h" afterPath="$PROJECT_DIR$/src/Graphics/GL/GLGraphics.h" />
     </list>
     <ignored path="Wahoo.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -62,8 +54,8 @@
           <file leaf-file-name="GLTexture.cpp" pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/src/Graphics/GL/GLTexture.cpp">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="268">
-                  <caret line="68" column="41" selection-start-line="68" selection-start-column="41" selection-end-line="68" selection-end-column="41" />
+                <state relative-caret-position="236">
+                  <caret line="159" column="3" selection-start-line="159" selection-start-column="3" selection-end-line="159" selection-end-column="3" />
                   <folding />
                 </state>
               </provider>
@@ -290,7 +282,6 @@
         <option value="$PROJECT_DIR$/src/Entity/Components/STScriptComponent.cpp" />
         <option value="$PROJECT_DIR$/src/Graphics/Interface/STLabel.h" />
         <option value="$PROJECT_DIR$/src/STSceneManager.cpp" />
-        <option value="$PROJECT_DIR$/src/Graphics/GL/GLTexture.cpp" />
         <option value="$PROJECT_DIR$/src/STGame.h" />
         <option value="$PROJECT_DIR$/src/STGame.cpp" />
         <option value="$PROJECT_DIR$/Build/Debug/lightSource.fsh" />
@@ -327,6 +318,7 @@
         <option value="$PROJECT_DIR$/src/Graphics/GL/GLGraphics.h" />
         <option value="$PROJECT_DIR$/src/Graphics/GL/GLGraphics.cpp" />
         <option value="$PROJECT_DIR$/demo/demo_main.cpp" />
+        <option value="$PROJECT_DIR$/src/Graphics/GL/GLTexture.cpp" />
       </list>
     </option>
   </component>
@@ -880,7 +872,7 @@
       <workItem from="1476082609482" duration="13596000" />
       <workItem from="1476019450371" duration="2627000" />
       <workItem from="1476022101198" duration="25013000" />
-      <workItem from="1476201383155" duration="326000" />
+      <workItem from="1476201383155" duration="1158000" />
     </task>
     <task id="LOCAL-00001" summary="0.0.91">
       <created>1456015877403</created>
@@ -893,7 +885,7 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="233694000" />
+    <option name="totallyTimeSpent" value="234526000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -910,12 +902,12 @@
     <layout>
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.13569938" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32962024" sideWeight="0.49675325" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.27596742" sideWeight="0.07985386" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.27596742" sideWeight="0.07985386" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="CMake" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.19037975" sideWeight="0.35849568" order="11" side_tool="false" content_ui="tabs" />
       <window_info id="LuaJ" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.21995927" sideWeight="0.6889353" order="8" side_tool="true" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.27596742" sideWeight="0.92014617" order="8" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3296146" sideWeight="0.496875" order="9" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.21995927" sideWeight="0.31106472" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.21995927" sideWeight="0.31106472" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
@@ -1417,18 +1409,18 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/Graphics/GL/GLTexture.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="268">
-          <caret line="68" column="41" selection-start-line="68" selection-start-column="41" selection-end-line="68" selection-end-column="41" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/demo/demo_main.cpp">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="340">
           <caret line="63" column="0" selection-start-line="63" selection-start-column="0" selection-end-line="63" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Graphics/GL/GLTexture.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="236">
+          <caret line="159" column="3" selection-start-line="159" selection-start-column="3" selection-end-line="159" selection-end-column="3" />
           <folding />
         </state>
       </provider>

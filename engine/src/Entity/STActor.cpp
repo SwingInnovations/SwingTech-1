@@ -15,28 +15,6 @@ STActor::STActor(const std::string &filePath, const int type, STMaterial *materi
     m_visible = true;
 }
 
-STActor::STActor(const std::string &filePath, const int type, std::string& tag, Vector2<stInt> bounds,
-                 STMaterial *material) {
-    m_transform = new Transform;
-    m_tag = tag;
-    m_type = Actor;
-    m_visible = true;
-    addComponent(typeid(STMeshComponent), new STMeshComponent(filePath, type, bounds));
-    addComponent(typeid(STGraphicsComponent), new STGraphicsComponent(material));
-    addComponent(typeid(STEventComponent), new STEventComponent);
-}
-
-STActor::STActor(const std::string &filePath, const int type, std::string &tag, Vector2<stInt> bounds,
-                 Vector3<stInt> maxSizes, STMaterial *material) {
-    m_transform = new Transform;
-    m_tag = tag;
-    m_type = Actor;
-    m_visible = true;
-    addComponent(typeid(STMeshComponent), new STMeshComponent(filePath, type, bounds, maxSizes));
-    addComponent(typeid(STGraphicsComponent), new STGraphicsComponent(material));
-    addComponent(typeid(STEventComponent), new STEventComponent);
-}
-
 STActor::STActor(STMesh_Structure structure, std::string &tag, STMaterial* material) {
     m_transform = new Transform;
     m_tag = tag;

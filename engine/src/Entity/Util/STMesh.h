@@ -28,8 +28,6 @@ public:
     OBJMesh(const std::string& filename);
     OBJMesh(const std::string& fileName, Vector2<stInt> lineBounds);
     OBJMesh(const std::string& fileName, Vector2<stInt> lineBounds, Vector3<stInt> maxSize);
-    static bool Validate(const std::string& fileName, std::vector<std::string> *tags, std::vector<Vector2<stInt>>* bounds);
-    static bool Validate(const std::string& fileName, std::vector<std::string> *tags, std::vector<Vector2<stInt>>* bounds, std::vector<Vector3<stInt>>* maxSizes);
     static bool Validate(const std::string& fileName, std::vector<std::string> *tags, std::vector<STMesh_Structure> *dataMesh);
     virtual ~OBJMesh();
 
@@ -69,9 +67,6 @@ public:
         TRIANGLES = 1,
         LINE_LOOP = 2,
     };
-
-    static bool Validate(const std::string& fileName, int* typeFlag, std::vector<std::string>* tags, std::vector<Vector2<stInt>>* bounds);
-    static bool Validate(const std::string& fileName, int* typeFlag, std::vector<std::string>* tags, std::vector<Vector2<stInt>>* bounds, std::vector<Vector3<stInt>>* maxSizes);
     static bool Validate(const std::string& fileName, int* typeFlag, std::vector<std::string>* tags, std::vector<STMesh_Structure>* meshes);
 
     STMesh(){}

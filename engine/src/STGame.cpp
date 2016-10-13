@@ -19,6 +19,7 @@ STGame::STGame() {
 }
 
 STGame::~STGame() {
+
     m_currentIndex = 0;
     if(!m_gameStates.empty()){
         m_gameStates.clear();
@@ -142,6 +143,8 @@ void STGame::start(){
 
         render();
     }
+    m_gameStates.clear();
+    if(STGame::m_instance != nullptr) delete STGame::m_instance;
 }
 
 void STGame::init() {

@@ -77,8 +77,11 @@ public:
     inline ViewProfile* viewProf(){ return &m_viewProf; }
     inline Transform* transform(){ return &m_transform; }
 
+    inline void setSpeed(stReal speed){this->m_Speed = speed;}
+
     inline stReal getHAngle(){ return hAngle; }
     inline stReal getVAngle(){ return vAngle; }
+    inline stReal getSpeed()const{ return m_Speed; }
 
     /*!
      *
@@ -98,6 +101,8 @@ private:
 
     stReal hAngle;
     stReal vAngle;
+
+    stReal m_Speed;
 
     float m_Width, m_Height;
     ViewProfile m_viewProf;

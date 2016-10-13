@@ -44,12 +44,13 @@ public:
 //                count++;
 //            }
 //         }
+        STGame::Get()->getCamera()->setSpeed(0.005f);
 
-
-        _testActor2 = new STActor("sphere.obj", STMesh::OBJ, resManager->getMaterial("default"));
+        _testActor2 = new STActor("figure.obj", STMesh::OBJ, resManager->getMaterial("default"));
         _testActor2->setTranslateX(1);
         _testActor2->setShdrUniform("_Metallic", 1.0f);
-        _testActor2->setShdrUniform("_Roughness",0.0f);
+        _testActor2->setShdrUniform("_Roughness",0.15f);
+        _testActor2->setScale(0.3);
 
          roughnessTex = new GLTexture("roughness.png");
 
@@ -59,7 +60,7 @@ public:
         _testLight->setTranslateZ(1.2f);
         _testLight->setTranslateX(1.2f);
 
-        scene->addSkybox("Yokohama", "skybox");
+        scene->addSkybox("Lycksele", "skybox");
 
 
         scene->addLight(_testLight);

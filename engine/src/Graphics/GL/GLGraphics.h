@@ -99,6 +99,7 @@ private:
     STMaterial* m_pointLightMat;
     STMaterial* m_spotLightMat;
     STMaterial* m_albedoMat;
+    STMaterial* m_IBLMat;
 
 };
 

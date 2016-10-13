@@ -10,7 +10,7 @@ uniform vec3 _LightColor;
 uniform samplerCube _WorldCubeMap;
 uniform vec3 _GlobalAmbient;
 uniform vec3 _CameraPos;
-uniform vec3 _LightDirection;
+
  uniform float _Metallic;
  uniform float _Roughness;
  uniform sampler2D _RoughnessTex;
@@ -219,7 +219,7 @@ vec3 BlendMaterial(vec3 Spec, vec3 Diff, vec3 Base,float fresnel){
 
 	
 	
-	vec3 dialectric = Diff+Spec*.6;
+	vec3 dialectric = Diff+fresnel*Spec*.6;
 	vec3 metal = Spec;
 
 	return mix(dialectric,metal,_Metallic);
@@ -230,22 +230,19 @@ vec3 BlendMaterial(vec3 Spec, vec3 Diff, vec3 Base,float fresnel){
 
 void main(void){
 
-	vec3 L = normalize( _LightDirection  );
 	vec3 V = normalize(  _CameraPos - Position );
-	vec3 H = normalize(L + V);
-
-	float NdotL = 	 clamp(dot( Normal , L ),0.0,1.0);
+	
 
 	vec3 baseColor= vec3(1);
     float roughness = clamp(_Roughness,.01, 1.0);
-	// _Metallic = texture(_RoughnessTex,TexCoord).r;
+	
 	
  	vec3 Norm = Normal;
  	Norm.y*=-1;
 	vec3 Spec_Cook_Torrance =Spec_IBL(roughness,Norm,V,baseColor);
 
 	///*Ommiting ambient Lighting for now*/vec3 diffuse =mix(baseColor*NdotL*_LightColor,((1- NdotL*_LightColor)*PreFilterEnvMap(1,2* dot(V,Normal)*Normal-V,10)),.4);
-	vec3 diffuse =baseColor*NdotL*_LightColor;
+	vec3 diffuse =baseColor/PI;
 	//vec3 diffuse =mix(baseColor*NdotL*_LightColor,((1- NdotL*_LightColor)*PreFilterEnvMap(1,2* dot(V,Normal)*Norm-V,100)),.4);
     float fresnel = 1-pow( dot(Normal, V), 3.0);
 //

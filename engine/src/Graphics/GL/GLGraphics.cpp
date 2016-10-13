@@ -70,6 +70,7 @@ GLGraphics::GLGraphics(STGame *game) {
     m_directionalLightMat = new STMaterial(new GLShader("standard","standard_directional_forward_Cook_Torrence"));
     m_pointLightMat = new STMaterial(new GLShader("standard","standard_point_forward"));
     m_albedoMat = new STMaterial(new GLShader("standard","standard_abledo_forward"));
+    m_IBLMat = new STMaterial (new GLShader ("standard", "standard_IBL"));
 
     glGenVertexArrays(1, &textVAO);
     glGenBuffers(1, &textVBO);
@@ -172,32 +173,40 @@ void GLGraphics::drawScene(STScene *scene) {
   //  glEnable(GL_BLEND);
     //glBlendFunc(GL_ONE, GL_ONE);
 
-    for(int i =0; i < actors.size(); i++){
-        for(int j =0; j < lights.size(); j++) {
-            actors[i]->setShdrUniform("_GlobalAmbient",GlobalAmbient);
-            actors[i]-> setShdrUniform_CubeMap("_WorldCubeMap",scenes[scene->getIndex()].m_skybox);
-            actors[i]->setShdrUniform("_CameraPos", camera()->transform()->getTranslate<stReal>());
-            actors[i]->setShdrUniform("_LightColor", lights[j]->color);
-            actors[i]->setShdrUniform("_LightAttenuation", lights[j]->attenuation);
-            actors[i]->setShdrUniform("_LightPosition", lights[j]->transform()->getTranslate<stReal>());
-
-            switch(lights[j]->type) {
-                case DirectionalLight: {
-                    actors[i]->setShdrUniform("_LightDirection", lights[j]->direction);
-                    actors[i]->draw(m_directionalLightMat);
-                    break;
-                }
-                case PointLight: {
-                    actors[i]->setShdrUniform("_LightRadius", lights[j]->radius);
-                    actors[i]->draw(m_pointLightMat);
-                    break;
-                }
-                case SpotLight: {
-                    break;
-                }
-            }
-        }
+    //IBL Pass
+    for(int i =0; i < actors.size(); i++) {
+        actors[i]->setShdrUniform("_GlobalAmbient", GlobalAmbient);
+        actors[i]->setShdrUniform_CubeMap("_WorldCubeMap", scenes[scene->getIndex()].m_skybox);
+        actors[i]->setShdrUniform("_CameraPos", camera()->transform()->getTranslate<stReal>());
+        actors[i]->draw(m_IBLMat);
     }
+
+
+
+//    for(int i =0; i < actors.size(); i++){
+//        for(int j =0; j < lights.size(); j++) {
+//
+//            actors[i]->setShdrUniform("_LightColor", lights[j]->color);
+//            actors[i]->setShdrUniform("_LightAttenuation", lights[j]->attenuation);
+//            actors[i]->setShdrUniform("_LightPosition", lights[j]->transform()->getTranslate<stReal>());
+//
+//            switch(lights[j]->type) {
+//                case DirectionalLight: {
+//                    actors[i]->setShdrUniform("_LightDirection", lights[j]->direction);
+//                    actors[i]->draw(m_directionalLightMat);
+//                    break;
+//                }
+//                case PointLight: {
+//                    actors[i]->setShdrUniform("_LightRadius", lights[j]->radius);
+//                    actors[i]->draw(m_pointLightMat);
+//                    break;
+//                }
+//                case SpotLight: {
+//                    break;
+//                }
+//            }
+//        }
+//    }
 
 
     glDisable(GL_BLEND);

@@ -11,24 +11,19 @@
 #include "Components/STMeshComponent.h"
 #include "Components/STEventComponent.h"
 
-struct Light{
-    Vector4<stReal> position;
-    Vector3<stReal> intensity;
-    float attenuation;
-    float ambientCoefficient;
-    float coneAngle;
-    Vector3<stReal> coneDirection;
-};
-enum STLIGHT_TYPE: char
-{
 
-    DirectionalLight,
-    PointLight,
-    SpotLight
-};
+
 
 class STLight :public STEntity{
 public:
+
+    enum STLIGHT_TYPE: char
+    {
+
+        DirectionalLight,
+        PointLight,
+        SpotLight
+    };
 
     STLight(Vector3<stReal> direction , Vector3<stReal> color){
         this->direction = direction;

@@ -192,15 +192,15 @@ void GLGraphics::drawScene(STScene *scene) {
             actors[i]->setShdrUniform("Light.Radius", lights[j]->radius);
 
             switch(lights[j]->type) {
-                case DirectionalLight: {
+                case STLight::DirectionalLight: {
                     actors[i]->draw(m_directionalLightMat);
                     break;
                 }
-                case PointLight: {
+                case STLight::PointLight: {
                     actors[i]->draw(m_pointLightMat);
                     break;
                 }
-                case SpotLight: {
+                case STLight::SpotLight: {
                     break;
                 }
             }

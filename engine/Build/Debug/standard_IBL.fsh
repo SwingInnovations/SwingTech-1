@@ -13,8 +13,6 @@ uniform vec3 _CameraPos;
 
 out vec4 color;
 
-
-
 const float PI = 3.14159265359;
 
 float Schlick_Geometry_Hack_Partial( float NdotV, float r){

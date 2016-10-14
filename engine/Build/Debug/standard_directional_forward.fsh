@@ -15,6 +15,14 @@ struct STLight
 
 uniform STLight Light;
 
+struct STMaterial
+{
+	vec3 BaseColor;
+	sampler Diffuse_Tex;
+	sampler Normal_Tex;
+};
+
+uniform STMaterial Material;
 uniform vec3 _CameraPos;
 
 uniform float _Metallic;

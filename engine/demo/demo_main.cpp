@@ -35,38 +35,44 @@ public:
 //        for (int i = 0; i< 5; i++) {
 //            for(int j = 0; j< 5; j++) {
 //
-//                _testActors.push_back(new STActor("monkey.obj", STMesh::OBJ, resManager->getMaterial("default")));
-//                _testActors.at(count)->setTranslateY(i * 2 - 5.0f);
-//                _testActors.at(count)->setTranslateX(j * 2 - 5.0f );
-//                _testActors.at(count)->setShdrUniform("_Metallic", ((float)i)/4);
-//                _testActors.at(count)->setShdrUniform("_Roughness", ((float)j)/4);
+//                _testActors.push_back(new STActor("teapot.obj", STMesh::OBJ, resManager->getMaterial("default")));
+//                _testActors.at(count)->setTranslateY(i *3 - 5.0f);
+//                _testActors.at(count)->setTranslateX(j * 3 - 5.0f );
+//                _testActors.at(count)->setShdrUniform("_Metallic", ((float)i)/4.0f);
+//                _testActors.at(count)->setShdrUniform("_Roughness", ((float)j)/4.0f);
+//                _testActors.at(count)->setScale(1);
 //                scene->addActor(_testActors.at(count));
 //                count++;
 //            }
 //         }
         STGame::Get()->getCamera()->setSpeed(0.005f);
 
-        _testActor2 = new STActor("figure.obj", STMesh::OBJ, resManager->getMaterial("default"));
-        _testActor2->setTranslateX(1);
+        _testActor2 = new STActor("monkey.obj", STMesh::OBJ, resManager->getMaterial("default"));
+        //_testActor2->setTranslateX(1);
         _testActor2->setShdrUniform("_Metallic", 1.0f);
-        _testActor2->setShdrUniform("_Roughness",0.15f);
-        _testActor2->setScale(0.3);
+        _testActor2->setShdrUniform("_Roughness",0.5f);
+        _testActor2->setScale(1);
 
          roughnessTex = new GLTexture("roughness.png");
 
-        _testActor2->setShdrUniform_Texture("_RoughnessTex",roughnessTex->genTex("roughness.png"));
+        //_testActor2->setShdrUniform_Texture("_RoughnessTex",roughnessTex->genTex("roughness.png"));
         //_testActor2->setTranslateY(-4);
-        _testLight = new STLight(Vector3<stReal>(1,.3,1 ),Vector3<stReal>(1.0f,1.0,1.0f));
-        _testLight->setTranslateZ(1.2f);
-        _testLight->setTranslateX(1.2f);
+        _testLight = new STLight(1,Vector3<stReal>(1,1,1));
 
-        scene->addSkybox("Lycksele", "skybox");
+        _testLight->setTranslateZ(2);
+
+        _testLight2 = new STLight(Vector3<stReal>(-1,-1,-1),Vector3<stReal>(1,1,1));
+      //e  _testLight->attenuation =1;
+       // _testLight->setTranslateZ(1.2f);
+       // _testLight->setTranslateX(1.2f);
+
+        scene->addSkybox("Yokohama", "skybox");
 
 
         scene->addLight(_testLight);
 
         scene->addActor(_testActor2);
-
+        scene->addLight(_testLight2);
                 STGraphics::ClearColor = Vector4<stReal>(0.0, 0.0, 0.168, 1.0);
     }
 
@@ -101,7 +107,7 @@ public:
 //            }
 //        }
         counter += 0.025f * delta;
-       // _testLight->setTranslateY(3.0f*std::sin(counter*.05f));
+        _testLight->setTranslateY(3.0f*std::sin(counter*.1f));
       //  _testLight2->setTranslateY(3.0f*std::sin(counter*.02f+3));
     }
 

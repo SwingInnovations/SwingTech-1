@@ -67,7 +67,7 @@ GLGraphics::GLGraphics(STGame *game) {
     orthoProjection.initOrthographicProjection(0, WIDTH, HEIGHT, 0, 0, 1000.0f);
 
     //Setup Albedo and lit materials for forward rendering
-    m_directionalLightMat = new STMaterial(new GLShader("standard","standard_directional_forward_Cook_Torrence"));
+    m_directionalLightMat = new STMaterial(new GLShader("standard","standard_directional_forward"));
     m_pointLightMat = new STMaterial(new GLShader("standard","standard_point_forward"));
     m_albedoMat = new STMaterial(new GLShader("standard","standard_abledo_forward"));
     m_IBLMat = new STMaterial (new GLShader ("standard", "standard_IBL"));
@@ -103,13 +103,13 @@ void GLGraphics::drawScene(STScene *scene) {
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 
-        glBindTexture(GL_TEXTURE_2D, velocityTexBuffer);
-        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB32F, w, h, 0, GL_RGB, GL_FLOAT, NULL);
-        glGenerateMipmap(GL_TEXTURE_2D);
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+//        glBindTexture(GL_TEXTURE_2D, velocityTexBuffer);
+//        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB32F, w, h, 0, GL_RGB, GL_FLOAT, NULL);
+//        glGenerateMipmap(GL_TEXTURE_2D);
+//        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+//        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+//        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
+//        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 
         glBindFramebuffer(GL_FRAMEBUFFER, frameBuffer);
         glFramebufferParameteri(GL_FRAMEBUFFER, GL_FRAMEBUFFER_DEFAULT_WIDTH, w);
@@ -136,7 +136,7 @@ void GLGraphics::drawScene(STScene *scene) {
 
     // Bind the frame buffer
     glBindFramebuffer(GL_FRAMEBUFFER, frameBuffer);
-    glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, velocityTexBuffer, 0);
+    //glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, velocityTexBuffer, 0);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     glEnable(GL_DEPTH_TEST);
     auto clearColor = STGraphics::ClearColor;
@@ -162,16 +162,9 @@ void GLGraphics::drawScene(STScene *scene) {
     scenes[scene->getIndex()].drawSkybox(*camera());
 
 
-    //Forward Pass
-
-   // glDepthFunc(GL_EQUAL);
-
-  //  glDepthMask(GL_FALSE);
 
 
 
-  //  glEnable(GL_BLEND);
-    //glBlendFunc(GL_ONE, GL_ONE);
 
     //IBL Pass
     for(int i =0; i < actors.size(); i++) {
@@ -182,31 +175,37 @@ void GLGraphics::drawScene(STScene *scene) {
     }
 
 
+     glDepthFunc(GL_EQUAL);
 
-//    for(int i =0; i < actors.size(); i++){
-//        for(int j =0; j < lights.size(); j++) {
-//
-//            actors[i]->setShdrUniform("_LightColor", lights[j]->color);
-//            actors[i]->setShdrUniform("_LightAttenuation", lights[j]->attenuation);
-//            actors[i]->setShdrUniform("_LightPosition", lights[j]->transform()->getTranslate<stReal>());
-//
-//            switch(lights[j]->type) {
-//                case DirectionalLight: {
-//                    actors[i]->setShdrUniform("_LightDirection", lights[j]->direction);
-//                    actors[i]->draw(m_directionalLightMat);
-//                    break;
-//                }
-//                case PointLight: {
-//                    actors[i]->setShdrUniform("_LightRadius", lights[j]->radius);
-//                    actors[i]->draw(m_pointLightMat);
-//                    break;
-//                }
-//                case SpotLight: {
-//                    break;
-//                }
-//            }
-//        }
-//    }
+      glDepthMask(GL_FALSE);
+      glEnable(GL_BLEND);
+    glBlendFunc(GL_ONE, GL_ONE);
+
+    //Forward Pass
+    for(int i =0; i < actors.size(); i++){
+        for(int j =0; j < lights.size(); j++) {
+
+            actors[i]->setShdrUniform("_LightColor", lights[j]->color);
+            actors[i]->setShdrUniform("_LightAttenuation", lights[j]->attenuation);
+            actors[i]->setShdrUniform("_LightPosition", lights[j]->transform()->getTranslate<stReal>());
+
+            switch(lights[j]->type) {
+                case DirectionalLight: {
+                    actors[i]->setShdrUniform("_LightDirection", lights[j]->direction);
+                    actors[i]->draw(m_directionalLightMat);
+                    break;
+                }
+                case PointLight: {
+                    actors[i]->setShdrUniform("_LightRadius", lights[j]->radius);
+                    actors[i]->draw(m_pointLightMat);
+                    break;
+                }
+                case SpotLight: {
+                    break;
+                }
+            }
+        }
+    }
 
 
     glDisable(GL_BLEND);

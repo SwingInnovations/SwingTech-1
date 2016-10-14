@@ -4,16 +4,13 @@ in vec3 Position;
 in vec3 Normal;
 in vec2 TexCoord;
 
-
-uniform float _LightAttenuation;
-uniform vec3 _LightColor;
 uniform samplerCube _WorldCubeMap;
 uniform vec3 _GlobalAmbient;
 uniform vec3 _CameraPos;
 
  uniform float _Metallic;
  uniform float _Roughness;
- uniform sampler2D _RoughnessTex;
+
 out vec4 color;
 
 
@@ -131,7 +128,7 @@ vec3 PreFilterEnvMap( float roughness, vec3 R, int SampleCount){
 	
 		if ( NdotL >= 0 ){
 
-			fliteredColor += texture(_WorldCubeMap, L, roughness*7).xyz*NdotL;
+			fliteredColor += texture(_WorldCubeMap, L, roughness*4).xyz*NdotL;
 			w+=NdotL;
 
 		}
@@ -143,7 +140,7 @@ vec3 PreFilterEnvMap( float roughness, vec3 R, int SampleCount){
 
 vec3 PreFilterEnvMap( float roughness, vec3 R){
 
-	return PreFilterEnvMap( roughness, R, 50);
+	return PreFilterEnvMap( roughness, R, int(clamp(70.0*(roughness),40,70)));
 }
 
 
@@ -179,7 +176,7 @@ vec2 IntegrateBRDF( float R, float NdotV){
 			
 			float G_Vis =G_Smith( NdotL, NdotV, R )* VdotH / (NdotH * NdotV);
 
-			float Fc = pow( 1 - VdotH, 5 );
+			float Fc = pow( 1 - dot( Normal , V ), 5 );
  			
 
 			A+=(1 - Fc) * G_Vis;
@@ -233,7 +230,7 @@ void main(void){
 	vec3 V = normalize(  _CameraPos - Position );
 	
 
-	vec3 baseColor= vec3(1);
+	vec3 baseColor= vec3(.7);
     float roughness = clamp(_Roughness,.01, 1.0);
 	
 	
@@ -244,7 +241,7 @@ void main(void){
 	///*Ommiting ambient Lighting for now*/vec3 diffuse =mix(baseColor*NdotL*_LightColor,((1- NdotL*_LightColor)*PreFilterEnvMap(1,2* dot(V,Normal)*Normal-V,10)),.4);
 	vec3 diffuse =baseColor/PI;
 	//vec3 diffuse =mix(baseColor*NdotL*_LightColor,((1- NdotL*_LightColor)*PreFilterEnvMap(1,2* dot(V,Normal)*Norm-V,100)),.4);
-    float fresnel = 1-pow( dot(Normal, V), 3.0);
+    float fresnel = pow(1- dot(( -Normal),V),2.5);
 //
     color =	vec4(BlendMaterial(Spec_Cook_Torrance,diffuse,baseColor,fresnel),1);
 }

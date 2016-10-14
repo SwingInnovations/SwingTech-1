@@ -53,7 +53,7 @@ float Ggx_Dist_old(float NdotH, float r){
 
 vec3 BlendMaterial(vec3 Spec, vec3 Diff, vec3 Base){
 
-	vec3 dialectric = Diff + Base*Spec*.6;
+	vec3 dialectric = Base*Diff + Base*	Spec*.6;
 	vec3 metal = Base*Spec;
 
 	return mix(dialectric,metal,_Metallic);
@@ -73,7 +73,7 @@ void main(void){
 	float dist = length (Light.Position - Position) ;
 	float r = max(_Roughness,.1);
 	float I = dot(-Normal,H) * (Light.Radius/(Light.Intensity+Light.Intensity*dist+Light.Intensity*dist*dist)) ;
-	vec3 spec =vec3(Ggx_Dist_old(I,r));
+	vec3 spec =vec3(Ggx_Dist_old(dot(-Normal,H),r));
 	vec3 diff = vec3(Ggx_Dist_old(I,1));
 	color = vec4(BlendMaterial(spec,diff,Light.Color),1);
 

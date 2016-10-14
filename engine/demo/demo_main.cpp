@@ -50,7 +50,7 @@ public:
         _testActor2 = new STActor("monkey.obj", STMesh::OBJ, resManager->getMaterial("default"));
         //_testActor2->setTranslateX(1);
         _testActor2->setShdrUniform("_Metallic", 0.0f);
-        _testActor2->setShdrUniform("_Roughness",0.8f);
+        _testActor2->setShdrUniform("_Roughness",0.0f);
         _testActor2->setScale(1);
 
          roughnessTex = new GLTexture("roughness.png");
@@ -63,14 +63,14 @@ public:
 
 
         _testLight2 = new STLight(Vector3<stReal>(-1,-1,-1),Vector3<stReal>(1,0,1));
-        //_testLight->intensity =1;
+        _testLight2->intensity =3;
        // _testLight->setTranslateZ(1.2f);
        // _testLight->setTranslateX(1.2f);
 
         scene->addSkybox("lycksele", "skybox");
 
 
-        scene->addLight(_testLight);
+       // scene->addLight(_testLight);
 
         scene->addActor(_testActor2);
         scene->addLight(_testLight2);

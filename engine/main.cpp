@@ -8,6 +8,7 @@
 #include "src/Entity/STActor.h"
 #include "src/Graphics/Interface/STLabel.h"
 #include "src/Graphics/Interface/STButton.h"
+#include "src/Graphics/Interface/STPanel.h"
 
 
 using namespace std;
@@ -29,7 +30,7 @@ public:
         auto resManager = window->getResourceManager();
         resManager->addMaterial("lit", new STMaterial(new GLShader("lightSource")));
 
-        _testActor = new STActor("sphere.obj", STMesh::OBJ, resManager->getMaterial("lit"));
+        _testActor = new STActor("scene.obj", resManager->getMaterial("lit"));
         _testActor->addShdrUniform("objColor", Vector3<stReal>(1.0, 0.5, 0.31f));
         _testActor->get<STEventComponent>()->inputEvent([](STEntity* self){
             auto input = Input::Get();
@@ -43,7 +44,7 @@ public:
         lbl->setFontColor(STColor(GREEN));
 
         btn = new STButton("Quit");
-        btn->setFontColor(STColor(MAGENTA));
+        btn->setFontColor(STColor(GREEN));
         int btnWidth = (int)btn->get<STRectBoundsComponent>()->bounds()->getWidth();
         btn->setPosition(Vector2<stReal>(STGame::RES_WIDTH - btnWidth, 32));
         btn->inputEvent([](STEntity* self){
@@ -53,8 +54,10 @@ public:
             }
         });
 
+        panel = new STPanel(0, 0, 512, 256);
+
         scene->addSkybox("green", "skybox");
-        scene->addActor(_testActor);
+        //scene->addActor(_testActor);
         STGraphics::ClearColor = Vector4<stReal>(0.0, 0.0, 0.168, 1.0);
     }
 
@@ -92,6 +95,7 @@ public:
         win->getGraphics()->drawScene(STSceneManager::Get()->getScene((stUint)getID()));
         lbl->draw(grphx);
         btn->draw(grphx);
+        panel->draw(grphx);
     }
 
     ~TestState(){
@@ -107,6 +111,7 @@ private:
     STButton* btn;
     STActor* _testActor;
     STLabel* lbl;
+    STPanel* panel;
     Vector3<stReal> lightPos;
     int width = 0, height = 0;
 };

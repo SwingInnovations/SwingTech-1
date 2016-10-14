@@ -25,3 +25,15 @@ void STMaterial::draw(std::vector<STShader::ShaderAttrib> &entityUniforms,Transf
         }
     }
 }
+
+void STMaterial::draw(std::vector<STShader::ShaderAttrib>& entityUniforms) {
+    shader->bind();
+    shader->updateUniforms(entityUniforms);
+    if(texture->getTextureCount() > 31){
+        texture->bind(0);
+    }else{
+        for(stUint i = 0, S = texture->getTextureCount(); i < S; i++){
+            texture->bind(i);
+        }
+    }
+}

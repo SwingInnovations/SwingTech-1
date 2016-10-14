@@ -344,6 +344,14 @@ public:
         m_Val[3] = _w;
     }
 
+    template<typename U>
+    Vector4(Vector3<U> vec, T _W){
+        m_Val[0] = (T)vec.getX();
+        m_Val[1] = (T)vec.getY();
+        m_Val[2] = (T)vec.getZ();
+        m_Val[3] = _W;
+    }
+
     inline void setX(T _x){ m_Val[0] = _x; }
     inline void setY(T _y){ m_Val[1] = _y; }
     inline void setZ(T _z){ m_Val[2] = _z; }

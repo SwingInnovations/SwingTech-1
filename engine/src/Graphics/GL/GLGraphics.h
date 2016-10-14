@@ -68,6 +68,10 @@ public:
     void drawText(Vector2<stReal> pos, const std::string& text, stReal fontSize, Vector2<stReal> vector);
     void drawText(Vector2<stReal> pos, const std::string& text, stReal fontSize, stReal v1, stReal v2, stReal v3);
     void drawText(Vector2<stReal> pos, const std::string& text, stReal fontSize, Vector3<stReal> vector);
+    Matrix4f getOrthographicProjection()const {
+        return orthoProjection;
+    }
+
     virtual void drawScene(STScene* scene);
     virtual void initScene(stUint index);
     static Vector3<stReal> TextColor;

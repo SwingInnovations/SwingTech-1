@@ -56,14 +56,7 @@ public:
 
     void update();
     inline void draw(){
-        //TODO Include shader handling and other stuff.
-        if(!useMaterial){
-            m_shdr->bind();
-            m_shdr->updateUniforms(m_uniforms);
-            if(useTexture) m_tex->bind(0);
-        }else{
-            m_material->update(m_uniforms);
-        }
+        m_material->draw(m_uniforms);
     }
 
     std::vector<STShader::ShaderAttrib> &getUniforms();

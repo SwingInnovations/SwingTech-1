@@ -97,6 +97,8 @@ public:
         }
     }
 
+    void draw(std::vector<STShader::ShaderAttrib>& entityUniforms);
+
     void draw(std::vector<STShader::ShaderAttrib>& entityUniforms, Transform& T, Camera& C);
 private:
     Texture* texture;

@@ -6,6 +6,6 @@ uniform mat4 projection;
 out vec2 TexCoord;
 
 void main(void){
-    gl_Position = projection * vec4(position, 1.0);
+    gl_Position = transpose(projection) * vec4(position, 1.0);
     TexCoord = texCoord;
 }

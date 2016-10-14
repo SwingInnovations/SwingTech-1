@@ -28,9 +28,11 @@ public:
 
         auto resManager = window->getResourceManager();
         resManager->addMaterial("lit", new STMaterial(new GLShader("lightSource")));
+        resManager->addMaterial("Default", new STMaterial(new GLShader("sample"), new GLTexture("grid.png")));
 
-        _testActor = new STActor("sphere.obj", STMesh::OBJ, resManager->getMaterial("lit"));
+        _testActor = new STActor("sphere.obj", STMesh::OBJ, resManager->getMaterial("Default"));
         _testActor->addShdrUniform("objColor", Vector3<stReal>(1.0, 0.5, 0.31f));
+        _testActor->transform()->setRotationMode(Transform::Local);
         _testActor->get<STEventComponent>()->inputEvent([](STEntity* self){
             auto input = Input::Get();
             if(input->isKeyPressed(KEY::KEY_SPACE)){
@@ -84,6 +86,7 @@ public:
         lbl->update(win);
         btn->update(win);
         _testActor->update();
+        _testActor->setRotateX(counter);
         counter += 0.025f * delta;
     }
 

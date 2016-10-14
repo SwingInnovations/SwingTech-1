@@ -88,6 +88,8 @@ public:
         btn->update(win);
         _testActor->update();
         _testActor->setRotateX(counter);
+        _testActor->setRotateY(counter);
+        _testActor->setRotateZ(counter);
         counter += 0.025f * delta;
     }
 

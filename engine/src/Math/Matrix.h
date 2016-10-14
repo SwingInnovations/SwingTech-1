@@ -78,27 +78,16 @@ public:
         ret = z * y * x;
         *this = ret;
     }
-    inline bool normalizeQuaternion(){
-        Quaternion q;
-        stReal x2 = q.getX() * q.getX();
-        stReal y2 = q.getY() * q.getY();
-        stReal z2 = q.getZ() * q.getZ();
-        stReal w2 = q.getW() * q.getW();
-        return (sqrt(w2 + x2 + y2 + z2) == 1);
-    }
+
     inline void initRotation(const Vector3<stReal>& vec, const stReal angle){
         stReal a = toRadian(angle);
+
         Quaternion q;
-        normalizeQuaternion();
         q.setX(vec.getX() * sinf(a / 2.0f));
         q.setY(vec.getY() * sinf(a / 2.0f));
         q.setZ(vec.getZ() * sinf(a / 2.0f));
         q.setW(cosf(a / 2.0f));
-        normalizeQuaternion();
-
-//        Quaternion conj = q.conjugate();
-//        q = q.multiply(conj);
-
+        
         stReal x2 = q.getX() * q.getX();
         stReal y2 = q.getY() * q.getY();
         stReal z2 = q.getZ() * q.getZ();
@@ -114,7 +103,7 @@ public:
         stReal wx = q.getW() * q.getX();
 
         Matrix4f ret;
-        ret.m[0][0] = 1.0f - (2 * y2) - (2 * z2);      ret.m[0][1] = (2.0f * xy) - (2.0f * wz);        ret.m[0][2] = (2.0f * xz) + ( 2.0f * wy);     ret.m[0][3] = 0.0f;
+        ret.m[0][0] = 1.0f - (2 * y2) - (2 * z2);   ret.m[0][1] = (2.0f * xy) - (2.0f * wz);        ret.m[0][2] = (2.0f * xz) + ( 2.0f * wy);  ret.m[0][3] = 0.0f;
         ret.m[1][0] = (2.0f * xy) + (2.0f * wz);    ret.m[1][1] = 1.0f - (2.0f * x2) - (2.0f * z2); ret.m[1][2] = (2.0f * yz) + (2.0f * wx);   ret.m[1][3] = 0.0f;
         ret.m[2][0] = (2.0f * xz) - (2.0f * wy);    ret.m[2][1] = (2.0f * yz) - (2.0f * xw);        ret.m[2][2] = 1.0f - (2 * x2) - (2 * y2);  ret.m[2][3] = 0.0f;
         ret.m[3][0] = 0.0f;                         ret.m[3][1] = 0.0f;                             ret.m[3][2] = 0.0f;                        ret.m[3][3] = 1.0f;

@@ -185,18 +185,18 @@ void GLGraphics::drawScene(STScene *scene) {
     for(int i =0; i < actors.size(); i++){
         for(int j =0; j < lights.size(); j++) {
 
-            actors[i]->setShdrUniform("_LightColor", lights[j]->color);
-            actors[i]->setShdrUniform("_LightAttenuation", lights[j]->attenuation);
-            actors[i]->setShdrUniform("_LightPosition", lights[j]->transform()->getTranslate<stReal>());
+            actors[i]->setShdrUniform("Light.Color", lights[j]->color);
+            actors[i]->setShdrUniform("Light.Intensity", lights[j]->intensity);
+            actors[i]->setShdrUniform("Light.Position", lights[j]->transform()->getTranslate<stReal>());
+            actors[i]->setShdrUniform("Light.Direction", lights[j]->direction);
+            actors[i]->setShdrUniform("Light.Radius", lights[j]->radius);
 
             switch(lights[j]->type) {
                 case DirectionalLight: {
-                    actors[i]->setShdrUniform("_LightDirection", lights[j]->direction);
                     actors[i]->draw(m_directionalLightMat);
                     break;
                 }
                 case PointLight: {
-                    actors[i]->setShdrUniform("_LightRadius", lights[j]->radius);
                     actors[i]->draw(m_pointLightMat);
                     break;
                 }

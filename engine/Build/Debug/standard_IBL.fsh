@@ -14,49 +14,8 @@ uniform vec3 _CameraPos;
 out vec4 color;
 
 
-float PI = 3.14159265359;
-float E = 2.7182818284590452353602874713527;
 
-/*float GGX_Clamp(float x){
-
-	return x > 0 ? 1 : 0;
-}
-
-float Beckman_Dist(vec3 normal, vec3 H, float m){
-
-	float expo = (pow(dot(normal,H),2)-1)/m*m*pow(dot(normal,H),2);
-	return pow(E,expo)/PI*m*m*pow(dot(normal,H),4);
-}*/
-
-/*float Ggx_Dist_old(vec3 normal, vec3 H, float r){
-	float alpha = r*r;
-
-	float alpha2= alpha*alpha;
-	float ndoth = dot(normal,H);
-	float ndoth2= ndoth*ndoth;
-	float denom = ndoth2*alpha2+(1-ndoth2);
-	return ((ndoth) *alpha2)/(PI*denom*denom);
-}
-
-
-
-float D_Ggx(vec3 normal, vec3 H, float r){
-	float alpha = r*r;
-
-	float alpha2= alpha*alpha;
-
-	float denom = (dot(normal,H)*dot(normal,H) * (alpha2-1)) + 1;
-	return alpha2/(PI*denom*denom);
-}
-
-
-float F_Shlick( vec3 H, vec3 V, float ior){
-
-	float f0 = pow(((1-ior)/(1+ior)),2);
-
-	return f0 + (1-f0) * pow(2, (-5.55473*dot(V,H)-6.98316)*dot(V,H));
-}
-*/
+const float PI = 3.14159265359;
 
 float Schlick_Geometry_Hack_Partial( float NdotV, float r){
 

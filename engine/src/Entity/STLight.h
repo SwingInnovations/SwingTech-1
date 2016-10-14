@@ -30,10 +30,10 @@ enum STLIGHT_TYPE: char
 class STLight :public STEntity{
 public:
 
-    STLight(Vector3<stReal> in_direction , Vector3<stReal> in_color){
-        direction=in_direction;
-        color = in_color;
-        attenuation=.5f;
+    STLight(Vector3<stReal> direction , Vector3<stReal> color){
+        this->direction = direction;
+        this->color = color;
+        intensity =.5f;
         m_transform = new Transform();
         //m_material = new STMaterial(new GLShader("standard"));
         //addComponent(typeid(STEventComponent),new STEventComponent());
@@ -46,7 +46,7 @@ public:
     STLight(stReal radius , Vector3<stReal> color){
         this->radius = radius;
         this->color = color;
-        attenuation=.5f;
+        intensity=.5f;
         m_transform = new Transform();
         //m_material = new STMaterial(new GLShader("standard"));
         //addComponent(typeid(STEventComponent),new STEventComponent());
@@ -59,7 +59,7 @@ public:
     STLight(stReal coneAngle , stReal coneHeight){
         this->coneAngle= coneAngle;
         this->coneHeight = coneHeight;
-        attenuation=.5f;
+        intensity=.5f;
         m_transform = new Transform();
         //m_material = new STMaterial(new GLShader("standard"));
         //addComponent(typeid(STEventComponent),new STEventComponent());
@@ -78,7 +78,7 @@ public:
     //Shared Attributes
     Vector4<stReal> position;
     Vector3<stReal> color;
-    stReal attenuation;
+    stReal intensity;
 
 
     //Directional Light Attributes

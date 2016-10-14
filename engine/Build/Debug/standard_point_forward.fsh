@@ -12,10 +12,28 @@ uniform vec3 _GlobalAmbient;
 
 
 
+
+
+
+
+
+struct STLight
+{
+	vec3 Color;
+	vec3 Position;
+	vec3 Direction;
+	float Radius;
+	float Intensity;
+
+};
+
+uniform STLight Light;
+
 uniform vec3 _CameraPos;
 
- uniform float _Metallic;
- uniform float _Roughness;
+uniform float _Metallic;
+uniform float _Roughness;
+
 float PI = 3.14159265359;
 
 out vec4 color;
@@ -35,8 +53,8 @@ float Ggx_Dist_old(float NdotH, float r){
 
 vec3 BlendMaterial(vec3 Spec, vec3 Diff, vec3 Base){
 
-	vec3 dialectric = Diff+	Spec*.6;
-	vec3 metal = Spec;
+	vec3 dialectric = Diff + Base*Spec*.6;
+	vec3 metal = Base*Spec;
 
 	return mix(dialectric,metal,_Metallic);
 }
@@ -46,16 +64,17 @@ vec3 BlendMaterial(vec3 Spec, vec3 Diff, vec3 Base){
 
 void main(void){
 	vec3 V = normalize(_CameraPos - Position);
-	vec3 L = normalize(_LightPosition - Position);
+	vec3 L = normalize(Light.Position - Position);
 	vec3 H = normalize(V-L);
 
 		
 	
 
-	float dist = length (L);
+	float dist = length (Light.Position - Position) ;
 	float r = max(_Roughness,.1);
-	vec3 spec =vec3(Ggx_Dist_old(dot(-Normal,H),r));
-	vec3 diff = vec3(Ggx_Dist_old(dot(-Normal,H),1));
-	color = vec4(BlendMaterial(spec,diff,vec3(.6,.6,.6)),1);
+	float I = dot(-Normal,H) * (Light.Radius/(Light.Intensity+Light.Intensity*dist+Light.Intensity*dist*dist)) ;
+	vec3 spec =vec3(Ggx_Dist_old(I,r));
+	vec3 diff = vec3(Ggx_Dist_old(I,1));
+	color = vec4(BlendMaterial(spec,diff,Light.Color),1);
 
 }

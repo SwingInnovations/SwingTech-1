@@ -47,10 +47,10 @@ public:
 
     /*!
      *
-     * @param fileName Adds Specular map and assigns to texture index 1
+     * @param fileName Adds Metallic map and assigns to texture index 1
      */
-    inline void addSpecular(const std::string& fileName){
-        _uniforms.push_back(STShader::ShaderAttrib("STMaterial.diffuse", STShader::INT, "1"));
+    inline void addMetallic(const std::string& fileName){
+        _uniforms.push_back(STShader::ShaderAttrib("STMaterial.Metallic_Tex", STShader::INT, "1"));
         texture->addTexture(fileName, 1);
     }
 
@@ -58,8 +58,8 @@ public:
      *
      * @param specular Adds Specular map and assigns to texture index 1
      */
-    inline void addSpecular(Vector3<stReal> specular){
-        _uniforms.push_back(STShader::ShaderAttrib("STMaterial.specular", STShader::VEC3, STShader::toString(specular)));
+    inline void addMetallic(Vector3<stReal> metallic){
+        _uniforms.push_back(STShader::ShaderAttrib("STMaterial.Metallic", STShader::VEC3, STShader::toString(metallic)));
     }
     inline void addNormal(Vector3<stReal> normal){
         _uniforms.push_back(STShader::ShaderAttrib("STMaterial.normal", STShader::VEC3, STShader::toString(normal)));
@@ -68,6 +68,7 @@ public:
     inline void addNormal(const std::string& fileName){
         _uniforms.push_back(STShader::ShaderAttrib("STMaterial.normal", STShader::INT, "2"));
         texture->addTexture(fileName, 2);
+
     }
 
     /*!

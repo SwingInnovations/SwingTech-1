@@ -19,10 +19,13 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="5ee8588a-b915-4eb2-8583-18cd73e205f4" name="Default" comment="0.0.91">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Build/Debug/standard_IBL.fsh" afterPath="$PROJECT_DIR$/Build/Debug/standard_IBL.fsh" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Build/Debug/standard_directional_forward.fsh" afterPath="$PROJECT_DIR$/Build/Debug/standard_directional_forward.fsh" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Build/Debug/standard_point_forward.fsh" afterPath="$PROJECT_DIR$/Build/Debug/standard_point_forward.fsh" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/demo/demo_main.cpp" afterPath="$PROJECT_DIR$/demo/demo_main.cpp" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Entity/STLight.h" afterPath="$PROJECT_DIR$/src/Entity/STLight.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Graphics/GL/GLGraphics.cpp" afterPath="$PROJECT_DIR$/src/Graphics/GL/GLGraphics.cpp" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Graphics/STMaterial.h" afterPath="$PROJECT_DIR$/src/Graphics/STMaterial.h" />
     </list>
     <ignored path="Wahoo.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -41,24 +44,14 @@
     <favorites_list name="Wahoo" />
   </component>
   <component name="FileEditorManager">
-    <splitter split-orientation="horizontal" split-proportion="0.45690176">
+    <splitter split-orientation="horizontal" split-proportion="0.29692215">
       <split-first>
         <leaf SIDE_TABS_SIZE_LIMIT_KEY="600">
           <file leaf-file-name="GLGraphics.h" pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/src/Graphics/GL/GLGraphics.h">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="566">
-                  <caret line="91" column="26" selection-start-line="91" selection-start-column="26" selection-end-line="91" selection-end-column="26" />
-                  <folding />
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file leaf-file-name="GLTexture.cpp" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/src/Graphics/GL/GLTexture.cpp">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="2720">
-                  <caret line="160" column="0" selection-start-line="160" selection-start-column="0" selection-end-line="160" selection-end-column="0" />
+                <state relative-caret-position="391">
+                  <caret line="78" column="10" selection-start-line="78" selection-start-column="10" selection-end-line="78" selection-end-column="10" />
                   <folding />
                 </state>
               </provider>
@@ -97,7 +90,7 @@
           <file leaf-file-name="GLShader.h" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/src/Graphics/GL/GLShader.h">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="0">
+                <state relative-caret-position="-162">
                   <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
                   <folding />
                 </state>
@@ -124,10 +117,34 @@
               </provider>
             </entry>
           </file>
+        </leaf>
+      </split-first>
+      <split-second>
+        <leaf SIDE_TABS_SIZE_LIMIT_KEY="600">
+          <file leaf-file-name="demo_main.cpp" pinned="false" current-in-tab="true">
+            <entry file="file://$PROJECT_DIR$/demo/demo_main.cpp">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="204">
+                  <caret line="59" column="34" selection-start-line="59" selection-start-column="34" selection-end-line="59" selection-end-column="34" />
+                  <folding />
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="GLMesh.cpp" pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/src/Graphics/GL/GLMesh.cpp">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="2133">
+                  <caret line="425" column="62" selection-start-line="425" selection-start-column="62" selection-end-line="425" selection-end-column="62" />
+                  <folding />
+                </state>
+              </provider>
+            </entry>
+          </file>
           <file leaf-file-name="STMaterial.cpp" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/src/Graphics/STMaterial.cpp">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="459">
+                <state relative-caret-position="425">
                   <caret line="27" column="0" selection-start-line="27" selection-start-column="0" selection-end-line="27" selection-end-column="0" />
                   <folding />
                 </state>
@@ -137,32 +154,18 @@
           <file leaf-file-name="STMaterial.h" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/src/Graphics/STMaterial.h">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="1173">
-                  <caret line="69" column="41" selection-start-line="69" selection-start-column="41" selection-end-line="69" selection-end-column="41" />
+                <state relative-caret-position="149">
+                  <caret line="70" column="0" selection-start-line="70" selection-start-column="0" selection-end-line="70" selection-end-column="0" />
                   <folding />
                 </state>
               </provider>
             </entry>
           </file>
-        </leaf>
-      </split-first>
-      <split-second>
-        <leaf SIDE_TABS_SIZE_LIMIT_KEY="600">
-          <file leaf-file-name="STGraphicsComponent.cpp" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/src/Entity/Components/STGraphicsComponent.cpp">
+          <file leaf-file-name="STGraphics.cpp" pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/src/Graphics/STGraphics.cpp">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="3162">
-                  <caret line="186" column="0" selection-start-line="186" selection-start-column="0" selection-end-line="186" selection-end-column="0" />
-                  <folding />
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file leaf-file-name="demo_main.cpp" pinned="false" current-in-tab="true">
-            <entry file="file://$PROJECT_DIR$/demo/demo_main.cpp">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="527">
-                  <caret line="75" column="9" selection-start-line="75" selection-start-column="9" selection-end-line="75" selection-end-column="9" />
+                <state relative-caret-position="68">
+                  <caret line="4" column="7" selection-start-line="4" selection-start-column="7" selection-end-line="4" selection-end-column="7" />
                   <folding />
                 </state>
               </provider>
@@ -171,8 +174,8 @@
           <file leaf-file-name="standard_directional_forward.fsh" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/Build/Debug/standard_directional_forward.fsh">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="289">
-                  <caret line="17" column="0" selection-start-line="17" selection-start-column="0" selection-end-line="17" selection-end-column="0" />
+                <state relative-caret-position="408">
+                  <caret line="25" column="0" selection-start-line="25" selection-start-column="0" selection-end-line="25" selection-end-column="0" />
                   <folding />
                 </state>
               </provider>
@@ -188,51 +191,21 @@
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="objShdr.fsh" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/Build/Debug/objShdr.fsh">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="0">
-                  <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-                  <folding />
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file leaf-file-name="objShdr.vsh" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/Build/Debug/objShdr.vsh">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="0">
-                  <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-                  <folding />
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file leaf-file-name="panel.vsh" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/Build/Debug/shdr/panel.vsh">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="153">
-                  <caret line="9" column="3" selection-start-line="9" selection-start-column="3" selection-end-line="9" selection-end-column="24" />
-                  <folding />
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file leaf-file-name="GLTexture.h" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/src/Graphics/GL/GLTexture.h">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="0">
-                  <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-                  <folding />
-                </state>
-              </provider>
-            </entry>
-          </file>
           <file leaf-file-name="GLGraphics.cpp" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/src/Graphics/GL/GLGraphics.cpp">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="3094">
-                  <caret line="182" column="0" selection-start-line="182" selection-start-column="0" selection-end-line="182" selection-end-column="0" />
+                <state relative-caret-position="280">
+                  <caret line="183" column="14" selection-start-line="183" selection-start-column="14" selection-end-line="183" selection-end-column="14" />
+                  <folding />
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="STLight.h" pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/src/Entity/STLight.h">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="127">
+                  <caret line="35" column="18" selection-start-line="35" selection-start-column="18" selection-end-line="35" selection-end-column="18" />
                   <folding />
                 </state>
               </provider>
@@ -241,8 +214,8 @@
           <file leaf-file-name="GLShader.cpp" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/src/Graphics/GL/GLShader.cpp">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="382">
-                  <caret line="83" column="24" selection-start-line="83" selection-start-column="24" selection-end-line="83" selection-end-column="24" />
+                <state relative-caret-position="1317">
+                  <caret line="111" column="1" selection-start-line="111" selection-start-column="1" selection-end-line="111" selection-end-column="1" />
                   <folding />
                 </state>
               </provider>
@@ -304,14 +277,12 @@
         <option value="$PROJECT_DIR$/CMakeLists.txt" />
         <option value="$PROJECT_DIR$/main.cpp" />
         <option value="$PROJECT_DIR$/src/Graphics/STGraphics.cpp" />
-        <option value="$PROJECT_DIR$/src/Entity/STLight.h" />
         <option value="$PROJECT_DIR$/src/Graphics/GL/GLShader.cpp" />
         <option value="$PROJECT_DIR$/src/Entity/Components/STGraphicsComponent.cpp" />
         <option value="$PROJECT_DIR$/src/Entity/STEntity.cpp" />
         <option value="$PROJECT_DIR$/src/Entity/STEntity.h" />
         <option value="$PROJECT_DIR$/src/Entity/Components/STGraphicsComponent.h" />
         <option value="$PROJECT_DIR$/src/Graphics/STGraphics.h" />
-        <option value="$PROJECT_DIR$/src/Graphics/STMaterial.h" />
         <option value="$PROJECT_DIR$/src/Graphics/STMaterial.cpp" />
         <option value="$PROJECT_DIR$/src/Graphics/GL/GLGraphics.h" />
         <option value="$PROJECT_DIR$/src/Graphics/GL/GLTexture.cpp" />
@@ -320,7 +291,9 @@
         <option value="$PROJECT_DIR$/src/STGame.cpp" />
         <option value="$PROJECT_DIR$/src/Graphics/Camera.h" />
         <option value="$PROJECT_DIR$/src/Graphics/Camera.cpp" />
+        <option value="$PROJECT_DIR$/src/Graphics/STMaterial.h" />
         <option value="$PROJECT_DIR$/src/Graphics/GL/GLGraphics.cpp" />
+        <option value="$PROJECT_DIR$/src/Entity/STLight.h" />
         <option value="$PROJECT_DIR$/demo/demo_main.cpp" />
       </list>
     </option>
@@ -919,7 +892,7 @@
       <workItem from="1476317592108" duration="281000" />
       <workItem from="1476392010467" duration="11721000" />
       <workItem from="1476413596981" duration="3606000" />
-      <workItem from="1476455779358" duration="1380000" />
+      <workItem from="1476455779358" duration="6077000" />
     </task>
     <task id="LOCAL-00001" summary="0.0.91">
       <created>1456015877403</created>
@@ -932,7 +905,7 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="255867000" />
+    <option name="totallyTimeSpent" value="260564000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -949,12 +922,12 @@
     <layout>
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.13517745" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32962024" sideWeight="0.49675325" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.27494907" sideWeight="0.082985386" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.27494907" sideWeight="0.07985386" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="CMake" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.19037975" sideWeight="0.35849568" order="11" side_tool="false" content_ui="tabs" />
       <window_info id="LuaJ" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.21894094" sideWeight="0.5433194" order="8" side_tool="true" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.21894094" sideWeight="0.6210856" order="8" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3296146" sideWeight="0.496875" order="9" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.21894094" sideWeight="0.4566806" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.21894094" sideWeight="0.37891442" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
@@ -1218,25 +1191,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/Graphics/GL/GLMesh.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="7684">
-          <caret line="452" column="30" selection-start-line="452" selection-start-column="26" selection-end-line="452" selection-end-column="30" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/Graphics/Shader.cpp">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="102">
           <caret line="6" column="13" selection-start-line="6" selection-start-column="13" selection-end-line="6" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Graphics/STGraphics.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="132">
-          <caret line="4" column="7" selection-start-line="4" selection-start-column="7" selection-end-line="4" selection-end-column="7" />
         </state>
       </provider>
     </entry>
@@ -1252,37 +1210,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1023">
           <caret line="31" column="78" selection-start-line="31" selection-start-column="91" selection-end-line="32" selection-end-column="81" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Entity/STLight.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="3366">
-          <caret line="102" column="0" selection-start-line="102" selection-start-column="0" selection-end-line="102" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Graphics/GL/GLShader.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Graphics/STMaterial.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="459">
-          <caret line="27" column="0" selection-start-line="27" selection-start-column="0" selection-end-line="27" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Graphics/STMaterial.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1173">
-          <caret line="69" column="41" selection-start-line="69" selection-start-column="41" selection-end-line="69" selection-end-column="41" />
           <folding />
         </state>
       </provider>
@@ -1428,8 +1355,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/Build/Debug/standard_directional_forward.fsh">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="289">
-          <caret line="17" column="0" selection-start-line="17" selection-start-column="0" selection-end-line="17" selection-end-column="0" />
+        <state relative-caret-position="408">
+          <caret line="25" column="0" selection-start-line="25" selection-start-column="0" selection-end-line="25" selection-end-column="0" />
           <folding />
         </state>
       </provider>
@@ -1442,34 +1369,82 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/Graphics/GL/GLGraphics.cpp">
+    <entry file="file://$PROJECT_DIR$/src/Graphics/GL/GLShader.h">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="3094">
-          <caret line="182" column="0" selection-start-line="182" selection-start-column="0" selection-end-line="182" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Graphics/GL/GLGraphics.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="566">
-          <caret line="91" column="26" selection-start-line="91" selection-start-column="26" selection-end-line="91" selection-end-column="26" />
+        <state relative-caret-position="-162">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/Graphics/GL/GLShader.cpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="382">
-          <caret line="83" column="24" selection-start-line="83" selection-start-column="24" selection-end-line="83" selection-end-column="24" />
+        <state relative-caret-position="1317">
+          <caret line="111" column="1" selection-start-line="111" selection-start-column="1" selection-end-line="111" selection-end-column="1" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Graphics/STMaterial.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="425">
+          <caret line="27" column="0" selection-start-line="27" selection-start-column="0" selection-end-line="27" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Graphics/GL/GLMesh.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2133">
+          <caret line="425" column="62" selection-start-line="425" selection-start-column="62" selection-end-line="425" selection-end-column="62" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Graphics/STMaterial.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="149">
+          <caret line="70" column="0" selection-start-line="70" selection-start-column="0" selection-end-line="70" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Entity/STLight.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="127">
+          <caret line="35" column="18" selection-start-line="35" selection-start-column="18" selection-end-line="35" selection-end-column="18" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Graphics/GL/GLGraphics.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="391">
+          <caret line="78" column="10" selection-start-line="78" selection-start-column="10" selection-end-line="78" selection-end-column="10" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Graphics/STGraphics.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="68">
+          <caret line="4" column="7" selection-start-line="4" selection-start-column="7" selection-end-line="4" selection-end-column="7" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Graphics/GL/GLGraphics.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="280">
+          <caret line="183" column="14" selection-start-line="183" selection-start-column="14" selection-end-line="183" selection-end-column="14" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/demo/demo_main.cpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="527">
-          <caret line="75" column="9" selection-start-line="75" selection-start-column="9" selection-end-line="75" selection-end-column="9" />
+        <state relative-caret-position="204">
+          <caret line="59" column="34" selection-start-line="59" selection-start-column="34" selection-end-line="59" selection-end-column="34" />
           <folding />
         </state>
       </provider>

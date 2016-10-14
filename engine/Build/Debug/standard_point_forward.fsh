@@ -33,6 +33,7 @@ float Ggx_Dist_old(float NdotH, float r){
 
 
 
+vec3 BlendMaterial(vec3 Spec, vec3 Diff, vec3 Base){
 
 	vec3 dialectric = Diff+	Spec*.6;
 	vec3 metal = Spec;
@@ -53,5 +54,8 @@ void main(void){
 
 	float dist = length (L);
 	float r = max(_Roughness,.1);
+	vec3 spec =vec3(Ggx_Dist_old(dot(-Normal,H),r));
+	vec3 diff = vec3(Ggx_Dist_old(dot(-Normal,H),1));
+	color = vec4(BlendMaterial(spec,diff,vec3(.6,.6,.6)),1);
 
 }

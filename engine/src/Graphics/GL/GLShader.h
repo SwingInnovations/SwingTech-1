@@ -46,7 +46,8 @@ private:
 
     GLuint m_Program;
     GLuint m_Shaders[NUM_SHADER];
-    GLuint m_uniforms[5]; // 3 pre-defined uniforms that are essential
+    GLuint m_uniforms[6]; // 3 pre-defined uniforms that are essential
+    Matrix4f m_cachedMVP;
 
 };
 

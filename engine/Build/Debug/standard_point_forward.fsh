@@ -34,6 +34,15 @@ float Ggx_Dist_old(float NdotH, float r){
 
 
 
+	vec3 dialectric = Diff+	Spec*.6;
+	vec3 metal = Spec;
+
+	return mix(dialectric,metal,_Metallic);
+}
+
+
+
+
 void main(void){
 	vec3 V = normalize(_CameraPos - Position);
 	vec3 L = normalize(_LightPosition - Position);
@@ -44,6 +53,5 @@ void main(void){
 
 	float dist = length (L);
 	float r = max(_Roughness,.1);
-	color = vec4(Ggx_Dist_old(dot(-Normal,H),r));
 
 }

@@ -29,6 +29,7 @@ public:
         auto resManager = window->getResourceManager();
         resManager->addMaterial("lit", new STMaterial(new GLShader("lightSource")));
         resManager->addMaterial("Default", new STMaterial(new GLShader("sample"), new GLTexture("grid.png")));
+        resManager->addTexture("tex", new GLTexture("grid.png"));
 
         _testActor = new STActor("sphere.obj", STMesh::OBJ, resManager->getMaterial("Default"));
         _testActor->addShdrUniform("objColor", Vector3<stReal>(1.0, 0.5, 0.31f));

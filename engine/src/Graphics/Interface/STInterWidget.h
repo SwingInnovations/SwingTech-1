@@ -36,7 +36,6 @@ public:
             rect->reset(m_position.getX(), y, width, height);
         }
     }
-
 protected:
     std::string m_text;
     std::string m_font;

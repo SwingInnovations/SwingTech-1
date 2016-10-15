@@ -54,8 +54,6 @@ public:
             }
         });
 
-        panel = new STPanel(0, 0, 512, 256);
-
         scene->addSkybox("green", "skybox");
         //scene->addActor(_testActor);
         STGraphics::ClearColor = Vector4<stReal>(0.0, 0.0, 0.168, 1.0);
@@ -95,7 +93,6 @@ public:
         win->getGraphics()->drawScene(STSceneManager::Get()->getScene((stUint)getID()));
         lbl->draw(grphx);
         btn->draw(grphx);
-        panel->draw(grphx);
     }
 
     ~TestState(){
@@ -111,7 +108,6 @@ private:
     STButton* btn;
     STActor* _testActor;
     STLabel* lbl;
-    STPanel* panel;
     Vector3<stReal> lightPos;
     int width = 0, height = 0;
 };

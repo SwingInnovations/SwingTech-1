@@ -1,6 +1,7 @@
 #include "STButton.h"
 #include "../STFontMetrics.h"
 #include "../../Entity/Components/STRectBoundsComponent.h"
+#include "STPanel.h"
 
 class STGraphics;
 
@@ -19,6 +20,7 @@ STButton::STButton(const std::string &text) {
     STFontMetrics::bounds(m_text, m_fontSize, m_font, &width, &height);
     addComponent(typeid(STRectBoundsComponent), new STRectBoundsComponent(0, 0, width, height, STGraphics::YUp));
     buttonType = PUSH;
+    addChild(new STPanel(0, 0, width, height));
 }
 
 STButton::STButton(stReal x, stReal y, std::string text) {
@@ -32,6 +34,7 @@ STButton::STButton(stReal x, stReal y, std::string text) {
     STFontMetrics::bounds(m_text, m_fontSize, m_font, &width, &height);
     addComponent(typeid(STRectBoundsComponent), new STRectBoundsComponent(x, y, width, height, STGraphics::getYUpSetting()));
     buttonType = PUSH;
+    addChild(new STPanel(x, y, width, height));
 }
 
 STButton::STButton(stReal x, stReal y, std::string text, STButton::ButtonType type) {
@@ -45,6 +48,7 @@ STButton::STButton(stReal x, stReal y, std::string text, STButton::ButtonType ty
     STFontMetrics::bounds(m_text, m_fontSize, m_font, &width, &height);
     addComponent(typeid(STRectBoundsComponent), new STRectBoundsComponent(x, y, width, height, STGraphics::getYUpSetting()));
     buttonType = type;
+    addChild(new STPanel(x, y, width, height));
 }
 
 void STButton::update(STGame *window) {
@@ -54,7 +58,10 @@ void STButton::update(STGame *window) {
 }
 
 void STButton::draw(STGraphics *grphx) {
-    if(m_visible) grphx->drawText(m_position, m_text, m_fontSize, &m_fontColor.color);
+    if(m_visible){
+        m_children.at(0)->draw(grphx);
+        grphx->drawText(m_position, m_text, m_fontSize, &m_fontColor.color);
+    }
 }
 
 void STButton::inputEvent(std::function<void(STEntity*)> function) {

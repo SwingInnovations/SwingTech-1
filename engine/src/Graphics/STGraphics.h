@@ -46,6 +46,8 @@ public:
     virtual void initScene(stUint index){;}
     virtual void drawScene(STScene* scene) = 0;
     virtual void setShader(int,Shader*){;}
+    virtual void enableBlend(){;}
+    virtual void disableBlend(){;}
 
     /*!
      *

@@ -74,6 +74,14 @@ public:
 
     virtual void drawScene(STScene* scene);
     virtual void initScene(stUint index);
+
+    inline void enableBlend(){
+        glEnable(GL_BLEND);
+    }
+
+    inline void disableBlend(){
+        glDisable(GL_BLEND);
+    }
     static Vector3<stReal> TextColor;
 protected:
 

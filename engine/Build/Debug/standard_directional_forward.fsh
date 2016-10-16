@@ -2,7 +2,8 @@
 
 in vec3 Position;
 in vec3 Normal;
-
+in vec2 TexCoord;
+in mat3 TBN;
 struct STLight
 {
 	vec3 Color;
@@ -18,8 +19,8 @@ uniform STLight Light;
 struct STMaterial
 {
 	vec3 BaseColor;
-	sampler Diffuse_Tex;
-	sampler Normal_Tex;
+	sampler2D Diffuse_Tex;
+	sampler2D Normal_Tex;
 };
 
 uniform STMaterial Material;
@@ -48,7 +49,7 @@ vec3 BlendMaterial(vec3 Spec, vec3 Diff, vec3 Base){
 
 	
 	
-	vec3 dialectric = Diff+	Base*Spec*.6;
+	vec3 dialectric =Base*Diff+	Base*Spec*.6;
 	vec3 metal = Base*Spec;
 
 	return mix(dialectric,metal,_Metallic)*Light.Intensity;
@@ -59,11 +60,14 @@ vec3 BlendMaterial(vec3 Spec, vec3 Diff, vec3 Base){
 
 void main(void){
 
+	vec3 Norm = (TBN* (texture2D(Material.Normal_Tex,TexCoord*3).xyz*2-1));
+
 	float r = max(_Roughness,.1);
 	vec3 V=normalize(_CameraPos-Position);
 	vec3 H = normalize(V-Light.Direction*1000);
 
-	vec3 spec = clamp(vec3(Ggx_Dist_old(dot(Normal, H),r)),0,1);
-	vec3 diff = clamp(vec3(Ggx_Dist_old(dot(Normal, H),1)),0,1);
-	color =  vec4(BlendMaterial(spec,diff,Light.Color),1);
+	vec3 spec = clamp(vec3(Ggx_Dist_old(dot(Norm, H),r)),0,1);
+	vec3 diff = clamp(vec3(Ggx_Dist_old(dot(Norm, H),1)),0,1);
+	
+	color =  vec4(BlendMaterial(spec,diff,Material.BaseColor ),1);
 }

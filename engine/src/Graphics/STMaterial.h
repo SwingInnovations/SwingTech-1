@@ -37,11 +37,11 @@ public:
      * @param fileName Adds diffuse texture and assigns to texture index 0
      */
     void setDiffuseTexture(const std::string& fileName){
-        texture->addTexture(fileName, 0);
+        texture->addTexture(fileName, 1);
     }
 
     void setNormalTexure(const std::string& fileName){
-        texture->addTexture(fileName, 1);
+        texture->addTexture(fileName, 2);
     }
 
     void setBaseColor(Vector3<stReal> color){
@@ -50,10 +50,10 @@ public:
 
     void initBaseUniforms()
      {
-         setBaseColor( Vector3<stReal>(.7,0,0 ) );
+         setBaseColor( Vector3<stReal>(1,1,1) );
          _uniforms.push_back(STShader::ShaderAttrib("Material.BaseColor", STShader::VEC3, STShader::toString(m_baseColor)));
-         _uniforms.push_back(STShader::ShaderAttrib("Material.Diffuse_Tex", STShader::VEC3, "0"));
-         _uniforms.push_back(STShader::ShaderAttrib("Material.Normal_Tex", STShader::INT, "1"));
+         _uniforms.push_back(STShader::ShaderAttrib("Material.Diffuse_Tex", STShader::INT, "1"));
+         _uniforms.push_back(STShader::ShaderAttrib("Material.Normal_Tex", STShader::INT, "2"));
      }
 
 

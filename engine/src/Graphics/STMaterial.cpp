@@ -10,6 +10,7 @@ STMaterial::STMaterial() {
 STMaterial::STMaterial(Shader *shdr) {
     shader = shdr;
     if(STGraphics::RENDERER == STGraphics::OPENGL) texture = new GLTexture();
+    initBaseUniforms();
 }
 
 void STMaterial::draw(std::vector<STShader::ShaderAttrib> &entityUniforms,Transform &T, Camera &C) {

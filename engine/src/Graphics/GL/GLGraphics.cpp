@@ -180,32 +180,32 @@ void GLGraphics::drawScene(STScene *scene) {
       glDepthMask(GL_FALSE);
       glEnable(GL_BLEND);
     glBlendFunc(GL_ONE, GL_ONE);
-//
-//    //Forward Pass
-//    for(int i =0; i < actors.size(); i++){
-//        for(int j =0; j < lights.size(); j++) {
-//
-//            actors[i]->setShdrUniform("Light.Color", lights[j]->color);
-//            actors[i]->setShdrUniform("Light.Intensity", lights[j]->intensity);
-//            actors[i]->setShdrUniform("Light.Position", lights[j]->transform()->getTranslate<stReal>());
-//            actors[i]->setShdrUniform("Light.Direction", lights[j]->direction);
-//            actors[i]->setShdrUniform("Light.Radius", lights[j]->radius);
-//
-//            switch(lights[j]->type) {
-//                case STLight::DirectionalLight: {
-//                    actors[i]->draw(m_directionalLightMat);
-//                    break;
-//                }
-//                case STLight::PointLight: {
-//                    actors[i]->draw(m_pointLightMat);
-//                    break;
-//                }
-//                case STLight::SpotLight: {
-//                    break;
-//                }
-//            }
-//        }
-//    }
+
+    //Forward Pass
+    for(int i =0; i < actors.size(); i++){
+        for(int j =0; j < lights.size(); j++) {
+
+            actors[i]->setShdrUniform("Light.Color", lights[j]->color);
+            actors[i]->setShdrUniform("Light.Intensity", lights[j]->intensity);
+            actors[i]->setShdrUniform("Light.Position", lights[j]->transform()->getTranslate<stReal>());
+            actors[i]->setShdrUniform("Light.Direction", lights[j]->direction);
+            actors[i]->setShdrUniform("Light.Radius", lights[j]->radius);
+
+            switch(lights[j]->type) {
+                case STLight::DirectionalLight: {
+                    actors[i]->draw(m_directionalLightMat);
+                    break;
+                }
+                case STLight::PointLight: {
+                    actors[i]->draw(m_pointLightMat);
+                    break;
+                }
+                case STLight::SpotLight: {
+                    break;
+                }
+            }
+        }
+    }
 
 
     glDisable(GL_BLEND);

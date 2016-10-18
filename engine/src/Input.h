@@ -130,19 +130,19 @@ public:
         this->key = key;
     }
 
-    int getTarget() const {
+    inline int getTarget() const {
         return target;
     }
 
-    void setTarget(int target) {
+    inline void setTarget(int target) {
         this->target = target;
     }
 
-    int getKey() const {
+    inline int getKey() const {
         return key;
     }
 
-    void setKey(int key) {
+    inline void setKey(int key) {
         this->key = key;
     }
 
@@ -170,22 +170,27 @@ private:
 };
 
 class Input {
+
 public:
+    static Input* m_instance;
     Input();
     Input(STGame * app, SDL_Event& e);
     ~Input();
 
     void poll(SDL_Event&);
-    void requestClose(){ closeRequested = true; }
+    inline void requestClose(){ closeRequested = true; }
     void setCursorVisible(bool);
 
     void centerMouseInWindow();
 
-    void setInputMap(InputMap* map){ inputMap = map; }
-    void setMoveSpeed(float speed){ moveSpeed = speed; }
-    void setMouseSensitivity(float speed){ mouseSensitivity = speed; }
-    void setCursorBound(bool v){ cursorBound = v; }
-    InputMap* inputMapping(){ return inputMap; }
+    static Input* Get();
+    static Input* Start(STGame* app, SDL_Event& e);
+
+    inline void setInputMap(InputMap* map){ inputMap = map; }
+    inline void setMoveSpeed(float speed){ moveSpeed = speed; }
+    inline void setMouseSensitivity(float speed){ mouseSensitivity = speed; }
+    inline void setCursorBound(bool v){ cursorBound = v; }
+    inline InputMap* inputMapping(){ return inputMap; }
 
     template<typename T> Vector2<T> getMouseCoords(){
         T _x = (T)mouseX;
@@ -202,19 +207,21 @@ public:
     bool isKeyPressed(int);
     bool isMouseDown(int);
     bool isMousePressed(int);
-    bool isCursorBound(){ return cursorBound; }
-    bool isCloseRequested(){ return closeRequested; }
+    inline bool isCursorBound(){ return cursorBound; }
+    inline bool isCloseRequested(){ return closeRequested; }
 
-    float getMouseSensitivity()const{ return mouseSensitivity; }
-    Uint32 getDelta()const{ return delta; }
+    inline float getMouseSensitivity()const{ return mouseSensitivity; }
+    inline Uint32 getDelta()const{ return delta; }
 
-    double getJoystickAxis(int joyIndex, int axis){
+    inline double getJoystickAxis(int joyIndex, int axis){
         return (double)SDL_JoystickGetAxis(joysticks[joyIndex], axis);
     }
 
-    bool getJoystickButton(int joyIndex, int button){
+    inline bool getJoystickButton(int joyIndex, int button){
         return SDL_JoystickGetButton(joysticks[joyIndex], button);
     }
+
+    const char getInputCharacter()const;
 
 private:
     bool closeRequested;
@@ -228,9 +235,11 @@ private:
     unsigned int screenWidth, screenHeight;
     Uint32 delta;
     SDL_Window* templateWin;
+    STGame* parent;
     InputMap* inputMap;
     float moveSpeed;
     float mouseSensitivity;
+    char m_currentCharacter;
 };
 
 

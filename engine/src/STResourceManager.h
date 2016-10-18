@@ -6,6 +6,9 @@
 #include "Graphics/Shader.h"
 #include "Graphics/Texture.h"
 #include "Graphics/STMaterial.h"
+
+class STEntity;
+
 /*! Resource Manager
  *  Holds pointers of Materials/Textures/Shaders for
  *  reusability.
@@ -66,6 +69,7 @@ private:
     std::map<std::string, Shader*> m_shaders;
     std::map<std::string, Texture*> m_textures;
     std::map<std::string, STMaterial*> m_materials;
+    std::map<std::string, STEntity*> m_entities;
 };
 
 

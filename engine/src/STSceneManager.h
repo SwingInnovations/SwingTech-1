@@ -2,37 +2,206 @@
 #define WAHOO_STSCENEMANAGER_H
 
 #include <vector>
-#include "STEntity.h"
-#include "STLight.h"
+#include <map>
+#include "Entity/STEntity.h"
+#include "Entity/STActor.h"
 
-template<typename GameEntity>
-class QuadNode;
+class STLight;
+class STInterWidget;
 
-template<typename GameEntity>
-class OctNode;
+template<typename G>
+class Node{
+protected:
+    Node* parent;
+    G* data;
+    virtual void split() = 0;
+};
+
+template<typename GameObject>
+class QuadNode : public Node<GameObject>{
+public:
+    QuadNode(){
+        this->parent = nullptr;
+        this->data = nullptr;
+        childCount = 0;
+    }
+
+    QuadNode(GameObject* data){
+        this->parent = nullptr;
+        this->data = data;
+        childCount = 0;
+    }
+
+    QuadNode(QuadNode* parent, GameObject* data){
+        this->parent = parent;
+        this->data = data;
+        childCount = 0;
+    }
+
+    inline void setData(GameObject* data){
+        this->data = data;
+    }
+
+    inline void addChild(GameObject* childData){
+        if(childCount < 4){
+            if(this->data != nullptr){
+                children[childCount] = new QuadNode(this, this->data);
+                delete this->data;
+                childCount++;
+            }
+            children[childCount] = new QuadNode(this, childData);
+            childCount++;
+        }
+        //Do something when all children are filled;
+    }
+
+    GameObject* getData(){ return this->data; }
+
+protected:
+    inline void split() override {
+        //Do something to split.
+    }
+private:
+    QuadNode* children[4] = {nullptr, nullptr, nullptr, nullptr};
+    stUint childCount;
+};
+
+template<typename GameObject>
+class OctoNode : public Node<GameObject> {
+public:
+    OctoNode(){
+        this->parent = nullptr;
+        this->data = nullptr;
+        this->childCount = 0;
+    }
+
+    OctoNode(GameObject* data){
+        this->parent = nullptr;
+        this->data = data;
+        this->childCount = 0;
+    }
+
+    OctoNode(OctoNode* parent, GameObject* data){
+        this->parent = parent;
+        this->data = data;
+        this->childCount = 0;
+    }
+
+    inline void setParent(OctoNode* parent){ this->parent = parent; }
+    inline void setData(GameObject* data){ this->data = data; }
+
+    inline void addChild(GameObject* data){
+        if(this->childCount < 8){
+            if(this->data != nullptr){
+                children[this->childCount] = new OctoNode(this, this->data);
+                delete this->data;
+                this->data = nullptr;
+                this->childCount++;
+            }
+            children[this->childCount] = new OctoNode(this, data);
+            this->childCount++;
+        }
+
+    }
+protected:
+    inline void split() override {
+        // Do something to split
+
+    }
+
+private:
+    OctoNode* children[8] = {nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr};
+    stUint childCount;
+};
+
+class STScene{
+public:
+    STScene(){
+        m_index = 0;
+    }
+
+    STScene(stUint index){
+        m_index = index;
+    }
+
+    inline void addActor(STActor* actor){
+        actors.push_back(actor);
+    }
+
+    inline void addLight(STLight* light){
+        lights.push_back(light);
+    }
+
+    inline void addUIElement(STInterWidget* ui){
+        uiElements.push_back(ui);
+    }
+
+    inline void addSkybox(const std::string& file, const std::string& shader){
+        this->skyboxName = file;
+        this->skyboxShader = shader;
+    }
+
+    const std::vector<STActor*> &getActors()const{ return actors; }
+    const std::vector<STLight*> &getLights()const{ return lights; }
+    const std::vector<STInterWidget*> &getUIElements()const{ return uiElements; }
+
+    const std::string& getSkyboxName()const{ return skyboxName; }
+    const std::string& getSkyboxShader()const{ return skyboxShader; }
+
+    const stUint getIndex()const{ return m_index; }
+
+private:
+    stUint m_index;
+    std::vector<STActor*> actors;
+    std::vector<STLight*> lights;
+    std::vector<STInterWidget*> uiElements;
+    std::string skyboxName;
+    std::string skyboxShader;
+};
 
 class STSceneManager{
 public:
+    static STSceneManager* m_Instance;
+
+    static STSceneManager* Get(){
+        if(m_Instance == nullptr) m_Instance = new STSceneManager;
+        return m_Instance;
+    }
+
     STSceneManager(){ m_NumLights = 0; }
 
-    void addEntity(STEntity* entity){
+    inline STScene* initScene(const stUint index){
+        scenes.insert(std::pair<stUint, STScene*>(index, new STScene(index)));
+        //Allocate something to manage the scene
+        auto grphx = STGame::Get()->getGraphics();
+        grphx->initScene(index);
+        return scenes[index];
+    }
+
+    inline STScene* getScene(stUint index){
+        if(index < scenes.size()){
+            return scenes[index];
+        }
+    }
+
+    inline void addEntity(STEntity* entity){
         m_Entities.push_back(entity);
     }
 
-    void addLight(STLight* light){
+    inline void addLight(STLight* light){
 
     }
 
-    void addSkyBox(const std::string& file, const std::string& shader){
+    inline void addSkyBox(const std::string& file, const std::string& shader){
         m_skyboxName = file;
         m_skyboxShader = shader;
     }
 
-    void addSkyCube(const std::string& file){
+    inline void addSkyCube(const std::string& file){
         m_skyboxName = file;
     }
 
-    void addSkyboxShader(const std::string& shader){
+    inline void addSkyboxShader(const std::string& shader){
         m_skyboxShader = shader;
     }
 
@@ -54,24 +223,8 @@ private:
     std::string m_skyboxShader;
 
     int m_NumLights;
-};
 
-template <class GameObject>
-class QuadNode{
-public:
-    QuadNode(GameObject* object){}
-private:
-    Vector2<stReal> bounds[4];
-    GameObject* children[4];
-};
-
-template<class GameObject>
-class OctNode{
-public:
-    OctNode(GameObject* object){  }
-private:
-    Vector3<stReal> bounds[8];
-    GameObject* children[8];
+    std::map<stUint, STScene*> scenes;
 };
 
 #endif //WAHOO_STSCENEMANAGER_H

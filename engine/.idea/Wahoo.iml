@@ -3,23 +3,21 @@
   <component name="NewModuleRootManager">
     <content url="file://$MODULE_DIR$">
       <sourceFolder url="file://$MODULE_DIR$/src/Input.cpp" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/src/STEventComponent.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src/STGlobal.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src/STSceneManager.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src/STGame.h" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/src/STScriptComponent.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src/STGameState.cpp" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/src/STComponent.cpp" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/src/Graphics/Shader.cpp" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/src/Graphics/STGraphics.cpp" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/src/Graphics/Interface/STInterWidget.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src/Graphics/STColor.h" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/src/Graphics/Camera.h" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/src/Graphics/Texture.cpp" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/src/Graphics/STMaterial.cpp" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/src/Graphics/STMaterial.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src/Graphics/VK/VKGraphics.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src/Graphics/VK/VKGraphics.cpp" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/src/Graphics/Texture.h" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/src/Graphics/STMaterial.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/src/Graphics/Shader.cpp" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/src/Graphics/STGraphics.cpp" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/src/Graphics/Shader.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/src/Graphics/STGraphics.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/src/Graphics/STFontMetrics.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/src/Graphics/Camera.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src/Graphics/GL/GLShader.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src/Graphics/GL/GLGraphics.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src/Graphics/GL/GLMesh.h" isTestSource="false" />
@@ -28,37 +26,61 @@
       <sourceFolder url="file://$MODULE_DIR$/src/Graphics/GL/GLGraphics.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src/Graphics/GL/GLShader.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src/Graphics/GL/GLMesh.cpp" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/src/Graphics/Interface/STPanel.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/src/Graphics/Interface/STMenu.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/src/Graphics/Interface/STButton.cpp" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/src/Graphics/Interface/STButton.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/src/Graphics/Interface/STButtonGroup.cpp" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/src/Graphics/Interface/STButtonGroup.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/src/Graphics/Interface/STLabel.cpp" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/src/Graphics/Interface/STInterWidget.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/src/Graphics/Interface/STEntry.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/src/Graphics/Interface/STMenu.cpp" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/src/Graphics/Interface/STLabel.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/src/Graphics/Interface/STEntry.cpp" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/src/Graphics/Interface/STPanel.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src/Graphics/Camera.cpp" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/src/Graphics/Shader.h" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/src/Graphics/STGraphics.h" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/src/STEntity.h" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/src/STComponent.h" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/src/STMeshComponent.h" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/src/STEntity.cpp" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/src/STMesh.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/src/Graphics/Texture.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/src/STSceneManager.cpp" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/src/Entity/Components/STMeshComponent.cpp" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/src/Entity/Components/STGraphicsComponent.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/src/Entity/Components/STMeshComponent.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/src/Entity/Components/STRectBoundsComponent.cpp" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/src/Entity/Components/STScriptComponent.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/src/Entity/Components/STGraphicsComponent.cpp" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/src/Entity/Components/STEventComponent.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/src/Entity/Components/STRectBoundsComponent.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/src/Entity/Components/STScriptComponent.cpp" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/src/Entity/Components/STEventComponent.cpp" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/src/Entity/Components/STComponent.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/src/Entity/Util/STMesh.cpp" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/src/Entity/Util/STMesh.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/src/Entity/STLight.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/src/Entity/STEntity.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/src/Entity/STActor.cpp" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/src/Entity/STActor.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/src/Entity/STEntity.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src/STGame.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src/Input.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src/STGameState.h" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/src/STEventComponent.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src/STResourceManager.cpp" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/src/STGraphicsComponent.h" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/src/STScriptComponent.cpp" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/src/STLight.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src/STResourceManager.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src/Math/Transform.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src/Math/Vertex.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src/Math/Vector.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src/Math/Matrix.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/src/Math/2D Bounds/BoundRect.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/src/Math/2D Bounds/BoundShape.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/src/Math/Euler.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src/Math/STCore.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src/Math/Shape/Shape.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src/Math/Shape/Cube.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src/Math/Shape/Quad.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src/Math/Shape/Rect.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src/Math/Quaternion.h" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/src/STGraphicsComponent.cpp" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/src/STMeshComponent.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/main.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/CMakeLists.txt" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/demo/demo_main.cpp" isTestSource="false" />
     </content>
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="module-library">
@@ -67,13 +89,11 @@
           <root url="file://C:/MinGW/mingw-w64/x86_64-4.8.3-posix-seh-rt_v3-rev2/mingw64/lib/gcc/x86_64-w64-mingw32/4.8.3/include" />
           <root url="file://C:/MinGW/mingw-w64/x86_64-4.8.3-posix-seh-rt_v3-rev2/mingw64/lib/gcc/x86_64-w64-mingw32/4.8.3/include-fixed" />
           <root url="file://C:/MinGW/mingw-w64/x86_64-4.8.3-posix-seh-rt_v3-rev2/mingw64/x86_64-w64-mingw32/include" />
-          <root url="file://$MODULE_DIR$/include" />
         </CLASSES>
         <SOURCES>
           <root url="file://C:/MinGW/mingw-w64/x86_64-4.8.3-posix-seh-rt_v3-rev2/mingw64/lib/gcc/x86_64-w64-mingw32/4.8.3/include" />
           <root url="file://C:/MinGW/mingw-w64/x86_64-4.8.3-posix-seh-rt_v3-rev2/mingw64/lib/gcc/x86_64-w64-mingw32/4.8.3/include-fixed" />
           <root url="file://C:/MinGW/mingw-w64/x86_64-4.8.3-posix-seh-rt_v3-rev2/mingw64/x86_64-w64-mingw32/include" />
-          <root url="file://$MODULE_DIR$/include" />
         </SOURCES>
       </library>
     </orderEntry>

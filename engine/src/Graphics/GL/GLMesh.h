@@ -6,12 +6,14 @@
 
 #include "../../../include/GL/glew.h"
 
-#include "../../STMesh.h"
+#include "../../Entity/Util/STMesh.h"
 
 class GLMesh : public STMesh{
 public:
     GLMesh();
     GLMesh(const std::string& fileName, int type);
+    GLMesh(const std::string& fileName);
+    GLMesh(STMesh_Structure structure);
     GLMesh(STRect* rect);
     GLMesh(STQuad* quad);
     GLMesh(STCube* cube);
@@ -30,10 +32,10 @@ private:
         BITANGENT_BUFFER,
         NUM_BUFFERS
     };
-    GLuint  _VAO;
-    GLuint _VBO[NUM_BUFFERS];
-    std::string _fileName;
-    uint32_t _drawCount;
+    GLuint  m_VAO;
+    GLuint m_VBO[NUM_BUFFERS];
+    std::string m_fileName;
+    uint32_t m_drawCount;
 };
 
 

@@ -5,6 +5,10 @@
 
 #include "../Vertex.h"
 
+
+/*
+ *  TODO - Refractor this to only contain point information
+ */
 class Shape{
 public:
     Shape(){ }

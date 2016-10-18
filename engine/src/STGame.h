@@ -35,6 +35,17 @@ class STGame {
 public:
     static int RES_WIDTH;
     static int RES_HEIGHT;
+
+    static STGame* m_instance;
+
+    static STGame* Init(const std::string& title, const stUint WIDTH, const stUint HEIGHT);
+    static STGame* Get();
+
+    enum DIMENSION_MODE{
+        DIM_2D = 0,
+        DIM_3D = 1
+    };
+
     //! Constructor
     /*!
      *  Default Constructor.
@@ -71,17 +82,17 @@ public:
 
     /*--General Getters and Setters--*/
     /*-The Setters-*/
-    void useScript(bool v){ this->useLua = v; }
+    inline void useScript(bool v){ this->useLua = v; }
     //! Sets Game to Fullscreen
     /*!
      *  \param v Fullscreen state.
      */
-    void useFullScreen(bool v){ this->isFullScreen = v; }
+    inline void useFullScreen(bool v){ this->isFullScreen = v; }
     //! Sets Game to Pause.
     /*!
      *  \param v Pause state.
      */
-    void setPause(bool v){ this->isPause = v; }
+    inline void setPause(bool v){ this->isPause = v; }
 
     //! Sets Target FPS for game.
     /*!
@@ -121,6 +132,10 @@ public:
      */
     void addCamera(Camera* cam);
 
+    inline void setDimension(DIMENSION_MODE dim){
+        this->dimMode = dim;
+    }
+
     static void SetResolutionWidth(int val){ STGame::RES_WIDTH = val; }
     static void SetResolutionHeight(int val){ STGame::RES_HEIGHT = val; }
 
@@ -155,6 +170,8 @@ public:
     STResourceManager* getResourceManager();
     int getWidth(){ return this->WIDTH; }
     int getHeight(){ return this->HEIGHT; }
+
+    const DIMENSION_MODE getDimensionMode()const{ return this->dimMode; }
     //! Gets Pointer to SDL_Window
     SDL_Window* getWindow(){ return this->m_Window; }/*! \return pointer to SDL_Window */
     //! Gets Delta time.
@@ -189,7 +206,6 @@ private:
 
     unsigned int m_currentIndex;
     std::vector<STGameState *> m_gameStates;
-    Input* m_input;
     SDL_Window* m_Window;
     SDL_GLContext m_Context;
     SDL_Event m_e;
@@ -199,6 +215,7 @@ private:
     Uint32 delta, oldTime, newTime, fps;
     Vector4<stReal> m_clearColor;
     STResourceManager* resourceManager;
+    DIMENSION_MODE dimMode;
 };
 
 

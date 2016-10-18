@@ -24,11 +24,12 @@ Camera::Camera(STGame &win, Vector3<stReal> &pos, int presetMode) {
     m_Width = (float)win.getWidth();
     m_Height = (float)win.getHeight();
     m_transform.setTranslate(pos);
-    m_Forward = Vector3<stReal>(1.0f, 0.0f, 0.0f);
+    m_Forward = Vector3<stReal>(0.0f, 0.0f, 1.0f);
     m_Up = Vector3<stReal>(0.0f, 1.0f, 0.0f);
+    m_Speed = 0.05f;
+    ViewProfile viewProfile;
     if(presetMode == DefaultView_PERSP){
-        ViewProfile viewProfile;
-        viewProfile.FOV = 33.0f;
+        viewProfile.FOV = 45.0f;
         viewProfile.moveMode = CAMERA_MOVEMENT::FIRST_PERSON;
         viewProfile.viewMode = CAMERA_VIEW::PERSPECTIVE;
         viewProfile.zNear = 1.0f;
@@ -37,7 +38,24 @@ Camera::Camera(STGame &win, Vector3<stReal> &pos, int presetMode) {
         win.getInput()->setCursorBound(true);
         win.getInput()->centerMouseInWindow();
         win.getInput()->setCursorVisible(false);
+    }else if(presetMode == DefaultView_ORTHO){
+        viewProfile.FOV = 45;
+        viewProfile.moveMode = CAMERA_MOVEMENT::LOCKED;
+        viewProfile.viewMode = CAMERA_VIEW::ORTHOGRAPHIC;
+        viewProfile.zNear = 1.0f;
+        viewProfile.zFar = 100.0f;
+        m_viewProf = viewProfile;
+        win.getInput()->setCursorBound(false);
+        win.getInput()->setCursorVisible(true);
     }
+    hAngle = 0.0f;
+    vAngle = 0.0f;
+}
+
+void Camera::init(ViewProfile viewProfile) {
+    m_viewProf= viewProfile;
+    m_start = false;
+    m_Forward = Vector3<stReal>(0.0f, 0.0f, 1.0f);
     hAngle = 0.0f;
     vAngle = 0.0f;
 }
@@ -45,7 +63,7 @@ Camera::Camera(STGame &win, Vector3<stReal> &pos, int presetMode) {
 void Camera::update() {
     Vector3<stReal> vAxis(0.0f, 1.0f, 0.0f);
 
-    m_View = Vector3<stReal>(1.0f, 0.0f, 0.0f);
+    m_View = Vector3<stReal>(0.0f, 0.0f, 1.0f);
     m_View.rotate(hAngle, vAxis);
     m_View.normalize();
 
@@ -69,9 +87,9 @@ void Camera::update(Input* input) {
             stReal x = transform()->getTranslate<stReal>().getX();
             stReal y = transform()->getTranslate<stReal>().getY();
             stReal z = transform()->getTranslate<stReal>().getZ();
-            x -= m_Forward.getX() * 0.0005f * delta;
-            y -= m_Forward.getY() * 0.0005f * delta;
-            z -= m_Forward.getZ() * 0.0005f * delta;
+            x -= m_Forward.getX() * m_Speed * delta;
+            y -= m_Forward.getY() * m_Speed * delta;
+            z -= m_Forward.getZ() * m_Speed * delta;
             transform()->setTranslateX(x);
             transform()->setTranslateY(y);
             transform()->setTranslateZ(z);
@@ -80,9 +98,9 @@ void Camera::update(Input* input) {
             stReal x = transform()->getTranslate<stReal>().getX();
             stReal y = transform()->getTranslate<stReal>().getY();
             stReal z = transform()->getTranslate<stReal>().getZ();
-            x += m_Forward.getX() * 0.0005f * delta;
-            y += m_Forward.getY() * 0.0005f * delta;
-            z += m_Forward.getZ() * 0.0005f * delta;
+            x += m_Forward.getX() * m_Speed * delta;
+            y += m_Forward.getY() * m_Speed * delta;
+            z += m_Forward.getZ() * m_Speed * delta;
             transform()->setTranslateX(x);
             transform()->setTranslateY(y);
             transform()->setTranslateZ(z);
@@ -93,8 +111,8 @@ void Camera::update(Input* input) {
             stReal x = transform()->getTranslate<stReal>().getX();
             stReal z = transform()->getTranslate<stReal>().getZ();
 
-            x -= right.getX() * 0.0005f * delta;
-            z -= right.getZ() * 0.0005f * delta;
+            x -= right.getX() * m_Speed * delta;
+            z -= right.getZ() * m_Speed * delta;
             transform()->setTranslateX(x);
             transform()->setTranslateZ(z);
         }
@@ -103,8 +121,8 @@ void Camera::update(Input* input) {
             stReal x = transform()->getTranslate<stReal>().getX();
             stReal z = transform()->getTranslate<stReal>().getZ();
 
-            x += right.getX() * 0.0005f * delta;
-            z += right.getZ() * 0.0005f * delta;
+            x += right.getX() * m_Speed * delta;
+            z += right.getZ() * m_Speed * delta;
             transform()->setTranslateX(x);
             transform()->setTranslateZ(z);
         }

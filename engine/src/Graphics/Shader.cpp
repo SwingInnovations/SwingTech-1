@@ -12,8 +12,14 @@ void Shader::updateUniforms(std::vector<STShader::ShaderAttrib> _uniforms) {
             update(_uniforms[i].name, STShader::toFloat(_uniforms[i].value));
         } else if(_uniforms[i].type == STShader::VEC3){
             update(_uniforms[i].name, STShader::toVector3(_uniforms[i].value));
-        }else{
+        }else if(_uniforms[i].type == STShader::VEC4){
             update(_uniforms[i].name, STShader::toVector4(_uniforms[i].value));
+        }else if(_uniforms[i].type == STShader::MAT4){
+            update(_uniforms[i].name, STShader::toMatrix4f(_uniforms[i].value));
+        }else if(_uniforms[i].type == STShader::TEX){
+            update_Texture(_uniforms[i].name, STShader::toSTUint(_uniforms[i].value));
+        }else if(_uniforms[i].type == STShader::CUBE_MAP){
+            update_CubeMap(_uniforms[i].name, STShader::toSTUint(_uniforms[i].value));
         }
     }
 }

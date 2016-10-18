@@ -24,9 +24,86 @@ struct STColor{
         switch(col){
             case RED:
                 color = Vector4<stReal>(1.0f, 0.0f, 0.0f, 1.0f);
+                break;
+            case MAGENTA:
+                color = Vector4<stReal>(1.0f, 0.0f, 1.0f, 1.0f);
+                break;
+            case YELLOW:
+                color = Vector4<stReal>(1.0f, 1.0f, 0.0f, 1.0f);
+                break;
+            case GREEN:
+                color = Vector4<stReal>(0.0f, 1.0f, 0.0f, 1.0f);
+                break;
+            case CYAN:
+                color = Vector4<stReal>(0.0f, 1.0f, 1.0f, 1.0f);
+                break;
+            case BLUE:
+                color = Vector4<stReal>(0.0f, 0.0f, 1.0f, 1.0f);
+                break;
+            case BLACK:
+                color = Vector4<stReal>(0.0f, 0.0f, 0.0f, 1.0f);
+                break;
+            case WHITE:
+                color = Vector4<stReal>(1.0f, 1.0f, 1.0f, 1.0f);
             default:
                 ;
         }
+    }
+
+    inline void set(Vector3<stReal> col){
+        color = Vector4<stReal>(col, 1.0);
+    }
+
+    inline void set(Vector4<stReal> col){
+        color = col;
+    }
+
+    inline void set(const int col){
+        switch(col){
+            case RED:
+                color = Vector4<stReal>(1.0f, 0.0f, 0.0f, 1.0f);
+                break;
+            case MAGENTA:
+                color = Vector4<stReal>(1.0f, 0.0f, 1.0f, 1.0f);
+                break;
+            case YELLOW:
+                color = Vector4<stReal>(1.0f, 1.0f, 0.0f, 1.0f);
+                break;
+            case GREEN:
+                color = Vector4<stReal>(0.0f, 1.0f, 0.0f, 1.0f);
+                break;
+            case CYAN:
+                color = Vector4<stReal>(0.0f, 1.0f, 1.0f, 1.0f);
+                break;
+            case BLUE:
+                color = Vector4<stReal>(0.0f, 0.0f, 1.0f, 1.0f);
+                break;
+            case BLACK:
+                color = Vector4<stReal>(0.0f, 0.0f, 0.0f, 1.0f);
+                break;
+            case WHITE:
+                color = Vector4<stReal>(1.0f, 1.0f, 1.0f, 1.0f);
+            default:
+                ;
+        }
+    }
+
+    inline void setRed(const stReal value){
+        auto val = value;
+        if(value > 1.0f) val /= 255.0f;
+        color.setX(val);
+    }
+
+    inline void setGreen(const stReal value){
+        auto val = value;
+        if(value > 1.0f) val /= 255.0f;
+        color.setY(val);
+    }
+
+    inline void setBlue(const stReal value){
+        auto val = value;
+        if(value > 1.0f) val /= 255.0f;
+        color.setZ(val);
     }
 
     Vector4<stReal> color;

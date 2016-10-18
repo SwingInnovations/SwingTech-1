@@ -13,29 +13,88 @@ class Quaternion;
 template<typename T>
 class Vector2{
 public:
+    /**
+     * Constructs a new Vector2
+     * @return
+     */
     Vector2(){
         m_val[0] = 0;
         m_val[1] = 0;
     }
 
+    /**
+     * Constructs a new Vector 2
+     * @param _x X Component
+     * @param _y Y Component
+     * @return
+     */
     Vector2(T _x, T _y){
         m_val[0] = _x;
         m_val[1] = _y;
     }
 
+    /**
+     * Linearly interpolates between two vectors.
+     * @param start Start Vector
+     * @param end   Destination Vector
+     * @param step  Progression between two vectors(0.0-1.0)
+     * @return
+     */
+    static Vector2 Lerp(const Vector2& start, const Vector2& end, const stReal& step){
+        stReal st1 = 1.0f - step;
+        T x = (st1 * start.getX()) + (step * end.getX());
+        T y = (st1 * start.getY()) + (step * end.getY());
+        return Vector2(x, y);
+    }
+
+    /**
+     * Sets the X Component
+     * @param _x
+     */
     void setX(T _x){
         m_val[0] = _x;
     }
 
+    /**
+     * Sets the Y Component
+     * @param _y
+     */
     void setY(T _y){
         m_val[1] = _y;
     }
 
+    /**
+     * Sets the X and Y Components
+     * @param _x X Component
+     * @param _y Y Component
+     */
+    void set(T _x, T _y){
+        m_val[0] = _x;
+        m_val[1] = _y;
+    }
+
+    /**
+     * Returns the X Component of Vector2
+     * @return X Component
+     */
     T getX() const{ return m_val[0]; }
+
+    /**
+     * Returns the Y Component
+     * @return Y Component
+     */
     T getY() const{ return m_val[1]; }
 
+    /**
+     * Returns the data of the Vector as an array of type T.
+     * @return data
+     */
     T* getData(){ return m_val; }
 
+    /**
+     * Returns the magnitude of the vector.
+     * @return Magnitude.
+     */
     inline double getLength() const{
         double _x = m_val[0];
         double _y = m_val[1];
@@ -135,44 +194,52 @@ public:
         m_Val[2] = 0.0;
     }
 
-    void setX(const T& _x){ m_Val[0] = _x; }
-    void setY(const T& _y){ m_Val[1] = _y; }
-    void setZ(const T& _z){ m_Val[2] = _z; }
+    static Vector3 Lerp(const Vector3& start, const Vector3& end, const stReal& step){
+        stReal st1 = 1.0f - step;
+        const T x = (st1 * start.getX()) + (step * end.getX());
+        const T y = (st1 * start.getY()) + (step * end.getY());
+        const T z = (st1 * start.getZ()) + (step * end.getZ());
+        return Vector3(x, y, z);
+    }
 
-    T getX() const{ return m_Val[0]; }
-    T getY() const{ return m_Val[1]; }
-    T getZ() const{ return m_Val[2]; }
+    inline void setX(const T& _x){ m_Val[0] = _x; }
+    inline void setY(const T& _y){ m_Val[1] = _y; }
+    inline void setZ(const T& _z){ m_Val[2] = _z; }
 
-    T* getData(){ return m_Val; }
+    inline T getX() const{ return m_Val[0]; }
+    inline T getY() const{ return m_Val[1]; }
+    inline T getZ() const{ return m_Val[2]; }
 
-    double getLength(){
+    inline T* getData(){ return m_Val; }
+
+    inline double getLength(){
         double _x = (double)getX();
         double _y = (double)getY();
         double _z = (double)getZ();
         return sqrt(pow(_x, 2) + pow(_y, 2) + pow(_z, 2));
     }
 
-    Vector3 normalize(){
+    inline Vector3 normalize(){
         m_Val[0] /= getLength();
         m_Val[1] /= getLength();
         m_Val[2] /= getLength();
         return *this;
     }
 
-    Vector3 negate(){
+    inline Vector3 negate(){
         m_Val[0] = -abs(m_Val[0]);
         m_Val[1] = -abs(m_Val[1]);
         m_Val[2] = -abs(m_Val[2]);
         return *this;
     }
 
-    std::string getInfo() const {
+    inline std::string getInfo() const {
         std::ostringstream str;
         str << "[ X: " << m_Val[0] << " Y: " << m_Val[1] << " Z: " << m_Val[2] <<" ] " << std::endl;
         return str.str();
     }
 
-    void rotate(stReal angle, Vector3& axis){
+    inline void rotate(stReal angle, Vector3& axis){
         float hSinF = sinf(toRadian(angle/2));
         float hCosF = cosf(toRadian(angle/2));
 
@@ -191,11 +258,11 @@ public:
         this->m_Val[2] = W.getZ();
     }
 
-    double dot(const Vector3& other){
+    inline double dot(const Vector3& other){
         return sqrt(this->getX() * other.getX() + this->getY() * other.getY() + other.getZ() * other.getZ());
     }
 
-    Vector3 cross(const Vector3& other)const{
+    inline Vector3 cross(const Vector3& other)const{
         T _x = (this->getY() * other.getZ()) - (this->getZ() * other.getY());
         T _y = (this->getZ() * other.getX()) - (this->getX() * other.getZ());
         T _z = (this->getX() * other.getY()) - (this->getY() * other.getX());
@@ -255,6 +322,7 @@ public:
         T x = getX() / other.getX();
         T y = getY() / other.getY();
         T z = getZ() / other.getZ();
+        return Vector3(x, y, z);
     }
 
 private:
@@ -276,17 +344,25 @@ public:
         m_Val[3] = _w;
     }
 
-    void setX(T _x){ m_Val[0] = _x; }
-    void setY(T _y){ m_Val[1] = _y; }
-    void setZ(T _z){ m_Val[2] = _z; }
-    void setW(T _w){ m_Val[3] = _w; }
+    template<typename U>
+    Vector4(Vector3<U> vec, T _W){
+        m_Val[0] = (T)vec.getX();
+        m_Val[1] = (T)vec.getY();
+        m_Val[2] = (T)vec.getZ();
+        m_Val[3] = _W;
+    }
 
-    T getX()const{ return m_Val[0]; }
-    T getY()const{ return m_Val[1]; }
-    T getZ()const{ return m_Val[2]; }
-    T getW()const{ return m_Val[3]; }
+    inline void setX(T _x){ m_Val[0] = _x; }
+    inline void setY(T _y){ m_Val[1] = _y; }
+    inline void setZ(T _z){ m_Val[2] = _z; }
+    inline void setW(T _w){ m_Val[3] = _w; }
 
-    double getLength(){
+    inline T getX()const{ return m_Val[0]; }
+    inline T getY()const{ return m_Val[1]; }
+    inline T getZ()const{ return m_Val[2]; }
+    inline T getW()const{ return m_Val[3]; }
+
+    inline double getLength()const{
         double x = (double)getX();
         double y = (double)getY();
         double z = (double)getZ();
@@ -295,7 +371,7 @@ public:
         return sqrt( x * x + y * y + z * z + w * w);
     }
 
-    Vector4 normalize(){
+    inline Vector4 normalize()const{
         double len = getLength();
         m_Val[0] /= len;
         m_Val[1] /= len;

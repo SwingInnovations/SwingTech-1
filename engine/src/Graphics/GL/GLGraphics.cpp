@@ -1,6 +1,3 @@
-//#include "../../../include/ft2build.h"
-//#include FT_FREETYPE_H
-
 extern "C"{
     #include <ft2build.h>
     #include FT_FREETYPE_H
@@ -10,161 +7,6 @@ extern "C"{
 
 Vector3<stReal> GLGraphics::TextColor = Vector3<stReal>(1.0, 1.0, 1.0);
 
-GLRenderPass::GLRenderPass() {
-
-}
-
-GLRenderPass::GLRenderPass(unsigned int x, unsigned int y) {
-    width = x;
-    height = y;
-    mesh = new STMeshComponent(new STQuad);
-    postShader = new GLShader("Shader/screen", "Shader/default");
-
-    glGenFramebuffers(1, &frameBuffer);
-    glGenTextures(1, &texBuffer);
-
-    glBindTexture(GL_TEXTURE_2D, texBuffer);
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, NULL);
-    glGenerateMipmap(GL_TEXTURE_2D);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-
-    glBindFramebuffer(GL_FRAMEBUFFER, frameBuffer);
-    glFramebufferParameteri(GL_FRAMEBUFFER, GL_FRAMEBUFFER_DEFAULT_WIDTH, width);
-    glFramebufferParameteri(GL_FRAMEBUFFER, GL_FRAMEBUFFER_DEFAULT_HEIGHT, height);
-    glFramebufferParameteri(GL_FRAMEBUFFER, GL_FRAMEBUFFER_DEFAULT_SAMPLES, 4);
-    glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, texBuffer, 0);
-
-    glGenRenderbuffers(1, &renderBuffer);
-    glBindRenderbuffer(GL_RENDERBUFFER, renderBuffer);
-    glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH24_STENCIL8, width, height);
-    glBindRenderbuffer(GL_RENDERBUFFER, 0);
-    glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT, GL_RENDERBUFFER, renderBuffer);
-
-    GLenum drawBuffers[] = {GL_COLOR_ATTACHMENT0};
-    glDrawBuffers(1, drawBuffers);
-
-
-    if(glCheckFramebufferStatus(GL_FRAMEBUFFER) == GL_FRAMEBUFFER_COMPLETE){
-        std::cout << "Successfully generated Framebuffer" << std::endl;
-    }
-    glBindFramebuffer(GL_FRAMEBUFFER, 0);
-    glViewport(0, 0, width, height);
-}
-
-GLRenderPass::GLRenderPass(unsigned int x, unsigned int y, GLShader* shdr) {
-    width = x;
-    height = y;
-    mesh = new STMeshComponent(new STQuad());
-    postShader = shdr;
-
-    glGenFramebuffers(1, &frameBuffer);
-    glGenTextures(1, &texBuffer);
-
-    glBindTexture(GL_TEXTURE_2D, texBuffer);
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, NULL);
-    glGenerateMipmap(GL_TEXTURE_2D);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-
-    glBindFramebuffer(GL_FRAMEBUFFER, frameBuffer);
-    glFramebufferParameteri(GL_FRAMEBUFFER, GL_FRAMEBUFFER_DEFAULT_WIDTH, width);
-    glFramebufferParameteri(GL_FRAMEBUFFER, GL_FRAMEBUFFER_DEFAULT_HEIGHT, height);
-    glFramebufferParameteri(GL_FRAMEBUFFER, GL_FRAMEBUFFER_DEFAULT_SAMPLES, 4);
-    glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, texBuffer, 0);
-
-    glGenRenderbuffers(1, &renderBuffer);
-    glBindRenderbuffer(GL_RENDERBUFFER, renderBuffer);
-    glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH24_STENCIL8, width, height);
-    glBindRenderbuffer(GL_RENDERBUFFER, 0);
-    glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT, GL_RENDERBUFFER, renderBuffer);
-
-    GLenum drawBuffers[] = {GL_COLOR_ATTACHMENT0};
-    glDrawBuffers(1, drawBuffers);
-
-
-    if(glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE){
-        std::cout << "Unsuccessfully generated Framebuffer" << std::endl;
-    }
-    glBindFramebuffer(GL_FRAMEBUFFER, 0);
-}
-
-GLRenderPass::GLRenderPass(unsigned int x, unsigned int y, std::string &name) {
-
-}
-
-GLRenderPass::~GLRenderPass() {
-
-}
-
-void GLRenderPass::bind() {
-    glBindFramebuffer(GL_FRAMEBUFFER, frameBuffer);
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-    glEnable(GL_DEPTH_TEST);
-
-    Vector4<stReal> clearColor = STGraphics::ClearColor;
-    glClearColor(clearColor.getX(), clearColor.getY(), clearColor.getZ(), clearColor.getW());
-
-}
-
-void GLRenderPass::unbind() {
-    glBindFramebuffer(GL_FRAMEBUFFER, 0);
-
-    glClear(GL_COLOR_BUFFER_BIT);
-    glDisable(GL_DEPTH_TEST);
-    glDisable(GL_CULL_FACE);
-    glClearColor(1.0, 1.0, 1.0, 1.0);
-
-    postShader->bind();
-    glBindTexture(GL_TEXTURE_2D, texBuffer);
-    mesh->draw();
-}
-
-void GLRenderPass::setScene(STSceneManager* sceneManager){
-    entities = sceneManager->getEntities();
-    lights = sceneManager->getLights();
-
-    skyboxMesh = new GLMesh(new STCube(1000));
-    skyBox = GLTexture::loadCubemapTexture(sceneManager->getSkyboxName().c_str());
-    skyboxShdr = new GLShader(sceneManager->getSkyboxShader().c_str());
-}
-
-void GLRenderPass::setEntities(std::vector<STEntity *> _entities) {
-    entities = _entities;
-}
-
-void GLRenderPass::setLights(std::vector<STLight *> _lights) {
-    lights = _lights;
-}
-
-void GLRenderPass::drawSkybox(GLGraphics *g) {
-    glDisable(GL_CULL_FACE);
-    glDepthFunc(GL_LEQUAL);
-    skyboxShdr->bind();
-    skyboxShdr->update(*g->camera());
-    glActiveTexture(GL_TEXTURE0);
-    glBindTexture(GL_TEXTURE_CUBE_MAP, skyBox);
-    skyboxMesh->draw();
-    glDepthFunc(GL_LESS);
-    glEnable(GL_CULL_FACE);
-    glCullFace(GL_FRONT);
-}
-
-void GLRenderPass::draw(GLGraphics *g) {
-    bind();
-    drawSkybox(g);
-    if(entities.size() >= 1){
-        for(auto ent : entities){
-            ent->draw(g->camera());
-        }
-    }
-    unbind();
-}
-
 GLGraphics::GLGraphics() {
 
 }
@@ -173,7 +15,8 @@ GLGraphics::GLGraphics(STGame *game) {
     WIDTH = (unsigned int)game->getWidth();
     HEIGHT = (unsigned int)game->getHeight();
 
-
+    screenQuad = new GLMesh(new STQuad);
+    screenShdr = new GLShader("screen");
 
     FT_Library ft;
     if(FT_Init_FreeType(&ft)){ std::cout << "foo" << std::endl; }else{ std::cout << "Successfully loaded FreeType!" << std::endl; }
@@ -223,6 +66,12 @@ GLGraphics::GLGraphics(STGame *game) {
     textShader = new GLShader("text");
     orthoProjection.initOrthographicProjection(0, WIDTH, HEIGHT, 0, 0, 1000.0f);
 
+    //Setup Albedo and lit materials for forward rendering
+    m_directionalLightMat = new STMaterial(new GLShader("standard","standard_directional_forward"));
+    m_pointLightMat = new STMaterial(new GLShader("standard","standard_point_forward"));
+    m_albedoMat = new STMaterial(new GLShader("standard","standard_abledo_forward"));
+    m_IBLMat = new STMaterial (new GLShader ("standard", "standard_IBL"));
+
     glGenVertexArrays(1, &textVAO);
     glGenBuffers(1, &textVBO);
     glBindVertexArray(textVAO);
@@ -234,31 +83,204 @@ GLGraphics::GLGraphics(STGame *game) {
     glBindVertexArray(0);
 }
 
-void GLGraphics::setShader(int ind, Shader *shdr) {
-    if(ind < renderPass.size()){
-        renderPass[ind]->postShader = (GLShader*)shdr;
-    }
-}
+void GLGraphics::drawScene(STScene *scene) {
+    auto rendScene = scenes[scene->getIndex()];
+    if(!rendScene.m_initiated){
+        scenes[scene->getIndex()].initSkybox(scene->getSkyboxShader(), scene->getSkyboxName());
 
-void GLGraphics::addRenderPass(STSceneManager *scene, GLShader *shdr) {
-    renderPass.push_back(new GLRenderPass(WIDTH, HEIGHT, shdr));
-    auto rend = renderPass.back();
-    rend->setScene(scene);
-}
+        glGenFramebuffers(1, &frameBuffer);
+        glGenTextures(1, &frameTexBuffer);
+        glGenTextures(1, &velocityTexBuffer);
 
-void GLGraphics::drawScene(STSceneManager *scene) {
-    for(auto rendPass : renderPass){
-        rendPass->draw(this);
+        auto w = STGame::RES_WIDTH;
+        auto h = STGame::RES_HEIGHT;
+
+        glBindTexture(GL_TEXTURE_2D, frameTexBuffer);
+        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB32F, w, h, 0, GL_RGB, GL_FLOAT, NULL);
+        glGenerateMipmap(GL_TEXTURE_2D);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+
+//        glBindTexture(GL_TEXTURE_2D, velocityTexBuffer);
+//        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB32F, w, h, 0, GL_RGB, GL_FLOAT, NULL);
+//        glGenerateMipmap(GL_TEXTURE_2D);
+//        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+//        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+//        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
+//        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+
+        glBindFramebuffer(GL_FRAMEBUFFER, frameBuffer);
+        glFramebufferParameteri(GL_FRAMEBUFFER, GL_FRAMEBUFFER_DEFAULT_WIDTH, w);
+        glFramebufferParameteri(GL_FRAMEBUFFER, GL_FRAMEBUFFER_DEFAULT_HEIGHT, h);
+        glFramebufferParameteri(GL_FRAMEBUFFER, GL_FRAMEBUFFER_DEFAULT_SAMPLES, 4);
+
+
+        glGenRenderbuffers(1, &rendBuffer);
+        glBindRenderbuffer(GL_RENDERBUFFER, rendBuffer);
+        glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH24_STENCIL8, w, h);
+        glBindRenderbuffer(GL_RENDERBUFFER, 0);
+        glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT, GL_RENDERBUFFER, rendBuffer);
+
+        GLenum drawBuffers[] = {GL_COLOR_ATTACHMENT0};
+        glDrawBuffers(1, drawBuffers);
+        if(glCheckFramebufferStatus(GL_FRAMEBUFFER) == GL_FRAMEBUFFER_COMPLETE){
+            std::cout << "Successfully generated framebuffer!" << std::endl;
+        }
+        glBindFramebuffer(GL_FRAMEBUFFER, 0);
+        glViewport(0, 0, w, h);
+
+        scenes[scene->getIndex()].m_initiated = true;
     }
+
+    // Bind the frame buffer
+    glBindFramebuffer(GL_FRAMEBUFFER, frameBuffer);
+    //glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, velocityTexBuffer, 0);
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    glEnable(GL_DEPTH_TEST);
+    auto clearColor = STGraphics::ClearColor;
+    glClearColor(0,0,0,1);
+
+
+
+    auto actors = scene->getActors();
+    auto lights = scene->getLights();
+/*
+    //Depth Pre-Pass
+    for(int i =0; i< actors.size(); i++){
+        actors[i]->setShdrUniform("_GlobalAmbient",GlobalAmbient);
+        actors[i]->draw(m_albedoMat);
+    }
+*/
+    glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, frameTexBuffer, 0);
+
+    glClearColor(clearColor.getX(), clearColor.getY(), clearColor.getZ(), clearColor.getZ());
+    glClear(GL_COLOR_BUFFER_BIT);
+
+
+    scenes[scene->getIndex()].drawSkybox(*camera());
+
+
+
+
+
+
+    //IBL Pass
+    for(int i =0; i < actors.size(); i++) {
+        actors[i]->setShdrUniform("_GlobalAmbient", GlobalAmbient);
+        actors[i]->setShdrUniform_CubeMap("_WorldCubeMap", scenes[scene->getIndex()].m_skybox);
+        actors[i]->setShdrUniform("_CameraPos", camera()->transform()->getTranslate<stReal>());
+        actors[i]->draw(m_IBLMat);
+    }
+
+
+     glDepthFunc(GL_EQUAL);
+
+      glDepthMask(GL_FALSE);
+      glEnable(GL_BLEND);
+    glBlendFunc(GL_ONE, GL_ONE);
+
+    //Forward Pass
+    for(int i =0; i < actors.size(); i++){
+        for(int j =0; j < lights.size(); j++) {
+
+            actors[i]->setShdrUniform("Light.Color", lights[j]->color);
+            actors[i]->setShdrUniform("Light.Intensity", lights[j]->intensity);
+            actors[i]->setShdrUniform("Light.Position", lights[j]->transform()->getTranslate<stReal>());
+            actors[i]->setShdrUniform("Light.Direction", lights[j]->direction);
+            actors[i]->setShdrUniform("Light.Radius", lights[j]->radius);
+
+            switch(lights[j]->type) {
+                case STLight::DirectionalLight: {
+                    actors[i]->draw(m_directionalLightMat);
+                    break;
+                }
+                case STLight::PointLight: {
+                    actors[i]->draw(m_pointLightMat);
+                    break;
+                }
+                case STLight::SpotLight: {
+                    break;
+                }
+            }
+        }
+    }
+
+
+    glDisable(GL_BLEND);
+    glDepthFunc(GL_LESS);
+    glDepthMask(GL_TRUE);
+
+    glBindFramebuffer(GL_FRAMEBUFFER, 0);
+
+
+    glDisable(GL_DEPTH_TEST);
+    glClear(GL_COLOR_BUFFER_BIT);
+
+    glDisable(GL_CULL_FACE);
+
+
+    glClearColor(1.0, 1.0, 1.0, 1.0);
+
+    screenShdr->bind();
+    glBindTexture(GL_TEXTURE_2D, frameTexBuffer);
+    screenQuad->draw();
 }
 
 void GLGraphics::drawText(Vector2<stReal> pos, const std::string& text, stReal fontSize) {
     glEnable(GL_BLEND);
-    glEnable(GL_TEXTURE_2D);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     textShader->bind();
     textShader->update("projection", orthoProjection);
     textShader->update("textColor", GLGraphics::TextColor);
+    glActiveTexture(GL_TEXTURE0);
+    glBindVertexArray(textVAO);
+
+    GLfloat x = pos.getX();
+    GLfloat y = pos.getY();
+
+    fontSize /= 128.0f;
+
+    std::string::const_iterator c;
+    for(c = text.begin(); c != text.end(); c++){
+        Character ch = characters[*c];
+
+        GLfloat xPos = x + ch.bearing.getX() * fontSize;
+        GLfloat yPos = y - (ch.size.getY() - ch.bearing.getY()) * fontSize;
+
+        GLfloat w = ch.size.getX() * fontSize;
+        GLfloat h = ch.size.getY() * fontSize;
+
+        GLfloat verts[6][4] = {
+                {xPos, yPos, 0.0, 1.0},
+                {xPos + w, yPos, 1.0, 1.0 },
+                {xPos, yPos+h,  0.0, 0.0},
+
+                {xPos, yPos+h,  0.0, 0.0},
+                {xPos + w, yPos + h, 1.0, 0.0},
+                {xPos + w, yPos, 1.0, 1.0 }
+        };
+        glBindTexture(GL_TEXTURE_2D, ch.texID);
+        glBindBuffer(GL_ARRAY_BUFFER, textVBO);
+        glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(verts), verts);
+        glBindBuffer(GL_ARRAY_BUFFER, 0);
+        glDrawArrays(GL_TRIANGLES, 0, 6);
+
+
+        x+=( ch.Advance >> 6 ) * fontSize;
+    }
+    glBindVertexArray(0);
+    glBindTexture(GL_TEXTURE_2D, 0);
+    glDisable(GL_BLEND);
+}
+
+void GLGraphics::drawText(Vector2<stReal> pos, const std::string &text, stReal fontSize, Vector4<stReal> *color) {
+    glEnable(GL_BLEND);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+    textShader->bind();
+    textShader->update("projection", orthoProjection);
+    textShader->update("textColor", *color);
     glActiveTexture(GL_TEXTURE0);
     glBindVertexArray(textVAO);
 
@@ -305,7 +327,6 @@ void GLGraphics::drawText(Vector2<stReal> pos, const std::string &text, stReal f
     string = string.replace(string.find("%d"), sizeof(std::to_string(value))-1, std::to_string(value));
 
     glEnable(GL_BLEND);
-    glEnable(GL_TEXTURE_2D);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     textShader->bind();
     textShader->update("projection", orthoProjection);
@@ -365,7 +386,6 @@ void GLGraphics::drawText(Vector2<stReal> pos, const std::string &text, stReal f
     }
 
     glEnable(GL_BLEND);
-    glEnable(GL_TEXTURE_2D);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     textShader->bind();
     textShader->update("projection", orthoProjection);
@@ -425,7 +445,6 @@ void GLGraphics::drawText(Vector2<stReal> pos, const std::string &text, stReal f
     }
 
     glEnable(GL_BLEND);
-    glEnable(GL_TEXTURE_2D);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     textShader->bind();
     textShader->update("projection", orthoProjection);
@@ -491,7 +510,6 @@ void GLGraphics::drawText(Vector2<stReal> pos, const std::string &text, stReal f
     }
 
     glEnable(GL_BLEND);
-    glEnable(GL_TEXTURE_2D);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     textShader->bind();
     textShader->update("projection", orthoProjection);
@@ -558,148 +576,6 @@ void GLGraphics::drawText(Vector2<stReal> pos, const std::string &text, stReal f
 
 
     glEnable(GL_BLEND);
-    glEnable(GL_TEXTURE_2D);
-    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-    textShader->bind();
-    textShader->update("projection", orthoProjection);
-    textShader->update("textColor", GLGraphics::TextColor);
-    glActiveTexture(GL_TEXTURE0);
-    glBindVertexArray(textVAO);
-
-    GLfloat x = pos.getX();
-    GLfloat y = pos.getY();
-
-    fontSize /= 128.0f;
-
-    std::string::const_iterator c;
-    for(c = string.begin(); c != string.end(); c++){
-        Character ch = characters[*c];
-
-        GLfloat xPos = x + ch.bearing.getX() * fontSize;
-        GLfloat yPos = y - (ch.size.getY() - ch.bearing.getY()) * fontSize;
-
-        GLfloat w = ch.size.getX() * fontSize;
-        GLfloat h = ch.size.getY() * fontSize;
-
-        GLfloat verts[6][4] = {
-                {xPos, yPos, 0.0, 1.0},
-                {xPos + w, yPos, 1.0, 1.0 },
-                {xPos, yPos+h,  0.0, 0.0},
-
-                {xPos, yPos+h,  0.0, 0.0},
-                {xPos + w, yPos + h, 1.0, 0.0},
-                {xPos + w, yPos, 1.0, 1.0 }
-        };
-        glBindTexture(GL_TEXTURE_2D, ch.texID);
-        glBindBuffer(GL_ARRAY_BUFFER, textVBO);
-        glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(verts), verts);
-        glBindBuffer(GL_ARRAY_BUFFER, 0);
-        glDrawArrays(GL_TRIANGLES, 0, 6);
-
-
-        x+=( ch.Advance >> 6 ) * fontSize;
-    }
-    glBindVertexArray(0);
-    glBindTexture(GL_TEXTURE_2D, 0);
-    glDisable(GL_BLEND);
-}
-
-void GLGraphics::drawText(Vector2<stReal> pos, const std::string &text, stReal fontSize, stReal v1, stReal v2,
-                          stReal v3, stReal v4) {
-    std::string string = text;
-    auto sPos = string.find('%');
-    if(string.at(sPos+1) == 'd'){
-        string.erase(sPos, 2);
-        string.insert(sPos, std::to_string(v1));
-    }
-    sPos = string.find('%');
-    if(string.at(sPos+1) == 'd'){
-        string.erase(sPos, 2);
-        string.insert(sPos, std::to_string(v2));
-    }
-    sPos = string.find('%');
-    if(string.at(sPos+1) == 'd'){
-        string.erase(sPos, 2);
-        string.insert(sPos, std::to_string(v3));
-    }
-    sPos = string.find('%');
-    if(string.at(sPos+1) == 'd'){
-        string.erase(sPos, 2);
-        string.insert(sPos, std::to_string(v4));
-    }
-
-    glEnable(GL_BLEND);
-    glEnable(GL_TEXTURE_2D);
-    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-    textShader->bind();
-    textShader->update("projection", orthoProjection);
-    textShader->update("textColor", GLGraphics::TextColor);
-    glActiveTexture(GL_TEXTURE0);
-    glBindVertexArray(textVAO);
-
-    GLfloat x = pos.getX();
-    GLfloat y = pos.getY();
-
-    fontSize /= 128.0f;
-
-    std::string::const_iterator c;
-    for(c = string.begin(); c != string.end(); c++){
-        Character ch = characters[*c];
-
-        GLfloat xPos = x + ch.bearing.getX() * fontSize;
-        GLfloat yPos = y - (ch.size.getY() - ch.bearing.getY()) * fontSize;
-
-        GLfloat w = ch.size.getX() * fontSize;
-        GLfloat h = ch.size.getY() * fontSize;
-
-        GLfloat verts[6][4] = {
-                {xPos, yPos, 0.0, 1.0},
-                {xPos + w, yPos, 1.0, 1.0 },
-                {xPos, yPos+h,  0.0, 0.0},
-
-                {xPos, yPos+h,  0.0, 0.0},
-                {xPos + w, yPos + h, 1.0, 0.0},
-                {xPos + w, yPos, 1.0, 1.0 }
-        };
-        glBindTexture(GL_TEXTURE_2D, ch.texID);
-        glBindBuffer(GL_ARRAY_BUFFER, textVBO);
-        glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(verts), verts);
-        glBindBuffer(GL_ARRAY_BUFFER, 0);
-        glDrawArrays(GL_TRIANGLES, 0, 6);
-
-
-        x+=( ch.Advance >> 6 ) * fontSize;
-    }
-    glBindVertexArray(0);
-    glBindTexture(GL_TEXTURE_2D, 0);
-    glDisable(GL_BLEND);
-}
-
-void GLGraphics::drawText(Vector2<stReal> pos, const std::string &text, stReal fontSize, Vector4<stReal> vector) {
-    std::string string = text;
-    auto sPos = string.find('%');
-    if(string.at(sPos+1) == 'd'){
-        string.erase(sPos, 2);
-        string.insert(sPos, std::to_string(vector.getX()));
-    }
-    sPos = string.find('%');
-    if(string.at(sPos+1) == 'd'){
-        string.erase(sPos, 2);
-        string.insert(sPos, std::to_string(vector.getY()));
-    }
-    sPos = string.find('%');
-    if(string.at(sPos+1) == 'd'){
-        string.erase(sPos, 2);
-        string.insert(sPos, std::to_string(vector.getZ()));
-    }
-    sPos = string.find('%');
-    if(string.at(sPos+1) == 'd'){
-        string.erase(sPos, 2);
-        string.insert(sPos, std::to_string(vector.getW()));
-    }
-
-    glEnable(GL_BLEND);
-    glEnable(GL_TEXTURE_2D);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     textShader->bind();
     textShader->update("projection", orthoProjection);
@@ -750,7 +626,6 @@ void GLGraphics::drawText(Vector2<stReal> pos, const std::string &text, stReal f
     string = string.replace(string.find("%s"), msg.length()-1, msg);
 
     glEnable(GL_BLEND);
-    glEnable(GL_TEXTURE_2D);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     textShader->bind();
     textShader->update("projection", orthoProjection);
@@ -799,3 +674,8 @@ void GLGraphics::drawText(Vector2<stReal> pos, const std::string &text, stReal f
 std::string GLGraphics::getVendor() {
     return reinterpret_cast<char const* >( glGetString(GL_VENDOR) );
 }
+
+void GLGraphics::initScene(stUint index) {
+    scenes.insert(std::pair<stUint, GLRenderScene>(index, GLRenderScene()));
+}
+

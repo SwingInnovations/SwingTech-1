@@ -6,6 +6,7 @@
 
 #include "STCore.h"
 #include "Vector.h"
+#include "Euler.h"
 
 
 class Matrix4f{
@@ -14,7 +15,7 @@ public:
         initIdentity();
     }
 
-    void initIdentity(){
+    inline void initIdentity(){
         for(int i = 0; i < 4; i++){
             for(int j = 0; j < 4; j++){
                 if(i == j){
@@ -26,22 +27,22 @@ public:
         }
     }
 
-    void initTranslation(const Vector3<stReal>& vec){
+    inline void initTranslation(const Vector3<stReal>& vec){
         initTranslation(vec.getX(), vec.getY(), vec.getZ());
     }
 
-    void initTranslation(float x, float y, float z){
+    inline void initTranslation(float x, float y, float z){
         m[0][0] = 1.0f; m[0][1] = 0.0f; m[0][2] = 0.0f; m[0][3] = x;
         m[1][0] = 0.0f; m[1][1] = 1.0f; m[1][2] = 0.0f; m[1][3] = y;
         m[2][0] = 0.0f; m[2][1] = 0.0f; m[2][2] = 1.0f; m[2][3] = z;
         m[3][0] = 0.0f; m[3][1] = 0.0f; m[3][2] = 0.0f; m[3][3] = 1.0f;
     }
 
-    void initRotate(Vector3<stReal>& vec){
+    inline void initRotate(Vector3<stReal>& vec){
         initRotate(vec.getX(), vec.getY(), vec.getZ());
     }
 
-    void initRotate(stReal x, stReal y, stReal z){
+    inline void initRotate(stReal x, stReal y, stReal z){
         Matrix4f rx, ry, rz;
 
         const stReal _x = toRadian(x);
@@ -68,7 +69,48 @@ public:
         *this = ret;
     }
 
-    void initRotation(float angle, const Vector3<stReal>& vec){
+    inline void initRotate(const Euler<stReal> &euler){
+        Matrix4f z, y, x;
+        z.initRotation(Vector3<stReal>(0.0f, 0.0f, 1.0f), euler.getZ());
+        y.initRotation(Vector3<stReal>(0.0f, 1.0f, 0.0f), euler.getY());
+        x.initRotation(Vector3<stReal>(1.0f, 0.0f, 0.0f), euler.getX());
+        Matrix4f ret;
+        ret = z * y * x;
+        *this = ret;
+    }
+
+    inline void initRotation(const Vector3<stReal>& vec, const stReal angle){
+        stReal a = toRadian(angle);
+
+        Quaternion q;
+        q.setX(vec.getX() * sinf(a / 2.0f));
+        q.setY(vec.getY() * sinf(a / 2.0f));
+        q.setZ(vec.getZ() * sinf(a / 2.0f));
+        q.setW(cosf(a / 2.0f));
+        
+        stReal x2 = q.getX() * q.getX();
+        stReal y2 = q.getY() * q.getY();
+        stReal z2 = q.getZ() * q.getZ();
+
+        stReal xy = q.getX() * q.getY();
+        stReal xz = q.getX() * q.getZ();
+        stReal yz = q.getY() * q.getZ();
+        stReal wz = q.getW() * q.getZ();
+        stReal xw = q.getX() * q.getW();
+        stReal yw = q.getY() * q.getW();
+
+        stReal wy = q.getW() * q.getY();
+        stReal wx = q.getW() * q.getX();
+
+        Matrix4f ret;
+        ret.m[0][0] = 1.0f - (2 * y2) - (2 * z2);   ret.m[0][1] = (2.0f * xy) - (2.0f * wz);        ret.m[0][2] = (2.0f * xz) + ( 2.0f * wy);  ret.m[0][3] = 0.0f;
+        ret.m[1][0] = (2.0f * xy) + (2.0f * wz);    ret.m[1][1] = 1.0f - (2.0f * x2) - (2.0f * z2); ret.m[1][2] = (2.0f * yz) + (2.0f * wx);   ret.m[1][3] = 0.0f;
+        ret.m[2][0] = (2.0f * xz) - (2.0f * wy);    ret.m[2][1] = (2.0f * yz) - (2.0f * xw);        ret.m[2][2] = 1.0f - (2 * x2) - (2 * y2);  ret.m[2][3] = 0.0f;
+        ret.m[3][0] = 0.0f;                         ret.m[3][1] = 0.0f;                             ret.m[3][2] = 0.0f;                        ret.m[3][3] = 1.0f;
+        *this = ret;
+    }
+
+    inline void initRotation(float angle, const Vector3<stReal>& vec){
         float L = (float)(pow(vec.getX(), 2) + pow(vec.getY(), 2) + pow(vec.getZ(), 2));
         angle = toRadian(angle);
 
@@ -101,21 +143,21 @@ public:
         m[3][3] = 1.0;
     }
 
-    void initScale(Vector3<stReal>& vec){
+    inline void initScale(Vector3<stReal>& vec){
         m[0][0] = vec.getX(); m[0][1] = 0.0f;       m[0][2] = 0.0f; m[0][3] = 0.0f;
         m[1][0] = 0.0f;       m[1][1] = vec.getY(); m[1][2] = 0.0f; m[1][3] = 0.0f;
         m[2][0] = 0.0f;       m[2][1] = 0.0f;       m[2][2] = vec.getZ(); m[2][3] = 0.0f;
         m[3][0] = 0.0f;       m[3][1] = 0.0f;       m[3][2] = 0.0f;       m[3][3] = 1.0f;
     }
 
-    void initScale(float x, float y, float z){
+    inline void initScale(float x, float y, float z){
         m[0][0] = x; m[0][1] = 0.0f; m[0][2] = 0.0f; m[0][3] = 0.0f;
         m[1][0] = 0.0f; m[1][1] = y; m[1][2] = 0.0f; m[1][3] = 0.0f;
         m[2][0] = 0.0f; m[2][1] = 0.0f; m[2][2] = z; m[2][3] = 0.0f;
         m[3][0] = 0.0f; m[3][1] = 0.0f; m[3][2] = 0.0f; m[3][3] = 1.0f;
     }
 
-    void initPerpectiveProjection(float FOV, float WIDTH, float HEIGHT,
+    inline void initPerpectiveProjection(float FOV, float WIDTH, float HEIGHT,
                                     float zNear, float zFar){
         const float ar = WIDTH / HEIGHT;
         const float tanHalfFOV = tanf(toRadian(FOV/2.0f));
@@ -126,24 +168,23 @@ public:
         m[3][0] = 0.0f;                   m[3][1] = 0.0f; m[3][2] = 1.0f; m[3][3] = 0.0f;
     }
 
-    void initOrthographicProjection(float width, float height, float zNear, float zFar){
+    inline void initOrthographicProjection(float width, float height, float zNear, float zFar){
         const float zRange = zFar - zNear;
 
-        m[0][0] = 1.0f/width; m[0][1] = 0.0f;          m[0][2] = 0.0f; m[0][3] = 0.0f;
-        m[1][0] = 0.0f;       m[1][1] = 1.0f / height; m[1][2] = 0.0f; m[1][3] = 0.0f;
-        m[2][0] = 0.0f;       m[2][1] = 0.0f;          m[2][2] = -2.0f/zRange;    m[2][3] = (-zFar - zNear)/zRange;
-        m[3][0] = 0.0f;       m[3][1] = 0.0f;          m[3][2] = 0.0f; m[3][3] = 1.0f;
+        m[0][0] = 1.0f/width; m[0][1] = 0.0f;          m[0][2] = 0.0f;             m[0][3] = 0.0f;
+        m[1][0] = 0.0f;       m[1][1] = 1.0f / height; m[1][2] = 0.0f;             m[1][3] = 0.0f;
+        m[2][0] = 0.0f;       m[2][1] = 0.0f;          m[2][2] = -2.0f/zRange;     m[2][3] = (-zFar - zNear)/zRange;
+        m[3][0] = 0.0f;       m[3][1] = 0.0f;          m[3][2] = 0.0f;             m[3][3] = 1.0f;
     }
 
-    void initOrthographicProjection(float left, float right, float top, float bottom, float zNear, float zFar){
-
+    inline void initOrthographicProjection(float left, float right, float top, float bottom, float zNear, float zFar){
         m[0][0] = 2.0f / (right - left); m[0][1] = 0.0f;                m[0][2] = 0.0f;                 m[0][3] = -(right + left)/(right - left);
-        m[1][0] = 0.0f;                  m[1][1] = 2.0f/(top-bottom); m[1][2] = 0.0f;                 m[1][3] = -(top+bottom)/(top-bottom);
+        m[1][0] = 0.0f;                  m[1][1] = 2.0f/(top-bottom);   m[1][2] = 0.0f;                 m[1][3] = -(top+bottom)/(top-bottom);
         m[2][0] = 0.0f;                  m[2][1] = 0.0f;                m[2][2] = -2.0f/(zFar - zNear); m[2][3] = -(zFar + zNear)/ (zFar - zNear);
         m[3][0] = 0.0f;                  m[3][1] = 0.0f;                m[3][2] = 0.0f;                 m[3][3] = 1.0f;
     }
 
-    void initCamera(const Vector3<stReal>& target, const Vector3<stReal>& up){
+    inline void initCamera(const Vector3<stReal>& target, const Vector3<stReal>& up){
         Vector3<stReal> N = target;
         N.normalize();
         Vector3<stReal> U = up;
@@ -157,7 +198,7 @@ public:
         m[3][0] = 0.0f;     m[3][1] = 0.0f;     m[3][2] = 0.0f;     m[3][3] = 1.0f;
     }
 
-    void initCamera(const Vector3<stReal>& target, const Vector3<stReal>& up, Vector3<stReal> translate){
+    inline void initCamera(const Vector3<stReal>& target, const Vector3<stReal>& up, Vector3<stReal> translate){
         Vector3<stReal> N = target;
         N.normalize();
         Vector3<stReal> U = up;
@@ -173,7 +214,7 @@ public:
         m[3][0] = 0.0f;     m[3][1] = 0.0f;     m[3][2] = 0.0f;     m[3][3] = 1.0f;
     }
 
-    void initCamera(const Vector3<stReal>& target, const Vector3<stReal>& up, const Vector3<stReal>& view, Vector3<stReal> translate){
+    inline void initCamera(const Vector3<stReal>& target, const Vector3<stReal>& up, const Vector3<stReal>& view, Vector3<stReal> translate){
         Vector3<stReal> N = target;
         Vector3<stReal> U = up;
         Vector3<stReal> V = view;
@@ -199,7 +240,7 @@ public:
         return ret;
     }
 
-    Vector4<stReal> toVector4()const{
+    inline Vector4<stReal> toVector4()const{
         const float _x = m[0][0] + m[0][1] + m[0][2] + m[0][3];
         const float _y = m[1][0] + m[1][1] + m[1][2] + m[1][3];
         const float _z = m[2][0] + m[2][1] + m[2][2] + m[2][3];
@@ -207,7 +248,7 @@ public:
         return Vector4<stReal>(_x, _y, _z, _w);
     }
 
-    const Matrix4f transpose()const {
+    inline const Matrix4f transpose()const {
         Matrix4f ret;
         for(int i = 0; i < 4; i++){
             for(int j = 0; j < 4; j++){
@@ -217,7 +258,7 @@ public:
         return ret;
     }
 
-    std::string getInfo(){
+    inline std::string getInfo(){
         std::ostringstream buff;
         for(int i = 0; i < 4; i++){
             buff << "\n[ " << m[i][0] << " , " << m[i][1] << " , " << m[i][2] << " , " << m[i][3] << "]\n";

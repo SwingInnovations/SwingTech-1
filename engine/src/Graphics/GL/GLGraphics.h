@@ -4,8 +4,8 @@
 #include <regex>
 
 #include "../../../include/GL/glew.h"
-#include "../../STLight.h"
-#include "../../STEntity.h"
+#include "../../Entity/STLight.h"
+#include "../../Entity/STEntity.h"
 #include "../../STSceneManager.h"
 #include "../STGraphics.h"
 #include "GLShader.h"
@@ -15,8 +15,6 @@
 
 class GLGraphics;
 
-struct STRenderPass;
-
 struct Character{
     GLuint texID;
     Vector2<int> size;
@@ -24,37 +22,42 @@ struct Character{
     GLuint Advance;
 };
 
-struct GLRenderPass : public STRenderPass{
-    unsigned int width, height;
-    GLShader* postShader;
-    GLTexture* tex;
-    STMeshComponent* mesh;
+struct GLRenderScene : public STRenderScene{
+    GLRenderScene(){
+        m_skybox = 0;
+        m_skyboxShdr = nullptr;
+        m_initiated = false;
+        skyboxMesh = new GLMesh(new STCube(1000));
+    }
+
+    inline void initSkybox(const std::string& shdr, const std::string& map){
+        m_skybox = GLTexture::loadCubemapTexture(map);
+        m_skyboxShdr = new GLShader(shdr);
+    }
+
+    inline void drawSkybox(Camera& cam){
+        glDisable(GL_CULL_FACE);
+        glDepthFunc(GL_LEQUAL);
+        m_skyboxShdr->bind();
+        m_skyboxShdr->update(cam);
+        glActiveTexture(GL_TEXTURE0);
+        glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+        glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
+        glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+        glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+        glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_R, GL_CLAMP_TO_EDGE);
+        glGenerateMipmap(GL_TEXTURE_CUBE_MAP);
+        glBindTexture(GL_TEXTURE_CUBE_MAP, m_skybox);
+
+        skyboxMesh->draw();
+        glDepthFunc(GL_LESS);
+        glEnable(GL_CULL_FACE);
+        glCullFace(GL_FRONT);
+    }
+
+    GLuint m_skybox;
+    GLShader* m_skyboxShdr;
     GLMesh* skyboxMesh;
-    GLuint frameBuffer;
-    GLuint texBuffer;
-    GLuint renderBuffer;
-    GLuint skyBox;
-    GLShader* skyboxShdr;
-    std::vector<STEntity*> entities;
-    std::vector<STLight*> lights;
-
-    GLRenderPass();
-    GLRenderPass(unsigned int x, unsigned int y);
-    GLRenderPass(unsigned int x, unsigned int y, std::string& name);
-    GLRenderPass(unsigned int x, unsigned int y, GLShader* shdr);
-    ~GLRenderPass();
-
-    void bind();
-    void unbind();
-
-    void drawSkybox(GLGraphics* g);
-
-    void setScene(STSceneManager*);
-
-    void setEntities(std::vector<STEntity*> _entities);
-    void setLights(std::vector<STLight*> _lights);
-
-    void draw(GLGraphics* g);
 };
 
 class GLGraphics : public STGraphics{
@@ -62,38 +65,54 @@ public:
     GLGraphics();
     GLGraphics(STGame*);
 
-    virtual void addRenderPass(STSceneManager* scene){
-        renderPass.push_back(new GLRenderPass(WIDTH, HEIGHT));
-        renderPass.back()->setEntities(scene->getEntities());
-    }
-
     std::string getVendor();
 
     void drawText(Vector2<stReal> pos, const std::string& text, stReal fontSize );
+    void drawText(Vector2<stReal> pos, const std::string& text, stReal fontSize, Vector4<stReal>* color);
     void drawText(Vector2<stReal> pos, const std::string& text, stReal fontSize, stReal value);
     void drawText(Vector2<stReal> pos, const std::string& text, stReal fontSize, std::string& msg);
     void drawText(Vector2<stReal> pos, const std::string& text, stReal fontSize, stReal v1, stReal v2);
     void drawText(Vector2<stReal> pos, const std::string& text, stReal fontSize, Vector2<stReal> vector);
     void drawText(Vector2<stReal> pos, const std::string& text, stReal fontSize, stReal v1, stReal v2, stReal v3);
     void drawText(Vector2<stReal> pos, const std::string& text, stReal fontSize, Vector3<stReal> vector);
-    void drawText(Vector2<stReal> pos, const std::string& text, stReal fontSize, stReal v1, stReal v2, stReal v3, stReal v4);
-    void drawText(Vector2<stReal> pos, const std::string& text, stReal fontSize, Vector4<stReal> vector);
+    Matrix4f getOrthographicProjection()const {
+        return orthoProjection;
+    }
 
-    void addRenderPass(STSceneManager* scene, GLShader* shdr);
+    virtual void drawScene(STScene* scene);
+    virtual void initScene(stUint index);
 
-    virtual void setShader(int,Shader*);
+    inline void enableBlend(){
+        glEnable(GL_BLEND);
+    }
 
-    virtual void drawScene(STSceneManager* scene);
+    inline void disableBlend(){
+        glDisable(GL_BLEND);
+    }
     static Vector3<stReal> TextColor;
+
 protected:
 
 private:
-    std::vector<GLRenderPass*> renderPass;
     std::map<GLchar, Character> characters;
+    std::map<stUint, GLRenderScene> scenes;
     GLuint textVAO;
     GLuint textVBO;
     GLShader* textShader;
     Matrix4f orthoProjection;
+    GLuint frameBuffer;
+    GLuint frameTexBuffer;
+    GLuint velocityBuffer;
+    GLuint velocityTexBuffer;
+    GLuint rendBuffer;
+    GLShader* screenShdr;
+    GLMesh* screenQuad;
+    STMaterial* m_directionalLightMat;
+    STMaterial* m_pointLightMat;
+    STMaterial* m_spotLightMat;
+    STMaterial* m_albedoMat;
+    STMaterial* m_IBLMat;
+
 };
 
 

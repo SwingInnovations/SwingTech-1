@@ -6,6 +6,8 @@ static const int NUM_MOUSE = 0x40;
 static bool keyPressed[NUM_KEYS];
 static bool mouseButtonPressed[NUM_MOUSE];
 
+Input* Input::m_instance = nullptr;
+
 Input::Input() {
     closeRequested = false;
     cursorBound = true;
@@ -25,6 +27,7 @@ Input::Input() {
 
 Input::Input(STGame * window, SDL_Event& event) {
     this->e = event;
+    parent = window;
     closeRequested = false;
     cursorBound = false;
     mouseX = 0;
@@ -47,7 +50,7 @@ Input::Input(STGame * window, SDL_Event& event) {
 }
 
 Input::~Input() {
-    //TODO Cleanup stuff here
+    delete inputMap;
 }
 
 void Input::poll(SDL_Event& event) {
@@ -132,6 +135,20 @@ bool Input::isMousePressed(int button) {
     }
     return false;
 }
+
+Input *Input::Get() {
+    return Input::m_instance;
+}
+
+Input *Input::Start(STGame *app, SDL_Event &e) {
+    m_instance = new Input(app, e);
+    return m_instance;
+}
+
+const char Input::getInputCharacter() const {
+    return m_currentCharacter;
+}
+
 
 InputMap::InputMap() {
 

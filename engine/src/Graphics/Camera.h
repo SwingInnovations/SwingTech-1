@@ -53,24 +53,43 @@ public:
     Camera(STGame &, Vector3<stReal>&, ViewProfile&);
     Camera(STGame &, Vector3<stReal>&, int);
 
-    void init();
+    /*!
+     *
+     * @param viewProfile Viewprofile to define the camera.
+     */
+    void init(ViewProfile viewProfile);
     void update();
     void update(Input* input);
 
     void centerCam(Input* input);
 
+    /*!
+     * @name
+     * @param _h Horizontal rotation in radians.
+     */
     void setHAngle(const stReal _h);
+    /*!
+     *
+     * @param _v Vertical Rotation in radians.
+     */
     void setVAngle(const stReal _v);
 
-    ViewProfile* viewProf(){ return &m_viewProf; }
-    Transform* transform(){ return &m_transform; }
+    inline ViewProfile* viewProf(){ return &m_viewProf; }
+    inline Transform* transform(){ return &m_transform; }
 
-    stReal getHAngle(){ return hAngle; }
-    stReal getVAngle(){ return vAngle; }
+    inline void setSpeed(stReal speed){this->m_Speed = speed;}
 
-    Matrix4f getViewProjection()const;
-    Matrix4f getView()const;
-    Matrix4f getProjection()const;
+    inline stReal getHAngle(){ return hAngle; }
+    inline stReal getVAngle(){ return vAngle; }
+    inline stReal getSpeed()const{ return m_Speed; }
+
+    /*!
+     *
+     * @return Returns the combined view projection matrix.
+     */
+    Matrix4f getViewProjection() const;
+    Matrix4f getView() const;
+    Matrix4f getProjection() const;
 private:
     void processFPS(Input* input);
     Transform m_transform;
@@ -83,10 +102,13 @@ private:
     stReal hAngle;
     stReal vAngle;
 
+    stReal m_Speed;
+
     float m_Width, m_Height;
     ViewProfile m_viewProf;
     enum{
-        DefaultView_PERSP = 0
+        DefaultView_PERSP = 0,
+        DefaultView_ORTHO = 1
     };
 };
 

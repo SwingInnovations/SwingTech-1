@@ -9,7 +9,7 @@ GLTexture::GLTexture(const std::string &fileName) {
     m_texIndex = 0;
     m_fileReference.push_back(fileName);
     reBind();
-    m_texCount =1;
+    m_texCount = 1;
 }
 
 void GLTexture::addTexture(const std::string &fileName) {
@@ -157,7 +157,7 @@ void GLTexture::reBind() {
 void GLTexture::bind(unsigned int index){
     assert(index >= 0 && index <= 31);
 
-    glEnable(GL_TEXTURE_2D);
+    //glEnable(GL_TEXTURE_2D);
 
     glActiveTexture(GL_TEXTURE0 + index);
     glBindTexture(GL_TEXTURE_2D, m_tex[0]);

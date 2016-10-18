@@ -8,8 +8,8 @@
 #define toDegree(x) (float)(((x) * 180.0f / ST_PI))
 
 #define stReal float
-#define stInt int
-#define stUint Uint32;
+#define stInt int32_t
+#define stUint uint32_t
 
 
 #endif //WAHOO_STECH_CORE_H

@@ -21,11 +21,7 @@ void STPanel::draw(STGraphics *grphx) {
 
     grphx->enableBlend();
     gfx->draw();
-    //TODO this is temporary, should remove after optimizations. 
-    if(STGraphics::RENDERER == STGraphics::OPENGL){
-        auto mat = grphx->getOrthographicProjection();
-        ((GLShader*)gfx->shdr())->update("projection", mat);
-    }
+    gfx->setShdrUniform("projection", grphx->getOrthographicProjection());
     gfx->setShdrUniform("baseColor", m_baseColor.color);
     mesh->draw();
     grphx->disableBlend();

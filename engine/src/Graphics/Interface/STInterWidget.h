@@ -26,7 +26,7 @@ public:
     inline void setForegroundColor(const STColor& color){ m_foregroundColor = color; }
 
     inline void setPadding(unsigned int padding){ m_padding = padding; }
-    inline void setPosition(const Vector2<stReal>& position){
+    virtual void setPosition(const Vector2<stReal>& position){
         m_position = position;
         auto rect = get<STRectBoundsComponent>();
         if(rect != nullptr){
@@ -36,6 +36,7 @@ public:
             rect->reset(m_position.getX(), y, width, height);
         }
     }
+
 protected:
     std::string m_text;
     std::string m_font;

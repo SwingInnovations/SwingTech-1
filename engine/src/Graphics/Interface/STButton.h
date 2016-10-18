@@ -6,6 +6,7 @@
 #include "../STGraphics.h"
 #include "STButtonGroup.h"
 #include "STMenu.h"
+#include "STPanel.h"
 
 class STButtonGroup;
 
@@ -35,6 +36,9 @@ public:
     inline bool isToggled(){ return m_toggled; }
     void setIndex(unsigned int);
     inline void toggle(){ m_toggled =! m_toggled; }
+
+    STPanel* getPanel(){ return m_Panel; }
+    virtual void setPosition(const Vector2<stReal>& position);
 private:
     void invokeInputEvent(STEntity*);
     std::function<void(STEntity*)> inputEvents = 0;
@@ -43,6 +47,7 @@ private:
     STButtonGroup* parent = NULL;
     STMenu* m_menu;
     stUint m_index;
+    STPanel* m_Panel;
 };
 
 

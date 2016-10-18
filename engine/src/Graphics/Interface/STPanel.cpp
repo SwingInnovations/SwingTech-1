@@ -1,6 +1,7 @@
 #include "STPanel.h"
 
 STPanel::STPanel(int x, int y, int width, int height) {
+    m_transform = new Transform();
     m_position.set(x, y);
     m_baseColor.set(Vector4<stReal>(0.24f, 0.24f, 0.24f, 1.0f));
     int bY = abs( y - STGame::RES_HEIGHT) - height;
@@ -22,6 +23,7 @@ void STPanel::draw(STGraphics *grphx) {
     grphx->enableBlend();
     gfx->draw();
     gfx->setShdrUniform("projection", grphx->getOrthographicProjection());
+    gfx->setShdrUniform("model", m_transform->getModel());
     gfx->setShdrUniform("baseColor", m_baseColor.color);
     mesh->draw();
     grphx->disableBlend();
@@ -29,5 +31,9 @@ void STPanel::draw(STGraphics *grphx) {
 
 void STPanel::reset(int x, int y, stReal w, stReal h) {
     auto rect = get<STRectBoundsComponent>();
-    if(rect != nullptr) rect->reset(x, y, w, h);
+    if(rect != nullptr){
+        rect->reset(x, y, w, h);
+        m_transform->setTranslateX(x);
+        m_transform->setTranslateY(y);
+    }
 }

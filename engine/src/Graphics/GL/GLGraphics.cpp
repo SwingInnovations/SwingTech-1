@@ -12,6 +12,8 @@ GLGraphics::GLGraphics() {
 }
 
 GLGraphics::GLGraphics(STGame *game) {
+    m_shadowMapWidth = 1024;
+    m_shadowMapHeight = 1024;
     WIDTH = (unsigned int)game->getWidth();
     HEIGHT = (unsigned int)game->getHeight();
 
@@ -95,6 +97,22 @@ void GLGraphics::drawScene(STScene *scene) {
         auto w = STGame::RES_WIDTH;
         auto h = STGame::RES_HEIGHT;
 
+        //Setup Depth buffer
+        glGenFramebuffers(1, &depthBuffer);
+        glGenTextures(1, &depthTexbuffer);
+        glBindTexture(GL_TEXTURE_2D, depthTexbuffer);
+        glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT, m_shadowMapWidth, m_shadowMapHeight, 0, GL_DEPTH_COMPONENT, GL_FLOAT, NULL);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+
+        glBindFramebuffer(GL_FRAMEBUFFER, depthBuffer);
+        glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D, depthTexbuffer, 0);
+        glDrawBuffer(GL_NONE);
+        glReadBuffer(GL_NONE);
+        glBindFramebuffer(GL_FRAMEBUFFER, 0);
+
         glBindTexture(GL_TEXTURE_2D, frameTexBuffer);
         glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB32F, w, h, 0, GL_RGB, GL_FLOAT, NULL);
         glGenerateMipmap(GL_TEXTURE_2D);
@@ -133,6 +151,11 @@ void GLGraphics::drawScene(STScene *scene) {
 
         scenes[scene->getIndex()].m_initiated = true;
     }
+
+    //Begin rendering the depth map
+//    glViewport(0, 0, m_shadowMapWidth, m_shadowMapHeight);
+//    glBindFramebuffer(GL_FRAMEBUFFER, depthBuffer);
+//        glClear(GL_DEPTH_BUFFER_BIT);
 
     // Bind the frame buffer
     glBindFramebuffer(GL_FRAMEBUFFER, frameBuffer);

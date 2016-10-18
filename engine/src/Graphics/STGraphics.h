@@ -67,6 +67,9 @@ public:
     virtual void drawText(Vector2<stReal> pos, const std::string& text, stReal fontSize, stReal v1, stReal v2, stReal v3){ ; }
     virtual void drawText(Vector2<stReal> pos, const std::string& text, stReal fontSize, Vector3<stReal> vector){ ; }
 
+    virtual void setShadowMapWidth(stUint w) = 0;
+    virtual void setShadowMapHeight(stUint h) = 0;
+
     Camera* camera(){
         return m_Cam;
     }

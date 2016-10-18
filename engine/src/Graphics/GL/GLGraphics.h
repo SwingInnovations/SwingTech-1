@@ -79,6 +79,9 @@ public:
     virtual void initScene(stUint index);
     static Vector3<stReal> TextColor;
 
+    inline void setShadowMapWidth(stUint width){ m_shadowMapWidth = width; }
+    inline void setShadowMapHeight(stUint height){ m_shadowMapHeight = height; }
+
 protected:
 
 private:
@@ -88,6 +91,8 @@ private:
     GLuint textVBO;
     GLShader* textShader;
     Matrix4f orthoProjection;
+    GLuint depthBuffer;
+    GLuint depthTexbuffer;
     GLuint frameBuffer;
     GLuint frameTexBuffer;
     GLuint velocityBuffer;
@@ -101,6 +106,8 @@ private:
     STMaterial* m_albedoMat;
     STMaterial* m_IBLMat;
 
+    stUint m_shadowMapWidth;
+    stUint m_shadowMapHeight;
 };
 
 

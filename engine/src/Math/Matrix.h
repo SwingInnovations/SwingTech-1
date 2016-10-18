@@ -15,6 +15,21 @@ public:
         initIdentity();
     }
 
+    static Matrix4f LookAt(const Vector3<stReal> eye, const Vector3<stReal> center, const Vector3<stReal> up){
+        Matrix4f ret;
+
+        auto D = (eye - center);
+        D.normalize();
+        auto R = up.cross(D).normalize();
+        auto U = D.cross(R);
+
+        ret.m[0][0] = R.getX(); ret.m[0][1] = R.getY(); ret.m[0][2] = R.getZ(); ret.m[0][3] = -eye.getX();
+        ret.m[1][0] = U.getX(); ret.m[1][1] = U.getY(); ret.m[1][2] = U.getZ(); ret.m[1][3] = -eye.getY();
+        ret.m[2][0] = D.getX(); ret.m[2][1] = D.getY(); ret.m[2][2] = D.getZ(); ret.m[2][3] = -eye.getZ();
+        ret.m[3][0] = 0.0f;     ret.m[3][1] = 0.0f;     ret.m[3][2] = 0.0f;     ret.m[3][3] = 1.0f;
+        return ret;
+    }
+
     inline void initIdentity(){
         for(int i = 0; i < 4; i++){
             for(int j = 0; j < 4; j++){

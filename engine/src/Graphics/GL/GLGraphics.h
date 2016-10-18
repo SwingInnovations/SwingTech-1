@@ -41,7 +41,14 @@ struct GLRenderScene : public STRenderScene{
         m_skyboxShdr->bind();
         m_skyboxShdr->update(cam);
         glActiveTexture(GL_TEXTURE0);
+        glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+        glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
+        glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+        glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+        glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_R, GL_CLAMP_TO_EDGE);
+        glGenerateMipmap(GL_TEXTURE_CUBE_MAP);
         glBindTexture(GL_TEXTURE_CUBE_MAP, m_skybox);
+
         skyboxMesh->draw();
         glDepthFunc(GL_LESS);
         glEnable(GL_CULL_FACE);
@@ -83,6 +90,7 @@ public:
         glDisable(GL_BLEND);
     }
     static Vector3<stReal> TextColor;
+
 protected:
 
 private:
@@ -94,9 +102,17 @@ private:
     Matrix4f orthoProjection;
     GLuint frameBuffer;
     GLuint frameTexBuffer;
+    GLuint velocityBuffer;
+    GLuint velocityTexBuffer;
     GLuint rendBuffer;
     GLShader* screenShdr;
     GLMesh* screenQuad;
+    STMaterial* m_directionalLightMat;
+    STMaterial* m_pointLightMat;
+    STMaterial* m_spotLightMat;
+    STMaterial* m_albedoMat;
+    STMaterial* m_IBLMat;
+
 };
 
 

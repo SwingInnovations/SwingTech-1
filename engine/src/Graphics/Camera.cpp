@@ -26,6 +26,7 @@ Camera::Camera(STGame &win, Vector3<stReal> &pos, int presetMode) {
     m_transform.setTranslate(pos);
     m_Forward = Vector3<stReal>(0.0f, 0.0f, 1.0f);
     m_Up = Vector3<stReal>(0.0f, 1.0f, 0.0f);
+    m_Speed = 0.05f;
     ViewProfile viewProfile;
     if(presetMode == DefaultView_PERSP){
         viewProfile.FOV = 45.0f;
@@ -86,9 +87,9 @@ void Camera::update(Input* input) {
             stReal x = transform()->getTranslate<stReal>().getX();
             stReal y = transform()->getTranslate<stReal>().getY();
             stReal z = transform()->getTranslate<stReal>().getZ();
-            x -= m_Forward.getX() * 0.0005f * delta;
-            y -= m_Forward.getY() * 0.0005f * delta;
-            z -= m_Forward.getZ() * 0.0005f * delta;
+            x -= m_Forward.getX() * m_Speed * delta;
+            y -= m_Forward.getY() * m_Speed * delta;
+            z -= m_Forward.getZ() * m_Speed * delta;
             transform()->setTranslateX(x);
             transform()->setTranslateY(y);
             transform()->setTranslateZ(z);
@@ -97,9 +98,9 @@ void Camera::update(Input* input) {
             stReal x = transform()->getTranslate<stReal>().getX();
             stReal y = transform()->getTranslate<stReal>().getY();
             stReal z = transform()->getTranslate<stReal>().getZ();
-            x += m_Forward.getX() * 0.0005f * delta;
-            y += m_Forward.getY() * 0.0005f * delta;
-            z += m_Forward.getZ() * 0.0005f * delta;
+            x += m_Forward.getX() * m_Speed * delta;
+            y += m_Forward.getY() * m_Speed * delta;
+            z += m_Forward.getZ() * m_Speed * delta;
             transform()->setTranslateX(x);
             transform()->setTranslateY(y);
             transform()->setTranslateZ(z);
@@ -110,8 +111,8 @@ void Camera::update(Input* input) {
             stReal x = transform()->getTranslate<stReal>().getX();
             stReal z = transform()->getTranslate<stReal>().getZ();
 
-            x -= right.getX() * 0.0005f * delta;
-            z -= right.getZ() * 0.0005f * delta;
+            x -= right.getX() * m_Speed * delta;
+            z -= right.getZ() * m_Speed * delta;
             transform()->setTranslateX(x);
             transform()->setTranslateZ(z);
         }
@@ -120,8 +121,8 @@ void Camera::update(Input* input) {
             stReal x = transform()->getTranslate<stReal>().getX();
             stReal z = transform()->getTranslate<stReal>().getZ();
 
-            x += right.getX() * 0.0005f * delta;
-            z += right.getZ() * 0.0005f * delta;
+            x += right.getX() * m_Speed * delta;
+            z += right.getZ() * m_Speed * delta;
             transform()->setTranslateX(x);
             transform()->setTranslateZ(z);
         }

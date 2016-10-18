@@ -232,6 +232,30 @@ void STEntity::addShdrUniform(const std::string &name, Vector4<stReal> value) {
     }
 }
 
+void STEntity::addShdrUniform(const std::string &name, Matrix4f value) {
+    auto grphx = get<STGraphicsComponent>();
+    if(grphx != nullptr) grphx->addShdrUniform(name, value);
+    if(hasChildren()){
+        for(auto child : m_children) child->addShdrUniform(name, value);
+    }
+}
+
+void STEntity::addShdrUniform_Texture(const std::string &name, stUint tag) {
+    auto grphx = get<STGraphicsComponent>();
+    if(grphx != nullptr) grphx->addShdrUniform_Texture(name, tag);
+    if(hasChildren()){
+        for(auto child : m_children) child->addShdrUniform_Texture(name, tag);
+    }
+}
+
+void STEntity::addShdrUniform_CubeMap(const std::string &name, stUint tag) {
+    auto grphx = get<STGraphicsComponent>();
+    if(grphx != nullptr) grphx->addShdrUniform_CubeMap(name, tag);
+    if(hasChildren()){
+        for(auto child : m_children) child->addShdrUniform_CubeMap(name, tag);
+    }
+}
+
 void STEntity::setShdrUniform(const std::string &name,int value) {
     auto grphx = get<STGraphicsComponent>();
     if(grphx != nullptr) grphx->addShdrUniform(name, value);
@@ -272,6 +296,30 @@ void STEntity::setShdrUniform(const std::string &name, Vector4<stReal> value) {
     }
 }
 
+void STEntity::setShdrUniform(const std::string &name, Matrix4f value) {
+    auto grphx = get<STGraphicsComponent>();
+    if(grphx != nullptr) grphx->setShdrUniform(name, value);
+    if(hasChildren()){
+        for(auto child : m_children) child->setShdrUniform(name, value);
+    }
+}
+
+void STEntity::setShdrUniform_Texture(const std::string &name, stUint tag) {
+    auto grphx = get<STGraphicsComponent>();
+    if(grphx != nullptr) grphx->setShdrUniform_Texture(name, tag);
+    if(hasChildren()){
+        for(auto child : m_children) child->setShdrUniform_Texture(name, tag);
+    }
+}
+
+void STEntity::setShdrUniform_CubeMap(const std::string &name, stUint tag) {
+    auto grphx = get<STGraphicsComponent>();
+    if(grphx != nullptr) grphx->setShdrUniform_CubeMap(name, tag);
+    if(hasChildren()){
+        for(auto child : m_children) child->setShdrUniform_CubeMap(name, tag);
+    }
+}
+
 STEntity *STEntity::childAtTag(const std::string &tag) {
     for(auto ent : m_children){
         if(ent->m_tag == tag) return ent;
@@ -309,3 +357,5 @@ void STEntity::update() {
         comp.second->update();
     }
 }
+
+

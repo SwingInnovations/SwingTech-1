@@ -9,6 +9,7 @@
 class GLTexture;
 class STGraphics;
 
+
 class STMaterial{
 public:
     STMaterial();
@@ -22,53 +23,39 @@ public:
     STMaterial(Shader* shdr, Texture* tex){
         shader = shdr;
         texture = tex;
+        initBaseUniforms();
+
     }
 
     ~STMaterial(){
         delete texture;
         delete shader;
+
     }
 
     /*!
      * @param fileName Adds diffuse texture and assigns to texture index 0
      */
-    inline void addDiffuse(const std::string& fileName){
-        _uniforms.push_back(STShader::ShaderAttrib("STMaterial.diffuse", STShader::INT, "0"));
-        texture->addTexture(fileName, 0);
-    }
-
-    /*!
-     *
-     * @param diffuse Adds diffuse texture and assigns to texture index 0
-     */
-    inline void addDiffuse(Vector3<stReal> diffuse){
-        _uniforms.push_back(STShader::ShaderAttrib("STMaterial.diffuse", STShader::VEC3, STShader::toString(diffuse)));
-    }
-
-    /*!
-     *
-     * @param fileName Adds Specular map and assigns to texture index 1
-     */
-    inline void addSpecular(const std::string& fileName){
-        _uniforms.push_back(STShader::ShaderAttrib("STMaterial.diffuse", STShader::INT, "1"));
+    void setDiffuseTexture(const std::string& fileName){
         texture->addTexture(fileName, 1);
     }
 
-    /*!
-     *
-     * @param specular Adds Specular map and assigns to texture index 1
-     */
-    inline void addSpecular(Vector3<stReal> specular){
-        _uniforms.push_back(STShader::ShaderAttrib("STMaterial.specular", STShader::VEC3, STShader::toString(specular)));
-    }
-    inline void addNormal(Vector3<stReal> normal){
-        _uniforms.push_back(STShader::ShaderAttrib("STMaterial.normal", STShader::VEC3, STShader::toString(normal)));
-    }
-
-    inline void addNormal(const std::string& fileName){
-        _uniforms.push_back(STShader::ShaderAttrib("STMaterial.normal", STShader::INT, "2"));
+    void setNormalTexure(const std::string& fileName){
         texture->addTexture(fileName, 2);
     }
+
+    void setBaseColor(Vector3<stReal> color){
+        m_baseColor = color;
+    }
+
+    void initBaseUniforms()
+     {
+         setBaseColor( Vector3<stReal>(1,1,1) );
+         _uniforms.push_back(STShader::ShaderAttrib("Material.BaseColor", STShader::VEC3, STShader::toString(m_baseColor)));
+         _uniforms.push_back(STShader::ShaderAttrib("Material.Diffuse_Tex", STShader::INT, "1"));
+         _uniforms.push_back(STShader::ShaderAttrib("Material.Normal_Tex", STShader::INT, "2"));
+     }
+
 
     /*!
      * @details Main update that gets called in the render loop.
@@ -97,12 +84,15 @@ public:
         }
     }
 
-    void draw(std::vector<STShader::ShaderAttrib>& entityUniforms);
 
     void draw(std::vector<STShader::ShaderAttrib>& entityUniforms, Transform& T, Camera& C);
+
+
+
 private:
     Texture* texture;
     Shader* shader;
+    Vector3<stReal> m_baseColor;
     bool useTexture;
     std::vector<STShader::ShaderAttrib> _uniforms;
 };

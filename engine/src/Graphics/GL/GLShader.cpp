@@ -227,6 +227,12 @@ GLuint GLShader::createShader(const std::string &text, unsigned int type) {
     return shader;
 }
 
+void GLShader::update_Texture(const std::string &name, Vector2<stInt> val) {
+    glActiveTexture(GL_TEXTURE0 + val.getY());
+    glBindTexture(GL_TEXTURE_2D, (stUint)val.getX());
+    glUniform1i(glGetUniformLocation(m_Program, name.c_str()), val.getY());
+}
+
 
 
 

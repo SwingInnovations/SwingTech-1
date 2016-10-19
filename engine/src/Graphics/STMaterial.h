@@ -5,6 +5,7 @@
 
 #include "Texture.h"
 #include "Shader.h"
+#include "GL/GLTexture.h"
 
 class GLTexture;
 class STGraphics;
@@ -36,24 +37,22 @@ public:
     /*!
      * @param fileName Adds diffuse texture and assigns to texture index 0
      */
-    void setDiffuseTexture(const std::string& fileName){
-        texture->addTexture(fileName, 1);
-    }
+    void setDiffuseTexture(const std::string& fileName);
 
-    void setNormalTexure(const std::string& fileName){
-        texture->addTexture(fileName, 2);
-    }
+    void setNormalTexture(const std::string& fileName);
 
     void setBaseColor(Vector3<stReal> color){
         m_baseColor = color;
     }
 
+    std::vector<STShader::ShaderAttrib>& getUniforms(){ return _uniforms; }
+
     void initBaseUniforms()
      {
          setBaseColor( Vector3<stReal>(1,1,1) );
          _uniforms.push_back(STShader::ShaderAttrib("Material.BaseColor", STShader::VEC3, STShader::toString(m_baseColor)));
-         _uniforms.push_back(STShader::ShaderAttrib("Material.Diffuse_Tex", STShader::INT, "1"));
-         _uniforms.push_back(STShader::ShaderAttrib("Material.Normal_Tex", STShader::INT, "2"));
+//         _uniforms.push_back(STShader::ShaderAttrib("Material.Diffuse_Tex", STShader::INT, "0"));
+//         _uniforms.push_back(STShader::ShaderAttrib("Material.Normal_Tex", STShader::INT, "1"));
      }
 
 
@@ -86,7 +85,7 @@ public:
 
 
     void draw(std::vector<STShader::ShaderAttrib>& entityUniforms, Transform& T, Camera& C);
-
+    void draw(std::vector<STShader::ShaderAttrib>& entityUniforms, Texture* passTexture, Transform& T, Camera& C);
 
 
 private:

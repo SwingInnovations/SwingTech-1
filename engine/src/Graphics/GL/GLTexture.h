@@ -17,6 +17,7 @@ public:
     virtual ~GLTexture();
 
     GLuint genTex(const std::string& fileName);
+    static GLuint GenTex(const std::string& fileName);
     void addTexture(const std::string& fileName);
     void addTexture(const std::string& fileName, int ind);
     void bind(unsigned int index);

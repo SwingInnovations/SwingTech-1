@@ -29,6 +29,7 @@ public:
         mat =  new STMaterial(new GLShader("standard", "standard_directional_forward"));
         auto resManager = window->getResourceManager();
         resManager->addMaterial("default", new STMaterial(new GLShader("standard", "standard_directional_forward")));
+        resManager->addMaterial("def", new STMaterial(new GLShader("standard")));
         GLGraphics::GlobalAmbient = Vector3<stReal>(.1,.1,.1);
         int count=0;
 
@@ -47,17 +48,21 @@ public:
 //         }
         STGame::Get()->getCamera()->setSpeed(0.005f);
 
-        _testActor2 = new STActor("sphere.obj", STMesh::OBJ, resManager->getMaterial("default"));
+        _testActor2 = new STActor("dice.obj", STMesh::OBJ, resManager->getMaterial("def"));
         //_testActor2->setTranslateX(1);
         _testActor2->setShdrUniform("_Metallic", 0.0f);
         _testActor2->setShdrUniform("_Roughness",1.0f);
         _testActor2->setScale(1);
+        _testActor2->setDiffuseTexture("grid.png");
+        _testActor2->setNormalTexture("testNormal.png");
 
 
          roughnessTex = new GLTexture("roughness.png");
 
-        mat->setDiffuseTexture("sampledDiffuseColor.png");
-        mat->setNormalTexure("testNormal.png");
+//        mat->setDiffuseTexture("sampledDiffuseColor.png");
+//        mat->setNormalTexture("testNormal.png");
+        auto uniforms = mat->getUniforms();
+
         //_testActor2->setShdrUniform_Texture("_RoughnessTex",roughnessTex->genTex("roughness.png"));
         //_testActor2->setTranslateY(-4);
         _testLight = new STLight(.1,Vector3<stReal>(1,1,1));
@@ -113,13 +118,14 @@ public:
 //        }
         counter += 0.025f * delta;
         _testLight->setTranslateY(3.0f*std::sin(counter*.1f));
-        // _testActor2->setRotateY(counter*.8f);
+         _testActor2->setRotateY(counter*.8f);
       //  _testLight2->setTranslateY(3.0f*std::sin(counter*.02f+3));
     }
 
     void render(STGame * win){
         auto grphx = win->getGraphics();
         win->getGraphics()->drawScene(STSceneManager::Get()->getScene((stUint)getID()));
+        //_testActor2->draw();
 
     }
 

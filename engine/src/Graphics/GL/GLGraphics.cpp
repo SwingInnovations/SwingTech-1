@@ -121,6 +121,7 @@ void GLGraphics::drawScene(STScene *scene) {
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+        glBindTexture(GL_TEXTURE_2D, 0);
 
 //        glBindTexture(GL_TEXTURE_2D, velocityTexBuffer);
 //        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB32F, w, h, 0, GL_RGB, GL_FLOAT, NULL);
@@ -237,7 +238,7 @@ void GLGraphics::drawScene(STScene *scene) {
                     break;
                 }
                 case STLight::PointLight: {
-                    actors[i]->draw(m_pointLightMat);
+                    actors[i]->draw(m_pointLightMat); // Enabling this draws black cube
                     break;
                 }
                 case STLight::SpotLight: {
@@ -264,6 +265,7 @@ void GLGraphics::drawScene(STScene *scene) {
     glClearColor(1.0, 1.0, 1.0, 1.0);
 
     screenShdr->bind();
+    glActiveTexture(GL_TEXTURE0);
     glBindTexture(GL_TEXTURE_2D, frameTexBuffer);
     screenQuad->draw();
 }

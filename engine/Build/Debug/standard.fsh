@@ -1,15 +1,18 @@
-#version 330 core
+#version 400 core
 
 in vec3 Position;
+in vec2 TexCoord;
 in vec3 Normal;
 
-uniform vec3 objColor;
-uniform vec3 _Direction;
+struct STMaterial{
+    sampler2D Diffuse_Tex;
+    sampler2D Normal_Tex;
+};
+
+uniform STMaterial Material;
 
 out vec4 color;
 
 void main(void){
-
-	float diff =min(1,max(0,dot(Normal, _Direction)));
-   color =  vec4(objColor,1)+vec4(diff,diff,diff,1);
+    color = texture(Material.Diffuse_Tex, TexCoord);
 }

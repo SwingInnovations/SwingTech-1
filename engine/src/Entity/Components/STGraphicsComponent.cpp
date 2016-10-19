@@ -184,3 +184,11 @@ void STGraphicsComponent::draw(Transform &T, Camera &C) {
 std::vector<STShader::ShaderAttrib> &STGraphicsComponent::getUniforms() {
     return m_uniforms;
 }
+
+void STGraphicsComponent::setDiffuseTexture(const std::string &fileName) {
+    m_material->setDiffuseTexture(fileName);
+}
+
+void STGraphicsComponent::setNormalTexture(const std::string &fileName) {
+    m_material->setNormalTexture(fileName);
+}

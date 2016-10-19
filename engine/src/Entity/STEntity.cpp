@@ -358,4 +358,14 @@ void STEntity::update() {
     }
 }
 
+void STEntity::setDiffuseTexture(const std::string &fileName) {
+    auto g = get<STGraphicsComponent>();
+    if(g != nullptr) g->setDiffuseTexture(fileName);
+}
+
+void STEntity::setNormalTexture(const std::string &fileName) {
+    auto g = get<STGraphicsComponent>();
+    if(g != nullptr) g->setNormalTexture(fileName);
+}
+
 

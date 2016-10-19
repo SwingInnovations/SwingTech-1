@@ -32,7 +32,4 @@ void main(void){
 	Normal = N;	
 
     TBN = mat3(T, B, N);
-
-    
-
 }

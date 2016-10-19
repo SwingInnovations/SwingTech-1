@@ -196,7 +196,7 @@ void GLGraphics::drawScene(STScene *scene) {
                     break;
                 }
                 case STLight::PointLight: {
-                    actors[i]->draw(m_pointLightMat);
+                    actors[i]->draw(m_pointLightMat); // Enabling this draws black cube
                     break;
                 }
                 case STLight::SpotLight: {

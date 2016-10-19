@@ -31,7 +31,7 @@ GLMesh::GLMesh(const std::string &fileName, int type) {
             normal.push_back(*tMesh->verticies[i].getNormal());
         }
         index = tMesh->indicies;
-        tangent = genTangent(vertex, texCoord);
+        tangent = new_GenTangent(normal);
         biTangent = genBiTangent(vertex, texCoord);
         delete tMesh;
     }

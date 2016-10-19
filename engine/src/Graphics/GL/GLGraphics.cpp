@@ -174,12 +174,10 @@ void GLGraphics::drawScene(STScene *scene) {
         actors[i]->draw(m_IBLMat);
     }
 
+    glEnable(GL_BLEND);
+    glBlendFunc(GL_ONE,GL_ONE);
+    glDepthFunc(GL_EQUAL);
 
-     glDepthFunc(GL_EQUAL);
-
-      glDepthMask(GL_FALSE);
-      glEnable(GL_BLEND);
-    glBlendFunc(GL_ONE, GL_ONE);
 
     //Forward Pass
     for(int i =0; i < actors.size(); i++){

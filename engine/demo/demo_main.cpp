@@ -26,7 +26,7 @@ public:
         drawMode = STMesh::TRIANGLES;
         auto scene = STSceneManager::Get()->initScene((stUint) getID());
 
-
+        mat =  new STMaterial(new GLShader("standard", "standard_directional_forward"));
         auto resManager = window->getResourceManager();
         resManager->addMaterial("default", new STMaterial(new GLShader("standard", "standard_directional_forward")));
         GLGraphics::GlobalAmbient = Vector3<stReal>(.1,.1,.1);
@@ -47,39 +47,43 @@ public:
 //         }
         STGame::Get()->getCamera()->setSpeed(0.005f);
 
-        _testActor2 = new STActor("monkey.obj", STMesh::OBJ, resManager->getMaterial("default"));
+        _testActor2 = new STActor("sphere.obj", STMesh::OBJ, resManager->getMaterial("default"));
         //_testActor2->setTranslateX(1);
-        _testActor2->setShdrUniform("_Metallic", 1.0f);
-        _testActor2->setShdrUniform("_Roughness",0.0f);
+        _testActor2->setShdrUniform("_Metallic", 0.0f);
+        _testActor2->setShdrUniform("_Roughness",1.0f);
         _testActor2->setScale(1);
+
 
          roughnessTex = new GLTexture("roughness.png");
 
+        mat->setDiffuseTexture("sampledDiffuseColor.png");
+        mat->setNormalTexure("testNormal.png");
         //_testActor2->setShdrUniform_Texture("_RoughnessTex",roughnessTex->genTex("roughness.png"));
         //_testActor2->setTranslateY(-4);
-        _testLight = new STLight(4,Vector3<stReal>(1,0,0));
-
+        _testLight = new STLight(.1,Vector3<stReal>(1,1,1));
+        _testLight->intensity =.5;
         _testLight->setTranslateZ(2);
 
 
-        _testLight2 = new STLight(Vector3<stReal>(-1,-1,-1),Vector3<stReal>(1,0,1));
-       // _testLight2->intensity =1;
+        _testLight2 = new STLight(Vector3<stReal>(1,1,0),Vector3<stReal>(1,0,1));
+        _testLight2->intensity =1;
        // _testLight->setTranslateZ(1.2f);
        // _testLight->setTranslateX(1.2f);
 
-        scene->addSkybox("lycksele", "skybox");
+        scene->addSkybox("mystic", "skybox");
 
 
-        scene->addLight(_testLight);
+       scene->addLight(_testLight);
 
-        scene->addActor(_testActor2);
-        scene->addLight(_testLight2);
+       scene->addActor(_testActor2);
+       //scene->addLight(_testLight2);
                 STGraphics::ClearColor = Vector4<stReal>(0.0, 0.0, 0.168, 1.0);
     }
 
     void handleInput(STGame * win, Uint32 delta){
         Input* input = win->getInput();
         auto cam = win->getCamera();
+       // std::cout << "Camera Position: " << cam->transform()->getTranslate<stReal>().getInfo() << std::endl;
         if(input->isKeyPressed(KEY::KEY_ESC)){
             input->requestClose();
         }
@@ -109,6 +113,7 @@ public:
 //        }
         counter += 0.025f * delta;
         _testLight->setTranslateY(3.0f*std::sin(counter*.1f));
+        // _testActor2->setRotateY(counter*.8f);
       //  _testLight2->setTranslateY(3.0f*std::sin(counter*.02f+3));
     }
 
@@ -138,6 +143,7 @@ private:
     STLight* _testLight2;
     STLight* _testLight3;
     GLTexture* roughnessTex;
+    STMaterial* mat;
     STLabel* lbl;
     Vector3<stReal> lightPos;
     int width = 0, height = 0;
@@ -158,7 +164,7 @@ int main(int argc, char** argv){
     win->setTargetFPS(120);
     STGraphics::YUp = false;
     win->getInput()->setInputMap(inputMap);
-    Vector3<stReal> campos(0.0, 0, -3.0f);
+    Vector3<stReal> campos(0.0, 0, 3.0f);
     win->addCamera(new Camera(*win, campos, 0));
     win->addState(new TestState(0));
     win->enterState(0);

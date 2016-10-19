@@ -185,7 +185,7 @@ vec3 BlendMaterial(vec3 Spec, vec3 Diff, vec3 Base,float fresnel){
 
 	
 	
-	vec3 dialectric = Base* texture2D(Material.Diffuse_Tex,TexCoord).xyz*Diff+fresnel*Spec*.6;
+	vec3 dialectric = Base* texture2D(Material.Diffuse_Tex,TexCoord).rgb+fresnel*Spec*.6;
 	vec3 metal = Base*Spec;
 
 	return mix(dialectric,metal,_Metallic);
@@ -197,24 +197,23 @@ vec3 BlendMaterial(vec3 Spec, vec3 Diff, vec3 Base,float fresnel){
 void main(void){
 
 		
-	vec3 Norm = (TBN* (texture2D(Material.Normal_Tex,TexCoord*3).xyz*2-1));
-Norm.y= -Norm.y;
-
+	vec3 Norm = (TBN* (texture2D(Material.Normal_Tex,TexCoord).xyz*2-1));
+	
 	vec3 V = normalize(  _CameraPos - Position );
 
     float roughness = clamp(_Roughness,.01, 1.0);
 	
 	
  	
- 	Norm.y*=-1;
+
 	vec3 Spec_Cook_Torrance =Spec_IBL(roughness,Norm,V,Material.BaseColor);
 
 	///*Ommiting ambient Lighting for now*/vec3 diffuse =mix(baseColor*NdotL*_LightColor,((1- NdotL*_LightColor)*PreFilterEnvMap(1,2* dot(V,Normal)*Normal-V,10)),.4);
 	vec3 diffuse =Material.BaseColor/PI;
 	//vec3 diffuse =mix(baseColor*NdotL*_LightColor,((1- NdotL*_LightColor)*PreFilterEnvMap(1,2* dot(V,Normal)*Norm-V,100)),.4);
-    float fresnel = pow(1- dot(( -Norm),V),1);
+    float fresnel = pow(1- dot(( Norm),V),1);
     
-    color =  vec4(Norm,1);//	vec4(BlendMaterial(Spec_Cook_Torrance,diffuse,Material.BaseColor ,fresnel),1);
+    color =  vec4(BlendMaterial(Spec_Cook_Torrance,diffuse,Material.BaseColor ,fresnel),1);
 }
 
 

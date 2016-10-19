@@ -4,6 +4,7 @@ in vec3 Position;
 in vec3 Normal;
 in vec2 TexCoord;
 in mat3 TBN;
+
 struct STLight
 {
 	vec3 Color;
@@ -60,7 +61,7 @@ vec3 BlendMaterial(vec3 Spec, vec3 Diff, vec3 Base){
 
 void main(void){
 
-	vec3 Norm = (TBN* (texture2D(Material.Normal_Tex,TexCoord*3).xyz*2-1));
+	vec3 Norm =  (TBN* (texture2D(Material.Normal_Tex,TexCoord).xyz*2-1));
 
 	float r = max(_Roughness,.1);
 	vec3 V=normalize(_CameraPos-Position);

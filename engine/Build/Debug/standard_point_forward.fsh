@@ -57,7 +57,7 @@ float Ggx_Dist_old(float NdotH, float r){
 
 vec3 BlendMaterial(vec3 Spec, vec3 Diff, vec3 Base){
 
-	vec3 dialectric = Base*Diff + Light.Color*Spec*.6;
+	vec3 dialectric = Light.Color*Base*Diff + Light.Color*Spec*.6;
 	vec3 metal = Base*Spec;
 
 	return mix(dialectric,metal,_Metallic);
@@ -69,7 +69,7 @@ vec3 BlendMaterial(vec3 Spec, vec3 Diff, vec3 Base){
 void main(void){
 
 
-	vec3 Norm = (TBN* (texture2D(Material.Normal_Tex,TexCoord*3).xyz*2-1));
+	vec3 Norm = (TBN* (texture2D(Material.Normal_Tex,TexCoord).xyz*2-1));
 
 	vec3 V = normalize(_CameraPos - Position);
 	vec3 L = normalize(Light.Position - Position);
@@ -80,8 +80,8 @@ void main(void){
 
 	float dist = length (Light.Position - Position) ;
 	float r = max(_Roughness,.1);
-	float I = dot(-Norm,H) * (Light.Radius/(Light.Intensity+Light.Intensity*dist+Light.Intensity*dist*dist)) ;
-	vec3 spec =vec3(Ggx_Dist_old(dot(-Norm,H),r));
+	float I = dot(Norm,H) * (Light.Radius/(Light.Intensity+Light.Intensity*dist+Light.Intensity*dist*dist)) ;
+	vec3 spec =vec3(Ggx_Dist_old(dot(Norm,H),r));
 	vec3 diff = vec3(Ggx_Dist_old(I,1));
 	vec3 baseColor =Material.BaseColor  ;
 	color = vec4(BlendMaterial(spec,diff,baseColor),1);

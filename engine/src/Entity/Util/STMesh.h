@@ -82,6 +82,24 @@ public:
     virtual void draw(){}
     virtual void draw(int drawMode){  }
 
+    std::vector<Vector3<stReal>> new_GenTangent(std::vector<Vector3<stReal>>& normal){
+        std::vector<Vector3<stReal>> ret;
+        Vector3<stReal> Z(0.0f, 0.0f, 1.0f);
+        Vector3<stReal> Y(0.0f, 1.0f, 0.0f);
+        for(stUint i = 0; i < normal.size(); i++){
+            Vector3<stReal> c1 = normal.at(i);
+            c1 = c1.cross(Z).normalize();
+            Vector3<stReal> c2 = normal.at(i);
+            c2 = c2.cross(Y).normalize();
+            if(c1.getLength() > c2.getLength() ){
+                ret.push_back(c1);
+            }else{
+                ret.push_back(c2);
+            }
+        }
+        return ret;
+    }
+
     std::vector<Vector3<stReal>>genTangent(std::vector<Vector3<stReal>>& vert, std::vector<Vector2<stReal>>& tex){
         std::vector<Vector3<stReal>> ret;
 

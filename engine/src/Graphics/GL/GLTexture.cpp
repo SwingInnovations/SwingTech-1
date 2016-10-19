@@ -1,8 +1,10 @@
 #include "GLTexture.h"
+#include "../../STGlobal.h"
 
 GLTexture::GLTexture() {
     m_texIndex = 0;
     m_texCount = 0;
+    glGenTextures(1, m_tex);
 }
 
 GLTexture::GLTexture(const std::string &fileName) {
@@ -25,7 +27,6 @@ void GLTexture::addTexture(const std::string &fileName, int ind) {
     if(img == NULL){
         std::cout << "Error: " << IMG_GetError() << std::endl;
     }
-    glGenTextures(1, m_tex);
     glActiveTexture(GL_TEXTURE0 + ind);
     glBindTexture(GL_TEXTURE_2D, m_tex[0]);
     GLenum mode = getMode(img->format->BytesPerPixel, img->format->Rmask);
@@ -43,6 +44,7 @@ void GLTexture::addTexture(const std::string &fileName, int ind) {
 
     glTexImage2D(GL_TEXTURE_2D, 0, mode, img->w, img->h, 0, mode, GL_UNSIGNED_BYTE, img->pixels);
     SDL_FreeSurface(img);
+    glBindTexture(GL_TEXTURE_2D, 0);
     img = 0;
 }
 
@@ -94,6 +96,7 @@ GLuint GLTexture::genTex(const std::string& filename){
 
     glTexImage2D(GL_TEXTURE_2D, 0, mode, img->w, img->h, 0, mode, GL_UNSIGNED_BYTE, img->pixels);
     SDL_FreeSurface(img);
+    glBindTexture(GL_TEXTURE_2D, 0);
     img = 0;
 
     return m_tex[m_texIndex];
@@ -150,6 +153,7 @@ void GLTexture::reBind() {
 
         glTexImage2D(GL_TEXTURE_2D, 0, mode, img->w, img->h, 0, mode, GL_UNSIGNED_BYTE, img->pixels);
         SDL_FreeSurface(img);
+        glBindTexture(GL_TEXTURE_2D, 0);
         img = 0;
     }
 }
@@ -158,6 +162,7 @@ void GLTexture::bind(unsigned int index){
     assert(index >= 0 && index <= 31);
 
     //glEnable(GL_TEXTURE_2D);
+    auto handle = m_tex[0];
 
     glActiveTexture(GL_TEXTURE0 + index);
     glBindTexture(GL_TEXTURE_2D, m_tex[0]);
@@ -200,4 +205,28 @@ GLuint GLTexture::loadCubemapTexture(const std::string &fileName) {
 
 unsigned int GLTexture::getTextureCount() {
     return m_texCount;
+}
+
+GLuint GLTexture::GenTex(const std::string &fileName) {
+
+    SDL_Surface* img = NULL;
+    img = IMG_Load(fileName.c_str());
+    if(img == NULL){
+        std::cout << "Error: " << IMG_GetError() << std::endl;
+    }
+    GLuint texID;
+    glGenTextures(1, &texID);
+    glBindTexture(GL_TEXTURE_2D, texID);
+    GLenum mode = getMode(img->format->BytesPerPixel, img->format->Rmask);
+    auto width = img->w;
+    auto height = img->h;
+
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    glTexImage2D(GL_TEXTURE_2D, 0, mode, width, height, 0, mode, GL_UNSIGNED_BYTE, img->pixels);
+    SDL_FreeSurface(img);
+    glBindTexture(GL_TEXTURE_2D, 0);
+    return texID;
 }

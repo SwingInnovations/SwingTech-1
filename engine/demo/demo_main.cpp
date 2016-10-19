@@ -52,12 +52,16 @@ public:
         _testActor2->setShdrUniform("_Metallic", 0.0f);
         _testActor2->setShdrUniform("_Roughness",1.0f);
         _testActor2->setScale(1);
+        _testActor2->setDiffuseTexture("sampledDiffuseColor.png");
+        _testActor2->setNormalTexture("testNormal.png");
 
 
          roughnessTex = new GLTexture("roughness.png");
 
-        mat->setDiffuseTexture("sampledDiffuseColor.png");
-        mat->setNormalTexure("testNormal.png");
+//        mat->setDiffuseTexture("sampledDiffuseColor.png");
+//        mat->setNormalTexture("testNormal.png");
+        auto uniforms = mat->getUniforms();
+
         //_testActor2->setShdrUniform_Texture("_RoughnessTex",roughnessTex->genTex("roughness.png"));
         //_testActor2->setTranslateY(-4);
         _testLight = new STLight(.1,Vector3<stReal>(1,1,1));
@@ -119,6 +123,7 @@ public:
 
     void render(STGame * win){
         auto grphx = win->getGraphics();
+        auto uniforms = _testActor2->get<STGraphicsComponent>()->getMaterial()->getUniforms();
         win->getGraphics()->drawScene(STSceneManager::Get()->getScene((stUint)getID()));
 
     }

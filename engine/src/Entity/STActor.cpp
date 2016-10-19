@@ -105,7 +105,8 @@ void STActor::draw(STMaterial *material) {
         auto mesh = this->get<STMeshComponent>();
         auto grphx = this->get<STGraphicsComponent>();
         auto cam = STGame::Get()->getCamera();
-        material->draw(grphx->getUniforms(), *m_transform, *cam);
+        auto uniforms = grphx->getMaterial()->getUniforms();
+        material->draw(grphx->getMaterial()->getUniforms(), *m_transform, *cam);
         mesh->draw();
     }
 }

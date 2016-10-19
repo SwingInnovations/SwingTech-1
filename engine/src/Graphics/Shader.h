@@ -51,6 +51,12 @@ namespace STShader{
         return buff.str();
     }
 
+    static std::string toString(const Vector2<stInt>& vec){
+        std::ostringstream buff;
+        buff << vec.getX() << "/" << vec.getY();
+        return buff.str();
+    }
+
     /*!
      *
      * @param val Input Vector3
@@ -113,6 +119,13 @@ namespace STShader{
 
     static stUint toSTUint(const std::string val){
         return (stUint)atol(val.c_str());
+    }
+
+    static Vector2<stInt> toVector2(const std::string& val){
+        stInt _x = 0, _y = 0;
+        _x = atoi(val.substr(0, val.find('/')).c_str());
+        _y = atoi(val.substr(val.find('/')+1).c_str());
+        return Vector2<stInt>(_x, _y);
     }
 
     /*!
@@ -203,6 +216,7 @@ public:
     virtual void update(const std::string& name, Vector4<stReal> val){  }
     virtual void update(const std::string& name, Matrix4f mat){ }
     virtual void update_Texture(const std::string& name, stUint){ }
+    virtual void update_Texture(const std::string& name, Vector2<stInt> val){ }
     virtual void update_CubeMap(const std::string& name, stUint){ }
     void updateUniforms(std::vector<STShader::ShaderAttrib> _uniforms);
     virtual std::string getShaderName(){ return NULL; }

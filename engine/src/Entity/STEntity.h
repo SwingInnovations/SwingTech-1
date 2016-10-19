@@ -94,6 +94,8 @@ public:
     void addShdrUniform(const std::string& name, Matrix4f value);
     void addShdrUniform_Texture(const std::string& name, stUint tag);
     void addShdrUniform_CubeMap(const std::string& name, stUint tag);
+    void setDiffuseTexture(const std::string& fileName);
+    void setNormalTexture(const std::string& fileName);
 
     void setShdrUniform(const std::string& name, int value);
     void setShdrUniform(const std::string& name, float value);

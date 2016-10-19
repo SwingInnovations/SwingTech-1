@@ -73,6 +73,7 @@ GLGraphics::GLGraphics(STGame *game) {
     m_pointLightMat = new STMaterial(new GLShader("standard","standard_point_forward"));
     m_albedoMat = new STMaterial(new GLShader("standard","standard_abledo_forward"));
     m_IBLMat = new STMaterial (new GLShader ("standard", "standard_IBL"));
+    simpleShadowMat = new STMaterial(new GLShader("simple_directional_shadow"));
 
     glGenVertexArrays(1, &textVAO);
     glGenBuffers(1, &textVBO);
@@ -152,23 +153,39 @@ void GLGraphics::drawScene(STScene *scene) {
         scenes[scene->getIndex()].m_initiated = true;
     }
 
-    //Begin rendering the depth map
-//    glViewport(0, 0, m_shadowMapWidth, m_shadowMapHeight);
-//    glBindFramebuffer(GL_FRAMEBUFFER, depthBuffer);
-//        glClear(GL_DEPTH_BUFFER_BIT);
+    auto actors = scene->getActors();
+    auto lights = scene->getLights();
 
+    stReal nearPlane = 1.0f, farPlane = 10.0f;
+    Matrix4f lightOrth;
+    lightOrth.initOrthographicProjection(-10.0f, 10.0f, -10.0f, 10.0f, nearPlane, farPlane);
+
+    //Begin rendering the depth map
+    glViewport(0, 0, m_shadowMapWidth, m_shadowMapHeight);
+    glBindFramebuffer(GL_FRAMEBUFFER, depthBuffer);
+    glClear(GL_DEPTH_BUFFER_BIT);
+
+    for(stUint i = 0, S = actors.size(); i < S; i++){
+        for(stUint j = 0, jS = lights.size(); j < jS; j++){
+            auto lightView = Matrix4f::LookAt(lights[j]->transform()->getTranslate<stReal>(),
+                                              Vector3<stReal>(0.0f, 0.0f, 0.0f),
+                                              Vector3<stReal>(0.0f, 1.0f, 0.0f));
+            auto lightSpaceMatrix = lightOrth * lightView;
+            actors[i]->setShdrUniform("lightSpaceMatrix", lightSpaceMatrix);
+            actors[i]->draw(simpleShadowMat);
+        }
+    }
+
+    glBindFramebuffer(GL_FRAMEBUFFER, 0);
+    glViewport(0, 0, WIDTH, HEIGHT);
     // Bind the frame buffer
     glBindFramebuffer(GL_FRAMEBUFFER, frameBuffer);
     //glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, velocityTexBuffer, 0);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     glEnable(GL_DEPTH_TEST);
     auto clearColor = STGraphics::ClearColor;
-    glClearColor(0,0,0,1);
+    glClearColor(0.0,0.0,0.0,1.0);
 
-
-
-    auto actors = scene->getActors();
-    auto lights = scene->getLights();
 /*
     //Depth Pre-Pass
     for(int i =0; i< actors.size(); i++){
@@ -198,10 +215,10 @@ void GLGraphics::drawScene(STScene *scene) {
     }
 
 
-     glDepthFunc(GL_EQUAL);
+    glDepthFunc(GL_EQUAL);
 
-      glDepthMask(GL_FALSE);
-      glEnable(GL_BLEND);
+    glDepthMask(GL_FALSE);
+    glEnable(GL_BLEND);
     glBlendFunc(GL_ONE, GL_ONE);
 
     //Forward Pass

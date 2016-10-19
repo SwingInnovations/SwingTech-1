@@ -220,9 +220,12 @@ public:
     }
 
     inline Vector3 normalize(){
-        m_Val[0] /= getLength();
-        m_Val[1] /= getLength();
-        m_Val[2] /= getLength();
+        auto len = getLength();
+        if(len > 0){
+            m_Val[0] /= getLength();
+            m_Val[1] /= getLength();
+            m_Val[2] /= getLength();
+        }
         return *this;
     }
 

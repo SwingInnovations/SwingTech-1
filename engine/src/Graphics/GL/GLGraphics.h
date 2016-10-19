@@ -105,6 +105,7 @@ private:
     STMaterial* m_spotLightMat;
     STMaterial* m_albedoMat;
     STMaterial* m_IBLMat;
+    STMaterial* simpleShadowMat;
 
     stUint m_shadowMapWidth;
     stUint m_shadowMapHeight;

@@ -74,7 +74,7 @@ public:
 
         scene->addActor(_testActor2);
         scene->addLight(_testLight2);
-                STGraphics::ClearColor = Vector4<stReal>(0.0, 0.0, 0.168, 1.0);
+        STGraphics::ClearColor = Vector4<stReal>(0.0, 0.0, 0.168, 1.0);
     }
 
     void handleInput(STGame * win, Uint32 delta){

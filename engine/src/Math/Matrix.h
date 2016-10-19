@@ -18,7 +18,7 @@ public:
     static Matrix4f LookAt(const Vector3<stReal> eye, const Vector3<stReal> center, const Vector3<stReal> up){
         Matrix4f ret;
 
-        auto D = (eye - center);
+        auto D = eye - center;
         D.normalize();
         auto R = up.cross(D).normalize();
         auto U = D.cross(R);

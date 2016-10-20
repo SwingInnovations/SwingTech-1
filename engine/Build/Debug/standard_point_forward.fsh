@@ -5,6 +5,8 @@ in vec3 Normal;
 in vec2 TexCoord;
 in mat3 TBN;
 
+in vec4 FragPosLightSpace;
+
 uniform vec3 _LightPosition;
 uniform float _LightAttenuation;
 uniform float _LightRadius;
@@ -30,6 +32,7 @@ struct STMaterial
 	sampler2D Diffuse_Tex;
 	sampler2D Normal_Tex;
 };
+uniform sampler2D shadowMap;
 
 uniform STMaterial Material;
 
@@ -63,8 +66,14 @@ vec3 BlendMaterial(vec3 Spec, vec3 Diff, vec3 Base){
 	return mix(dialectric,metal,_Metallic);
 }
 
-
-
+float CalculateShadow(vec4 fragPos){
+    vec3 projCoord = fragPos.xyz / fragPos.w;
+    projCoord = projCoord * 0.5 + 0.5;
+    float closestDepth = texture(shadowMap, projCoord.xy).r;
+    float currentDepth = projCoord.z;
+    float shadow = currentDepth > closestDepth ? 1.0 : 0.0;
+    return shadow;
+}
 
 void main(void){
 
@@ -75,7 +84,7 @@ void main(void){
 	vec3 L = normalize(Light.Position - Position);
 	vec3 H = normalize(V-L);
 
-		
+    float shadow = CalculateShadow(FragPosLightSpace);
 	
 
 	float dist = length (Light.Position - Position) ;
@@ -84,6 +93,6 @@ void main(void){
 	vec3 spec =vec3(Ggx_Dist_old(dot(Norm,H),r));
 	vec3 diff = vec3(Ggx_Dist_old(I,1));
 	vec3 baseColor =Material.BaseColor  ;
-	color = vec4(BlendMaterial(spec,diff,baseColor),1);
+	color = (1.0 - shadow) * vec4(BlendMaterial(spec,diff,baseColor),1);
 
 }

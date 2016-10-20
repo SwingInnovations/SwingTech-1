@@ -105,6 +105,20 @@ void STGraphicsComponent::setShdrUniform(const std::string &name, Vector4<stReal
         addShdrUniform(name,value);
 }
 
+void STGraphicsComponent::setShdrUniform_Texture(const std::string &name, stUint id, stUint index) {
+    bool uniformFound = false;
+    for(stUint i = 0, S = m_uniforms.size(); i < S; i++){
+        if(m_uniforms[i].name == name){
+            m_uniforms[i].value = STShader::toString(Vector2<stInt>(id, index));
+            uniformFound = true;
+        }
+    }
+    if(!uniformFound){
+        m_uniforms.push_back(STShader::ShaderAttrib(name, STShader::TEX, STShader::toString(Vector2<stInt>(id, index))));
+    }
+}
+
+
 void STGraphicsComponent::setShdrUniform(const std::string &name, Matrix4f value) {
     bool uniformFound;
     for(stUint i = 0, S = m_uniforms.size(); i < S; i++){

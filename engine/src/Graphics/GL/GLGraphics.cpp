@@ -101,18 +101,22 @@ void GLGraphics::drawScene(STScene *scene) {
         //Setup Depth buffer
         glGenFramebuffers(1, &depthBuffer);
         glGenTextures(1, &depthTexbuffer);
+
         glBindTexture(GL_TEXTURE_2D, depthTexbuffer);
         glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT, m_shadowMapWidth, m_shadowMapHeight, 0, GL_DEPTH_COMPONENT, GL_FLOAT, NULL);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+        glBindTexture(GL_TEXTURE_2D, 0);
 
         glBindFramebuffer(GL_FRAMEBUFFER, depthBuffer);
-        glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D, depthTexbuffer, 0);
         glDrawBuffer(GL_NONE);
         glReadBuffer(GL_NONE);
+        glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D, depthTexbuffer, 0);
+        if(glCheckFramebufferStatus(GL_FRAMEBUFFER) == GL_FRAMEBUFFER_COMPLETE) std::cout << "Successfully generated depth buffer." << std::endl;
         glBindFramebuffer(GL_FRAMEBUFFER, 0);
+
 
         glBindTexture(GL_TEXTURE_2D, frameTexBuffer);
         glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB32F, w, h, 0, GL_RGB, GL_FLOAT, NULL);
@@ -149,7 +153,6 @@ void GLGraphics::drawScene(STScene *scene) {
             std::cout << "Successfully generated framebuffer!" << std::endl;
         }
         glBindFramebuffer(GL_FRAMEBUFFER, 0);
-        glViewport(0, 0, w, h);
 
         scenes[scene->getIndex()].m_initiated = true;
     }
@@ -162,9 +165,19 @@ void GLGraphics::drawScene(STScene *scene) {
     lightOrth.initOrthographicProjection(-10.0f, 10.0f, -10.0f, 10.0f, nearPlane, farPlane);
 
     //Begin rendering the depth map
+
     glViewport(0, 0, m_shadowMapWidth, m_shadowMapHeight);
+    glEnable(GL_DEPTH_TEST);
+
     glBindFramebuffer(GL_FRAMEBUFFER, depthBuffer);
     glClear(GL_DEPTH_BUFFER_BIT);
+    //simpleShadowMat->shdr()->bind();
+    auto lightView = Matrix4f::LookAt(lights.front()->transform()->getTranslate<stReal>(),
+                                      Vector3<stReal>(0.0f, 0.0f, 0.0f),
+                                      Vector3<stReal>(0.0f, 1.0f, 0.0f));
+    auto lMatrix = lightOrth * lightView;
+    //simpleShadowMat->shdr()->update("model", Matrix4f());
+    //simpleShadowMat->shdr()->update("lightSpaceMatrix", lMatrix);
 
     for(stUint i = 0, S = actors.size(); i < S; i++){
         for(stUint j = 0, jS = lights.size(); j < jS; j++){
@@ -176,8 +189,10 @@ void GLGraphics::drawScene(STScene *scene) {
             actors[i]->draw(simpleShadowMat);
         }
     }
-
     glBindFramebuffer(GL_FRAMEBUFFER, 0);
+
+    glDisable(GL_DEPTH_TEST);
+
     glViewport(0, 0, WIDTH, HEIGHT);
     // Bind the frame buffer
     glBindFramebuffer(GL_FRAMEBUFFER, frameBuffer);
@@ -187,13 +202,13 @@ void GLGraphics::drawScene(STScene *scene) {
     auto clearColor = STGraphics::ClearColor;
     glClearColor(0.0,0.0,0.0,1.0);
 
-/*
-    //Depth Pre-Pass
-    for(int i =0; i< actors.size(); i++){
-        actors[i]->setShdrUniform("_GlobalAmbient",GlobalAmbient);
-        actors[i]->draw(m_albedoMat);
-    }
-*/
+
+//    //Depth Pre-Pass
+//    for(int i =0; i< actors.size(); i++){
+//        actors[i]->setShdrUniform("_GlobalAmbient",GlobalAmbient);
+//        actors[i]->draw(m_albedoMat);
+//    }
+
     glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, frameTexBuffer, 0);
 
     glClearColor(clearColor.getX(), clearColor.getY(), clearColor.getZ(), clearColor.getZ());
@@ -201,11 +216,6 @@ void GLGraphics::drawScene(STScene *scene) {
 
 
     scenes[scene->getIndex()].drawSkybox(*camera());
-
-
-
-
-
 
     //IBL Pass
     for(int i =0; i < actors.size(); i++) {
@@ -231,6 +241,7 @@ void GLGraphics::drawScene(STScene *scene) {
             actors[i]->setShdrUniform("Light.Position", lights[j]->transform()->getTranslate<stReal>());
             actors[i]->setShdrUniform("Light.Direction", lights[j]->direction);
             actors[i]->setShdrUniform("Light.Radius", lights[j]->radius);
+            actors[i]->setShdrUniform_Texture("shadowMap", depthTexbuffer, 2);
 
             switch(lights[j]->type) {
                 case STLight::DirectionalLight: {

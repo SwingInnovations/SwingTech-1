@@ -368,4 +368,9 @@ void STEntity::setNormalTexture(const std::string &fileName) {
     if(g != nullptr) g->setNormalTexture(fileName);
 }
 
+void STEntity::setShdrUniform_Texture(const std::string &name, stUint id, stUint index) {
+    auto g = get<STGraphicsComponent>();
+    if(g != nullptr) g->setShdrUniform_Texture(name, id, index);
+}
+
 

@@ -50,37 +50,46 @@ public:
 
         _testActor2 = new STActor("dice.obj", STMesh::OBJ, resManager->getMaterial("def"));
         //_testActor2->setTranslateX(1);
-        _testActor2->setShdrUniform("_Metallic", 0.0f);
-        _testActor2->setShdrUniform("_Roughness",1.0f);
+        _testActor2->setShdrUniform("_Metallic", 0.55f);
+        _testActor2->setShdrUniform("_Roughness",0.75f);
         _testActor2->setScale(1);
         _testActor2->setDiffuseTexture("grid.png");
         _testActor2->setNormalTexture("testNormal.png");
+        _testActor2->setTranslateX(3.0f);
+        _testActor2->setTranslateZ(3.0f);
+        _testActor2->setTranslateY(0.2f);
+
+        _plane = new STActor("plane.obj", STMesh::OBJ, resManager->getMaterial("default"));
+        _plane->setShdrUniform("_Metallic", 1.0f);
+        _plane->setShdrUniform("_Roughness", 0.0f);
+        _plane->setDiffuseTexture("checker.jpg");
+        _plane->setNormalTexture("testNormal.jpg");
+        _plane->setTranslateY(-0.5f);
 
 
          roughnessTex = new GLTexture("roughness.png");
-
-//        mat->setDiffuseTexture("sampledDiffuseColor.png");
-//        mat->setNormalTexture("testNormal.png");
         auto uniforms = mat->getUniforms();
 
-        //_testActor2->setShdrUniform_Texture("_RoughnessTex",roughnessTex->genTex("roughness.png"));
-        //_testActor2->setTranslateY(-4);
-        _testLight = new STLight(.1,Vector3<stReal>(1,1,1));
+        _testLight = new STLight(.1,Vector3<stReal>(1,0,0));
         _testLight->intensity =.5;
         _testLight->setTranslateZ(2);
+        _testLight->setTranslateY(1.0f);
+        _testLight->setTranslateX(-5.0f);
 
 
-        _testLight2 = new STLight(Vector3<stReal>(1,1,0),Vector3<stReal>(1,0,1));
+        _testLight2 = new STLight(Vector3<stReal>(1,1,0),Vector3<stReal>(0,0,1));
         _testLight2->intensity =1;
-       // _testLight->setTranslateZ(1.2f);
-       // _testLight->setTranslateX(1.2f);
+        _testLight->setTranslateZ(1.2f);
+        _testLight->setTranslateX(1.2f);
+        _testLight->setTranslateY(1.0f);
 
-        scene->addSkybox("mystic", "skybox");
+        scene->addSkybox("Lycksele", "skybox");
 
 
        scene->addLight(_testLight);
 
        scene->addActor(_testActor2);
+        scene->addActor(_plane);
        //scene->addLight(_testLight2);
                 STGraphics::ClearColor = Vector4<stReal>(0.0, 0.0, 0.168, 1.0);
     }
@@ -117,8 +126,8 @@ public:
 //            }
 //        }
         counter += 0.025f * delta;
-        _testLight->setTranslateY(3.0f*std::sin(counter*.1f));
-         _testActor2->setRotateY(counter*.8f);
+        _testLight->setTranslateX(3.0f*std::sin(counter*.1f));
+         //_testActor2->setRotateY(counter*.8f);
       //  _testLight2->setTranslateY(3.0f*std::sin(counter*.02f+3));
     }
 
@@ -135,6 +144,7 @@ public:
         delete _testLight;
         delete _testLight2;
         delete _testLight3;
+        delete _plane;
     }
 private:
     STSceneManager* sceneManager;
@@ -148,6 +158,7 @@ private:
     STLight* _testLight;
     STLight* _testLight2;
     STLight* _testLight3;
+    STActor* _plane;
     GLTexture* roughnessTex;
     STMaterial* mat;
     STLabel* lbl;

@@ -49,7 +49,6 @@ float Ggx_Dist_old(float NdotH, float r){
 vec3 BlendMaterial(vec3 Spec, vec3 Diff, vec3 Base){
 
 	
-	
 	vec3 dialectric =Base*Diff+	Base*Spec*.6;
 	vec3 metal = Base*Spec;
 
@@ -71,6 +70,6 @@ void main(void){
 	vec3 diff = clamp(vec3(Ggx_Dist_old(dot(Norm, H),1)),0,1);
 	
 	//color =  vec4(BlendMaterial(spec,diff,Material.BaseColor ),1);
-	//color = texture2D(Material.Diffuse_Tex, TexCoord);
-	color = vec4(1.0);
+	color = texture2D(Material.Diffuse_Tex, TexCoord);
+	//color = vec4(1.0);
 }

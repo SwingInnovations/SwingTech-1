@@ -56,16 +56,6 @@ float Ggx_Dist_old(float NdotH, float r){
 	return ((NdotH) *alpha2)/(PI*denom*denom);
 }
 
-
-
-vec3 BlendMaterial(vec3 Spec, vec3 Diff, vec3 Base){
-
-	vec3 dialectric = Light.Color*Base*Diff + Light.Color*Spec*.6;
-	vec3 metal = Base*Spec;
-
-	return mix(dialectric,metal,_Metallic);
-}
-
 float CalculateShadow(vec4 fragPos){
     vec3 projCoord = fragPos.xyz / fragPos.w;
     projCoord = projCoord * 0.5 + 0.5;
@@ -73,6 +63,14 @@ float CalculateShadow(vec4 fragPos){
     float currentDepth = projCoord.z;
     float shadow = currentDepth > closestDepth ? 1.0 : 0.0;
     return shadow;
+}
+
+vec3 BlendMaterial(vec3 Spec, vec3 Diff, vec3 Base){
+    float s = CalculateShadow(FragPosLightSpace);
+	vec3 dialectric = (1.0 - s) * Light.Color * Base * Diff + Light.Color*Spec*.6;
+	vec3 metal = (1.0 - s) * Base*Spec;
+
+	return mix(dialectric,metal,_Metallic);
 }
 
 void main(void){
@@ -92,7 +90,6 @@ void main(void){
 	float I = dot(Norm,H) * (Light.Radius/(Light.Intensity+Light.Intensity*dist+Light.Intensity*dist*dist)) ;
 	vec3 spec =vec3(Ggx_Dist_old(dot(Norm,H),r));
 	vec3 diff = vec3(Ggx_Dist_old(I,1));
-	vec3 baseColor =Material.BaseColor  ;
-	color = (1.0 - shadow) * vec4(BlendMaterial(spec,diff,baseColor),1);
-
+	vec3 baseColor = Material.BaseColor  ;
+	color = vec4(BlendMaterial(spec,diff,baseColor),1);
 }

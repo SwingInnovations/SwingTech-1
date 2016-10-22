@@ -19,6 +19,7 @@ GLGraphics::GLGraphics(STGame *game) {
 
     screenQuad = new GLMesh(new STQuad);
     screenShdr = new GLShader("screen");
+    //screenShdr = new GLShader("screen", "screen_depth");
 
     FT_Library ft;
     if(FT_Init_FreeType(&ft)){ std::cout << "foo" << std::endl; }else{ std::cout << "Successfully loaded FreeType!" << std::endl; }
@@ -160,7 +161,7 @@ void GLGraphics::drawScene(STScene *scene) {
     auto actors = scene->getActors();
     auto lights = scene->getLights();
 
-    stReal nearPlane = 1.0f, farPlane = 10.0f;
+    stReal nearPlane = 1.f, farPlane = 12.f;
     Matrix4f lightOrth;
     lightOrth.initOrthographicProjection(-10.0f, 10.0f, -10.0f, 10.0f, nearPlane, farPlane);
 
@@ -171,13 +172,13 @@ void GLGraphics::drawScene(STScene *scene) {
 
     glBindFramebuffer(GL_FRAMEBUFFER, depthBuffer);
     glClear(GL_DEPTH_BUFFER_BIT);
-    //simpleShadowMat->shdr()->bind();
+    simpleShadowMat->shdr()->bind();
     auto lightView = Matrix4f::LookAt(lights.front()->transform()->getTranslate<stReal>(),
                                       Vector3<stReal>(0.0f, 0.0f, 0.0f),
                                       Vector3<stReal>(0.0f, 1.0f, 0.0f));
     auto lMatrix = lightOrth * lightView;
-    //simpleShadowMat->shdr()->update("model", Matrix4f());
-    //simpleShadowMat->shdr()->update("lightSpaceMatrix", lMatrix);
+    simpleShadowMat->shdr()->update("model", Matrix4f());
+    simpleShadowMat->shdr()->update("lightSpaceMatrix", lMatrix);
 
     for(stUint i = 0, S = actors.size(); i < S; i++){
         for(stUint j = 0, jS = lights.size(); j < jS; j++){
@@ -185,7 +186,7 @@ void GLGraphics::drawScene(STScene *scene) {
                                               Vector3<stReal>(0.0f, 0.0f, 0.0f),
                                               Vector3<stReal>(0.0f, 1.0f, 0.0f));
             auto lightSpaceMatrix = lightOrth * lightView;
-            actors[i]->setShdrUniform("lightSpaceMatrix", lightSpaceMatrix);
+            //actors[i]->setShdrUniform("lightSpaceMatrix", lightSpaceMatrix);
             actors[i]->draw(simpleShadowMat);
         }
     }
@@ -242,6 +243,7 @@ void GLGraphics::drawScene(STScene *scene) {
             actors[i]->setShdrUniform("Light.Direction", lights[j]->direction);
             actors[i]->setShdrUniform("Light.Radius", lights[j]->radius);
             actors[i]->setShdrUniform_Texture("shadowMap", depthTexbuffer, 2);
+            actors[i]->setShdrUniform("lightSpaceMatrix", lMatrix);
 
             switch(lights[j]->type) {
                 case STLight::DirectionalLight: {
@@ -278,6 +280,7 @@ void GLGraphics::drawScene(STScene *scene) {
     screenShdr->bind();
     glActiveTexture(GL_TEXTURE0);
     glBindTexture(GL_TEXTURE_2D, frameTexBuffer);
+    //glBindTexture(GL_TEXTURE_2D, depthTexbuffer);
     screenQuad->draw();
 }
 

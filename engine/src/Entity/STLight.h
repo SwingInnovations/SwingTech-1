@@ -19,7 +19,6 @@ public:
 
     enum STLIGHT_TYPE: char
     {
-
         DirectionalLight,
         PointLight,
         SpotLight
@@ -88,6 +87,7 @@ public:
     stReal coneHeight;
 
 private :
+    stInt shadowMapID;
     STMaterial* m_material;
 };
 

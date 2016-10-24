@@ -187,13 +187,11 @@ float CalculateShadow(vec4 fragPos){
     projCoord = projCoord * 0.5 + 0.5;
     float closestDepth = texture(shadowMap, projCoord.xy).r;
     float currentDepth = projCoord.z;
-    float shadow = currentDepth > closestDepth ? 1.0 : 0.0;
+    float shadow = currentDepth - 0.008f > closestDepth ? 1.0 : 0.0;
     return shadow;
 }
 
 vec3 BlendMaterial(vec3 Spec, vec3 Diff, vec3 Base,float fresnel){
-
-	float s = CalculateShadow(FragPosLightSpace);
 	
 	vec3 dialectric = Base* texture2D(Material.Diffuse_Tex,TexCoord).rgb+fresnel*Spec*.6;
 	vec3 metal = Base*Spec;
@@ -218,10 +216,11 @@ void main(void){
 	vec3 diffuse =Material.BaseColor/PI;
 	//vec3 diffuse =mix(baseColor*NdotL*_LightColor,((1- NdotL*_LightColor)*PreFilterEnvMap(1,2* dot(V,Normal)*Norm-V,100)),.4);
     float fresnel = pow(1- dot(( Norm),V),1);
+    float s = CalculateShadow(FragPosLightSpace);
+    vec3 col = BlendMaterial(Spec_Cook_Torrance,diffuse,Material.BaseColor ,fresnel);
+    vec3 amb = 0.15 * col;
+    color =  vec4(amb + ((1.0 - s) * col),1);
 
-
-   color =  vec4(BlendMaterial(Spec_Cook_Torrance,diffuse,Material.BaseColor ,fresnel),1);
-   //color = vec4(vec3(0.75), 1.0);
 }
 
 

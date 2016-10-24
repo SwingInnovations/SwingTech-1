@@ -91,5 +91,5 @@ void main(void){
 	vec3 spec =vec3(Ggx_Dist_old(dot(Norm,H),r));
 	vec3 diff = vec3(Ggx_Dist_old(I,1));
 	vec3 baseColor = Material.BaseColor  ;
-	color = vec4(BlendMaterial(spec,diff,baseColor),1);
+	color = vec4((1.0 - shadow) * BlendMaterial(spec,diff,baseColor),1);
 }

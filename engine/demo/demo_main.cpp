@@ -71,7 +71,6 @@ public:
 
         _testLight = new STLight(0.1f,Vector3<stReal>(0,0,1));
         _testLight->intensity =.5;
-        _testLight->setTranslateZ(2.0);
         _testLight->setTranslateY(3.0f);
 
 
@@ -81,7 +80,7 @@ public:
         _testLight->setTranslateX(1.2f);
         _testLight->setTranslateY(1.0f);
 
-        scene->addSkybox("Yokohama", "skybox");
+        scene->addSkybox("Mystic", "skybox");
 
 
        scene->addLight(_testLight);
@@ -124,8 +123,8 @@ public:
 //            }
 //        }
         counter += 0.025f * delta;
-        _testLight->setTranslateY(abs(2.0f*std::sin(counter*.1f)));
-         //_testActor2->setRotateY(counter*.8f);
+        _testLight->setTranslateZ(std::sin(counter*.1f));
+        _testActor2->setRotateY(counter*.8f);
       //  _testLight2->setTranslateY(3.0f*std::sin(counter*.02f+3));
     }
 

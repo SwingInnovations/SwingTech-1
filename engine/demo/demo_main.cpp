@@ -66,10 +66,10 @@ public:
         _plane->setNormalTexture("testNormal.jpg");
         _plane->setTranslateY(-0.5f);
 
-        _cube = new STActor("dice.obj", STMesh::OBJ, resManager->getMaterial("default"));
+        _cube = new STActor("dice.obj", STMesh::OBJ, resManager->getMaterial("def"));
         _cube->setShdrUniform("_Metallic", 0.0f);
         _cube->setShdrUniform("_Roughness", 0.0f);
-        _cube->setDiffuseTexture("checker.jpg");
+        _cube->setDiffuseTexture("grid.png");
         _cube->setNormalTexture("testNormal.png");
         _cube->setTranslateX(-1.0f);
 
@@ -78,8 +78,8 @@ public:
 
         _testLight = new STLight(0.1f,Vector3<stReal>(0,0,1));
         _testLight->intensity =.5;
-        _testLight->setTranslateY(0.8f);
-        _testLight->setTranslateX(0.9f);
+        _testLight->setTranslateY(3.f);
+        _testLight->setTranslateX(2.f);
         _testLight->setTranslateZ(0.0f);
 
 
@@ -128,7 +128,8 @@ public:
 //            }
 //        }
         counter += 0.025f * delta;
-        _testLight->setTranslateZ(1.5f * std::sin(counter*.1f));
+        _testLight->setTranslateX(1.5f * std::sin(counter*.1f));
+        _testLight->setTranslateZ(1.5f * cos(counter * 0.1f));
         _testActor2->setRotateY(counter*.8f);
       //  _testLight2->setTranslateY(3.0f*std::sin(counter*.02f+3));
     }

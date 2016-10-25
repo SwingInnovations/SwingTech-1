@@ -16,21 +16,24 @@ public:
     }
 
     static Matrix4f LookAt(const Vector3<stReal> eye, const Vector3<stReal> center, const Vector3<stReal> up){
-        Matrix4f ret;
+        Matrix4f orient, trans;
 
         auto D = (eye - center);
         D.normalize();
         auto R = up.cross(D).normalize();
         auto U = D.cross(R);
 
-        auto negEye = eye;
-        negEye = negEye.negate();
+        orient.m[0][0] = R.getX();  orient.m[0][1] = R.getY();  orient.m[0][2] = R.getZ();  orient.m[0][3] = 0.f;
+        orient.m[1][0] = U.getX();  orient.m[1][1] = U.getY();  orient.m[1][2] = U.getZ();  orient.m[1][3] = 0.f;
+        orient.m[2][0] = D.getX();  orient.m[2][1] = D.getY();  orient.m[2][2] = D.getZ();  orient.m[2][3] = 0.f;
+        orient.m[3][0] = 0.f;       orient.m[3][1] = 0.f;       orient.m[3][2] = 0.f;       orient.m[3][3] = 1.f;
 
-        ret.m[0][0] = R.getX(); ret.m[0][1] = R.getY(); ret.m[0][2] = R.getZ(); ret.m[0][3] = (stReal)-R.dot(negEye);
-        ret.m[1][0] = U.getX(); ret.m[1][1] = U.getY(); ret.m[1][2] = U.getZ(); ret.m[1][3] = (stReal)-U.dot(negEye);
-        ret.m[2][0] = D.getX(); ret.m[2][1] = D.getY(); ret.m[2][2] = D.getZ(); ret.m[2][3] = (stReal)-D.dot(negEye);
-        ret.m[3][0] = 0.0f;     ret.m[3][1] = 0.0f;     ret.m[3][2] = 0.0f;     ret.m[3][3] = 1.0f;
-        return ret;
+        trans.m[0][0] = 1.f;    trans.m[0][1] = 0.f;    trans.m[0][2] = 0.f;    trans.m[0][3] = -eye.getX();
+        trans.m[1][0] = 0.f;    trans.m[1][1] = 1.f;    trans.m[1][2] = 0.f;    trans.m[1][3] = -eye.getY();
+        trans.m[2][0] = 0.f;    trans.m[2][1] = 0.f;    trans.m[2][2] = 1.f;    trans.m[2][3] = -eye.getZ();
+        trans.m[3][0] = 0.f;    trans.m[3][1] = 0.f;    trans.m[3][2] = 0.f;    trans.m[3][3] = 1.f;
+
+        return orient * trans;
     }
 
     inline void initIdentity(){

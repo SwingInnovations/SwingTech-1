@@ -185,13 +185,21 @@ vec3 Spec_IBL( float roughness, vec3 N, vec3 V, vec3 baseColor){
 
 float CalculateShadow(vec4 fragPos){
     vec3 projCoord = fragPos.xyz / fragPos.w;
+    vec2 texelSize = 1.0 / textureSize(shadowMap, 0);
     projCoord = projCoord * 0.5 + 0.5;
     vec2 texCoord = vec2(projCoord.x, projCoord.y);
     float closestDepth = texture(shadowMap, texCoord).r;
     float currentDepth = projCoord.z;
     float bias = max( 0.05 * (1.0 - dot(Normal, _LightPosition)), 0.005);
-    float shadow = currentDepth - 0.008f > closestDepth ? 1.0 : 0.0;
-    return shadow;
+    //float shadow = currentDepth - 0.008f > closestDepth ? 1.0 : 0.0;
+    float shadow = 0;
+    for(int x = -1; x <= 1; x++){
+        for(int y = -1; y <= 1; y++){
+            float pcfDepth = texture(shadowMap, texCoord + vec2(x, y) * texelSize).r;
+            shadow += currentDepth - bias > pcfDepth ? 1.0 : 0.0;
+        }
+    }
+    return shadow / 11.0;
 }
 
 vec3 BlendMaterial(vec3 Spec, vec3 Diff, vec3 Base,float fresnel){

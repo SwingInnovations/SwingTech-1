@@ -35,5 +35,5 @@ void main(void){
 
     TBN = mat3(T, B, N);
 
-    FragPosLightSpace = lightSpaceMatrix * vec4(Position, 1.0);
+    FragPosLightSpace = transpose(lightSpaceMatrix) * vec4(Position, 1.0);
 }

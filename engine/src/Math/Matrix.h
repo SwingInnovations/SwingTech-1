@@ -18,14 +18,17 @@ public:
     static Matrix4f LookAt(const Vector3<stReal> eye, const Vector3<stReal> center, const Vector3<stReal> up){
         Matrix4f ret;
 
-        auto D = eye - center;
+        auto D = (eye - center);
         D.normalize();
         auto R = up.cross(D).normalize();
         auto U = D.cross(R);
 
-        ret.m[0][0] = R.getX(); ret.m[0][1] = R.getY(); ret.m[0][2] = R.getZ(); ret.m[0][3] = -eye.getX();
-        ret.m[1][0] = U.getX(); ret.m[1][1] = U.getY(); ret.m[1][2] = U.getZ(); ret.m[1][3] = -eye.getY();
-        ret.m[2][0] = D.getX(); ret.m[2][1] = D.getY(); ret.m[2][2] = D.getZ(); ret.m[2][3] = -eye.getZ();
+        auto negEye = eye;
+        negEye = negEye.negate();
+
+        ret.m[0][0] = R.getX(); ret.m[0][1] = R.getY(); ret.m[0][2] = R.getZ(); ret.m[0][3] = (stReal)-R.dot(negEye);
+        ret.m[1][0] = U.getX(); ret.m[1][1] = U.getY(); ret.m[1][2] = U.getZ(); ret.m[1][3] = (stReal)-U.dot(negEye);
+        ret.m[2][0] = D.getX(); ret.m[2][1] = D.getY(); ret.m[2][2] = D.getZ(); ret.m[2][3] = (stReal)-D.dot(negEye);
         ret.m[3][0] = 0.0f;     ret.m[3][1] = 0.0f;     ret.m[3][2] = 0.0f;     ret.m[3][3] = 1.0f;
         return ret;
     }
@@ -193,9 +196,9 @@ public:
     }
 
     inline void initOrthographicProjection(float left, float right, float top, float bottom, float zNear, float zFar){
-        m[0][0] = 2.0f / (right - left); m[0][1] = 0.0f;                m[0][2] = 0.0f;                 m[0][3] = -(right + left)/(right - left);
-        m[1][0] = 0.0f;                  m[1][1] = 2.0f/(top-bottom);   m[1][2] = 0.0f;                 m[1][3] = -(top+bottom)/(top-bottom);
-        m[2][0] = 0.0f;                  m[2][1] = 0.0f;                m[2][2] = -2.0f/(zFar - zNear); m[2][3] = -(zFar + zNear)/ (zFar - zNear);
+        m[0][0] = 2.0f / (right - left); m[0][1] = 0.0f;                m[0][2] = 0.0f;                 m[0][3] = -((right + left)/(right - left));
+        m[1][0] = 0.0f;                  m[1][1] = 2.0f/(top-bottom);   m[1][2] = 0.0f;                 m[1][3] = -((top + bottom)/(top-bottom));
+        m[2][0] = 0.0f;                  m[2][1] = 0.0f;                m[2][2] = -2.0f/(zFar - zNear); m[2][3] = -((zFar + zNear)/(zFar - zNear));
         m[3][0] = 0.0f;                  m[3][1] = 0.0f;                m[3][2] = 0.0f;                 m[3][3] = 1.0f;
     }
 

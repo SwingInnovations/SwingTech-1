@@ -161,7 +161,7 @@ void GLGraphics::drawScene(STScene *scene) {
     auto actors = scene->getActors();
     auto lights = scene->getLights();
 
-    stReal nearPlane = 1.f, farPlane = 12.f;
+    stReal nearPlane = 1.f, farPlane = 10.0f;
     Matrix4f lightOrth;
     lightOrth.initOrthographicProjection(-10.0f, 10.0f, -10.0f, 10.0f, nearPlane, farPlane);
 
@@ -172,6 +172,8 @@ void GLGraphics::drawScene(STScene *scene) {
 
     glBindFramebuffer(GL_FRAMEBUFFER, depthBuffer);
     glClear(GL_DEPTH_BUFFER_BIT);
+    glEnable(GL_CULL_FACE);
+    glCullFace(GL_FRONT);
     simpleShadowMat->shdr()->bind();
     auto lightView = Matrix4f::LookAt(lights.front()->transform()->getTranslate<stReal>(),
                                       Vector3<stReal>(0.0f, 0.0f, 0.0f),
@@ -193,7 +195,7 @@ void GLGraphics::drawScene(STScene *scene) {
     glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
     glDisable(GL_DEPTH_TEST);
-
+    glCullFace(GL_BACK);
     glViewport(0, 0, WIDTH, HEIGHT);
     // Bind the frame buffer
     glBindFramebuffer(GL_FRAMEBUFFER, frameBuffer);

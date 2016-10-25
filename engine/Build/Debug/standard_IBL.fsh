@@ -10,6 +10,7 @@ in vec4 FragPosLightSpace;
 uniform samplerCube _WorldCubeMap;
 uniform vec3 _GlobalAmbient;
 uniform vec3 _CameraPos;
+uniform vec3 _LightPosition;
 
  uniform float _Metallic;
  uniform float _Roughness;
@@ -185,8 +186,10 @@ vec3 Spec_IBL( float roughness, vec3 N, vec3 V, vec3 baseColor){
 float CalculateShadow(vec4 fragPos){
     vec3 projCoord = fragPos.xyz / fragPos.w;
     projCoord = projCoord * 0.5 + 0.5;
-    float closestDepth = texture(shadowMap, projCoord.xy).r;
+    vec2 texCoord = vec2(projCoord.x, projCoord.y);
+    float closestDepth = texture(shadowMap, texCoord).r;
     float currentDepth = projCoord.z;
+    float bias = max( 0.05 * (1.0 - dot(Normal, _LightPosition)), 0.005);
     float shadow = currentDepth - 0.008f > closestDepth ? 1.0 : 0.0;
     return shadow;
 }

@@ -55,7 +55,7 @@ public:
         });
 
         scene->addSkybox("green", "skybox");
-        //scene->addActor(_testActor);
+        scene->addActor(_testActor);
         STGraphics::ClearColor = Vector4<stReal>(0.0, 0.0, 0.168, 1.0);
     }
 

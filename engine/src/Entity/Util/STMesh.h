@@ -29,6 +29,7 @@ public:
     OBJMesh(const std::string& fileName, Vector2<stInt> lineBounds);
     OBJMesh(const std::string& fileName, Vector2<stInt> lineBounds, Vector3<stInt> maxSize);
     static bool Validate(const std::string& fileName, std::vector<std::string> *tags, std::vector<STMesh_Structure> *dataMesh);
+    static bool Validate(const std::string& fileName, bool* errFlag, std::vector<std::string> *tags, std::vector<STMesh_Structure> *dataMesh);
     virtual ~OBJMesh();
 
     int getVerticiesSize(){ return (int)verticies.size(); }
@@ -68,7 +69,7 @@ public:
         LINE_LOOP = 2,
     };
     static bool Validate(const std::string& fileName, int* typeFlag, std::vector<std::string>* tags, std::vector<STMesh_Structure>* meshes);
-
+    static bool Validate(const std::string& fileName, bool* errFlag, std::vector<std::string>* tags, std::vector<STMesh_Structure>* meshes);
     STMesh(){}
     STMesh(const std::string& fileName, int type){}
     STMesh(Shape& shape){ }

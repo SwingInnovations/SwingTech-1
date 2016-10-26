@@ -36,22 +36,28 @@ STActor::STActor(const std::string &filePath, STMaterial *material) {
     m_type = Actor;
     m_visible = true;
     stInt flag = 0;
+    bool errFlag = true;
     std::vector<std::string> tags;
     std::vector<STMesh_Structure> meshes;
     addComponent(typeid(STEventComponent), new STEventComponent());
 
-    if(STMesh::Validate(filePath, &flag, &tags, &meshes)){
+    if(STMesh::Validate(filePath, &errFlag, &tags, &meshes)){
         for(stUint i = 0, S = meshes.size(); i < S; i++){
             this->addChild_Actor(new STActor(meshes.at(i), tags.at(i), material));
         }
         return;
+    }else{
+        if(!errFlag){
+            //TODO Load errorMesh.obj
+        }
+        addComponent(typeid(STMeshComponent), new STMeshComponent(meshes.at(0)));
+        addComponent(typeid(STGraphicsComponent), new STGraphicsComponent(material));
     }
 
     if(tags.size() > 0)
         m_tag = tags.at(0);
     else m_tag = "Actor";
-    addComponent(typeid(STMeshComponent), new STMeshComponent(filePath, flag));
-    addComponent(typeid(STGraphicsComponent), new STGraphicsComponent(material));
+
 }
 
 void STActor::draw() {
@@ -85,8 +91,11 @@ void STActor::draw(STMaterial *material) {
         auto mesh = this->get<STMeshComponent>();
         auto grphx = this->get<STGraphicsComponent>();
         auto cam = STGame::Get()->getCamera();
-        material->draw(grphx->getUniforms(), *m_transform, *cam);
-        mesh->draw();
+        if(grphx!= nullptr) material->draw(grphx->getUniforms(), *m_transform, *cam);
+        if(mesh != nullptr) mesh->draw();
+        for(auto child : m_children){
+            dynamic_cast<STActor*>(child)->draw(material);
+        }
     }
 }
 

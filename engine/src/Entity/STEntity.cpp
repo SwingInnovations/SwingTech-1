@@ -169,7 +169,7 @@ void STEntity::setRotateY(stReal _y){
 }
 
 void STEntity::setRotateZ(stReal _z) {
-    m_transform->setTranslateZ(_z);
+    m_transform->setRotateZ(_z);
 }
 
 

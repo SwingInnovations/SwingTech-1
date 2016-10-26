@@ -15,24 +15,12 @@ STActor::STActor(const std::string &filePath, const int type, STMaterial *materi
     m_visible = true;
 }
 
-STActor::STActor(const std::string &filePath, const int type, std::string& tag, Vector2<stInt> bounds,
-                 STMaterial *material) {
+STActor::STActor(STMesh_Structure structure, std::string &tag, STMaterial* material) {
     m_transform = new Transform;
     m_tag = tag;
     m_type = Actor;
     m_visible = true;
-    addComponent(typeid(STMeshComponent), new STMeshComponent(filePath, type, bounds));
-    addComponent(typeid(STGraphicsComponent), new STGraphicsComponent(material));
-    addComponent(typeid(STEventComponent), new STEventComponent);
-}
-
-STActor::STActor(const std::string &filePath, const int type, std::string &tag, Vector2<stInt> bounds,
-                 Vector3<stInt> maxSizes, STMaterial *material) {
-    m_transform = new Transform;
-    m_tag = tag;
-    m_type = Actor;
-    m_visible = true;
-    addComponent(typeid(STMeshComponent), new STMeshComponent(filePath, type, bounds, maxSizes));
+    addComponent(typeid(STMeshComponent), new STMeshComponent(structure));
     addComponent(typeid(STGraphicsComponent), new STGraphicsComponent(material));
     addComponent(typeid(STEventComponent), new STEventComponent);
 }
@@ -48,34 +36,29 @@ STActor::STActor(const std::string &filePath, STMaterial *material) {
     m_type = Actor;
     m_visible = true;
     stInt flag = 0;
+    bool errFlag = true;
     std::vector<std::string> tags;
-    std::vector<Vector2<stInt>> bounds;
-    std::vector<Vector3<stInt>> maxSizes; //Keeps track of the largest vertices.
-    maxSizes.push_back(Vector3<stInt>(0, 0, 0));
+    std::vector<STMesh_Structure> meshes;
     addComponent(typeid(STEventComponent), new STEventComponent());
 
-    if(STMesh::Validate(filePath, &flag, &tags, &bounds, &maxSizes)){
-        if(tags.size() < bounds.size()){
-            for(unsigned int i = 0, N = bounds.size(); i < N; i++){
-                tags.clear();
-                std::string tag = "child";
-                tags.push_back(tag);
-            }
-        }
-        for(stInt i = 0, boundSize = (stInt)bounds.size(); i < boundSize; i++){
-            this->addChild_Actor( new STActor(filePath, flag, tags.at(i), bounds.at(i), maxSizes.at(i), material));
+    if(STMesh::Validate(filePath, &errFlag, &tags, &meshes)){
+        for(stUint i = 0, S = meshes.size(); i < S; i++){
+            this->addChild_Actor(new STActor(meshes.at(i), tags.at(i), material));
         }
         return;
+    }else{
+        if(!errFlag){
+            //TODO Load errorMesh.obj
+        }
+        addComponent(typeid(STMeshComponent), new STMeshComponent(meshes.at(0)));
+        addComponent(typeid(STGraphicsComponent), new STGraphicsComponent(material));
     }
 
     if(tags.size() > 0)
         m_tag = tags.at(0);
     else m_tag = "Actor";
-    addComponent(typeid(STMeshComponent), new STMeshComponent(filePath, flag));
-    addComponent(typeid(STGraphicsComponent), new STGraphicsComponent(material));
-}
 
-//TODO - Implement draw using specified material.
+}
 
 void STActor::draw() {
     if(m_visible){
@@ -86,8 +69,11 @@ void STActor::draw() {
         if(grphx != nullptr)grphx->draw(*m_transform, *cam);
         if(mesh != nullptr)mesh->draw();
         for(auto child : m_children){
-            dynamic_cast<STActor*>(child)->draw(cam, 2);
+            dynamic_cast<STActor*>(child)->draw();
         }
+//        for(stUint i = 0, S = m_children.size(); i < S; i++){
+//            m_children.at(1)->draw(cam, 2);
+//        }
     }
 }
 
@@ -105,12 +91,14 @@ void STActor::draw(STMaterial *material) {
         auto mesh = this->get<STMeshComponent>();
         auto grphx = this->get<STGraphicsComponent>();
         auto cam = STGame::Get()->getCamera();
-        auto uniforms = grphx->getMaterial()->getUniforms();
-        auto grphxUniforms = grphx->getUniforms();
-        for(stUint i = 0, S = grphxUniforms.size(); i < S; i++){
-            uniforms.push_back(grphxUniforms.at(i));
+
+        if(grphx!= nullptr) material->draw(grphx->getUniforms(), *m_transform, *cam);
+        if(mesh != nullptr) mesh->draw();
+        for(auto child : m_children){
+            dynamic_cast<STActor*>(child)->draw(material);
         }
-        material->draw(uniforms, *m_transform, *cam);
-        mesh->draw();
+
     }
 }
+
+

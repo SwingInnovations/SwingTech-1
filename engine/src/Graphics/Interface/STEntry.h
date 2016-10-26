@@ -2,6 +2,7 @@
 #define SWINGTECH1_STENTRY_H
 
 #include "STInterWidget.h"
+#include "STPanel.h"
 
 class STEntry : public STInterWidget {
 public:
@@ -17,6 +18,7 @@ public:
 private:
     std::string m_defaultText;
     bool m_inFocus;
+    STPanel* m_panel;
 };
 
 

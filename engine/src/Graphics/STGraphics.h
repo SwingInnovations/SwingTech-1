@@ -46,6 +46,8 @@ public:
     virtual void initScene(stUint index){;}
     virtual void drawScene(STScene* scene) = 0;
     virtual void setShader(int,Shader*){;}
+    virtual void enableBlend(){;}
+    virtual void disableBlend(){;}
 
     /*
      *
@@ -66,6 +68,8 @@ public:
     virtual void drawText(Vector2<stReal> pos, const std::string& text, stReal fontSize, Vector2<stReal> vector){ ; }
     virtual void drawText(Vector2<stReal> pos, const std::string& text, stReal fontSize, stReal v1, stReal v2, stReal v3){ ; }
     virtual void drawText(Vector2<stReal> pos, const std::string& text, stReal fontSize, Vector3<stReal> vector){ ; }
+
+    virtual Matrix4f getOrthographicProjection()const{ return Matrix4f(); }
 
     Camera* camera(){
         return m_Cam;

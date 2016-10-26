@@ -50,6 +50,14 @@ struct STColor{
         }
     }
 
+    inline void set(Vector3<stReal> col){
+        color = Vector4<stReal>(col, 1.0);
+    }
+
+    inline void set(Vector4<stReal> col){
+        color = col;
+    }
+
     inline void set(const int col){
         switch(col){
             case RED:

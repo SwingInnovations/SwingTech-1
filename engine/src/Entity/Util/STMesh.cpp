@@ -17,90 +17,83 @@ OBJMesh::OBJMesh(const std::string &filename) {
 
     unsigned int counter = 0;
 
+    auto extractVector3 = [](std::string str){
+        stReal arr[3];
+        stInt counter = 0;
+        stReal temp;
+        std::stringstream buff(str);
+        while(buff >> temp){
+            arr[counter] = temp;
+            counter++;
+        }
+        return Vector3<stReal>(arr[0], arr[1], arr[2]);
+    };
+
+    auto extractVector2 = [](std::string str){
+        stReal arr[2];
+        stInt counter = 0;
+        stReal temp;
+        std::stringstream buff(str);
+        while(buff >> temp){
+            arr[counter] = temp;
+            counter++;
+        }
+
+        return Vector2<stReal>(arr[0], arr[1]);
+    };
+
+    auto extractFace = [](std::string str){
+        stInt arr[3];
+        stInt counter = 0;
+        stInt temp;
+        for(stUint i = 0, L = (stUint)str.length(); i < L; i++){
+            if(str[i] == '/') str[i] = ' ';
+        }
+        std::stringstream buff(str);
+        while(buff >> temp){
+            arr[counter] = temp;
+            counter++;
+        }
+
+        return Vector3<stInt>(arr[0], arr[1], arr[2]);
+    };
+
+    auto splitFace = [](std::string str){
+        std::vector<std::string> ret;
+        std::string temp;
+        std::stringstream buff(str);
+        while(buff >> temp) ret.push_back(temp);
+        return ret;
+    };
+
     std::string line; //Store line from text file here.
     if(in.good()){
         while(std::getline(in, line)){
             counter++;
             //Vertex Extraction
             if(line[0] == 'v' && line[1] == ' '){
-                std::string vals = line.substr(2);
-                stReal _x = 0.0f, _y = 0.0f, _z = 0.0f;
 
-                std::string vX = vals.substr(0, vals.find(' '));
-                _x = (stReal)atof(vX.c_str());
-
-                std::string vY = vals.substr(vX.length()+1, vals.find(' '));
-                _y = (stReal)atof(vY.c_str());
-
-                std::string vZ = vals.substr(vals.find_last_of(' ')+1);
-                _z = (stReal)atof(vZ.c_str());
-
-                _vertex.push_back(Vector3<stReal>(_x, _y, _z));
+                _vertex.push_back(extractVector3(line.substr(2)));
             }
             //Texcoord Extraction
             if(line[0] == 'v' && line[1] == 't' && line[2] == ' '){
-                std::string vals = line.substr(3);
-                stReal _u = 0.0f, _v = 0.0f;
-                std::string tU = vals.substr(0, vals.find(' '));
-                _u = (stReal)atof(tU.c_str());
-                std::string tV = vals.substr(tU.length()+1, vals.find(' '));
-                _v = (stReal)atof(tV.c_str());
-
-                _texCoord.push_back(Vector2<stReal>(_u, _v));
+                _texCoord.push_back(extractVector2(line.substr(3)));
             }
             //Normal Extraction
             if(line[0] == 'v' && line[1] == 'n'&& line[2] == ' '){
-                std::string vals = line.substr(3);
-                stReal _x = 0.0f, _y = 0.0f, _z = 0.0f;
-                std::string nX = vals.substr(0, vals.find(' '));
-
-                _x = (stReal)atof(nX.c_str());
-                std::string nY = vals.substr(nX.length()+1, vals.find(' '));
-
-                _y = (stReal)atof(nY.c_str());
-                std::string nZ = vals.substr(vals.find_last_of(' ')+1);
-
-                _z = (stReal)atof(nZ.c_str());
-
-                _normal.push_back(Vector3<stReal>(_x, _y, _z));
+                _normal.push_back(extractVector3(line.substr(3)));
             }
 
             //Index Extraction
             if(line[0] == 'f' && line[1] == ' '){
-                std::string hLine = line.substr(2);
-                int i = 0, j = 0, k = 0;
-                //first element
-                std::string face1 = hLine.substr(0, hLine.find(' '));
-                std::string v1 = face1.substr(0, face1.find('/'));
-                i = atoi(v1.c_str());
-                int midLen1 = face1.find_last_of('/') - face1.find('/')+1;
-                std::string t1 = face1.substr(face1.find('/')+1, midLen1);
-                j = atoi(t1.c_str());
-                std::string n1 = face1.substr(face1.find_last_of('/') + 1);
-                k = atoi(n1.c_str());
-                i--; j--; k--;
-                _index.push_back(i); _index.push_back(j); _index.push_back(k);
-                int midLen = hLine.find_last_of(' ') - hLine.find(' ') + 1;
-                std::string face2 = hLine.substr(hLine.find(' ') + 1, midLen);
-                std::string v2 = face2.substr(0, face2.find('/'));
-                i = atoi(v2.c_str());
-                int midLen2 = face2.find_last_of('/') - face2.find('/') + 1;
-                std::string t2 = face2.substr(v2.length()+1, midLen2);
-                j = atoi(t2.c_str());
-                std::string n2 = face2.substr(face2.find_last_of('/') + 1);
-                k = atoi(n2.c_str());
-                i--; j--; k--;
-                _index.push_back(i); _index.push_back(j); _index.push_back(k);
-                std::string face3 = hLine.substr(hLine.find_last_of(' ') + 1);
-                std::string v3 = face3.substr(0, face3.find('/'));
-                i = atoi(v3.c_str());
-                int midLen3 = face3.find_last_of('/')-face3.find('/') + 1;
-                std::string t3 = face3.substr(face3.find('/')+1, midLen3);
-                j = atoi(t3.c_str());
-                std::string n3 = face3.substr(face3.find_last_of('/')+1);
-                k = atoi(n3.c_str());
-                i--; j--; k--;
-                _index.push_back(i); _index.push_back(j); _index.push_back(k);
+                auto faceStrings = splitFace(line.substr(2));
+                Vector3<stInt> values;
+                for(stUint i = 0; i < 3; i++){
+                    values = extractFace(faceStrings.at(i));
+                    _index.push_back(values.getX() - 1);
+                    _index.push_back(values.getY() - 1);
+                    _index.push_back(values.getZ() - 1);
+                }
             }
         }
         in.close();
@@ -361,113 +354,414 @@ OBJMesh::~OBJMesh() {
 
 }
 
-bool OBJMesh::Validate(const std::string &fileName, std::vector<std::string> *tags, std::vector<Vector2<stInt>> *bounds) {
-    stInt lowerBound, upperBound;
-    lowerBound = upperBound = -1;
-    stUint counter = 0;
-    std::string lastTag = "";
-
-    std::ifstream in(fileName.c_str(), std::ios_base::in);
-    if(!in) return false;
-    std::string line;
-    if(in.good()){
-        while(std::getline(in, line)){
-            if(line[0] == 'v' && line[1] == ' ' && lowerBound == -1){
-                lowerBound = counter;
-                lastTag = "v";
-            }
-
-            if(line[0] == 'v' && line[1] == ' ' && lastTag == "f"){
-                upperBound = counter-1;
-                (*bounds).push_back(Vector2<stInt>(lowerBound, upperBound));
-                lowerBound = -1;
-                lastTag = "v";
-            }
-
-            if(line[0] == 'g'){
-                (*tags).push_back(line.substr(2));
-                lastTag = "g";
-            }
-            if(line[0] == 'f'){
-                lastTag = "f";
-            }
-            counter++;
-        }
-        if(lastTag == "f"){
-            upperBound = counter;
-            (*bounds).push_back(Vector2<stInt>(lowerBound, upperBound));
-        }
-        in.close();
-    }
-    return (*bounds).size() > 1;
-}
-
-bool OBJMesh::Validate(const std::string &fileName, std::vector<std::string> *tags, std::vector<Vector2<stInt>> *bounds,
-                       std::vector<Vector3<stInt>> *maxSizes) {
-    stInt lowerBound, upperBound, vertDisp, texDisp, normDisp;
-    vertDisp = texDisp = normDisp = 0;
-    lowerBound = upperBound = -1;
-    stUint counter = 0;
-    std::string lastTag = "";
-
-    std::ifstream in(fileName.c_str(), std::ios_base::in);
-    if(!in) return false;
-    std::string line;
-    if(in.good()){
-        while(std::getline(in, line)){
-            if(line[0] == 'v' && line[1] == ' '){
-                vertDisp++;
-
-                if(lowerBound == -1){
-                    lowerBound = counter;
-                    lastTag = "v";
-                }
-            }
-
-            if(line[0] == 'v' && line[1] == 't') texDisp++;
-
-            if(line[0] == 'v' && line[1] == 'n') normDisp++;
-
-            if(line[0] == 'v' && line[1] == ' ' && lastTag == "f"){
-                upperBound = counter-1;
-                (*bounds).push_back(Vector2<stInt>(lowerBound, upperBound));
-                (*maxSizes).push_back(Vector3<stInt>(vertDisp-1, texDisp, normDisp));
-                lowerBound = -1;
-                lastTag = "v";
-            }
-
-            if(line[0] == 'g'){
-                (*tags).push_back(line.substr(2));
-                lastTag = "g";
-            }
-            if(line[0] == 'f'){
-                lastTag = "f";
-            }
-            counter++;
-        }
-        if(lastTag == "f"){
-            upperBound = counter;
-            (*bounds).push_back(Vector2<stInt>(lowerBound, upperBound));
-            (*maxSizes).push_back(Vector3<stInt>(vertDisp-1, texDisp, normDisp));
-        }
-        in.close();
-    }
-    return (*bounds).size() > 1;
-}
-
 bool OBJMesh::Validate(const std::string &fileName, std::vector<std::string> *tags,
                        std::vector<STMesh_Structure> *dataMesh) {
-    return false;
+    stUint vertCount, texCount, normCount, objCount, lastVertCount, lastTexCount, lastNormCount;
+    vertCount = texCount = normCount = objCount = lastVertCount = lastNormCount = lastTexCount = 0;
+    std::string lastTag = "";
+    std::vector<Vector3<stUint>> vertCounts;
+    std::vector<Vector3<stReal>> _vertex;
+    std::vector<Vector2<stReal>> _texCoord;
+    std::vector<Vector3<stReal>> _normal;
+    std::vector<int> _index;
+
+    stInt counter = 0;
+
+    auto extractVector3 = [](std::string str){
+        stReal arr[3];
+        stInt counter = 0;
+        stReal temp;
+        std::stringstream buff(str);
+        while(buff >> temp){
+            arr[counter] = temp;
+            counter++;
+        }
+        return Vector3<stReal>(arr[0], arr[1], arr[2]);
+    };
+
+    auto extractVector2 = [](std::string str){
+        stReal arr[2];
+        stInt counter = 0;
+        stReal temp;
+        std::stringstream buff(str);
+        while(buff >> temp){
+            arr[counter] = temp;
+            counter++;
+        }
+
+        return Vector2<stReal>(arr[0], arr[1]);
+    };
+
+    //Internal function to extract face and store in Vector3
+    auto extractFace = [](std::string &str) {
+        std::vector<stInt> ext_ind;
+        stInt temp;
+        for (stUint i = 0, L = (stUint) str.length(); i < L; i++) {
+            if (str[i] == '/') str[i] = ' ';
+        }
+        std::stringstream buff(str);
+        while (buff >> temp) ext_ind.push_back(temp);
+
+        return Vector3<stInt>(ext_ind[0], ext_ind[1], ext_ind[2]);
+    };
+
+    auto splitFace = [](std::string str) {
+        std::vector<std::string> ret;
+        std::string temp;
+        std::stringstream buff(str);
+        while (buff >> temp) ret.push_back(temp);
+
+        return ret;
+    };
+
+    std::ifstream in(fileName.c_str(), std::ios_base::in);
+    if (!in) {
+        std::cout << "Invalid file! Could not load: " << fileName << std::endl;
+        return false;
+    }
+    std::string line;
+    if (in.good()) {
+        while (std::getline(in, line)) {
+            //Vertex Extraction
+            if (line[0] == 'g') {
+                (*tags).push_back(line.substr(2));
+            }
+
+            if (line[0] == 'v' && line[1] == ' ') {
+                if (lastTag == "f") {
+                    std::vector<int> adjustedIndicies;
+                    adjustedIndicies.reserve(_index.size());
+                    std::vector<Vertex> vertexList;
+                    std::vector<int> indexList;
+                    stUint ind = 0;
+
+                    lastVertCount++;
+                    lastTexCount++;
+                    lastNormCount++;
+
+                    if ((*dataMesh).size() > 0) {
+                        for (stUint i = 0, S = (stUint) _index.size(); i < S; i += 3) {
+                            adjustedIndicies.push_back(_index.at(i) - lastVertCount);
+                            adjustedIndicies.push_back(_index.at(i + 1) - lastTexCount);
+                            adjustedIndicies.push_back(_index.at(i + 2) - lastNormCount);
+                        }
+                    } else adjustedIndicies = _index;
+                    for (stUint i = 0, S = (stUint) adjustedIndicies.size(); i < S; i += 3) {
+                        Vertex vert(_vertex[adjustedIndicies.at(i)], _texCoord[adjustedIndicies.at(i + 1)],
+                                    _normal[_index.at(i + 2)]);
+                        vertexList.push_back(vert);
+                        indexList.push_back(ind);
+                        ind++;
+                    }
+                    STMesh_Structure mesh;
+                    mesh.m_vertices = vertexList;
+                    mesh.m_indices = indexList;
+                    (*dataMesh).push_back(mesh);//Mesh has been added to the list.
+
+                    lastVertCount = vertCount - 1;
+                    lastTexCount = texCount - 1;
+                    lastNormCount = normCount - 1;
+
+                    _vertex.clear();
+                    _texCoord.clear();
+                    _normal.clear();
+                    _index.clear();
+                    adjustedIndicies.clear();
+                }
+
+                _vertex.push_back(extractVector3(line.substr(2)));
+                vertCount++;
+                lastTag = "v";
+            }
+            //Texcoord Extraction
+            if (line[0] == 'v' && line[1] == 't' && line[2] == ' ') {
+                _texCoord.push_back(extractVector2(line.substr(3)));
+                texCount++;
+            }
+            //Normal Extraction
+            if (line[0] == 'v' && line[1] == 'n' && line[2] == ' ') {
+                _normal.push_back(extractVector3(line.substr(3)));
+                normCount++;
+            }
+
+            //Index Extraction
+            if (line[0] == 'f' && line[1] == ' ') {
+                auto faceString = splitFace(line.substr(2));
+                //first element
+                auto vals = extractFace(faceString.at(0));
+                _index.push_back(vals.getX() - 1);
+                _index.push_back(vals.getY() - 1);
+                _index.push_back(vals.getZ() - 1);
+                vals = extractFace(faceString.at(1));
+                _index.push_back(vals.getX() - 1);
+                _index.push_back(vals.getY() - 1);
+                _index.push_back(vals.getZ() - 1);
+                vals = extractFace(faceString.at(2));
+                _index.push_back(vals.getX() - 1);
+                _index.push_back(vals.getY() - 1);
+                _index.push_back(vals.getZ() - 1);
+                lastTag = "f";
+            }
+            counter++;
+        }
+        in.close();
+
+        if (lastTag == "f") {
+            std::vector<int> adjustedIndicies;
+            auto check = adjustedIndicies.empty();
+            std::vector<Vertex> vertexList;
+            std::vector<int> indexList;
+            stUint ind = 0;
+            lastVertCount++;
+            lastTexCount++;
+            lastNormCount++;
+            if ((*dataMesh).size() > 0) {
+                for (stUint i = 0, S = (stUint) _index.size(); i < S; i += 3) {
+                    adjustedIndicies.push_back(_index.at(i) - lastVertCount);
+                    adjustedIndicies.push_back(_index.at(i + 1) - lastTexCount);
+                    adjustedIndicies.push_back(_index.at(i + 2) - lastNormCount);
+                }
+            } else {
+                adjustedIndicies = _index;
+            }
+            auto adSize = adjustedIndicies.size();
+            for (stUint i = 0, S = (stUint) adjustedIndicies.size(); i < S; i += 3) {
+                Vertex vert(_vertex[adjustedIndicies.at(i)], _texCoord[adjustedIndicies.at(i + 1)],
+                            _normal[_index.at(i + 2)]);
+                vertexList.push_back(vert);
+                indexList.push_back(ind);
+                ind++;
+            }
+            STMesh_Structure mesh;
+            mesh.m_vertices = vertexList;
+            mesh.m_indices = indexList;
+            (*dataMesh).push_back(mesh);//Mesh has been added to the list.
+
+            _vertex.clear();
+            _texCoord.clear();
+            _normal.clear();
+            _index.clear();
+        }
+    }
+    return (*dataMesh).size() > 1;
 }
 
+bool OBJMesh::Validate(const std::string &fileName, bool *errFlag, std::vector<std::string> *tags,
+                       std::vector<STMesh_Structure> *dataMesh) {
+    stUint vertCount, texCount, normCount, objCount, lastVertCount, lastTexCount, lastNormCount;
+    vertCount = texCount = normCount = objCount = lastVertCount = lastNormCount = lastTexCount = 0;
+    std::string lastTag = "";
+    std::vector<Vector3<stUint>> vertCounts;
+    std::vector<Vector3<stReal>> _vertex;
+    std::vector<Vector2<stReal>> _texCoord;
+    std::vector<Vector3<stReal>> _normal;
+    std::vector<int> _index;
+
+    stInt counter = 0;
+
+    auto extractVector3 = [](std::string str){
+        stReal arr[3];
+        stInt counter = 0;
+        stReal temp;
+        std::stringstream buff(str);
+        while(buff >> temp){
+            arr[counter] = temp;
+            counter++;
+        }
+        return Vector3<stReal>(arr[0], arr[1], arr[2]);
+    };
+
+    auto extractVector2 = [](std::string str){
+        stReal arr[2];
+        stInt counter = 0;
+        stReal temp;
+        std::stringstream buff(str);
+        while(buff >> temp){
+            arr[counter] = temp;
+            counter++;
+        }
+
+        return Vector2<stReal>(arr[0], arr[1]);
+    };
+
+    //Internal function to extract face and store in Vector3
+    auto extractFace = [](std::string &str) {
+        std::vector<stInt> ext_ind;
+        stInt temp;
+        for (stUint i = 0, L = (stUint) str.length(); i < L; i++) {
+            if (str[i] == '/') str[i] = ' ';
+        }
+        std::stringstream buff(str);
+        while (buff >> temp) ext_ind.push_back(temp);
+
+        return Vector3<stInt>(ext_ind[0], ext_ind[1], ext_ind[2]);
+    };
+
+    auto splitFace = [](std::string str) {
+        std::vector<std::string> ret;
+        std::string temp;
+        std::stringstream buff(str);
+        while (buff >> temp) ret.push_back(temp);
+
+        return ret;
+    };
+
+    std::ifstream in(fileName.c_str(), std::ios_base::in);
+    if (!in) {
+        std::cout << "Invalid file! Could not load: " << fileName << std::endl;
+        *errFlag = false;
+        return false;
+    }
+    std::string line;
+    if (in.good()) {
+        while (std::getline(in, line)) {
+            //Vertex Extraction
+            if (line[0] == 'g') {
+                (*tags).push_back(line.substr(2));
+            }
+
+            if (line[0] == 'v' && line[1] == ' ') {
+                if (lastTag == "f") {
+                    if(_vertex.empty()){
+                        *errFlag = false;
+                        return false;
+                    }
+                    if(_texCoord.empty()){
+                        *errFlag = false;
+                        return false;
+                    }
+                    if(_normal.empty()){
+                        *errFlag = false;
+                        return false;
+                    }
+                    if(_index.size() % 3 != 0){
+                        *errFlag = false;
+                        return false;
+                    }
+                    std::vector<int> adjustedIndicies;
+                    adjustedIndicies.reserve(_index.size());
+                    std::vector<Vertex> vertexList;
+                    std::vector<int> indexList;
+                    stUint ind = 0;
+
+                    lastVertCount++;
+                    lastTexCount++;
+                    lastNormCount++;
+
+                    if ((*dataMesh).size() > 0) {
+                        for (stUint i = 0, S = (stUint) _index.size(); i < S; i += 3) {
+                            adjustedIndicies.push_back(_index.at(i) - lastVertCount);
+                            adjustedIndicies.push_back(_index.at(i + 1) - lastTexCount);
+                            adjustedIndicies.push_back(_index.at(i + 2) - lastNormCount);
+                        }
+                    } else adjustedIndicies = _index;
+                    for (stUint i = 0, S = (stUint) adjustedIndicies.size(); i < S; i += 3) {
+                        Vertex vert(_vertex[adjustedIndicies.at(i)], _texCoord[adjustedIndicies.at(i + 1)],
+                                    _normal[_index.at(i + 2)]);
+                        vertexList.push_back(vert);
+                        indexList.push_back(ind);
+                        ind++;
+                    }
+                    STMesh_Structure mesh;
+                    mesh.m_vertices = vertexList;
+                    mesh.m_indices = indexList;
+                    (*dataMesh).push_back(mesh);//Mesh has been added to the list.
+
+                    lastVertCount = vertCount - 1;
+                    lastTexCount = texCount - 1;
+                    lastNormCount = normCount - 1;
+
+                    _vertex.clear();
+                    _texCoord.clear();
+                    _normal.clear();
+                    _index.clear();
+                    adjustedIndicies.clear();
+                }
+
+                _vertex.push_back(extractVector3(line.substr(2)));
+                vertCount++;
+                lastTag = "v";
+            }
+            //Texcoord Extraction
+            if (line[0] == 'v' && line[1] == 't' && line[2] == ' ') {
+                _texCoord.push_back(extractVector2(line.substr(3)));
+                texCount++;
+            }
+            //Normal Extraction
+            if (line[0] == 'v' && line[1] == 'n' && line[2] == ' ') {
+                _normal.push_back(extractVector3(line.substr(3)));
+                normCount++;
+            }
+
+            //Index Extraction
+            if (line[0] == 'f' && line[1] == ' ') {
+                auto faceString = splitFace(line.substr(2));
+                //first element
+                auto vals = extractFace(faceString.at(0));
+                _index.push_back(vals.getX() - 1);
+                _index.push_back(vals.getY() - 1);
+                _index.push_back(vals.getZ() - 1);
+                vals = extractFace(faceString.at(1));
+                _index.push_back(vals.getX() - 1);
+                _index.push_back(vals.getY() - 1);
+                _index.push_back(vals.getZ() - 1);
+                vals = extractFace(faceString.at(2));
+                _index.push_back(vals.getX() - 1);
+                _index.push_back(vals.getY() - 1);
+                _index.push_back(vals.getZ() - 1);
+                lastTag = "f";
+            }
+            counter++;
+        }
+        in.close();
+
+        if (lastTag == "f") {
+            std::vector<int> adjustedIndicies;
+            auto check = adjustedIndicies.empty();
+            std::vector<Vertex> vertexList;
+            std::vector<int> indexList;
+            stUint ind = 0;
+            lastVertCount++;
+            lastTexCount++;
+            lastNormCount++;
+            if ((*dataMesh).size() > 0) {
+                for (stUint i = 0, S = (stUint) _index.size(); i < S; i += 3) {
+                    adjustedIndicies.push_back(_index.at(i) - lastVertCount);
+                    adjustedIndicies.push_back(_index.at(i + 1) - lastTexCount);
+                    adjustedIndicies.push_back(_index.at(i + 2) - lastNormCount);
+                }
+            } else {
+                adjustedIndicies = _index;
+            }
+            auto adSize = adjustedIndicies.size();
+            for (stUint i = 0, S = (stUint) adjustedIndicies.size(); i < S; i += 3) {
+                Vertex vert(_vertex[adjustedIndicies.at(i)], _texCoord[adjustedIndicies.at(i + 1)],
+                            _normal[_index.at(i + 2)]);
+                vertexList.push_back(vert);
+                indexList.push_back(ind);
+                ind++;
+            }
+            STMesh_Structure mesh;
+            mesh.m_vertices = vertexList;
+            mesh.m_indices = indexList;
+            (*dataMesh).push_back(mesh);//Mesh has been added to the list.
+
+            _vertex.clear();
+            _texCoord.clear();
+            _normal.clear();
+            _index.clear();
+        }
+    }
+    return (*dataMesh).size() > 1;
+}
 
 bool STMesh::Validate(const std::string &fileName, int *typeFlag, std::vector<std::string> *tags,
-                      std::vector<Vector2<int32_t>> *bounds) {
+                      std::vector<STMesh_Structure> *meshes) {
     stUint extenPoint = (stUint)fileName.size() - 4;
     std::string fileExtension = fileName.substr(extenPoint);
     if(fileExtension == ".obj"){
         *typeFlag = STMesh::OBJ;
-        return OBJMesh::Validate(fileName, tags, bounds);
+        return OBJMesh::Validate(fileName, tags, meshes);
     }
     else if(fileExtension == ".fbx"){
         *typeFlag = STMesh::FBX;
@@ -481,20 +775,17 @@ bool STMesh::Validate(const std::string &fileName, int *typeFlag, std::vector<st
     return false;
 }
 
-bool STMesh::Validate(const std::string &fileName, int *typeFlag, std::vector<std::string> *tags,
-                      std::vector<Vector2<stInt>> *bounds, std::vector<Vector3<stInt>> *maxSizes) {
+bool STMesh::Validate(const std::string &fileName, bool *errFlag, std::vector<std::string> *tags,
+                      std::vector<STMesh_Structure> *meshes) {
     stUint extenPoint = (stUint)fileName.size() - 4;
     std::string fileExtension = fileName.substr(extenPoint);
     if(fileExtension == ".obj"){
-        *typeFlag = STMesh::OBJ;
-        return OBJMesh::Validate(fileName, tags, bounds, maxSizes);
+        return OBJMesh::Validate(fileName, errFlag, tags, meshes);
     }
     else if(fileExtension == ".fbx"){
-        *typeFlag = STMesh::FBX;
         //TODO FBX File Validation and Splitup.
         return true;
     }else if(fileExtension == ".gex"){
-        *typeFlag = STMesh::GEX;
         //TODO GEX File Validation and Splitup.
         return true;
     }

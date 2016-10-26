@@ -4,6 +4,7 @@
 #include <c++/functional>
 #include "STInterWidget.h"
 #include "../../Math/STCore.h"
+#include "STPanel.h"
 
 class STLabel : public STInterWidget {
 public:
@@ -12,11 +13,12 @@ public:
     virtual void update(STGame *window);
     void hoverEvent(std::function<void (STEntity*, STGame*)> hoverEvent);
     void draw(STGraphics* grphx);
+    STPanel* getPanel(){ return m_Panel; }
 private:
     void invokeHoverEvent(STEntity*, STGame*);
 
     std::function<void (STEntity*, STGame*)> hoverEvents = 0;
-
+    STPanel* m_Panel;
 };
 
 

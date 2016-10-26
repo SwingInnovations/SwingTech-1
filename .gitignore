@@ -41,3 +41,14 @@ $RECYCLE.BIN/
 Network Trash Folder
 Temporary Items
 .apdisk
+engine/Build/Debug/SDL2.dll
+engine/Build/Debug/SDL2_image.dll
+engine/Build/Debug/SwingTech1.exe
+engine/Build/Debug/glew32.dll
+engine/Build/Debug/libjpeg-9.dll
+engine/Build/Debug/libpng16-16.dll
+engine/Build/Debug/libtiff-5.dll
+engine/Build/Debug/libwebp-4.dll
+engine/Build/Debug/libwinpthread-1.dll
+engine/Build/Debug/sphere.obj
+engine/Build/Debug/zlib1.dll

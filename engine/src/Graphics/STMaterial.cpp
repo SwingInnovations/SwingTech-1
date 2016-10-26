@@ -27,6 +27,7 @@ void STMaterial::draw(std::vector<STShader::ShaderAttrib> &entityUniforms,Transf
     }
 }
 
+
 void STMaterial::draw(std::vector<STShader::ShaderAttrib> &entityUniforms, Texture *passTexture, Transform &T, Camera &C) {
 //    shader->bind();
 //    shader->update(T, C);
@@ -55,4 +56,5 @@ void STMaterial::setNormalTexture(const std::string &fileName) {
     _uniforms.push_back(STShader::ShaderAttrib("Material.Normal_Tex",
                                                STShader::TEX,
                                                STShader::toString(Vector2<stInt>(GLTexture::GenTex(fileName), 1))));
+
 }

@@ -27,9 +27,9 @@ public:
         lightPos = Vector3<stReal>(1.0f, 1.0f, -1.0f);
 
         auto resManager = window->getResourceManager();
-        resManager->addMaterial("lit", new STMaterial(new GLShader("lightSource")));
+        resManager->addMaterial("lit", new STMaterial(new GLShader("lightSource"), new GLTexture("grid.png")));
 
-        _testActor = new STActor("sphere.obj", STMesh::OBJ, resManager->getMaterial("lit"));
+        _testActor = new STActor("scene.obj", resManager->getMaterial("lit"));
         _testActor->addShdrUniform("objColor", Vector3<stReal>(1.0, 0.5, 0.31f));
         _testActor->get<STEventComponent>()->inputEvent([](STEntity* self){
             auto input = Input::Get();
@@ -85,6 +85,7 @@ public:
         btn->update(win);
         _testActor->update();
         counter += 0.025f * delta;
+        _testActor->getChild(1)->setTranslateY(1.5f * sin(counter*0.1f));
     }
 
     void render(STGame * win){

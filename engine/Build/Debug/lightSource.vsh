@@ -10,11 +10,13 @@ uniform mat4 model;
 uniform mat4 camera;
 
 out vec3 Position;
+out vec2 TexCoord;
 out vec3 Normal;
 
 void main(void){
     gl_Position = camera * model * vec4(position, 1.0);
 
     Position = (model * vec4(position, 1.0)).xyz;
+    TexCoord = texCoord;
     Normal = (model * vec4(position, 1.0)).xyz;
 }

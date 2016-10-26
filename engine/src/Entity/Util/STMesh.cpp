@@ -368,6 +368,31 @@ bool OBJMesh::Validate(const std::string &fileName, std::vector<std::string> *ta
 
     stInt counter = 0;
 
+    auto extractVector3 = [](std::string str){
+        stReal arr[3];
+        stInt counter = 0;
+        stReal temp;
+        std::stringstream buff(str);
+        while(buff >> temp){
+            arr[counter] = temp;
+            counter++;
+        }
+        return Vector3<stReal>(arr[0], arr[1], arr[2]);
+    };
+
+    auto extractVector2 = [](std::string str){
+        stReal arr[2];
+        stInt counter = 0;
+        stReal temp;
+        std::stringstream buff(str);
+        while(buff >> temp){
+            arr[counter] = temp;
+            counter++;
+        }
+
+        return Vector2<stReal>(arr[0], arr[1]);
+    };
+
     //Internal function to extract face and store in Vector3
     auto extractFace = [](std::string &str) {
         std::vector<stInt> ext_ind;
@@ -411,6 +436,10 @@ bool OBJMesh::Validate(const std::string &fileName, std::vector<std::string> *ta
                     std::vector<int> indexList;
                     stUint ind = 0;
 
+                    lastVertCount++;
+                    lastTexCount++;
+                    lastNormCount++;
+
                     if ((*dataMesh).size() > 0) {
                         for (stUint i = 0, S = (stUint) _index.size(); i < S; i += 3) {
                             adjustedIndicies.push_back(_index.at(i) - lastVertCount);
@@ -441,49 +470,18 @@ bool OBJMesh::Validate(const std::string &fileName, std::vector<std::string> *ta
                     adjustedIndicies.clear();
                 }
 
-                std::string vals = line.substr(2);
-                stReal _x = 0.0f, _y = 0.0f, _z = 0.0f;
-
-                std::string vX = vals.substr(0, vals.find(' '));
-                _x = (stReal) atof(vX.c_str());
-
-                std::string vY = vals.substr(vX.length() + 1, vals.find(' '));
-                _y = (stReal) atof(vY.c_str());
-
-                std::string vZ = vals.substr(vals.find_last_of(' ') + 1);
-                _z = (stReal) atof(vZ.c_str());
-
-                _vertex.push_back(Vector3<stReal>(_x, _y, _z));
+                _vertex.push_back(extractVector3(line.substr(2)));
                 vertCount++;
                 lastTag = "v";
             }
             //Texcoord Extraction
             if (line[0] == 'v' && line[1] == 't' && line[2] == ' ') {
-                std::string vals = line.substr(3);
-                stReal _u = 0.0f, _v = 0.0f;
-                std::string tU = vals.substr(0, vals.find(' '));
-                _u = (stReal) atof(tU.c_str());
-                std::string tV = vals.substr(tU.length() + 1, vals.find(' '));
-                _v = (stReal) atof(tV.c_str());
-
-                _texCoord.push_back(Vector2<stReal>(_u, _v));
+                _texCoord.push_back(extractVector2(line.substr(3)));
                 texCount++;
             }
             //Normal Extraction
             if (line[0] == 'v' && line[1] == 'n' && line[2] == ' ') {
-                std::string vals = line.substr(3);
-                stReal _x = 0.0f, _y = 0.0f, _z = 0.0f;
-                std::string nX = vals.substr(0, vals.find(' '));
-
-                _x = (stReal) atof(nX.c_str());
-                std::string nY = vals.substr(nX.length() + 1, vals.find(' '));
-
-                _y = (stReal) atof(nY.c_str());
-                std::string nZ = vals.substr(vals.find_last_of(' ') + 1);
-
-                _z = (stReal) atof(nZ.c_str());
-
-                _normal.push_back(Vector3<stReal>(_x, _y, _z));
+                _normal.push_back(extractVector3(line.substr(3)));
                 normCount++;
             }
 
@@ -515,6 +513,9 @@ bool OBJMesh::Validate(const std::string &fileName, std::vector<std::string> *ta
             std::vector<Vertex> vertexList;
             std::vector<int> indexList;
             stUint ind = 0;
+            lastVertCount++;
+            lastTexCount++;
+            lastNormCount++;
             if ((*dataMesh).size() > 0) {
                 for (stUint i = 0, S = (stUint) _index.size(); i < S; i += 3) {
                     adjustedIndicies.push_back(_index.at(i) - lastVertCount);

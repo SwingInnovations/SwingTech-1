@@ -74,15 +74,12 @@ void STGame::setOpenGLVersion(int MajorVersion, int MinorVersion) {
 
 
     m_Context = SDL_GL_CreateContext(m_Window);
-   // g = new LGraphics(this);
     STGraphics::RENDERER = STGraphics::OPENGL;
     if(m_Context == NULL){
         std::cout << "Error 401: Unable to initialize GLContext" << std::endl;
     }else{
         glewExperimental = GL_TRUE;
         GLenum err = glewInit();
-
-        g = new GLGraphics(this);
 
         if(err != GLEW_OK){
             std::cout << "Error loading GLEW: " << glewGetErrorString(err);
@@ -92,6 +89,7 @@ void STGame::setOpenGLVersion(int MajorVersion, int MinorVersion) {
 
         std::cout << "Using OpenGL Version: " << glGetString(GL_VERSION) << std::endl;
         std::cout << "Using Graphics Driver: " << glGetString(GL_VENDOR) << std::endl;
+        g = new GLGraphics(this);
     }
 }
 

@@ -83,7 +83,18 @@ public:
         }
     }
 
-    void draw(std::vector<STShader::ShaderAttrib>& entityUniforms);
+    inline void draw(std::vector<STShader::ShaderAttrib>& entityUniforms){
+        shader->bind();
+        shader->updateUniforms(_uniforms);
+        shader->updateUniforms(entityUniforms);
+        if(texture->getTextureCount() > 31){
+            texture->bind(0);
+        }else{
+            for(unsigned int i = 0, S = texture->getTextureCount(); i < S; i++){
+                texture->bind(i);
+            }
+        }
+    }
     void draw(std::vector<STShader::ShaderAttrib>& entityUniforms, Transform& T, Camera& C);
 
     void draw(std::vector<STShader::ShaderAttrib>& entityUniforms, Texture* passTexture, Transform& T, Camera& C);

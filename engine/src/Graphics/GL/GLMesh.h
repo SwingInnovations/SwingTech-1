@@ -37,6 +37,7 @@ private:
     GLuint m_VBO[NUM_BUFFERS];
     std::string m_fileName;
     uint32_t m_drawCount;
+    stUint m_numIndicies;
 };
 
 

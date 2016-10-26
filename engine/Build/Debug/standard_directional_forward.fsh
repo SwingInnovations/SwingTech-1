@@ -70,7 +70,7 @@ void main(void){
 	vec3 spec = clamp(vec3(Ggx_Dist_old(dot(Norm, H),r)),0,1);
 	vec3 diff = clamp(vec3(Ggx_Dist_old(dot(Norm, H),1)),0,1);
 	
-	//color =  vec4(BlendMaterial(spec,diff,Material.BaseColor ),1);
+	color =  vec4(BlendMaterial(spec,diff,Material.BaseColor ),1);
 	//color = texture2D(Material.Diffuse_Tex, TexCoord);
-	color = vec4(1.0);
+	//color = vec4(1.0);
 }

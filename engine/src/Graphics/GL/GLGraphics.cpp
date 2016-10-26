@@ -67,7 +67,7 @@ GLGraphics::GLGraphics(STGame *game) {
     orthoProjection.initOrthographicProjection(0, WIDTH, HEIGHT, 0, 0, 1000.0f);
 
     //Setup Albedo and lit materials for forward rendering
-    m_directionalLightMat = new STMaterial(new GLShader("standard","standard_directional_forward"));
+    m_directionalLightMat = new STMaterial(new GLShader("standard"));
     m_pointLightMat = new STMaterial(new GLShader("standard","standard_point_forward"));
     m_albedoMat = new STMaterial(new GLShader("standard","standard_abledo_forward"));
     m_IBLMat = new STMaterial (new GLShader ("standard", "standard_IBL"));
@@ -163,48 +163,62 @@ void GLGraphics::drawScene(STScene *scene) {
     scenes[scene->getIndex()].drawSkybox(*camera());
 
 
-
-
-
-
-    //IBL Pass
-    for(int i =0; i < actors.size(); i++) {
-        actors[i]->setShdrUniform("_GlobalAmbient", GlobalAmbient);
-        actors[i]->setShdrUniform_CubeMap("_WorldCubeMap", scenes[scene->getIndex()].m_skybox);
-        actors[i]->setShdrUniform("_CameraPos", camera()->transform()->getTranslate<stReal>());
-        actors[i]->draw(m_IBLMat);
-    }
-
-    glEnable(GL_BLEND);
-    glBlendFunc(GL_ONE,GL_ONE);
-    glDepthFunc(GL_EQUAL);
-
-
-    //Forward Pass
     for(int i =0; i < actors.size(); i++){
         for(int j =0; j < lights.size(); j++) {
-
-            actors[i]->setShdrUniform("Light.Color", lights[j]->color);
-            actors[i]->setShdrUniform("Light.Intensity", lights[j]->intensity);
-            actors[i]->setShdrUniform("Light.Position", lights[j]->transform()->getTranslate<stReal>());
-            actors[i]->setShdrUniform("Light.Direction", lights[j]->direction);
-            actors[i]->setShdrUniform("Light.Radius", lights[j]->radius);
-
-            switch(lights[j]->type) {
-                case STLight::DirectionalLight: {
-                    actors[i]->draw(m_directionalLightMat);
-                    break;
-                }
-                case STLight::PointLight: {
-                    actors[i]->draw(m_pointLightMat); // Enabling this draws black cube
-                    break;
-                }
-                case STLight::SpotLight: {
-                    break;
-                }
-            }
+            actors[i]->setShdrUniform("_CameraPos", camera()->transform()->getTranslate<stReal>());
+            actors[i]->setShdrUniform_CubeMap("_WorldCubeMap", scenes[scene->getIndex()].m_skybox);
+            actors[i]->setShdrUniform("_GlobalAmbient", GlobalAmbient);
+            actors[i]->setShdrUniform("Light["+std::to_string(j)+"].Color", lights[i]->color);
+            actors[i]->setShdrUniform("Light["+std::to_string(j)+"].Intensity", lights[i]->intensity);
+            actors[i]->setShdrUniform("Light["+std::to_string(j)+"].Position", lights[i]->transform()->getTranslate<stReal>());
+            actors[i]->setShdrUniform("Light["+std::to_string(j)+"].Direction", lights[i]->direction);
+            actors[i]->setShdrUniform("Light["+std::to_string(j)+"].Radius", lights[i]->radius);
         }
+
+
+        actors[i]->draw();
+
     }
+
+
+//    //IBL Pass
+//    for(int i =0; i < actors.size(); i++) {
+//        actors[i]->setShdrUniform("_GlobalAmbient", GlobalAmbient);
+//        actors[i]->setShdrUniform_CubeMap("_WorldCubeMap", scenes[scene->getIndex()].m_skybox);
+//        actors[i]->setShdrUniform("_CameraPos", camera()->transform()->getTranslate<stReal>());
+//        actors[i]->draw(m_IBLMat);
+//    }
+//
+//    glEnable(GL_BLEND);
+//    glBlendFunc(GL_ONE,GL_ONE);
+//    glDepthFunc(GL_EQUAL);
+//
+//
+//    //Forward Pass
+//    for(int i =0; i < actors.size(); i++){
+//        for(int j =0; j < lights.size(); j++) {
+//
+//            actors[i]->setShdrUniform("Light.Color", lights[j]->color);
+//            actors[i]->setShdrUniform("Light.Intensity", lights[j]->intensity);
+//            actors[i]->setShdrUniform("Light.Position", lights[j]->transform()->getTranslate<stReal>());
+//            actors[i]->setShdrUniform("Light.Direction", lights[j]->direction);
+//            actors[i]->setShdrUniform("Light.Radius", lights[j]->radius);
+//
+//            switch(lights[j]->type) {
+//                case STLight::DirectionalLight: {
+//                    actors[i]->draw(m_directionalLightMat);
+//                    break;
+//                }
+//                case STLight::PointLight: {
+//                    actors[i]->draw(m_pointLightMat); // Enabling this draws black cube
+//                    break;
+//                }
+//                case STLight::SpotLight: {
+//                    break;
+//                }
+//            }
+//        }
+//    }
 
 
     glDisable(GL_BLEND);

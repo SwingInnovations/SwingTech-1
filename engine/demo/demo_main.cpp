@@ -48,7 +48,7 @@ public:
 //         }
         STGame::Get()->getCamera()->setSpeed(0.005f);
 
-        _testActor2 = new STActor("monkey.obj", STMesh::OBJ, resManager->getMaterial("default"));
+        _testActor2 = new STActor("teapot.obj", STMesh::OBJ, resManager->getMaterial("default"));
         //_testActor2->setTranslateX(1);
         _testActor2->setShdrUniform("_Metallic", 0.0f);
         _testActor2->setShdrUniform("_Roughness",0.0f);

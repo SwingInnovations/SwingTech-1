@@ -83,7 +83,7 @@ public:
         }
     }
 
-
+    void draw(std::vector<STShader::ShaderAttrib>& entityUniforms);
     void draw(std::vector<STShader::ShaderAttrib>& entityUniforms, Transform& T, Camera& C);
 
     void draw(std::vector<STShader::ShaderAttrib>& entityUniforms, Texture* passTexture, Transform& T, Camera& C);

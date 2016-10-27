@@ -105,7 +105,13 @@ private:
     GLuint velocityBuffer;
     GLuint velocityTexBuffer;
     GLuint rendBuffer;
+    GLuint  bloomThresTex;
+    GLuint bloomThresBuf;
+
     GLShader* screenShdr;
+    GLShader* Bloom_Composite;
+    GLShader* Bloom_Threshold;
+
     GLMesh* screenQuad;
     STMaterial* m_directionalLightMat;
     STMaterial* m_pointLightMat;
@@ -113,6 +119,7 @@ private:
     STMaterial* m_albedoMat;
     STMaterial* m_IBLMat;
 
+    GLuint Bloom();
 };
 
 

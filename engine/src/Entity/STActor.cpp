@@ -49,9 +49,10 @@ STActor::STActor(const std::string &filePath, STMaterial *material) {
     }else{
         if(!errFlag){
             //TODO Load errorMesh.obj
+        }else{
+            addComponent(typeid(STMeshComponent), new STMeshComponent(meshes.at(0)));
+            addComponent(typeid(STGraphicsComponent), new STGraphicsComponent(material));
         }
-        addComponent(typeid(STMeshComponent), new STMeshComponent(meshes.at(0)));
-        addComponent(typeid(STGraphicsComponent), new STGraphicsComponent(material));
     }
 
     if(tags.size() > 0)
@@ -97,7 +98,6 @@ void STActor::draw(STMaterial *material) {
         for(auto child : m_children){
             dynamic_cast<STActor*>(child)->draw(material);
         }
-
     }
 }
 

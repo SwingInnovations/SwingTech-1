@@ -26,9 +26,9 @@ public:
         drawMode = STMesh::TRIANGLES;
         auto scene = STSceneManager::Get()->initScene((stUint) getID());
 
-        mat =  new STMaterial(new GLShader("standard", "standard_directional_forward"));
+        mat =  new STMaterial(new GLShader("standard", "NormalDebug"));
         auto resManager = window->getResourceManager();
-        resManager->addMaterial("default", new STMaterial(new GLShader("standard")));
+        resManager->addMaterial("default", new STMaterial(new GLShader("standard","standard")));
       //  resManager->addMaterial("def", new STMaterial(new GLShader("standard")));
         GLGraphics::GlobalAmbient = Vector3<stReal>(.2,.2,.2);
         int count=0;
@@ -65,22 +65,22 @@ public:
 
         //_testActor2->setShdrUniform_Texture("_RoughnessTex",roughnessTex->genTex("roughness.png"));
         //_testActor2->setTranslateY(-4);
-        _testLight = new STLight(Vector3<stReal>(-1,-1,-1),Vector3<stReal>(0,1,0));
-        _testLight->intensity =2;
+        _testLight = new STLight(Vector3<stReal>(-1,-1,-1),Vector3<stReal>(1,1,1));
+        _testLight->intensity =2.5;
         _testLight->radius=-1;
       // _testLight->setTranslateZ(2);
 
 
-        _testLight2 = new STLight(Vector3<stReal>(1,1,1),Vector3<stReal>(1,0,0));
-        _testLight2->intensity =2;
+        _testLight2 = new STLight(Vector3<stReal>(1,1,1),Vector3<stReal>(1,1,1));
+        _testLight2->intensity =1.5;
         _testLight2->radius=-1;
        // _testLight->setTranslateZ(1.2f);
        // _testLight->setTranslateX(1.2f);
 
-        scene->addSkybox("Yokohama", "skybox");
+        scene->addSkybox("mystic", "skybox");
 
 
-       scene->addLight(_testLight);
+      // scene->addLight(_testLight);
 
        scene->addActor(_testActor2);
        scene->addLight(_testLight2);
@@ -119,8 +119,8 @@ public:
 //            }
 //        }
         counter += 0.025f * delta;
-        _testLight->setTranslateY(3.0f*std::sin(counter*.1f));
-         _testActor2->setRotateY(counter*.8f);
+       // _testLight2->intensity=sin(counter * 0.1f)*.5+1;
+        //_testActor2->getChild(1)->setTranslateY(sin(counter * 0.1f));
       //  _testLight2->setTranslateY(3.0f*std::sin(counter*.02f+3));
     }
 

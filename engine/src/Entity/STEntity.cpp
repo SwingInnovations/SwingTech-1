@@ -361,11 +361,21 @@ void STEntity::update() {
 void STEntity::setDiffuseTexture(const std::string &fileName) {
     auto g = get<STGraphicsComponent>();
     if(g != nullptr) g->setDiffuseTexture(fileName);
+    if(hasChildren()){
+        for(auto child : m_children){
+            child->setDiffuseTexture(fileName);
+        }
+    }
 }
 
 void STEntity::setNormalTexture(const std::string &fileName) {
     auto g = get<STGraphicsComponent>();
     if(g != nullptr) g->setNormalTexture(fileName);
+    if(hasChildren()){
+        for(auto child : m_children){
+            child->setNormalTexture(fileName);
+        }
+    }
 }
 
 

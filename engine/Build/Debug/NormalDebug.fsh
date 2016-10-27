@@ -18,7 +18,7 @@ out vec4 color;
 
 void main(void){
    
-	vec3 norm = TBN * texture( Material.Normal_Tex, TexCoord ).xyz* 2.0 - 1.0;
+	vec3 norm = TBN * (texture( Material.Normal_Tex, TexCoord ).xyz* 2.0 - 1.0);
 
-   color = vec4(dot(norm, vec3(1,1,1)));//vec4( norm, 1 );
+   color = vec4(Normal,1);//vec4( norm, 1 );
 }

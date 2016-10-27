@@ -48,7 +48,15 @@ STActor::STActor(const std::string &filePath, STMaterial *material) {
         return;
     }else{
         if(!errFlag){
-            //TODO Load errorMesh.obj
+            //TODO Add error mesh.
+            addComponent(typeid(STMeshComponent), new STMeshComponent("base/ErrorMesh.obj", STMesh::OBJ));
+            addComponent(typeid(STGraphicsComponent), new STGraphicsComponent(new STMaterial(new GLShader("base/errorObject"))));
+            get<STEventComponent>()->updateEvent([](STEntity* self){
+                auto grphx = self->get<STGraphicsComponent>();
+                grphx->setShdrUniform("intensity", (stReal)sin(STGame::Get()->getTick() * 0.01f));
+            });
+            this->transform()->setRotateY(180.0f);
+            return;
         }
         addComponent(typeid(STMeshComponent), new STMeshComponent(meshes.at(0)));
         addComponent(typeid(STGraphicsComponent), new STGraphicsComponent(material));

@@ -95,7 +95,9 @@ void STEntity::addChild(STEntity *entity) {
 }
 
 STEntity* STEntity::getChild(int ind) {
-    return m_children.at(ind);
+    auto ret = m_children.at(ind);
+    if(ret == nullptr) return nullptr;
+    return ret;
 }
 
 void STEntity::setTranslate(Vector3<stReal> &vec) {

@@ -171,6 +171,8 @@ public:
     int getWidth(){ return this->WIDTH; }
     int getHeight(){ return this->HEIGHT; }
 
+    int getTick(){ return SDL_GetTicks(); }
+
     const DIMENSION_MODE getDimensionMode()const{ return this->dimMode; }
     //! Gets Pointer to SDL_Window
     SDL_Window* getWindow(){ return this->m_Window; }/*! \return pointer to SDL_Window */

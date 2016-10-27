@@ -171,7 +171,8 @@ void GLGraphics::drawScene(STScene *scene) {
         actors[i]->setShdrUniform("_GlobalAmbient", GlobalAmbient);
         actors[i]->setShdrUniform_CubeMap("_WorldCubeMap", scenes[scene->getIndex()].m_skybox);
         actors[i]->setShdrUniform("_CameraPos", camera()->transform()->getTranslate<stReal>());
-        actors[i]->draw(m_IBLMat);
+        //actors[i]->draw(m_IBLMat);
+        actors[i]->draw();
     }
 
 
@@ -197,7 +198,7 @@ void GLGraphics::drawScene(STScene *scene) {
                     break;
                 }
                 case STLight::PointLight: {
-                    actors[i]->draw(m_pointLightMat);
+                    //actors[i]->draw(m_pointLightMat);
                     break;
                 }
                 case STLight::SpotLight: {

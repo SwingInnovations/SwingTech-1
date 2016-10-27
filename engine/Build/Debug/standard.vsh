@@ -21,9 +21,9 @@ void main(void){
     Position = (model * vec4(position, 1.0)).xyz;
 
     TexCoord = texCoord;
-     vec3 T = (vec3(transpose(inverse((model))) * vec4(tangent,   0.0)));
-   vec3 B = (vec3(transpose(inverse((model))) * vec4(biTangent, 0.0)));
-   vec3 N = (vec3(transpose(inverse((model))) * vec4(normal,    0.0)));
+    vec3 T = (vec3(transpose(inverse((model))) * vec4(tangent,   0.0)));
+    vec3 B = (vec3(transpose(inverse((model))) * vec4(biTangent, 0.0)));
+    vec3 N = (vec3(transpose(inverse((model))) * vec4(normal,    0.0)));
     TBN = mat3(tangent, biTangent, normal);
     Normal = transpose(inverse(mat3(model))) * normal;
 

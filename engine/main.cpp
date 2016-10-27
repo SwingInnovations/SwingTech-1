@@ -86,7 +86,7 @@ public:
         btn->update(win);
         _testActor->update();
         counter += 0.025f * delta;
-        _testActor->getChild(1)->setTranslateY(1.5f * sin(counter*0.1f));
+        //_testActor->getChild(1)->setTranslateY(1.5f * sin(counter*0.1f));
     }
 
     void render(STGame * win){

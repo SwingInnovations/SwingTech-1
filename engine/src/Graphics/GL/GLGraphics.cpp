@@ -244,7 +244,7 @@ void GLGraphics::drawScene(STScene *scene) {
             actors[i]->setShdrUniform("Light.Position", lights[j]->transform()->getTranslate<stReal>());
             actors[i]->setShdrUniform("Light.Direction", lights[j]->direction);
             actors[i]->setShdrUniform("Light.Radius", lights[j]->radius);
-            actors[i]->setShdrUniform_Texture("shadowMap", depthTexbuffer, 2);
+            actors[i]->setShdrUniform_Texture("shadowMap", depthTexbuffer, 3);
             actors[i]->setShdrUniform("lightSpaceMatrix", lMatrix);
 
             switch(lights[j]->type) {

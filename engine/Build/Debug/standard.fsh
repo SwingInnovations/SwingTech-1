@@ -226,9 +226,9 @@ vec3 BlendMaterial_Directional(vec3 Spec, vec3 Diff, vec3 Base,vec3 IBL,float in
 	
 	
 	vec3 dialectric =( IBL * (Diff*intensity + _GlobalAmbient))+lightColor*Spec*intensity*.6;
-	vec3 metal =IBL*(Diff + _GlobalAmbient) + Base*Spec;
+	vec3 metal =(IBL  + _GlobalAmbient)+ (Spec)*intensity*lightColor;
 
-	return  mix(dialectric,metal,_Metallic);
+	return   mix(dialectric,metal,_Metallic);
 } 
 
 
@@ -237,7 +237,7 @@ vec3 BlendMaterial_Directional(vec3 Spec, vec3 Diff, vec3 Base,vec3 IBL,float in
 void main(void){
 
 		
-	vec3 Norm =  normalize(TBN* (texture2D(Material.Normal_Tex,TexCoord).xyz*2-1));
+	vec3 Norm = normalize(TBN* (texture2D(Material.Normal_Tex,TexCoord).xyz*2-1));
 	
 	vec3 V = normalize(  _CameraPos - Position );
 
@@ -260,7 +260,7 @@ void main(void){
 
  	for(int i = 0; i < 2; i++){
  		if(Light[i].Radius<0){
-			vec3 Directional_spec = clamp(vec3(Ggx_Dist_old(dot(Norm, normalize(Light[i].Direction)),r)),.1,1.0);
+			vec3 Directional_spec = clamp(vec3(Ggx_Dist_old(dot(Norm, normalize(Light[i].Direction+V)),r)),0.0,1.0);
 			vec3 Directional_diff = clamp(vec3(Ggx_Dist_old(dot(Norm, normalize(Light[i].Direction)),1)),0.0,1.0);
 			
 			color += vec4(BlendMaterial_Directional(Directional_spec,Directional_diff,Material.BaseColor,IBL ,Light[i].Intensity,Light[i].Color),1);

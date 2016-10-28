@@ -50,8 +50,8 @@ public:
 
         _testActor2 = new STActor("teapot.obj", STMesh::OBJ, resManager->getMaterial("default"));
         //_testActor2->setTranslateX(1);
-        _testActor2->setShdrUniform("_Metallic", 0.0f);
-        _testActor2->setShdrUniform("_Roughness",0.0f);
+        _testActor2->setShdrUniform("_Metallic", 1.0f);
+        _testActor2->setShdrUniform("_Roughness",0.4f);
         _testActor2->setScale(1);
         _testActor2->setDiffuseTexture("grid.png");
         _testActor2->setNormalTexture("testNormal.png");
@@ -72,12 +72,12 @@ public:
 
 
         _testLight2 = new STLight(Vector3<stReal>(1,1,1),Vector3<stReal>(1,1,1));
-        _testLight2->intensity =2.5;
+        _testLight2->intensity =3;
         _testLight2->radius=-1;
        // _testLight->setTranslateZ(1.2f);
        // _testLight->setTranslateX(1.2f);
 
-        scene->addSkybox("mystic", "skybox");
+        scene->addSkybox("Yokohama", "skybox");
 
 
       // scene->addLight(_testLight);
@@ -121,7 +121,7 @@ public:
         counter += 0.025f * delta;
        // _testLight2->intensity=sin(counter * 0.1f)*.5+1;
        // _testActor2->setTranslateY(sin(counter * .9f));
-        _testActor2->setRotateY(sin(counter*.5)*180 );
+        //_testActor2->setRotateY(sin(counter*.5)*180 );
       //  _testLight2->setTranslateY(3.0f*std::sin(counter*.02f+3));
     }
 

@@ -112,6 +112,7 @@ private:
     GLShader* Bloom_Composite;
     GLShader* Bloom_Threshold;
     GLShader* Motion_Blur;
+    GLShader* Tone_Mapping;
 
     GLMesh* screenQuad;
     STMaterial* m_directionalLightMat;
@@ -120,8 +121,9 @@ private:
     STMaterial* m_albedoMat;
     STMaterial* m_IBLMat;
     STMaterial* m_velocityMat;
-    GLuint Bloom();
-    GLuint MotionBlur();
+    void Bloom();
+    void MotionBlur();
+    void ToneMapping();
 };
 
 

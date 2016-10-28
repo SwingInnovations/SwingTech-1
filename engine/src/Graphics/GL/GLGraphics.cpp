@@ -20,6 +20,7 @@ GLGraphics::GLGraphics(STGame *game) {
     Bloom_Threshold = new GLShader("screen", "Bloom_Threshold");
     Bloom_Composite = new GLShader("screen", "Bloom_Composite");
     Motion_Blur = new GLShader("screen","Motion_Blur");
+    Tone_Mapping = new GLShader("screen","Tone_Mapping");
 
     FT_Library ft;
     if(FT_Init_FreeType(&ft)){ std::cout << "foo" << std::endl; }else{ std::cout << "Successfully loaded FreeType!" << std::endl; }
@@ -285,7 +286,7 @@ void GLGraphics::drawScene(STScene *scene) {
 
     Bloom();
     MotionBlur();
-
+    //ToneMapping();
     glClearColor(1.0, 1.0, 1.0, 1.0);
 
 
@@ -302,7 +303,7 @@ void GLGraphics::drawScene(STScene *scene) {
 
 
 
-GLuint GLGraphics::Bloom(){
+void GLGraphics::Bloom(){
 
 
 
@@ -344,7 +345,7 @@ GLuint GLGraphics::Bloom(){
 }
 
 
-GLuint GLGraphics::MotionBlur(){
+void GLGraphics::MotionBlur(){
 
 
     glBindFramebuffer(GL_FRAMEBUFFER, frameBuffer);
@@ -360,6 +361,27 @@ GLuint GLGraphics::MotionBlur(){
     glBindTexture(GL_TEXTURE_2D, velocityTexture);
     screenQuad->draw();
     Motion_Blur->unbind();
+
+    glBindFramebuffer(GL_FRAMEBUFFER, 0);
+
+
+
+
+}
+
+
+void GLGraphics::ToneMapping() {
+
+    glBindFramebuffer(GL_FRAMEBUFFER, frameBuffer);
+
+    glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, frameTexBuffer, 0);
+
+
+    Tone_Mapping->bind();
+    glActiveTexture(GL_TEXTURE0);
+    glBindTexture(GL_TEXTURE_2D, frameTexBuffer);
+    screenQuad->draw();
+    Tone_Mapping->unbind();
 
     glBindFramebuffer(GL_FRAMEBUFFER, 0);
 

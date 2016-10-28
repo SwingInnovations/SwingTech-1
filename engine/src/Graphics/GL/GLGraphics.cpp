@@ -19,6 +19,7 @@ GLGraphics::GLGraphics(STGame *game) {
     screenShdr = new GLShader("screen");
     Bloom_Threshold = new GLShader("screen", "Bloom_Threshold");
     Bloom_Composite = new GLShader("screen", "Bloom_Composite");
+    Motion_Blur = new GLShader("screen","Motion_Blur");
 
     FT_Library ft;
     if(FT_Init_FreeType(&ft)){ std::cout << "foo" << std::endl; }else{ std::cout << "Successfully loaded FreeType!" << std::endl; }
@@ -73,6 +74,8 @@ GLGraphics::GLGraphics(STGame *game) {
     m_pointLightMat = new STMaterial(new GLShader("standard","standard_point_forward"));
     m_albedoMat = new STMaterial(new GLShader("standard","standard_abledo_forward"));
     m_IBLMat = new STMaterial (new GLShader ("standard", "standard_IBL"));
+    m_velocityMat =new STMaterial (new GLShader ("Velocity"));
+
 
     glGenVertexArrays(1, &textVAO);
     glGenBuffers(1, &textVBO);
@@ -95,6 +98,20 @@ void GLGraphics::drawScene(STScene *scene) {
         auto h = STGame::RES_HEIGHT;
 
 
+        glGenTextures(1, &velocityTexture);
+
+        glBindTexture(GL_TEXTURE_2D, velocityTexture);
+
+
+        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB32F, w, h, 0, GL_RGB, GL_FLOAT, NULL);
+
+
+        glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+        glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR );
+        glBindTexture(GL_TEXTURE_2D, 0);
+
         glGenFramebuffers(1, &bloomThresBuf);
         glGenTextures(1, &bloomThresTex);
 
@@ -108,10 +125,9 @@ void GLGraphics::drawScene(STScene *scene) {
         glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR );
-
-
-
         glBindTexture(GL_TEXTURE_2D, 0);
+
+
 
         glBindFramebuffer(GL_FRAMEBUFFER, bloomThresBuf);
         glDrawBuffer(GL_NONE);
@@ -173,21 +189,25 @@ void GLGraphics::drawScene(STScene *scene) {
 
     auto actors = scene->getActors();
     auto lights = scene->getLights();
-/*
+
+   glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, velocityTexture, 0);
+    glClear(GL_COLOR_BUFFER_BIT);
     //Depth Pre-Pass
     for(int i =0; i< actors.size(); i++){
-        actors[i]->setShdrUniform("_GlobalAmbient",GlobalAmbient);
-        actors[i]->draw(m_albedoMat);
+        actors[i]->draw(m_velocityMat);
     }
-*/
     glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, frameTexBuffer, 0);
+
 
     glClearColor(clearColor.getX(), clearColor.getY(), clearColor.getZ(), clearColor.getZ());
     glClear(GL_COLOR_BUFFER_BIT);
 
-
     scenes[scene->getIndex()].drawSkybox(*camera());
 
+
+    glDisable(GL_BLEND);
+    glDepthFunc(GL_EQUAL);
+    glDepthMask(GL_TRUE);
 
     for(int i =0; i < actors.size(); i++){
         for(int j =0; j < lights.size(); j++) {
@@ -264,7 +284,7 @@ void GLGraphics::drawScene(STScene *scene) {
     glDisable(GL_CULL_FACE);
 
     Bloom();
-
+    MotionBlur();
 
     glClearColor(1.0, 1.0, 1.0, 1.0);
 
@@ -319,6 +339,31 @@ GLuint GLGraphics::Bloom(){
     Bloom_Composite->unbind();
 
     glBindFramebuffer(GL_FRAMEBUFFER, 0);
+
+
+}
+
+
+GLuint GLGraphics::MotionBlur(){
+
+
+    glBindFramebuffer(GL_FRAMEBUFFER, frameBuffer);
+
+    glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, frameTexBuffer, 0);
+
+
+
+    Motion_Blur->bind();
+    glActiveTexture(GL_TEXTURE0);
+    glBindTexture(GL_TEXTURE_2D, frameTexBuffer);
+    glActiveTexture(GL_TEXTURE1);
+    glBindTexture(GL_TEXTURE_2D, velocityTexture);
+    screenQuad->draw();
+    Motion_Blur->unbind();
+
+    glBindFramebuffer(GL_FRAMEBUFFER, 0);
+
+
 
 
 }

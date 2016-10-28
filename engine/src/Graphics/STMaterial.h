@@ -42,7 +42,7 @@ public:
     void setNormalTexture(const std::string& fileName);
 
     void setBaseColor(Vector3<stReal> color){
-        m_baseColor = color;
+        _uniforms.push_back(STShader::ShaderAttrib("Material.BaseColor",STShader::VEC3,STShader::toString(color)));
     }
 
     std::vector<STShader::ShaderAttrib>& getUniforms(){ return _uniforms; }

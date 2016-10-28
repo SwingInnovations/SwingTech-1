@@ -6,24 +6,6 @@ in vec2 TexCoord;
 in mat3 TBN;
 
 
-uniform samplerCube _WorldCubeMap;
-uniform vec3 _GlobalAmbient;
-uniform vec3 _CameraPos;
-
- uniform float _Metallic;
- uniform float _Roughness;
-
-
-struct STMaterial
-{
-	vec3 BaseColor;
-	sampler2D Diffuse_Tex;
-	sampler2D Normal_Tex;
-};
-
-uniform STMaterial Material;
-
-
 struct STLight
 {
 	vec3 Color;
@@ -33,6 +15,28 @@ struct STLight
 	float Intensity;
 
 };
+
+
+
+struct STMaterial
+{
+	vec3 BaseColor;
+	sampler2D Diffuse_Tex;
+	sampler2D Normal_Tex;
+};
+uniform STMaterial Material;
+
+
+ uniform float _Metallic;
+ uniform float _Roughness;
+
+
+uniform samplerCube _WorldCubeMap;
+uniform vec3 _GlobalAmbient;
+uniform vec3 _CameraPos;
+
+
+
 
 uniform STLight Light[2];
 
@@ -105,7 +109,7 @@ vec3 PreFilterEnvMap( float roughness, vec3 R, int SampleCount){
 		vec3 H = ISample_Ggx( Xi, roughness, N );
 		vec3 L = 2 * dot( V , H ) * H - V;
 
-		float NdotL = clamp( dot( N , L ) , 0 , 1 );
+		float NdotL = clamp( dot( N , L ) , 0.0 , 1.0 );
 		
 	
 		if ( NdotL >= 0 ){
@@ -122,7 +126,7 @@ vec3 PreFilterEnvMap( float roughness, vec3 R, int SampleCount){
 
 vec3 PreFilterEnvMap( float roughness, vec3 R){
 
-	return PreFilterEnvMap( roughness, R, int(clamp(70.0*(roughness),40,70)));
+	return PreFilterEnvMap( roughness, R, int(clamp(70.0*(roughness),40.0,70.0)));
 }
 
 
@@ -149,9 +153,9 @@ vec2 IntegrateBRDF( float R, float NdotV){
 		vec3 L = 2 * dot( V , H ) * H - V;
 
 		
-		float NdotL = clamp(L.z , 0 , 1 );
-		float NdotH = clamp(  H.z  , 0 , 1 );
-		float VdotH = clamp( dot( V , H ) , 0 , 1 );
+		float NdotL = clamp(L.z , 0.0 , 1.0 );
+		float NdotH = clamp(  H.z  , 0.0 , 1.0 );
+		float VdotH = clamp( dot( V , H ) , 0.0 , 1.0 );
 
 		
 		if ( NdotL > 0 ){
@@ -183,7 +187,7 @@ vec2 IntegrateBRDFMobile( float R, float NdotV){
 }
 
 vec3 Spec_IBL( float roughness, vec3 N, vec3 V, vec3 baseColor){
-	float NdotV = clamp (dot(N,V),0,1);
+	float NdotV = clamp (dot(N,V),0.0,1.0);
 	vec3 R = 2* dot(V,N)*N-V;
 
 
@@ -206,22 +210,22 @@ float Ggx_Dist_old(float NdotH, float r){
 
 
 
-vec3 BlendMaterial_IBL(vec3 Spec, vec3 Diff, vec3 Base,float fresnel){
+vec3 BlendMaterial_IBL(vec3 Spec, vec3 Base,float fresnel){
 
 	
 	
-	vec3 dialectric =  texture2D(Material.Diffuse_Tex,TexCoord).rgb+fresnel*Spec*.6;
+	vec3 dialectric = texture2D(Material.Diffuse_Tex,TexCoord).xyz+ vec3(fresnel*Spec*.6);
 	vec3 metal = Base*Spec;
 
 	return mix(dialectric,metal,_Metallic);
 }
 
 
-vec3 BlendMaterial_Directional(vec3 Spec, vec3 Diff, vec3 Base,vec3 IBL, STLight l){
+vec3 BlendMaterial_Directional(vec3 Spec, vec3 Diff, vec3 Base,vec3 IBL,float intensity,vec3 lightColor){
 
 	
 	
-	vec3 dialectric =( IBL * (Diff*l.Intensity + _GlobalAmbient))+l.Color*Spec*l.Intensity*.6;
+	vec3 dialectric =( IBL * (Diff*intensity + _GlobalAmbient))+lightColor*Spec*intensity*.6;
 	vec3 metal =IBL*(Diff + _GlobalAmbient) + Base*Spec;
 
 	return  mix(dialectric,metal,_Metallic);
@@ -233,7 +237,7 @@ vec3 BlendMaterial_Directional(vec3 Spec, vec3 Diff, vec3 Base,vec3 IBL, STLight
 void main(void){
 
 		
-	vec3 Norm =  (TBN* (texture2D(Material.Normal_Tex,TexCoord).xyz*2-1));
+	vec3 Norm =  normalize(TBN* (texture2D(Material.Normal_Tex,TexCoord).xyz*2-1));
 	
 	vec3 V = normalize(  _CameraPos - Position );
 
@@ -244,15 +248,13 @@ void main(void){
 	vec3 Spec_Cook_Torrance =Spec_IBL(r,Norm,V,Material.BaseColor);
 
 	///*Ommiting ambient Lighting for now*/vec3 diffuse =mix(baseColor*NdotL*_LightColor,((1- NdotL*_LightColor)*PreFilterEnvMap(1,2* dot(V,Normal)*Normal-V,10)),.4);
-	vec3 diffuse =Material.BaseColor/PI;
+	
 	//vec3 diffuse =mix(baseColor*NdotL*_LightColor,((1- NdotL*_LightColor)*PreFilterEnvMap(1,2* dot(V,Normal)*Norm-V,100)),.4);
     float fresnel = pow(1- dot(( Norm),V),1);
     
-    vec3 IBL =  BlendMaterial_IBL(Spec_Cook_Torrance,diffuse,Material.BaseColor ,fresnel);
+   vec3 IBL =  BlendMaterial_IBL(Spec_Cook_Torrance,Material.BaseColor ,fresnel);
 
-
-
-
+	
  	r = max(_Roughness,.1);
 
 
@@ -261,9 +263,10 @@ void main(void){
 			vec3 Directional_spec = clamp(vec3(Ggx_Dist_old(dot(Norm, normalize(Light[i].Direction)),r)),.1,1.0);
 			vec3 Directional_diff = clamp(vec3(Ggx_Dist_old(dot(Norm, normalize(Light[i].Direction)),1)),0.0,1.0);
 			
-			color +=  vec4(BlendMaterial_Directional(Directional_spec,Directional_diff,Material.BaseColor,IBL ,Light[i]),1);
+			color += vec4(BlendMaterial_Directional(Directional_spec,Directional_diff,Material.BaseColor,IBL ,Light[i].Intensity,Light[i].Color),1);
 		}
 	}
+	
 }
 
 

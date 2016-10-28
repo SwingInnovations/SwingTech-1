@@ -131,7 +131,7 @@ void GLShader::update(Transform& trans, Camera& cam){ ;
     glUniformMatrix4fv(m_uniforms[4], 1, GL_TRUE, &cam.getProjection().m[0][0]);
     glUniformMatrix4fv(m_uniforms[5], 1, GL_TRUE, &m_cachedMVP.m[0][0]);
 
-    m_cachedMVP = cam.getViewProjection() * trans.getModel(); //Cache transform from last tick.
+    m_cachedMVP = cam.getProjection()* cam.getView() * trans.getModel(); //Cache transform from last tick.
 }
 
 void GLShader::update(const std::string &name, int val) {

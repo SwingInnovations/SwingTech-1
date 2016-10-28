@@ -2,7 +2,7 @@
 <project version="4">
   <component name="BookmarkManager">
     <bookmark url="file://$PROJECT_DIR$/src/Graphics/STGraphics.h" line="17" />
-    <bookmark url="file://$PROJECT_DIR$/demo/demo_main.cpp" line="182" />
+    <bookmark url="file://$PROJECT_DIR$/demo/demo_main.cpp" line="183" />
     <bookmark url="file://$PROJECT_DIR$" />
   </component>
   <component name="CMakeRunConfigurationManager" shouldGenerate="true" assignedExecutableTargets="true" buildAllGenerated="true">
@@ -19,15 +19,14 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="5ee8588a-b915-4eb2-8583-18cd73e205f4" name="Default" comment="0.0.91">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/Wahoo.iml" afterPath="$PROJECT_DIR$/.idea/Wahoo.iml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Build/Debug/NormalDebug.fsh" afterPath="$PROJECT_DIR$/Build/Debug/NormalDebug.fsh" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Build/Debug/teapot.mtl" afterPath="$PROJECT_DIR$/Build/Debug/teapot.mtl" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Build/Debug/standard.fsh" afterPath="$PROJECT_DIR$/Build/Debug/standard.fsh" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/demo/demo_main.cpp" afterPath="$PROJECT_DIR$/demo/demo_main.cpp" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Entity/STActor.cpp" afterPath="$PROJECT_DIR$/src/Entity/STActor.cpp" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Entity/STEntity.cpp" afterPath="$PROJECT_DIR$/src/Entity/STEntity.cpp" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Graphics/GL/GLGraphics.cpp" afterPath="$PROJECT_DIR$/src/Graphics/GL/GLGraphics.cpp" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Graphics/GL/GLGraphics.h" afterPath="$PROJECT_DIR$/src/Graphics/GL/GLGraphics.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Graphics/GL/GLShader.cpp" afterPath="$PROJECT_DIR$/src/Graphics/GL/GLShader.cpp" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Graphics/STMaterial.cpp" afterPath="$PROJECT_DIR$/src/Graphics/STMaterial.cpp" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Graphics/STMaterial.h" afterPath="$PROJECT_DIR$/src/Graphics/STMaterial.h" />
     </list>
     <ignored path="Wahoo.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -62,8 +61,8 @@
           <file leaf-file-name="GLShader.cpp" pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/src/Graphics/GL/GLShader.cpp">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="235">
-                  <caret line="104" column="20" selection-start-line="104" selection-start-column="20" selection-end-line="104" selection-end-column="20" />
+                <state relative-caret-position="408">
+                  <caret line="132" column="0" selection-start-line="132" selection-start-column="0" selection-end-line="132" selection-end-column="0" />
                   <folding />
                 </state>
               </provider>
@@ -160,8 +159,8 @@
           <file leaf-file-name="GLGraphics.h" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/src/Graphics/GL/GLGraphics.h">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="248">
-                  <caret line="49" column="43" selection-start-line="49" selection-start-column="43" selection-end-line="49" selection-end-column="43" />
+                <state relative-caret-position="546">
+                  <caret line="124" column="2" selection-start-line="124" selection-start-column="2" selection-end-line="124" selection-end-column="2" />
                   <folding />
                 </state>
               </provider>
@@ -170,8 +169,8 @@
           <file leaf-file-name="STMaterial.cpp" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/src/Graphics/STMaterial.cpp">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="711">
-                  <caret line="59" column="1" selection-start-line="59" selection-start-column="1" selection-end-line="59" selection-end-column="1" />
+                <state relative-caret-position="969">
+                  <caret line="57" column="111" selection-start-line="57" selection-start-column="111" selection-end-line="57" selection-end-column="111" />
                   <folding>
                     <element signature="e#0#23#0" expanded="true" />
                   </folding>
@@ -179,11 +178,21 @@
               </provider>
             </entry>
           </file>
+          <file leaf-file-name="stl_vector.h" pinned="false" current-in-tab="false">
+            <entry file="file://C:/Program Files/mingw-w64/x86_64-4.8.3-posix-seh-rt_v3-rev2/mingw64/x86_64-w64-mingw32/include/c++/bits/stl_vector.h">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="248">
+                  <caret line="918" column="6" selection-start-line="918" selection-start-column="6" selection-end-line="918" selection-end-column="6" />
+                  <folding />
+                </state>
+              </provider>
+            </entry>
+          </file>
           <file leaf-file-name="STMaterial.h" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/src/Graphics/STMaterial.h">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="436">
-                  <caret line="85" column="16" selection-start-line="85" selection-start-column="16" selection-end-line="85" selection-end-column="16" />
+                <state relative-caret-position="68">
+                  <caret line="31" column="23" selection-start-line="31" selection-start-column="23" selection-end-line="31" selection-end-column="23" />
                   <folding>
                     <element signature="e#55#72#0" expanded="true" />
                   </folding>
@@ -194,18 +203,8 @@
           <file leaf-file-name="demo_main.cpp" pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/demo/demo_main.cpp">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="1017">
-                  <caret line="74" column="35" selection-start-line="74" selection-start-column="35" selection-end-line="74" selection-end-column="35" />
-                  <folding />
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file leaf-file-name="NormalDebug.fsh" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/Build/Debug/NormalDebug.fsh">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="374">
-                  <caret line="22" column="22" selection-start-line="22" selection-start-column="22" selection-end-line="22" selection-end-column="22" />
+                <state relative-caret-position="439">
+                  <caret line="79" column="0" selection-start-line="79" selection-start-column="0" selection-end-line="80" selection-end-column="0" />
                   <folding />
                 </state>
               </provider>
@@ -214,8 +213,18 @@
           <file leaf-file-name="STEntity.cpp" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/src/Entity/STEntity.cpp">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="-1278">
-                  <caret line="268" column="15" selection-start-line="268" selection-start-column="15" selection-end-line="268" selection-end-column="15" />
+                <state relative-caret-position="320">
+                  <caret line="362" column="0" selection-start-line="362" selection-start-column="0" selection-end-line="362" selection-end-column="0" />
+                  <folding />
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="STGraphicsComponent.cpp" pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/src/Entity/Components/STGraphicsComponent.cpp">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="541">
+                  <caret line="188" column="0" selection-start-line="188" selection-start-column="0" selection-end-line="188" selection-end-column="0" />
                   <folding />
                 </state>
               </provider>
@@ -224,28 +233,18 @@
           <file leaf-file-name="STActor.cpp" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/src/Entity/STActor.cpp">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="561">
-                  <caret line="54" column="9" selection-start-line="54" selection-start-column="9" selection-end-line="54" selection-end-column="9" />
+                <state relative-caret-position="306">
+                  <caret line="63" column="16" selection-start-line="63" selection-start-column="16" selection-end-line="63" selection-end-column="16" />
                   <folding />
                 </state>
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="GLMesh.h" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/src/Graphics/GL/GLMesh.h">
+          <file leaf-file-name="STActor.h" pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/src/Entity/STActor.h">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="0">
-                  <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-                  <folding />
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file leaf-file-name="STGraphicsComponent.h" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/src/Entity/Components/STGraphicsComponent.h">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="397">
-                  <caret line="68" column="23" selection-start-line="68" selection-start-column="23" selection-end-line="68" selection-end-column="23" />
+                <state relative-caret-position="272">
+                  <caret line="16" column="9" selection-start-line="16" selection-start-column="9" selection-end-line="16" selection-end-column="9" />
                   <folding />
                 </state>
               </provider>
@@ -254,8 +253,8 @@
           <file leaf-file-name="GLGraphics.cpp" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/src/Graphics/GL/GLGraphics.cpp">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="369">
-                  <caret line="304" column="0" selection-start-line="304" selection-start-column="0" selection-end-line="304" selection-end-column="0" />
+                <state relative-caret-position="-1390">
+                  <caret line="285" column="4" selection-start-line="285" selection-start-column="4" selection-end-line="285" selection-end-column="4" />
                   <folding />
                 </state>
               </provider>
@@ -315,7 +314,6 @@
         <option value="$PROJECT_DIR$/src/Entity/Util/STMesh.h" />
         <option value="$PROJECT_DIR$/src/Graphics/Shader.h" />
         <option value="$PROJECT_DIR$/src/Graphics/GL/GLShader.h" />
-        <option value="$PROJECT_DIR$/src/Graphics/GL/GLShader.cpp" />
         <option value="$PROJECT_DIR$/src/Graphics/Shader.cpp" />
         <option value="$PROJECT_DIR$/src/Graphics/GL/GLTexture.h" />
         <option value="$PROJECT_DIR$/src/Graphics/GL/GLTexture.cpp" />
@@ -327,13 +325,14 @@
         <option value="$PROJECT_DIR$/Build/Debug/standard_directional_forward.fsh" />
         <option value="$PROJECT_DIR$/Build/Debug/standard_point_forward.fsh" />
         <option value="$PROJECT_DIR$/Build/Debug/standard_IBL.fsh" />
-        <option value="$PROJECT_DIR$/src/Graphics/STMaterial.cpp" />
-        <option value="$PROJECT_DIR$/src/Graphics/STMaterial.h" />
         <option value="$PROJECT_DIR$/src/Entity/STEntity.cpp" />
         <option value="$PROJECT_DIR$/Build/Debug/NormalDebug.fsh" />
         <option value="$PROJECT_DIR$/src/Entity/STActor.cpp" />
+        <option value="$PROJECT_DIR$/src/Graphics/STMaterial.h" />
+        <option value="$PROJECT_DIR$/src/Graphics/STMaterial.cpp" />
         <option value="$PROJECT_DIR$/src/Graphics/GL/GLGraphics.h" />
         <option value="$PROJECT_DIR$/src/Graphics/GL/GLGraphics.cpp" />
+        <option value="$PROJECT_DIR$/src/Graphics/GL/GLShader.cpp" />
         <option value="$PROJECT_DIR$/demo/demo_main.cpp" />
       </list>
     </option>
@@ -983,7 +982,7 @@
       <workItem from="1476860096473" duration="10400000" />
       <workItem from="1477454967759" duration="294000" />
       <workItem from="1477455638183" duration="225000" />
-      <workItem from="1477455984090" duration="27516000" />
+      <workItem from="1477455984090" duration="45231000" />
     </task>
     <task id="LOCAL-00001" summary="0.0.91">
       <created>1456015877403</created>
@@ -996,7 +995,7 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="332433000" />
+    <option name="totallyTimeSpent" value="350148000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -1013,16 +1012,16 @@
     <layout>
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.13958333" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32962024" sideWeight="0.49675325" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.2718053" sideWeight="0.19479166" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.2718053" sideWeight="0.1078125" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="CMake" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.19037975" sideWeight="0.35849568" order="11" side_tool="false" content_ui="tabs" />
       <window_info id="LuaJ" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.21602434" sideWeight="0.8276042" order="8" side_tool="true" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.21602434" sideWeight="0.9015625" order="8" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3296146" sideWeight="0.496875" order="9" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.21602434" sideWeight="0.17239584" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.21602434" sideWeight="0.0984375" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.23427992" sideWeight="0.38385418" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.23427992" sideWeight="0.37760416" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
@@ -1050,156 +1049,161 @@
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
-        <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
+        <line-breakpoint type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
           <url>file://$PROJECT_DIR$/src/Math/Matrix.h</url>
           <line>78</line>
           <option name="timeStamp" value="203" />
         </line-breakpoint>
-        <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
+        <line-breakpoint type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
           <url>file://$PROJECT_DIR$/src/Math/Transform.h</url>
           <line>80</line>
           <option name="timeStamp" value="205" />
         </line-breakpoint>
-        <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
+        <line-breakpoint type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
           <url>file://$PROJECT_DIR$/src/Math/Matrix.h</url>
           <line>77</line>
           <option name="timeStamp" value="206" />
         </line-breakpoint>
-        <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
+        <line-breakpoint type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
           <url>file://$PROJECT_DIR$/src/Math/Matrix.h</url>
           <line>105</line>
           <option name="timeStamp" value="209" />
         </line-breakpoint>
-        <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
+        <line-breakpoint type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
           <url>file://$PROJECT_DIR$/src/Math/Matrix.h</url>
           <line>88</line>
           <option name="timeStamp" value="217" />
         </line-breakpoint>
-        <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
+        <line-breakpoint type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
           <url>file://$PROJECT_DIR$/src/Math/Matrix.h</url>
           <line>86</line>
           <option name="timeStamp" value="218" />
         </line-breakpoint>
-        <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
+        <line-breakpoint type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
           <url>file://$PROJECT_DIR$/src/Math/Matrix.h</url>
           <line>85</line>
           <option name="timeStamp" value="219" />
         </line-breakpoint>
-        <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
+        <line-breakpoint type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
           <url>file://$PROJECT_DIR$/src/Math/Matrix.h</url>
           <line>87</line>
           <option name="timeStamp" value="220" />
         </line-breakpoint>
-        <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
+        <line-breakpoint type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
           <url>file://$PROJECT_DIR$/src/Entity/STEntity.cpp</url>
           <line>93</line>
           <option name="timeStamp" value="335" />
         </line-breakpoint>
-        <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
+        <line-breakpoint type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
           <url>file://$PROJECT_DIR$/src/Entity/Util/STMesh.cpp</url>
           <line>120</line>
           <option name="timeStamp" value="365" />
         </line-breakpoint>
-        <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
+        <line-breakpoint type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
           <url>file://$PROJECT_DIR$/src/Entity/Util/STMesh.cpp</url>
           <line>235</line>
           <option name="timeStamp" value="375" />
         </line-breakpoint>
-        <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
+        <line-breakpoint type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
           <url>file://$PROJECT_DIR$/src/Entity/Util/STMesh.cpp</url>
           <line>225</line>
           <option name="timeStamp" value="383" />
         </line-breakpoint>
-        <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
+        <line-breakpoint type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
           <url>file://$PROJECT_DIR$/src/Entity/Util/STMesh.cpp</url>
           <line>239</line>
           <option name="timeStamp" value="389" />
         </line-breakpoint>
-        <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
+        <line-breakpoint type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
           <url>file://$PROJECT_DIR$/src/Entity/Util/STMesh.cpp</url>
           <line>339</line>
           <option name="timeStamp" value="390" />
         </line-breakpoint>
-        <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
+        <line-breakpoint type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
           <url>file://$PROJECT_DIR$/src/Entity/Util/STMesh.cpp</url>
           <line>127</line>
           <option name="timeStamp" value="395" />
         </line-breakpoint>
-        <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
+        <line-breakpoint type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
           <url>file://$PROJECT_DIR$/src/Entity/Util/STMesh.cpp</url>
           <line>342</line>
           <option name="timeStamp" value="435" />
         </line-breakpoint>
-        <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
+        <line-breakpoint type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
           <url>file://$PROJECT_DIR$/src/Entity/Util/STMesh.cpp</url>
           <line>341</line>
           <option name="timeStamp" value="436" />
         </line-breakpoint>
-        <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
+        <line-breakpoint type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
           <url>file://$PROJECT_DIR$/src/Entity/Util/STMesh.cpp</url>
           <line>340</line>
           <option name="timeStamp" value="437" />
         </line-breakpoint>
-        <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
+        <line-breakpoint type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
           <url>file://$PROJECT_DIR$/src/Entity/Util/STMesh.cpp</url>
           <line>346</line>
           <option name="timeStamp" value="446" />
         </line-breakpoint>
-        <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
+        <line-breakpoint type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
           <url>file://$PROJECT_DIR$/main.cpp</url>
           <line>30</line>
           <option name="timeStamp" value="452" />
         </line-breakpoint>
-        <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
+        <line-breakpoint type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
           <url>file://$PROJECT_DIR$/src/Graphics/STMaterial.h</url>
           <line>80</line>
           <option name="timeStamp" value="461" />
         </line-breakpoint>
-        <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
+        <line-breakpoint type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
           <url>file://$PROJECT_DIR$/src/Graphics/GL/GLTexture.cpp</url>
           <line>167</line>
           <option name="timeStamp" value="465" />
         </line-breakpoint>
-        <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
+        <line-breakpoint type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
           <url>file://$PROJECT_DIR$/src/Graphics/STMaterial.cpp</url>
           <line>41</line>
           <option name="timeStamp" value="472" />
         </line-breakpoint>
-        <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
+        <line-breakpoint type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
           <url>file://$PROJECT_DIR$/src/Graphics/STMaterial.cpp</url>
           <line>37</line>
           <option name="timeStamp" value="473" />
         </line-breakpoint>
-        <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
+        <line-breakpoint type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
           <url>file://$PROJECT_DIR$/src/Graphics/GL/GLTexture.cpp</url>
           <line>47</line>
           <option name="timeStamp" value="475" />
         </line-breakpoint>
-        <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
+        <line-breakpoint type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
           <url>file://$PROJECT_DIR$/src/Graphics/GL/GLTexture.cpp</url>
           <line>166</line>
           <option name="timeStamp" value="476" />
         </line-breakpoint>
-        <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
+        <line-breakpoint type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
           <url>file://$PROJECT_DIR$/src/Graphics/GL/GLGraphics.cpp</url>
-          <line>220</line>
+          <line>240</line>
           <option name="timeStamp" value="486" />
         </line-breakpoint>
-        <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
+        <line-breakpoint type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
           <url>file://$PROJECT_DIR$/src/Graphics/GL/GLGraphics.cpp</url>
-          <line>224</line>
+          <line>244</line>
           <option name="timeStamp" value="487" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
-          <url>file://$PROJECT_DIR$/src/Graphics/GL/GLShader.cpp</url>
-          <line>67</line>
-          <option name="timeStamp" value="497" />
+          <url>file://$PROJECT_DIR$/src/Entity/STEntity.cpp</url>
+          <line>362</line>
+          <option name="timeStamp" value="498" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
+          <url>file://$PROJECT_DIR$/src/Graphics/GL/GLGraphics.cpp</url>
+          <line>264</line>
+          <option name="timeStamp" value="499" />
         </line-breakpoint>
       </breakpoints>
       <breakpoints-dialog>
         <breakpoints-dialog />
       </breakpoints-dialog>
-      <option name="time" value="498" />
+      <option name="time" value="500" />
     </breakpoint-manager>
     <watches-manager>
       <configuration name="CMakeRunConfiguration">
@@ -1208,14 +1212,6 @@
     </watches-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/Graphics/STGraphics.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1617">
-          <caret line="49" column="6" selection-start-line="49" selection-start-column="6" selection-end-line="49" selection-end-column="6" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/STSceneManager.h">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="2924">
@@ -1333,25 +1329,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/Entity/STActor.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/Entity/Components/STMeshComponent.cpp">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="34">
           <caret line="4" column="17" selection-start-line="4" selection-start-column="17" selection-end-line="4" selection-end-column="17" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Entity/Components/STGraphicsComponent.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1305">
-          <caret line="192" column="43" selection-start-line="192" selection-start-column="43" selection-end-line="192" selection-end-column="43" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1473,37 +1454,11 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/Entity/STEntity.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1278">
-          <caret line="268" column="15" selection-start-line="268" selection-start-column="15" selection-end-line="268" selection-end-column="15" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/Build/Debug/NormalDebug.fsh">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="374">
           <caret line="22" column="22" selection-start-line="22" selection-start-column="22" selection-end-line="22" selection-end-column="22" />
           <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Entity/STActor.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="561">
-          <caret line="54" column="9" selection-start-line="54" selection-start-column="9" selection-end-line="54" selection-end-column="9" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Graphics/STMaterial.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="436">
-          <caret line="85" column="16" selection-start-line="85" selection-start-column="16" selection-end-line="85" selection-end-column="16" />
-          <folding>
-            <element signature="e#55#72#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1513,16 +1468,6 @@
           <caret line="366" column="13" selection-start-line="366" selection-start-column="13" selection-end-line="366" selection-end-column="13" />
           <folding>
             <element signature="e#0#19#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Graphics/STMaterial.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="711">
-          <caret line="59" column="1" selection-start-line="59" selection-start-column="1" selection-end-line="59" selection-end-column="1" />
-          <folding>
-            <element signature="e#0#23#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -1567,34 +1512,94 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/Graphics/GL/GLGraphics.h">
+    <entry file="file://$PROJECT_DIR$/src/Entity/STActor.cpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="248">
-          <caret line="49" column="43" selection-start-line="49" selection-start-column="43" selection-end-line="49" selection-end-column="43" />
+        <state relative-caret-position="306">
+          <caret line="63" column="16" selection-start-line="63" selection-start-column="16" selection-end-line="63" selection-end-column="16" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/Graphics/GL/GLShader.cpp">
+    <entry file="file://$PROJECT_DIR$/src/Entity/STActor.h">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="235">
-          <caret line="104" column="20" selection-start-line="104" selection-start-column="20" selection-end-line="104" selection-end-column="20" />
+        <state relative-caret-position="272">
+          <caret line="16" column="9" selection-start-line="16" selection-start-column="9" selection-end-line="16" selection-end-column="9" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Entity/STEntity.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="320">
+          <caret line="362" column="0" selection-start-line="362" selection-start-column="0" selection-end-line="362" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Entity/Components/STGraphicsComponent.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="541">
+          <caret line="188" column="0" selection-start-line="188" selection-start-column="0" selection-end-line="188" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://C:/Program Files/mingw-w64/x86_64-4.8.3-posix-seh-rt_v3-rev2/mingw64/x86_64-w64-mingw32/include/c++/bits/stl_vector.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="248">
+          <caret line="918" column="6" selection-start-line="918" selection-start-column="6" selection-end-line="918" selection-end-column="6" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Graphics/STMaterial.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="68">
+          <caret line="31" column="23" selection-start-line="31" selection-start-column="23" selection-end-line="31" selection-end-column="23" />
+          <folding>
+            <element signature="e#55#72#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Graphics/STMaterial.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="969">
+          <caret line="57" column="111" selection-start-line="57" selection-start-column="111" selection-end-line="57" selection-end-column="111" />
+          <folding>
+            <element signature="e#0#23#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Graphics/GL/GLGraphics.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="546">
+          <caret line="124" column="2" selection-start-line="124" selection-start-column="2" selection-end-line="124" selection-end-column="2" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/Graphics/GL/GLGraphics.cpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="369">
-          <caret line="304" column="0" selection-start-line="304" selection-start-column="0" selection-end-line="304" selection-end-column="0" />
+        <state relative-caret-position="-1390">
+          <caret line="285" column="4" selection-start-line="285" selection-start-column="4" selection-end-line="285" selection-end-column="4" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Graphics/GL/GLShader.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="408">
+          <caret line="132" column="0" selection-start-line="132" selection-start-column="0" selection-end-line="132" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/demo/demo_main.cpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1017">
-          <caret line="74" column="35" selection-start-line="74" selection-start-column="35" selection-end-line="74" selection-end-column="35" />
+        <state relative-caret-position="439">
+          <caret line="79" column="0" selection-start-line="79" selection-start-column="0" selection-end-line="80" selection-end-column="0" />
           <folding />
         </state>
       </provider>

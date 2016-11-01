@@ -29,7 +29,8 @@ public:
         mat =  new STMaterial(new GLShader("standard", "standard_directional_forward"));
         auto resManager = window->getResourceManager();
         resManager->addMaterial("default", new STMaterial(new GLShader("standard", "standard_directional_forward")));
-        resManager->addMaterial("def", new STMaterial(new GLShader("standard")));
+        //resManager->addMaterial("def", new STMaterial(new GLShader("standard")));
+        resManager->addMaterial("def", new STMaterial(ShaderList{"standard"}, TextureList{"grid.png", "testNormal.png"}));
         GLGraphics::GlobalAmbient = Vector3<stReal>(.1,.1,.1);
         int count=0;
 
@@ -67,11 +68,13 @@ public:
         _plane->setTranslateY(-0.5f);
 
         _cube = new STActor("dice.obj", STMesh::OBJ, resManager->getMaterial("def"));
+//        _cube->setDiffuseTexture("grid.png");
+//        _cube->setNormalTexture("testNormal.png");
         _cube->setShdrUniform("_Metallic", 0.0f);
         _cube->setShdrUniform("_Roughness", 0.0f);
-        _cube->setDiffuseTexture("grid.png");
-        _cube->setNormalTexture("testNormal.png");
-        _cube->setTranslateX(-1.0f);
+//        _cube->setTranslateX(-80.0f);
+//        _cube->setTranslateY(-10.f);
+        //_cube->setScale(0.009);
 
         roughnessTex = new GLTexture("roughness.png");
         auto uniforms = mat->getUniforms();

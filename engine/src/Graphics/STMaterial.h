@@ -10,10 +10,25 @@
 class GLTexture;
 class STGraphics;
 
+struct ShaderList{
+    std::string vertShader;
+    std::string fragShader;
+    std::string geomShader;
+};
+
+struct TextureList{
+    std::string diffuseTex;
+    std::string normalTex;
+    std::string specularTex;
+    std::string alphaTex;
+};
 
 class STMaterial{
 public:
     STMaterial();
+
+    STMaterial(ShaderList, TextureList);
+
     /*!
      * @name STMaterial
      * @param shdr STShader for use
@@ -89,6 +104,8 @@ public:
 
 
 private:
+    void init_GLShaders(ShaderList list);
+    void init_GLTextures(TextureList list);
     Texture* texture;
     Shader* shader;
     Vector3<stReal> m_baseColor;

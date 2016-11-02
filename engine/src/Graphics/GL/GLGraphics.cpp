@@ -12,6 +12,7 @@ GLGraphics::GLGraphics() {
 }
 
 GLGraphics::GLGraphics(STGame *game) {
+
     WIDTH = (unsigned int)game->getWidth();
     HEIGHT = (unsigned int)game->getHeight();
 
@@ -21,6 +22,7 @@ GLGraphics::GLGraphics(STGame *game) {
     Bloom_Composite = new GLShader("screen", "Bloom_Composite");
     Motion_Blur = new GLShader("screen","Motion_Blur");
     Tone_Mapping = new GLShader("screen","Tone_Mapping");
+    FXAAShader = new GLShader("screen","FXAA");
 
     FT_Library ft;
     if(FT_Init_FreeType(&ft)){ std::cout << "foo" << std::endl; }else{ std::cout << "Successfully loaded FreeType!" << std::endl; }
@@ -104,7 +106,7 @@ void GLGraphics::drawScene(STScene *scene) {
         glBindTexture(GL_TEXTURE_2D, velocityTexture);
 
 
-        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB32F, w, h, 0, GL_RGB, GL_FLOAT, NULL);
+        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB16F, w, h, 0, GL_RG, GL_FLOAT, NULL);
 
 
         glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
@@ -150,8 +152,8 @@ void GLGraphics::drawScene(STScene *scene) {
         glGenerateMipmap(GL_TEXTURE_2D);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
         glBindTexture(GL_TEXTURE_2D, 0);
 
 
@@ -183,6 +185,7 @@ void GLGraphics::drawScene(STScene *scene) {
 
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     glEnable(GL_DEPTH_TEST);
+
     auto clearColor = STGraphics::ClearColor;
     glClearColor(0,0,0,1);
 
@@ -192,11 +195,14 @@ void GLGraphics::drawScene(STScene *scene) {
     auto lights = scene->getLights();
 
    glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, velocityTexture, 0);
+
     glClear(GL_COLOR_BUFFER_BIT);
+
     //Depth Pre-Pass
     for(int i =0; i< actors.size(); i++){
         actors[i]->draw(m_velocityMat);
     }
+
     glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, frameTexBuffer, 0);
 
 
@@ -214,7 +220,7 @@ void GLGraphics::drawScene(STScene *scene) {
         for(int j =0; j < lights.size(); j++) {
             actors[i]->setShdrUniform("_CameraPos", camera()->transform()->getTranslate<stReal>());
             actors[i]->setShdrUniform_CubeMap("_WorldCubeMap", scenes[scene->getIndex()].m_skybox);
-            actors[i]->setShdrUniform("_GlobalAmbient", GlobalAmbient);
+
             actors[i]->setShdrUniform("Light["+std::to_string(j)+"].Color", lights[j]->color);
             actors[i]->setShdrUniform("Light["+std::to_string(j)+"].Intensity", lights[j]->intensity);
             actors[i]->setShdrUniform("Light["+std::to_string(j)+"].Position", lights[j]->transform()->getTranslate<stReal>());
@@ -284,9 +290,12 @@ void GLGraphics::drawScene(STScene *scene) {
 
     glDisable(GL_CULL_FACE);
 
-    Bloom();
-    MotionBlur();
-    //ToneMapping();
+    if((m_enabledEffects&BLOOM)>0)Bloom();
+    if((m_enabledEffects&MOTION_BLUR)>0)MotionBlur();
+    if((m_enabledEffects&TONE_MAPPING)>0)ToneMapping();
+    if((m_enabledEffects&FXAA)>0)RenderScreenWithShader(FXAAShader);
+
+
     glClearColor(1.0, 1.0, 1.0, 1.0);
 
 
@@ -317,9 +326,7 @@ void GLGraphics::Bloom(){
     glActiveTexture(GL_TEXTURE0);
     glBindTexture(GL_TEXTURE_2D, frameTexBuffer);
     screenQuad->draw();
-
     glBindFramebuffer(GL_FRAMEBUFFER, 0);
-
     glBindTexture(GL_TEXTURE_2D,bloomThresTex);
     glGenerateMipmap(GL_TEXTURE_2D);
     glBindTexture(GL_TEXTURE_2D,0);
@@ -346,6 +353,7 @@ void GLGraphics::Bloom(){
 
 
 void GLGraphics::MotionBlur(){
+
 
 
     glBindFramebuffer(GL_FRAMEBUFFER, frameBuffer);
@@ -387,6 +395,45 @@ void GLGraphics::ToneMapping() {
 
 
 
+
+}
+
+
+void GLGraphics::RenderScreenWithShader(const std::string& shaderName) {
+
+    GLShader* tempShader = new GLShader("screen",shaderName);
+
+    glBindFramebuffer(GL_FRAMEBUFFER, frameBuffer);
+
+    glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, frameTexBuffer, 0);
+
+
+    tempShader->bind();
+    glActiveTexture(GL_TEXTURE0);
+    glBindTexture(GL_TEXTURE_2D, frameTexBuffer);
+    screenQuad->draw();
+    tempShader->unbind();
+
+    glBindFramebuffer(GL_FRAMEBUFFER, 0);
+
+    delete tempShader;
+}
+
+void GLGraphics::RenderScreenWithShader(GLShader* shader) {
+
+
+    glBindFramebuffer(GL_FRAMEBUFFER, frameBuffer);
+
+    glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, frameTexBuffer, 0);
+
+
+    shader->bind();
+    glActiveTexture(GL_TEXTURE0);
+    glBindTexture(GL_TEXTURE_2D, frameTexBuffer);
+    screenQuad->draw();
+    shader->unbind();
+
+    glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
 }
 

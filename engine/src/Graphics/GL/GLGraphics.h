@@ -89,7 +89,26 @@ public:
     inline void disableBlend(){
         glDisable(GL_BLEND);
     }
+
+
+
     static Vector3<stReal> TextColor;
+
+   ~GLGraphics(){
+       delete screenShdr;
+       delete Bloom_Composite;
+       delete Bloom_Threshold;
+       delete Motion_Blur;
+       delete Tone_Mapping;
+       delete FXAAShader;
+
+       delete m_directionalLightMat;
+       delete m_pointLightMat;
+       delete m_spotLightMat;
+       delete m_albedoMat;
+       delete m_IBLMat;
+       delete m_velocityMat;
+    }
 
 protected:
 
@@ -113,6 +132,7 @@ private:
     GLShader* Bloom_Threshold;
     GLShader* Motion_Blur;
     GLShader* Tone_Mapping;
+    GLShader* FXAAShader;
 
     GLMesh* screenQuad;
     STMaterial* m_directionalLightMat;
@@ -121,10 +141,18 @@ private:
     STMaterial* m_albedoMat;
     STMaterial* m_IBLMat;
     STMaterial* m_velocityMat;
+
+
+
     void Bloom();
     void MotionBlur();
     void ToneMapping();
+    void RenderScreenWithShader(const std::string& shaderName);
+    void RenderScreenWithShader(GLShader* shader);
+
+
 };
+
 
 
 #endif //WAHOO_GLGRAPHICS_H

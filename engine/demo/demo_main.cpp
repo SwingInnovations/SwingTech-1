@@ -48,14 +48,16 @@ public:
 //         }
         STGame::Get()->getCamera()->setSpeed(0.005f);
 
-        _testActor2 = new STActor("teapot.obj", STMesh::OBJ, resManager->getMaterial("default"));
+        _testActor2 = new STActor("sphere.obj", STMesh::OBJ, resManager->getMaterial("default"));
         //_testActor2->setTranslateX(1);
-        _testActor2->setShdrUniform("_Metallic", 1.0f);
-        _testActor2->setShdrUniform("_Roughness",0.4f);
+        _testActor2->setShdrUniform("_Metallic", 0.0f);
+        _testActor2->setShdrUniform("_Roughness",0.1f);
         _testActor2->setScale(1);
         _testActor2->setDiffuseTexture("grid.png");
-        _testActor2->setNormalTexture("testNormal.png");
-        mat->setBaseColor(Vector3<stReal>(1,1,1));
+        _testActor2->setNormalTexture("T_Thumper_Stock_N.png");
+        mat->setBaseColor(Vector3<stReal>(.7,.7,.7));
+      //  _testActor2->setRotateX(90);
+       // _testActor2->setRotateY(90);
 
        //  roughnessTex = new GLTexture("roughness.png");
 
@@ -72,12 +74,12 @@ public:
 
 
         _testLight2 = new STLight(Vector3<stReal>(1,1,1),Vector3<stReal>(1,1,1));
-        _testLight2->intensity =3;
+        _testLight2->intensity =2;
         _testLight2->radius=-1;
        // _testLight->setTranslateZ(1.2f);
        // _testLight->setTranslateX(1.2f);
 
-        scene->addSkybox("Yokohama", "skybox");
+        scene->addSkybox("mystic", "skybox");
 
 
       // scene->addLight(_testLight);
@@ -94,7 +96,10 @@ public:
         if(input->isKeyPressed(KEY::KEY_ESC)){
             input->requestClose();
         }
+        if(input->isKeyPressed(KEY::KEY_O)){
 
+
+        }
         if(input->isKeyPressed(KEY::KEY_Q)){
             bool state = input->isCursorBound();
             input->setCursorBound(!state);
@@ -120,8 +125,8 @@ public:
 //        }
         counter += 0.025f * delta;
        // _testLight2->intensity=sin(counter * 0.1f)*.5+1;
-       // _testActor2->setTranslateY(sin(counter * .9f));
-        //_testActor2->setRotateY(sin(counter*.5)*180 );
+        _testActor2->setTranslateX(sin(counter * 1.0f));
+    //   _testActor2->setRotateY(counter*50 );
       //  _testLight2->setTranslateY(3.0f*std::sin(counter*.02f+3));
     }
 
@@ -160,6 +165,7 @@ private:
 
 
 int main(int argc, char** argv){
+
     InputMap* inputMap = new InputMap;
     inputMap->addMapping(MOVEMENT::FORWARD, KEY::KEY_W);
     inputMap->addMapping(MOVEMENT::BACKWARD, KEY::KEY_S);
@@ -177,9 +183,10 @@ int main(int argc, char** argv){
     win->addCamera(new Camera(*win, campos, 0));
     win->addState(new TestState(0));
     win->enterState(0);
-
+    win->getGraphics()->enablePostEffect(BLOOM | MOTION_BLUR | FXAA );
     win->start();
 
     return 0;
+    
 }
 

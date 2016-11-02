@@ -32,7 +32,7 @@ uniform STMaterial Material;
 
 
 uniform samplerCube _WorldCubeMap;
-uniform vec3 _GlobalAmbient;
+ vec3 _GlobalAmbient;
 uniform vec3 _CameraPos;
 
 
@@ -226,7 +226,7 @@ vec3 BlendMaterial_Directional(vec3 Spec, vec3 Diff, vec3 Base,vec3 IBL,float in
 	
 	
 	vec3 dialectric =( IBL * (Diff*intensity + _GlobalAmbient))+lightColor*Spec*intensity*.6;
-	vec3 metal =(IBL  + _GlobalAmbient)+ (Spec)*intensity*lightColor;
+	vec3 metal =IBL+ (Spec)*intensity*lightColor*Base;
 
 	return   mix(dialectric,metal,_Metallic);
 } 
@@ -237,13 +237,16 @@ vec3 BlendMaterial_Directional(vec3 Spec, vec3 Diff, vec3 Base,vec3 IBL,float in
 void main(void){
 
 		
-	vec3 Norm = normalize(TBN* (texture2D(Material.Normal_Tex,TexCoord).xyz*2-1));
+	vec3 Norm =  normalize(TBN* normalize(texture2D(Material.Normal_Tex,TexCoord).xyz*2.0-1.0));
 	
 	vec3 V = normalize(  _CameraPos - Position );
 
     float r = clamp(_Roughness,.01, 1.0);
 	
-	
+	_GlobalAmbient = texture(_WorldCubeMap,vec3(1,0,0),12).rgb+texture(_WorldCubeMap,vec3(-1,0,0),12).rgb+texture(_WorldCubeMap,vec3(0,1,0),12).rgb
+
+	+texture(_WorldCubeMap,vec3(0,-1,0),12).rgb+texture(_WorldCubeMap,vec3(0,0,1),12).rgb+texture(_WorldCubeMap,vec3(0,0,-1),12).rgb;
+	_GlobalAmbient/=6;
 
 	vec3 Spec_Cook_Torrance =Spec_IBL(r,Norm,V,Material.BaseColor);
 

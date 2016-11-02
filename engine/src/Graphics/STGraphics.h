@@ -26,6 +26,7 @@ public:
     enum Renderer{ OPENGL, VULKAN };
     static int RENDERER;
     static bool YUp;
+
     static Vector4<stReal> ClearColor;
     static Vector3<stReal> GlobalAmbient;
     STGraphics();
@@ -35,7 +36,12 @@ public:
     void setCamera(Camera* cam){
         m_Cam = cam;
     }
-
+    void enablePostEffect(int index) {
+        m_enabledEffects|=index;
+    }
+    void disablePostEffect(int index) {
+        m_enabledEffects&=~index;
+    }
     /**
      * Sets whether Y-Up should be up or down relative to the window.
      * @param val
@@ -77,11 +83,20 @@ public:
 
 
 protected:
+    unsigned int m_enabledEffects=0x00000000;
     unsigned int WIDTH, HEIGHT;
     Camera* m_Cam;
     Vector4<stReal> m_fontColor;
 
 };
 
+enum POST_EFFECT: unsigned int
+{
+
+    BLOOM = 1,
+    MOTION_BLUR=2,
+    TONE_MAPPING=4,
+    FXAA=8
+};
 
 #endif //WAHOO_STECHGRAPHICS_H

@@ -26,6 +26,7 @@ void main(void){
     vec3 T = vec3(model * vec4(tangent,   0.0));
 
   	vec3 N = vec3(model * vec4(normal,    0.0));
+
   	
 	vec3 B = cross(T, N);
 	 	

@@ -229,6 +229,12 @@ void GLGraphics::drawScene(STScene *scene) {
     }
 
 
+    for(stUint i = 0, S = lights.size(); i < S; i++){
+        for(stUint j = 0, J = lights.at(i)->getChildSize(); j < J; j++){
+            lights.at(i)->getChild(j)->draw(STGame::Get()->getCamera(), 2);
+        }
+    }
+
     glDepthFunc(GL_EQUAL);
 
     glDepthMask(GL_FALSE);

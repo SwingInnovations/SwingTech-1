@@ -107,6 +107,8 @@ public:
     void setShdrUniform_CubeMap(const std::string& name, stUint tag);
 
     STEntity* childAtTag(const std::string& tag);
+    inline stUint getChildSize(){ return m_children.size(); }
+
 
     void setVisible(bool value);
     bool isVisible();

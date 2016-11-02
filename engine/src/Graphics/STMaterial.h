@@ -66,8 +66,6 @@ public:
      {
          setBaseColor( Vector3<stReal>(1,1,1) );
          _uniforms.push_back(STShader::ShaderAttrib("Material.BaseColor", STShader::VEC3, STShader::toString(m_baseColor)));
-//         _uniforms.push_back(STShader::ShaderAttrib("Material.Diffuse_Tex", STShader::INT, "0"));
-//         _uniforms.push_back(STShader::ShaderAttrib("Material.Normal_Tex", STShader::INT, "1"));
      }
 
 
@@ -100,8 +98,6 @@ public:
 
 
     void draw(std::vector<STShader::ShaderAttrib>& entityUniforms, Transform& T, Camera& C);
-    void draw(std::vector<STShader::ShaderAttrib>& entityUniforms, Texture* passTexture, Transform& T, Camera& C);
-
 
 private:
     void init_GLShaders(ShaderList list);

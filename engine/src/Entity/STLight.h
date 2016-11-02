@@ -47,7 +47,9 @@ public:
         //addComponent(typeid(STGraphicsComponent), new STGraphicsComponent(m_material));
         //addComponent(typeid(STMeshComponent), new STMeshComponent());
         type = PointLight;
-
+        auto ent = new STEntity("sphere.obj", STMesh::OBJ, new GLShader("LightVis"));
+        ent->setShdrUniform("lightColor", color);
+        this->addChild(ent);
     }
 
     STLight(stReal coneAngle , stReal coneHeight){

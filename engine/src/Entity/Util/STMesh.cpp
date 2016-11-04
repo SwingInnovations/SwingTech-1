@@ -88,11 +88,24 @@ OBJMesh::OBJMesh(const std::string &filename) {
             if(line[0] == 'f' && line[1] == ' '){
                 auto faceStrings = splitFace(line.substr(2));
                 Vector3<stInt> values;
+                Vector3<stInt> cached[3];
+                stUint cachedCounter = 0;
                 for(stUint i = 0; i < 3; i++){
                     values = extractFace(faceStrings.at(i));
+                    if(i == 0 || i == 2){
+                        cached[cachedCounter++] = values;
+                    }
                     _index.push_back(values.getX() - 1);
                     _index.push_back(values.getY() - 1);
                     _index.push_back(values.getZ() - 1);
+                }
+                if(faceStrings.size() > 3){
+                    cached[cachedCounter] = extractFace(faceStrings.at(3));
+                    for(stUint i = 0; i < 3; i++){
+                        _index.push_back(cached[i].getX() - 1);
+                        _index.push_back(cached[i].getY() - 1);
+                        _index.push_back(cached[i].getZ() - 1);
+                    }
                 }
             }
         }
@@ -695,20 +708,27 @@ bool OBJMesh::Validate(const std::string &fileName, bool *errFlag, std::vector<s
 
             //Index Extraction
             if (line[0] == 'f' && line[1] == ' ') {
-                auto faceString = splitFace(line.substr(2));
-                //first element
-                auto vals = extractFace(faceString.at(0));
-                _index.push_back(vals.getX() - 1);
-                _index.push_back(vals.getY() - 1);
-                _index.push_back(vals.getZ() - 1);
-                vals = extractFace(faceString.at(1));
-                _index.push_back(vals.getX() - 1);
-                _index.push_back(vals.getY() - 1);
-                _index.push_back(vals.getZ() - 1);
-                vals = extractFace(faceString.at(2));
-                _index.push_back(vals.getX() - 1);
-                _index.push_back(vals.getY() - 1);
-                _index.push_back(vals.getZ() - 1);
+                auto faceStrings = splitFace(line.substr(2));
+                Vector3<stInt> values;
+                Vector3<stInt> cached[3];
+                stUint cachedCounter = 0;
+                for(stUint i = 0; i < 3; i++){
+                    values = extractFace(faceStrings.at(i));
+                    if(i == 0 || i == 2){
+                        cached[cachedCounter++] = values;
+                    }
+                    _index.push_back(values.getX() - 1);
+                    _index.push_back(values.getY() - 1);
+                    _index.push_back(values.getZ() - 1);
+                }
+                if(faceStrings.size() > 3){
+                    cached[cachedCounter] = extractFace(faceStrings.at(3));
+                    for(stUint i = 0; i < 3; i++){
+                        _index.push_back(cached[i].getX() - 1);
+                        _index.push_back(cached[i].getY() - 1);
+                        _index.push_back(cached[i].getZ() - 1);
+                    }
+                }
                 lastTag = "f";
             }
             counter++;

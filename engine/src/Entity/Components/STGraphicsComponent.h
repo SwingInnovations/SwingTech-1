@@ -37,6 +37,7 @@ public:
     void addShdrUniform_CubeMap(const std::string& name, stUint value);
     void setDiffuseTexture(const std::string& fileName);
     void setNormalTexture(const std::string& fileName);
+    void setShdrUniform_Texture(const std::string& name, stUint id, stUint index);
 
     void setShdrUniform(const std::string& name, int value);
     void setShdrUniform(const std::string& name, float value);
@@ -66,7 +67,8 @@ public:
 
     void update();
     inline void draw(){
-        m_material->draw(m_uniforms);
+        //m_material->draw(m_uniforms);
+        //m_material->draw();
     }
 
     std::vector<STShader::ShaderAttrib> &getUniforms();

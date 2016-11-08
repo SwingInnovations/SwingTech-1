@@ -142,7 +142,12 @@ private:
     STMaterial* m_IBLMat;
     STMaterial* m_velocityMat;
 
+    virtual void setShadowMapWidth(stUint w){
 
+    }
+    virtual void setShadowMapHeight(stUint h){
+
+    }
 
     void Bloom();
     void MotionBlur();

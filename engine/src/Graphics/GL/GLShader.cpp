@@ -135,27 +135,34 @@ void GLShader::update(Transform& trans, Camera& cam){ ;
 }
 
 void GLShader::update(const std::string &name, int val) {
-    glUniform1i(glGetUniformLocation(m_Program, name.c_str()), val);
+    auto uniLoc = glGetUniformLocation(m_Program, name.c_str());
+    if(uniLoc != -1) glUniform1i(uniLoc, val);
+
 }
 
 void GLShader::update(const std::string& name, float val) {
-    glUniform1f(glGetUniformLocation(m_Program, name.c_str()), val);
+    auto uniLoc = glGetUniformLocation(m_Program, name.c_str());
+    if(uniLoc != -1) glUniform1f(uniLoc, val);
 }
 
 void GLShader::update(const std::string &name, Vector3<stReal> val) {
-    glUniform3f(glGetUniformLocation(m_Program, name.c_str()), val.getX(), val.getY(), val.getZ());
+    auto uniLoc = glGetUniformLocation(m_Program, name.c_str());
+    if(uniLoc != -1) glUniform3f(uniLoc, val.getX(), val.getY(), val.getZ());
 }
 
 void GLShader::update(const std::string &name, Vector4<stReal> val) {
-    glUniform4f(glGetUniformLocation(m_Program, name.c_str()), val.getX(), val.getY(), val.getZ(), val.getW());
+    auto uniLoc = glGetUniformLocation(m_Program, name.c_str());
+    if(uniLoc != -1) glUniform4f(uniLoc, val.getX(), val.getY(), val.getZ(), val.getW());
 }
 
 void GLShader::update(const std::string &name, Matrix4f mat) {
-    glUniformMatrix4fv(glGetUniformLocation(m_Program, name.c_str()),1, GL_FALSE, &mat.m[0][0]);
+    auto uniLoc = glGetUniformLocation(m_Program, name.c_str());
+    if(uniLoc != -1) glUniformMatrix4fv( uniLoc,1, GL_FALSE, &mat.m[0][0]);
 }
 
 void GLShader::update(const std::string &name, Matrix4f &mat, bool flag) {
-    glUniformMatrix4fv(glGetUniformLocation(m_Program, name.c_str()),1, flag, &mat.m[0][0]);
+    auto uniLoc = glGetUniformLocation(m_Program, name.c_str());
+    if(uniLoc != -1) glUniformMatrix4fv(uniLoc,1, flag, &mat.m[0][0]);
 }
 
 void GLShader::update_Texture(const std::string &name, stUint id) {
@@ -228,9 +235,12 @@ GLuint GLShader::createShader(const std::string &text, unsigned int type) {
 }
 
 void GLShader::update_Texture(const std::string &name, Vector2<stInt> val) {
-    glActiveTexture(GL_TEXTURE0 + val.getY());
-    glBindTexture(GL_TEXTURE_2D, (stUint)val.getX());
-    glUniform1i(glGetUniformLocation(m_Program, name.c_str()), val.getY());
+    auto uniLoc = glGetUniformLocation(m_Program, name.c_str());
+    if(uniLoc != -1){
+        glActiveTexture(GL_TEXTURE0 + val.getY());
+        glBindTexture(GL_TEXTURE_2D, (stUint)val.getX());
+        glUniform1i(glGetUniformLocation(m_Program, name.c_str()), val.getY());
+    }
 }
 
 

@@ -15,6 +15,27 @@ public:
         initIdentity();
     }
 
+    static Matrix4f LookAt(const Vector3<stReal> eye, const Vector3<stReal> center, const Vector3<stReal> up){
+        Matrix4f orient, trans;
+
+        auto D = (eye - center);
+        D.normalize();
+        auto R = up.cross(D).normalize();
+        auto U = D.cross(R);
+
+        orient.m[0][0] = R.getX();  orient.m[0][1] = R.getY();  orient.m[0][2] = R.getZ();  orient.m[0][3] = 0.f;
+        orient.m[1][0] = U.getX();  orient.m[1][1] = U.getY();  orient.m[1][2] = U.getZ();  orient.m[1][3] = 0.f;
+        orient.m[2][0] = D.getX();  orient.m[2][1] = D.getY();  orient.m[2][2] = D.getZ();  orient.m[2][3] = 0.f;
+        orient.m[3][0] = 0.f;       orient.m[3][1] = 0.f;       orient.m[3][2] = 0.f;       orient.m[3][3] = 1.f;
+
+        trans.m[0][0] = 1.f;    trans.m[0][1] = 0.f;    trans.m[0][2] = 0.f;    trans.m[0][3] = -eye.getX();
+        trans.m[1][0] = 0.f;    trans.m[1][1] = 1.f;    trans.m[1][2] = 0.f;    trans.m[1][3] = -eye.getY();
+        trans.m[2][0] = 0.f;    trans.m[2][1] = 0.f;    trans.m[2][2] = 1.f;    trans.m[2][3] = -eye.getZ();
+        trans.m[3][0] = 0.f;    trans.m[3][1] = 0.f;    trans.m[3][2] = 0.f;    trans.m[3][3] = 1.f;
+
+        return orient * trans;
+    }
+
     inline void initIdentity(){
         for(int i = 0; i < 4; i++){
             for(int j = 0; j < 4; j++){
@@ -178,9 +199,9 @@ public:
     }
 
     inline void initOrthographicProjection(float left, float right, float top, float bottom, float zNear, float zFar){
-        m[0][0] = 2.0f / (right - left); m[0][1] = 0.0f;                m[0][2] = 0.0f;                 m[0][3] = -(right + left)/(right - left);
-        m[1][0] = 0.0f;                  m[1][1] = 2.0f/(top-bottom);   m[1][2] = 0.0f;                 m[1][3] = -(top+bottom)/(top-bottom);
-        m[2][0] = 0.0f;                  m[2][1] = 0.0f;                m[2][2] = -2.0f/(zFar - zNear); m[2][3] = -(zFar + zNear)/ (zFar - zNear);
+        m[0][0] = 2.0f / (right - left); m[0][1] = 0.0f;                m[0][2] = 0.0f;                 m[0][3] = -((right + left)/(right - left));
+        m[1][0] = 0.0f;                  m[1][1] = 2.0f/(top-bottom);   m[1][2] = 0.0f;                 m[1][3] = -((top + bottom)/(top-bottom));
+        m[2][0] = 0.0f;                  m[2][1] = 0.0f;                m[2][2] = -2.0f/(zFar - zNear); m[2][3] = -((zFar + zNear)/(zFar - zNear));
         m[3][0] = 0.0f;                  m[3][1] = 0.0f;                m[3][2] = 0.0f;                 m[3][3] = 1.0f;
     }
 

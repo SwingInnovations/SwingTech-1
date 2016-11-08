@@ -7,6 +7,14 @@ STMaterial::STMaterial() {
     texture = nullptr;
 }
 
+STMaterial::STMaterial(ShaderList shaders, TextureList textures) {
+    if(STGraphics::RENDERER == STGraphics::OPENGL){
+        init_GLShaders(shaders);
+        init_GLTextures(textures);
+    }
+    initBaseUniforms();
+}
+
 STMaterial::STMaterial(Shader *shdr) {
     shader = shdr;
     if(STGraphics::RENDERER == STGraphics::OPENGL) texture = new GLTexture();
@@ -18,43 +26,44 @@ void STMaterial::draw(std::vector<STShader::ShaderAttrib> &entityUniforms,Transf
     shader->update(T, C);
     shader->updateUniforms(entityUniforms);
     shader->updateUniforms(_uniforms);
-    if(texture->getTextureCount() > 31){
-        texture->bind(0);
-    }else{
-        for(stUint i = 0, S = texture->getTextureCount(); i < S; i++){
-            texture->bind(i);
-        }
-    }
-}
-
-
-void STMaterial::draw(std::vector<STShader::ShaderAttrib> &entityUniforms, Texture *passTexture, Transform &T, Camera &C) {
-//    shader->bind();
-//    shader->update(T, C);
-//    shader->updateUniforms(entityUniforms);
-//    shader->updateUniforms(_uniforms);
-//    auto texCount = passTexture->getTextureCount();
-//    passTexture->bind(0);
-//    passTexture->bind(1);
-//    if(passTexture->getTextureCount() > 31){
-//        passTexture->bind(0);
-//    }else{
-//        for(stUint i = 0, S = passTexture->getTextureCount(); i < S; i++){
-//            passTexture->bind(i);
-//        }
-//    }
 }
 
 void STMaterial::setDiffuseTexture(const std::string &fileName) {
     //texture->addTexture(fileName, 0);
-    _uniforms.push_back(STShader::ShaderAttrib("Material.Diffuse_Tex",
-                                               STShader::TEX,
-                                               STShader::toString(Vector2<stInt>(GLTexture::GenTex(fileName), 1))));
+    if(STGraphics::RENDERER == STGraphics::OPENGL){
+        _uniforms.push_back(STShader::ShaderAttrib("Material.Diffuse_Tex",
+                                                   STShader::TEX,
+                                                   STShader::toString(Vector2<stInt>(GLTexture::GenTex(fileName), 1))));
+    }
+
 }
 
 void STMaterial::setNormalTexture(const std::string &fileName) {
-    _uniforms.push_back(STShader::ShaderAttrib("Material.Normal_Tex",
-                                               STShader::TEX,
-                                               STShader::toString(Vector2<stInt>(GLTexture::GenTex(fileName), 2))));
+    if(STGraphics::RENDERER == STGraphics::OPENGL){
+        _uniforms.push_back(STShader::ShaderAttrib("Material.Normal_Tex",
+                                                   STShader::TEX,
+                                                   STShader::toString(Vector2<stInt>(GLTexture::GenTex(fileName), 2))));
+    }
 
 }
+
+void STMaterial::init_GLShaders(ShaderList list) {
+    if(!list.vertShader.empty()){
+        if(!list.fragShader.empty()){
+            if(!list.geomShader.empty()){
+                std::cout << "Geom Shader exists" << std::endl;
+                //TODO Initialize shader with geometry shader.
+                return;
+            }
+            shader = new GLShader(list.vertShader, list.fragShader);
+            return;
+        }
+        shader = new GLShader(list.vertShader);
+    }
+}
+
+void STMaterial::init_GLTextures(TextureList list) {
+    if(!list.diffuseTex.empty())    setDiffuseTexture(list.diffuseTex);
+    if(!list.normalTex.empty())     setNormalTexture(list.normalTex);
+}
+

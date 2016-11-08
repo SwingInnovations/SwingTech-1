@@ -10,11 +10,13 @@ uniform mat4 model;
 uniform mat4 camera;
 uniform mat4 projection;
 uniform mat4 view;
+uniform mat4 lightSpaceMatrix;
 
 out vec3 Position;
 out vec2 TexCoord;
 out vec3 Normal;
 out mat3 TBN;
+out vec4 FragPosLightSpace;
 
 void main(void){
     gl_Position = projection * view * model * vec4(position, 1.0);
@@ -33,4 +35,6 @@ void main(void){
 	Normal = N;	
 
     TBN = mat3(T, B, N);
+
+    FragPosLightSpace = transpose(lightSpaceMatrix) * vec4(Position, 1.0);
 }

@@ -29,6 +29,7 @@ public:
     void update(const std::string& name, Matrix4f);
     void update(const std::string& name, Matrix4f&, bool);
     void update_Texture(const std::string& name, stUint id);
+    void update_Texture(const std::string& name, Vector2<stInt> val);
     void update_CubeMap(const std::string& name, stUint id);
 
     std::string getShaderName(){ return m_shaderName; }

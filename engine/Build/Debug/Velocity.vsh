@@ -10,31 +10,19 @@ uniform mat4 model;
 uniform mat4 camera;
 uniform mat4 projection;
 uniform mat4 view;
-uniform mat4 lightSpaceMatrix;
-
-out vec3 Position;
+uniform mat4 cachedMVP;
+out vec4 Position;
+out vec4 LastPosition;
 out vec2 TexCoord;
-out vec3 Normal;
-out mat3 TBN;
-out vec4 FragPosLightSpace;
+
 
 void main(void){
     gl_Position = projection * view * model * vec4(position, 1.0);
 
-    Position = (model * vec4(position, 1.0)).xyz;
-
+    Position =( projection * view * model * vec4(position, 1.0));
+    LastPosition = (cachedMVP * vec4(position, 1.0));
     TexCoord = texCoord;
 
-    vec3 T = vec3(model * vec4(tangent,   0.0));
 
-  	vec3 N = vec3(model * vec4(normal,    0.0));
-
-  	
-	vec3 B = cross(T, N);
-	 	
-	Normal = N;	
-
-    TBN = mat3(T, B, N);
-
-    FragPosLightSpace = transpose(lightSpaceMatrix) * vec4(Position, 1.0);
+ 
 }

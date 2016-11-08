@@ -112,7 +112,7 @@ OBJMesh::OBJMesh(const std::string &filename) {
         in.close();
     }
 
-    int inCount = 0;
+        int inCount = 0;
 
     for(unsigned int i = 0, S = (int)_index.size(); i < S; i+=3){
         Vertex vert(_vertex.at((int)_index.at(i)), _texCoord.at((int)_index.at(i+1)), _normal.at((int)_index.at(i+2)));

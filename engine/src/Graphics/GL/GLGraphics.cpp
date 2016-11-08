@@ -12,11 +12,17 @@ GLGraphics::GLGraphics() {
 }
 
 GLGraphics::GLGraphics(STGame *game) {
+
     WIDTH = (unsigned int)game->getWidth();
     HEIGHT = (unsigned int)game->getHeight();
 
     screenQuad = new GLMesh(new STQuad);
     screenShdr = new GLShader("screen");
+    Bloom_Threshold = new GLShader("screen", "Bloom_Threshold");
+    Bloom_Composite = new GLShader("screen", "Bloom_Composite");
+    Motion_Blur = new GLShader("screen","Motion_Blur");
+    Tone_Mapping = new GLShader("screen","Tone_Mapping");
+    FXAAShader = new GLShader("screen","FXAA");
 
     FT_Library ft;
     if(FT_Init_FreeType(&ft)){ std::cout << "foo" << std::endl; }else{ std::cout << "Successfully loaded FreeType!" << std::endl; }
@@ -67,10 +73,12 @@ GLGraphics::GLGraphics(STGame *game) {
     orthoProjection.initOrthographicProjection(0, WIDTH, HEIGHT, 0, 0, 1000.0f);
 
     //Setup Albedo and lit materials for forward rendering
-    m_directionalLightMat = new STMaterial(new GLShader("standard","standard_directional_forward"));
+    m_directionalLightMat = new STMaterial(new GLShader("standard"));
     m_pointLightMat = new STMaterial(new GLShader("standard","standard_point_forward"));
     m_albedoMat = new STMaterial(new GLShader("standard","standard_abledo_forward"));
     m_IBLMat = new STMaterial (new GLShader ("standard", "standard_IBL"));
+    m_velocityMat =new STMaterial (new GLShader ("Velocity"));
+
 
     glGenVertexArrays(1, &textVAO);
     glGenBuffers(1, &textVBO);
@@ -88,28 +96,66 @@ void GLGraphics::drawScene(STScene *scene) {
     if(!rendScene.m_initiated){
         scenes[scene->getIndex()].initSkybox(scene->getSkyboxShader(), scene->getSkyboxName());
 
-        glGenFramebuffers(1, &frameBuffer);
-        glGenTextures(1, &frameTexBuffer);
-        glGenTextures(1, &velocityTexBuffer);
 
         auto w = STGame::RES_WIDTH;
         auto h = STGame::RES_HEIGHT;
+
+
+        glGenTextures(1, &velocityTexture);
+
+        glBindTexture(GL_TEXTURE_2D, velocityTexture);
+
+
+        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB16F, w, h, 0, GL_RG, GL_FLOAT, NULL);
+
+
+        glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+        glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR );
+        glBindTexture(GL_TEXTURE_2D, 0);
+
+        glGenFramebuffers(1, &bloomThresBuf);
+        glGenTextures(1, &bloomThresTex);
+
+        glBindTexture(GL_TEXTURE_2D, bloomThresTex);
+
+
+        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB32F, w, h, 0, GL_RGB, GL_FLOAT, NULL);
+
+
+        glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+        glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR );
+        glBindTexture(GL_TEXTURE_2D, 0);
+
+
+
+        glBindFramebuffer(GL_FRAMEBUFFER, bloomThresBuf);
+        glDrawBuffer(GL_NONE);
+        glReadBuffer(GL_NONE);
+        glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, bloomThresTex, 0);
+        if(glCheckFramebufferStatus(GL_FRAMEBUFFER) == GL_FRAMEBUFFER_COMPLETE) std::cout << "Successfully generated bloom buffer." << std::endl;
+        GLenum drawBuffers1[] = {GL_COLOR_ATTACHMENT0};
+        glDrawBuffers(1, drawBuffers1);
+        glBindFramebuffer(GL_FRAMEBUFFER, 0);
+
+
+
+        glGenFramebuffers(1, &frameBuffer);
+        glGenTextures(1, &frameTexBuffer);
+
 
         glBindTexture(GL_TEXTURE_2D, frameTexBuffer);
         glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB32F, w, h, 0, GL_RGB, GL_FLOAT, NULL);
         glGenerateMipmap(GL_TEXTURE_2D);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+        glBindTexture(GL_TEXTURE_2D, 0);
 
-//        glBindTexture(GL_TEXTURE_2D, velocityTexBuffer);
-//        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB32F, w, h, 0, GL_RGB, GL_FLOAT, NULL);
-//        glGenerateMipmap(GL_TEXTURE_2D);
-//        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-//        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-//        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
-//        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 
         glBindFramebuffer(GL_FRAMEBUFFER, frameBuffer);
         glFramebufferParameteri(GL_FRAMEBUFFER, GL_FRAMEBUFFER_DEFAULT_WIDTH, w);
@@ -136,9 +182,10 @@ void GLGraphics::drawScene(STScene *scene) {
 
     // Bind the frame buffer
     glBindFramebuffer(GL_FRAMEBUFFER, frameBuffer);
-    //glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, velocityTexBuffer, 0);
+
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     glEnable(GL_DEPTH_TEST);
+
     auto clearColor = STGraphics::ClearColor;
     glClearColor(0,0,0,1);
 
@@ -146,74 +193,96 @@ void GLGraphics::drawScene(STScene *scene) {
 
     auto actors = scene->getActors();
     auto lights = scene->getLights();
-/*
+
+   glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, velocityTexture, 0);
+
+    glClear(GL_COLOR_BUFFER_BIT);
+
     //Depth Pre-Pass
     for(int i =0; i< actors.size(); i++){
-        actors[i]->setShdrUniform("_GlobalAmbient",GlobalAmbient);
-        actors[i]->draw(m_albedoMat);
+        actors[i]->draw(m_velocityMat);
     }
-*/
+
     glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, frameTexBuffer, 0);
+
 
     glClearColor(clearColor.getX(), clearColor.getY(), clearColor.getZ(), clearColor.getZ());
     glClear(GL_COLOR_BUFFER_BIT);
 
-
     scenes[scene->getIndex()].drawSkybox(*camera());
 
 
+    glDisable(GL_BLEND);
+    glDepthFunc(GL_EQUAL);
+    glDepthMask(GL_TRUE);
 
-
-
-
-    //IBL Pass
-    for(int i =0; i < actors.size(); i++) {
-        actors[i]->setShdrUniform("_GlobalAmbient", GlobalAmbient);
-        actors[i]->setShdrUniform_CubeMap("_WorldCubeMap", scenes[scene->getIndex()].m_skybox);
-        actors[i]->setShdrUniform("_CameraPos", camera()->transform()->getTranslate<stReal>());
-        //actors[i]->draw(m_IBLMat);
-        actors[i]->draw();
-    }
-
-
-     glDepthFunc(GL_EQUAL);
-
-      glDepthMask(GL_FALSE);
-      glEnable(GL_BLEND);
-    glBlendFunc(GL_ONE, GL_ONE);
-
-    //Forward Pass
     for(int i =0; i < actors.size(); i++){
         for(int j =0; j < lights.size(); j++) {
+            actors[i]->setShdrUniform("_CameraPos", camera()->transform()->getTranslate<stReal>());
+            actors[i]->setShdrUniform_CubeMap("_WorldCubeMap", scenes[scene->getIndex()].m_skybox);
 
-            actors[i]->setShdrUniform("Light.Color", lights[j]->color);
-            actors[i]->setShdrUniform("Light.Intensity", lights[j]->intensity);
-            actors[i]->setShdrUniform("Light.Position", lights[j]->transform()->getTranslate<stReal>());
-            actors[i]->setShdrUniform("Light.Direction", lights[j]->direction);
-            actors[i]->setShdrUniform("Light.Radius", lights[j]->radius);
-
-            switch(lights[j]->type) {
-                case STLight::DirectionalLight: {
-                    actors[i]->draw(m_directionalLightMat);
-                    break;
-                }
-                case STLight::PointLight: {
-                    //actors[i]->draw(m_pointLightMat);
-                    break;
-                }
-                case STLight::SpotLight: {
-                    break;
-                }
-            }
+            actors[i]->setShdrUniform("Light["+std::to_string(j)+"].Color", lights[j]->color);
+            actors[i]->setShdrUniform("Light["+std::to_string(j)+"].Intensity", lights[j]->intensity);
+            actors[i]->setShdrUniform("Light["+std::to_string(j)+"].Position", lights[j]->transform()->getTranslate<stReal>());
+            actors[i]->setShdrUniform("Light["+std::to_string(j)+"].Direction", lights[j]->direction);
+            actors[i]->setShdrUniform("Light["+std::to_string(j)+"].Radius", lights[j]->radius);
         }
+
+
+        actors[i]->draw();
+
     }
+
+
+//    //IBL Pass
+//    for(int i =0; i < actors.size(); i++) {
+//        actors[i]->setShdrUniform("_GlobalAmbient", GlobalAmbient);
+//        actors[i]->setShdrUniform_CubeMap("_WorldCubeMap", scenes[scene->getIndex()].m_skybox);
+//        actors[i]->setShdrUniform("_CameraPos", camera()->transform()->getTranslate<stReal>());
+//        actors[i]->draw(m_IBLMat);
+//    }
+//
+//    glEnable(GL_BLEND);
+//    glBlendFunc(GL_ONE,GL_ONE);
+//    glDepthFunc(GL_EQUAL);
+//
+//
+//    //Forward Pass
+//    for(int i =0; i < actors.size(); i++){
+//        for(int j =0; j < lights.size(); j++) {
+//
+//            actors[i]->setShdrUniform("Light.Color", lights[j]->color);
+//            actors[i]->setShdrUniform("Light.Intensity", lights[j]->intensity);
+//            actors[i]->setShdrUniform("Light.Position", lights[j]->transform()->getTranslate<stReal>());
+//            actors[i]->setShdrUniform("Light.Direction", lights[j]->direction);
+//            actors[i]->setShdrUniform("Light.Radius", lights[j]->radius);
+//
+//            switch(lights[j]->type) {
+//                case STLight::DirectionalLight: {
+//                    actors[i]->draw(m_directionalLightMat);
+//                    break;
+//                }
+//                case STLight::PointLight: {
+//                    actors[i]->draw(m_pointLightMat); // Enabling this draws black cube
+//                    break;
+//                }
+//                case STLight::SpotLight: {
+//                    break;
+//                }
+//            }
+//        }
+//    }
 
 
     glDisable(GL_BLEND);
     glDepthFunc(GL_LESS);
     glDepthMask(GL_TRUE);
 
+
+
     glBindFramebuffer(GL_FRAMEBUFFER, 0);
+
+
 
 
     glDisable(GL_DEPTH_TEST);
@@ -221,12 +290,151 @@ void GLGraphics::drawScene(STScene *scene) {
 
     glDisable(GL_CULL_FACE);
 
+    if((m_enabledEffects&BLOOM)>0)Bloom();
+    if((m_enabledEffects&MOTION_BLUR)>0)MotionBlur();
+    if((m_enabledEffects&TONE_MAPPING)>0)ToneMapping();
+    if((m_enabledEffects&FXAA)>0)RenderScreenWithShader(FXAAShader);
+
 
     glClearColor(1.0, 1.0, 1.0, 1.0);
 
+
+
     screenShdr->bind();
+    glActiveTexture(GL_TEXTURE0);
     glBindTexture(GL_TEXTURE_2D, frameTexBuffer);
     screenQuad->draw();
+    screenShdr->unbind();
+
+
+
+}
+
+
+
+void GLGraphics::Bloom(){
+
+
+
+    glBindFramebuffer(GL_FRAMEBUFFER, bloomThresBuf);
+
+    glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, bloomThresTex, 0);
+
+
+
+    Bloom_Threshold->bind();
+    glActiveTexture(GL_TEXTURE0);
+    glBindTexture(GL_TEXTURE_2D, frameTexBuffer);
+    screenQuad->draw();
+    glBindFramebuffer(GL_FRAMEBUFFER, 0);
+    glBindTexture(GL_TEXTURE_2D,bloomThresTex);
+    glGenerateMipmap(GL_TEXTURE_2D);
+    glBindTexture(GL_TEXTURE_2D,0);
+
+
+    glBindFramebuffer(GL_FRAMEBUFFER, frameBuffer);
+
+    glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, frameTexBuffer, 0);
+
+
+
+    Bloom_Composite->bind();
+    glActiveTexture(GL_TEXTURE0);
+    glBindTexture(GL_TEXTURE_2D, frameTexBuffer);
+    glActiveTexture(GL_TEXTURE1);
+    glBindTexture(GL_TEXTURE_2D, bloomThresTex);
+    screenQuad->draw();
+    Bloom_Composite->unbind();
+
+    glBindFramebuffer(GL_FRAMEBUFFER, 0);
+
+
+}
+
+
+void GLGraphics::MotionBlur(){
+
+
+
+    glBindFramebuffer(GL_FRAMEBUFFER, frameBuffer);
+
+    glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, frameTexBuffer, 0);
+
+
+
+    Motion_Blur->bind();
+    glActiveTexture(GL_TEXTURE0);
+    glBindTexture(GL_TEXTURE_2D, frameTexBuffer);
+    glActiveTexture(GL_TEXTURE1);
+    glBindTexture(GL_TEXTURE_2D, velocityTexture);
+    screenQuad->draw();
+    Motion_Blur->unbind();
+
+    glBindFramebuffer(GL_FRAMEBUFFER, 0);
+
+
+
+
+}
+
+
+void GLGraphics::ToneMapping() {
+
+    glBindFramebuffer(GL_FRAMEBUFFER, frameBuffer);
+
+    glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, frameTexBuffer, 0);
+
+
+    Tone_Mapping->bind();
+    glActiveTexture(GL_TEXTURE0);
+    glBindTexture(GL_TEXTURE_2D, frameTexBuffer);
+    screenQuad->draw();
+    Tone_Mapping->unbind();
+
+    glBindFramebuffer(GL_FRAMEBUFFER, 0);
+
+
+
+
+}
+
+
+void GLGraphics::RenderScreenWithShader(const std::string& shaderName) {
+
+    GLShader* tempShader = new GLShader("screen",shaderName);
+
+    glBindFramebuffer(GL_FRAMEBUFFER, frameBuffer);
+
+    glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, frameTexBuffer, 0);
+
+
+    tempShader->bind();
+    glActiveTexture(GL_TEXTURE0);
+    glBindTexture(GL_TEXTURE_2D, frameTexBuffer);
+    screenQuad->draw();
+    tempShader->unbind();
+
+    glBindFramebuffer(GL_FRAMEBUFFER, 0);
+
+    delete tempShader;
+}
+
+void GLGraphics::RenderScreenWithShader(GLShader* shader) {
+
+
+    glBindFramebuffer(GL_FRAMEBUFFER, frameBuffer);
+
+    glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, frameTexBuffer, 0);
+
+
+    shader->bind();
+    glActiveTexture(GL_TEXTURE0);
+    glBindTexture(GL_TEXTURE_2D, frameTexBuffer);
+    screenQuad->draw();
+    shader->unbind();
+
+    glBindFramebuffer(GL_FRAMEBUFFER, 0);
+
 }
 
 void GLGraphics::drawText(Vector2<stReal> pos, const std::string& text, stReal fontSize) {

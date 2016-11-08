@@ -22,6 +22,13 @@ struct STRenderScene{
 
 class STGraphics {
 public:
+    enum POST_EFFECT: unsigned int
+    {
+        BLOOM = 1,
+        MOTION_BLUR = 2,
+        TONE_MAPPING=4,
+        FXAA=8
+    };
     enum RenderMode{ FORWARD, DEFERRED };
     enum Renderer{ OPENGL, VULKAN };
     static int RENDERER;
@@ -46,8 +53,6 @@ public:
     virtual void initScene(stUint index){;}
     virtual void drawScene(STScene* scene) = 0;
     virtual void setShader(int,Shader*){;}
-    virtual void enableBlend(){;}
-    virtual void disableBlend(){;}
 
     /*
      *
@@ -69,18 +74,31 @@ public:
     virtual void drawText(Vector2<stReal> pos, const std::string& text, stReal fontSize, stReal v1, stReal v2, stReal v3){ ; }
     virtual void drawText(Vector2<stReal> pos, const std::string& text, stReal fontSize, Vector3<stReal> vector){ ; }
 
+    virtual void setShadowMapWidth(stUint w) = 0;
+    virtual void setShadowMapHeight(stUint h) = 0;
+    virtual void enableBlend() = 0;
+    virtual void disableBlend() = 0;
+
     virtual Matrix4f getOrthographicProjection()const{ return Matrix4f(); }
 
     Camera* camera(){
         return m_Cam;
     }
 
+    void enablePostEffect(int index){
+        m_enabledEffects|=index;
+    }
+
+    void disablePostEffect(int index){
+        m_enabledEffects&=~index;
+    }
+
 
 protected:
+    unsigned int m_enabledEffects = 0x00000000;
     unsigned int WIDTH, HEIGHT;
     Camera* m_Cam;
     Vector4<stReal> m_fontColor;
-
 };
 
 

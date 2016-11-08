@@ -31,7 +31,7 @@ GLMesh::GLMesh(const std::string &fileName, int type) {
             normal.push_back(*tMesh->verticies[i].getNormal());
         }
         index = tMesh->indicies;
-        tangent = genTangent(vertex, texCoord);
+        tangent = new_GenTangent(normal);
         biTangent = genBiTangent(vertex, texCoord);
         delete tMesh;
     }
@@ -365,15 +365,21 @@ GLMesh::~GLMesh() {
 }
 
 void GLMesh::draw() {
-    glBindVertexArray(m_VAO);
+    if(m_VAO && m_drawCount > 0 && m_drawCount % 3 == 0){
+        glBindVertexArray(m_VAO);
 
-    glDrawElements(GL_TRIANGLES, m_drawCount, GL_UNSIGNED_INT, 0);
+        glDrawElements(GL_TRIANGLES, m_drawCount, GL_UNSIGNED_INT, 0);
 
-    glBindVertexArray(0);
+        glBindVertexArray(0);
+    }else{
+        std::cout << "Something is wrong" << std::endl;
+    }
+
 }
 
 void GLMesh::draw(int drawMode) {
-    GLenum mode;
+    if(m_VAO && m_drawCount > 0 && m_drawCount % 3 == 0){
+        GLenum mode;
         if(drawMode == STMesh::DrawMode::LINES){
             mode = GL_LINES;
         }else if(drawMode == STMesh::DrawMode::TRIANGLES){
@@ -387,4 +393,8 @@ void GLMesh::draw(int drawMode) {
         glDrawElements(mode, m_drawCount, GL_UNSIGNED_INT, 0);
 
         glBindVertexArray(0);
+    }else{
+        std::cout << "Something is wrong" << std::endl;
+    }
+
 }

@@ -94,16 +94,21 @@ public:
     void addShdrUniform(const std::string& name, Matrix4f value);
     void addShdrUniform_Texture(const std::string& name, stUint tag);
     void addShdrUniform_CubeMap(const std::string& name, stUint tag);
+    void setDiffuseTexture(const std::string& fileName);
+    void setNormalTexture(const std::string& fileName);
 
     void setShdrUniform(const std::string& name, int value);
     void setShdrUniform(const std::string& name, float value);
     void setShdrUniform(const std::string& name, Vector3<stReal> value);
     void setShdrUniform(const std::string& name, Vector4<stReal> value);
     void setShdrUniform(const std::string& name, Matrix4f value);
+    void setShdrUniform_Texture(const std::string& name, stUint id, stUint index);
     void setShdrUniform_Texture(const std::string& name, stUint tag);
     void setShdrUniform_CubeMap(const std::string& name, stUint tag);
 
     STEntity* childAtTag(const std::string& tag);
+    inline stUint getChildSize(){ return m_children.size(); }
+
 
     void setVisible(bool value);
     bool isVisible();

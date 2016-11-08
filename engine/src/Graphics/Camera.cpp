@@ -87,9 +87,9 @@ void Camera::update(Input* input) {
             stReal x = transform()->getTranslate<stReal>().getX();
             stReal y = transform()->getTranslate<stReal>().getY();
             stReal z = transform()->getTranslate<stReal>().getZ();
-            x -= m_Forward.getX() * m_Speed * delta;
+            x += m_Forward.getX() * m_Speed * delta;
             y -= m_Forward.getY() * m_Speed * delta;
-            z -= m_Forward.getZ() * m_Speed * delta;
+            z += m_Forward.getZ() * m_Speed * delta;
             transform()->setTranslateX(x);
             transform()->setTranslateY(y);
             transform()->setTranslateZ(z);
@@ -98,9 +98,9 @@ void Camera::update(Input* input) {
             stReal x = transform()->getTranslate<stReal>().getX();
             stReal y = transform()->getTranslate<stReal>().getY();
             stReal z = transform()->getTranslate<stReal>().getZ();
-            x += m_Forward.getX() * m_Speed * delta;
+            x -= m_Forward.getX() * m_Speed * delta;
             y += m_Forward.getY() * m_Speed * delta;
-            z += m_Forward.getZ() * m_Speed * delta;
+            z -= m_Forward.getZ() * m_Speed * delta;
             transform()->setTranslateX(x);
             transform()->setTranslateY(y);
             transform()->setTranslateZ(z);
@@ -111,8 +111,8 @@ void Camera::update(Input* input) {
             stReal x = transform()->getTranslate<stReal>().getX();
             stReal z = transform()->getTranslate<stReal>().getZ();
 
-            x -= right.getX() * m_Speed * delta;
-            z -= right.getZ() * m_Speed * delta;
+            x += right.getX() * m_Speed * delta;
+            z += right.getZ() * m_Speed * delta;
             transform()->setTranslateX(x);
             transform()->setTranslateZ(z);
         }
@@ -121,8 +121,8 @@ void Camera::update(Input* input) {
             stReal x = transform()->getTranslate<stReal>().getX();
             stReal z = transform()->getTranslate<stReal>().getZ();
 
-            x += right.getX() * m_Speed * delta;
-            z += right.getZ() * m_Speed * delta;
+            x -= right.getX() * m_Speed * delta;
+            z -= right.getZ() * m_Speed * delta;
             transform()->setTranslateX(x);
             transform()->setTranslateZ(z);
         }
@@ -207,7 +207,8 @@ Matrix4f Camera::getViewProjection() const {
 Matrix4f Camera::getView() const {
     Matrix4f Camera, TransformTranslate;
     Camera.initCamera(m_Forward, m_Up);
-    TransformTranslate.initTranslation(m_transform.getTranslate<stReal>());
+    auto transVec = m_transform.getTranslate<stReal>();
+    TransformTranslate.initTranslation(-transVec.getX(), transVec.getY(), -transVec.getZ());
     return Camera * TransformTranslate;
 }
 

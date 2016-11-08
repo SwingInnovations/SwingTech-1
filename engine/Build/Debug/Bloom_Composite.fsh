@@ -11,7 +11,7 @@ out vec4 color;
 
 void main(void){
 	float k =5;
-	float radius=.02;
+	float radius=.03;
 	vec3 sum=vec3(0);
 	float brightness=pow(min(length(texture2D(threshTex, TexCoord)),1),2)*.5;
 	for(int i=0; i<k; i++){

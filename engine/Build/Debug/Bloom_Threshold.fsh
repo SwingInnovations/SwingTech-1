@@ -7,9 +7,14 @@ uniform sampler2D tex;
 
 out vec4 color;
 
+float getLuma(vec3 color){
+
+		vec3 luma = vec3(.02126,0.7152,0.0722);
+		return dot(color,luma);
+}
 void main(void){
 	vec3 c =texture2D(tex,TexCoord).rgb;
-	if(length(sqrt(c.r*c.r+c.g*c.g+c.b*c.b))>1.5)
+	if(getLuma(c)>1)
 		color = texture2D(tex,TexCoord);
 	else
 	    color = vec4(0,0,0,1);

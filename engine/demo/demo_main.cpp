@@ -48,13 +48,13 @@ public:
 //         }
         STGame::Get()->getCamera()->setSpeed(0.005f);
 
-        _testActor2 = new STActor("sphere.obj", STMesh::OBJ, resManager->getMaterial("default"));
+        _testActor2 = new STActor("teapot.obj", STMesh::OBJ, resManager->getMaterial("default"));
         //_testActor2->setTranslateX(1);
         _testActor2->setShdrUniform("_Metallic", 0.0f);
         _testActor2->setShdrUniform("_Roughness",0.1f);
         _testActor2->setScale(1);
         _testActor2->setDiffuseTexture("grid.png");
-        _testActor2->setNormalTexture("T_Thumper_Stock_N.png");
+        _testActor2->setNormalTexture("testNormal.png");
         mat->setBaseColor(Vector3<stReal>(.7,.7,.7));
       //  _testActor2->setRotateX(90);
        // _testActor2->setRotateY(90);

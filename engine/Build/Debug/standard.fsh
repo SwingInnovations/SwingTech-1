@@ -214,7 +214,7 @@ vec3 BlendMaterial_IBL(vec3 Spec, vec3 Base,float fresnel){
 
 	
 	
-	vec3 dialectric = texture2D(Material.Diffuse_Tex,TexCoord).xyz+ vec3(fresnel*Spec*.6);
+	vec3 dialectric = texture2D(Material.Diffuse_Tex,TexCoord).xyz+ vec3(fresnel*Spec);
 	vec3 metal = Base*Spec;
 
 	return mix(dialectric,metal,_Metallic);
@@ -253,7 +253,7 @@ void main(void){
 	///*Ommiting ambient Lighting for now*/vec3 diffuse =mix(baseColor*NdotL*_LightColor,((1- NdotL*_LightColor)*PreFilterEnvMap(1,2* dot(V,Normal)*Normal-V,10)),.4);
 	
 	//vec3 diffuse =mix(baseColor*NdotL*_LightColor,((1- NdotL*_LightColor)*PreFilterEnvMap(1,2* dot(V,Normal)*Norm-V,100)),.4);
-    float fresnel = pow(1- dot(( Norm),V),1);
+    float fresnel = pow(1- dot(( Norm),V),r);
     
    vec3 IBL =  BlendMaterial_IBL(Spec_Cook_Torrance,Material.BaseColor ,fresnel);
 

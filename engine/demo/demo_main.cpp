@@ -47,11 +47,11 @@ public:
 //         }
         STGame::Get()->getCamera()->setSpeed(0.005f);
 
-        _testActor2 = new STActor("sphere.obj", STMesh::OBJ, resManager->getMaterial("default"));
+        _testActor2 = new STActor("teapot.obj", STMesh::OBJ, resManager->getMaterial("default"));
         //_testActor2->setTranslateX(1);
         _testActor2->setShdrUniform("_Metallic", 0.0f);
         _testActor2->setShdrUniform("_Roughness",0.1f);
-        _testActor2->setScale(1);
+        _testActor2->setScale(0.01);
         _testActor2->setDiffuseTexture("grid.png");
         _testActor2->setNormalTexture("testNormal.png");
         mat->setBaseColor(Vector3<stReal>(.7,.7,.7));
@@ -75,8 +75,6 @@ public:
         _testLight2 = new STLight(Vector3<stReal>(1,1,1),Vector3<stReal>(1,1,1));
         _testLight2->intensity =2;
         _testLight2->radius=-1;
-        // _testLight->setTranslateZ(1.2f);
-        // _testLight->setTranslateX(1.2f);
 
         scene->addSkybox("mystic", "skybox");
 
@@ -88,45 +86,9 @@ public:
         STGraphics::ClearColor = Vector4<stReal>(0.0, 0.0, 0.168, 1.0);
     }
 
-    void handleInput(STGame * win, Uint32 delta){
-        Input* input = win->getInput();
-        auto cam = win->getCamera();
-        // std::cout << "Camera Position: " << cam->transform()->getTranslate<stReal>().getInfo() << std::endl;
-        if(input->isKeyPressed(KEY::KEY_ESC)){
-            input->requestClose();
-        }
-        if(input->isKeyPressed(KEY::KEY_O)){
-
-
-        }
-        if(input->isKeyPressed(KEY::KEY_Q)){
-            bool state = input->isCursorBound();
-            input->setCursorBound(!state);
-            input->setCursorVisible(state);
-        }
-
-        if(input->isKeyPressed(KEY::KEY_6)) currObject = 0;
-
-        if(input->isKeyPressed(KEY::KEY_7)) currObject = 1;
-
-        if(input->isKeyPressed(KEY::KEY_0)){
-            win->getCamera()->centerCam(input);
-        }
-    }
-
-    void handleLogic(STGame * win, Uint32 delta){
-//        int count=0;
-//        for (int i = 0; i< 5; i++) {
-//            for(int j = 0; j< 5; j++) {
-//                _testActors.at(count)->update();
-//                count++;
-//            }
-//        }
-        counter += 0.025f * delta;
-        // _testLight2->intensity=sin(counter * 0.1f)*.5+1;
-        _testActor2->setTranslateX(sin(counter * 1.0f));
-        //   _testActor2->setRotateY(counter*50 );
-        //  _testLight2->setTranslateY(3.0f*std::sin(counter*.02f+3));
+    void update(STGame* game, stUint delta){
+        auto input = Input::Get();
+        if(input->isKeyPressed(KEY::KEY_ESC)) input->requestClose();
     }
 
     void render(STGame * win){
@@ -182,7 +144,7 @@ int main(int argc, char** argv){
     win->addCamera(new Camera(*win, campos, 0));
     win->addState(new TestState(0));
     win->enterState(0);
-    win->getGraphics()->enablePostEffect(STGraphics::BLOOM | STGraphics::MOTION_BLUR | STGraphics::FXAA );
+    //win->getGraphics()->enablePostEffect(STGraphics::BLOOM | STGraphics::MOTION_BLUR | STGraphics::FXAA );
     win->start();
 
     return 0;

@@ -182,11 +182,8 @@ protected:
     bool isRunning;
     //! Initializes Game States
     void init(); /*! Initializes Game states when necessary, deactivates last state */
-    //! Updates Logical operations
-    void updateLogic(); /*! Updates on every delta tick. */
-    //! Updates Input Operations
-    void updateInput(SDL_Event& event);/*! Operates on every input event*/
     //! Renders Scene
+    void update();
     void render();
     //! Calculates Delta for every CPU cycle
     void calcDelta();

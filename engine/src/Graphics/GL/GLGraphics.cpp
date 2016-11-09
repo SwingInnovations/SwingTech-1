@@ -298,15 +298,11 @@ void GLGraphics::drawScene(STScene *scene) {
 
     glClearColor(1.0, 1.0, 1.0, 1.0);
 
-
-
     screenShdr->bind();
     glActiveTexture(GL_TEXTURE0);
     glBindTexture(GL_TEXTURE_2D, frameTexBuffer);
     screenQuad->draw();
     screenShdr->unbind();
-
-
 
 }
 

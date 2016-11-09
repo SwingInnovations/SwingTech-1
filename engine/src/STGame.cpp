@@ -134,10 +134,8 @@ void STGame::start(){
         }else{
             delta = 0;
         }
-        while(SDL_PollEvent(&m_e)){
-            updateInput(m_e);
-        }
-        updateLogic();
+        if(SDL_PollEvent(&m_e)) Input::Get()->poll(m_e);
+        update();
 
         render();
     }
@@ -153,29 +151,19 @@ void STGame::init() {
     }
 }
 
-void STGame::updateLogic() {
-    if(!m_gameStates.empty()){
-        m_gameStates.at(m_currentIndex)->handleLogic(this, delta);
-    }
-    if(getCamera() != nullptr){
-        getCamera()->update(getInput());
-    }
-}
-
 void STGame::enterState(unsigned int index) {
     if(!m_gameStates.empty() && index < m_gameStates.size()){
         m_currentIndex = index;
     }
 }
 
-void STGame::updateInput(SDL_Event& event) {
-    Input::Get()->poll(event);
-
-    if(Input::Get()->isCloseRequested()){
+void STGame::update() {
+    auto input = Input::Get();
+    if(input->isCloseRequested()){
         isRunning = false;
     }
-    if(!m_gameStates.empty()){ m_gameStates.at(m_currentIndex)->handleInput(this, delta); }
-
+    if(getCamera() != nullptr) getCamera()->update(input);
+    if(!m_gameStates.empty() && m_currentIndex < m_gameStates.size()) m_gameStates.at(m_currentIndex)->update(this, delta);
 }
 
 void STGame::render() {

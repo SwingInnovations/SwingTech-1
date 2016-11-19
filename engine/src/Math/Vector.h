@@ -101,22 +101,35 @@ public:
         return sqrt(_x * _x + _y * _y);
     }
 
+    /**
+     * Normalizes Vector
+     * @return vector normalized.
+     */
     Vector2 normalize(){
         m_val[0] /= getLength();
         m_val[1] /= getLength();
         return *this;
     }
 
+    /**
+     * Calculates the dot product
+     * @param other
+     * @return Dot product of two vectors.
+     */
     inline double dot(Vector2& other){
         double x = this->getX();
         double y = this->getY();
         double _x = other.getX();
         double _y = other.getY();
 
-        return sqrt( x * _x + _y * y);
+        return x * _x + y * _y;
     }
 
-    std::string info(){
+    /**
+     * Printed components of the Vector
+     * @return
+     */
+    std::string info()const{
         return "X: " << getX() << "Y: " << getY() << "/n";
     }
 
@@ -176,24 +189,48 @@ private:
 template<typename T>
 class Vector3 {
 public:
+    /**
+     * Default Vector3 Constructor
+     * @return
+     */
     Vector3(){
         m_Val[0] = 0;
         m_Val[1] = 0;
         m_Val[2] = 0;
     }
 
+    /** Vector3 Constructor
+     *
+     * @param _x - X Component
+     * @param _y - Y Component
+     * @param _z - Z Component
+     * @return Vector3()
+     */
     Vector3(T _x, T _y, T _z){
         m_Val[0] = _x;
         m_Val[1] = _y;
         m_Val[2] = _z;
     }
 
+    /**Vector3 Constructor that expands a Vector2
+     *
+     * @param in Vector 2 that will occupy the X and Y Components
+     * @param _z - Z Component
+     * @return
+     */
     Vector3(Vector2<T> in, T _z){
         m_Val[0] = in.getX();
         m_Val[1] = in.getY();
         m_Val[2] = 0.0;
     }
 
+    /**Linearly interpolates between two vectors.
+     *
+     * @param start     Start Vector
+     * @param end       Destination Vector
+     * @param step      Progression between two vectors(0.0-1.0)
+     * @return  Interpolated Vector based on progression.
+     */
     static Vector3 Lerp(const Vector3& start, const Vector3& end, const stReal& step){
         stReal st1 = 1.0f - step;
         const T x = (st1 * start.getX()) + (step * end.getX());
@@ -212,13 +249,17 @@ public:
 
     inline T* getData(){ return m_Val; }
 
-    inline double getLength(){
+    inline double getLength()const{
         double _x = (double)getX();
         double _y = (double)getY();
         double _z = (double)getZ();
         return sqrt(pow(_x, 2) + pow(_y, 2) + pow(_z, 2));
     }
 
+    /**
+     *  Normalizes the Vector.
+     * @return Normalized Vector
+     */
     inline Vector3 normalize(){
         auto len = getLength();
         if(len > 0){
@@ -236,12 +277,21 @@ public:
         return *this;
     }
 
+    /**
+     * Printed components of the Vector
+     * @return Componenets in stirng form.
+     */
     inline std::string getInfo() const {
         std::ostringstream str;
         str << "[ X: " << m_Val[0] << " Y: " << m_Val[1] << " Z: " << m_Val[2] <<" ] " << std::endl;
         return str.str();
     }
 
+    /**Rotates the Vector by an angle and Axis
+     *
+     * @param angle Amount to rotate(degrees)
+     * @param axis  Vector3 Axis
+     */
     inline void rotate(stReal angle, Vector3& axis){
         float hSinF = sinf(toRadian(angle/2));
         float hCosF = cosf(toRadian(angle/2));
@@ -261,10 +311,20 @@ public:
         this->m_Val[2] = W.getZ();
     }
 
+    /**Calculate the Dot Product between two vectos
+     *
+     * @param other
+     * @return Dot Product.
+     */
     inline double dot(const Vector3& other){
-        return sqrt(this->getX() * other.getX() + this->getY() * other.getY() + other.getZ() * other.getZ());
+        return this->getX() * other.getX() + this->getY() * other.getY() + other.getZ() * other.getZ();
     }
 
+    /**Calculates the Cross Product between two vectors.
+     *
+     * @param other Other Vector
+     * @return Vector3 that is perpendicular to the two inputted vectors.
+     */
     inline Vector3 cross(const Vector3& other)const{
         T _x = (this->getY() * other.getZ()) - (this->getZ() * other.getY());
         T _y = (this->getZ() * other.getX()) - (this->getX() * other.getZ());

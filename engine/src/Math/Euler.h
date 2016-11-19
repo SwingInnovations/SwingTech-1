@@ -4,18 +4,33 @@
 template<class T>
 class Euler{
 public:
+    /** Default Euler Constructor
+     *
+     * @return
+     */
     Euler(){
         m_val[0] = 0;
         m_val[1] = 0;
         m_val[2] = 0;
     }
 
+    /** Euler Constructor
+     *
+     * @param _x    x Component
+     * @param _y    Y Component
+     * @param _z    Z Component
+     * @return
+     */
     Euler(const T &_x, const T &_y, const T &_z) {
         m_val[0] = _x;
         m_val[1] = _y;
         m_val[2] = _z;
     }
 
+    /** Sets Euler components from Vector3 componenets.
+     *
+     * @param other
+     */
     inline void set(const Vector3<stReal> other){
         m_val[0] = (T)other.getX();
         m_val[1] = (T)other.getY();

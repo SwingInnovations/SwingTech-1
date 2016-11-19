@@ -140,6 +140,7 @@ void STGame::start(){
         render();
     }
     m_gameStates.clear();
+    if(Input::m_instance != nullptr) delete Input::m_instance;
     if(STGame::m_instance != nullptr) delete STGame::m_instance;
 }
 
@@ -201,4 +202,16 @@ STGame *STGame::Init(const std::string &title, const stUint WIDTH, const stUint 
 
 STGame *STGame::Get() {
     return m_instance;
+}
+
+void STGame::setIcon(const std::string &filePath) {
+    SDL_Surface* img = NULL;
+    img = IMG_Load(filePath.c_str());
+    if(img == NULL){
+        std::cerr << "Failed to load filepath. Invalid file?" << std::endl;
+    }
+    SDL_SetWindowIcon(m_Window, img);
+
+    SDL_FreeSurface(img);
+    img = 0;
 }

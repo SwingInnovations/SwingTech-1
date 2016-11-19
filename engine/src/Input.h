@@ -176,11 +176,14 @@ public:
     Input();
     Input(STGame * app, SDL_Event& e);
     ~Input();
-
+    
     void poll(SDL_Event&);
     inline void requestClose(){ closeRequested = true; }
     void setCursorVisible(bool);
 
+    /** Centers cursor to window.
+     *
+     */
     void centerMouseInWindow();
 
     static Input* Get();

@@ -1,0 +1,40 @@
+in vec3 Position;
+in vec3 Normal;
+in vec2 TexCoord;
+in mat3 TBN;
+
+
+struct STLight
+{
+	vec3 Color;
+	vec3 Position;
+	vec3 Direction;
+	float Radius;
+	float Intensity;
+
+};
+
+
+
+struct STMaterial
+{
+	vec3 BaseColor;
+	sampler2D Diffuse_Tex;
+	sampler2D Normal_Tex;
+};
+uniform STMaterial Material;
+
+
+ uniform float _Metallic;
+ uniform float _Roughness;
+
+
+uniform samplerCube _WorldCubeMap;
+ vec3 _GlobalAmbient;
+uniform vec3 _CameraPos;
+
+uniform STLight Light[2];
+
+out vec4 color;
+
+const float PI = 3.14159265359;

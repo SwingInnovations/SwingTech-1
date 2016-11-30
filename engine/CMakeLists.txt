@@ -20,5 +20,5 @@ set(LUA ${PROJECT_SOURCE_DIR}/lib/liblua.a)
 add_executable(SwingTech1 main.cpp ${SOURCE_FILES} )
 target_link_libraries(SwingTech1 SDL2main SDL2 SDL2_image glew32 opengl32 FREETYPE; ${LUA})
 
-add_executable(demoSwing demo/demo_main.cpp ${SOURCE_FILES})
+add_executable(demoSwing demo/demo_main.cpp ${SOURCE_FILES} src/Entity/Util/GLSLPreprocessor.h)
 target_link_libraries(demoSwing SDL2main SDL2 SDL2_image glew32 opengl32 FREETYPE; ${LUA})

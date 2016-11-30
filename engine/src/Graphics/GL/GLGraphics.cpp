@@ -177,6 +177,10 @@ void GLGraphics::drawScene(STScene *scene) {
         glBindFramebuffer(GL_FRAMEBUFFER, 0);
         glViewport(0, 0, w, h);
 
+        for(stInt i = 0, S = scene->getLights().size(); i < S; i++){
+            //TODO Generate Lights here.
+        }
+
         scenes[scene->getIndex()].m_initiated = true;
     }
 

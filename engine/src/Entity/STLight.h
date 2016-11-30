@@ -12,8 +12,6 @@
 #include "Components/STEventComponent.h"
 
 
-
-
 class STLight :public STEntity{
 public:
 
@@ -25,16 +23,11 @@ public:
     };
 
     STLight(Vector3<stReal> direction , Vector3<stReal> color){
-        this->direction = direction;
+        this->direction = Vector4<stReal>(direction, 0.0);
         this->color = color;
         intensity =.5f;
         m_transform = new Transform();
-        //m_material = new STMaterial(new GLShader("standard"));
-        //addComponent(typeid(STEventComponent),new STEventComponent());
-        //addComponent(typeid(STGraphicsComponent), new STGraphicsComponent(m_material));
-        //addComponent(typeid(STMeshComponent), new STMeshComponent());
         type = DirectionalLight;
-
     }
 
     STLight(stReal radius , Vector3<stReal> color){
@@ -42,27 +35,19 @@ public:
         this->color = color;
         intensity=.5f;
         m_transform = new Transform();
-        //m_material = new STMaterial(new GLShader("standard"));
-        //addComponent(typeid(STEventComponent),new STEventComponent());
-        //addComponent(typeid(STGraphicsComponent), new STGraphicsComponent(m_material));
-        //addComponent(typeid(STMeshComponent), new STMeshComponent());
         type = PointLight;
         auto ent = new STEntity("sphere.obj", STMesh::OBJ, new GLShader("LightVis"));
         ent->setShdrUniform("lightColor", color);
         this->addChild(ent);
     }
 
-    STLight(stReal coneAngle , stReal coneHeight){
+    STLight(Vector3<stReal> direction, stReal coneAngle , stReal coneHeight){
         this->coneAngle= coneAngle;
         this->coneHeight = coneHeight;
+        this->direction = Vector4<stReal>(direction, 1.0);
         intensity=.5f;
         m_transform = new Transform();
-        //m_material = new STMaterial(new GLShader("standard"));
-        //addComponent(typeid(STEventComponent),new STEventComponent());
-        //addComponent(typeid(STGraphicsComponent), new STGraphicsComponent(m_material));
-        //addComponent(typeid(STMeshComponent), new STMeshComponent());
         type = SpotLight;
-
     }
 
     ~STLight(){
@@ -78,7 +63,7 @@ public:
 
 
     //Directional Light Attributes
-    Vector3<stReal> direction;
+    Vector4<stReal> direction;
 
 
     //Point Light Attributes
@@ -88,8 +73,9 @@ public:
     stReal coneAngle;
     stReal coneHeight;
 
+    stUint shadowMapID;
+    stUint shadowFrameBuffer;
 private :
-    stInt shadowMapID;
     STMaterial* m_material;
 };
 

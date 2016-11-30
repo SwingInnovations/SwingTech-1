@@ -19,6 +19,7 @@ class TestState : public STGameState {
 public:
     TestState(int id){ this->m_id = id; }
 
+
     void init(STGame * window) {
         //window->getCamera()->setHAngle(90.0f);
         counter = 0;
@@ -47,7 +48,7 @@ public:
 //         }
         STGame::Get()->getCamera()->setSpeed(0.005f);
 
-        _testActor2 = new STActor("sphere.obj", STMesh::OBJ, resManager->getMaterial("default"));
+        _testActor2 = new STActor("teapot.obj", STMesh::OBJ, resManager->getMaterial("default"));
         //_testActor2->setTranslateX(1);
         _testActor2->setShdrUniform("_Metallic", 0.0f);
         _testActor2->setShdrUniform("_Roughness",0.1f);

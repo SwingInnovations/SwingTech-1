@@ -1,5 +1,5 @@
 #include "GLShader.h"
-
+#include "../../Entity/Util/GLSLPreprocessor.h"
 GLShader::GLShader() {
     m_Program = glCreateProgram();
     m_Shaders[0] = createShader(loadShader("standardShader.vsh"), GL_VERTEX_SHADER);
@@ -214,7 +214,7 @@ std::string GLShader::loadShader(const std::string &filePath) {
             output.append(line + "\n");
         }
     }
-    return output;
+    return GLSLPREPROCESSOR::Process(output);
 }
 
 GLuint GLShader::createShader(const std::string &text, unsigned int type) {

@@ -134,7 +134,7 @@ void STGame::start(){
         }else{
             delta = 0;
         }
-        if(SDL_PollEvent(&m_e)) Input::Get()->poll(m_e);
+        while(SDL_PollEvent(&m_e)) Input::Get()->poll(m_e);
         update();
 
         render();

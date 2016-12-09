@@ -16,6 +16,9 @@ GLGraphics::GLGraphics(STGame *game) {
     WIDTH = (unsigned int)game->getWidth();
     HEIGHT = (unsigned int)game->getHeight();
 
+    m_shadowRes = 1024;
+    m_shadows = true;
+
     screenQuad = new GLMesh(new STQuad);
     screenShdr = new GLShader("screen");
     Bloom_Threshold = new GLShader("screen", "Bloom_Threshold");
@@ -141,6 +144,26 @@ void GLGraphics::drawScene(STScene *scene) {
         glDrawBuffers(1, drawBuffers1);
         glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
+        glGenFramebuffers(1, &shadowAtlasBuffer);
+        glGenTextures(1, &shadowAtlas);
+        glBindTexture(GL_TEXTURE_2D, shadowAtlas);
+        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB32F, 8196, 8196, 0, GL_RG8, GL_FLOAT, NULL);
+        glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+        glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+        glBindTexture(GL_TEXTURE_2D, 0);
+
+        glBindFramebuffer(GL_FRAMEBUFFER, shadowAtlasBuffer);
+        glDrawBuffer(GL_NONE);
+        glReadBuffer(GL_NONE);
+
+        glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, shadowAtlas, 0);
+        if(glCheckFramebufferStatus(GL_FRAMEBUFFER) == GL_FRAMEBUFFER_COMPLETE) std::cout << "Successfully generated shadow atlas" << std::endl;
+        GLenum drawBuff[] = {GL_COLOR_ATTACHMENT0};
+        glDrawBuffers(1, drawBuff);
+        glBindFramebuffer(GL_FRAMEBUFFER, 0);
+
 
 
         glGenFramebuffers(1, &frameBuffer);
@@ -177,8 +200,55 @@ void GLGraphics::drawScene(STScene *scene) {
         glBindFramebuffer(GL_FRAMEBUFFER, 0);
         glViewport(0, 0, w, h);
 
-        for(stInt i = 0, S = scene->getLights().size(); i < S; i++){
-            //TODO Generate Lights here.
+        if(m_shadows){
+            for(stInt i = 0, S = scene->getLights().size(); i < S; i++){
+                auto lights = scene->getLights();
+                if(lights[i]->type == STLight::DIRECTIONAL_LIGHT || lights[i]->type == STLight::SPOT_LIGHT){
+                    glGenFramebuffers(1, &lights[i]->shadowFrameBuffer[0]);
+                    glGenTextures(1, &lights[i]->shadowMapID[0]);
+                    glBindTexture(GL_TEXTURE_2D, lights[i]->shadowMapID[0]);
+                    glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT, 1024, 1024, 0, GL_DEPTH_COMPONENT, GL_FLOAT, NULL);
+                    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+                    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+                    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+                    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+
+                    glBindFramebuffer(GL_FRAMEBUFFER, lights[i]->shadowFrameBuffer[0]);
+                    glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D, lights[i]->shadowMapID[0], 0);
+                    glDrawBuffer(GL_NONE);
+                    glReadBuffer(GL_NONE);
+                    glBindFramebuffer(GL_FRAMEBUFFER, 0);
+
+                    lights[i]->projections[0] = Matrix4f::LookAt(lights[i]->transform()->getTranslate<stReal>(), lights[i]->direction.toVector3(), Vector3<stReal>(0, 1, 0));
+                    lights[i]->addComponent(typeid(STGraphicsComponent), new STGraphicsComponent(new GLShader("direct_shadows", NULL)));
+                }else{
+                    for(stUint j = 0; j < 6; j++){
+                        glGenFramebuffers(1, &lights[i]->shadowFrameBuffer[j]);
+                        glGenTextures(1, &lights[i]->shadowMapID[j]);
+                        glBindTexture(GL_TEXTURE_2D, lights[i]->shadowMapID[j]);
+                        glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT, m_shadowRes, m_shadowRes, 0, GL_DEPTH_COMPONENT, GL_FLOAT, NULL);
+                        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+                        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+                        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+                        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+
+                        glBindFramebuffer(GL_FRAMEBUFFER, lights[i]->shadowFrameBuffer[j]);
+                        glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D, lights[i]->shadowMapID[j], 0);
+                        glDrawBuffer(GL_NONE);
+                        glReadBuffer(GL_NONE);
+                        glBindFramebuffer(GL_FRAMEBUFFER, 0);
+                        //TODO correct these so they project properly.
+                        auto pos = lights[i]->transform()->getTranslate<stReal>();
+                        lights[i]->projections[0] = Matrix4f::LookAt(pos, pos - Vector3<stReal>(0.0, 1.0, 0.0), Vector3<stReal>(1.0, 1.0, 1.0));
+                        lights[i]->projections[1] = Matrix4f::LookAt(pos, pos - Vector3<stReal>(0.0, 1.0, 0.0), Vector3<stReal>(1.0, 1.0, 1.0));
+                        lights[i]->projections[2] = Matrix4f::LookAt(pos, pos - Vector3<stReal>(0.0, 1.0, 0.0), Vector3<stReal>(1.0, 1.0, 1.0));
+                        lights[i]->projections[3] = Matrix4f::LookAt(pos, pos - Vector3<stReal>(0.0, 1.0, 0.0), Vector3<stReal>(1.0, 1.0, 1.0));
+                        lights[i]->projections[4] = Matrix4f::LookAt(pos, pos - Vector3<stReal>(0.0, 1.0, 0.0), Vector3<stReal>(1.0, 1.0, 1.0));
+                        lights[i]->projections[5] = Matrix4f::LookAt(pos, pos - Vector3<stReal>(0.0, 1.0, 0.0), Vector3<stReal>(1.0, 1.0, 1.0));
+                        lights[i]->addComponent(typeid(STGraphicsComponent), new STGraphicsComponent(new GLShader("spotLight_shadows")));
+                    }
+                }
+            }
         }
 
         scenes[scene->getIndex()].m_initiated = true;
@@ -262,11 +332,11 @@ void GLGraphics::drawScene(STScene *scene) {
 //            actors[i]->setShdrUniform("Light.Radius", lights[j]->radius);
 //
 //            switch(lights[j]->type) {
-//                case STLight::DirectionalLight: {
+//                case STLight::DIRECTIONAL_LIGHT: {
 //                    actors[i]->draw(m_directionalLightMat);
 //                    break;
 //                }
-//                case STLight::PointLight: {
+//                case STLight::POINT_LIGHT: {
 //                    actors[i]->draw(m_pointLightMat); // Enabling this draws black cube
 //                    break;
 //                }

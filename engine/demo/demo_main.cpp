@@ -52,7 +52,7 @@ public:
         //_testActor2->setTranslateX(1);
         _testActor2->setShdrUniform("_Metallic", 0.0f);
         _testActor2->setShdrUniform("_Roughness",0.1f);
-        _testActor2->setScale(1);
+        _testActor2->setScale(0.01);
         _testActor2->setDiffuseTexture("grid.png");
         _testActor2->setNormalTexture("testNormal.png");
         mat->setBaseColor(Vector3<stReal>(.7,.7,.7));
@@ -67,13 +67,15 @@ public:
 
         //_testActor2->setShdrUniform_Texture("_RoughnessTex",roughnessTex->genTex("roughness.png"));
         //_testActor2->setTranslateY(-4);
-        _testLight = new STLight(Vector3<stReal>(-1,-1,-1),Vector3<stReal>(1,1,1));
+        //_testLight = new STLight(Vector3<stReal>(-1,-1,-1),Vector3<stReal>(1,1,1));
+        _testLight = STLight::DirectionalLight(Vector3<stReal>(-1, -1, -1), Vector3<stReal>(1.f, 1.f, 1.f));
         _testLight->intensity =2.5;
         _testLight->radius=-1;
         // _testLight->setTranslateZ(2);
 
 
-        _testLight2 = new STLight(Vector3<stReal>(1,1,1),Vector3<stReal>(1,1,1));
+        //_testLight2 = new STLight(Vector3<stReal>(1,1,1),Vector3<stReal>(1,1,1));
+        _testLight2 = STLight::DirectionalLight(Vector3<stReal>(1, 1, 1), Vector3<stReal>(1, 1, 1));
         _testLight2->intensity =2;
         _testLight2->radius=-1;
         // _testLight->setTranslateZ(1.2f);

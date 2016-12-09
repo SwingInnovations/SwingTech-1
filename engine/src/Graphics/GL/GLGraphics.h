@@ -82,6 +82,15 @@ public:
     virtual void drawScene(STScene* scene);
     virtual void initScene(stUint index);
 
+    /**
+     * Sets the shadow resolution
+     * Note - Must be 2^n
+     * @param res
+     */
+    void setShadowResolution(const stUint res){ m_shadowRes = res;}
+
+    void enableShadow(bool value){ m_shadows = value; }
+
     inline void enableBlend(){
         glEnable(GL_BLEND);
     }
@@ -126,6 +135,8 @@ private:
     GLuint rendBuffer;
     GLuint  bloomThresTex;
     GLuint bloomThresBuf;
+    GLuint shadowAtlas;
+    GLuint shadowAtlasBuffer;
 
     GLShader* screenShdr;
     GLShader* Bloom_Composite;
@@ -133,6 +144,7 @@ private:
     GLShader* Motion_Blur;
     GLShader* Tone_Mapping;
     GLShader* FXAAShader;
+    GLShader* ShadowAtlasShader;
 
     GLMesh* screenQuad;
     STMaterial* m_directionalLightMat;
@@ -142,12 +154,7 @@ private:
     STMaterial* m_IBLMat;
     STMaterial* m_velocityMat;
 
-    virtual void setShadowMapWidth(stUint w){
-
-    }
-    virtual void setShadowMapHeight(stUint h){
-
-    }
+    bool m_shadows;
 
     void Bloom();
     void MotionBlur();
@@ -155,7 +162,7 @@ private:
     void RenderScreenWithShader(const std::string& shaderName);
     void RenderScreenWithShader(GLShader* shader);
 
-
+    stUint m_shadowRes;
 };
 
 

@@ -54,6 +54,8 @@ public:
     virtual void drawScene(STScene* scene) = 0;
     virtual void setShader(int,Shader*){;}
 
+    virtual void setShadowResolution(const stUint res){  }
+
     /*
      *
      * @return Returns the Graphics Card Driver
@@ -73,9 +75,7 @@ public:
     virtual void drawText(Vector2<stReal> pos, const std::string& text, stReal fontSize, Vector2<stReal> vector){ ; }
     virtual void drawText(Vector2<stReal> pos, const std::string& text, stReal fontSize, stReal v1, stReal v2, stReal v3){ ; }
     virtual void drawText(Vector2<stReal> pos, const std::string& text, stReal fontSize, Vector3<stReal> vector){ ; }
-
-    virtual void setShadowMapWidth(stUint w) = 0;
-    virtual void setShadowMapHeight(stUint h) = 0;
+    virtual void enableShadow(bool) = 0;
     virtual void enableBlend() = 0;
     virtual void disableBlend() = 0;
 

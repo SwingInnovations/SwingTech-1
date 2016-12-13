@@ -123,17 +123,13 @@ void GLGraphics::drawScene(STScene *scene) {
 
         glBindTexture(GL_TEXTURE_2D, bloomThresTex);
 
-
         glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB32F, w, h, 0, GL_RGB, GL_FLOAT, NULL);
-
 
         glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
         glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR );
         glBindTexture(GL_TEXTURE_2D, 0);
-
-
 
         glBindFramebuffer(GL_FRAMEBUFFER, bloomThresBuf);
         glDrawBuffer(GL_NONE);
@@ -163,8 +159,6 @@ void GLGraphics::drawScene(STScene *scene) {
         GLenum drawBuff[] = {GL_COLOR_ATTACHMENT0};
         glDrawBuffers(1, drawBuff);
         glBindFramebuffer(GL_FRAMEBUFFER, 0);
-
-
 
         glGenFramebuffers(1, &frameBuffer);
         glGenTextures(1, &frameTexBuffer);
@@ -254,6 +248,50 @@ void GLGraphics::drawScene(STScene *scene) {
         scenes[scene->getIndex()].m_initiated = true;
     }
 
+    auto actors = scene->getActors();
+    auto lights = scene->getLights();
+
+    //INITIALIZE the shadows;
+    if(m_shadows) {
+        glViewport(0, 0, m_shadowRes, m_shadowRes);
+        glEnable(GL_DEPTH_TEST);
+
+        for(stUint i = 0; i < lights.size(); i++){
+            if(lights[i]->type == STLight::DIRECTIONAL_LIGHT || lights[i]->type == STLight::SPOT_LIGHT) {
+                glBindFramebuffer(GL_FRAMEBUFFER, lights[i]->shadowFrameBuffer[0]);
+                glClear(GL_DEPTH_BUFFER_BIT);
+                glEnable(GL_CULL_FACE);
+                glCullFace(GL_FRONT);
+                auto shdr = lights[i]->get<STGraphicsComponent>()->getMaterial()->shdr();
+                shdr->bind();
+                shdr->update("model", Matrix4f());
+                shdr->update("lightMatrix", Matrix4f::LookAt(lights[i]->transform()->getTranslate<stReal>(), lights[i]->direction, Vector3<stReal>(0.0f, 1.0f, 0.0f)));
+                for (stUint j = 0; j < actors.size(); j++) {
+                    actors[j]->draw(lights[i]->get<STGraphicsComponent>()->getMaterial());
+                }
+            }else{
+                //TODO Implement Spotlight Handling
+            }
+        }
+        glBindFramebuffer(GL_FRAMEBUFFER, 0);
+
+        //Populate the atlas.
+        glViewport(0, 0, 8*m_shadowRes, 8*m_shadowRes);
+        glBindFramebuffer(GL_FRAMEBUFFER, shadowAtlasBuffer);
+        stUint ind = 0;
+        for(stUint i = 0; i < 8; i++){
+            for(stUint j = 0; j < 8; j++){
+                //CONCEPTUALLY : x = i * m_shadowRes; y = j * m_shadowRes
+                //TODO Bind Shader
+                //TODO Bind Draw Texture
+                glBindTexture(GL_TEXTURE_2D, lights[ind]->shadowMapID[0]);
+                //TODO Draw Quad
+                ind++;
+            }
+        }
+        glBindFramebuffer(GL_FRAMEBUFFER, 0);
+    }
+
     // Bind the frame buffer
     glBindFramebuffer(GL_FRAMEBUFFER, frameBuffer);
 
@@ -262,11 +300,6 @@ void GLGraphics::drawScene(STScene *scene) {
 
     auto clearColor = STGraphics::ClearColor;
     glClearColor(0,0,0,1);
-
-
-
-    auto actors = scene->getActors();
-    auto lights = scene->getLights();
 
    glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, velocityTexture, 0);
 

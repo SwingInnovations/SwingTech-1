@@ -67,8 +67,8 @@ GLShader::GLShader(const std::string &filePath) {
 GLShader::GLShader(const std::string &vShaderPath, const std::string &fShaderPath) {
     m_shaderName = vShaderPath;
     m_Program = glCreateProgram();
-    m_Shaders[0] = createShader(loadShader(vShaderPath + ".vsh"), GL_VERTEX_SHADER);
-    m_Shaders[1] = createShader(loadShader(fShaderPath + ".fsh"), GL_FRAGMENT_SHADER);
+    if(!vShaderPath.empty())m_Shaders[0] = createShader(loadShader(vShaderPath + ".vsh"), GL_VERTEX_SHADER);
+    if(!fShaderPath.empty())m_Shaders[1] = createShader(loadShader(fShaderPath + ".fsh"), GL_FRAGMENT_SHADER);
     for(unsigned int i = 0; i < NUM_SHADER; i++){
         glAttachShader(m_Program, m_Shaders[i]);
     }

@@ -82,7 +82,6 @@ GLGraphics::GLGraphics(STGame *game) {
     m_IBLMat = new STMaterial (new GLShader ("standard", "standard_IBL"));
     m_velocityMat =new STMaterial (new GLShader ("Velocity"));
 
-
     glGenVertexArrays(1, &textVAO);
     glGenBuffers(1, &textVBO);
     glBindVertexArray(textVAO);
@@ -92,6 +91,8 @@ GLGraphics::GLGraphics(STGame *game) {
     glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, 4* sizeof(GL_FLOAT), 0);
     glBindBuffer(GL_ARRAY_BUFFER, 0);
     glBindVertexArray(0);
+
+    //TODO Move FrameBuffer Initialization up here!!
 }
 
 void GLGraphics::drawScene(STScene *scene) {
@@ -195,8 +196,8 @@ void GLGraphics::drawScene(STScene *scene) {
         glViewport(0, 0, w, h);
 
         if(m_shadows){
-            for(stInt i = 0, S = scene->getLights().size(); i < S; i++){
-                auto lights = scene->getLights();
+            auto lights = scene->getLights();
+            for(stInt i = 0, S = lights.size(); i < S; i++){
                 if(lights[i]->type == STLight::DIRECTIONAL_LIGHT || lights[i]->type == STLight::SPOT_LIGHT){
                     glGenFramebuffers(1, &lights[i]->shadowFrameBuffer[0]);
                     glGenTextures(1, &lights[i]->shadowMapID[0]);
@@ -214,7 +215,7 @@ void GLGraphics::drawScene(STScene *scene) {
                     glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
                     lights[i]->projections[0] = Matrix4f::LookAt(lights[i]->transform()->getTranslate<stReal>(), lights[i]->direction.toVector3(), Vector3<stReal>(0, 1, 0));
-                    lights[i]->addComponent(typeid(STGraphicsComponent), new STGraphicsComponent(new GLShader("direct_shadows", NULL)));
+                    lights[i]->addComponent(typeid(STGraphicsComponent), new STGraphicsComponent(new STMaterial(new GLShader("direct_shadows", ""))));
                 }else{
                     for(stUint j = 0; j < 6; j++){
                         glGenFramebuffers(1, &lights[i]->shadowFrameBuffer[j]);
@@ -284,14 +285,14 @@ void GLGraphics::drawScene(STScene *scene) {
                 //CONCEPTUALLY : x = i * m_shadowRes; y = j * m_shadowRes
                 //TODO Bind Shader
                 //TODO Bind Draw Texture
-                glBindTexture(GL_TEXTURE_2D, lights[ind]->shadowMapID[0]);
+                //glBindTexture(GL_TEXTURE_2D, lights[ind]->shadowMapID[0]);
                 //TODO Draw Quad
                 ind++;
             }
         }
         glBindFramebuffer(GL_FRAMEBUFFER, 0);
     }
-
+    glViewport(0, 0, WIDTH, HEIGHT);
     // Bind the frame buffer
     glBindFramebuffer(GL_FRAMEBUFFER, frameBuffer);
 
@@ -334,8 +335,6 @@ void GLGraphics::drawScene(STScene *scene) {
             actors[i]->setShdrUniform("Light["+std::to_string(j)+"].Direction", lights[j]->direction);
             actors[i]->setShdrUniform("Light["+std::to_string(j)+"].Radius", lights[j]->radius);
         }
-
-
         actors[i]->draw();
 
     }

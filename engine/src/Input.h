@@ -8,7 +8,11 @@
 
 #include <string>
 #include <vector>
+#if __linux__
+#include <sstream>
+#else
 #include <c++/sstream>
+#endif
 
 #include "STGame.h"
 

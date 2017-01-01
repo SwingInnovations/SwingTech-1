@@ -1,7 +1,12 @@
 #ifndef WAHOO_STLABEL_H
 #define WAHOO_STLABEL_H
 
+#if __linux__
+#include <functional>
+#else
 #include <c++/functional>
+#endif
+
 #include "STInterWidget.h"
 #include "../../Math/STCore.h"
 #include "STPanel.h"

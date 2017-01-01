@@ -1,4 +1,9 @@
+#if __linux__
+#include <fstream>
+#else
 #include <c++/fstream>
+#endif
+
 #include "STMesh.h"
 #include "../../Graphics/STGraphics.h"
 

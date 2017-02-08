@@ -394,7 +394,7 @@ void GLMesh::draw(int drawMode) {
 
         glBindVertexArray(0);
     }else{
-        std::cout << "Something is wrong" << std::endl;
+        std::cerr << "Something is wrong in Draw Calls. " << std::endl;
     }
 
 }

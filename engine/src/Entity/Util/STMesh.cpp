@@ -120,7 +120,6 @@ OBJMesh::OBJMesh(const std::string &filename) {
         indicies.push_back(inCount);
         inCount++;
     }
-    std::cout << "Finished loading mesh. " << std::endl;
 }
 
 OBJMesh::OBJMesh(const std::string &fileName, Vector2<stInt> lineBounds) {

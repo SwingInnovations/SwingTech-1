@@ -105,7 +105,7 @@ public:
      *  \param v Cursor Visibility state.
      */
     void showCursor(bool v){ this->isCursorOnDisplay = v; }
-    void setIcon(const std::string& filePath); //TODO Implement this
+    void setIcon(const std::string& filePath);
     //! Sets Current State of Game
     /*!
      *  \param v Current State

@@ -28,7 +28,9 @@ GLGraphics::GLGraphics(STGame *game) {
     FXAAShader = new GLShader("screen","FXAA");
 
     FT_Library ft;
-    if(FT_Init_FreeType(&ft)){ std::cout << "foo" << std::endl; }else{ std::cout << "Successfully loaded FreeType!" << std::endl; }
+    if(FT_Init_FreeType(&ft)){
+        std::cerr << "Failed to load Freetype!" << std::endl;
+    }
 
     FT_Face face;
     if(FT_New_Face(ft, "fonts/arial.ttf", 0, &face)){ std::cout << "Something went wrong" << std::endl; }
@@ -92,155 +94,166 @@ GLGraphics::GLGraphics(STGame *game) {
     glBindBuffer(GL_ARRAY_BUFFER, 0);
     glBindVertexArray(0);
 
-    //TODO Move FrameBuffer Initialization up here!!
+    auto w = STGame::RES_WIDTH;
+    auto h = STGame::RES_HEIGHT;
+    glGenTextures(1, &velocityTexture);
+
+    glBindTexture(GL_TEXTURE_2D, velocityTexture);
+
+
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB16F, w, h, 0, GL_RG, GL_FLOAT, NULL);
+
+
+    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR );
+    glBindTexture(GL_TEXTURE_2D, 0);
+
+    glGenFramebuffers(1, &bloomThresBuf);
+    glGenTextures(1, &bloomThresTex);
+
+    glBindTexture(GL_TEXTURE_2D, bloomThresTex);
+
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB32F, w, h, 0, GL_RGB, GL_FLOAT, NULL);
+
+    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR );
+    glBindTexture(GL_TEXTURE_2D, 0);
+
+    glBindFramebuffer(GL_FRAMEBUFFER, bloomThresBuf);
+    glDrawBuffer(GL_NONE);
+    glReadBuffer(GL_NONE);
+    glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, bloomThresTex, 0);
+    if(glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE) std::cerr << "Failed to generate Bloom Buffer" << std::endl;
+    GLenum drawBuffers1[] = {GL_COLOR_ATTACHMENT0};
+    glDrawBuffers(1, drawBuffers1);
+    glBindFramebuffer(GL_FRAMEBUFFER, 0);
+
+    glGenFramebuffers(1, &shadowAtlasBuffer);
+
+    glGenTextures(1, &shadowAtlas);
+    glBindTexture(GL_TEXTURE_2D, shadowAtlas);
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB32F, 4096, 4096, 0, GL_RGB, GL_FLOAT, NULL);
+    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    glBindTexture(GL_TEXTURE_2D, 0);
+
+    glBindFramebuffer(GL_FRAMEBUFFER, shadowAtlasBuffer);
+    glDrawBuffer(GL_NONE);
+    glReadBuffer(GL_NONE);
+    glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT1, GL_TEXTURE_2D, shadowAtlas, 0);
+    if(glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE) std::cerr << "Failed to generate shadow framebuffer!" << std::endl;
+    GLenum shadowDrawBuff[] = {GL_COLOR_ATTACHMENT1};
+    glDrawBuffers(1, shadowDrawBuff);
+    glBindFramebuffer(GL_FRAMEBUFFER, 0);
+
+    glGenFramebuffers(1, &frameBuffer);
+    glGenTextures(1, &frameTexBuffer);
+
+    glBindTexture(GL_TEXTURE_2D, frameTexBuffer);
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB32F, w, h, 0, GL_RGB, GL_FLOAT, NULL);
+    glGenerateMipmap(GL_TEXTURE_2D);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    glBindTexture(GL_TEXTURE_2D, 0);
+
+
+    glBindFramebuffer(GL_FRAMEBUFFER, frameBuffer);
+    glFramebufferParameteri(GL_FRAMEBUFFER, GL_FRAMEBUFFER_DEFAULT_WIDTH, w);
+    glFramebufferParameteri(GL_FRAMEBUFFER, GL_FRAMEBUFFER_DEFAULT_HEIGHT, h);
+    glFramebufferParameteri(GL_FRAMEBUFFER, GL_FRAMEBUFFER_DEFAULT_SAMPLES, 4);
+
+
+    glGenRenderbuffers(1, &rendBuffer);
+    glBindRenderbuffer(GL_RENDERBUFFER, rendBuffer);
+    glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH24_STENCIL8, w, h);
+    glBindRenderbuffer(GL_RENDERBUFFER, 0);
+    glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT, GL_RENDERBUFFER, rendBuffer);
+
+    GLenum drawBuffers[] = {GL_COLOR_ATTACHMENT0};
+    glDrawBuffers(1, drawBuffers);
+    if(glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE){
+        std::cerr << "Failed to create FrameBuffer" << std::endl;
+    }
+    glBindFramebuffer(GL_FRAMEBUFFER, 0);
+    glViewport(0, 0, w, h);
 }
 
 void GLGraphics::drawScene(STScene *scene) {
     auto rendScene = scenes[scene->getIndex()];
-    if(!rendScene.m_initiated){
+    if(!rendScene.m_initiated) {
         scenes[scene->getIndex()].initSkybox(scene->getSkyboxShader(), scene->getSkyboxName());
 
 
         auto w = STGame::RES_WIDTH;
         auto h = STGame::RES_HEIGHT;
 
-
-        glGenTextures(1, &velocityTexture);
-
-        glBindTexture(GL_TEXTURE_2D, velocityTexture);
-
-
-        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB16F, w, h, 0, GL_RG, GL_FLOAT, NULL);
-
-
-        glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-        glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR );
-        glBindTexture(GL_TEXTURE_2D, 0);
-
-        glGenFramebuffers(1, &bloomThresBuf);
-        glGenTextures(1, &bloomThresTex);
-
-        glBindTexture(GL_TEXTURE_2D, bloomThresTex);
-
-        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB32F, w, h, 0, GL_RGB, GL_FLOAT, NULL);
-
-        glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-        glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR );
-        glBindTexture(GL_TEXTURE_2D, 0);
-
-        glBindFramebuffer(GL_FRAMEBUFFER, bloomThresBuf);
-        glDrawBuffer(GL_NONE);
-        glReadBuffer(GL_NONE);
-        glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, bloomThresTex, 0);
-        if(glCheckFramebufferStatus(GL_FRAMEBUFFER) == GL_FRAMEBUFFER_COMPLETE) std::cout << "Successfully generated bloom buffer." << std::endl;
-        GLenum drawBuffers1[] = {GL_COLOR_ATTACHMENT0};
-        glDrawBuffers(1, drawBuffers1);
-        glBindFramebuffer(GL_FRAMEBUFFER, 0);
-
-        glGenFramebuffers(1, &shadowAtlasBuffer);
-        glGenTextures(1, &shadowAtlas);
-        glBindTexture(GL_TEXTURE_2D, shadowAtlas);
-        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB32F, 8196, 8196, 0, GL_RG8, GL_FLOAT, NULL);
-        glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-        glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-        glBindTexture(GL_TEXTURE_2D, 0);
-
-        glBindFramebuffer(GL_FRAMEBUFFER, shadowAtlasBuffer);
-        glDrawBuffer(GL_NONE);
-        glReadBuffer(GL_NONE);
-
-        glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, shadowAtlas, 0);
-        if(glCheckFramebufferStatus(GL_FRAMEBUFFER) == GL_FRAMEBUFFER_COMPLETE) std::cout << "Successfully generated shadow atlas" << std::endl;
-        GLenum drawBuff[] = {GL_COLOR_ATTACHMENT0};
-        glDrawBuffers(1, drawBuff);
-        glBindFramebuffer(GL_FRAMEBUFFER, 0);
-
-        glGenFramebuffers(1, &frameBuffer);
-        glGenTextures(1, &frameTexBuffer);
-
-
-        glBindTexture(GL_TEXTURE_2D, frameTexBuffer);
-        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB32F, w, h, 0, GL_RGB, GL_FLOAT, NULL);
-        glGenerateMipmap(GL_TEXTURE_2D);
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-        glBindTexture(GL_TEXTURE_2D, 0);
-
-
-        glBindFramebuffer(GL_FRAMEBUFFER, frameBuffer);
-        glFramebufferParameteri(GL_FRAMEBUFFER, GL_FRAMEBUFFER_DEFAULT_WIDTH, w);
-        glFramebufferParameteri(GL_FRAMEBUFFER, GL_FRAMEBUFFER_DEFAULT_HEIGHT, h);
-        glFramebufferParameteri(GL_FRAMEBUFFER, GL_FRAMEBUFFER_DEFAULT_SAMPLES, 4);
-
-
-        glGenRenderbuffers(1, &rendBuffer);
-        glBindRenderbuffer(GL_RENDERBUFFER, rendBuffer);
-        glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH24_STENCIL8, w, h);
-        glBindRenderbuffer(GL_RENDERBUFFER, 0);
-        glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT, GL_RENDERBUFFER, rendBuffer);
-
-        GLenum drawBuffers[] = {GL_COLOR_ATTACHMENT0};
-        glDrawBuffers(1, drawBuffers);
-        if(glCheckFramebufferStatus(GL_FRAMEBUFFER) == GL_FRAMEBUFFER_COMPLETE){
-            std::cout << "Successfully generated framebuffer!" << std::endl;
-        }
-        glBindFramebuffer(GL_FRAMEBUFFER, 0);
-        glViewport(0, 0, w, h);
-
-        if(m_shadows){
+        if (m_shadows) {
             auto lights = scene->getLights();
-            for(stInt i = 0, S = lights.size(); i < S; i++){
-                if(lights[i]->type == STLight::DIRECTIONAL_LIGHT || lights[i]->type == STLight::SPOT_LIGHT){
+            for (stInt i = 0, S = lights.size(); i < S; i++) {
+                if (lights[i]->type == STLight::DIRECTIONAL_LIGHT || lights[i]->type == STLight::SPOT_LIGHT) {
                     glGenFramebuffers(1, &lights[i]->shadowFrameBuffer[0]);
                     glGenTextures(1, &lights[i]->shadowMapID[0]);
                     glBindTexture(GL_TEXTURE_2D, lights[i]->shadowMapID[0]);
-                    glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT, 1024, 1024, 0, GL_DEPTH_COMPONENT, GL_FLOAT, NULL);
+                    glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT, 1024, 1024, 0, GL_DEPTH_COMPONENT, GL_FLOAT,
+                                 NULL);
                     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
                     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
                     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
                     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
 
                     glBindFramebuffer(GL_FRAMEBUFFER, lights[i]->shadowFrameBuffer[0]);
-                    glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D, lights[i]->shadowMapID[0], 0);
+                    glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D,
+                                           lights[i]->shadowMapID[0], 0);
                     glDrawBuffer(GL_NONE);
                     glReadBuffer(GL_NONE);
                     glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
-                    lights[i]->projections[0] = Matrix4f::LookAt(lights[i]->transform()->getTranslate<stReal>(), lights[i]->direction.toVector3(), Vector3<stReal>(0, 1, 0));
-                    lights[i]->addComponent(typeid(STGraphicsComponent), new STGraphicsComponent(new STMaterial(new GLShader("direct_shadows", ""))));
-                }else{
-                    for(stUint j = 0; j < 6; j++){
+                    lights[i]->projections[0] = Matrix4f::LookAt(lights[i]->transform()->getTranslate<stReal>(),
+                                                                 lights[i]->direction.toVector3(),
+                                                                 Vector3<stReal>(0, 1, 0));
+                    lights[i]->addComponent(typeid(STGraphicsComponent), new STGraphicsComponent(
+                            new STMaterial(new GLShader("direct_shadows", ""))));
+                } else {
+                    for (stUint j = 0; j < 6; j++) {
                         glGenFramebuffers(1, &lights[i]->shadowFrameBuffer[j]);
                         glGenTextures(1, &lights[i]->shadowMapID[j]);
                         glBindTexture(GL_TEXTURE_2D, lights[i]->shadowMapID[j]);
-                        glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT, m_shadowRes, m_shadowRes, 0, GL_DEPTH_COMPONENT, GL_FLOAT, NULL);
+                        glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT, m_shadowRes, m_shadowRes, 0,
+                                     GL_DEPTH_COMPONENT, GL_FLOAT, NULL);
                         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
                         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
                         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
                         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
 
                         glBindFramebuffer(GL_FRAMEBUFFER, lights[i]->shadowFrameBuffer[j]);
-                        glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D, lights[i]->shadowMapID[j], 0);
+                        glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D,
+                                               lights[i]->shadowMapID[j], 0);
                         glDrawBuffer(GL_NONE);
                         glReadBuffer(GL_NONE);
                         glBindFramebuffer(GL_FRAMEBUFFER, 0);
-                        //TODO correct these so they project properly.
                         auto pos = lights[i]->transform()->getTranslate<stReal>();
-                        lights[i]->projections[0] = Matrix4f::LookAt(pos, pos - Vector3<stReal>(0.0, 1.0, 0.0), Vector3<stReal>(1.0, 1.0, 1.0));
-                        lights[i]->projections[1] = Matrix4f::LookAt(pos, pos - Vector3<stReal>(0.0, 1.0, 0.0), Vector3<stReal>(1.0, 1.0, 1.0));
-                        lights[i]->projections[2] = Matrix4f::LookAt(pos, pos - Vector3<stReal>(0.0, 1.0, 0.0), Vector3<stReal>(1.0, 1.0, 1.0));
-                        lights[i]->projections[3] = Matrix4f::LookAt(pos, pos - Vector3<stReal>(0.0, 1.0, 0.0), Vector3<stReal>(1.0, 1.0, 1.0));
-                        lights[i]->projections[4] = Matrix4f::LookAt(pos, pos - Vector3<stReal>(0.0, 1.0, 0.0), Vector3<stReal>(1.0, 1.0, 1.0));
-                        lights[i]->projections[5] = Matrix4f::LookAt(pos, pos - Vector3<stReal>(0.0, 1.0, 0.0), Vector3<stReal>(1.0, 1.0, 1.0));
-                        lights[i]->addComponent(typeid(STGraphicsComponent), new STGraphicsComponent(new GLShader("spotLight_shadows")));
+                        lights[i]->projections[0] = Matrix4f::LookAt(pos, pos - Vector3<stReal>(1.0f, 0.0f, 0.0f),
+                                                                     Vector3<stReal>(0.0, -1.0f, 0.0));    //Right
+                        lights[i]->projections[1] = Matrix4f::LookAt(pos, pos - Vector3<stReal>(-1.0f, .0, 0.0),
+                                                                     Vector3<stReal>(0.0, -1.0f, 0.0));    //Left
+                        lights[i]->projections[2] = Matrix4f::LookAt(pos, pos - Vector3<stReal>(0.0, 1.0, 0.0),
+                                                                     Vector3<stReal>(0.0, 0.0, 1.0));    //Top
+                        lights[i]->projections[3] = Matrix4f::LookAt(pos, pos - Vector3<stReal>(0.0, -1.0f, 0.0),
+                                                                     Vector3<stReal>(0.0, 0.0, 1.0));    //Bottom
+                        lights[i]->projections[4] = Matrix4f::LookAt(pos, pos - Vector3<stReal>(0.0, 0.0, 1.0),
+                                                                     Vector3<stReal>(0.0, -1.0f, 0.0));    //Near
+                        lights[i]->projections[5] = Matrix4f::LookAt(pos, pos - Vector3<stReal>(0.0, 0.0, -1.0f),
+                                                                     Vector3<stReal>(0.0, -1.0f, 0.0));    //Far
+                        lights[i]->addComponent(typeid(STGraphicsComponent),
+                                                new STGraphicsComponent(new GLShader("spotLight_shadows")));
                     }
                 }
             }
@@ -271,7 +284,15 @@ void GLGraphics::drawScene(STScene *scene) {
                     actors[j]->draw(lights[i]->get<STGraphicsComponent>()->getMaterial());
                 }
             }else{
-                //TODO Implement Spotlight Handling
+                for(stUint j = 0; j < 6; j++){
+                    glBindFramebuffer(GL_FRAMEBUFFER, lights[i]->shadowFrameBuffer[j]);
+                    glClear(GL_DEPTH_BUFFER_BIT);
+                    glEnable(GL_CULL_FACE);
+                    glCullFace(GL_FRONT);
+                    auto shdr = lights[i]->get<STGraphicsComponent>()->getMaterial()->shdr();
+                    shdr->bind();
+                    shdr->update("model", Matrix4f());
+                }
             }
         }
         glBindFramebuffer(GL_FRAMEBUFFER, 0);
@@ -292,6 +313,7 @@ void GLGraphics::drawScene(STScene *scene) {
         }
         glBindFramebuffer(GL_FRAMEBUFFER, 0);
     }
+
     glViewport(0, 0, WIDTH, HEIGHT);
     // Bind the frame buffer
     glBindFramebuffer(GL_FRAMEBUFFER, frameBuffer);

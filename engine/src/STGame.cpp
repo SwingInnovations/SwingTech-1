@@ -214,3 +214,11 @@ STGame *STGame::Init(const std::string &title, const stUint WIDTH, const stUint 
 STGame *STGame::Get() {
     return m_instance;
 }
+
+void STGame::setIcon(const std::string &filePath) {
+    SDL_Surface* surface = nullptr;
+    surface = IMG_Load(filePath.c_str());
+    SDL_SetWindowIcon(m_Window, surface);
+    SDL_FreeSurface(surface);
+    surface = 0;
+}

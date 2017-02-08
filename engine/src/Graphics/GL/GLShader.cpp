@@ -60,8 +60,6 @@ GLShader::GLShader(const std::string &filePath) {
     for(unsigned int i = 0; i < NUM_SHADER; i++){
         glDeleteShader(m_Shaders[i]);
     }
-
-    std::cout << "Program Status: " << m_Program << std::endl;
 }
 
 GLShader::GLShader(const std::string &vShaderPath, const std::string &fShaderPath) {
@@ -192,8 +190,6 @@ void GLShader::checkShaderStatus(GLuint shaderID, GLuint flag, bool isProgram, c
             glGetShaderInfoLog(shaderID, sizeof(error), NULL, error);
         }
         std::cerr <<"Error occured on " << m_shaderName << " : " << errMsg << " : " << error << "'" << std::endl;
-    }else{
-        std::cout << "Shader passed validation. Success Code:  " << success << std::endl;
     }
 }
 

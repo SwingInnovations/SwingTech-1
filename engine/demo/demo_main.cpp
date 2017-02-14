@@ -48,9 +48,9 @@ public:
 //         }
         STGame::Get()->getCamera()->setSpeed(0.005f);
 
-        _testActor2 = new STActor("dice.obj", STMesh::OBJ, resManager->getMaterial("default"));
+        _testActor2 = new STActor("scene.obj", STMesh::OBJ, resManager->getMaterial("default"));
         //_testActor2->setTranslateX(1);
-        _testActor2->setShdrUniform("_Metallic", 0.0f);
+        _testActor2->setShdrUniform("_Metallic", 0.7f);
         _testActor2->setShdrUniform("_Roughness",0.1f);
         _testActor2->setScale(1.0);
         _testActor2->setDiffuseTexture("grid.png");
@@ -63,14 +63,17 @@ public:
 
 //        mat->setDiffuseTexture("sampledDiffuseColor.png");
 //        mat->setNormalTexture("testNormal.png");
-        auto uniforms = mat->getUniforms();
+        //auto uniforms = mat->getUniforms();
 
         //_testActor2->setShdrUniform_Texture("_RoughnessTex",roughnessTex->genTex("roughness.png"));
         //_testActor2->setTranslateY(-4);
         //_testLight = new STLight(Vector3<stReal>(-1,-1,-1),Vector3<stReal>(1,1,1));
-        _testLight = STLight::DirectionalLight(Vector3<stReal>(-1, -1, -1), Vector3<stReal>(1.f, 1.f, 1.f));
-        _testLight->intensity =2.5;
+        _testLight = STLight::DirectionalLight(Vector3<stReal>(2.f, -1.f, 3.f), Vector3<stReal>(-2.f, -3.f, 0.f), Vector3<stReal>(1.f, 0.f, 0.f));
+        _testLight->intensity =1.5;
         _testLight->radius=-1;
+        auto _testLightDisp = new STEntity("sphere.obj", STMesh::OBJ, new GLShader("lightVis"));
+        _testLightDisp->addShdrUniform("lightColor", _testLight->color);
+        _testLight->addChild(_testLightDisp);
         // _testLight->setTranslateZ(2);
 
 
@@ -87,14 +90,14 @@ public:
         // scene->addLight(_testLight);
 
         scene->addActor(_testActor2);
-        scene->addLight(_testLight2);
+        scene->addLight(_testLight);
+        //scene->addLight(_testLight2);
         STGraphics::ClearColor = Vector4<stReal>(0.0, 0.0, 0.168, 1.0);
     }
 
     void handleInput(STGame * win, Uint32 delta){
         Input* input = win->getInput();
         auto cam = win->getCamera();
-        // std::cout << "Camera Position: " << cam->transform()->getTranslate<stReal>().getInfo() << std::endl;
         if(input->isKeyPressed(KEY::KEY_ESC)){
             input->requestClose();
         }
@@ -126,8 +129,10 @@ public:
 //            }
 //        }
         counter += 0.025f * delta;
+        _testLight->setTranslateZ(sin(counter*0.1f) * 5.0f);
+        std::cout << "Transformation: " << _testLight->transform()->getTranslate<stReal>().getInfo() << std::endl;
         // _testLight2->intensity=sin(counter * 0.1f)*.5+1;
-        _testActor2->setTranslateX(sin(counter * 1.0f));
+        //_testActor2->setTranslateX(sin(counter * 1.0f));
         //   _testActor2->setRotateY(counter*50 );
         //  _testLight2->setTranslateY(3.0f*std::sin(counter*.02f+3));
     }
@@ -185,7 +190,7 @@ int main(int argc, char** argv){
     win->addCamera(new Camera(*win, campos, 0));
     win->addState(new TestState(0));
     win->enterState(0);
-    win->getGraphics()->enablePostEffect(STGraphics::BLOOM | STGraphics::MOTION_BLUR | STGraphics::FXAA );
+    win->getGraphics()->enablePostEffect(STGraphics::MOTION_BLUR | STGraphics::FXAA );
     win->start();
 
     return 0;

@@ -14,7 +14,7 @@ public:
     Matrix4f(){
         initIdentity();
     }
-
+    //TODO - Convert all of these to static functions initializations.
     static Matrix4f LookAt(const Vector3<stReal> eye, const Vector3<stReal> center, const Vector3<stReal> up){
         Matrix4f orient, trans;
 
@@ -68,22 +68,23 @@ public:
         }
     }
 
-    inline void initTranslation(const Vector3<stReal>& vec){
-        initTranslation(vec.getX(), vec.getY(), vec.getZ());
+    inline Matrix4f initTranslation(const Vector3<stReal>& vec){
+        return initTranslation(vec.getX(), vec.getY(), vec.getZ());
     }
 
-    inline void initTranslation(float x, float y, float z){
+    inline Matrix4f initTranslation(float x, float y, float z){
         m[0][0] = 1.0f; m[0][1] = 0.0f; m[0][2] = 0.0f; m[0][3] = x;
         m[1][0] = 0.0f; m[1][1] = 1.0f; m[1][2] = 0.0f; m[1][3] = y;
         m[2][0] = 0.0f; m[2][1] = 0.0f; m[2][2] = 1.0f; m[2][3] = z;
         m[3][0] = 0.0f; m[3][1] = 0.0f; m[3][2] = 0.0f; m[3][3] = 1.0f;
+        return *this;
     }
 
-    inline void initRotate(Vector3<stReal>& vec){
-        initRotate(vec.getX(), vec.getY(), vec.getZ());
+    inline Matrix4f initRotate(Vector3<stReal>& vec){
+        return initRotate(vec.getX(), vec.getY(), vec.getZ());
     }
 
-    inline void initRotate(stReal x, stReal y, stReal z){
+    inline Matrix4f initRotate(stReal x, stReal y, stReal z){
         Matrix4f rx, ry, rz;
 
         const stReal _x = toRadian(x);
@@ -107,17 +108,19 @@ public:
 
         Matrix4f ret;
         ret = rz * ry * rx;
-        *this = ret;
+        return ret;
     }
 
-    inline void initRotate(const Euler<stReal> &euler){
+    /**
+     * Initializes a Quaternion based Rotation Matrix.
+     * @param euler
+     */
+    inline Matrix4f initRotate(const Euler<stReal> &euler){
         Matrix4f z, y, x;
         z.initRotation(Vector3<stReal>(0.0f, 0.0f, 1.0f), euler.getZ());
         y.initRotation(Vector3<stReal>(0.0f, 1.0f, 0.0f), euler.getY());
         x.initRotation(Vector3<stReal>(1.0f, 0.0f, 0.0f), euler.getX());
-        Matrix4f ret;
-        ret = z * y * x;
-        *this = ret;
+        return z * y * x;
     }
 
     inline void initRotation(const Vector3<stReal>& vec, const stReal angle){
@@ -184,21 +187,19 @@ public:
         m[3][3] = 1.0;
     }
 
-    inline void initScale(Vector3<stReal>& vec){
-        m[0][0] = vec.getX(); m[0][1] = 0.0f;       m[0][2] = 0.0f; m[0][3] = 0.0f;
-        m[1][0] = 0.0f;       m[1][1] = vec.getY(); m[1][2] = 0.0f; m[1][3] = 0.0f;
-        m[2][0] = 0.0f;       m[2][1] = 0.0f;       m[2][2] = vec.getZ(); m[2][3] = 0.0f;
-        m[3][0] = 0.0f;       m[3][1] = 0.0f;       m[3][2] = 0.0f;       m[3][3] = 1.0f;
+    inline Matrix4f initScale(Vector3<stReal>& vec){
+        return initScale(vec.getX(), vec.getY(), vec.getZ());
     }
 
-    inline void initScale(float x, float y, float z){
+    inline Matrix4f initScale(float x, float y, float z){
         m[0][0] = x; m[0][1] = 0.0f; m[0][2] = 0.0f; m[0][3] = 0.0f;
         m[1][0] = 0.0f; m[1][1] = y; m[1][2] = 0.0f; m[1][3] = 0.0f;
         m[2][0] = 0.0f; m[2][1] = 0.0f; m[2][2] = z; m[2][3] = 0.0f;
         m[3][0] = 0.0f; m[3][1] = 0.0f; m[3][2] = 0.0f; m[3][3] = 1.0f;
+        return *this;
     }
 
-    inline void initPerpectiveProjection(float FOV, float WIDTH, float HEIGHT,
+    inline Matrix4f initPerpectiveProjection(float FOV, float WIDTH, float HEIGHT,
                                     float zNear, float zFar){
         const float ar = WIDTH / HEIGHT;
         const float tanHalfFOV = tanf(toRadian(FOV/2.0f));
@@ -207,25 +208,28 @@ public:
         m[1][0] = 0.0f;                   m[1][1] = 1.0f / tanHalfFOV;    m[1][2] = 0.0f; m[1][3] = 0.0f;
         m[2][0] = 0.0f;                   m[2][1] = 0.0f; m[2][2] = -zFar/(zNear-zFar);    m[2][3] = zFar * zNear/(zNear - zFar);
         m[3][0] = 0.0f;                   m[3][1] = 0.0f; m[3][2] = 1.0f; m[3][3] = 0.0f;
+        return *this;
     }
 
-    inline void initOrthographicProjection(float width, float height, float zNear, float zFar){
+    inline Matrix4f initOrthographicProjection(float width, float height, float zNear, float zFar){
         const float zRange = zFar - zNear;
 
         m[0][0] = 1.0f/width; m[0][1] = 0.0f;          m[0][2] = 0.0f;             m[0][3] = 0.0f;
         m[1][0] = 0.0f;       m[1][1] = 1.0f / height; m[1][2] = 0.0f;             m[1][3] = 0.0f;
         m[2][0] = 0.0f;       m[2][1] = 0.0f;          m[2][2] = -2.0f/zRange;     m[2][3] = (-zFar - zNear)/zRange;
         m[3][0] = 0.0f;       m[3][1] = 0.0f;          m[3][2] = 0.0f;             m[3][3] = 1.0f;
+        return *this;
     }
 
-    inline void initOrthographicProjection(float left, float right, float top, float bottom, float zNear, float zFar){
+    inline Matrix4f initOrthographicProjection(float left, float right, float top, float bottom, float zNear, float zFar){
         m[0][0] = 2.0f / (right - left); m[0][1] = 0.0f;                m[0][2] = 0.0f;                 m[0][3] = -((right + left)/(right - left));
         m[1][0] = 0.0f;                  m[1][1] = 2.0f/(top-bottom);   m[1][2] = 0.0f;                 m[1][3] = -((top + bottom)/(top-bottom));
         m[2][0] = 0.0f;                  m[2][1] = 0.0f;                m[2][2] = -2.0f/(zFar - zNear); m[2][3] = -((zFar + zNear)/(zFar - zNear));
         m[3][0] = 0.0f;                  m[3][1] = 0.0f;                m[3][2] = 0.0f;                 m[3][3] = 1.0f;
+        return *this;
     }
 
-    inline void initCamera(const Vector3<stReal>& target, const Vector3<stReal>& up){
+    inline Matrix4f initCamera(const Vector3<stReal>& target, const Vector3<stReal>& up){
         Vector3<stReal> N = target;
         N.normalize();
         Vector3<stReal> U = up;
@@ -237,9 +241,10 @@ public:
         m[1][0] = V.getX(); m[1][1] = V.getY(); m[1][2] = V.getZ(); m[1][3] = 0.0f;
         m[2][0] = N.getX(); m[2][1] = N.getY(); m[2][2] = N.getZ(); m[2][3] = 0.0f;
         m[3][0] = 0.0f;     m[3][1] = 0.0f;     m[3][2] = 0.0f;     m[3][3] = 1.0f;
+        return *this;
     }
 
-    inline void initCamera(const Vector3<stReal>& target, const Vector3<stReal>& up, Vector3<stReal> translate){
+    inline Matrix4f initCamera(const Vector3<stReal>& target, const Vector3<stReal>& up, Vector3<stReal> translate){
         Vector3<stReal> N = target;
         N.normalize();
         Vector3<stReal> U = up;
@@ -253,9 +258,10 @@ public:
         m[1][0] = V.getX(); m[1][1] = V.getY(); m[1][2] = V.getZ(); m[1][3] = translate.getY();
         m[2][0] = N.getX(); m[2][1] = N.getY(); m[2][2] = N.getZ(); m[2][3] = translate.getZ();
         m[3][0] = 0.0f;     m[3][1] = 0.0f;     m[3][2] = 0.0f;     m[3][3] = 1.0f;
+        return *this;
     }
 
-    inline void initCamera(const Vector3<stReal>& target, const Vector3<stReal>& up, const Vector3<stReal>& view, Vector3<stReal> translate){
+    inline Matrix4f initCamera(const Vector3<stReal>& target, const Vector3<stReal>& up, const Vector3<stReal>& view, Vector3<stReal> translate){
         Vector3<stReal> N = target;
         Vector3<stReal> U = up;
         Vector3<stReal> V = view;
@@ -266,6 +272,7 @@ public:
         m[1][0] = V.getX(); m[1][1] = V.getY(); m[1][2] = V.getZ(); m[1][3] = translate.getY();
         m[2][0] = N.getX(); m[2][1] = N.getY(); m[2][2] = N.getZ(); m[2][3] = translate.getZ();
         m[3][0] = 0.0f;     m[3][1] = 0.0f;     m[3][2] = 0.0f;     m[3][3] = 1.0f;
+        return *this;
     }
 
     inline Matrix4f operator*(const Matrix4f& right)const {
@@ -281,6 +288,10 @@ public:
         return ret;
     }
 
+    /**
+     *
+     * @return Vector from Matrix
+     */
     inline Vector4<stReal> toVector4()const{
         const float _x = m[0][0] + m[0][1] + m[0][2] + m[0][3];
         const float _y = m[1][0] + m[1][1] + m[1][2] + m[1][3];
@@ -289,6 +300,10 @@ public:
         return Vector4<stReal>(_x, _y, _z, _w);
     }
 
+    /**
+     * Transposes the Matrix.
+     * @return Transposed Matrix.
+     */
     inline const Matrix4f transpose()const {
         Matrix4f ret;
         for(int i = 0; i < 4; i++){
@@ -299,6 +314,10 @@ public:
         return ret;
     }
 
+    /**
+     * Info about the Matrix;
+     * @return
+     */
     inline std::string getInfo(){
         std::ostringstream buff;
         for(int i = 0; i < 4; i++){

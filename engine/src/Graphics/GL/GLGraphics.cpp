@@ -220,8 +220,23 @@ void GLGraphics::drawScene(STScene *scene) {
                                                                  lights[i]->direction.toVector3(),
                                                                  Vector3<stReal>(0, 1, 0));
                     lights[i]->addComponent(typeid(STGraphicsComponent), new STGraphicsComponent(
-                            new STMaterial(new GLShader("direct_shadows", ""))));
+                            new STMaterial(new GLShader("direct_shadows"))));
                 } else {
+                    auto pos = lights[i]->transform()->getTranslate<stReal>();
+                    lights[i]->projections[0] = Matrix4f::LookAt(pos, pos - Vector3<stReal>(1.0f, 0.0f, 0.0f),
+                                                                 Vector3<stReal>(0.0, -1.0f, 0.0));    //Right
+                    lights[i]->projections[1] = Matrix4f::LookAt(pos, pos - Vector3<stReal>(-1.0f, .0, 0.0),
+                                                                 Vector3<stReal>(0.0, -1.0f, 0.0));    //Left
+                    lights[i]->projections[2] = Matrix4f::LookAt(pos, pos - Vector3<stReal>(0.0, 1.0, 0.0),
+                                                                 Vector3<stReal>(0.0, 0.0, 1.0));    //Top
+                    lights[i]->projections[3] = Matrix4f::LookAt(pos, pos - Vector3<stReal>(0.0, -1.0f, 0.0),
+                                                                 Vector3<stReal>(0.0, 0.0, 1.0));    //Bottom
+                    lights[i]->projections[4] = Matrix4f::LookAt(pos, pos - Vector3<stReal>(0.0, 0.0, 1.0),
+                                                                 Vector3<stReal>(0.0, -1.0f, 0.0));    //Near
+                    lights[i]->projections[5] = Matrix4f::LookAt(pos, pos - Vector3<stReal>(0.0, 0.0, -1.0f),
+                                                                 Vector3<stReal>(0.0, -1.0f, 0.0));    //Far
+                    lights[i]->addComponent(typeid(STGraphicsComponent),
+                                            new STGraphicsComponent(new GLShader("spotLight_shadows")));
                     for (stUint j = 0; j < 6; j++) {
                         glGenFramebuffers(1, &lights[i]->shadowFrameBuffer[j]);
                         glGenTextures(1, &lights[i]->shadowMapID[j]);
@@ -239,21 +254,6 @@ void GLGraphics::drawScene(STScene *scene) {
                         glDrawBuffer(GL_NONE);
                         glReadBuffer(GL_NONE);
                         glBindFramebuffer(GL_FRAMEBUFFER, 0);
-                        auto pos = lights[i]->transform()->getTranslate<stReal>();
-                        lights[i]->projections[0] = Matrix4f::LookAt(pos, pos - Vector3<stReal>(1.0f, 0.0f, 0.0f),
-                                                                     Vector3<stReal>(0.0, -1.0f, 0.0));    //Right
-                        lights[i]->projections[1] = Matrix4f::LookAt(pos, pos - Vector3<stReal>(-1.0f, .0, 0.0),
-                                                                     Vector3<stReal>(0.0, -1.0f, 0.0));    //Left
-                        lights[i]->projections[2] = Matrix4f::LookAt(pos, pos - Vector3<stReal>(0.0, 1.0, 0.0),
-                                                                     Vector3<stReal>(0.0, 0.0, 1.0));    //Top
-                        lights[i]->projections[3] = Matrix4f::LookAt(pos, pos - Vector3<stReal>(0.0, -1.0f, 0.0),
-                                                                     Vector3<stReal>(0.0, 0.0, 1.0));    //Bottom
-                        lights[i]->projections[4] = Matrix4f::LookAt(pos, pos - Vector3<stReal>(0.0, 0.0, 1.0),
-                                                                     Vector3<stReal>(0.0, -1.0f, 0.0));    //Near
-                        lights[i]->projections[5] = Matrix4f::LookAt(pos, pos - Vector3<stReal>(0.0, 0.0, -1.0f),
-                                                                     Vector3<stReal>(0.0, -1.0f, 0.0));    //Far
-                        lights[i]->addComponent(typeid(STGraphicsComponent),
-                                                new STGraphicsComponent(new GLShader("spotLight_shadows")));
                     }
                 }
             }
@@ -270,6 +270,7 @@ void GLGraphics::drawScene(STScene *scene) {
         glViewport(0, 0, m_shadowRes, m_shadowRes);
         glEnable(GL_DEPTH_TEST);
 
+        auto ortho = Matrix4f().initOrthographicProjection(-10.f, 10.f, -10.f, 10.f, 1.f, 10.f);
         for(stUint i = 0; i < lights.size(); i++){
             if(lights[i]->type == STLight::DIRECTIONAL_LIGHT || lights[i]->type == STLight::SPOT_LIGHT) {
                 glBindFramebuffer(GL_FRAMEBUFFER, lights[i]->shadowFrameBuffer[0]);
@@ -279,10 +280,11 @@ void GLGraphics::drawScene(STScene *scene) {
                 auto shdr = lights[i]->get<STGraphicsComponent>()->getMaterial()->shdr();
                 shdr->bind();
                 shdr->update("model", Matrix4f());
-                shdr->update("lightMatrix", Matrix4f::LookAt(lights[i]->transform()->getTranslate<stReal>(), lights[i]->direction, Vector3<stReal>(0.0f, 1.0f, 0.0f)));
+                shdr->update("lightMatrix", ortho * Matrix4f::LookAt(Vector3<stReal>(2.f, 5.f, 0.f), Vector3<stReal>(0, 0, 0), Vector3<stReal>(0.0f, 1.0f, 0.0f)));
                 for (stUint j = 0; j < actors.size(); j++) {
                     actors[j]->draw(lights[i]->get<STGraphicsComponent>()->getMaterial());
                 }
+                glBindFramebuffer(GL_FRAMEBUFFER, 0);
             }else{
                 for(stUint j = 0; j < 6; j++){
                     glBindFramebuffer(GL_FRAMEBUFFER, lights[i]->shadowFrameBuffer[j]);
@@ -295,7 +297,6 @@ void GLGraphics::drawScene(STScene *scene) {
                 }
             }
         }
-        glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
         //Populate the atlas.
         glViewport(0, 0, 8*m_shadowRes, 8*m_shadowRes);
@@ -354,7 +355,7 @@ void GLGraphics::drawScene(STScene *scene) {
             actors[i]->setShdrUniform("Light["+std::to_string(j)+"].Color", lights[j]->color);
             actors[i]->setShdrUniform("Light["+std::to_string(j)+"].Intensity", lights[j]->intensity);
             actors[i]->setShdrUniform("Light["+std::to_string(j)+"].Position", lights[j]->transform()->getTranslate<stReal>());
-            actors[i]->setShdrUniform("Light["+std::to_string(j)+"].Direction", lights[j]->direction);
+            actors[i]->setShdrUniform("Light["+std::to_string(j)+"].Direction", lights[j]->direction.toVector3());
             actors[i]->setShdrUniform("Light["+std::to_string(j)+"].Radius", lights[j]->radius);
         }
         actors[i]->draw();

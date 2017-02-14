@@ -1,7 +1,12 @@
 #ifndef WAHOO_STEVENTCOMPONENT_H
 #define WAHOO_STEVENTCOMPONENT_H
 
+#if __linux__
+#include <functional>
+#else
 #include <c++/functional>
+#endif
+
 #include "STComponent.h"
 
 class STEventComponent : public STComponent{

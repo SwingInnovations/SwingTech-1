@@ -19,7 +19,7 @@ class STComponent;
 
 class STMeshComponent : public STComponent{
 
-/*
+/**
  *  @Author Nathan Danque
  *
  *  Purpose: Handle Mesh operations within the m_entity.

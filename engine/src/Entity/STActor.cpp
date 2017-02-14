@@ -1,7 +1,3 @@
-//
-// Created by NDanq on 6/25/2016.
-//
-
 #include "STActor.h"
 #include "Components/STEventComponent.h"
 
@@ -15,6 +11,13 @@ STActor::STActor(const std::string &filePath, const int type, STMaterial *materi
     m_visible = true;
 }
 
+/**
+ * Creates a new Actor Entity based off defined STMeshStructure, uniqueTag, and Material.
+ * @param structure
+ * @param tag
+ * @param material
+ * @return
+ */
 STActor::STActor(STMesh_Structure structure, std::string &tag, STMaterial* material) {
     m_transform = new Transform;
     m_tag = tag;
@@ -48,7 +51,6 @@ STActor::STActor(const std::string &filePath, STMaterial *material) {
         return;
     }else{
         if(!errFlag){
-            //TODO Add error mesh.
             addComponent(typeid(STMeshComponent), new STMeshComponent("base/ErrorMesh.obj", STMesh::OBJ));
             addComponent(typeid(STGraphicsComponent), new STGraphicsComponent(new STMaterial(new GLShader("base/errorObject"))));
             get<STEventComponent>()->updateEvent([](STEntity* self){
@@ -68,6 +70,9 @@ STActor::STActor(const std::string &filePath, STMaterial *material) {
 
 }
 
+/**
+ * Draws actor and all children if visible.
+ */
 void STActor::draw() {
     if(m_visible){
         auto mesh = this->get<STMeshComponent>();
@@ -79,12 +84,14 @@ void STActor::draw() {
         for(auto child : m_children){
             dynamic_cast<STActor*>(child)->draw();
         }
-//        for(stUint i = 0, S = m_children.size(); i < S; i++){
-//            m_children.at(1)->draw(cam, 2);
-//        }
     }
 }
 
+/**
+ * Draws the scene with specified camera and draw mode override.
+ * @param camera
+ * @param drawMode
+ */
 void STActor::draw(Camera *camera, int drawMode) {
     if(m_visible){
         auto mesh = this->get<STMeshComponent>();
@@ -94,6 +101,10 @@ void STActor::draw(Camera *camera, int drawMode) {
     }
 }
 
+/**
+ * Draws the scene using material as an override.
+ * @param material
+ */
 void STActor::draw(STMaterial *material) {
     if(m_visible){
         auto mesh = this->get<STMeshComponent>();

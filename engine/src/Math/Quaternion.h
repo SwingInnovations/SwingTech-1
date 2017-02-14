@@ -5,6 +5,10 @@ template<typename>class Vector3;
 
 class Quaternion {
 public:
+    /** Default constructor
+     *
+     * @return
+     */
     Quaternion(){
         m_val[0] = 0.0f;
         m_val[1] = 0.0f;
@@ -12,6 +16,14 @@ public:
         m_val[3] = 1.0f;
     }
 
+    /** Quaternion Constructor
+     *
+     * @param _x    X - Component
+     * @param _y    Y - Component
+     * @param _z    Z - Component
+     * @param _w    W - Component
+     * @return
+     */
     Quaternion(const float _x, const float _y, const float _z, const float _w){
         m_val[0] = _x;
         m_val[1] = _y;
@@ -32,6 +44,10 @@ public:
     inline float getLength(){ return (float)sqrt( pow(m_val[0], 2) + pow(m_val[1], 2) + pow(m_val[2], 2) + pow(m_val[3], 2)); }
     inline float* getData(){ return m_val; }
 
+    /**Normalizes the quaternion.
+     *
+     * @return quaternion normalized.
+     */
     inline Quaternion normalize(){
         float len = getLength();
         m_val[0] /= len;
@@ -41,10 +57,18 @@ public:
         return *this;
     }
 
+    /**Returns the Conjugate of the Quaternion
+     *
+     * @return Conjugate of the quaternion.
+     */
     inline Quaternion conjugate(){
         return Quaternion(-m_val[0], -m_val[1], -m_val[2], m_val[3]);
     }
 
+    /**Converts Quaternion to Vector3
+     *
+     * @return Vector3-ized quaternion.
+     */
     template<typename T>inline Vector3<T> toVector3(){
         T _x = (T)m_val[0];
         T _y = (T)m_val[1];

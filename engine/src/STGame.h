@@ -105,6 +105,10 @@ public:
      *  \param v Cursor Visibility state.
      */
     void showCursor(bool v){ this->isCursorOnDisplay = v; }
+    /** Sets the Window Icon
+     *
+     * @param filePath Path to window icon.
+     */
     void setIcon(const std::string& filePath);
     //! Sets Current State of Game
     /*!
@@ -182,11 +186,8 @@ protected:
     bool isRunning;
     //! Initializes Game States
     void init(); /*! Initializes Game states when necessary, deactivates last state */
-    //! Updates Logical operations
-    void updateLogic(); /*! Updates on every delta tick. */
-    //! Updates Input Operations
-    void updateInput(SDL_Event& event);/*! Operates on every input event*/
     //! Renders Scene
+    void update();
     void render();
     //! Calculates Delta for every CPU cycle
     void calcDelta();

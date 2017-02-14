@@ -50,7 +50,19 @@ public:
         GUI = 2
     };
 
+    /**
+     * Default Constructor
+     * @return new STEntity
+     */
     STEntity();
+
+    /** Creates new STEntity.
+     *
+     * @param fileName - Path to model file
+     * @param type - File Format
+     * @param shdr - Specified Shader
+     * @return
+     */
     STEntity(const std::string& fileName, const int type, Shader* shdr);
     STEntity(const std::string& fileName, const int type, const std::string& shdrPath);
     STEntity(const std::string& fileName, const int type, const std::string& shdrPath, const std::string texPath);

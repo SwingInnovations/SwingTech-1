@@ -8,7 +8,11 @@
 
 #include <string>
 #include <vector>
+#if __linux__
+#include <sstream>
+#else
 #include <c++/sstream>
+#endif
 
 #include "STGame.h"
 
@@ -176,11 +180,14 @@ public:
     Input();
     Input(STGame * app, SDL_Event& e);
     ~Input();
-
+    
     void poll(SDL_Event&);
     inline void requestClose(){ closeRequested = true; }
     void setCursorVisible(bool);
 
+    /** Centers cursor to window.
+     *
+     */
     void centerMouseInWindow();
 
     static Input* Get();

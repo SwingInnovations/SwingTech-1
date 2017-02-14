@@ -165,6 +165,11 @@ namespace STShader{
         return ret;
     }
 
+    /** Converts Serialized Matrix to Matrix4f
+     *
+     * @param value Matrix4f serialized
+     * @return Matrix4f non-serialized
+     */
     static Matrix4f toMatrix4f(const std::string& value){
         std::vector<stReal> elements;
         Matrix4f ret;

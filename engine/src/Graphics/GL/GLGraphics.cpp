@@ -278,10 +278,12 @@ void GLGraphics::drawScene(STScene *scene) {
                 glEnable(GL_CULL_FACE);
                 glCullFace(GL_FRONT);
                 auto shdr = lights[i]->get<STGraphicsComponent>()->getMaterial()->shdr();
-                shdr->bind();
-                shdr->update("model", Matrix4f());
-                shdr->update("lightMatrix", ortho * Matrix4f::LookAt(Vector3<stReal>(2.f, 5.f, 0.f), Vector3<stReal>(0, 0, 0), Vector3<stReal>(0.0f, 1.0f, 0.0f)));
+                //shdr->bind();
+                //shdr->update("model", Matrix4f());
+                //shdr->update("lightMatrix", ortho * Matrix4f::LookAt(Vector3<stReal>(2.f, 5.f, 0.f), Vector3<stReal>(0, 0, 0), Vector3<stReal>(0.0f, 1.0f, 0.0f)));
                 for (stUint j = 0; j < actors.size(); j++) {
+                    //actors[j]->setShdrUniform("lightSpaceMatrix", ortho * Matrix4f::LookAt(Vector3<stReal>(5.f, 3.f, 5.f), Vector3<stReal>(0, 0, 0), Vector3<stReal>(0.f, 1.f, 0.f)));
+                    actors[j]->setShdrUniform("lightSpaceMatrix", ortho * lights[j]->projections[0]);
                     actors[j]->draw(lights[i]->get<STGraphicsComponent>()->getMaterial());
                 }
                 glBindFramebuffer(GL_FRAMEBUFFER, 0);
@@ -292,8 +294,7 @@ void GLGraphics::drawScene(STScene *scene) {
                     glEnable(GL_CULL_FACE);
                     glCullFace(GL_FRONT);
                     auto shdr = lights[i]->get<STGraphicsComponent>()->getMaterial()->shdr();
-                    shdr->bind();
-                    shdr->update("model", Matrix4f());
+                    //TODO IMplement orthographic projection from all 6 sides.
                 }
             }
         }
@@ -359,7 +360,6 @@ void GLGraphics::drawScene(STScene *scene) {
             actors[i]->setShdrUniform("Light["+std::to_string(j)+"].Radius", lights[j]->radius);
         }
         actors[i]->draw();
-
     }
 
 

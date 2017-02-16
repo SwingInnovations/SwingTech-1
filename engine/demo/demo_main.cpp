@@ -89,6 +89,7 @@ public:
     void update(STGame* game, stUint delta){
         auto input = Input::Get();
         if(input->isKeyPressed(KEY::KEY_ESC)) input->requestClose();
+        if(input->isKeyPressed(KEY::KEY_Q)) input->setCursorBound(!input->isCursorBound());
     }
 
     void render(STGame * win){

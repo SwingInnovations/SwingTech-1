@@ -5,6 +5,7 @@
 #include <map>
 #include "Entity/STEntity.h"
 #include "Entity/STActor.h"
+#include "Entity/STLight.h"
 
 class STLight;
 class STInterWidget;
@@ -118,6 +119,7 @@ class STScene{
 public:
     STScene(){
         m_index = 0;
+        m_numShadows = 0;
     }
 
     STScene(stUint index){
@@ -129,6 +131,8 @@ public:
     }
 
     inline void addLight(STLight* light){
+        if(light->type == STLight::DIRECTIONAL_LIGHT || light->type == STLight::SPOT_LIGHT) m_numShadows++;
+        else m_numShadows += 6;
         lights.push_back(light);
     }
 
@@ -149,9 +153,11 @@ public:
     const std::string& getSkyboxShader()const{ return skyboxShader; }
 
     const stUint getIndex()const{ return m_index; }
+    const stUint getShadowCount()const{ return m_numShadows; }
 
 private:
     stUint m_index;
+    stUint m_numShadows;
     std::vector<STActor*> actors;
     std::vector<STLight*> lights;
     std::vector<STInterWidget*> uiElements;

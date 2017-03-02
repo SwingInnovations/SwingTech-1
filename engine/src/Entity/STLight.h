@@ -15,6 +15,7 @@
 class STLight :public STEntity{
 public:
 
+    //TODO, Move properties to STLightComponent.
     enum STLIGHT_TYPE: char
     {
         DIRECTIONAL_LIGHT,

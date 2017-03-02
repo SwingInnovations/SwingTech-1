@@ -127,6 +127,10 @@ private:
     GLuint textVAO;
     GLuint textVBO;
     GLShader* textShader;
+
+    GLuint shadowAtlasVAO;
+    GLuint shadowAtlasVBO;
+
     Matrix4f orthoProjection;
     GLuint frameBuffer;
     GLuint frameTexBuffer;

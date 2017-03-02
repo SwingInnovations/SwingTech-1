@@ -47,13 +47,13 @@ public:
 //         }
         STGame::Get()->getCamera()->setSpeed(0.005f);
 
-        _testActor2 = new STActor("teapot.obj", STMesh::OBJ, resManager->getMaterial("default"));
+        _testActor2 = new STActor("scene.obj", resManager->getMaterial("default"));
         //_testActor2->setTranslateX(1);
-        _testActor2->setShdrUniform("_Metallic", 0.0f);
+        _testActor2->setShdrUniform("_Metallic", 0.8f);
         _testActor2->setShdrUniform("_Roughness",0.1f);
         _testActor2->setScale(0.01);
         _testActor2->setDiffuseTexture("grid.png");
-        _testActor2->setNormalTexture("testNormal.png");
+        _testActor2->setNormalTexture("testNormal.jpg");
         mat->setBaseColor(Vector3<stReal>(.7,.7,.7));
         //  _testActor2->setRotateX(90);
         // _testActor2->setRotateY(90);
@@ -72,7 +72,7 @@ public:
         // _testLight->setTranslateZ(2);
 
 
-        _testLight2 = new STLight(Vector3<stReal>(1,1,1),Vector3<stReal>(1,1,1));
+        _testLight2 = STLight::DirectionalLight(Vector3<stReal>(5.f, 3.f, 5.f), Vector3<stReal>(5.f, 3.f, 5.f) - Vector3<stReal>(0.f, 0.f, 0.f), Vector3<stReal>(1.f, 1.f, 1.f));
         _testLight2->intensity =2;
         _testLight2->radius=-1;
 
@@ -145,7 +145,7 @@ int main(int argc, char** argv){
     win->addCamera(new Camera(*win, campos, 0));
     win->addState(new TestState(0));
     win->enterState(0);
-    //win->getGraphics()->enablePostEffect(STGraphics::BLOOM | STGraphics::MOTION_BLUR | STGraphics::FXAA );
+    win->getGraphics()->enablePostEffect(STGraphics::BLOOM | STGraphics::MOTION_BLUR | STGraphics::FXAA );
     win->start();
 
     return 0;

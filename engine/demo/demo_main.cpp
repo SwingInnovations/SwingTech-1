@@ -66,9 +66,12 @@ public:
 
         //_testActor2->setShdrUniform_Texture("_RoughnessTex",roughnessTex->genTex("roughness.png"));
         //_testActor2->setTranslateY(-4);
-        _testLight = new STLight(Vector3<stReal>(-1,-1,-1),Vector3<stReal>(1,1,1));
-        _testLight->intensity =2.5;
-        _testLight->radius=-1;
+//        _testLight = new STLight(Vector3<stReal>(-1,-1,-1),Vector3<stReal>(1,1,1));
+//        _testLight->intensity =2.5;
+//        _testLight->radius=-1;
+        _testLight = STLight::DirectionalLight(Vector3<stReal>(-2.f, 3.f, -7.f), Vector3<stReal>(-5.f, 3.f, -5.f) - Vector3<stReal>(0.f, 0.f, 0.f), Vector3<stReal>(1.0f, 0.f, 0.f));
+        _testLight->intensity = 2;
+        _testLight->radius = -1;
         // _testLight->setTranslateZ(2);
 
 
@@ -83,6 +86,7 @@ public:
 
         scene->addActor(_testActor2);
         scene->addLight(_testLight2);
+        scene->addLight(_testLight);
         STGraphics::ClearColor = Vector4<stReal>(0.0, 0.0, 0.168, 1.0);
     }
 

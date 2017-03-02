@@ -348,7 +348,7 @@ void GLGraphics::drawScene(STScene *scene) {
                         glDrawArrays(GL_TRIANGLES, 0, 6);
 
                         shadowX += m_shadowRes;
-                        if((int)shadowX % 4 == 0) shadowY += m_shadowRes;
+                        if((int)shadowX % (4 * m_shadowRes) == 0) shadowY += m_shadowRes;
                     }else{
                         for(stUint k = 0; k < 6; k++){
                             GLfloat verts[6][4] = {
@@ -367,7 +367,7 @@ void GLGraphics::drawScene(STScene *scene) {
                             glBindBuffer(GL_ARRAY_BUFFER, 0);
                             glDrawArrays(GL_TRIANGLES, 0, 6);
                             shadowX += m_shadowRes;
-                            if((stUint)shadowX % 4 == 0) shadowY += m_shadowRes;
+                            if((stUint)shadowX % (4 * m_shadowRes) == 0) shadowY += m_shadowRes;
                         }
                     }
                     ind++;
@@ -560,11 +560,9 @@ void GLGraphics::MotionBlur(){
 
 
 void GLGraphics::ToneMapping() {
-
     glBindFramebuffer(GL_FRAMEBUFFER, frameBuffer);
 
     glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, frameTexBuffer, 0);
-
 
     Tone_Mapping->bind();
     glActiveTexture(GL_TEXTURE0);
@@ -573,21 +571,15 @@ void GLGraphics::ToneMapping() {
     Tone_Mapping->unbind();
 
     glBindFramebuffer(GL_FRAMEBUFFER, 0);
-
-
-
-
 }
 
 
 void GLGraphics::RenderScreenWithShader(const std::string& shaderName) {
-
     GLShader* tempShader = new GLShader("screen",shaderName);
 
     glBindFramebuffer(GL_FRAMEBUFFER, frameBuffer);
 
     glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, frameTexBuffer, 0);
-
 
     tempShader->bind();
     glActiveTexture(GL_TEXTURE0);
@@ -601,12 +593,9 @@ void GLGraphics::RenderScreenWithShader(const std::string& shaderName) {
 }
 
 void GLGraphics::RenderScreenWithShader(GLShader* shader) {
-
-
     glBindFramebuffer(GL_FRAMEBUFFER, frameBuffer);
 
     glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, frameTexBuffer, 0);
-
 
     shader->bind();
     glActiveTexture(GL_TEXTURE0);
@@ -615,7 +604,6 @@ void GLGraphics::RenderScreenWithShader(GLShader* shader) {
     shader->unbind();
 
     glBindFramebuffer(GL_FRAMEBUFFER, 0);
-
 }
 
 void GLGraphics::drawText(Vector2<stReal> pos, const std::string& text, stReal fontSize) {

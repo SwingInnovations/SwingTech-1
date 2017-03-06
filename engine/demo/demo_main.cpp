@@ -53,7 +53,7 @@ public:
         _testActor2->setShdrUniform("_Roughness",0.1f);
         _testActor2->setScale(0.01);
         _testActor2->setDiffuseTexture("grid.png");
-        _testActor2->setNormalTexture("testNormal.jpg");
+        _testActor2->setNormalTexture("testNormal.png");
         mat->setBaseColor(Vector3<stReal>(.7,.7,.7));
         //  _testActor2->setRotateX(90);
         // _testActor2->setRotateY(90);
@@ -70,13 +70,13 @@ public:
 //        _testLight->intensity =2.5;
 //        _testLight->radius=-1;
         _testLight = STLight::DirectionalLight(Vector3<stReal>(-2.f, 3.f, -7.f), Vector3<stReal>(-5.f, 3.f, -5.f) - Vector3<stReal>(0.f, 0.f, 0.f), Vector3<stReal>(1.0f, 0.f, 0.f));
-        _testLight->intensity = 2;
+        _testLight->intensity = 0.5f;
         _testLight->radius = -1;
         // _testLight->setTranslateZ(2);
 
 
         _testLight2 = STLight::DirectionalLight(Vector3<stReal>(5.f, 3.f, 5.f), Vector3<stReal>(5.f, 3.f, 5.f) - Vector3<stReal>(0.f, 0.f, 0.f), Vector3<stReal>(1.f, 1.f, 1.f));
-        _testLight2->intensity =2;
+        _testLight2->intensity =0.5f;
         _testLight2->radius=-1;
 
         scene->addSkybox("mystic", "skybox");
@@ -149,7 +149,7 @@ int main(int argc, char** argv){
     win->addCamera(new Camera(*win, campos, 0));
     win->addState(new TestState(0));
     win->enterState(0);
-    win->getGraphics()->enablePostEffect(STGraphics::BLOOM | STGraphics::MOTION_BLUR | STGraphics::FXAA );
+    win->getGraphics()->enablePostEffect(STGraphics::MOTION_BLUR | STGraphics::FXAA );
     win->start();
 
     return 0;

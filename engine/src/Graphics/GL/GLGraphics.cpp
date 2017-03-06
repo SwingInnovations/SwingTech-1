@@ -409,8 +409,8 @@ void GLGraphics::drawScene(STScene *scene) {
     glDepthFunc(GL_EQUAL);
     glDepthMask(GL_TRUE);
 
-    for(int i =0; i < actors.size(); i++){
-        for(int j =0; j < lights.size(); j++) {
+    for(stUint i =0; i < actors.size(); i++){
+        for(stUint j =0; j < lights.size(); j++) {
             actors[i]->setShdrUniform("_CameraPos", camera()->transform()->getTranslate<stReal>());
             actors[i]->setShdrUniform_CubeMap("_WorldCubeMap", scenes[scene->getIndex()].m_skybox);
 
@@ -494,14 +494,9 @@ void GLGraphics::drawScene(STScene *scene) {
 
 
 void GLGraphics::Bloom(){
-
-
-
     glBindFramebuffer(GL_FRAMEBUFFER, bloomThresBuf);
 
     glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, bloomThresTex, 0);
-
-
 
     Bloom_Threshold->bind();
     glActiveTexture(GL_TEXTURE0);
@@ -512,12 +507,9 @@ void GLGraphics::Bloom(){
     glGenerateMipmap(GL_TEXTURE_2D);
     glBindTexture(GL_TEXTURE_2D,0);
 
-
     glBindFramebuffer(GL_FRAMEBUFFER, frameBuffer);
 
     glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, frameTexBuffer, 0);
-
-
 
     Bloom_Composite->bind();
     glActiveTexture(GL_TEXTURE0);
@@ -528,20 +520,13 @@ void GLGraphics::Bloom(){
     Bloom_Composite->unbind();
 
     glBindFramebuffer(GL_FRAMEBUFFER, 0);
-
-
 }
 
 
 void GLGraphics::MotionBlur(){
-
-
-
     glBindFramebuffer(GL_FRAMEBUFFER, frameBuffer);
 
     glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, frameTexBuffer, 0);
-
-
 
     Motion_Blur->bind();
     glActiveTexture(GL_TEXTURE0);
@@ -552,10 +537,6 @@ void GLGraphics::MotionBlur(){
     Motion_Blur->unbind();
 
     glBindFramebuffer(GL_FRAMEBUFFER, 0);
-
-
-
-
 }
 
 

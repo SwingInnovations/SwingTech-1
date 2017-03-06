@@ -10,6 +10,7 @@
 #include "Components/STGraphicsComponent.h"
 #include "Components/STMeshComponent.h"
 #include "Components/STEventComponent.h"
+#include "Components/STLightComponent.h"
 
 
 class STLight :public STEntity{
@@ -38,6 +39,19 @@ public:
         return  ret;
     }
 
+    static STLight* InitDirectionalLight(Vector3<stReal> position, Vector3<stReal> direction, Vector3<stReal> color){
+        STLight* ret = new STLight;
+        ret->addComponent(typeid(STLightComponent), new STLightComponent);
+        ret->setTranslate(position);
+        auto lightProps = ret->get<STLightComponent>()->getProperties();
+        lightProps->color = color;
+        lightProps->spotLightAtribs = Vector2<stReal>(0.f, 0.f);
+        lightProps->direction = Vector4<stReal>(direction, 0.0f);
+        lightProps->intensity = 1.f;
+        ret->type = DIRECTIONAL_LIGHT;
+        return ret;
+    }
+
     /**
      * Constructor for a Directional Light;
      * @param position
@@ -62,6 +76,32 @@ public:
         ret->coneAngle = coneAngle;
         ret->coneHeight = coneDistance;
         ret->type = SPOT_LIGHT;
+        return ret;
+    }
+
+    static STLight* InitSpotLight(Vector3<stReal> position, Vector3<stReal> direction, Vector3<stReal> color, stReal coneAngle, stReal coneDistance)
+    {
+        STLight* ret = new STLight;
+        ret->setTranslate(position);
+        ret->addComponent(typeid(STLightComponent), new STLightComponent);
+        auto lightProps = ret->get<STLightComponent>()->getProperties();
+        lightProps->color = color;
+        lightProps->direction = Vector4<stReal>(direction, 1.f);
+        lightProps->spotLightAtribs = Vector2<stReal>(coneAngle, coneDistance);
+        lightProps->intensity = 1.f;
+        ret->type = SPOT_LIGHT;
+        return ret;
+    }
+
+    static STLight* InitPointLight(Vector3<stReal> position, Vector3<stReal> color, stReal radius){
+        STLight* ret = new STLight;
+        ret->setTranslate(position);
+        ret->addComponent(typeid(STLightComponent), new STLightComponent);
+        auto lightProps = ret->get<STLightComponent>()->getProperties();
+        lightProps->radius = radius;
+        lightProps->direction = Vector4<stReal>(0.f, 0.f, 0.f, -1.f);
+        lightProps->intensity = 1.f;
+        ret->type = POINT_LIGHT;
         return ret;
     }
 
@@ -137,6 +177,7 @@ public:
     stUint shadowMapID[6];
     stUint shadowFrameBuffer[6];
     Matrix4f projections[6];
+    Vector3<stReal> target;
 private :
     STMaterial* m_material;
 };

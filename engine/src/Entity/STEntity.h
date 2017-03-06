@@ -31,7 +31,6 @@ struct STAttribute{
     };
     STAttribute(const int value){
         type = Int;
-
     }
 
     STAttribute(const float value){

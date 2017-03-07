@@ -208,7 +208,8 @@ void GLGraphics::drawScene(STScene *scene) {
         if (m_shadows) {
             auto lights = scene->getLights();
             for (stInt i = 0, S = lights.size(); i < S; i++) {
-                if (lights[i]->type == STLight::DIRECTIONAL_LIGHT || lights[i]->type == STLight::SPOT_LIGHT) {
+                if (lights[i]->get<STLightComponent>()->getType() == STLightComponent::DIRECTIONAL_LIGHT ||
+                        lights[i]->get<STLightComponent>()->getType() == STLightComponent::SPOT_LIGHT) {
                     glGenFramebuffers(1, &lights[i]->shadowFrameBuffer[0]);
                     glGenTextures(1, &lights[i]->shadowMapID[0]);
                     glBindTexture(GL_TEXTURE_2D, lights[i]->shadowMapID[0]);
@@ -227,7 +228,7 @@ void GLGraphics::drawScene(STScene *scene) {
                     glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
                     lights[i]->projections[0] = Matrix4f::LookAt(lights[i]->transform()->getTranslate<stReal>(),
-                                                                 lights[i]->direction.toVector3(),
+                                                                 lights[i]->get<STLightComponent>()->getProperties()->direction,
                                                                  Vector3<stReal>(0, 1, 0));
                     lights[i]->addComponent(typeid(STGraphicsComponent), new STGraphicsComponent(
                             new STMaterial(new GLShader("direct_shadows"))));
@@ -282,7 +283,8 @@ void GLGraphics::drawScene(STScene *scene) {
 
         auto ortho = Matrix4f().initOrthographicProjection(-10.f, 10.f, -10.f, 10.f, 1.f, 10.f);
         for(stUint i = 0; i < lights.size(); i++){
-            if(lights[i]->type == STLight::DIRECTIONAL_LIGHT || lights[i]->type == STLight::SPOT_LIGHT) {
+            if(lights[i]->get<STLightComponent>()->getType() == STLightComponent::DIRECTIONAL_LIGHT ||
+                    lights[i]->get<STLightComponent>()->getType() == STLightComponent::SPOT_LIGHT) {
                 glBindFramebuffer(GL_FRAMEBUFFER, lights[i]->shadowFrameBuffer[0]);
                 glClear(GL_DEPTH_BUFFER_BIT);
                 glEnable(GL_CULL_FACE);
@@ -329,7 +331,8 @@ void GLGraphics::drawScene(STScene *scene) {
         for(stUint i = 0; i < 4; i++){
             for(stUint j = 0; j < 4; j++){
                 if(ind < scene->getLights().size()){
-                    if(lights[ind]->type == STLight::DIRECTIONAL_LIGHT || lights[ind]->type == STLight::POINT_LIGHT){
+                    if(lights[ind]->get<STLightComponent>()->getType() == STLightComponent::DIRECTIONAL_LIGHT||
+                            lights[ind]->get<STLightComponent>()->getType() == STLightComponent::SPOT_LIGHT){
 
                         GLfloat verts[6][4] = {
                                 {shadowX, shadowY + m_shadowRes, 0.f, 1.f},
@@ -414,11 +417,14 @@ void GLGraphics::drawScene(STScene *scene) {
             actors[i]->setShdrUniform("_CameraPos", camera()->transform()->getTranslate<stReal>());
             actors[i]->setShdrUniform_CubeMap("_WorldCubeMap", scenes[scene->getIndex()].m_skybox);
 
-            actors[i]->setShdrUniform("Light["+std::to_string(j)+"].Color", lights[j]->color);
-            actors[i]->setShdrUniform("Light["+std::to_string(j)+"].Intensity", lights[j]->intensity);
+            auto lightProps = lights[j]->get<STLightComponent>()->getProperties();
+
+            actors[i]->setShdrUniform("Light["+std::to_string(j)+"].LightType", (stInt)lightProps->direction.getW());
+            actors[i]->setShdrUniform("Light["+std::to_string(j)+"].Color", lightProps->color);
             actors[i]->setShdrUniform("Light["+std::to_string(j)+"].Position", lights[j]->transform()->getTranslate<stReal>());
-            actors[i]->setShdrUniform("Light["+std::to_string(j)+"].Direction", lights[j]->direction.toVector3());
-            actors[i]->setShdrUniform("Light["+std::to_string(j)+"].Radius", lights[j]->radius);
+            actors[i]->setShdrUniform("Light["+std::to_string(j)+"].Direction", lightProps->direction.toVector3());
+            actors[i]->setShdrUniform("Light["+std::to_string(j)+"].Radius", lightProps->radius);
+            actors[i]->setShdrUniform("Light["+std::to_string(j)+"].Intensity", lightProps->intensity);
         }
         actors[i]->draw();
     }

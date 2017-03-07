@@ -6,12 +6,13 @@ in mat3 TBN;
 
 struct STLight
 {
+    int  LightType;
 	vec3 Color;
 	vec3 Position;
 	vec3 Direction;
+	vec2 SpotLightAttribs;
 	float Radius;
 	float Intensity;
-
 };
 
 

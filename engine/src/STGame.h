@@ -1,15 +1,24 @@
 #ifndef WAHOO_STECHWINDOW_H
 #define WAHOO_STECHWINDOW_H
 
+#if __WINDOWS__
 #include "../include/GL/glew.h"
 extern "C"{
     #include "../include/SDL2/SDL.h"
     #include "../include/SDL2/SDL_opengl.h"
 };
+#else
+#include <GL/glew.h>
+extern "C"{
+#include <stdio.h>
+#define SDL_PRINTF_FORMAT_STRING const char*
+#include <SDL2/SDL.h>
+#include <SDL2/SDL_opengl.h>
+};
+#endif
 
-#define GLEW_STATIC
+#define  GLEW_STATIC
 
-#include <string>
 #include <iostream>
 #include <vector>
 

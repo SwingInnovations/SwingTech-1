@@ -6,7 +6,13 @@
 #include <sstream>
 #include <cstdlib>
 
+#if __WINDOWS__
 #include "../../../include/GL/glew.h"
+#else
+#include <GL/glew.h>
+#include <GL/glut.h>
+#endif
+
 #include "../Shader.h"
 #include "../Camera.h"
 #include "../../Math/Vector.h"

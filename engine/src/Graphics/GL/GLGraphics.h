@@ -3,7 +3,14 @@
 
 #include <regex>
 
+#if __WINDOWS__
 #include "../../../include/GL/glew.h"
+#else
+#include <GL/glew.h>
+#include <GL/glut.h>
+#endif
+
+
 #include "../../Entity/STLight.h"
 #include "../../Entity/STEntity.h"
 #include "../../STSceneManager.h"

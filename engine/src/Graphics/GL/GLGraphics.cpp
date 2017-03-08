@@ -1,7 +1,15 @@
+
+#if __WINDOWS__
 extern "C"{
     #include <ft2build.h>
     #include FT_FREETYPE_H
 }
+#else
+extern "C"{
+#include <ft2build.h>
+#include FT_FREETYPE_H
+};
+#endif
 
 #include "GLGraphics.h"
 

@@ -1,7 +1,11 @@
 #ifndef SWINGTECH1_STMENU_H
 #define SWINGTECH1_STMENU_H
 
+#if __WINDOWS__
 #include <c++/functional>
+#else
+#include <functional>
+#endif
 #include <string>
 
 //class STMenuEntry{

@@ -6,7 +6,7 @@
 #include <sstream>
 #include <cstdlib>
 
-#if __WINDOWS__
+#if __MINGW32__
 #include "../../../include/GL/glew.h"
 #else
 #include <GL/glew.h>

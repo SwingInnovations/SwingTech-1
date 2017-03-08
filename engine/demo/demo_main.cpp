@@ -54,6 +54,7 @@ public:
         _testActor2->setScale(0.01);
         _testActor2->setDiffuseTexture("grid.png");
         _testActor2->setNormalTexture("testNormal.png");
+        _testActor2->addScriptComponent("sampleScript.lua");
         mat->setBaseColor(Vector3<stReal>(.7,.7,.7));
         //  _testActor2->setRotateX(90);
         // _testActor2->setRotateY(90);
@@ -89,6 +90,7 @@ public:
     void update(STGame* game, stUint delta){
         auto input = Input::Get();
         if(input->isKeyPressed(KEY::KEY_ESC)) input->requestClose();
+        _testActor2->update();
     }
 
     void render(STGame * win){

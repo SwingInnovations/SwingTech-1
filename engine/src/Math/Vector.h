@@ -344,6 +344,7 @@ public:
         T x = getX() + other.getX();
         T y = getY() + other.getY();
         T z = getZ() + other.getZ();
+        return Vector3(x, y, z);
     }
 
     const Vector3 operator- (const T other)const{

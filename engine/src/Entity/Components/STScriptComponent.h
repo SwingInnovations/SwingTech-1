@@ -16,6 +16,8 @@ public:
     void update();
     STEntity* m_entity;
     sol::state m_script;
+private:
+    void initScript(const std::string& fileName);
 };
 
 

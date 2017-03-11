@@ -17,6 +17,7 @@ public:
     STEntity* m_entity;
     sol::state m_script;
 private:
+    STGraphicsComponent* getGraphicsComponent();
     void initScript(const std::string& fileName);
 };
 

@@ -1,6 +1,7 @@
 #include "STScriptComponent.h"
 
 #include "../../STGlobal.h"
+#include "STEventComponent.h"
 
 STScriptComponent::STScriptComponent(STEntity *entity, const std::string &fileName) {
     this->m_entity = entity;
@@ -12,23 +13,77 @@ STScriptComponent::~STScriptComponent() {
 }
 
 void STScriptComponent::update() {
-    m_script["update"](STGame::Get());
+    m_script["update"](m_entity, STGame::Get());
 }
 
 void STScriptComponent::initScript(const std::string &fileName) {
     m_script.open_libraries(sol::lib::base, sol::lib::package);
     //Regsiter Commands
-    m_script.set("self", m_entity);
-    m_script.set("Input", Input::m_instance);
+    m_script.set_function("getGraphicsComponent",[](STEntity* ent){return ent->get<STGraphicsComponent>();});
+    m_script.set_function("getEventComponent", [](STEntity* ent){ return ent->get<STEventComponent>(); });
     m_script.new_usertype<Input>("Input",
                                 "isKeyPressed", &Input::isKeyPressed,
-                                "isKeyDown", &Input::isKeyDown);
+                                "isKeyDown", &Input::isKeyDown,
+                                "setCursorBound", &Input::setCursorBound,
+                                "setCursorVisible", &Input::setCursorVisible,
+                                "isCursorBound", &Input::isCursorBound);
+    m_script.new_usertype<Camera>("Camera",
+                                "getForward", &Camera::getForward,
+                                "getUp", &Camera::getUp);
+    m_script.new_enum("KEY",
+               "KEY_A", KEY::KEY_A,
+                "KEY_B", KEY::KEY_B,
+                "KEY_C", KEY::KEY_C,
+                "KEY_D", KEY::KEY_D,
+                "KEY_E", KEY::KEY_E,
+                "KEY_F", KEY::KEY_F,
+                "KEY_G", KEY::KEY_G,
+                "KEY_H", KEY::KEY_H,
+                "KEY_I", KEY::KEY_I,
+                "KEY_J", KEY::KEY_J,
+                "KEY_K", KEY::KEY_K,
+                "KEY_L", KEY::KEY_L,
+                "KEY_M", KEY::KEY_M,
+                "KEY_N", KEY::KEY_N,
+                "KEY_O", KEY::KEY_O,
+                "KEY_P", KEY::KEY_P,
+                "KEY_Q", KEY::KEY_Q,
+                "KEY_R", KEY::KEY_R,
+                "KEY_S", KEY::KEY_S,
+                "KEY_T", KEY::KEY_T,
+                "KEY_U", KEY::KEY_U,
+                "KEY_V", KEY::KEY_V,
+                "KEY_W", KEY::KEY_W,
+                "KEY_X", KEY::KEY_X,
+                "KEY_Y", KEY::KEY_Y,
+                "KEY_Z", KEY::KEY_Z);
+    m_script.new_enum("JOYSTICK_AXIS",
+                "X_AXIS", JOYSTICK_AXIS::X_AXIS,
+                "Y_AXIS", JOYSTICK_AXIS::Y_AXIS,
+                "Z_AXIS", JOYSTICK_AXIS::Z_AXIS);
+    m_script.new_enum("JOYSTICK_BUTTON",
+                "BUTTON_1", JOYSTICK_BUTTON::BUTTON_1,
+                "BUTTON_2", JOYSTICK_BUTTON::BUTTON_2,
+                "BUTTON_3", JOYSTICK_BUTTON::BUTTON_3,
+                "BUTTON_4", JOYSTICK_BUTTON::BUTTON_4,
+                "BUTTON_5", JOYSTICK_BUTTON::BUTTON_5,
+                "BUTTON_6", JOYSTICK_BUTTON::BUTTON_6,
+                "BUTTON_7", JOYSTICK_BUTTON::BUTTON_7,
+                "BUTTON_8", JOYSTICK_BUTTON::BUTTON_8,
+                "BUTTON_9", JOYSTICK_BUTTON::BUTTON_9,
+                "BUTTON_10", JOYSTICK_BUTTON::BUTTON_10,
+                "BUTTON_11", JOYSTICK_BUTTON::BUTTON_11,
+                "BUTTON_12", JOYSTICK_BUTTON::BUTTON_12,
+                "BUTTON_13", JOYSTICK_BUTTON::BUTTON_13,
+                "BUTTON_14", JOYSTICK_BUTTON::BUTTON_14,
+                "BUTTON_15", JOYSTICK_BUTTON::BUTTON_15);
     m_script.new_usertype<STGame>("STGame",
                                 "getInput", &STGame::getInput,
                                 "getTick", &STGame::getTick,
                                 "getDelta", &STGame::getDelta,
                                 "getWidth", &STGame::getWidth,
-                                "getHeight", &STGame::getHeight);
+                                "getHeight", &STGame::getHeight,
+                                "getCamera", &STGame::getCamera);
     m_script.new_usertype<Vector2<stReal>>("Vector2", sol::constructors<sol::types<>, sol::types<stReal, stReal>>(),
                                            "setX", &Vector2<stReal>::setX,
                                            "setY", &Vector2<stReal>::setY,
@@ -73,23 +128,40 @@ void STScriptComponent::initScript(const std::string &fileName) {
                                            "setX", &Vector4<stReal>::setX,
                                            "setY", &Vector4<stReal>::setY,
                                            "setZ", &Vector4<stReal>::setZ,
-                                           "setW", &Vector4<stReal>::setW);
+                                           "setW", &Vector4<stReal>::setW,
+                                           "getX", &Vector4<stReal>::getX,
+                                           "getY", &Vector4<stReal>::getY,
+                                           "getZ", &Vector4<stReal>::getZ,
+                                           "getW", &Vector4<stReal>::getW,
+                                           "getLength", &Vector4<stReal>::getLength,
+                                           "dot", &Vector4<stReal>::dot,
+                                           "toVector3", &Vector4<stReal>::toVector3);
     m_script.new_usertype<STEntity>("STEntity",
                                     "getTag", &STEntity::getTag,
-                                    "getTransform", &STEntity::transform);
+                                    "getTransform", &STEntity::transform,
+                                    "setShdrUniformi", sol::resolve<void(const std::string&, int)>(&STEntity::setShdrUniform),
+                                    "setShdrUniformf", sol::resolve<void(const std::string&, float)>(&STEntity::setShdrUniform),
+                                    "setShdrUniformV3", sol::resolve<void(const std::string&, Vector3<stReal>)>(&STEntity::setShdrUniform),
+                                    "setShdrUniformV4", sol::resolve<void(const std::string&, Vector4<stReal>)>(&STEntity::setShdrUniform));
     m_script.new_usertype<Transform>("Transform", sol::constructors<sol::types<>>(),
                                      "setTranslate", sol::resolve<void(Vector3<stReal>&)>(&Transform::setTranslate),
                                      "setTranslateX", &Transform::setTranslateX,
                                      "setTranslateY", &Transform::setTranslateY,
                                      "setTranslateZ", &Transform::setTranslateZ,
-                                    "getTranslate", &Transform::getTranslateF,
+                                     "getTranslate", &Transform::getTranslateF,
                                      "setRotate", sol::resolve<void(Vector3<stReal>&)>(&Transform::setRotate),
                                      "setRotateX", &Transform::setRotateX,
                                      "setRotateY", &Transform::setRotateY,
                                      "setRotateZ", &Transform::setRotateZ,
-                                    "getRotate", &Transform::getRotateF,
+                                     "getRotate", &Transform::getRotateF,
                                      "setScale", sol::resolve<void(Vector3<stReal>&)>(&Transform::setScale),
-                                    "getScale", &Transform::getScaleF);
+                                     "getScale", &Transform::getScaleF);
+    m_script.new_usertype<STGraphicsComponent>("STGraphicsComponent",
+                                    "nextFrame", &STGraphicsComponent::nextFrame);
     m_script.script_file(fileName);
+}
+
+STGraphicsComponent *STScriptComponent::getGraphicsComponent() {
+    return m_entity->get<STGraphicsComponent>();
 }
 

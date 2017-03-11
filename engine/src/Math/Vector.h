@@ -445,8 +445,7 @@ public:
     }
 
     inline double dot(const Vector4& other){
-        return sqrt(getX() * other.getX() + getY() * other.getY() +
-                    getZ * other.getZ() + getW() * other.getW());
+        return getX() * other.getX() + getY() * other.getY() + getZ() * other.getZ() + getW() * other.getW();
     }
 
     const Vector4 operator+(const Vector4& other){

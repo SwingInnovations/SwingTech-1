@@ -15,7 +15,7 @@ function update(self, game)
 --    end
 
     if self ~= nil then
-        self:getTransform():setRotateY(counter * 0.5);
+        self:setRotateY(counter * 0.5);
         counter = counter + 1 * dir
     end
 

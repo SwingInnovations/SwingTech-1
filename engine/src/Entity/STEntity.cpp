@@ -1,5 +1,6 @@
 #include "STEntity.h"
 #include "Components/STEventComponent.h"
+#include "Components/STAABBComponent.h"
 
 STEntity::STEntity() {
     m_transform = new Transform();
@@ -101,7 +102,9 @@ STEntity* STEntity::getChild(int ind) {
 }
 
 void STEntity::setTranslate(Vector3<stReal> &vec) {
-    m_transform->setTranslate(vec);
+    this->setTranslateX(vec.getX());
+    this->setTranslateY(vec.getY());
+    this->setTranslateZ(vec.getZ());
     if(!m_children.empty()){
         for(STEntity* entity : m_children){
             Vector3<stReal> childPosition = entity->transform()->getTranslate<stReal>();
@@ -112,7 +115,9 @@ void STEntity::setTranslate(Vector3<stReal> &vec) {
 }
 
 void STEntity::setTranslate(stReal _value){
-    m_transform->setTranslate(_value);
+    this->setTranslateX(_value);
+    this->setTranslateY(_value);
+    this->setTranslateZ(_value);
     if(!m_children.empty()){
         for(auto entity : m_children){
             Vector3<stReal> childPosition = entity->transform()->getTranslate<stReal>();
@@ -132,6 +137,10 @@ void STEntity::setTranslateX(stReal _x) {
             entity->setTranslateX(_x);
         }
     }
+    auto AABB_Bounds = this->get<STAABBComponent>();
+    if(AABB_Bounds != nullptr){
+        AABB_Bounds->adjustTransX(_x);
+    }
 
 }
 
@@ -143,6 +152,10 @@ void STEntity::setTranslateY(stReal _y) {
             cY += _y;
             entity->setTranslateY(_y);
         }
+    }
+    auto AABB_Bounds = this->get<STAABBComponent>();
+    if(AABB_Bounds != nullptr){
+        AABB_Bounds->adjustTransY(_y);
     }
 
 }
@@ -156,22 +169,40 @@ void STEntity::setTranslateZ(stReal _z){
             entity->setTranslateZ(_z);
         }
     }
+    auto AABB_Bounds = this->get<STAABBComponent>();
+    if(AABB_Bounds != nullptr){
+        AABB_Bounds->adjustTransZ(_z);
+    }
 }
 
 void STEntity::setRotate(Vector3<stReal> &vec) {
-    m_transform->setRotate(vec);
+    setRotateX(vec.getX());
+    setRotateY(vec.getY());
+    setRotateZ(vec.getZ());
 }
 
 void STEntity::setRotateX(stReal _x) {
     m_transform->setRotateX(_x);
+    auto AABB_Bounds = this->get<STAABBComponent>();
+    if(AABB_Bounds != nullptr){
+        AABB_Bounds->reconstructBounds();
+    }
 }
 
 void STEntity::setRotateY(stReal _y){
     m_transform->setRotateY(_y);
+    auto AABB_Bounds = this->get<STAABBComponent>();
+    if(AABB_Bounds != nullptr){
+        AABB_Bounds->reconstructBounds();
+    }
 }
 
 void STEntity::setRotateZ(stReal _z) {
     m_transform->setRotateZ(_z);
+    auto AABB_Bounds = this->get<STAABBComponent>();
+    if(AABB_Bounds != nullptr){
+        AABB_Bounds->reconstructBounds();
+    }
 }
 
 

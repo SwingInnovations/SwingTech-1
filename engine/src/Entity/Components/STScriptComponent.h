@@ -4,7 +4,7 @@
 #include "STComponent.h"
 #include "../STEntity.h"
 
-#if __windows__
+#if __MINGW32__
 #include <sol.hpp>
 #else
 #include <lua5.1/sol.hpp>

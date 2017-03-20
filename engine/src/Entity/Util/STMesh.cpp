@@ -4,6 +4,8 @@
 #include <c++/fstream>
 #endif
 
+#include <cmath>
+
 #include "STMesh.h"
 #include "../../Graphics/STGraphics.h"
 
@@ -198,6 +200,12 @@ bool OBJMesh::Validate(const std::string &fileName, std::vector<std::string> *ta
         return false;
     }
     std::string line;
+    stReal minX = 0.f;
+    stReal minY = 0.f;
+    stReal minZ = 0.f;
+    stReal maxX = 0.f;
+    stReal maxY = 0.f;
+    stReal maxZ = 0.f;
     if (in.good()) {
         while (std::getline(in, line)) {
             //Vertex Extraction
@@ -247,7 +255,14 @@ bool OBJMesh::Validate(const std::string &fileName, std::vector<std::string> *ta
                     adjustedIndicies.clear();
                 }
 
-                _vertex.push_back(extractVector3(line.substr(2)));
+                auto pt = extractVector3(line.substr(2));
+                _vertex.push_back(pt);
+                minX = std::min(minX, pt.getX());
+                maxX = std::max(maxX, pt.getX());
+                minY = std::min(minY, pt.getY());
+                maxY = std::max(maxY, pt.getY());
+                minZ = std::min(minZ, pt.getZ());
+                maxZ = std::max(maxZ, pt.getZ());
                 vertCount++;
                 lastTag = "v";
             }
@@ -313,6 +328,8 @@ bool OBJMesh::Validate(const std::string &fileName, std::vector<std::string> *ta
             STMesh_Structure mesh;
             mesh.m_vertices = vertexList;
             mesh.m_indices = indexList;
+            mesh.m_maxPt = Vector3<stReal>(minX, minY, minZ);
+            mesh.m_maxPt = Vector3<stReal>(maxX, maxY, maxZ);
             (*dataMesh).push_back(mesh);//Mesh has been added to the list.
 
             _vertex.clear();

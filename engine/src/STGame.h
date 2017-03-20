@@ -1,7 +1,7 @@
 #ifndef WAHOO_STECHWINDOW_H
 #define WAHOO_STECHWINDOW_H
 
-#if __windows__
+#if __MINGW32__
 #include "../include/GL/glew.h"
 extern "C"{
     #include "../include/SDL2/SDL.h"

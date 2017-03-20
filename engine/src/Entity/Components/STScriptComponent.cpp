@@ -142,7 +142,13 @@ void STScriptComponent::initScript(const std::string &fileName) {
                                     "setShdrUniformi", sol::resolve<void(const std::string&, int)>(&STEntity::setShdrUniform),
                                     "setShdrUniformf", sol::resolve<void(const std::string&, float)>(&STEntity::setShdrUniform),
                                     "setShdrUniformV3", sol::resolve<void(const std::string&, Vector3<stReal>)>(&STEntity::setShdrUniform),
-                                    "setShdrUniformV4", sol::resolve<void(const std::string&, Vector4<stReal>)>(&STEntity::setShdrUniform));
+                                    "setShdrUniformV4", sol::resolve<void(const std::string&, Vector4<stReal>)>(&STEntity::setShdrUniform),
+                                    "setTranslateX", &STEntity::setTranslateX,
+                                    "setTranslateY", &STEntity::setTranslateY,
+                                    "setTranslateZ", &STEntity::setTranslateZ,
+                                    "setRotateX", &STEntity::setRotateX,
+                                    "setRotateY", &STEntity::setRotateY,
+                                    "setRotateZ", &STEntity::setRotateZ);
     m_script.new_usertype<Transform>("Transform", sol::constructors<sol::types<>>(),
                                      "setTranslate", sol::resolve<void(Vector3<stReal>&)>(&Transform::setTranslate),
                                      "setTranslateX", &Transform::setTranslateX,

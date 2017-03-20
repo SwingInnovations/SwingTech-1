@@ -1,7 +1,7 @@
 #ifndef WAHOO_STECHWINDOW_H
 #define WAHOO_STECHWINDOW_H
 
-#if __MINGW32__
+#if __windows__
 #include "../include/GL/glew.h"
 extern "C"{
     #include "../include/SDL2/SDL.h"
@@ -11,7 +11,6 @@ extern "C"{
 #include <GL/glew.h>
 extern "C"{
 #include <stdio.h>
-#define SDL_PRINTF_FORMAT_STRING const char*
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_opengl.h>
 };

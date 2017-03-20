@@ -9,10 +9,10 @@ function update(self, game)
         dir = dir * -1
     end
 
-    if input:isKeyPressed(KEY.KEY_Q) then
-        input:setCursorVisible(cursorBound)
-        input:setCursorBound(not cursorBound)
-    end
+--    if input:isKeyPressed(KEY.KEY_Q) then
+--        input:setCursorVisible(cursorBound)
+--        input:setCursorBound(not cursorBound)
+--    end
 
     if self ~= nil then
         self:getTransform():setRotateY(counter * 0.5);

@@ -4,7 +4,11 @@
 #include "STComponent.h"
 #include "../STEntity.h"
 
+#if __windows__
 #include <sol.hpp>
+#else
+#include <lua5.1/sol.hpp>
+#endif
 
 class STEntity;
 

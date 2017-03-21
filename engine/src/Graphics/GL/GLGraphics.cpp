@@ -217,7 +217,7 @@ void GLGraphics::drawScene(STScene *scene) {
     glClearColor(clearColor.getX(), clearColor.getY(), clearColor.getZ(), clearColor.getZ());
     glClear(GL_COLOR_BUFFER_BIT);
 
-    scenes[scene->getIndex()].drawSkybox(*camera());
+    scenes[scene->getIndex()].drawSkybox(*getActiveCamera());
 
 
     glDisable(GL_BLEND);
@@ -226,7 +226,7 @@ void GLGraphics::drawScene(STScene *scene) {
 
     for(int i =0; i < actors.size(); i++){
         for(int j =0; j < lights.size(); j++) {
-            actors[i]->setShdrUniform("_CameraPos", camera()->transform()->getTranslate<stReal>());
+            actors[i]->setShdrUniform("_CameraPos", getActiveCamera()->transform()->getTranslate<stReal>());
             actors[i]->setShdrUniform_CubeMap("_WorldCubeMap", scenes[scene->getIndex()].m_skybox);
 
             actors[i]->setShdrUniform("Light["+std::to_string(j)+"].Color", lights[j]->color);

@@ -5,7 +5,11 @@ dir = 1;
 function update(self, game)
     input = game:getInput()
     cursorBound = input:isCursorBound()
-    if input:isKeyPressed(KEY.KEY_E) then
+    if input:isKeyDown(KEY.KEY_E) then
+        counter = counter + 1
+    end
+
+    if input:isKeyPressed(KEY.KEY_Q) then
         dir = dir * -1
     end
 
@@ -15,11 +19,7 @@ function update(self, game)
 --    end
 
     if self ~= nil then
-        self:setRotateY(counter * 0.5);
-        counter = counter + 1 * dir
+        self:setRotateY(counter * 0.5)
     end
-
-    self:setShdrUniformi("counter", counter);
-
 end
 

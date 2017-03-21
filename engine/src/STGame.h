@@ -151,6 +151,12 @@ public:
     static void SetResolutionWidth(int val){ STGame::RES_WIDTH = val; }
     static void SetResolutionHeight(int val){ STGame::RES_HEIGHT = val; }
 
+    /**
+     * Sets the Active Index for the Camera.
+     * @param index
+     */
+    void setActiveCamera(stUint index);
+
     /*-The Getters-*/
     //! Gets pointer to Input
     /*!

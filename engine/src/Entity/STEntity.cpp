@@ -368,7 +368,7 @@ void STEntity::addScriptComponent(const std::string &script) {
 void STEntity::draw(STGraphics *grphx) {
     auto graphics = this->get<STGraphicsComponent>();
     auto mesh = this->get<STMeshComponent>();
-    auto camera = grphx->camera();
+    auto camera = grphx->getActiveCamera();
 
     graphics->draw();
     graphics->shdr()->update(*m_transform, *camera);

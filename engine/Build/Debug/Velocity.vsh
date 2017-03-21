@@ -22,7 +22,4 @@ void main(void){
     Position =( projection * view * model * vec4(position, 1.0));
     LastPosition = (cachedMVP * vec4(position, 1.0));
     TexCoord = texCoord;
-
-
- 
 }

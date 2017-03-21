@@ -47,11 +47,11 @@ public:
 //         }
         STGame::Get()->getCamera()->setSpeed(0.005f);
 
-        _testActor2 = new STActor("dice.obj", resManager->getMaterial("default"));
+        _testActor2 = new STActor("teapot.obj", resManager->getMaterial("default"));
         //_testActor2->setTranslateX(1);
         _testActor2->setShdrUniform("_Metallic", 0.2f);
         _testActor2->setShdrUniform("_Roughness",0.0f);
-        //_testActor2->setScale(0.01);
+        _testActor2->setScale(0.01);
         _testActor2->setDiffuseTexture("grid.png");
         _testActor2->setNormalTexture("testNormal.png");
         _testActor2->setTag("Actor");

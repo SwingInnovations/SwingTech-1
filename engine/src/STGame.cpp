@@ -176,11 +176,11 @@ void STGame::render() {
 }
 
 void STGame::addCamera(Camera* cam){
-    g->setCamera(cam);
+    g->addCamera(cam);
 }
 
 Camera*STGame::getCamera(){
-    return g->camera();
+    return g->getActiveCamera();
 }
 
 STResourceManager* STGame::getResourceManager() {
@@ -214,4 +214,8 @@ void STGame::setIcon(const std::string &filePath) {
 
     SDL_FreeSurface(img);
     img = 0;
+}
+
+void STGame::setActiveCamera(stUint index) {
+    this->g->setCameraIndex(index);
 }

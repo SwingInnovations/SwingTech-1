@@ -1,7 +1,3 @@
-//
-// Created by NDanq on 11/2/2015.
-//
-
 #include "Shader.h"
 
 void Shader::updateUniforms(std::vector<STShader::ShaderAttrib> _uniforms) {

@@ -131,7 +131,8 @@ public:
     }
 
     inline void addLight(STLight* light){
-        if(light->type == STLight::DIRECTIONAL_LIGHT || light->type == STLight::SPOT_LIGHT) m_numShadows++;
+        if(light->get<STLightComponent>()->getType() == STLightComponent::DIRECTIONAL_LIGHT ||
+                light->get<STLightComponent>()->getType() == STLightComponent::SPOT_LIGHT) m_numShadows++;
         else m_numShadows += 6;
         lights.push_back(light);
     }

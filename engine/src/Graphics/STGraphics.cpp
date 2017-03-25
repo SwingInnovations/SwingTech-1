@@ -7,12 +7,13 @@ int STGraphics::RENDERER = STGraphics::OPENGL;
 bool STGraphics::YUp = false;
 
 STGraphics::STGraphics() {
-
+    m_activeCameraIndex = 0;
 }
 
 STGraphics::STGraphics(STGame * win){
     WIDTH = (unsigned int)win->getWidth();
     HEIGHT = (unsigned int)win->getHeight();
+    m_activeCameraIndex = 0;
 }
 
 STGraphics::~STGraphics() {

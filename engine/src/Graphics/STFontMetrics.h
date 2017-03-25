@@ -1,10 +1,17 @@
 #ifndef SWINGTECH1_STFONTMETRICS_H
 #define SWINGTECH1_STFONTMETRICS_H
 
+#if __WINDOWS__
 extern "C"{
 #include <ft2build.h>
 #include FT_FREETYPE_H
 };
+#else
+extern "C"{
+#include <ft2build.h>
+#include FT_FREETYPE_H
+}
+#endif
 
 #include <string>
 #include <iostream>

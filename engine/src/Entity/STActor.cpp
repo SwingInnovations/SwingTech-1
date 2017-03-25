@@ -1,5 +1,6 @@
 #include "STActor.h"
 #include "Components/STEventComponent.h"
+#include "Components/STAABBComponent.h"
 
 STActor::STActor(const std::string &filePath, const int type, STMaterial *material) {
     m_transform = new Transform();
@@ -26,6 +27,7 @@ STActor::STActor(STMesh_Structure structure, std::string &tag, STMaterial* mater
     addComponent(typeid(STMeshComponent), new STMeshComponent(structure));
     addComponent(typeid(STGraphicsComponent), new STGraphicsComponent(material));
     addComponent(typeid(STEventComponent), new STEventComponent);
+    addComponent(typeid(STAABBComponent), new STAABBComponent((STEntity*)this, structure.m_minPt, structure.m_maxPt));
 }
 
 /**
@@ -62,6 +64,8 @@ STActor::STActor(const std::string &filePath, STMaterial *material) {
         }
         addComponent(typeid(STMeshComponent), new STMeshComponent(meshes.at(0)));
         addComponent(typeid(STGraphicsComponent), new STGraphicsComponent(material));
+        addComponent(typeid(STEventComponent), new STEventComponent);
+        addComponent(typeid(STAABBComponent), new STAABBComponent((STEntity*)this, meshes[0].m_minPt, meshes[0].m_maxPt));
     }
 
     if(tags.size() > 0)

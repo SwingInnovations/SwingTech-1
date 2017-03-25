@@ -4,7 +4,12 @@
 #include <string>
 #include <vector>
 
+#if __MINGW32__
 #include "../../../include/GL/glew.h"
+#else
+#include <GL/glew.h>
+#include <GL/glut.h>
+#endif
 
 #include "../../Entity/Util/STMesh.h"
 

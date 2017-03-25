@@ -3,7 +3,13 @@
 
 #include <regex>
 
+#if __MINGW32__
 #include "../../../include/GL/glew.h"
+#else
+#include <GL/glew.h>
+#endif
+
+
 #include "../../Entity/STLight.h"
 #include "../../Entity/STEntity.h"
 #include "../../STSceneManager.h"

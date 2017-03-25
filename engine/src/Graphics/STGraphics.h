@@ -43,6 +43,10 @@ public:
         m_Cam = cam;
     }
 
+    void addCamera(Camera* cam){
+        m_cameras.push_back(cam);
+    }
+
     /**
      * Sets whether Y-Up should be up or down relative to the window.
      * @param val
@@ -66,6 +70,9 @@ public:
 
     Vector4<stReal> getFontColor()const { return m_fontColor; }
 
+    void setCameraIndex(stUint index){ this->m_activeCameraIndex = index; }
+    stUint getActiveCameraIndex()const{ return this->m_activeCameraIndex; }
+
     virtual void drawText(Vector2<stReal> pos, const std::string& text, stReal fontSize ){ ; }
     virtual void drawText(Vector2<stReal> pos, const std::string& text, stReal fontSize, Vector4<stReal>* color){ ; }
     virtual void drawText(Vector2<stReal> pos, const std::string& text, stReal fontSize, stReal value){ ; }
@@ -80,6 +87,11 @@ public:
     virtual void disableBlend() = 0;
 
     virtual Matrix4f getOrthographicProjection()const{ return Matrix4f(); }
+
+    Camera* getActiveCamera(){
+        if(m_activeCameraIndex < m_cameras.size()) return m_cameras[m_activeCameraIndex];
+        return nullptr;
+    }
 
     Camera* camera(){
         return m_Cam;
@@ -98,6 +110,8 @@ protected:
     unsigned int m_enabledEffects = 0x00000000;
     unsigned int WIDTH, HEIGHT;
     Camera* m_Cam;
+    std::vector<Camera*> m_cameras;
+    stUint m_activeCameraIndex;
     Vector4<stReal> m_fontColor;
 };
 

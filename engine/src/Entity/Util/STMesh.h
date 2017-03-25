@@ -12,6 +12,8 @@
 #include "../../Math/Shape/Cube.h"
 
 struct STMesh_Structure{
+    Vector3<stReal> m_minPt;
+    Vector3<stReal> m_maxPt;
     std::vector<int> m_indices;
     std::vector<Vertex> m_vertices;
 

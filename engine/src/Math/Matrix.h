@@ -288,10 +288,18 @@ public:
         return ret;
     }
 
-    /**
-     *
-     * @return Vector from Matrix
-     */
+    inline Vector3<stReal> operator*(const Vector3<stReal>& vec)const{
+        stReal vecData[4] = {vec.getX(), vec.getY(), vec.getZ(), 0.0f};
+        stReal pts[4];
+        for(stUint i = 0; i < 4; i++){
+            for(stUint j = 0; j < 4; j++){
+                pts[i] += m[i][j] + vecData[j];
+            }
+        }
+        Vector3<stReal> ret(pts[0], pts[1], pts[2]);
+        return ret;
+    }
+
     inline Vector4<stReal> toVector4()const{
         const float _x = m[0][0] + m[0][1] + m[0][2] + m[0][3];
         const float _y = m[1][0] + m[1][1] + m[1][2] + m[1][3];

@@ -1,15 +1,23 @@
 #ifndef WAHOO_STECHWINDOW_H
 #define WAHOO_STECHWINDOW_H
 
+#if __MINGW32__
 #include "../include/GL/glew.h"
 extern "C"{
     #include "../include/SDL2/SDL.h"
     #include "../include/SDL2/SDL_opengl.h"
 };
+#else
+#include <GL/glew.h>
+extern "C"{
+#include <stdio.h>
+#include <SDL2/SDL.h>
+#include <SDL2/SDL_opengl.h>
+};
+#endif
 
-#define GLEW_STATIC
+#define  GLEW_STATIC
 
-#include <string>
 #include <iostream>
 #include <vector>
 
@@ -142,6 +150,12 @@ public:
 
     static void SetResolutionWidth(int val){ STGame::RES_WIDTH = val; }
     static void SetResolutionHeight(int val){ STGame::RES_HEIGHT = val; }
+
+    /**
+     * Sets the Active Index for the Camera.
+     * @param index
+     */
+    void setActiveCamera(stUint index);
 
     /*-The Getters-*/
     //! Gets pointer to Input

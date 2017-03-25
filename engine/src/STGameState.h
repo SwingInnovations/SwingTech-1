@@ -1,7 +1,6 @@
 #ifndef WAHOO_SGAMESTATE_H
 #define WAHOO_SGAMESTATE_H
 
-#include "../include/SDL2/SDL_stdinc.h"
 #include "STGame.h"
 
 class STGame;

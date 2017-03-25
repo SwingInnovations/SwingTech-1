@@ -172,6 +172,7 @@ void STGraphicsComponent::setSpriteSheetIndex(int row, int col) {
 }
 
 void STGraphicsComponent::nextFrame() {
+    std::cout << "Calling Next Frame" << std::endl;
     if(m_spriteSheet.colIndex < m_spriteSheet.colCount){
         m_spriteSheet.colIndex++;
     }else{

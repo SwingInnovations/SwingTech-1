@@ -90,6 +90,9 @@ public:
     Matrix4f getViewProjection() const;
     Matrix4f getView() const;
     Matrix4f getProjection() const;
+
+    Vector3<stReal> getForward()const{ return m_Forward; }
+    Vector3<stReal> getUp()const{ return m_Up; }
 private:
     void processFPS(Input* input);
     Transform m_transform;

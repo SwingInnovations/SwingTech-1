@@ -6,7 +6,13 @@
 #include <iostream>
 #include <cassert>
 
+#if __MINGW32__
 #include "../../../include/GL/glew.h"
+#else
+#include <GL/glew.h>
+#include <GL/glut.h>
+#endif
+
 #include "../../../include/SDL2/SDL_image.h"
 #include "../Texture.h"
 

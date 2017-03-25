@@ -1,7 +1,15 @@
+
+#if __MINGW32__
 extern "C"{
     #include <ft2build.h>
     #include FT_FREETYPE_H
 }
+#else
+extern "C"{
+#include <ft2build.h>
+#include FT_FREETYPE_H
+};
+#endif
 
 #include "GLGraphics.h"
 
@@ -406,7 +414,7 @@ void GLGraphics::drawScene(STScene *scene) {
     glClearColor(clearColor.getX(), clearColor.getY(), clearColor.getZ(), clearColor.getZ());
     glClear(GL_COLOR_BUFFER_BIT);
 
-    scenes[scene->getIndex()].drawSkybox(*camera());
+    scenes[scene->getIndex()].drawSkybox(*getActiveCamera());
 
     glDisable(GL_BLEND);
     glDepthFunc(GL_EQUAL);

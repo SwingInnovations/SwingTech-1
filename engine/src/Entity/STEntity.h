@@ -120,6 +120,9 @@ public:
     STEntity* childAtTag(const std::string& tag);
     inline stUint getChildSize(){ return m_children.size(); }
 
+    inline void setTag(const std::string& name){ m_tag = name; }
+
+    std::string getTag()const{ return m_tag; }
 
     void setVisible(bool value);
     bool isVisible();

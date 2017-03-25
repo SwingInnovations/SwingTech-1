@@ -422,7 +422,7 @@ void GLGraphics::drawScene(STScene *scene) {
 
     for(stUint i =0; i < actors.size(); i++){
         for(stUint j =0; j < lights.size(); j++) {
-            actors[i]->setShdrUniform("_CameraPos", camera()->transform()->getTranslate<stReal>());
+            actors[i]->setShdrUniform("_CameraPos", getActiveCamera()->transform()->getTranslate<stReal>());
             actors[i]->setShdrUniform_CubeMap("_WorldCubeMap", scenes[scene->getIndex()].m_skybox);
 
             auto lightProps = lights[j]->get<STLightComponent>()->getProperties();

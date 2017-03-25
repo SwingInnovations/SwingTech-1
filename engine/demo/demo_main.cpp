@@ -49,8 +49,8 @@ public:
 
         _testActor2 = new STActor("scene.obj", resManager->getMaterial("default"));
         //_testActor2->setTranslateX(1);
-        _testActor2->setShdrUniform("_Metallic", 0.8f);
-        _testActor2->setShdrUniform("_Roughness",0.1f);
+        _testActor2->setShdrUniform("_Metallic", 0.0f);
+        _testActor2->setShdrUniform("_Roughness",0.0f);
         _testActor2->setScale(0.01);
         _testActor2->setDiffuseTexture("grid.png");
         _testActor2->setNormalTexture("testNormal.png");

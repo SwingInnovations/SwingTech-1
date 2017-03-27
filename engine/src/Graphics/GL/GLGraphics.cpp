@@ -430,7 +430,7 @@ void GLGraphics::drawScene(STScene *scene) {
             actors[i]->setShdrUniform("Light["+std::to_string(j)+"].LightType", (stInt)lightProps->direction.getW());
             actors[i]->setShdrUniform("Light["+std::to_string(j)+"].Color", lightProps->color);
             actors[i]->setShdrUniform("Light["+std::to_string(j)+"].Position", lights[j]->transform()->getTranslate<stReal>());
-            actors[i]->setShdrUniform("Light["+std::to_string(j)+"].Direction", lightProps->direction.toVector3());
+            actors[i]->setShdrUniform("Light["+std::to_string(j)+"].Direction", lightProps->direction);
             actors[i]->setShdrUniform("Light["+std::to_string(j)+"].Radius", lightProps->radius);
             actors[i]->setShdrUniform("Light["+std::to_string(j)+"].Intensity", lightProps->intensity);
         }

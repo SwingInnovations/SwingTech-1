@@ -47,7 +47,7 @@ public:
 //         }
         STGame::Get()->getCamera()->setSpeed(0.005f);
 
-        _testActor2 = new STActor("scene.obj", resManager->getMaterial("default"));
+        _testActor2 = new STActor("teapot.obj", resManager->getMaterial("default"));
         //_testActor2->setTranslateX(1);
         _testActor2->setShdrUniform("_Metallic", 0.0f);
         _testActor2->setShdrUniform("_Roughness",0.0f);
@@ -150,7 +150,7 @@ int main(int argc, char** argv){
     win->addCamera(new Camera(*win, campos, 0));
     win->addState(new TestState(0));
     win->enterState(0);
-    win->getGraphics()->enablePostEffect(STGraphics::MOTION_BLUR | STGraphics::FXAA );
+    win->getGraphics()->enablePostEffect(STGraphics::BLOOM );
     win->start();
 
     return 0;

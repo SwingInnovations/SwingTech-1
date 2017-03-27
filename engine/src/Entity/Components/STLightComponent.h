@@ -8,7 +8,7 @@ struct STLightProperies{
     Vector3<stReal> color = Vector3<stReal>(1.f, 1.f, 1.f);
     Vector2<stReal> spotLightAtribs = Vector2<stReal>(0.f, 0.f);    //Encode Light Attributes 0- ConeAngle, 1- coneHeight
     stReal intensity = 0.5f;
-    stReal radius = -0.5f;
+    stReal radius = -0.1f;
 };
 
 /*

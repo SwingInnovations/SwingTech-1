@@ -2,11 +2,7 @@
 
 
 #include <standard.glinc>
-
 #include <PBR.glinc>
-
-
-
 
 void main(void){
 
@@ -37,8 +33,8 @@ void main(void){
 
  	for(int i = 0; i < 2; i++){
  		if(Light[i].Radius<0){
-			vec3 Directional_spec = clamp(vec3(Ggx_Dist_old(dot(Norm, normalize(Light[i].Direction+V)),r)),0.0,1.0);
-			vec3 Directional_diff = clamp(vec3(Ggx_Dist_old(dot(Norm, normalize(Light[i].Direction)),1)),0.0,1.0);
+			vec3 Directional_spec = clamp(vec3(Ggx_Dist_old(dot(Norm, normalize(Light[i].Direction.xyz+V)),r)),0.0,1.0);
+			vec3 Directional_diff = clamp(vec3(Ggx_Dist_old(dot(Norm, normalize(Light[i].Direction.xyz)),1)),0.0,1.0);
 
 			color += vec4(BlendMaterial_Directional(Directional_spec,Directional_diff,Material.BaseColor,IBL ,Light[i].Intensity,Light[i].Color),1);
 		}

@@ -13,6 +13,9 @@ struct STLight
 	vec2 SpotLightAttribs;
 	float Radius;
 	float Intensity;
+	bool UseShadow;
+	vec2 Shadow_LowerBound;
+	vec2 Shadow_UpperBound;
 };
 
 struct STMaterial
@@ -21,6 +24,7 @@ struct STMaterial
 	sampler2D Diffuse_Tex;
 	sampler2D Normal_Tex;
 };
+
 uniform STMaterial Material;
 
 
@@ -29,6 +33,7 @@ uniform STMaterial Material;
 
 
 uniform samplerCube _WorldCubeMap;
+uniform sampler2D _ShadowAtlas;
  vec3 _GlobalAmbient;
 uniform vec3 _CameraPos;
 

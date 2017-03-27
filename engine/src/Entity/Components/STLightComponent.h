@@ -9,6 +9,9 @@ struct STLightProperies{
     Vector2<stReal> spotLightAtribs = Vector2<stReal>(0.f, 0.f);    //Encode Light Attributes 0- ConeAngle, 1- coneHeight
     stReal intensity = 0.5f;
     stReal radius = -0.1f;
+    bool useShadow = false;
+    Vector2<stReal> shadow_lowerBound;
+    Vector2<stReal> shadow_upperBound;
 };
 
 /*

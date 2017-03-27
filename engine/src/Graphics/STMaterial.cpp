@@ -33,7 +33,7 @@ void STMaterial::setDiffuseTexture(const std::string &fileName) {
     if(STGraphics::RENDERER == STGraphics::OPENGL){
         _uniforms.push_back(STShader::ShaderAttrib("Material.Diffuse_Tex",
                                                    STShader::TEX,
-                                                   STShader::toString(Vector2<stInt>(GLTexture::GenTex(fileName), 1))));
+                                                   STShader::toString(Vector2<stInt>(GLTexture::GenTex(fileName), 2))));
     }
 
 }
@@ -42,7 +42,7 @@ void STMaterial::setNormalTexture(const std::string &fileName) {
     if(STGraphics::RENDERER == STGraphics::OPENGL){
         _uniforms.push_back(STShader::ShaderAttrib("Material.Normal_Tex",
                                                    STShader::TEX,
-                                                   STShader::toString(Vector2<stInt>(GLTexture::GenTex(fileName), 2))));
+                                                   STShader::toString(Vector2<stInt>(GLTexture::GenTex(fileName), 3))));
     }
 
 }

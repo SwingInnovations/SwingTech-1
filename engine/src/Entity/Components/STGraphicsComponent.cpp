@@ -40,6 +40,10 @@ void STGraphicsComponent::addShdrUniform(const std::string &name, float value) {
     m_uniforms.push_back(STShader::ShaderAttrib(name, STShader::FLOAT, STShader::toString(value)));
 }
 
+void STGraphicsComponent::addShdrUniform(const std::string &name, Vector2<stReal> value) {
+    m_uniforms.push_back(STShader::ShaderAttrib(name, STShader::VEC2, STShader::toString(value)));
+}
+
 void STGraphicsComponent::addShdrUniform(const std::string &name, Vector3<stReal> value) {
     m_uniforms.push_back(STShader::ShaderAttrib(name, STShader::VEC3, STShader::toString(value)));
 }
@@ -79,6 +83,16 @@ void STGraphicsComponent::setShdrUniform(const std::string &name, float value) {
     }
     if(!uniformFound)
         addShdrUniform(name,value);
+}
+
+void STGraphicsComponent::setShdrUniform(const std::string &name, Vector2<stReal> value) {
+    for(stUint i = 0, S = m_uniforms.size(); i < S; i++){
+        if(m_uniforms[i].name == name){
+            m_uniforms[i].value = STShader::toString(value);
+            return;
+        }
+    }
+    addShdrUniform(name, value);
 }
 
 void STGraphicsComponent::setShdrUniform(const std::string &name, Vector3<stReal> value) {

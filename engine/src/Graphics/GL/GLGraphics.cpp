@@ -357,6 +357,9 @@ void GLGraphics::drawScene(STScene *scene) {
                         glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(verts), verts);
                         glBindBuffer(GL_ARRAY_BUFFER, 0);
                         glDrawArrays(GL_TRIANGLES, 0, 6);
+                        //TODO Move this to a vec4.
+                        lights[ind]->get<STLightComponent>()->getProperties()->shadow_lowerBound = Vector2<stReal>(shadowX, shadowY);
+                        lights[ind]->get<STLightComponent>()->getProperties()->shadow_upperBound = Vector2<stReal>(shadowX + m_shadowRes, shadowY + m_shadowRes);
 
                         shadowX += m_shadowRes;
                         if((int)shadowX % (4 * m_shadowRes) == 0) shadowY += m_shadowRes;
@@ -416,6 +419,9 @@ void GLGraphics::drawScene(STScene *scene) {
 
     scenes[scene->getIndex()].drawSkybox(*getActiveCamera());
 
+    glActiveTexture(GL_TEXTURE0 + 3);
+    glBindTexture(GL_TEXTURE_2D, shadowAtlas);
+
     glDisable(GL_BLEND);
     glDepthFunc(GL_EQUAL);
     glDepthMask(GL_TRUE);
@@ -424,6 +430,7 @@ void GLGraphics::drawScene(STScene *scene) {
         for(stUint j =0; j < lights.size(); j++) {
             actors[i]->setShdrUniform("_CameraPos", getActiveCamera()->transform()->getTranslate<stReal>());
             actors[i]->setShdrUniform_CubeMap("_WorldCubeMap", scenes[scene->getIndex()].m_skybox);
+            actors[i]->setShdrUniform_Texture("_ShadowAtlas", shadowAtlas, 1);
 
             auto lightProps = lights[j]->get<STLightComponent>()->getProperties();
 
@@ -433,6 +440,8 @@ void GLGraphics::drawScene(STScene *scene) {
             actors[i]->setShdrUniform("Light["+std::to_string(j)+"].Direction", lightProps->direction);
             actors[i]->setShdrUniform("Light["+std::to_string(j)+"].Radius", lightProps->radius);
             actors[i]->setShdrUniform("Light["+std::to_string(j)+"].Intensity", lightProps->intensity);
+            actors[i]->setShdrUniform("Light["+std::to_string(j)+"].Shadow_LowerBound", lightProps->shadow_lowerBound);
+            actors[i]->setShdrUniform("Light["+std::to_string(j)+"].Shadow_UpperBound", lightProps->shadow_upperBound);
         }
         actors[i]->draw();
     }

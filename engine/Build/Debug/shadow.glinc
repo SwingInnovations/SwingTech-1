@@ -1,0 +1,13 @@
+
+float calculateShadow(vec4 fragPosLightSpace, sampler2D shadowMap, vec2 lowerBound, vec2 upperBound){
+    vec3 projCoords = fragPosLightSpace.xyz / fragPosLightSpace.w;
+    projCoords = projCoords * 0.5 + 0.5;
+    if(projCoords.x > lowerBound.x && projCoords.x < upperBound.x
+        && projCoords.y > lowerBound.y && projCoords.y < upperBound.y){
+            float closestDepth = texture(shadowMap, projCoords.xy).r;
+            float currentDepth = projCoords.z;
+            float shadow = currentDepth > closestDepth ? 1.0 : 0.0;
+            return shadow;
+    }
+    return -1.0;
+}

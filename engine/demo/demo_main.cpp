@@ -57,12 +57,18 @@ public:
         mat->setBaseColor(Vector3<stReal>(.7,.7,.7));
         //  _testActor2->setRotateX(90);
         // _testActor2->setRotateY(90);
+        _testActor = new STActor("dice.obj", resManager->getMaterial("default"));
+        _testActor->setShdrUniform("_Metallic", 0.f);
+        _testActor->setShdrUniform("_Roughness", 0.f);
+        _testActor->setDiffuseTexture("grid.png");
+        _testActor->setNormalTexture("testNormal.png");
+        _testActor->setTranslateX(2.f);
+        _testActor->setTranslateZ(-2.f);
 
         //  roughnessTex = new GLTexture("roughness.png");
 
 //        mat->setDiffuseTexture("sampledDiffuseColor.png");
 //        mat->setNormalTexture("testNormal.png");
-        auto uniforms = mat->getUniforms();
 
         //_testActor2->setShdrUniform_Texture("_RoughnessTex",roughnessTex->genTex("roughness.png"));
         //_testActor2->setTranslateY(-4);
@@ -86,6 +92,7 @@ public:
         // scene->addLight(_testLight);
 
         scene->addActor(_testActor2);
+        scene->addActor(_testActor);
         scene->addLight(_testLight2);
         scene->addLight(_testLight);
         STGraphics::ClearColor = Vector4<stReal>(0.0, 0.0, 0.168, 1.0);

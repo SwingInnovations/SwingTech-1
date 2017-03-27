@@ -30,6 +30,7 @@ public:
 
     void addShdrUniform(const std::string& name, int value);
     void addShdrUniform(const std::string& name, float value);
+    void addShdrUniform(const std::string& name, Vector2<stReal> value);
     void addShdrUniform(const std::string& name, Vector3<stReal> value);
     void addShdrUniform(const std::string& name, Vector4<stReal> value);
     void addShdrUniform(const std::string& name, Matrix4f value);
@@ -41,6 +42,7 @@ public:
 
     void setShdrUniform(const std::string& name, int value);
     void setShdrUniform(const std::string& name, float value);
+    void setShdrUniform(const std::string& name, Vector2<stReal> value);
     void setShdrUniform(const std::string& name, Vector3<stReal> value);
     void setShdrUniform(const std::string& name, Vector4<stReal> value);
     void setShdrUniform(const std::string& name, Matrix4f value);

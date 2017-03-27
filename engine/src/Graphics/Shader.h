@@ -26,7 +26,8 @@ namespace STShader{
        MAT4 = 4,
        TEX = 5,
        CUBE_MAP = 6,
-       STRING = 7
+       STRING = 7,
+       VEC2 = 8
    };
 
     /*!
@@ -54,6 +55,12 @@ namespace STShader{
     static std::string toString(const Vector2<stInt>& vec){
         std::ostringstream buff;
         buff << vec.getX() << "/" << vec.getY();
+        return buff.str();
+    }
+
+    template<typename T> static std::string toString(const Vector2<T>& val) {
+        std::ostringstream buff;
+        buff << val.getX() << "/" << val.getY();
         return buff.str();
     }
 
@@ -121,11 +128,11 @@ namespace STShader{
         return (stUint)atol(val.c_str());
     }
 
-    static Vector2<stInt> toVector2(const std::string& val){
-        stInt _x = 0, _y = 0;
+    static Vector2<stReal> toVector2(const std::string& val){
+        stReal _x = 0, _y = 0;
         _x = atoi(val.substr(0, val.find('/')).c_str());
         _y = atoi(val.substr(val.find('/')+1).c_str());
-        return Vector2<stInt>(_x, _y);
+        return Vector2<stReal>(_x, _y);
     }
 
     /*!
@@ -217,6 +224,7 @@ public:
     virtual void update(Transform& trans, Camera& cam){ }
     virtual void update(const std::string& name, int val){}
     virtual void update(const std::string& name, float val){ }
+    virtual void update(const std::string& name, Vector2<stReal> val){ }
     virtual void update(const std::string& name, Vector3<stReal> val){ }
     virtual void update(const std::string& name, Vector4<stReal> val){  }
     virtual void update(const std::string& name, Matrix4f mat){ }

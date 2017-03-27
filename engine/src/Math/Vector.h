@@ -181,7 +181,6 @@ public:
         return Vector2(_x, _y);
     }
 
-
 private:
     T m_val[2];
 };

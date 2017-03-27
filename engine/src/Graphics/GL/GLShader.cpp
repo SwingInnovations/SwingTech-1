@@ -143,6 +143,11 @@ void GLShader::update(const std::string& name, float val) {
     if(uniLoc != -1) glUniform1f(uniLoc, val);
 }
 
+void GLShader::update(const std::string &name, Vector2<stReal> val) {
+    auto uniLoc = glGetUniformLocation(m_Program, name.c_str());
+    if(uniLoc != -1) glUniform2f(uniLoc, val.getX(), val.getY());
+}
+
 void GLShader::update(const std::string &name, Vector3<stReal> val) {
     auto uniLoc = glGetUniformLocation(m_Program, name.c_str());
     if(uniLoc != -1) glUniform3f(uniLoc, val.getX(), val.getY(), val.getZ());

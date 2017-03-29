@@ -37,7 +37,7 @@ void main(void){
 			vec3 Directional_diff = clamp(vec3(Ggx_Dist_old(dot(Norm, normalize(Light[i].Direction.xyz)),1)),0.0,1.0);
             if(Light[i].Direction.w == 0 || Light[i].Direction.w == -1){
                 float shadow = calculateShadow(FragPosLightSpace, _ShadowAtlas, Light[i].Shadow_LowerBound, Light[i].Shadow_UpperBound);
-                if(shadow >= 0) color += vec4(BlendMaterial_Directional(Directional_spec, (1.0 - shadow) * Directional_diff,Material.BaseColor,IBL ,Light[i].Intensity,Light[i].Color),1);
+                color += vec4(BlendMaterial_Directional(Directional_spec, (1.0 - shadow) * Directional_diff,Material.BaseColor,IBL ,Light[i].Intensity,Light[i].Color),1);
             }
 		}
 	}

@@ -16,6 +16,7 @@ struct STLight
 	bool UseShadow;
 	vec2 Shadow_LowerBound;
 	vec2 Shadow_UpperBound;
+	vec2 Shadow_OffsetUV;
 };
 
 struct STMaterial

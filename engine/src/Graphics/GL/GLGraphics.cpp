@@ -358,8 +358,8 @@ void GLGraphics::drawScene(STScene *scene) {
                         glBindBuffer(GL_ARRAY_BUFFER, 0);
                         glDrawArrays(GL_TRIANGLES, 0, 6);
                         //TODO Move this to a vec4.
-                        lights[ind]->get<STLightComponent>()->getProperties()->shadow_lowerBound = Vector2<stReal>(shadowX, shadowY);
-                        lights[ind]->get<STLightComponent>()->getProperties()->shadow_upperBound = Vector2<stReal>(shadowX + m_shadowRes, shadowY + m_shadowRes);
+                        lights[ind]->get<STLightComponent>()->getProperties()->shadow_lowerBound = Vector2<stReal>(shadowX / 4096, (4096 - shadowY) / 4096);
+                        lights[ind]->get<STLightComponent>()->getProperties()->shadow_upperBound = Vector2<stReal>((shadowX + m_shadowRes)/4096, (shadowY + m_shadowRes)/4096);
 
                         shadowX += m_shadowRes;
                         if((int)shadowX % (4 * m_shadowRes) == 0) shadowY += m_shadowRes;

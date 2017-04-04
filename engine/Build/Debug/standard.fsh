@@ -31,13 +31,12 @@ void main(void){
 
  	r = max(_Roughness,.1);
 
- 	for(int i = 0; i < 2; i++){
+ 	for(int i = 0; i < LightCount; i++){
  		if(Light[i].Radius<0){
 			vec3 Directional_spec = clamp(vec3(Ggx_Dist_old(dot(Norm, normalize(Light[i].Direction.xyz+V)),r)),0.0,1.0);
 			vec3 Directional_diff = clamp(vec3(Ggx_Dist_old(dot(Norm, normalize(Light[i].Direction.xyz)),1)),0.0,1.0);
             if(Light[i].Direction.w == 0 || Light[i].Direction.w == -1){
-                float shadow = calculateShadow(FragPosLightSpace, _ShadowAtlas, Light[i].Shadow_LowerBound, Light[i].Shadow_UpperBound);
-                color += vec4(BlendMaterial_Directional(Directional_spec, (1.0 - shadow) * Directional_diff,Material.BaseColor,IBL ,Light[i].Intensity,Light[i].Color),1);
+                color += vec4(BlendMaterial_Directional(Directional_spec, Directional_diff,Material.BaseColor,IBL ,Light[i].Intensity,Light[i].Color),1);
             }
 		}
 	}

@@ -1,5 +1,8 @@
 #version 400 core
 
+#include <STLight.glinc>
+#include <shadow_vert.glinc>
+
 layout(location = 0)in vec3 position;
 layout(location = 1)in vec2 texCoord;
 layout(location = 2)in vec3 normal;
@@ -11,12 +14,14 @@ uniform mat4 camera;
 uniform mat4 projection;
 uniform mat4 view;
 uniform mat4 lightSpaceMatrix;
+uniform STLight lights[10];
 
 out vec3 Position;
 out vec2 TexCoord;
 out vec3 Normal;
 out mat3 TBN;
 out vec4 FragPosLightSpace;
+out ShadowSpecs shadowSpecs[64];
 
 void main(void){
     gl_Position = projection * view * model * vec4(position, 1.0);
@@ -29,7 +34,6 @@ void main(void){
 
   	vec3 N = vec3(model * vec4(normal,    0.0));
 
-  	
 	vec3 B = cross(T, N);
 	 	
 	Normal = N;	
@@ -37,4 +41,7 @@ void main(void){
     TBN = mat3(T, B, N);
 
     FragPosLightSpace = transpose(lightSpaceMatrix) * vec4(Position, 1.0);
+    for(int i = 0; i < LightCount; i++){
+
+    }
 }

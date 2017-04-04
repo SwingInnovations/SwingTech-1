@@ -49,8 +49,8 @@ public:
 
         _testActor2 = new STActor("teapot.obj", resManager->getMaterial("default"));
         //_testActor2->setTranslateX(1);
-        _testActor2->setShdrUniform("_Metallic", 0.0f);
-        _testActor2->setShdrUniform("_Roughness",0.0f);
+        _testActor2->setShdrUniform("_Metallic", 0.8f);
+        _testActor2->setShdrUniform("_Roughness",0.2f);
         _testActor2->setScale(0.01);
         _testActor2->setDiffuseTexture("grid.png");
         _testActor2->setNormalTexture("testNormal.png");
@@ -86,7 +86,7 @@ public:
 //        _testLight2->intensity =0.5f;
 //        _testLight2->radius=-1;
 
-        scene->addSkybox("mystic", "skybox");
+        scene->addSkybox("Yokohama", "skybox");
 
 
         // scene->addLight(_testLight);
@@ -157,7 +157,6 @@ int main(int argc, char** argv){
     win->addCamera(new Camera(*win, campos, 0));
     win->addState(new TestState(0));
     win->enterState(0);
-    win->getGraphics()->enablePostEffect(STGraphics::BLOOM );
     win->start();
 
     return 0;

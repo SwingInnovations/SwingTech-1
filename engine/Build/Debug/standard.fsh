@@ -1,6 +1,7 @@
 #version 400 core
 
 in vec4 FragPosLightSpace;
+uniform sampler2DArray shadowArray;
 #include <standard.glinc>
 #include <PBR.glinc>
 #include <shadow.glinc>
@@ -36,7 +37,9 @@ void main(void){
 			vec3 Directional_spec = clamp(vec3(Ggx_Dist_old(dot(Norm, normalize(Light[i].Direction.xyz+V)),r)),0.0,1.0);
 			vec3 Directional_diff = clamp(vec3(Ggx_Dist_old(dot(Norm, normalize(Light[i].Direction.xyz)),1)),0.0,1.0);
             if(Light[i].Direction.w == 0 || Light[i].Direction.w == -1){
-                color += vec4(BlendMaterial_Directional(Directional_spec, Directional_diff,Material.BaseColor,IBL ,Light[i].Intensity,Light[i].Color),1);
+                float shadow = calculateShadow(FragPosLightSpace, shadowArray, 0);
+                color += (1.0 - shadow) * vec4(BlendMaterial_Directional(Directional_spec,Directional_diff,Material.BaseColor,IBL ,Light[i].Intensity,Light[i].Color),1);
+
             }
 		}
 	}

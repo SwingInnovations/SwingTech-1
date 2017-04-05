@@ -35,10 +35,12 @@ public:
     void addShdrUniform(const std::string& name, Vector4<stReal> value);
     void addShdrUniform(const std::string& name, Matrix4f value);
     void addShdrUniform_Texture(const std::string& name, stUint value);
+    void addShdrUniform_Texture2DArray(const std::string& name, stUint value);
     void addShdrUniform_CubeMap(const std::string& name, stUint value);
     void setDiffuseTexture(const std::string& fileName);
     void setNormalTexture(const std::string& fileName);
     void setShdrUniform_Texture(const std::string& name, stUint id, stUint index);
+    void setShdrUniform_Texture2DArray(const std::string& name, stUint id, stUint index);
 
     void setShdrUniform(const std::string& name, int value);
     void setShdrUniform(const std::string& name, float value);

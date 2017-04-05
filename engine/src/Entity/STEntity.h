@@ -116,6 +116,7 @@ public:
     void setShdrUniform(const std::string& name, Vector4<stReal> value);
     void setShdrUniform(const std::string& name, Matrix4f value);
     void setShdrUniform_Texture(const std::string& name, stUint id, stUint index);
+    void setShdrUniform_Texture2DArray(const std::string& name, stUint id, stUint index);
     void setShdrUniform_Texture(const std::string& name, stUint tag);
     void setShdrUniform_CubeMap(const std::string& name, stUint tag);
 

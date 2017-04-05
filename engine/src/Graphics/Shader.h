@@ -27,7 +27,9 @@ namespace STShader{
        TEX = 5,
        CUBE_MAP = 6,
        STRING = 7,
-       VEC2 = 8
+       VEC2 = 8,
+       TEX1DARR = 9,
+       TEX2DARR = 10
    };
 
     /*!
@@ -230,6 +232,7 @@ public:
     virtual void update(const std::string& name, Matrix4f mat){ }
     virtual void update_Texture(const std::string& name, stUint){ }
     virtual void update_Texture(const std::string& name, Vector2<stInt> val){ }
+    virtual void update_Texture2DArray(const std::string& name, Vector2<stInt> val){}
     virtual void update_CubeMap(const std::string& name, stUint){ }
     void updateUniforms(std::vector<STShader::ShaderAttrib> _uniforms);
     virtual std::string getShaderName(){ return NULL; }

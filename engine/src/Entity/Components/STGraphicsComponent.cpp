@@ -60,6 +60,10 @@ void STGraphicsComponent::addShdrUniform_Texture(const std::string &name, stUint
     m_uniforms.push_back(STShader::ShaderAttrib(name, STShader::TEX, STShader::toString(value)));
 }
 
+void STGraphicsComponent::addShdrUniform_Texture2DArray(const std::string &name, stUint value) {
+    m_uniforms.push_back(STShader::ShaderAttrib(name, STShader::TEX2DARR, STShader::toString(value)));
+}
+
 void STGraphicsComponent::addShdrUniform_CubeMap(const std::string &name, stUint value) {
     m_uniforms.push_back(STShader::ShaderAttrib(name, STShader::CUBE_MAP, STShader::toString(value)));
 }
@@ -155,6 +159,17 @@ void STGraphicsComponent::setShdrUniform_Texture(const std::string &name, stUint
     if(!uniformFound) addShdrUniform_Texture(name, value);
 }
 
+void STGraphicsComponent::setShdrUniform_Texture2DArray(const std::string &name, stUint id, stUint index) {
+    bool uniformFound = false;
+    for(stUint i = 0, S = m_uniforms.size(); i < S; i++){
+        if(m_uniforms[i].name == name && m_uniforms[i].type == STShader::TEX2DARR){
+            m_uniforms[i].value = STShader::toString(Vector2<stInt>(id, index));
+            uniformFound = true;
+        }
+    }
+    if(!uniformFound) m_uniforms.push_back(STShader::ShaderAttrib(name, STShader::TEX2DARR, STShader::toString(Vector2<stInt>(id, index))));
+}
+
 void STGraphicsComponent::setShdrUniform_CubeMap(const std::string &name, stUint value) {
     bool uniformFound;
     for(stUint i = 0, S = m_uniforms.size(); i < S; i++){
@@ -221,3 +236,6 @@ void STGraphicsComponent::setDiffuseTexture(const std::string &fileName) {
 void STGraphicsComponent::setNormalTexture(const std::string &fileName) {
     m_material->setNormalTexture(fileName);
 }
+
+
+

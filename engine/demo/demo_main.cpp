@@ -49,8 +49,8 @@ public:
 
         _testActor2 = new STActor("teapot.obj", resManager->getMaterial("default"));
         //_testActor2->setTranslateX(1);
-        _testActor2->setShdrUniform("_Metallic", 0.8f);
-        _testActor2->setShdrUniform("_Roughness",0.2f);
+        _testActor2->setShdrUniform("_Metallic", 0.0f);
+        _testActor2->setShdrUniform("_Roughness",0.0f);
         _testActor2->setScale(0.01);
         _testActor2->setDiffuseTexture("grid.png");
         _testActor2->setNormalTexture("testNormal.png");
@@ -86,7 +86,7 @@ public:
 //        _testLight2->intensity =0.5f;
 //        _testLight2->radius=-1;
 
-        scene->addSkybox("Yokohama", "skybox");
+        scene->addSkybox("mystic", "skybox");
 
 
         // scene->addLight(_testLight);
@@ -94,14 +94,16 @@ public:
         scene->addActor(_testActor2);
         scene->addActor(_testActor);
         scene->addLight(_testLight2);
-        scene->addLight(_testLight);
+        //scene->addLight(_testLight);
         STGraphics::ClearColor = Vector4<stReal>(0.0, 0.0, 0.168, 1.0);
     }
 
     void update(STGame* game, stUint delta){
         auto input = Input::Get();
         if(input->isKeyPressed(KEY::KEY_ESC)) input->requestClose();
-        if(input->isKeyPressed(KEY::KEY_Q)) input->setCursorBound(!input->isCursorBound());
+        if(input->isKeyPressed(KEY::KEY_Q)){
+            input->setCursorBound(!input->isCursorBound());
+        }
     }
 
     void render(STGame * win){

@@ -103,26 +103,12 @@ GLGraphics::GLGraphics(STGame *game) {
     glBindBuffer(GL_ARRAY_BUFFER, 0);
     glBindVertexArray(0);
 
-    glGenVertexArrays(1, &shadowAtlasVAO);
-    glGenBuffers(1, &shadowAtlasVBO);
-    glBindVertexArray(shadowAtlasVAO);
-    glBindBuffer(GL_ARRAY_BUFFER, shadowAtlasVBO);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(GL_FLOAT) * 6 * 4, NULL, GL_DYNAMIC_DRAW);
-    glEnableVertexAttribArray(0);
-    glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, 4*sizeof(GLfloat), 0);
-    glBindBuffer(GL_ARRAY_BUFFER, 0);
-    glBindVertexArray(0);
-
     auto w = STGame::RES_WIDTH;
     auto h = STGame::RES_HEIGHT;
     glGenTextures(1, &velocityTexture);
 
     glBindTexture(GL_TEXTURE_2D, velocityTexture);
-
-
     glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB16F, w, h, 0, GL_RG, GL_FLOAT, NULL);
-
-
     glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
     glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
@@ -149,25 +135,6 @@ GLGraphics::GLGraphics(STGame *game) {
     if(glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE) std::cerr << "Failed to generate Bloom Buffer" << std::endl;
     GLenum drawBuffers1[] = {GL_COLOR_ATTACHMENT0};
     glDrawBuffers(1, drawBuffers1);
-    glBindFramebuffer(GL_FRAMEBUFFER, 0);
-
-    glGenFramebuffers(1, &shadowAtlasBuffer);
-
-    glGenTextures(1, &shadowAtlas);
-    glBindTexture(GL_TEXTURE_2D, shadowAtlas);
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB32F, 4096, 4096, 0, GL_RGB, GL_FLOAT, NULL);
-    glGenerateMipmap(GL_TEXTURE_2D);
-    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-    glBindTexture(GL_TEXTURE_2D, 0);
-
-    glBindFramebuffer(GL_FRAMEBUFFER, shadowAtlasBuffer);
-    glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, shadowAtlas, 0);
-    if(glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE) std::cerr << "Failed to generate shadow framebuffer!" << std::endl;
-    GLenum  atlasBuffer[] = {GL_COLOR_ATTACHMENT0};
-    glDrawBuffers(1, atlasBuffer);
     glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
     glGenFramebuffers(1, &frameBuffer);
@@ -215,13 +182,22 @@ void GLGraphics::drawScene(STScene *scene) {
 
         if (m_shadows) {
             auto lights = scene->getLights();
+            glGenTextures(1, &shadowArray);
+            glBindTexture(GL_TEXTURE_2D_ARRAY, shadowArray);
+            glTexImage3D(GL_TEXTURE_2D_ARRAY, 0, GL_DEPTH_COMPONENT, 1024, 1024, lights.size(), 0, GL_DEPTH_COMPONENT, GL_UNSIGNED_BYTE, NULL);
+            glTexParameteri(GL_TEXTURE_2D_ARRAY, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+            glTexParameteri(GL_TEXTURE_2D_ARRAY, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+            glTexParameteri(GL_TEXTURE_2D_ARRAY, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+            glTexParameteri(GL_TEXTURE_2D_ARRAY, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+            glBindTexture(GL_TEXTURE_2D_ARRAY, 0);
+
             for (stInt i = 0, S = lights.size(); i < S; i++) {
                 if (lights[i]->get<STLightComponent>()->getType() == STLightComponent::DIRECTIONAL_LIGHT ||
                         lights[i]->get<STLightComponent>()->getType() == STLightComponent::SPOT_LIGHT) {
                     glGenFramebuffers(1, &lights[i]->shadowFrameBuffer[0]);
                     glGenTextures(1, &lights[i]->shadowMapID[0]);
                     glBindTexture(GL_TEXTURE_2D, lights[i]->shadowMapID[0]);
-                    glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT, 1024, 1024, 0, GL_DEPTH_COMPONENT, GL_FLOAT,
+                    glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT, 1024, 1024, 0, GL_DEPTH_COMPONENT, GL_UNSIGNED_BYTE,
                                  NULL);
                     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
                     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
@@ -297,12 +273,22 @@ void GLGraphics::drawScene(STScene *scene) {
                 glClear(GL_DEPTH_BUFFER_BIT);
                 glEnable(GL_CULL_FACE);
                 glCullFace(GL_FRONT);
+                //TODO Streamline this
+                //TODO Improve LookAt so it actually functions like its supposed to.
                 //shdr->update("lightMatrix", ortho * Matrix4f::LookAt(Vector3<stReal>(2.f, 5.f, 0.f), Vector3<stReal>(0, 0, 0), Vector3<stReal>(0.0f, 1.0f, 0.0f)));
                 for (stUint j = 0; j < actors.size(); j++) {
-                    actors[j]->setShdrUniform("lightSpaceMatrix", ortho * Matrix4f::LookAt(lights[j]->transform()->getTranslate<stReal>(), Vector3<stReal>(0, 0, 0), Vector3<stReal>(0.f, 1.f, 0.f)));
-                    //actors[j]->setShdrUniform("lightSpaceMatrix", ortho * lights[j]->projections[0]);
+                    actors[j]->setShdrUniform("lightSpaceMatrix", ortho * Matrix4f::LookAt(lights[i]->transform()->getTranslate<stReal>(), Vector3<stReal>(0, 0, 0), Vector3<stReal>(0.f, 1.f, 0.f)));
                     actors[j]->draw(lights[i]->get<STGraphicsComponent>()->getMaterial());
                 }
+                GLubyte* data = new GLubyte[1024*1024];
+                glBindTexture(GL_TEXTURE_2D, lights[i]->shadowMapID[0]);
+                glGetTexImage(GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT, GL_UNSIGNED_BYTE, data);
+                glBindTexture(GL_TEXTURE_2D, 0);
+
+                glBindTexture(GL_TEXTURE_2D_ARRAY, shadowArray);
+                glTexSubImage3D(GL_TEXTURE_2D_ARRAY, 0, 0, 0, 0, 1024, 1024, 1, GL_DEPTH_COMPONENT, GL_UNSIGNED_BYTE, data);
+                glBindTexture(GL_TEXTURE_2D_ARRAY, 0);
+                delete data;
                 glBindFramebuffer(GL_FRAMEBUFFER, 0);
             }else{
                 for(stUint j = 0; j < actors.size(); j++){
@@ -319,75 +305,6 @@ void GLGraphics::drawScene(STScene *scene) {
                 }
             }
         }
-        //Populate the atlas;
-
-        glViewport(0, 0, 4096, 4096);
-        glBindFramebuffer(GL_FRAMEBUFFER, shadowAtlasBuffer);
-        glDisable(GL_DEPTH_TEST);
-        glEnable(GL_PROGRAM_POINT_SIZE);
-        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-        glClearColor(1.0, 0.0, 0.0, 1.0);
-
-        stUint ind = 0;
-
-        ShadowAtlasShader->bind();
-        ShadowAtlasShader->update("projection", Matrix4f().initOrthographicProjection(0, 4096, 4096, 0, 0, 1000.f));
-        glActiveTexture(GL_TEXTURE0);
-        glBindVertexArray(shadowAtlasVAO);
-        GLfloat shadowX = 0, shadowY = 3 * m_shadowRes, exp = (GLfloat)m_shadowRes;
-
-        for(stUint i = 0; i < 4; i++){
-            for(stUint j = 0; j < 4; j++){
-                if(ind < scene->getLights().size()){
-                    if(lights[ind]->get<STLightComponent>()->getType() == STLightComponent::DIRECTIONAL_LIGHT||
-                            lights[ind]->get<STLightComponent>()->getType() == STLightComponent::SPOT_LIGHT){
-
-                        GLfloat verts[6][4] = {
-                                {shadowX, shadowY + m_shadowRes, 0.f, 1.f},
-                                {shadowX + m_shadowRes, shadowY, 1.f, 0.f},
-                                {shadowX, shadowY,               0.f, 0.f},
-
-                                {shadowX,               shadowY + m_shadowRes, 0.f, 1.f},
-                                {shadowX + m_shadowRes, shadowY + m_shadowRes, 1.f, 1.f},
-                                {shadowX + m_shadowRes, shadowY,               1.f, 0.f}
-                        };
-
-                        glBindTexture(GL_TEXTURE_2D, lights[ind]->shadowMapID[0]);
-                        glBindBuffer(GL_ARRAY_BUFFER, shadowAtlasVBO);
-                        glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(verts), verts);
-                        glBindBuffer(GL_ARRAY_BUFFER, 0);
-                        glDrawArrays(GL_TRIANGLES, 0, 6);
-                        lights[ind]->get<STLightComponent>()->getProperties()->ShadowOffsets = Vector4<stReal>(0,0, 1024.f/4096.f, 1024.f/4096.f); //TODO Change these to more modular offsets.
-
-                        shadowX += m_shadowRes;
-                        if((int)shadowX % (4 * m_shadowRes) == 0) shadowY -= m_shadowRes;
-                    }else{
-                        for(stUint k = 0; k < 6; k++){
-                            GLfloat verts[6][4] = {
-                                    {shadowX,               shadowY,               0, 0},
-                                    {shadowX + m_shadowRes, shadowY,               1, 0},
-                                    {shadowX,               shadowY + m_shadowRes, 0, 1},
-
-                                    {shadowX,               shadowY + m_shadowRes, 0, 1},
-                                    {shadowX + m_shadowRes, shadowY + m_shadowRes, 1, 1},
-                                    {shadowX + m_shadowRes, shadowY,               1, 0}
-                            };
-
-                            glBindTexture(GL_TEXTURE_2D, lights[ind]->shadowMapID[k]);
-                            glBindBuffer(GL_ARRAY_BUFFER, shadowAtlasVBO);
-                            glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(verts), verts);
-                            glBindBuffer(GL_ARRAY_BUFFER, 0);
-                            glDrawArrays(GL_TRIANGLES, 0, 6);
-                            shadowX += m_shadowRes;
-                            if((stUint)shadowX % (4 * m_shadowRes) == 0) shadowY -= m_shadowRes;
-                        }
-                    }
-                    ind++;
-                }
-            }
-        }
-        glBindVertexArray(0);
-        glBindFramebuffer(GL_FRAMEBUFFER, 0);
     }
 
     glViewport(0, 0, WIDTH, HEIGHT);
@@ -417,9 +334,6 @@ void GLGraphics::drawScene(STScene *scene) {
 
     scenes[scene->getIndex()].drawSkybox(*getActiveCamera());
 
-    glActiveTexture(GL_TEXTURE0 + 3);
-    glBindTexture(GL_TEXTURE_2D, shadowAtlas);
-
     glDisable(GL_BLEND);
     glDepthFunc(GL_EQUAL);
     glDepthMask(GL_TRUE);
@@ -428,7 +342,8 @@ void GLGraphics::drawScene(STScene *scene) {
         for(stUint j =0; j < lights.size(); j++) {
             actors[i]->setShdrUniform("_CameraPos", getActiveCamera()->transform()->getTranslate<stReal>());
             actors[i]->setShdrUniform_CubeMap("_WorldCubeMap", scenes[scene->getIndex()].m_skybox);
-            actors[i]->setShdrUniform_Texture("_ShadowAtlas", shadowAtlas, 1);
+            //actors[i]->setShdrUniform_Texture("_ShadowAtlas", shadowAtlas, 1);
+            actors[i]->setShdrUniform_Texture2DArray("shadowArray", shadowArray, 1);
             actors[i]->setShdrUniform("LightCount", (stInt)lights.size());
 
             auto lightProps = lights[j]->get<STLightComponent>()->getProperties();

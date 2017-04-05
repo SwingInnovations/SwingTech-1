@@ -134,8 +134,7 @@ private:
     GLuint textVBO;
     GLShader* textShader;
 
-    GLuint shadowAtlasVAO;
-    GLuint shadowAtlasVBO;
+    GLuint shadowArray;
 
     Matrix4f orthoProjection;
     GLuint frameBuffer;
@@ -145,8 +144,6 @@ private:
     GLuint rendBuffer;
     GLuint  bloomThresTex;
     GLuint bloomThresBuf;
-    GLuint shadowAtlas;
-    GLuint shadowAtlasBuffer;
 
     GLShader* screenShdr;
     GLShader* Bloom_Composite;

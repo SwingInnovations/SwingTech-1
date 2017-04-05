@@ -244,6 +244,15 @@ void GLShader::update_Texture(const std::string &name, Vector2<stInt> val) {
     }
 }
 
+void GLShader::update_Texture2DArray(const std::string &name, Vector2<stInt> val) {
+    auto uniLoc = glGetUniformLocation(m_Program, name.c_str());
+    if(uniLoc != -1){
+        glActiveTexture(GL_TEXTURE0 + val.getY());
+        glBindTexture(GL_TEXTURE_2D_ARRAY, (stUint)val.getX());
+        glUniform1i(uniLoc, val.getY());
+    }
+}
+
 
 
 

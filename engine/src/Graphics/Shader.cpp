@@ -17,6 +17,9 @@ void Shader::updateUniforms(std::vector<STShader::ShaderAttrib> _uniforms) {
             update_Texture(_uniforms[i].name, Vector2<stInt>((stInt)vec.getX(), (stInt)vec.getY()));
         }else if(_uniforms[i].type == STShader::CUBE_MAP){
             update_CubeMap(_uniforms[i].name, STShader::toSTUint(_uniforms[i].value));
+        }else if(_uniforms[i].type == STShader::TEX2DARR){
+            auto vec = STShader::toVector2(_uniforms[i].value);
+            update_Texture2DArray(_uniforms[i].name, Vector2<stInt>((stInt)vec.getX(), (stInt)vec.getY()));
         }
     }
 }

@@ -436,3 +436,8 @@ void STEntity::setShdrUniform_Texture(const std::string &name, stUint id, stUint
     if(g != nullptr) g->setShdrUniform_Texture(name, id, index);
 }
 
+void STEntity::setShdrUniform_Texture2DArray(const std::string &name, stUint id, stUint index) {
+    auto g = get<STGraphicsComponent>();
+    if(g != nullptr) g->setShdrUniform_Texture2DArray(name, id, index);
+}
+

@@ -184,7 +184,7 @@ void GLGraphics::drawScene(STScene *scene) {
             auto lights = scene->getLights();
             glGenTextures(1, &shadowArray);
             glBindTexture(GL_TEXTURE_2D_ARRAY, shadowArray);
-            glTexImage3D(GL_TEXTURE_2D_ARRAY, 0, GL_DEPTH_COMPONENT, 1024, 1024, lights.size(), 0, GL_DEPTH_COMPONENT, GL_UNSIGNED_BYTE, NULL);
+            glTexImage3D(GL_TEXTURE_2D_ARRAY, 0, GL_DEPTH_COMPONENT, 1024, 1024, lights.size(), 0, GL_DEPTH_COMPONENT, GL_FLOAT, NULL);
             glTexParameteri(GL_TEXTURE_2D_ARRAY, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
             glTexParameteri(GL_TEXTURE_2D_ARRAY, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
             glTexParameteri(GL_TEXTURE_2D_ARRAY, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
@@ -197,7 +197,7 @@ void GLGraphics::drawScene(STScene *scene) {
                     glGenFramebuffers(1, &lights[i]->shadowFrameBuffer[0]);
                     glGenTextures(1, &lights[i]->shadowMapID[0]);
                     glBindTexture(GL_TEXTURE_2D, lights[i]->shadowMapID[0]);
-                    glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT, 1024, 1024, 0, GL_DEPTH_COMPONENT, GL_UNSIGNED_BYTE,
+                    glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT, 1024, 1024, 0, GL_DEPTH_COMPONENT, GL_FLOAT,
                                  NULL);
                     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
                     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
@@ -265,7 +265,7 @@ void GLGraphics::drawScene(STScene *scene) {
         glViewport(0, 0, m_shadowRes, m_shadowRes);
         glEnable(GL_DEPTH_TEST);
 
-        auto ortho = Matrix4f().initOrthographicProjection(-10.f, 10.f, -10.f, 10.f, 1.f, 10.f);
+        auto ortho = Matrix4f().initOrthographicProjection(-100.f, 100.f, -100.f, 100.f, 1.f, 100.f);
         for(stUint i = 0; i < lights.size(); i++){
             if(lights[i]->get<STLightComponent>()->getType() == STLightComponent::DIRECTIONAL_LIGHT ||
                     lights[i]->get<STLightComponent>()->getType() == STLightComponent::SPOT_LIGHT) {
@@ -273,20 +273,18 @@ void GLGraphics::drawScene(STScene *scene) {
                 glClear(GL_DEPTH_BUFFER_BIT);
                 glEnable(GL_CULL_FACE);
                 glCullFace(GL_FRONT);
-                //TODO Streamline this
-                //TODO Improve LookAt so it actually functions like its supposed to.
                 //shdr->update("lightMatrix", ortho * Matrix4f::LookAt(Vector3<stReal>(2.f, 5.f, 0.f), Vector3<stReal>(0, 0, 0), Vector3<stReal>(0.0f, 1.0f, 0.0f)));
                 for (stUint j = 0; j < actors.size(); j++) {
-                    actors[j]->setShdrUniform("lightSpaceMatrix", ortho * Matrix4f::LookAt(lights[i]->transform()->getTranslate<stReal>(), Vector3<stReal>(0, 0, 0), Vector3<stReal>(0.f, 1.f, 0.f)));
+                    actors[j]->setShdrUniform("lightSpaceMatrix", ortho * Matrix4f::LookAt(lights[i]->transform()->getTranslate<stReal>(), lights[i]->get<STLightComponent>()->getProperties()->direction, Vector3<stReal>(0.f, 1.f, 0.f)));
                     actors[j]->draw(lights[i]->get<STGraphicsComponent>()->getMaterial());
                 }
-                GLubyte* data = new GLubyte[1024*1024];
+                GLfloat* data = new GLfloat[1024*1024];
                 glBindTexture(GL_TEXTURE_2D, lights[i]->shadowMapID[0]);
-                glGetTexImage(GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT, GL_UNSIGNED_BYTE, data);
+                glGetTexImage(GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT, GL_FLOAT, data);
                 glBindTexture(GL_TEXTURE_2D, 0);
 
                 glBindTexture(GL_TEXTURE_2D_ARRAY, shadowArray);
-                glTexSubImage3D(GL_TEXTURE_2D_ARRAY, 0, 0, 0, 0, 1024, 1024, 1, GL_DEPTH_COMPONENT, GL_UNSIGNED_BYTE, data);
+                glTexSubImage3D(GL_TEXTURE_2D_ARRAY, 0, 0, 0, 0, 1024, 1024, 1, GL_DEPTH_COMPONENT, GL_FLOAT, data);
                 glBindTexture(GL_TEXTURE_2D_ARRAY, 0);
                 delete data;
                 glBindFramebuffer(GL_FRAMEBUFFER, 0);
@@ -342,7 +340,6 @@ void GLGraphics::drawScene(STScene *scene) {
         for(stUint j =0; j < lights.size(); j++) {
             actors[i]->setShdrUniform("_CameraPos", getActiveCamera()->transform()->getTranslate<stReal>());
             actors[i]->setShdrUniform_CubeMap("_WorldCubeMap", scenes[scene->getIndex()].m_skybox);
-            //actors[i]->setShdrUniform_Texture("_ShadowAtlas", shadowAtlas, 1);
             actors[i]->setShdrUniform_Texture2DArray("shadowArray", shadowArray, 1);
             actors[i]->setShdrUniform("LightCount", (stInt)lights.size());
 
@@ -354,7 +351,6 @@ void GLGraphics::drawScene(STScene *scene) {
             actors[i]->setShdrUniform("Light["+std::to_string(j)+"].Direction", lightProps->direction);
             actors[i]->setShdrUniform("Light["+std::to_string(j)+"].Radius", lightProps->radius);
             actors[i]->setShdrUniform("Light["+std::to_string(j)+"].Intensity", lightProps->intensity);
-            actors[i]->setShdrUniform("Light["+std::to_string(j)+"].ShadowOffsets", lightProps->ShadowOffsets);
         }
         actors[i]->draw();
     }

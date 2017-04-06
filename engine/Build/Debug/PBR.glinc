@@ -158,3 +158,10 @@ vec3 BlendMaterial_Directional(vec3 Spec, vec3 Diff, vec3 Base,vec3 IBL,float in
 
 	return   mix(dialectric,metal,_Metallic);
 }
+
+vec3 BlendMaterial_Directional(vec3 Spec, vec3 Diff, vec3 Base,vec3 IBL,float intensity,vec3 lightColor, float shadow){
+	vec3 dialectric =( IBL *(((1.0-shadow)* Diff*intensity) + (_GlobalAmbient*0.5)))+lightColor*Spec*intensity*.6;
+	vec3 metal =IBL+ (Spec)*intensity*lightColor*((1.0 - shadow) * Base);
+
+	return   mix(dialectric,metal,_Metallic);
+}

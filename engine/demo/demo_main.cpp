@@ -65,6 +65,13 @@ public:
         _testActor->setTranslateX(2.f);
         _testActor->setTranslateZ(-2.f);
 
+        _plane = new STActor("plane.obj", resManager->getMaterial("default"));
+        _plane->setShdrUniform("_Metallic", 0.f);
+        _plane->setShdrUniform("_Roughness", 1.f);
+        _plane->setDiffuseTexture("grid.png");
+        //_plane->setNormalTexture("testNormal.png");
+        _plane->setTranslateY(-0.5f);
+
         //  roughnessTex = new GLTexture("roughness.png");
 
 //        mat->setDiffuseTexture("sampledDiffuseColor.png");
@@ -80,7 +87,7 @@ public:
 //        _testLight->radius = -1;
         _testLight = STLight::InitDirectionalLight(Vector3<stReal>(-2.f, 3.f, -7.f), Vector3<stReal>(-5.f, 3.f, -5.f) - Vector3<stReal>(0.f, 0.f, 0.f), Vector3<stReal>(1.0f, 0.f, 0.f));
         // _testLight->setTranslateZ(2);
-        _testLight2 = STLight::InitDirectionalLight(Vector3<stReal>(5.f, 3.f, 5.f), Vector3<stReal>(5.f, 3.f, 5.f) - Vector3<stReal>(0.f, 0.f, 0.f), Vector3<stReal>(1.f, 1.f, 1.f));
+        _testLight2 = STLight::InitDirectionalLight(Vector3<stReal>(5.f, -3.f, 5.f),Vector3<stReal>(0.f, 0.f, 0.f) - Vector3<stReal>(5.f, 3.f, 5.f), Vector3<stReal>(1.f, 1.f, 1.f));
 
 //        _testLight2 = STLight::DirectionalLight(Vector3<stReal>(5.f, 3.f, 5.f), Vector3<stReal>(5.f, 3.f, 5.f) - Vector3<stReal>(0.f, 0.f, 0.f), Vector3<stReal>(1.f, 1.f, 1.f));
 //        _testLight2->intensity =0.5f;
@@ -94,6 +101,7 @@ public:
         scene->addActor(_testActor2);
         scene->addActor(_testActor);
         scene->addLight(_testLight2);
+        scene->addActor(_plane);
         //scene->addLight(_testLight);
         STGraphics::ClearColor = Vector4<stReal>(0.0, 0.0, 0.168, 1.0);
     }
@@ -104,6 +112,8 @@ public:
         if(input->isKeyPressed(KEY::KEY_Q)){
             input->setCursorBound(!input->isCursorBound());
         }
+        _testActor->setRotateY(counter);
+        counter++;
     }
 
     void render(STGame * win){
@@ -129,6 +139,7 @@ private:
     STActor* _testActor;
     vector<STActor*> _testActors;
     STActor* _testActor2;
+    STActor* _plane;
     STLight* _testLight;
     STLight* _testLight2;
     STLight* _testLight3;

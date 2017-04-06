@@ -10,7 +10,6 @@ struct STLightProperies{
     stReal intensity = 0.5f;
     stReal radius = -0.1f;
     bool useShadow = false;
-    Vector4<stReal> ShadowOffsets;
 };
 
 /*

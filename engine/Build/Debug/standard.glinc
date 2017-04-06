@@ -13,7 +13,6 @@ struct STLight
 	float Radius;
 	float Intensity;
 	bool UseShadow;
-	vec4 ShadowOffsets;
 };
 
 struct STMaterial

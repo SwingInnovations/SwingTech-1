@@ -1,10 +1,10 @@
 
-float calculateShadow(vec4 fragPosLightSpace, sampler2DArray shadowArray, int index){
+float calculateShadow(vec4 fragPosLightSpace, sampler2DArray shadowArray, int index, float bias){
         vec3 projCoords = fragPosLightSpace.xyz / fragPosLightSpace.w;
         projCoords = projCoords * 0.5 + 0.5;
         float closestDepth = texture(shadowArray, vec3(projCoords.xy, 1)).r;
         float currentDepth = projCoords.z;
-        float shadow = currentDepth > closestDepth ? 1.0 : 0.0;
+        float shadow = currentDepth - bias > closestDepth ? 1.0 : 0.0;
         return shadow;
 }
 

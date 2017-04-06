@@ -17,12 +17,9 @@
   <component name="ChangeListManager">
     <list default="true" id="5ee8588a-b915-4eb2-8583-18cd73e205f4" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Build/Debug/PBR.glinc" afterPath="$PROJECT_DIR$/Build/Debug/PBR.glinc" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Build/Debug/shadow.glinc" afterPath="$PROJECT_DIR$/Build/Debug/shadow.glinc" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Build/Debug/standard.fsh" afterPath="$PROJECT_DIR$/Build/Debug/standard.fsh" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Build/Debug/standard.glinc" afterPath="$PROJECT_DIR$/Build/Debug/standard.glinc" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/demo/demo_main.cpp" afterPath="$PROJECT_DIR$/demo/demo_main.cpp" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Entity/Components/STLightComponent.h" afterPath="$PROJECT_DIR$/src/Entity/Components/STLightComponent.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Entity/Components/STAABBComponent.cpp" afterPath="$PROJECT_DIR$/src/Entity/Components/STAABBComponent.cpp" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Graphics/GL/GLGraphics.cpp" afterPath="$PROJECT_DIR$/src/Graphics/GL/GLGraphics.cpp" />
     </list>
     <ignored path="Wahoo.iws" />
@@ -47,8 +44,18 @@
       <file leaf-file-name="demo_main.cpp" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/demo/demo_main.cpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="464">
-              <caret line="89" column="84" lean-forward="false" selection-start-line="89" selection-start-column="84" selection-end-line="89" selection-end-column="117" />
+            <state relative-caret-position="560">
+              <caret line="68" column="45" lean-forward="false" selection-start-line="68" selection-start-column="45" selection-end-line="68" selection-end-column="45" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="STLight.h" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/Entity/STLight.h">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="200">
+              <caret line="18" column="20" lean-forward="false" selection-start-line="18" selection-start-column="20" selection-end-line="18" selection-end-column="20" />
               <folding />
             </state>
           </provider>
@@ -64,23 +71,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="STEntity.cpp" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/Entity/STEntity.cpp">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="328">
-              <caret line="192" column="24" lean-forward="false" selection-start-line="192" selection-start-column="24" selection-end-line="192" selection-end-column="24" />
-              <folding>
-                <element signature="e#0#21#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="standard.fsh" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Build/Debug/standard.fsh">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="480">
-              <caret line="40" column="82" lean-forward="true" selection-start-line="40" selection-start-column="82" selection-end-line="40" selection-end-column="82" />
+            <state relative-caret-position="220">
+              <caret line="11" column="107" lean-forward="false" selection-start-line="11" selection-start-column="107" selection-end-line="11" selection-end-column="107" />
               <folding />
             </state>
           </provider>
@@ -89,7 +84,7 @@
       <file leaf-file-name="standard.glinc" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Build/Debug/standard.glinc">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="280">
+            <state relative-caret-position="64">
               <caret line="14" column="19" lean-forward="false" selection-start-line="14" selection-start-column="19" selection-end-line="14" selection-end-column="19" />
               <folding />
             </state>
@@ -99,8 +94,30 @@
       <file leaf-file-name="PBR.glinc" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Build/Debug/PBR.glinc">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-2496">
-              <caret line="11" column="0" lean-forward="true" selection-start-line="11" selection-start-column="0" selection-end-line="11" selection-end-column="0" />
+            <state relative-caret-position="220">
+              <caret line="11" column="0" lean-forward="false" selection-start-line="11" selection-start-column="0" selection-end-line="11" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="STAABBComponent.cpp" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/Entity/Components/STAABBComponent.cpp">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="454">
+              <caret line="30" column="0" lean-forward="true" selection-start-line="30" selection-start-column="0" selection-end-line="30" selection-end-column="0" />
+              <folding>
+                <element signature="e#0#28#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="STAABBComponent.h" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/Entity/Components/STAABBComponent.h">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="0">
+              <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -109,8 +126,8 @@
       <file leaf-file-name="GLGraphics.cpp" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/Graphics/GL/GLGraphics.cpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="384">
-              <caret line="277" column="201" lean-forward="false" selection-start-line="277" selection-start-column="201" selection-end-line="277" selection-end-column="201" />
+            <state relative-caret-position="-12816">
+              <caret line="300" column="61" lean-forward="true" selection-start-line="300" selection-start-column="61" selection-end-line="300" selection-end-column="61" />
               <folding>
                 <element signature="e#17#83#0" expanded="true" />
               </folding>
@@ -121,8 +138,8 @@
       <file leaf-file-name="Matrix.h" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/Math/Matrix.h">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="460">
-              <caret line="43" column="26" lean-forward="false" selection-start-line="43" selection-start-column="26" selection-end-line="43" selection-end-column="26" />
+            <state relative-caret-position="600">
+              <caret line="41" column="16" lean-forward="false" selection-start-line="41" selection-start-column="16" selection-end-line="41" selection-end-column="16" />
               <folding />
             </state>
           </provider>
@@ -157,7 +174,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/src/Graphics/Interface/STEntry.h" />
         <option value="$PROJECT_DIR$/src/Graphics/Interface/STPanel.cpp" />
         <option value="$PROJECT_DIR$/Build/Debug/shdr/panel.vsh" />
         <option value="$PROJECT_DIR$/src/Graphics/Interface/STInterWidget.h" />
@@ -177,7 +193,6 @@
         <option value="$PROJECT_DIR$/src/Entity/Util/STMesh.cpp" />
         <option value="$PROJECT_DIR$/src/Graphics/GL/GLMesh.cpp" />
         <option value="$PROJECT_DIR$/Build/Debug/direct_shadows.fsh" />
-        <option value="$PROJECT_DIR$/src/Math/Matrix.h" />
         <option value="$PROJECT_DIR$/Build/Debug/direct_shadows.vsh" />
         <option value="$PROJECT_DIR$/Build/Debug/shdr/test.vsh" />
         <option value="$PROJECT_DIR$/Build/Debug/shdr/shadowAtlas.vsh" />
@@ -204,9 +219,11 @@
         <option value="$PROJECT_DIR$/Build/Debug/standard.glinc" />
         <option value="$PROJECT_DIR$/src/Entity/Components/STLightComponent.h" />
         <option value="$PROJECT_DIR$/Build/Debug/PBR.glinc" />
-        <option value="$PROJECT_DIR$/Build/Debug/standard.fsh" />
         <option value="$PROJECT_DIR$/Build/Debug/shadow.glinc" />
+        <option value="$PROJECT_DIR$/src/Math/Matrix.h" />
         <option value="$PROJECT_DIR$/src/Graphics/GL/GLGraphics.cpp" />
+        <option value="$PROJECT_DIR$/src/Entity/Components/STAABBComponent.cpp" />
+        <option value="$PROJECT_DIR$/Build/Debug/standard.fsh" />
         <option value="$PROJECT_DIR$/demo/demo_main.cpp" />
       </list>
     </option>
@@ -267,100 +284,6 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="engine" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="SwingTech1" />
-              <option name="myItemType" value="com.jetbrains.cidr.projectView.CidrFilesViewHelper$MyProjectTreeStructure$1" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="engine" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="SwingTech1" />
-              <option name="myItemType" value="com.jetbrains.cidr.projectView.CidrFilesViewHelper$MyProjectTreeStructure$1" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="engine" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Graphics" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="SwingTech1" />
-              <option name="myItemType" value="com.jetbrains.cidr.projectView.CidrFilesViewHelper$MyProjectTreeStructure$1" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="engine" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Graphics" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="GL" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="SwingTech1" />
-              <option name="myItemType" value="com.jetbrains.cidr.projectView.CidrFilesViewHelper$MyProjectTreeStructure$1" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="engine" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Entity" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="SwingTech1" />
-              <option name="myItemType" value="com.jetbrains.cidr.projectView.CidrFilesViewHelper$MyProjectTreeStructure$1" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="engine" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Entity" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Components" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -913,7 +836,7 @@
       <workItem from="1491433609809" duration="173000" />
       <workItem from="1491433865101" duration="312000" />
       <workItem from="1491497032703" duration="71000" />
-      <workItem from="1491512616242" duration="1934000" />
+      <workItem from="1491512616242" duration="4570000" />
     </task>
     <task id="LOCAL-00001" summary="0.0.91">
       <created>1456015877403</created>
@@ -964,11 +887,18 @@
       <option name="project" value="LOCAL" />
       <updated>1491378363496</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="[*] Shadow Debugging.">
+      <created>1491514566347</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1491514566347</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="279075000" />
+    <option name="totallyTimeSpent" value="281711000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -1029,7 +959,8 @@
     <MESSAGE value="[*] Adjusted some shader offsets." />
     <MESSAGE value="[*] Before some major overhaul shit is done." />
     <MESSAGE value="[*] Implemented shadows for directional. TextureArray Working&#10;[*] Cleaned up legacy code." />
-    <option name="LAST_COMMIT_MESSAGE" value="[*] Implemented shadows for directional. TextureArray Working&#10;[*] Cleaned up legacy code." />
+    <MESSAGE value="[*] Shadow Debugging." />
+    <option name="LAST_COMMIT_MESSAGE" value="[*] Shadow Debugging." />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -1046,7 +977,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
           <url>file://$PROJECT_DIR$/demo/demo_main.cpp</url>
-          <line>112</line>
+          <line>113</line>
           <option name="timeStamp" value="615" />
         </line-breakpoint>
       </breakpoints>
@@ -1058,13 +989,6 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/STSceneManager.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="4824">
-          <caret line="134" column="56" lean-forward="false" selection-start-line="134" selection-start-column="56" selection-end-line="134" selection-end-column="56" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/Graphics/Camera.h">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
@@ -1262,13 +1186,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/Entity/STLight.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="20">
-          <caret line="4" column="0" lean-forward="false" selection-start-line="4" selection-start-column="0" selection-end-line="4" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/Entity/Components/STGraphicsComponent.h">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-16">
@@ -1320,16 +1237,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/Entity/Components/STAABBComponent.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding>
-            <element signature="e#0#28#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/Entity/Components/STLightComponent.h">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="200">
@@ -1374,44 +1281,60 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Build/Debug/standard.glinc">
+    <entry file="file://$PROJECT_DIR$/src/Entity/STLight.h">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="280">
-          <caret line="14" column="19" lean-forward="false" selection-start-line="14" selection-start-column="19" selection-end-line="14" selection-end-column="19" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Build/Debug/standard.fsh">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="480">
-          <caret line="40" column="82" lean-forward="true" selection-start-line="40" selection-start-column="82" selection-end-line="40" selection-end-column="82" />
+        <state relative-caret-position="200">
+          <caret line="18" column="20" lean-forward="false" selection-start-line="18" selection-start-column="20" selection-end-line="18" selection-end-column="20" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/Math/Matrix.h">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="460">
-          <caret line="43" column="26" lean-forward="false" selection-start-line="43" selection-start-column="26" selection-end-line="43" selection-end-column="26" />
+        <state relative-caret-position="600">
+          <caret line="41" column="16" lean-forward="false" selection-start-line="41" selection-start-column="16" selection-end-line="41" selection-end-column="16" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/Graphics/GL/GLGraphics.cpp">
+    <entry file="file://$PROJECT_DIR$/src/Entity/Components/STAABBComponent.h">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="384">
-          <caret line="277" column="201" lean-forward="false" selection-start-line="277" selection-start-column="201" selection-end-line="277" selection-end-column="201" />
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Entity/Components/STAABBComponent.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="454">
+          <caret line="30" column="0" lean-forward="true" selection-start-line="30" selection-start-column="0" selection-end-line="30" selection-end-column="0" />
           <folding>
-            <element signature="e#17#83#0" expanded="true" />
+            <element signature="e#0#28#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Build/Debug/standard.glinc">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="64">
+          <caret line="14" column="19" lean-forward="false" selection-start-line="14" selection-start-column="19" selection-end-line="14" selection-end-column="19" />
+          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/Build/Debug/PBR.glinc">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-2496">
-          <caret line="11" column="0" lean-forward="true" selection-start-line="11" selection-start-column="0" selection-end-line="11" selection-end-column="0" />
+        <state relative-caret-position="220">
+          <caret line="11" column="0" lean-forward="false" selection-start-line="11" selection-start-column="0" selection-end-line="11" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Build/Debug/standard.fsh">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="220">
+          <caret line="11" column="107" lean-forward="false" selection-start-line="11" selection-start-column="107" selection-end-line="11" selection-end-column="107" />
           <folding />
         </state>
       </provider>
@@ -1424,10 +1347,20 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/Graphics/GL/GLGraphics.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-12816">
+          <caret line="300" column="61" lean-forward="true" selection-start-line="300" selection-start-column="61" selection-end-line="300" selection-end-column="61" />
+          <folding>
+            <element signature="e#17#83#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/demo/demo_main.cpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="464">
-          <caret line="89" column="84" lean-forward="false" selection-start-line="89" selection-start-column="84" selection-end-line="89" selection-end-column="117" />
+        <state relative-caret-position="560">
+          <caret line="68" column="45" lean-forward="false" selection-start-line="68" selection-start-column="45" selection-end-line="68" selection-end-column="45" />
           <folding />
         </state>
       </provider>

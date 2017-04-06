@@ -265,14 +265,14 @@ void GLGraphics::drawScene(STScene *scene) {
         glViewport(0, 0, m_shadowRes, m_shadowRes);
         glEnable(GL_DEPTH_TEST);
 
-        auto ortho = Matrix4f().initOrthographicProjection(-100.f, 100.f, -100.f, 100.f, 1.f, 100.f);
+        auto ortho = Matrix4f().initOrthographicProjection(-10.f, 10.f, -10.f, 10.f, 1.f, 10.f);
         for(stUint i = 0; i < lights.size(); i++){
             if(lights[i]->get<STLightComponent>()->getType() == STLightComponent::DIRECTIONAL_LIGHT ||
                     lights[i]->get<STLightComponent>()->getType() == STLightComponent::SPOT_LIGHT) {
                 glBindFramebuffer(GL_FRAMEBUFFER, lights[i]->shadowFrameBuffer[0]);
                 glClear(GL_DEPTH_BUFFER_BIT);
-                glEnable(GL_CULL_FACE);
                 glCullFace(GL_FRONT);
+                glEnable(GL_CULL_FACE);
                 //shdr->update("lightMatrix", ortho * Matrix4f::LookAt(Vector3<stReal>(2.f, 5.f, 0.f), Vector3<stReal>(0, 0, 0), Vector3<stReal>(0.0f, 1.0f, 0.0f)));
                 for (stUint j = 0; j < actors.size(); j++) {
                     actors[j]->setShdrUniform("lightSpaceMatrix", ortho * Matrix4f::LookAt(lights[i]->transform()->getTranslate<stReal>(), lights[i]->get<STLightComponent>()->getProperties()->direction, Vector3<stReal>(0.f, 1.f, 0.f)));

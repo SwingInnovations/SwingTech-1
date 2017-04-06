@@ -9,7 +9,7 @@ uniform sampler2DArray shadowArray;
 void main(void){
 
 
-	vec3 Norm = Normal; // normalize(TBN* normalize(texture2D(Material.Normal_Tex,TexCoord).xyz*2.0-1.0));
+	vec3 Norm = mix(Normal,normalize(TBN* normalize(texture2D(Material.Normal_Tex,TexCoord).xyz*2.0-1.0)),0);
 
 	vec3 V = normalize(  _CameraPos - Position );
 

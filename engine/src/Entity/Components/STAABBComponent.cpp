@@ -47,5 +47,4 @@ void STAABBComponent::reconstructBounds() {
         m_CalcMinPt = Vector3<stReal>::Min(m_MinPoint, points[i]);
         m_CalcMaxPt = Vector3<stReal>::Max(m_MaxPoint, points[i]);
     }
-    std::cout << "Updated Bounds!" << std::endl;
 }

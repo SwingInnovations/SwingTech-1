@@ -47,19 +47,19 @@ public:
 //         }
         STGame::Get()->getCamera()->setSpeed(0.005f);
 
-        _testActor2 = new STActor("teapot.obj", resManager->getMaterial("default"));
+        _testActor2 = new STActor("dice.obj", resManager->getMaterial("default"));
         //_testActor2->setTranslateX(1);
         _testActor2->setShdrUniform("_Metallic", 0.0f);
-        _testActor2->setShdrUniform("_Roughness",0.0f);
-        _testActor2->setScale(0.01);
+        _testActor2->setShdrUniform("_Roughness",1.0f);
+        _testActor2->setScale(1);
         _testActor2->setDiffuseTexture("grid.png");
         _testActor2->setNormalTexture("testNormal.png");
-        mat->setBaseColor(Vector3<stReal>(.7,.7,.7));
+        mat->setBaseColor(Vector3<stReal>(.1,.7,.1));
         //  _testActor2->setRotateX(90);
         // _testActor2->setRotateY(90);
         _testActor = new STActor("dice.obj", resManager->getMaterial("default"));
         _testActor->setShdrUniform("_Metallic", 0.f);
-        _testActor->setShdrUniform("_Roughness", 0.f);
+        _testActor->setShdrUniform("_Roughness", 1.f);
         _testActor->setDiffuseTexture("grid.png");
         _testActor->setNormalTexture("testNormal.png");
         _testActor->setTranslateX(2.f);
@@ -87,7 +87,8 @@ public:
 //        _testLight->radius = -1;
         _testLight = STLight::InitDirectionalLight(Vector3<stReal>(-2.f, 3.f, -7.f), Vector3<stReal>(-5.f, 3.f, -5.f) - Vector3<stReal>(0.f, 0.f, 0.f), Vector3<stReal>(1.0f, 0.f, 0.f));
         // _testLight->setTranslateZ(2);
-        _testLight2 = STLight::InitDirectionalLight(Vector3<stReal>(5.f, -3.f, 5.f),Vector3<stReal>(0.f, 0.f, 0.f) - Vector3<stReal>(5.f, 3.f, 5.f), Vector3<stReal>(1.f, 1.f, 1.f));
+        _testLight2 = STLight::InitDirectionalLight(Vector3<stReal>(5.f, -3.f, 5.f), Vector3<stReal>(.577f, .577f, .577f), Vector3<stReal>(1.f, 1.f, 1.f));
+       //_testLight2->get<STLightComponent>()->getProperties()->intensity = 1.f;
 
 //        _testLight2 = STLight::DirectionalLight(Vector3<stReal>(5.f, 3.f, 5.f), Vector3<stReal>(5.f, 3.f, 5.f) - Vector3<stReal>(0.f, 0.f, 0.f), Vector3<stReal>(1.f, 1.f, 1.f));
 //        _testLight2->intensity =0.5f;
@@ -112,7 +113,7 @@ public:
         if(input->isKeyPressed(KEY::KEY_Q)){
             input->setCursorBound(!input->isCursorBound());
         }
-        _testActor->setRotateY(counter);
+        _testActor->setRotateY(45);
         counter++;
     }
 
@@ -170,6 +171,7 @@ int main(int argc, char** argv){
     win->addCamera(new Camera(*win, campos, 0));
     win->addState(new TestState(0));
     win->enterState(0);
+    //win->getGraphics()->enablePostEffect(STGraphics::BLOOM);
     win->start();
 
     return 0;

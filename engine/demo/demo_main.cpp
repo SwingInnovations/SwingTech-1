@@ -111,6 +111,8 @@ public:
         if(input->isKeyPressed(KEY::KEY_Q)){
             input->setCursorBound(!input->isCursorBound());
         }
+        _testActor2->setRotateY(counter);
+        counter += 0.25f * delta;
     }
 
     void render(STGame * win){

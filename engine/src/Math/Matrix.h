@@ -81,7 +81,8 @@ public:
     }
 
     inline Matrix4f initRotate(Vector3<stReal>& vec){
-        return initRotate(vec.getX(), vec.getY(), vec.getZ());
+        *this = initRotate(vec.getX(), vec.getY(), vec.getZ());
+        return *this;
     }
 
     inline Matrix4f initRotate(stReal x, stReal y, stReal z){

@@ -287,13 +287,14 @@ void GLGraphics::drawScene(STScene *scene) {
                 glBindTexture(GL_TEXTURE_2D, 0);
 
                 glBindTexture(GL_TEXTURE_2D_ARRAY, shadowArray);
-                glTexSubImage3D(GL_TEXTURE_2D_ARRAY, 0, 0, 0, 0, 1024, 1024, 1, GL_DEPTH_COMPONENT, GL_FLOAT, data);
+                glTexSubImage3D(GL_TEXTURE_2D_ARRAY, 0, 0, 0, (int)shadowProps->shadowIndex, 1024, 1024, 1, GL_DEPTH_COMPONENT, GL_FLOAT, data);
                 glBindTexture(GL_TEXTURE_2D_ARRAY, 0);
                 delete data;
                 glBindFramebuffer(GL_FRAMEBUFFER, 0);
             }else{
                 for(stUint j = 0; j < actors.size(); j++){
                     for(stUint k = 0; k < 6; k++){
+                        //TODO test this.
                         glBindFramebuffer(GL_FRAMEBUFFER, lights[i]->shadowFrameBuffer[k]);
                         glClear(GL_DEPTH_BUFFER_BIT);
                         glEnable(GL_CULL_FACE);

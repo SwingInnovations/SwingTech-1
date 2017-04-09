@@ -8,13 +8,11 @@
 #include "Vector.h"
 #include "Euler.h"
 
-
 class Matrix4f{
 public:
     Matrix4f(){
         initIdentity();
     }
-    //TODO - Convert all of these to static functions initializations.
     static Matrix4f LookAt(const Vector3<stReal> eye, const Vector3<stReal> center, const Vector3<stReal> up){
         Matrix4f orient, trans;
 

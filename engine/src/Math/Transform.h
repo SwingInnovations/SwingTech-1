@@ -10,7 +10,7 @@
 
 class Transform{
 public:
-    enum RotationMode{Global = 0, Local = 1};
+    enum RotationMode: unsigned char {Global = 0, Local = 1};
 
     Transform(){
         translate = Vector3<stReal>(0.0f, 0.0f, 0.0f);

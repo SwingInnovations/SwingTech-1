@@ -181,6 +181,7 @@ void GLGraphics::drawScene(STScene *scene) {
         auto h = STGame::RES_HEIGHT;
 
         if (m_shadows) {
+            stUint lightInd = 0;
             auto lights = scene->getLights();
             glGenTextures(1, &shadowArray);
             glBindTexture(GL_TEXTURE_2D_ARRAY, shadowArray);
@@ -192,11 +193,13 @@ void GLGraphics::drawScene(STScene *scene) {
             glBindTexture(GL_TEXTURE_2D_ARRAY, 0);
 
             for (stInt i = 0, S = lights.size(); i < S; i++) {
+                auto shadowProperties = lights[i]->get<STShadowComponent>()->getProperties();
                 if (lights[i]->get<STLightComponent>()->getType() == STLightComponent::DIRECTIONAL_LIGHT ||
                         lights[i]->get<STLightComponent>()->getType() == STLightComponent::SPOT_LIGHT) {
-                    glGenFramebuffers(1, &lights[i]->shadowFrameBuffer[0]);
-                    glGenTextures(1, &lights[i]->shadowMapID[0]);
-                    glBindTexture(GL_TEXTURE_2D, lights[i]->shadowMapID[0]);
+                    shadowProperties->shadowIndex = lightInd++;
+                    glGenFramebuffers(1, &shadowProperties->shadowFrameBuffer[0]);
+                    glGenTextures(1, &shadowProperties->shadowMapID[0]);
+                    glBindTexture(GL_TEXTURE_2D, shadowProperties->shadowMapID[0]);
                     glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT, 1024, 1024, 0, GL_DEPTH_COMPONENT, GL_FLOAT,
                                  NULL);
                     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
@@ -204,9 +207,9 @@ void GLGraphics::drawScene(STScene *scene) {
                     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
                     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
 
-                    glBindFramebuffer(GL_FRAMEBUFFER, lights[i]->shadowFrameBuffer[0]);
+                    glBindFramebuffer(GL_FRAMEBUFFER, shadowProperties->shadowFrameBuffer[0]);
                     glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D,
-                                           lights[i]->shadowMapID[0], 0);
+                                           shadowProperties->shadowMapID[0], 0);
                     glDrawBuffer(GL_NONE);
                     glReadBuffer(GL_NONE);
                     glBindFramebuffer(GL_FRAMEBUFFER, 0);
@@ -267,19 +270,19 @@ void GLGraphics::drawScene(STScene *scene) {
 
         auto ortho = Matrix4f().initOrthographicProjection(-10.f, 10.f, -10.f, 10.f, 1.f, 10.f);
         for(stUint i = 0; i < lights.size(); i++){
+            auto shadowProps = lights[i]->get<STShadowComponent>()->getProperties();
             if(lights[i]->get<STLightComponent>()->getType() == STLightComponent::DIRECTIONAL_LIGHT ||
                     lights[i]->get<STLightComponent>()->getType() == STLightComponent::SPOT_LIGHT) {
-                glBindFramebuffer(GL_FRAMEBUFFER, lights[i]->shadowFrameBuffer[0]);
+                glBindFramebuffer(GL_FRAMEBUFFER, shadowProps->shadowFrameBuffer[0]);
                 glClear(GL_DEPTH_BUFFER_BIT);
                 glCullFace(GL_FRONT);
                 glEnable(GL_CULL_FACE);
-                //shdr->update("lightMatrix", ortho * Matrix4f::LookAt(Vector3<stReal>(2.f, 5.f, 0.f), Vector3<stReal>(0, 0, 0), Vector3<stReal>(0.0f, 1.0f, 0.0f)));
                 for (stUint j = 0; j < actors.size(); j++) {
-                    actors[j]->setShdrUniform("lightSpaceMatrix", ortho * Matrix4f::LookAt(lights[i]->transform()->getTranslate<stReal>(), lights[i]->get<STLightComponent>()->getProperties()->direction, Vector3<stReal>(0.f, 1.f, 0.f)));
+                    actors[j]->setShdrUniform("lightSpaceMatrix", ortho * lights[i]->get<STLightComponent>()->getLookAt());
                     actors[j]->draw(lights[i]->get<STGraphicsComponent>()->getMaterial());
                 }
-                GLfloat* data = new GLfloat[1024*1024];
-                glBindTexture(GL_TEXTURE_2D, lights[i]->shadowMapID[0]);
+                GLfloat* data = new GLfloat[m_shadowRes*m_shadowRes];
+                glBindTexture(GL_TEXTURE_2D, shadowProps->shadowMapID[0]);
                 glGetTexImage(GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT, GL_FLOAT, data);
                 glBindTexture(GL_TEXTURE_2D, 0);
 
@@ -344,6 +347,7 @@ void GLGraphics::drawScene(STScene *scene) {
             actors[i]->setShdrUniform("LightCount", (stInt)lights.size());
 
             auto lightProps = lights[j]->get<STLightComponent>()->getProperties();
+            auto shadowProps = lights[j]->get<STShadowComponent>()->getProperties();
 
             actors[i]->setShdrUniform("Light["+std::to_string(j)+"].LightType", (stInt)lightProps->direction.getW());
             actors[i]->setShdrUniform("Light["+std::to_string(j)+"].Color", lightProps->color);
@@ -351,6 +355,7 @@ void GLGraphics::drawScene(STScene *scene) {
             actors[i]->setShdrUniform("Light["+std::to_string(j)+"].Direction", lightProps->direction);
             actors[i]->setShdrUniform("Light["+std::to_string(j)+"].Radius", lightProps->radius);
             actors[i]->setShdrUniform("Light["+std::to_string(j)+"].Intensity", lightProps->intensity);
+            actors[i]->setShdrUniform("Light["+std::to_string(j)+"].ShadowIndex", (stInt)shadowProps->shadowIndex);
         }
         actors[i]->draw();
     }
@@ -616,255 +621,6 @@ void GLGraphics::drawText(Vector2<stReal> pos, const std::string &text, stReal f
 void GLGraphics::drawText(Vector2<stReal> pos, const std::string &text, stReal fontSize, stReal value) {
     std::string string = text;
     string = string.replace(string.find("%d"), sizeof(std::to_string(value))-1, std::to_string(value));
-
-    glEnable(GL_BLEND);
-    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-    textShader->bind();
-    textShader->update("projection", orthoProjection);
-    textShader->update("textColor", GLGraphics::TextColor);
-    glActiveTexture(GL_TEXTURE0);
-    glBindVertexArray(textVAO);
-
-    GLfloat x = pos.getX();
-    GLfloat y = pos.getY();
-
-    fontSize /= 128.0f;
-
-    std::string::const_iterator c;
-    for(c = string.begin(); c != string.end(); c++){
-        Character ch = characters[*c];
-
-        GLfloat xPos = x + ch.bearing.getX() * fontSize;
-        GLfloat yPos = y - (ch.size.getY() - ch.bearing.getY()) * fontSize;
-
-        GLfloat w = ch.size.getX() * fontSize;
-        GLfloat h = ch.size.getY() * fontSize;
-
-        GLfloat verts[6][4] = {
-                {xPos, yPos, 0.0, 1.0},
-                {xPos + w, yPos, 1.0, 1.0 },
-                {xPos, yPos+h,  0.0, 0.0},
-
-                {xPos, yPos+h,  0.0, 0.0},
-                {xPos + w, yPos + h, 1.0, 0.0},
-                {xPos + w, yPos, 1.0, 1.0 }
-        };
-        glBindTexture(GL_TEXTURE_2D, ch.texID);
-        glBindBuffer(GL_ARRAY_BUFFER, textVBO);
-        glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(verts), verts);
-        glBindBuffer(GL_ARRAY_BUFFER, 0);
-        glDrawArrays(GL_TRIANGLES, 0, 6);
-
-
-        x+=( ch.Advance >> 6 ) * fontSize;
-    }
-    glBindVertexArray(0);
-    glBindTexture(GL_TEXTURE_2D, 0);
-    glDisable(GL_BLEND);
-}
-
-void GLGraphics::drawText(Vector2<stReal> pos, const std::string &text, stReal fontSize, stReal v1, stReal v2) {
-    std::string string = text;
-    auto sPos = string.find('%');
-    if(string.at(sPos+1) == 'd'){
-        string.erase(sPos, 2);
-        string.insert(sPos, std::to_string(v1));
-    }
-    sPos = string.find("%");
-    if(string.at(sPos+1) == 'd'){
-        string.erase(sPos, 2);
-        string.insert(sPos, std::to_string(v2));
-    }
-
-    glEnable(GL_BLEND);
-    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-    textShader->bind();
-    textShader->update("projection", orthoProjection);
-    textShader->update("textColor", GLGraphics::TextColor);
-    glActiveTexture(GL_TEXTURE0);
-    glBindVertexArray(textVAO);
-
-    GLfloat x = pos.getX();
-    GLfloat y = pos.getY();
-
-    fontSize /= 128.0f;
-
-    std::string::const_iterator c;
-    for(c = string.begin(); c != string.end(); c++){
-        Character ch = characters[*c];
-
-        GLfloat xPos = x + ch.bearing.getX() * fontSize;
-        GLfloat yPos = y - (ch.size.getY() - ch.bearing.getY()) * fontSize;
-
-        GLfloat w = ch.size.getX() * fontSize;
-        GLfloat h = ch.size.getY() * fontSize;
-
-        GLfloat verts[6][4] = {
-                {xPos, yPos, 0.0, 1.0},
-                {xPos + w, yPos, 1.0, 1.0 },
-                {xPos, yPos+h,  0.0, 0.0},
-
-                {xPos, yPos+h,  0.0, 0.0},
-                {xPos + w, yPos + h, 1.0, 0.0},
-                {xPos + w, yPos, 1.0, 1.0 }
-        };
-        glBindTexture(GL_TEXTURE_2D, ch.texID);
-        glBindBuffer(GL_ARRAY_BUFFER, textVBO);
-        glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(verts), verts);
-        glBindBuffer(GL_ARRAY_BUFFER, 0);
-        glDrawArrays(GL_TRIANGLES, 0, 6);
-
-
-        x+=( ch.Advance >> 6 ) * fontSize;
-    }
-    glBindVertexArray(0);
-    glBindTexture(GL_TEXTURE_2D, 0);
-    glDisable(GL_BLEND);
-}
-
-void GLGraphics::drawText(Vector2<stReal> pos, const std::string &text, stReal fontSize, Vector2<stReal> vector) {
-    std::string string = text;
-    auto sPos = string.find('%');
-    if(string.at(sPos+1) == 'd'){
-        string.erase(sPos, 2);
-        string.insert(sPos, std::to_string(vector.getX()));
-    }
-    sPos = string.find('%');
-    if(string.at(sPos+1) == 'd'){
-        string.erase(sPos, 2);
-        string.insert(sPos, std::to_string(vector.getY()));
-    }
-
-    glEnable(GL_BLEND);
-    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-    textShader->bind();
-    textShader->update("projection", orthoProjection);
-    textShader->update("textColor", GLGraphics::TextColor);
-    glActiveTexture(GL_TEXTURE0);
-    glBindVertexArray(textVAO);
-
-    GLfloat x = pos.getX();
-    GLfloat y = pos.getY();
-
-    fontSize /= 128.0f;
-
-    std::string::const_iterator c;
-    for(c = string.begin(); c != string.end(); c++){
-        Character ch = characters[*c];
-
-        GLfloat xPos = x + ch.bearing.getX() * fontSize;
-        GLfloat yPos = y - (ch.size.getY() - ch.bearing.getY()) * fontSize;
-
-        GLfloat w = ch.size.getX() * fontSize;
-        GLfloat h = ch.size.getY() * fontSize;
-
-        GLfloat verts[6][4] = {
-                {xPos, yPos, 0.0, 1.0},
-                {xPos + w, yPos, 1.0, 1.0 },
-                {xPos, yPos+h,  0.0, 0.0},
-
-                {xPos, yPos+h,  0.0, 0.0},
-                {xPos + w, yPos + h, 1.0, 0.0},
-                {xPos + w, yPos, 1.0, 1.0 }
-        };
-        glBindTexture(GL_TEXTURE_2D, ch.texID);
-        glBindBuffer(GL_ARRAY_BUFFER, textVBO);
-        glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(verts), verts);
-        glBindBuffer(GL_ARRAY_BUFFER, 0);
-        glDrawArrays(GL_TRIANGLES, 0, 6);
-
-
-        x+=( ch.Advance >> 6 ) * fontSize;
-    }
-    glBindVertexArray(0);
-    glBindTexture(GL_TEXTURE_2D, 0);
-    glDisable(GL_BLEND);
-}
-
-void GLGraphics::drawText(Vector2<stReal> pos, const std::string &text, stReal fontSize, stReal v1, stReal v2,
-                          stReal v3) {
-    std::string string = text;
-    auto sPos = string.find('%');
-    if(string.at(sPos+1) == 'd'){
-        string.erase(sPos, 2);
-        string.insert(sPos, std::to_string(v1));
-    }
-    sPos = string.find('%');
-    if(string.at(sPos+1) == 'd'){
-        string.erase(sPos, 2);
-        string.insert(sPos, std::to_string(v2));
-    }
-    sPos = string.find('%');
-    if(string.at(sPos+1) == 'd'){
-        string.erase(sPos, 2);
-        string.insert(sPos, std::to_string(v3));
-    }
-
-    glEnable(GL_BLEND);
-    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-    textShader->bind();
-    textShader->update("projection", orthoProjection);
-    textShader->update("textColor", GLGraphics::TextColor);
-    glActiveTexture(GL_TEXTURE0);
-    glBindVertexArray(textVAO);
-
-    GLfloat x = pos.getX();
-    GLfloat y = pos.getY();
-
-    fontSize /= 128.0f;
-
-    std::string::const_iterator c;
-    for(c = string.begin(); c != string.end(); c++){
-        Character ch = characters[*c];
-
-        GLfloat xPos = x + ch.bearing.getX() * fontSize;
-        GLfloat yPos = y - (ch.size.getY() - ch.bearing.getY()) * fontSize;
-
-        GLfloat w = ch.size.getX() * fontSize;
-        GLfloat h = ch.size.getY() * fontSize;
-
-        GLfloat verts[6][4] = {
-                {xPos, yPos, 0.0, 1.0},
-                {xPos + w, yPos, 1.0, 1.0 },
-                {xPos, yPos+h,  0.0, 0.0},
-
-                {xPos, yPos+h,  0.0, 0.0},
-                {xPos + w, yPos + h, 1.0, 0.0},
-                {xPos + w, yPos, 1.0, 1.0 }
-        };
-        glBindTexture(GL_TEXTURE_2D, ch.texID);
-        glBindBuffer(GL_ARRAY_BUFFER, textVBO);
-        glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(verts), verts);
-        glBindBuffer(GL_ARRAY_BUFFER, 0);
-        glDrawArrays(GL_TRIANGLES, 0, 6);
-
-
-        x+=( ch.Advance >> 6 ) * fontSize;
-    }
-    glBindVertexArray(0);
-    glBindTexture(GL_TEXTURE_2D, 0);
-    glDisable(GL_BLEND);
-}
-
-void GLGraphics::drawText(Vector2<stReal> pos, const std::string &text, stReal fontSize, Vector3<stReal> vector) {
-    std::string string = text;
-    std::cout << "Type: " << typeid(5.0f).name() << std::endl;
-    auto sPos = string.find('%');
-    if(string.at(sPos+1) == 'd'){
-        string.erase(sPos, 2);
-        string.insert(sPos, std::to_string(vector.getX()));
-    }
-    sPos = string.find('%');
-    if(string.at(sPos+1) == 'd'){
-        string.erase(sPos, 2);
-        string.insert(sPos, std::to_string(vector.getY()));
-    }
-    sPos = string.find('%');
-    if(string.at(sPos+1) == 'd'){
-        string.erase(sPos, 2);
-        string.insert(sPos, std::to_string(vector.getZ()));
-    }
-
 
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);

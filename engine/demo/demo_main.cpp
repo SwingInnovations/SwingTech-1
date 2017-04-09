@@ -55,8 +55,6 @@ public:
         _testActor2->setDiffuseTexture("grid.png");
         _testActor2->setNormalTexture("testNormal.png");
         mat->setBaseColor(Vector3<stReal>(.1,.7,.1));
-        //  _testActor2->setRotateX(90);
-        // _testActor2->setRotateY(90);
         _testActor = new STActor("dice.obj", resManager->getMaterial("default"));
         _testActor->setShdrUniform("_Metallic", 0.f);
         _testActor->setShdrUniform("_Roughness", 1.f);
@@ -113,8 +111,6 @@ public:
         if(input->isKeyPressed(KEY::KEY_Q)){
             input->setCursorBound(!input->isCursorBound());
         }
-        _testActor->setRotateY(45);
-        counter++;
     }
 
     void render(STGame * win){

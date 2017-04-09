@@ -9,7 +9,7 @@ uniform sampler2DArray shadowArray;
 void main(void){
 
 
-	vec3 Norm = mix(Normal,normalize(TBN* normalize(texture2D(Material.Normal_Tex,TexCoord).xyz*2.0-1.0)),0);
+	vec3 Norm = mix(Normal,normalize(TBN* normalize(texture2D(Material.Normal_Tex,TexCoord).xyz*2.0-1.0)),0.1);
 
 	vec3 V = normalize(  _CameraPos - Position );
 
@@ -38,7 +38,7 @@ void main(void){
 			vec3 Directional_spec = clamp(vec3(Ggx_Dist_old(dot(Norm, normalize(Light[i].Direction.xyz+V)),r)),0.0,1.0);
 			vec3 Directional_diff = clamp(vec3(Ggx_Dist_old(dot(Norm, normalize(Light[i].Direction.xyz)),1)),0.0,1.0);
             if(Light[i].Direction.w == 0 || Light[i].Direction.w == -1){
-                float shadow = calculateShadow(FragPosLightSpace, shadowArray, 0, bias);
+                float shadow = calculateShadow(FragPosLightSpace, shadowArray, Light[i].ShadowIndex, bias);
                 color += vec4(BlendMaterial_Directional(Directional_spec,Directional_diff,Material.BaseColor,IBL ,Light[i].Intensity,Light[i].Color, shadow),1);
                 //color = vec4((_GlobalAmbient + (1.0 - shadow) * vec3(0.5, 0.5, 0.5)) * Material.BaseColor, 1.0);
             }

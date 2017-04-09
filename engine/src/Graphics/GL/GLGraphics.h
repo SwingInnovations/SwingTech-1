@@ -77,10 +77,7 @@ public:
     void drawText(Vector2<stReal> pos, const std::string& text, stReal fontSize, Vector4<stReal>* color);
     void drawText(Vector2<stReal> pos, const std::string& text, stReal fontSize, stReal value);
     void drawText(Vector2<stReal> pos, const std::string& text, stReal fontSize, std::string& msg);
-    void drawText(Vector2<stReal> pos, const std::string& text, stReal fontSize, stReal v1, stReal v2);
-    void drawText(Vector2<stReal> pos, const std::string& text, stReal fontSize, Vector2<stReal> vector);
-    void drawText(Vector2<stReal> pos, const std::string& text, stReal fontSize, stReal v1, stReal v2, stReal v3);
-    void drawText(Vector2<stReal> pos, const std::string& text, stReal fontSize, Vector3<stReal> vector);
+
     Matrix4f getOrthographicProjection()const {
         return orthoProjection;
     }

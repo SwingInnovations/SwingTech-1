@@ -77,11 +77,7 @@ public:
     virtual void drawText(Vector2<stReal> pos, const std::string& text, stReal fontSize, Vector4<stReal>* color){ ; }
     virtual void drawText(Vector2<stReal> pos, const std::string& text, stReal fontSize, stReal value){ ; }
     virtual void drawText(Vector2<stReal> pos, const std::string& text, stReal fontSize, std::string& msg){ ; }
-    virtual void drawText(Vector2<stReal> pos, const std::string& text, stReal fontSize, int value){  }                     //TODO Deprecate
-    virtual void drawText(Vector2<stReal> pos, const std::string& text, stReal fontSize, stReal v1, stReal v2){ ; }         //TODO Deprecate
-    virtual void drawText(Vector2<stReal> pos, const std::string& text, stReal fontSize, Vector2<stReal> vector){ ; }       //TODO Deprecate
-    virtual void drawText(Vector2<stReal> pos, const std::string& text, stReal fontSize, stReal v1, stReal v2, stReal v3){ ; }  //TODO Deprecate
-    virtual void drawText(Vector2<stReal> pos, const std::string& text, stReal fontSize, Vector3<stReal> vector){ ; }       //TODO Deprecate This
+
     virtual void enableShadow(bool) = 0;
     virtual void enableBlend() = 0;
     virtual void disableBlend() = 0;

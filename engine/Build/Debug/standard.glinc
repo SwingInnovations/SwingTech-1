@@ -12,6 +12,7 @@ struct STLight
 	vec2 SpotLightAttribs;
 	float Radius;
 	float Intensity;
+	int ShadowIndex;
 	bool UseShadow;
 };
 

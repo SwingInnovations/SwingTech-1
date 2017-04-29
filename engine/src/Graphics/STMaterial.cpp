@@ -29,7 +29,6 @@ void STMaterial::draw(std::vector<STShader::ShaderAttrib> &entityUniforms,Transf
 }
 
 void STMaterial::setDiffuseTexture(const std::string &fileName) {
-    //texture->addTexture(fileName, 0);
     if(STGraphics::RENDERER == STGraphics::OPENGL){
         _uniforms.push_back(STShader::ShaderAttrib("Material.Diffuse_Tex",
                                                    STShader::TEX,

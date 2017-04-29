@@ -74,7 +74,6 @@ public:
     bool isDebug(){ return m_debug; }
     bool setDebug(bool value){
         this->m_debug = value;
-
     }
 
     stUint shadowMapID[6];

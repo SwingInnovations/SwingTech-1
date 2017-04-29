@@ -21,6 +21,10 @@ struct STMaterial
 	vec3 BaseColor;
 	sampler2D Diffuse_Tex;
 	sampler2D Normal_Tex;
+	sampler2D Alpha_Tex;
+	sampler2D Specular_Tex;
+    float Metallic;
+    float Roughness;
 };
 
 uniform STMaterial Material;

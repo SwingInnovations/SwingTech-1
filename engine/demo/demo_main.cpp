@@ -174,7 +174,7 @@ int main(int argc, char** argv){
     win->addCamera(new Camera(*win, campos, 0));
     win->addState(new TestState(0));
     win->enterState(0);
-    //win->getGraphics()->enablePostEffect(STGraphics::BLOOM);
+    win->getGraphics()->enableShadow(false);
     win->start();
 
     return 0;

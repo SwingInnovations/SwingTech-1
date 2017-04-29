@@ -101,6 +101,14 @@ public:
         m_enabledEffects&=~index;
     }
 
+    void setRenderMode(RenderMode rm){
+        m_renderMode = rm;
+    }
+
+    RenderMode getRenderMode()const {
+        return m_renderMode;
+    }
+
 
 protected:
     unsigned int m_enabledEffects = 0x00000000;
@@ -109,6 +117,7 @@ protected:
     std::vector<Camera*> m_cameras;
     stUint m_activeCameraIndex;
     Vector4<stReal> m_fontColor;
+    RenderMode m_renderMode;
 };
 
 

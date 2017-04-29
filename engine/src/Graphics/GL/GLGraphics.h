@@ -142,6 +142,12 @@ private:
     GLuint  bloomThresTex;
     GLuint bloomThresBuf;
 
+    //Render Buffer
+    GLuint gBuffer;
+    GLuint gPosition;
+    GLuint gNormal;
+    GLuint gColorSpec;
+
     GLShader* screenShdr;
     GLShader* Bloom_Composite;
     GLShader* Bloom_Threshold;

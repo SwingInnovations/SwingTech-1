@@ -154,9 +154,11 @@ private:
     GLShader* Motion_Blur;
     GLShader* Tone_Mapping;
     GLShader* FXAAShader;
-    GLShader* ShadowAtlasShader;
+    GLShader* GBufferShader;
+    GLShader* Deff_LightPassShdr;
 
     GLMesh* screenQuad;
+    STMaterial* m_GBufferOverrideMat;
     STMaterial* m_directionalLightMat;
     STMaterial* m_pointLightMat;
     STMaterial* m_spotLightMat;

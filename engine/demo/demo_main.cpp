@@ -175,6 +175,7 @@ int main(int argc, char** argv){
     win->addState(new TestState(0));
     win->enterState(0);
     win->getGraphics()->enableShadow(false);
+    win->getGraphics()->setRenderMode(STGraphics::DEFERRED);
     win->start();
 
     return 0;

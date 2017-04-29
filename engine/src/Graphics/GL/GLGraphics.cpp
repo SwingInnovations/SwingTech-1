@@ -34,6 +34,7 @@ GLGraphics::GLGraphics(STGame *game) {
     Motion_Blur = new GLShader("screen", "Motion_Blur");
     Tone_Mapping = new GLShader("screen", "Tone_Mapping");
     FXAAShader = new GLShader("screen", "FXAA");
+    Deff_LightPassShdr = new GLShader("screen", "deff_LightPass");
 
     FT_Library ft;
     if (FT_Init_FreeType(&ft)) {
@@ -83,7 +84,6 @@ GLGraphics::GLGraphics(STGame *game) {
     FT_Done_FreeType(ft);
 
     textShader = new GLShader("text");
-    ShadowAtlasShader = new GLShader("shdr/shadowAtlas");
     orthoProjection.initOrthographicProjection(0, WIDTH, HEIGHT, 0, 0, 1000.0f);
 
     //Setup Albedo and lit materials for forward rendering
@@ -92,6 +92,7 @@ GLGraphics::GLGraphics(STGame *game) {
     m_albedoMat = new STMaterial(new GLShader("standard", "standard_abledo_forward"));
     m_IBLMat = new STMaterial(new GLShader("standard", "standard_IBL"));
     m_velocityMat = new STMaterial(new GLShader("Velocity"));
+    m_GBufferOverrideMat = new STMaterial(new GLShader("standard", "deff_geomPass"));
 
     glGenVertexArrays(1, &textVAO);
     glGenBuffers(1, &textVBO);
@@ -403,7 +404,37 @@ void GLGraphics::drawScene(STScene *scene) {
 
         glDisable(GL_CULL_FACE);
     }else if(getRenderMode() == RenderMode::DEFERRED){
+        glBindFramebuffer(GL_FRAMEBUFFER, gBuffer);
+        glEnable(GL_DEPTH_TEST);
 
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+        for(stUint i = 0, S = actors.size(); i < S; i++){
+            actors[i]->draw(m_GBufferOverrideMat);
+        }
+        glBindFramebuffer(GL_FRAMEBUFFER, 0);
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+        Deff_LightPassShdr->bind();
+        glActiveTexture(GL_TEXTURE0);
+        glBindTexture(GL_TEXTURE_2D, gPosition);
+        glActiveTexture(GL_TEXTURE1);
+        glBindTexture(GL_TEXTURE_2D, gNormal);
+        glActiveTexture(GL_TEXTURE2);
+        glBindTexture(GL_TEXTURE_2D, gColorSpec);
+        Deff_LightPassShdr->update("LightCount", (stInt)lights.size());
+        for(stUint i = 0, S = lights.size(); i < S; i++){
+            auto lightProps = lights[i]->get<STLightComponent>()->getProperties();
+            Deff_LightPassShdr->update("Light["+std::to_string(i)+"].LightType", (stInt)lightProps->direction.getW());
+            Deff_LightPassShdr->update("Light["+std::to_string(i)+"].Color", lightProps->color);
+            Deff_LightPassShdr->update("Light["+std::to_string(i)+"].Position", lights[i]->transform()->getTranslate<stReal>());
+            Deff_LightPassShdr->update("Light["+std::to_string(i)+"].Direction", lightProps->direction);
+            Deff_LightPassShdr->update("Light["+std::to_string(i)+"].Radius", lightProps->radius);
+            Deff_LightPassShdr->update("Light["+std::to_string(i)+"].Intensity", lightProps->intensity);
+        }
+        Deff_LightPassShdr->update("viewPos", getActiveCamera()->transform()->getTranslate<stReal>());
+        screenQuad->draw();
+        glDisable(GL_DEPTH_TEST);
+        glDisable(GL_CULL_FACE);
+        return;
     }
 
 

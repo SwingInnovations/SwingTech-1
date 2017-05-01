@@ -197,6 +197,14 @@ GLGraphics::GLGraphics(STGame *game) {
 
     GLuint glAttachments[3] = {GL_COLOR_ATTACHMENT0, GL_COLOR_ATTACHMENT1, GL_COLOR_ATTACHMENT2 };
     glDrawBuffers(3, glAttachments);
+    GLuint rboDepth;
+    glGenRenderbuffers(1, &rboDepth);
+    glBindRenderbuffer(GL_RENDERBUFFER, rboDepth);
+    glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT, w, h);
+    glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, rboDepth);
+    if( glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE){
+        std::cerr << "Deffered Depth Buffer not complete!" << std::endl;
+    }
     glBindFramebuffer(GL_FRAMEBUFFER, 0);
     glViewport(0, 0, w, h);
 }
@@ -404,16 +412,20 @@ void GLGraphics::drawScene(STScene *scene) {
 
         glDisable(GL_CULL_FACE);
     }else if(getRenderMode() == RenderMode::DEFERRED){
-        glEnable(GL_DEPTH_TEST | GL_CULL_FACE);
-        glCullFace(GL_BACK);
         glBindFramebuffer(GL_FRAMEBUFFER, gBuffer);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+        glEnable(GL_DEPTH_TEST);
+//        glCullFace(GL_BACK);
+
         for(stUint i = 0, S = actors.size(); i < S; i++){
             actors[i]->draw(m_GBufferOverrideMat, true);
         }
         glBindFramebuffer(GL_FRAMEBUFFER, 0);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         Deff_LightPassShdr->bind();
+        Deff_LightPassShdr->update("gPosition", 0);
+        Deff_LightPassShdr->update("gNormal", 1);
+        Deff_LightPassShdr->update("gColorSpec", 2);
         glActiveTexture(GL_TEXTURE0);
         glBindTexture(GL_TEXTURE_2D, gPosition);
         glActiveTexture(GL_TEXTURE1);
@@ -432,6 +444,11 @@ void GLGraphics::drawScene(STScene *scene) {
         }
         Deff_LightPassShdr->update("viewPos", getActiveCamera()->transform()->getTranslate<stReal>());
         screenQuad->draw();
+        glBindFramebuffer(GL_READ_FRAMEBUFFER, gBuffer);
+        glBindFramebuffer(GL_DRAW_FRAMEBUFFER, 0);
+        glBlitFramebuffer(0, 0, WIDTH, HEIGHT, 0, 0, WIDTH, HEIGHT, GL_DEPTH_BUFFER_BIT, GL_NEAREST);
+        glBindFramebuffer(GL_FRAMEBUFFER, 0);
+
         glDisable(GL_DEPTH_TEST);
         glDisable(GL_CULL_FACE);
         return;

@@ -28,6 +28,14 @@ void STMaterial::draw(std::vector<STShader::ShaderAttrib> &entityUniforms,Transf
     shader->updateUniforms(_uniforms);
 }
 
+void STMaterial::draw(std::vector<STShader::ShaderAttrib> &entityUniforms, std::vector<STShader::ShaderAttrib> originalMaterialUniforms, Transform &T, Camera &C) {
+    shader->bind();
+    shader->update(T, C);
+    shader->updateUniforms(entityUniforms);
+    shader->updateUniforms(originalMaterialUniforms);
+    shader->updateUniforms(_uniforms);
+}
+
 void STMaterial::setDiffuseTexture(const std::string &fileName) {
     if(STGraphics::RENDERER == STGraphics::OPENGL){
         _uniforms.push_back(STShader::ShaderAttrib("Material.Diffuse_Tex",

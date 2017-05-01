@@ -14,11 +14,11 @@ void main(void){
     vec3 Color = texture(gColorSpec, TexCoord).rgb;
     float specular = texture(gColorSpec, TexCoord).a;
 
-    vec3 lighting = Color * 0.1;
+    vec3 lighting = vec3(0.2, 0.2, 0.2) * 0.3;
     vec3 viewDir = normalize(viewPos - FragPos);
     for(int i = 0; i < LightCount; i++){
         vec3 lightDir = normalize(Light[i].Position - FragPos);
-        vec3 diffuse = max(dot(Normal, lightDir), 0.0) * Color * Light[i].Color;
+        vec3 diffuse = max(dot(Normal, lightDir), 0.0) * vec3(0.8) * Light[i].Color;
         lighting += diffuse;
     }
 

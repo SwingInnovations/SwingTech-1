@@ -19,8 +19,11 @@ public:
     void draw();
     void draw(STMaterial*);
     void draw(Camera*, int);
+    void draw(STMaterial *overrideMaterial, bool flag);
 private:
     STEntity* m_parent;
+
+
 };
 
 

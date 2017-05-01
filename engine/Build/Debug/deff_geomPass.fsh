@@ -6,7 +6,6 @@ layout(location = 2) out vec4 gColorSpec;
 
 #include <standard.glinc>
 
-uniform sampler2D texture_diffuse1;
 uniform sampler2D texture_specular;
 
 void main(void){

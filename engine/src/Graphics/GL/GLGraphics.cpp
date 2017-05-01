@@ -404,12 +404,12 @@ void GLGraphics::drawScene(STScene *scene) {
 
         glDisable(GL_CULL_FACE);
     }else if(getRenderMode() == RenderMode::DEFERRED){
+        glEnable(GL_DEPTH_TEST | GL_CULL_FACE);
+        glCullFace(GL_BACK);
         glBindFramebuffer(GL_FRAMEBUFFER, gBuffer);
-        glEnable(GL_DEPTH_TEST);
-
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         for(stUint i = 0, S = actors.size(); i < S; i++){
-            actors[i]->draw(m_GBufferOverrideMat);
+            actors[i]->draw(m_GBufferOverrideMat, true);
         }
         glBindFramebuffer(GL_FRAMEBUFFER, 0);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);

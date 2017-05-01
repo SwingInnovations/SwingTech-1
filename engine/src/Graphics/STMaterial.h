@@ -98,7 +98,8 @@ public:
 
 
     void draw(std::vector<STShader::ShaderAttrib>& entityUniforms, Transform& T, Camera& C);
-
+    void draw(std::vector<STShader::ShaderAttrib> &entityUniforms, std::vector<STShader::ShaderAttrib> originalMaterialUniforms,
+              Transform &T, Camera &C);
 private:
     void init_GLShaders(ShaderList list);
     void init_GLTextures(TextureList list);

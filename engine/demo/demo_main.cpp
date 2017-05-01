@@ -113,16 +113,12 @@ public:
             input->setCursorBound(!input->isCursorBound());
         }
         _testActor2->setRotateY(counter);
-        counter += 0.25f * delta;
+        counter += 0.0025f * delta;
     }
 
     void render(STGame * win){
         auto grphx = win->getGraphics();
-        long start, end;
-        start = win->getTick();
         win->getGraphics()->drawScene(STSceneManager::Get()->getScene((stUint)getID()));
-        end =win->getTick();
-        std::cout << "Completing drawing operation in: " + std::to_string(end - start) + "ms." << std::endl;
         //_testActor2->draw();
 
     }

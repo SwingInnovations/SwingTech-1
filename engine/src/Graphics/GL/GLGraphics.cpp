@@ -195,8 +195,22 @@ GLGraphics::GLGraphics(STGame *game) {
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
     glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT2, GL_TEXTURE_2D, gColorSpec, 0);
 
-    GLuint glAttachments[3] = {GL_COLOR_ATTACHMENT0, GL_COLOR_ATTACHMENT1, GL_COLOR_ATTACHMENT2 };
-    glDrawBuffers(3, glAttachments);
+    glGenTextures(1, &gTangent);
+    glBindTexture(GL_TEXTURE_2D, gTangent);
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB16F, w, h, 0, GL_RGB, GL_FLOAT, NULL);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+    glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT3, GL_TEXTURE_2D, gTangent, 0);
+
+    glGenTextures(1, &gFPLS);
+    glBindTexture(GL_TEXTURE_2D, gFPLS);
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, w, h, 0, GL_RGBA, GL_FLOAT, NULL);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+    glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT4, GL_TEXTURE_2D, gFPLS, 0);
+
+    GLuint glAttachments[5] = {GL_COLOR_ATTACHMENT0, GL_COLOR_ATTACHMENT1, GL_COLOR_ATTACHMENT2, GL_COLOR_ATTACHMENT3, GL_COLOR_ATTACHMENT4 };
+    glDrawBuffers(5, glAttachments);
     GLuint rboDepth;
     glGenRenderbuffers(1, &rboDepth);
     glBindRenderbuffer(GL_RENDERBUFFER, rboDepth);
@@ -347,6 +361,9 @@ void GLGraphics::drawScene(STScene *scene) {
             }
         }
     }
+    glBindFramebuffer(GL_FRAMEBUFFER, 0);
+    glDisable(GL_CULL_FACE);
+    glDisable(GL_DEPTH_TEST);
     if(getRenderMode() == RenderMode::FORWARD){
         glViewport(0, 0, WIDTH, HEIGHT);
         // Bind the frame buffer
@@ -412,42 +429,59 @@ void GLGraphics::drawScene(STScene *scene) {
 
         glDisable(GL_CULL_FACE);
     }else if(getRenderMode() == RenderMode::DEFERRED){
+        glViewport(0, 0, WIDTH, HEIGHT);
         glBindFramebuffer(GL_FRAMEBUFFER, gBuffer);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         glEnable(GL_DEPTH_TEST);
-//        glCullFace(GL_BACK);
-
         for(stUint i = 0, S = actors.size(); i < S; i++){
             actors[i]->draw(m_GBufferOverrideMat, true);
         }
+        glDisable(GL_DEPTH_TEST);
         glBindFramebuffer(GL_FRAMEBUFFER, 0);
-        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
         Deff_LightPassShdr->bind();
         Deff_LightPassShdr->update("gPosition", 0);
         Deff_LightPassShdr->update("gNormal", 1);
         Deff_LightPassShdr->update("gColorSpec", 2);
+        Deff_LightPassShdr->update("gTangent", 3);
+        Deff_LightPassShdr->update("gFPLS", 4);
         glActiveTexture(GL_TEXTURE0);
         glBindTexture(GL_TEXTURE_2D, gPosition);
         glActiveTexture(GL_TEXTURE1);
         glBindTexture(GL_TEXTURE_2D, gNormal);
         glActiveTexture(GL_TEXTURE2);
         glBindTexture(GL_TEXTURE_2D, gColorSpec);
+        glActiveTexture(GL_TEXTURE3);
+        glBindTexture(GL_TEXTURE_2D, gTangent);
+        glActiveTexture(GL_TEXTURE4);
+        glBindTexture(GL_TEXTURE_2D, gFPLS);
+        glActiveTexture(GL_TEXTURE5);
+        glBindTexture(GL_TEXTURE_2D_ARRAY, shadowArray);
         Deff_LightPassShdr->update("LightCount", (stInt)lights.size());
         for(stUint i = 0, S = lights.size(); i < S; i++){
             auto lightProps = lights[i]->get<STLightComponent>()->getProperties();
+            auto shadowProps = lights[i]->get<STShadowComponent>()->getProperties();
             Deff_LightPassShdr->update("Light["+std::to_string(i)+"].LightType", (stInt)lightProps->direction.getW());
             Deff_LightPassShdr->update("Light["+std::to_string(i)+"].Color", lightProps->color);
             Deff_LightPassShdr->update("Light["+std::to_string(i)+"].Position", lights[i]->transform()->getTranslate<stReal>());
             Deff_LightPassShdr->update("Light["+std::to_string(i)+"].Direction", lightProps->direction);
             Deff_LightPassShdr->update("Light["+std::to_string(i)+"].Radius", lightProps->radius);
             Deff_LightPassShdr->update("Light["+std::to_string(i)+"].Intensity", lightProps->intensity);
+            Deff_LightPassShdr->update("Light["+std::to_string(i)+"].ShadowIndex", (stInt)shadowProps->shadowIndex);
         }
         Deff_LightPassShdr->update("viewPos", getActiveCamera()->transform()->getTranslate<stReal>());
         screenQuad->draw();
+
+        glEnable(GL_DEPTH_TEST);
         glBindFramebuffer(GL_READ_FRAMEBUFFER, gBuffer);
         glBindFramebuffer(GL_DRAW_FRAMEBUFFER, 0);
         glBlitFramebuffer(0, 0, WIDTH, HEIGHT, 0, 0, WIDTH, HEIGHT, GL_DEPTH_BUFFER_BIT, GL_NEAREST);
         glBindFramebuffer(GL_FRAMEBUFFER, 0);
+
+        glDepthFunc(GL_LEQUAL);
+        scenes[scene->getIndex()].drawSkybox(*getActiveCamera());
+        glDisable(GL_BLEND);
+        glDepthFunc(GL_LESS);
 
         glDisable(GL_DEPTH_TEST);
         glDisable(GL_CULL_FACE);

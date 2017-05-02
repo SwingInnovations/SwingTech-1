@@ -20,6 +20,7 @@ out vec3 Position;
 out vec2 TexCoord;
 out vec3 Normal;
 out mat3 TBN;
+out vec3 Tangent;
 out vec4 FragPosLightSpace;
 out ShadowSpecs shadowSpecs[64];
 
@@ -31,6 +32,7 @@ void main(void){
     TexCoord = texCoord;
 
     vec3 T = vec3(model * vec4(tangent,   0.0));
+    Tangent = T;
 
   	vec3 N = vec3(model * vec4(normal,    0.0));
 
@@ -41,7 +43,4 @@ void main(void){
     TBN = mat3(T, B, N);
 
     FragPosLightSpace = transpose(lightSpaceMatrix) * vec4(Position, 1.0);
-    for(int i = 0; i < LightCount; i++){
-
-    }
 }

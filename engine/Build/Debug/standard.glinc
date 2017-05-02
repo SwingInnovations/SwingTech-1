@@ -1,6 +1,7 @@
 in vec3 Position;
 in vec3 Normal;
 in vec2 TexCoord;
+in vec3 Tangent;
 in mat3 TBN;
 
 struct STLight

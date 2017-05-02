@@ -146,6 +146,8 @@ private:
     GLuint gBuffer;
     GLuint gPosition;
     GLuint gNormal;
+    GLuint gTangent;
+    GLuint gFPLS;
     GLuint gColorSpec;
 
     GLShader* screenShdr;

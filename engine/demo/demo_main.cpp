@@ -113,7 +113,7 @@ public:
             input->setCursorBound(!input->isCursorBound());
         }
         _testActor2->setRotateY(counter);
-        counter += 0.0025f * delta;
+        counter += 0.025f * delta;
     }
 
     void render(STGame * win){

@@ -39,6 +39,9 @@ public:
     STGraphics(STGame *);
     ~STGraphics();
 
+    virtual void cleanup() = 0;
+    virtual void init(stUint w, stUint h) = 0;
+
     void setCamera(Camera* cam){
         m_Cam = cam;
     }
@@ -81,6 +84,7 @@ public:
     virtual void enableShadow(bool) = 0;
     virtual void enableBlend() = 0;
     virtual void disableBlend() = 0;
+    virtual void loadFont(const std::string&) = 0;  //TODO Implement this.
 
     virtual Matrix4f getOrthographicProjection()const{ return Matrix4f(); }
 

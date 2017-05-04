@@ -24,7 +24,10 @@ void main(void){
     vec3 B = cross(Tangent, Normal);
     mat3 TBN = mat3(Tangent, B, Normal);
 
+    _GlobalAmbient = texture(_WorldCubeMap,vec3(1,0,0),12).rgb+texture(_WorldCubeMap,vec3(-1,0,0),12).rgb+texture(_WorldCubeMap,vec3(0,1,0),12).rgb
 
+    +texture(_WorldCubeMap,vec3(0,-1,0),12).rgb+texture(_WorldCubeMap,vec3(0,0,1),12).rgb+texture(_WorldCubeMap,vec3(0,0,-1),12).rgb;
+    _GlobalAmbient/=6;
 
     vec3 lighting = Color * 0.1;
     vec3 viewDir = normalize(viewPos - FragPos);

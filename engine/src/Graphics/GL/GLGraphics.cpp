@@ -20,12 +20,17 @@ GLGraphics::GLGraphics() {
 }
 
 GLGraphics::GLGraphics(STGame *game) {
+    stUint width = (stUint)game->getWidth();
+    stUint height = (stUint)game->getHeight();
+    init(width, height);
+    glViewport(0, 0, width, height);
+}
 
-    WIDTH = (unsigned int) game->getWidth();
-    HEIGHT = (unsigned int) game->getHeight();
+void GLGraphics::init(stUint w, stUint h) {
+    WIDTH = w;
+    HEIGHT = h;
 
     m_shadowRes = 1024;
-    m_shadows = true;
 
     screenQuad = new GLMesh(new STQuad);
     screenShdr = new GLShader("screen");
@@ -104,8 +109,6 @@ GLGraphics::GLGraphics(STGame *game) {
     glBindBuffer(GL_ARRAY_BUFFER, 0);
     glBindVertexArray(0);
 
-    auto w = STGame::RES_WIDTH;
-    auto h = STGame::RES_HEIGHT;
     glGenTextures(1, &velocityTexture);
 
     glBindTexture(GL_TEXTURE_2D, velocityTexture);
@@ -204,7 +207,7 @@ GLGraphics::GLGraphics(STGame *game) {
 
     glGenTextures(1, &gFPLS);
     glBindTexture(GL_TEXTURE_2D, gFPLS);
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, w, h, 0, GL_RGBA, GL_FLOAT, NULL);
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, w, h, 0, GL_RGBA, GL_UNSIGNED_BYTE, NULL);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
     glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT4, GL_TEXTURE_2D, gFPLS, 0);
@@ -458,6 +461,7 @@ void GLGraphics::drawScene(STScene *scene) {
         glActiveTexture(GL_TEXTURE5);
         glBindTexture(GL_TEXTURE_2D_ARRAY, shadowArray);
         Deff_LightPassShdr->update("LightCount", (stInt)lights.size());
+        Deff_LightPassShdr->update_CubeMap("_WorldCubeMap", scenes[scene->getIndex()].m_skybox);
         for(stUint i = 0, S = lights.size(); i < S; i++){
             auto lightProps = lights[i]->get<STLightComponent>()->getProperties();
             auto shadowProps = lights[i]->get<STShadowComponent>()->getProperties();
@@ -802,5 +806,25 @@ std::string GLGraphics::getVendor() {
 
 void GLGraphics::initScene(stUint index) {
     scenes.insert(std::pair<stUint, GLRenderScene>(index, GLRenderScene()));
+}
+
+void GLGraphics::cleanup() {
+    for(auto c : characters){
+        glDeleteTextures(1, &c.second.texID);
+    }
+    glDeleteBuffers(1, &textVBO);
+    delete screenShdr;
+    delete Bloom_Composite;
+    delete Motion_Blur;
+    delete m_directionalLightMat;
+    delete m_pointLightMat;
+    delete m_spotLightMat;
+    delete m_albedoMat;
+    delete m_IBLMat;
+    delete m_velocityMat;
+}
+
+void GLGraphics::loadFont(const std::string &) {
+    //TODO Imlement this.
 }
 

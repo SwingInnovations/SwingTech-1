@@ -83,7 +83,7 @@ public:
 //        _testLight = STLight::DirectionalLight(Vector3<stReal>(-2.f, 3.f, -7.f), Vector3<stReal>(-5.f, 3.f, -5.f) - Vector3<stReal>(0.f, 0.f, 0.f), Vector3<stReal>(1.0f, 0.f, 0.f));
 //        _testLight->intensity = 0.5f;
 //        _testLight->radius = -1;
-        _testLight = STLight::InitDirectionalLight(Vector3<stReal>(-2.f, 3.f, -7.f), Vector3<stReal>(-.577f, .577f, -.577f), Vector3<stReal>(1.0f, 0.f, 0.f));
+        _testLight = STLight::InitDirectionalLight(Vector3<stReal>(-2.f, 3.f, -7.f), Vector3<stReal>(-.577f, .577f, -.577f), Vector3<stReal>(1.0f, 1.f, 1.f));
         _testLight->get<STLightComponent>()->getProperties()->intensity = 0.9f;
         // _testLight->setTranslateZ(2);
         _testLight2 = STLight::InitDirectionalLight(Vector3<stReal>(5.f, -3.f, 5.f), Vector3<stReal>(.577f, .577f, .577f), Vector3<stReal>(1.f, 1.f, 1.f));
@@ -93,10 +93,9 @@ public:
 //        _testLight2->intensity =0.5f;
 //        _testLight2->radius=-1;
 
-        scene->addSkybox("Yokohama", "skybox");
+        scene->addSkybox("mystic", "skybox");
 
 
-        // scene->addLight(_testLight);
 
         scene->addActor(_testActor2);
         scene->addActor(_testActor);

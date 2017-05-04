@@ -148,6 +148,8 @@ public:
         this->dimMode = dim;
     }
 
+    void setFullScreen(int);
+
     static void SetResolutionWidth(int val){ STGame::RES_WIDTH = val; }
     static void SetResolutionHeight(int val){ STGame::RES_HEIGHT = val; }
 

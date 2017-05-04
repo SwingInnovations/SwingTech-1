@@ -219,3 +219,20 @@ void STGame::setIcon(const std::string &filePath) {
 void STGame::setActiveCamera(stUint index) {
     this->g->setCameraIndex(index);
 }
+
+void STGame::setFullScreen(int flag) {
+    switch(flag){
+        case 0:
+            SDL_SetWindowFullscreen(m_Window, 0);
+            return;
+        case 1:
+            SDL_SetWindowFullscreen(m_Window, SDL_WINDOW_FULLSCREEN);
+            return;
+        case 2:
+            SDL_SetWindowFullscreen(m_Window, SDL_WINDOW_FULLSCREEN_DESKTOP);
+        default:
+            ;
+    }
+
+
+}

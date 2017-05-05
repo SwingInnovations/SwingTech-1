@@ -152,8 +152,10 @@ private:
     GLuint gPosition;
     GLuint gNormal;
     GLuint gTangent;
-    GLuint gFPLS;
     GLuint gColorSpec;
+    GLuint gNormalMap;
+    GLuint gMRA;
+
 
     GLShader* screenShdr;
     GLShader* Bloom_Composite;

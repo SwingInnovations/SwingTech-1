@@ -6,6 +6,7 @@
 #include "Texture.h"
 #include "Shader.h"
 #include "GL/GLTexture.h"
+#include "STColor.h"
 
 class GLTexture;
 class STGraphics;
@@ -53,7 +54,7 @@ public:
      * @param fileName Adds diffuse texture and assigns to texture index 0
      */
     void setDiffuseTexture(const std::string& fileName);
-
+    void setDiffuseColor(STColor);
     void setNormalTexture(const std::string& fileName);
 
     void setBaseColor(Vector3<stReal> color){
@@ -66,6 +67,10 @@ public:
      {
          setBaseColor( Vector3<stReal>(1,1,1) );
          _uniforms.push_back(STShader::ShaderAttrib("Material.BaseColor", STShader::VEC3, STShader::toString(m_baseColor)));
+         _uniforms.push_back(STShader::ShaderAttrib("Material.Diffuse_Color", STShader::VEC4, STShader::toString(Vector4<stReal>(1.f, 0.f, 0.f, 1.f))));
+//         _uniforms.push_back(STShader::ShaderAttrib("Material.Normal_Color", STShader::VEC4, STShader::toString(Vector4<stReal>(0.f, 0.f, 0.f, 1.f))));
+//         _uniforms.push_back(STShader::ShaderAttrib("Material.Metallic_Value", STShader::VEC2, STShader::toString(Vector2<stReal>(0.f, 1.f))));
+//         _uniforms.push_back(STShader::ShaderAttrib("Material.Roughness_Value", STShader::VEC2, STShader::toString(Vector2<stReal>(0.f, 1.f))));
      }
 
 

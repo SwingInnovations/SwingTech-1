@@ -52,7 +52,6 @@ public:
         _testActor2->setShdrUniform("_Metallic", 0.0f);
         _testActor2->setShdrUniform("_Roughness",1.0f);
         _testActor2->setScale(1);
-        _testActor2->setDiffuseTexture("grid.png");
         _testActor2->setNormalTexture("testNormal.png");
         mat->setBaseColor(Vector3<stReal>(.1,.7,.1));
         _testActor = new STActor("dice.obj", resManager->getMaterial("default"));

@@ -33,7 +33,7 @@ void STMaterial::draw(std::vector<STShader::ShaderAttrib> &entityUniforms, std::
     shader->update(T, C);
     shader->updateUniforms(entityUniforms);
     shader->updateUniforms(originalMaterialUniforms);
-    shader->updateUniforms(_uniforms);
+    //shader->updateUniforms(_uniforms);
 }
 
 void STMaterial::setDiffuseTexture(const std::string &fileName) {
@@ -41,6 +41,11 @@ void STMaterial::setDiffuseTexture(const std::string &fileName) {
         _uniforms.push_back(STShader::ShaderAttrib("Material.Diffuse_Tex",
                                                    STShader::TEX,
                                                    STShader::toString(Vector2<stInt>(GLTexture::GenTex(fileName), 2))));
+        for(stUint i = 0, S = _uniforms.size(); i < S; i++){
+            if(_uniforms[i].name == "Material.Diffuse_Color"){
+                _uniforms[i].value = STShader::toString(Vector4<stReal>(0.f, 0.f, 0.f, -1.f));
+            }
+        }
     }
 
 }
@@ -72,5 +77,13 @@ void STMaterial::init_GLShaders(ShaderList list) {
 void STMaterial::init_GLTextures(TextureList list) {
     if(!list.diffuseTex.empty())    setDiffuseTexture(list.diffuseTex);
     if(!list.normalTex.empty())     setNormalTexture(list.normalTex);
+}
+
+void STMaterial::setDiffuseColor(STColor color) {
+    for(stUint i = 0, S = _uniforms.size(); i < S; i++){
+        if(_uniforms[i].name == "Material.Diffuse_Color"){
+            _uniforms[i].value = STShader::toString(color.color);
+        }
+    }
 }
 

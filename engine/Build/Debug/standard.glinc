@@ -24,6 +24,7 @@ struct STMaterial
 	sampler2D Normal_Tex;
 	sampler2D Alpha_Tex;
 	sampler2D Specular_Tex;
+	vec4 Diffuse_Color;
     float Metallic;
     float Roughness;
 };
@@ -46,3 +47,13 @@ uniform STLight Light[10];
 out vec4 color;
 
 const float PI = 3.14159265359;
+
+vec3 ColorEval3x4(vec3 texel, vec4 color){
+    if(color.w == -1) return texel;
+    else return color.xyz;
+}
+
+float ColorEval1x2(float texel, vec2 color){
+    if(color.y == 0) return texel;
+    return color.x;
+}

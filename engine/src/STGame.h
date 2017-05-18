@@ -193,6 +193,10 @@ public:
 
     int getTick(){ return SDL_GetTicks(); }
 
+    int getGraphicsMajorVersion(){ return this->m_graphics_MAJOR; }
+    int getGraphicsMinorVersion(){ return this->m_graphics_MINOR; }
+    int getGraphicsProfile(){ return this->m_graphics_Profile; }
+
     const DIMENSION_MODE getDimensionMode()const{ return this->dimMode; }
     //! Gets Pointer to SDL_Window
     SDL_Window* getWindow(){ return this->m_Window; }/*! \return pointer to SDL_Window */
@@ -231,6 +235,9 @@ private:
     STGraphics * g;
     unsigned int WIDTH, HEIGHT;
     int m_CurrentState;
+    stInt m_graphics_MAJOR;
+    stInt m_graphics_MINOR;
+    stInt m_graphics_Profile;
     Uint32 delta, oldTime, newTime, fps;
     Vector4<stReal> m_clearColor;
     STResourceManager* resourceManager;

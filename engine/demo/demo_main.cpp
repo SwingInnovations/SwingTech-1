@@ -47,18 +47,17 @@ public:
 //         }
         STGame::Get()->getCamera()->setSpeed(0.005f);
 
-        _testActor2 = new STActor("dice.obj", resManager->getMaterial("default"));
+        _testActor2 = new STActor("dice.obj", resManager->getMaterial("default")->copy());
         //_testActor2->setTranslateX(1);
+        _testActor2->get<STGraphicsComponent>()->getMaterial()->setDiffuseColor(STColor(0.4, 0.2, 0.3, 1.0));
         _testActor2->setShdrUniform("_Metallic", 0.0f);
         _testActor2->setShdrUniform("_Roughness",1.0f);
         _testActor2->setScale(1);
-        _testActor2->setNormalTexture("testNormal.png");
         mat->setBaseColor(Vector3<stReal>(.1,.7,.1));
-        _testActor = new STActor("dice.obj", resManager->getMaterial("default"));
+        _testActor = new STActor("dice.obj", resManager->getMaterial("default")->copy());
+        _testActor->get<STGraphicsComponent>()->getMaterial()->setDiffuseColor(STColor(0.1, 0.9, 0.1, 1.0));
         _testActor->setShdrUniform("_Metallic", 0.f);
         _testActor->setShdrUniform("_Roughness", 1.f);
-        _testActor->setDiffuseTexture("grid.png");
-        _testActor->setNormalTexture("testNormal.png");
         _testActor->setTranslateX(2.f);
         _testActor->setTranslateZ(-2.f);
 

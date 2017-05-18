@@ -198,6 +198,8 @@ void GLShader::checkShaderStatus(GLuint shaderID, GLuint flag, bool isProgram, c
     }
 }
 
+
+//TODO - Check if shader has mismatched version.
 std::string GLShader::loadShader(const std::string &filePath) {
     std::ifstream file;
     file.open(filePath.c_str());
@@ -212,7 +214,14 @@ std::string GLShader::loadShader(const std::string &filePath) {
     if(file.is_open()){
         while(file.good()){
             std::getline(file, line);
-            output.append(line + "\n");
+            if(line == "#INSERT_HEADER"){
+                auto game = STGame::Get();
+                std::string prof = (game->getGraphicsProfile() == 1) ? " core" : " compatibility";
+                stInt version = game->getGraphicsMajorVersion()*100 + (game->getGraphicsMinorVersion() * 10);
+                output.append("#version " + std::to_string(version) + prof + "\n");
+            }else {
+                output.append(line + "\n");
+            }
         }
     }
     return GLSLPREPROCESSOR::Process(output);

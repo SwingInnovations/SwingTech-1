@@ -443,6 +443,7 @@ void GLGraphics::drawScene(STScene *scene) {
         glBindFramebuffer(GL_FRAMEBUFFER, gBuffer);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         glEnable(GL_DEPTH_TEST);
+        //Geometry Pass
         for(stUint i = 0, S = actors.size(); i < S; i++){
             actors[i]->draw(m_GBufferOverrideMat, true);
         }

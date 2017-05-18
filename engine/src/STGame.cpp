@@ -64,11 +64,15 @@ STGame::STGame(const std::string title, unsigned int WIDTH, unsigned int HEIGHT)
 }
 
 void STGame::setOpenGLVersion(int MajorVersion, int MinorVersion) {
+    m_graphics_MAJOR = MajorVersion;
+    m_graphics_MINOR = MinorVersion;
     SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, MajorVersion);
     SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, MinorVersion);
     if(MajorVersion < 3 && MinorVersion < 2){
         SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_COMPATIBILITY);
+        m_graphics_Profile = 0;
     }else{
+        m_graphics_Profile = 1;
         SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
     }
 

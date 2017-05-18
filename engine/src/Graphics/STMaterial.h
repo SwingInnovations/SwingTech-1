@@ -44,10 +44,22 @@ public:
 
     }
 
+    STMaterial* copy();
+
     ~STMaterial(){
         delete texture;
         delete shader;
 
+    }
+
+    void setUniforms(std::vector<STShader::ShaderAttrib> uniforms);
+
+    static STMaterial* CreateStandardMaterial(){
+        return new STMaterial({"standard", "standard"}, {});
+    }
+
+    static STMaterial* CreateStandardPBRMaterial(){
+        return new STMaterial({"standard", "standardPBR"}, {});
     }
 
     /*!
@@ -68,9 +80,9 @@ public:
          setBaseColor( Vector3<stReal>(1,1,1) );
          _uniforms.push_back(STShader::ShaderAttrib("Material.BaseColor", STShader::VEC3, STShader::toString(m_baseColor)));
          _uniforms.push_back(STShader::ShaderAttrib("Material.Diffuse_Color", STShader::VEC4, STShader::toString(Vector4<stReal>(1.f, 0.f, 0.f, 1.f))));
-//         _uniforms.push_back(STShader::ShaderAttrib("Material.Normal_Color", STShader::VEC4, STShader::toString(Vector4<stReal>(0.f, 0.f, 0.f, 1.f))));
-//         _uniforms.push_back(STShader::ShaderAttrib("Material.Metallic_Value", STShader::VEC2, STShader::toString(Vector2<stReal>(0.f, 1.f))));
-//         _uniforms.push_back(STShader::ShaderAttrib("Material.Roughness_Value", STShader::VEC2, STShader::toString(Vector2<stReal>(0.f, 1.f))));
+         _uniforms.push_back(STShader::ShaderAttrib("Material.Normal_Use", STShader::INT, STShader::toString(0)));
+         _uniforms.push_back(STShader::ShaderAttrib("Material.Metallic_Value", STShader::VEC2, STShader::toString(Vector2<stReal>(0.f, 1.f))));
+         _uniforms.push_back(STShader::ShaderAttrib("Material.Roughness_Value", STShader::VEC2, STShader::toString(Vector2<stReal>(0.f, 1.f))));
      }
 
 

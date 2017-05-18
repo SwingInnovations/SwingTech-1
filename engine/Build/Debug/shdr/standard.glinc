@@ -1,9 +1,11 @@
+//Typical Inputs
 in vec3 Position;
 in vec3 Normal;
 in vec2 TexCoord;
 in vec3 Tangent;
 in mat3 TBN;
 
+//Define Lights
 struct STLight
 {
     int  LightType;
@@ -17,6 +19,7 @@ struct STLight
 	bool UseShadow;
 };
 
+//Define Materials
 struct STMaterial
 {
 	vec3 BaseColor;
@@ -33,17 +36,13 @@ struct STMaterial
 uniform STMaterial Material;
 
 
- uniform float _Metallic;
- uniform float _Roughness;
-
-
 uniform samplerCube _WorldCubeMap;
 uniform sampler2D _ShadowAtlas;
- vec3 _GlobalAmbient;
+vec3 _GlobalAmbient;
 uniform vec3 _CameraPos;
 uniform int LightCount;
 
-uniform STLight Light[10];
+uniform STLight Light[64];
 
 out vec4 color;
 

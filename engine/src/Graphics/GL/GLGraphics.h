@@ -154,7 +154,7 @@ private:
     GLuint gTangent;
     GLuint gColorSpec;
     GLuint gNormalMap;
-    GLuint gMRA;
+    GLuint gMRA;        //Store Metallic; Roughness; Ambient Occlusion.
 
 
     GLShader* screenShdr;

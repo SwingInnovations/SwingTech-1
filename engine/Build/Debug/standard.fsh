@@ -1,4 +1,4 @@
-#version 400 core
+#INSERT_HEADER
 
 in vec4 FragPosLightSpace;
 uniform sampler2DArray shadowArray;

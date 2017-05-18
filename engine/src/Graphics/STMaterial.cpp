@@ -57,6 +57,10 @@ void STMaterial::setNormalTexture(const std::string &fileName) {
                                                    STShader::toString(Vector2<stInt>(GLTexture::GenTex(fileName), 3))));
     }
 
+    for(stUint i = 0; i < _uniforms.size(); i++){
+        _uniforms[i].value = STShader::toString(1);
+    }
+
 }
 
 void STMaterial::init_GLShaders(ShaderList list) {
@@ -85,5 +89,15 @@ void STMaterial::setDiffuseColor(STColor color) {
             _uniforms[i].value = STShader::toString(color.color);
         }
     }
+}
+
+STMaterial *STMaterial::copy() {
+    STMaterial* ret = new STMaterial(shader);
+    ret->setUniforms(_uniforms);
+    return ret;
+}
+
+void STMaterial::setUniforms(std::vector<STShader::ShaderAttrib> uniforms) {
+    _uniforms = uniforms;
 }
 

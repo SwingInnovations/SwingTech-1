@@ -3,14 +3,25 @@
 
 #include "../../STGlobal.h"
 
-struct STLightProperies{
-    Vector4<stReal> direction = Vector4<stReal>(0.f, 0.f, 0.f, 0.f);          //4th component determines type. -1 for pointlights, 0 for directional, 1 for spotlight
+struct STLightProperties{
+    Vector4<stReal> direction = Vector4<stReal>(0.f, 0.f, 0.f, 0.f);//4th component determines type. -1 for pointlights, 0 for directional, 1 for spotlight     //Specify the target.
     Vector3<stReal> color = Vector3<stReal>(1.f, 1.f, 1.f);
     Vector2<stReal> spotLightAtribs = Vector2<stReal>(0.f, 0.f);    //Encode Light Attributes 0- ConeAngle, 1- coneHeight
     stReal intensity = 0.5f;
     stReal radius = -0.1f;
     bool useShadow = false;
     Vector3<stReal> target = Vector3<stReal>(0, 0, 0);
+    /**
+     * Calculates the direction Vector
+     * @return
+     */
+    Vector4<stReal> CalculateDirection(Vector3<stReal> position){
+        stReal state = direction.getW();
+        Vector3<stReal> dir = (position - target);
+        dir.normalize();
+        direction = Vector4<stReal>(dir.getX(), dir.getY(), dir.getZ(), state);
+        return direction;
+    }
 };
 
 /*
@@ -27,7 +38,7 @@ public:
     STLightComponent(){
         m_hasTarget = false;
     }
-    STLightComponent(STLightProperies prop) {
+    STLightComponent(STLightProperties prop) {
         this->m_Properties = prop;
     }
 
@@ -45,7 +56,7 @@ public:
 
     }
 
-    STLightProperies* getProperties(){ return &m_Properties; }
+    STLightProperties* getProperties(){ return &m_Properties; }
     Matrix4f getLookAt(){
         auto props = this->getProperties();
         if(m_hasTarget){
@@ -59,7 +70,7 @@ public:
     }
 private:
     LIGHT_TYPE m_type;
-    STLightProperies m_Properties;
+    STLightProperties m_Properties;
     bool m_hasTarget;
 };
 

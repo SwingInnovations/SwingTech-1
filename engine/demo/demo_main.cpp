@@ -48,13 +48,13 @@ public:
         STGame::Get()->getCamera()->setSpeed(0.005f);
 
         _testActor2 = new STActor("dice.obj", resManager->getMaterial("default")->copy());
-        //_testActor2->setTranslateX(1);
         _testActor2->get<STGraphicsComponent>()->getMaterial()->setDiffuseColor(STColor(0.4, 0.2, 0.3, 1.0));
         _testActor2->setShdrUniform("_Metallic", 0.0f);
         _testActor2->setShdrUniform("_Roughness",1.0f);
         _testActor2->setScale(1);
         mat->setBaseColor(Vector3<stReal>(.1,.7,.1));
-        _testActor = new STActor("dice.obj", resManager->getMaterial("default")->copy());
+        _testActor = new STActor("teapot.obj", resManager->getMaterial("default")->copy());
+        _testActor->addScriptComponent("teapot.lua");
         _testActor->get<STGraphicsComponent>()->getMaterial()->setDiffuseColor(STColor(0.1, 0.9, 0.1, 1.0));
         _testActor->setShdrUniform("_Metallic", 0.f);
         _testActor->setShdrUniform("_Roughness", 1.f);
@@ -84,7 +84,7 @@ public:
         _testLight = STLight::InitDirectionalLight(Vector3<stReal>(-2.f, 3.f, -7.f), Vector3<stReal>(-.577f, .577f, -.577f), Vector3<stReal>(1.0f, 1.f, 1.f));
         _testLight->get<STLightComponent>()->getProperties()->intensity = 0.9f;
         // _testLight->setTranslateZ(2);
-        _testLight2 = STLight::InitDirectionalLight(Vector3<stReal>(5.f, -3.f, 5.f), Vector3<stReal>(.577f, .577f, .577f), Vector3<stReal>(1.f, 1.f, 1.f));
+        _testLight2 = STLight::InitDirectionalLight(Vector3<stReal>(5.f, -3.f, 5.f), Vector3<stReal>(.577f, .577f, .577f), Vector3<stReal>(1.f, 0.f, 1.f));
        //_testLight2->get<STLightComponent>()->getProperties()->intensity = 1.f;
 
 //        _testLight2 = STLight::DirectionalLight(Vector3<stReal>(5.f, 3.f, 5.f), Vector3<stReal>(5.f, 3.f, 5.f) - Vector3<stReal>(0.f, 0.f, 0.f), Vector3<stReal>(1.f, 1.f, 1.f));
@@ -111,6 +111,7 @@ public:
         }
         _testActor2->setRotateY(counter);
         counter += 0.025f * delta;
+        _testActor->update();
     }
 
     void render(STGame * win){
@@ -167,7 +168,7 @@ int main(int argc, char** argv){
     win->addCamera(new Camera(*win, campos, 0));
     win->addState(new TestState(0));
     win->enterState(0);
-    win->getGraphics()->enableShadow(false);
+    win->getGraphics()->enableShadow(true);
     win->getGraphics()->setRenderMode(STGraphics::DEFERRED);
     win->start();
 

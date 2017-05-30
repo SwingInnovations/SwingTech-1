@@ -29,7 +29,7 @@ GLShader::GLShader() {
 }
 
 GLShader::GLShader(const std::string &filePath) {
-    m_shaderName = filePath;
+    m_shaderName = m_fragShaderName = filePath;
     m_Program = glCreateProgram();
     m_Shaders[0] = createShader(loadShader(filePath + ".vsh"), GL_VERTEX_SHADER);
     m_Shaders[1] = createShader(loadShader(filePath + ".fsh"), GL_FRAGMENT_SHADER);
@@ -64,6 +64,7 @@ GLShader::GLShader(const std::string &filePath) {
 
 GLShader::GLShader(const std::string &vShaderPath, const std::string &fShaderPath) {
     m_shaderName = vShaderPath;
+    m_fragShaderName = fShaderPath;
     m_Program = glCreateProgram();
     if(!vShaderPath.empty())m_Shaders[0] = createShader(loadShader(vShaderPath + ".vsh"), GL_VERTEX_SHADER);
     if(!fShaderPath.empty())m_Shaders[1] = createShader(loadShader(fShaderPath + ".fsh"), GL_FRAGMENT_SHADER);
@@ -120,7 +121,7 @@ void GLShader::update(Camera& cam){
 }
 
 void GLShader::update(Transform& trans, Camera& cam){ ;
-    Vector3<stReal> camPos = cam.transform()->getTranslate<stReal>();
+    Vector3<stReal> camPos = cam.transform()->getTranslate();
 
     glUniformMatrix4fv(m_uniforms[0], 1, GL_TRUE, &trans.getModel().m[0][0]);
     glUniformMatrix4fv(m_uniforms[1], 1, GL_TRUE, &cam.getViewProjection().m[0][0]);

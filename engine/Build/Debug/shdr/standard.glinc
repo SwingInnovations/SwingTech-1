@@ -49,11 +49,9 @@ out vec4 color;
 const float PI = 3.14159265359;
 
 vec3 ColorEval3x4(vec3 texel, vec4 color){
-    if(color.w == -1) return texel;
-    else return color.xyz;
+    return (color.w == -1) ? texel : color.xyz;
 }
 
 float ColorEval1x2(float texel, vec2 color){
-    if(color.y == 0) return texel;
-    return color.x;
+    return (color.y == 0) ? texel : color.x;
 }

@@ -107,7 +107,7 @@ void STEntity::setTranslate(Vector3<stReal> &vec) {
     this->setTranslateZ(vec.getZ());
     if(!m_children.empty()){
         for(STEntity* entity : m_children){
-            Vector3<stReal> childPosition = entity->transform()->getTranslate<stReal>();
+            Vector3<stReal> childPosition = entity->transform()->getTranslate();
             childPosition = childPosition + vec;
             entity->setTranslate(childPosition);
         }
@@ -120,7 +120,7 @@ void STEntity::setTranslate(stReal _value){
     this->setTranslateZ(_value);
     if(!m_children.empty()){
         for(auto entity : m_children){
-            Vector3<stReal> childPosition = entity->transform()->getTranslate<stReal>();
+            Vector3<stReal> childPosition = entity->transform()->getTranslate();
             childPosition = childPosition + _value;
             entity->setTranslate(childPosition);
         }
@@ -132,7 +132,7 @@ void STEntity::setTranslateX(stReal _x) {
     m_transform->setTranslateX(_x);
     if(!m_children.empty()){
         for(auto entity : m_children){
-            stReal cX = entity->transform()->getTranslate<stReal>().getX();
+            stReal cX = entity->transform()->getTranslate().getX();
             cX += _x;
             entity->setTranslateX(_x);
         }
@@ -148,7 +148,7 @@ void STEntity::setTranslateY(stReal _y) {
     m_transform->setTranslateY(_y);
     if(!m_children.empty()){
         for(auto entity : m_children){
-            stReal cY = entity->transform()->getTranslate<stReal>().getY();
+            stReal cY = entity->transform()->getTranslate().getY();
             cY += _y;
             entity->setTranslateY(_y);
         }
@@ -164,7 +164,7 @@ void STEntity::setTranslateZ(stReal _z){
     m_transform->setTranslateZ(_z);
     if(!m_children.empty()){
         for(auto entity : m_children){
-            stReal cZ = entity->transform()->getTranslate<stReal>().getZ();
+            stReal cZ = entity->transform()->getTranslate().getZ();
             cZ += _z;
             entity->setTranslateZ(_z);
         }

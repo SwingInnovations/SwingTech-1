@@ -7,8 +7,6 @@ uniform sampler2DArray shadowArray;
 #include <shadow.glinc>
 
 void main(void){
-
-
 	vec3 Norm = mix(Normal,normalize(TBN* normalize(texture2D(Material.Normal_Tex,TexCoord).xyz*2.0-1.0)),0.1);
 
 	vec3 V = normalize(  _CameraPos - Position );
@@ -20,7 +18,7 @@ void main(void){
 	+texture(_WorldCubeMap,vec3(0,-1,0),12).rgb+texture(_WorldCubeMap,vec3(0,0,1),12).rgb+texture(_WorldCubeMap,vec3(0,0,-1),12).rgb;
 	_GlobalAmbient/=6;
 
-	vec3 Spec_Cook_Torrance =Spec_IBL(r,Norm,V,Material.BaseColor);
+	vec3 Spec_Cook_Torrance = Spec_IBL(r,Norm,V,Material.BaseColor);
 
 	///*Ommiting ambient Lighting for now*/vec3 diffuse =mix(baseColor*NdotL*_LightColor,((1- NdotL*_LightColor)*PreFilterEnvMap(1,2* dot(V,Normal)*Normal-V,10)),.4);
 

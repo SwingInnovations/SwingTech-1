@@ -60,11 +60,11 @@ public:
     Matrix4f getLookAt(){
         auto props = this->getProperties();
         if(m_hasTarget){
-            return Matrix4f::LookAt(parent->transform()->getTranslate<stReal>(),
-                                    parent->transform()->getTranslate<stReal>() - props->target,
+            return Matrix4f::LookAt(parent->transform()->getTranslate(),
+                                    parent->transform()->getTranslate() - props->target,
                                     Vector3<stReal>(0.f, 1.f, 0.f));
         }
-        return Matrix4f::LookAt(parent->transform()->getTranslate<stReal>(),
+        return Matrix4f::LookAt(parent->transform()->getTranslate(),
                                 props->direction,
                                 Vector3<stReal>(0.f, 1.f, 0.f));
     }

@@ -15,6 +15,7 @@ struct STLight
 	float Intensity;
 	int ShadowIndex;
 	bool UseShadow;
+	mat4 LightSpaceMatrix;
 };
 
 struct STMaterial

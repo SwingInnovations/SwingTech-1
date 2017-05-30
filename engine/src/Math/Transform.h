@@ -92,13 +92,13 @@ public:
         return mat.getInfo();
     }
 
-    template<typename T> Vector3<T> getTranslate()const{return Vector3<T>((T)translate.getX(), (T)translate.getY(), (T)translate.getZ()); }
+    Vector3<stReal> getTranslate()const{return translate; }
     template<typename T> Vector3<T> getRotate()const{ return Vector3<T>( (T)rotate.getX(), (T)rotate.getY(), (T)rotate.getZ() ); }
     Euler<stReal> getLocalRotate()const{ return localRotate; }
     template<typename T> Vector3<T> getScale()const{ return Vector3<T>( (T)scale.getX(), (T)scale.getY(), (T)scale.getZ() ); }
-    Vector3<stReal> getTranslateF()const{ return getTranslate<stReal>(); }
-    Vector3<stReal> getRotateF() const {return getRotate<stReal>();}
-    Vector3<stReal> getScaleF() const {return getScale<stReal>();}
+    Vector3<stReal> getTranslateF()const{ return translate; }
+    Vector3<stReal> getRotateF() const {return rotate;}
+    Vector3<stReal> getScaleF() const {return scale;}
 private:
     Vector3<stReal> translate;
     Vector3<stReal> rotate;

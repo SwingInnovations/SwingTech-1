@@ -8,7 +8,6 @@ layout(location = 4) out vec3 gMRA;
 layout(location = 5) out vec3 gTangent;
 
 #include <standard.glinc>
-in vec4 FragPosLightSpace;
 
 uniform sampler2D texture_specular;
 

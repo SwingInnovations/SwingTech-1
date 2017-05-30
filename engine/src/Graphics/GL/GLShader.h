@@ -52,6 +52,7 @@ private:
     GLuint createShader(const std::string& text, unsigned int type);
 
     std::string m_shaderName;
+    std::string m_fragShaderName;
 
     GLuint m_Program;
     GLuint m_Shaders[NUM_SHADER];

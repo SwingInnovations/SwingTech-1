@@ -277,13 +277,13 @@ void GLGraphics::drawScene(STScene *scene) {
                     glReadBuffer(GL_NONE);
                     glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
-                    lights[i]->projections[0] = Matrix4f::LookAt(lights[i]->transform()->getTranslate<stReal>(),
+                    lights[i]->projections[0] = Matrix4f::LookAt(lights[i]->transform()->getTranslate(),
                                                                  lights[i]->get<STLightComponent>()->getProperties()->direction,
                                                                  Vector3<stReal>(0, 1, 0));
                     lights[i]->addComponent(typeid(STGraphicsComponent), new STGraphicsComponent(
                             new STMaterial(new GLShader("direct_shadows"))));
                 } else {
-                    auto pos = lights[i]->transform()->getTranslate<stReal>();
+                    auto pos = lights[i]->transform()->getTranslate();
                     lights[i]->projections[0] = Matrix4f::LookAt(pos, pos - Vector3<stReal>(1.0f, 0.0f, 0.0f),
                                                                  Vector3<stReal>(0.0, -1.0f, 0.0));    //Right
                     lights[i]->projections[1] = Matrix4f::LookAt(pos, pos - Vector3<stReal>(-1.0f, .0, 0.0),
@@ -342,6 +342,7 @@ void GLGraphics::drawScene(STScene *scene) {
                 glEnable(GL_CULL_FACE);
                 for (stUint j = 0; j < actors.size(); j++) {
                     actors[j]->setShdrUniform("lightSpaceMatrix", ortho * lights[i]->get<STLightComponent>()->getLookAt());
+                    lights[i]->get<STShadowComponent>()->getProperties()->projections[0] = ortho * lights[i]->get<STLightComponent>()->getLookAt();
                     actors[j]->draw(lights[i]->get<STGraphicsComponent>()->getMaterial());
                 }
                 GLfloat* data = new GLfloat[m_shadowRes*m_shadowRes];
@@ -408,7 +409,7 @@ void GLGraphics::drawScene(STScene *scene) {
 
         for(stUint i =0; i < actors.size(); i++){
             for(stUint j =0; j < lights.size(); j++) {
-                actors[i]->setShdrUniform("_CameraPos", getActiveCamera()->transform()->getTranslate<stReal>());
+                actors[i]->setShdrUniform("_CameraPos", getActiveCamera()->transform()->getTranslate());
                 actors[i]->setShdrUniform_CubeMap("_WorldCubeMap", scenes[scene->getIndex()].m_skybox);
                 actors[i]->setShdrUniform_Texture2DArray("shadowArray", shadowArray, 1);
                 actors[i]->setShdrUniform("LightCount", (stInt)lights.size());
@@ -418,7 +419,7 @@ void GLGraphics::drawScene(STScene *scene) {
 
                 actors[i]->setShdrUniform("Light["+std::to_string(j)+"].LightType", (stInt)lightProps->direction.getW());
                 actors[i]->setShdrUniform("Light["+std::to_string(j)+"].Color", lightProps->color);
-                actors[i]->setShdrUniform("Light["+std::to_string(j)+"].Position", lights[j]->transform()->getTranslate<stReal>());
+                actors[i]->setShdrUniform("Light["+std::to_string(j)+"].Position", lights[j]->transform()->getTranslate());
                 actors[i]->setShdrUniform("Light["+std::to_string(j)+"].Direction", lightProps->direction);
                 actors[i]->setShdrUniform("Light["+std::to_string(j)+"].Radius", lightProps->radius);
                 actors[i]->setShdrUniform("Light["+std::to_string(j)+"].Intensity", lightProps->intensity);
@@ -454,8 +455,10 @@ void GLGraphics::drawScene(STScene *scene) {
         Deff_LightPassShdr->update("gPosition", 0);
         Deff_LightPassShdr->update("gNormal", 1);
         Deff_LightPassShdr->update("gColorSpec", 2);
-        Deff_LightPassShdr->update("gTangent", 3);
-        Deff_LightPassShdr->update("gFPLS", 4);
+        Deff_LightPassShdr->update("gNormalMap", 3);
+        Deff_LightPassShdr->update("gMRA", 4);
+        Deff_LightPassShdr->update("gTangent", 5);
+        Deff_LightPassShdr->update("shadowArray", 6);
         glActiveTexture(GL_TEXTURE0);
         glBindTexture(GL_TEXTURE_2D, gPosition);
         glActiveTexture(GL_TEXTURE1);
@@ -463,8 +466,12 @@ void GLGraphics::drawScene(STScene *scene) {
         glActiveTexture(GL_TEXTURE2);
         glBindTexture(GL_TEXTURE_2D, gColorSpec);
         glActiveTexture(GL_TEXTURE3);
-        glBindTexture(GL_TEXTURE_2D, gTangent);
+        glBindTexture(GL_TEXTURE_2D, gNormalMap);
         glActiveTexture(GL_TEXTURE4);
+        glBindTexture(GL_TEXTURE_2D, gMRA);
+        glActiveTexture(GL_TEXTURE5);
+        glBindTexture(GL_TEXTURE_2D, gTangent);
+        glActiveTexture(GL_TEXTURE6);
         glBindTexture(GL_TEXTURE_2D_ARRAY, shadowArray);
         Deff_LightPassShdr->update("LightCount", (stInt)lights.size());
         Deff_LightPassShdr->update_CubeMap("_WorldCubeMap", scenes[scene->getIndex()].m_skybox);
@@ -473,13 +480,14 @@ void GLGraphics::drawScene(STScene *scene) {
             auto shadowProps = lights[i]->get<STShadowComponent>()->getProperties();
             Deff_LightPassShdr->update("Light["+std::to_string(i)+"].LightType", (stInt)lightProps->direction.getW());
             Deff_LightPassShdr->update("Light["+std::to_string(i)+"].Color", lightProps->color);
-            Deff_LightPassShdr->update("Light["+std::to_string(i)+"].Position", lights[i]->transform()->getTranslate<stReal>());
+            Deff_LightPassShdr->update("Light["+std::to_string(i)+"].Position", lights[i]->transform()->getTranslate());
             Deff_LightPassShdr->update("Light["+std::to_string(i)+"].Direction", lightProps->direction);
             Deff_LightPassShdr->update("Light["+std::to_string(i)+"].Radius", lightProps->radius);
             Deff_LightPassShdr->update("Light["+std::to_string(i)+"].Intensity", lightProps->intensity);
             Deff_LightPassShdr->update("Light["+std::to_string(i)+"].ShadowIndex", (stInt)shadowProps->shadowIndex);
+            Deff_LightPassShdr->update("Light["+std::to_string(i)+"].LightSpaceMatrix", shadowProps->projections[0]);
         }
-        Deff_LightPassShdr->update("viewPos", getActiveCamera()->transform()->getTranslate<stReal>());
+        Deff_LightPassShdr->update("viewPos", getActiveCamera()->transform()->getTranslate());
         screenQuad->draw();
 
         glEnable(GL_DEPTH_TEST);

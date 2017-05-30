@@ -53,7 +53,7 @@ public:
         _testActor2->setShdrUniform("_Roughness",1.0f);
         _testActor2->setScale(1);
         mat->setBaseColor(Vector3<stReal>(.1,.7,.1));
-        _testActor = new STActor("teapot.obj", resManager->getMaterial("default")->copy());
+        _testActor = new STActor("sphere.obj", resManager->getMaterial("default")->copy());
         _testActor->addScriptComponent("teapot.lua");
         _testActor->get<STGraphicsComponent>()->getMaterial()->setDiffuseColor(STColor(0.1, 0.9, 0.1, 1.0));
         _testActor->setShdrUniform("_Metallic", 0.f);
@@ -97,7 +97,7 @@ public:
 
         scene->addActor(_testActor2);
         scene->addActor(_testActor);
-        scene->addLight(_testLight2);
+        //scene->addLight(_testLight2);
         scene->addLight(_testLight);
         scene->addActor(_plane);
         STGraphics::ClearColor = Vector4<stReal>(0.0, 0.0, 0.168, 1.0);
@@ -111,6 +111,7 @@ public:
         }
         _testActor2->setRotateY(counter);
         counter += 0.025f * delta;
+        //TODO Figure out why Transform appears to be broken...
         _testActor->update();
     }
 

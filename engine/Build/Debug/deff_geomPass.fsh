@@ -10,6 +10,9 @@ layout(location = 5) out vec3 gTangent;
 #include <standard.glinc>
 
 uniform sampler2D texture_specular;
+uniform sampler2D texture_Metallic;
+uniform sampler2D texture_Roughness;
+uniform sampler2D texture_AmbientOcclusion;
 
 void main(void){
     gPosition = Position;
@@ -19,4 +22,7 @@ void main(void){
     gColorSpec.a = texture(texture_specular, TexCoord).r;
     gNormalMap = (Material.Normal_Use == 1) ? texture(Material.Normal_Tex, TexCoord).rgb : vec3(0.0);
     gMRA = vec3(0.2, 0.4, 0.0);
+//    gMRA.r = texture(texture_Metallic, TexCoord).r;
+//    gMRA.g = texture(texture_Roughness, TexCoord).r;
+//    gMRA.b = texture(texture_AmbientOcclusion, TexCoord).r;
 }

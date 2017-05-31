@@ -6,6 +6,7 @@
 #include <iostream>
 #include <sstream>
 #include <vector>
+#include <map>
 
 #include "../Math/Vector.h"
 #include "../Math/Transform.h"
@@ -235,6 +236,7 @@ public:
     virtual void update_Texture2DArray(const std::string& name, Vector2<stInt> val){}
     virtual void update_CubeMap(const std::string& name, stUint){ }
     void updateUniforms(std::vector<STShader::ShaderAttrib> _uniforms);
+    void updateUniforms(std::map<std::string, STShader::ShaderAttrib>);
     virtual std::string getShaderName(){ return NULL; }
     virtual ~Shader(){}
 private:

@@ -114,7 +114,7 @@ void STActor::draw(STMaterial *material) {
         auto mesh = this->get<STMeshComponent>();
         auto grphx = this->get<STGraphicsComponent>();
         auto cam = STGame::Get()->getCamera();
-        if(grphx!= nullptr) material->draw(grphx->getUniforms(), *m_transform, *cam);
+        if(grphx!= nullptr) material->draw(grphx->GetUniforms(), *m_transform, *cam);
         if(mesh != nullptr) mesh->draw();
         for(auto child : m_children){
             dynamic_cast<STActor*>(child)->draw(material);
@@ -127,13 +127,13 @@ void STActor::draw(STMaterial* overrideMaterial, bool flag){
     auto grphx = get<STGraphicsComponent>();
     auto cam = STGame::Get()->getCamera();
     if(flag){
-        overrideMaterial->draw(grphx->getUniforms(), grphx->getMaterial()->getUniforms(), *m_transform, *cam);
+        overrideMaterial->draw(grphx->GetUniforms(), grphx->getMaterial()->GetUniforms(), *m_transform, *cam);
         mesh->draw();
         for(auto child : m_children){
             dynamic_cast<STActor*>(child)->draw(overrideMaterial, flag);
         }
     }else{
-        overrideMaterial->draw(grphx->getUniforms(), *m_transform, *cam);
+        overrideMaterial->draw(grphx->GetUniforms(), *m_transform, *cam);
         mesh->draw();
         for(auto child : m_children){
             dynamic_cast<STActor*>(child)->draw(overrideMaterial, flag);

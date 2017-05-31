@@ -1,8 +1,6 @@
 #ifndef WAHOO_STGRAPHICSCOMPONENT_H
 #define WAHOO_STGRAPHICSCOMPONENT_H
 
-#include <vector>
-
 #include "../../Graphics/Shader.h"
 #include "../../Graphics/Texture.h"
 #include "STComponent.h"
@@ -75,7 +73,7 @@ public:
         //m_material->draw();
     }
 
-    std::vector<STShader::ShaderAttrib> &getUniforms();
+    std::map<std::string, STShader::ShaderAttrib> &GetUniforms();
 
     void draw(Transform& T, Camera& C);
 private:
@@ -85,7 +83,7 @@ private:
     STMaterial* m_material;
     bool useTexture;
     bool useMaterial;
-    std::vector<STShader::ShaderAttrib> m_uniforms;
+    std::map<std::string, STShader::ShaderAttrib> m_Uniforms;
 };
 
 

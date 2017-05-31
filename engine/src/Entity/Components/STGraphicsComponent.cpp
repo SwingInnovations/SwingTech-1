@@ -33,153 +33,90 @@ STGraphicsComponent::STGraphicsComponent(STMaterial *mat) {
 }
 
 void STGraphicsComponent::addShdrUniform(const std::string &name, int value) {
-    m_uniforms.push_back(STShader::ShaderAttrib(name, STShader::INT, STShader::toString(value)));
+    if(m_Uniforms.count(name) == 0)m_Uniforms.insert(std::pair<std::string, STShader::ShaderAttrib>(name, STShader::ShaderAttrib(name, STShader::INT, STShader::toString(value))));
 }
 
 void STGraphicsComponent::addShdrUniform(const std::string &name, float value) {
-    m_uniforms.push_back(STShader::ShaderAttrib(name, STShader::FLOAT, STShader::toString(value)));
+    if(m_Uniforms.count(name) == 0)m_Uniforms.insert(std::pair<std::string, STShader::ShaderAttrib>(name, STShader::ShaderAttrib(name, STShader::FLOAT, STShader::toString(value))));
 }
 
 void STGraphicsComponent::addShdrUniform(const std::string &name, Vector2<stReal> value) {
-    m_uniforms.push_back(STShader::ShaderAttrib(name, STShader::VEC2, STShader::toString(value)));
+    if(m_Uniforms.count(name) == 0)m_Uniforms.insert(std::pair<std::string, STShader::ShaderAttrib>(name, STShader::ShaderAttrib(name, STShader::VEC2, STShader::toString(value))));
 }
 
 void STGraphicsComponent::addShdrUniform(const std::string &name, Vector3<stReal> value) {
-    m_uniforms.push_back(STShader::ShaderAttrib(name, STShader::VEC3, STShader::toString(value)));
+    if(m_Uniforms.count(name) == 0)m_Uniforms.insert(std::pair<std::string, STShader::ShaderAttrib>(name, STShader::ShaderAttrib(name, STShader::VEC3, STShader::toString(value))));
 }
 
 void STGraphicsComponent::addShdrUniform(const std::string &name, Vector4<stReal> value) {
-    m_uniforms.push_back(STShader::ShaderAttrib(name, STShader::VEC4, STShader::toString(value)));
+    if(m_Uniforms.count(name) == 0)m_Uniforms.insert(std::pair<std::string, STShader::ShaderAttrib>(name, STShader::ShaderAttrib(name, STShader::VEC4, STShader::toString(value))));
 }
 
 void STGraphicsComponent::addShdrUniform(const std::string &name, Matrix4f value) {
-    m_uniforms.push_back(STShader::ShaderAttrib(name, STShader::MAT4, STShader::toString(value)));
+    if(m_Uniforms.count(name) == 0)m_Uniforms.insert(std::pair<std::string, STShader::ShaderAttrib>(name, STShader::ShaderAttrib(name, STShader::MAT4, STShader::toString(value))));
 }
 
 void STGraphicsComponent::addShdrUniform_Texture(const std::string &name, stUint value) {
-    m_uniforms.push_back(STShader::ShaderAttrib(name, STShader::TEX, STShader::toString(value)));
+    if(m_Uniforms.count(name) == 0)m_Uniforms.insert(std::pair<std::string, STShader::ShaderAttrib>(name, STShader::ShaderAttrib(name, STShader::TEX, STShader::toString(value))));
 }
 
 void STGraphicsComponent::addShdrUniform_Texture2DArray(const std::string &name, stUint value) {
-    m_uniforms.push_back(STShader::ShaderAttrib(name, STShader::TEX2DARR, STShader::toString(value)));
+    if(m_Uniforms.count(name) == 0)m_Uniforms.insert(std::pair<std::string, STShader::ShaderAttrib>(name, STShader::ShaderAttrib(name, STShader::TEX2DARR, STShader::toString(value))));
 }
 
 void STGraphicsComponent::addShdrUniform_CubeMap(const std::string &name, stUint value) {
-    m_uniforms.push_back(STShader::ShaderAttrib(name, STShader::CUBE_MAP, STShader::toString(value)));
+    if(m_Uniforms.count(name) == 0) m_Uniforms.insert(std::pair<std::string, STShader::ShaderAttrib>(name, STShader::ShaderAttrib(name, STShader::CUBE_MAP, STShader::toString(value))));
 }
 
-
 void STGraphicsComponent::setShdrUniform(const std::string &name, int value) {
-    for(unsigned int i = 0, S = m_uniforms.size(); i < S; i++){
-        if(m_uniforms[i].name == name){
-            m_uniforms[i].value = STShader::toString(value);
-        }
-    }
+    if(m_Uniforms.count(name) > 0) m_Uniforms.at(name).value = STShader::toString(value);
+    else addShdrUniform(name, value);
 }
 
 void STGraphicsComponent::setShdrUniform(const std::string &name, float value) {
-    bool uniformFound;
-    for(unsigned int i = 0, S = m_uniforms.size(); i < S; i++){
-        if(m_uniforms[i].name == name){
-            m_uniforms[i].value = STShader::toString(value);
-            uniformFound=true;
-        }
-    }
-    if(!uniformFound)
-        addShdrUniform(name,value);
+    if(m_Uniforms.count(name) > 0)m_Uniforms.at(name).value = STShader::toString(value);
+    else addShdrUniform(name, value);
 }
 
 void STGraphicsComponent::setShdrUniform(const std::string &name, Vector2<stReal> value) {
-    for(stUint i = 0, S = m_uniforms.size(); i < S; i++){
-        if(m_uniforms[i].name == name){
-            m_uniforms[i].value = STShader::toString(value);
-            return;
-        }
-    }
-    addShdrUniform(name, value);
+    if(m_Uniforms.count(name) > 0) m_Uniforms.at(name).value = STShader::toString(value);
+    else addShdrUniform(name, value);
 }
 
 void STGraphicsComponent::setShdrUniform(const std::string &name, Vector3<stReal> value) {
-    bool uniformFound;
-    for(unsigned int i = 0, S = (unsigned int)m_uniforms.size(); i < S; i++){
-        if(m_uniforms[i].name == name){
-            m_uniforms[i].value = STShader::toString(value);
-            uniformFound=true;
-        }
-    }
-    if(!uniformFound)
-        addShdrUniform(name,value);
+    if(m_Uniforms.count(name) > 0) m_Uniforms.at(name).value = STShader::toString(value);
+    else addShdrUniform(name, value);
 }
 
 void STGraphicsComponent::setShdrUniform(const std::string &name, Vector4<stReal> value) {
-    bool uniformFound;
-    for(unsigned int i = 0, S = m_uniforms.size(); i < S; i++){
-        if(m_uniforms[i].name == name){
-            m_uniforms[i].value = STShader::toString(value);
-            uniformFound=true;
-        }
-    }
-    if(!uniformFound)
-        addShdrUniform(name,value);
+    if(m_Uniforms.count(name) > 0) m_Uniforms.at(name).value = STShader::toString(value);
+    else addShdrUniform(name, value);
 }
 
 void STGraphicsComponent::setShdrUniform_Texture(const std::string &name, stUint id, stUint index) {
-    bool uniformFound = false;
-    for(stUint i = 0, S = m_uniforms.size(); i < S; i++){
-        if(m_uniforms[i].name == name){
-            m_uniforms[i].value = STShader::toString(Vector2<stInt>(id, index));
-            uniformFound = true;
-        }
-    }
-    if(!uniformFound){
-        m_uniforms.push_back(STShader::ShaderAttrib(name, STShader::TEX, STShader::toString(Vector2<stInt>(id, index))));
-    }
+    if(m_Uniforms.count(name) > 0) m_Uniforms.at(name).value = STShader::toString(Vector2<stInt>(id, index));
+    else m_Uniforms.insert(std::pair<std::string, STShader::ShaderAttrib>(name, STShader::ShaderAttrib(name, STShader::TEX, STShader::toString(Vector2<stInt>(id, index)))));
 }
 
 
 void STGraphicsComponent::setShdrUniform(const std::string &name, Matrix4f value) {
-    bool uniformFound;
-    for(stUint i = 0, S = m_uniforms.size(); i < S; i++){
-        if(m_uniforms[i].name == name){
-            m_uniforms[i].value = STShader::toString(value);
-            uniformFound = true;
-        }
-    }
-    if(!uniformFound) addShdrUniform(name, value);
+    if(m_Uniforms.count(name) > 0)m_Uniforms.at(name).value = STShader::toString(value);
+    else addShdrUniform(name, value);
 }
 
 void STGraphicsComponent::setShdrUniform_Texture(const std::string &name, stUint value) {
-    bool uniformFound;
-    for(stUint i = 0, S = m_uniforms.size(); i < S; i++){
-        if(m_uniforms[i].name == name){
-            m_uniforms[i].value = STShader::toString(value);
-            uniformFound = true;
-        }
-    }
-    if(!uniformFound) addShdrUniform_Texture(name, value);
+    if(m_Uniforms.count(name) > 0) m_Uniforms.at(name).value = STShader::toString(value);
+    else addShdrUniform_Texture(name, value);
 }
 
 void STGraphicsComponent::setShdrUniform_Texture2DArray(const std::string &name, stUint id, stUint index) {
-    bool uniformFound = false;
-    for(stUint i = 0, S = m_uniforms.size(); i < S; i++){
-        if(m_uniforms[i].name == name && m_uniforms[i].type == STShader::TEX2DARR){
-            m_uniforms[i].value = STShader::toString(Vector2<stInt>(id, index));
-            uniformFound = true;
-        }
-    }
-    if(!uniformFound) m_uniforms.push_back(STShader::ShaderAttrib(name, STShader::TEX2DARR, STShader::toString(Vector2<stInt>(id, index))));
+    if(m_Uniforms.count(name) > 0) m_Uniforms.at(name).value = STShader::toString(Vector2<stInt>(id, index));
+    else m_Uniforms.insert(std::pair<std::string, STShader::ShaderAttrib>(name, STShader::ShaderAttrib(name, STShader::TEX, STShader::toString(Vector2<stInt>(id, index)))));
 }
 
 void STGraphicsComponent::setShdrUniform_CubeMap(const std::string &name, stUint value) {
-    bool uniformFound;
-    for(stUint i = 0, S = m_uniforms.size(); i < S; i++){
-        if(m_uniforms[i].name == name){
-            m_uniforms[i].value = STShader::toString(value);
-            uniformFound = true;
-            return;
-        }
-    }
-    if(!uniformFound) addShdrUniform_CubeMap(name, value);
+    if(m_Uniforms.count(name) > 0) m_Uniforms.at(name).value = STShader::toString(value);
+    else addShdrUniform_CubeMap(name, value);
 }
 
 void STGraphicsComponent::addSpriteSheet(Texture *tex, uint32_t rowCount, uint32_t colCount) {
@@ -222,11 +159,8 @@ void STGraphicsComponent::update() {
 }
 
 void STGraphicsComponent::draw(Transform &T, Camera &C) {
-    m_material->draw(m_uniforms, T, C);
-}
-
-std::vector<STShader::ShaderAttrib> &STGraphicsComponent::getUniforms() {
-    return m_uniforms;
+    //m_material->draw(m_uniforms, T, C);
+    m_material->draw(m_Uniforms, T, C);
 }
 
 void STGraphicsComponent::setDiffuseTexture(const std::string &fileName) {
@@ -235,6 +169,10 @@ void STGraphicsComponent::setDiffuseTexture(const std::string &fileName) {
 
 void STGraphicsComponent::setNormalTexture(const std::string &fileName) {
     m_material->setNormalTexture(fileName);
+}
+
+std::map<std::string, STShader::ShaderAttrib> &STGraphicsComponent::GetUniforms() {
+    return m_Uniforms;
 }
 
 

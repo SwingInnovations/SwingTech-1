@@ -1,7 +1,8 @@
 #ifndef WAHOO_STMATERIAL_H
 #define WAHOO_STMATERIAL_H
 
-#include <vector>
+#include <map>
+#include <string>
 
 #include "Texture.h"
 #include "Shader.h"
@@ -39,7 +40,6 @@ public:
 
     STMaterial(Shader* shdr, Texture* tex){
         shader = shdr;
-        texture = tex;
         initBaseUniforms();
 
     }
@@ -47,12 +47,11 @@ public:
     STMaterial* copy();
 
     ~STMaterial(){
-        delete texture;
         delete shader;
 
     }
 
-    void setUniforms(std::vector<STShader::ShaderAttrib> uniforms);
+    void setUniforms(std::map<std::string, STShader::ShaderAttrib> newUniforms);
 
     static STMaterial* CreateStandardMaterial(){
         return new STMaterial({"standard", "standard"}, {});
@@ -68,21 +67,26 @@ public:
     void setDiffuseTexture(const std::string& fileName);
     void setDiffuseColor(STColor);
     void setNormalTexture(const std::string& fileName);
+    void setMetallic(stReal);
+    void setMetallic(const std::string& fileName);
+    void setRoughness(stReal);
+    void setRoughness(const std::string& fileName);
 
     void setBaseColor(Vector3<stReal> color){
         m_baseColor = color;
     }
 
-    std::vector<STShader::ShaderAttrib>& getUniforms(){ return _uniforms; }
+    std::map<std::string, STShader::ShaderAttrib>& GetUniforms(){ return m_Uniforms; };
 
     void initBaseUniforms()
      {
          setBaseColor( Vector3<stReal>(1,1,1) );
-         _uniforms.push_back(STShader::ShaderAttrib("Material.BaseColor", STShader::VEC3, STShader::toString(m_baseColor)));
-         _uniforms.push_back(STShader::ShaderAttrib("Material.Diffuse_Color", STShader::VEC4, STShader::toString(Vector4<stReal>(1.f, 0.f, 0.f, 1.f))));
-         _uniforms.push_back(STShader::ShaderAttrib("Material.Normal_Use", STShader::INT, STShader::toString(0)));
-         _uniforms.push_back(STShader::ShaderAttrib("Material.Metallic_Value", STShader::VEC2, STShader::toString(Vector2<stReal>(0.f, 1.f))));
-         _uniforms.push_back(STShader::ShaderAttrib("Material.Roughness_Value", STShader::VEC2, STShader::toString(Vector2<stReal>(0.f, 1.f))));
+
+        //Initialize for map
+         m_Uniforms.insert(std::pair<std::string, STShader::ShaderAttrib>("Material.Diffuse_Color", STShader::ShaderAttrib("Material.Diffuse_Color", STShader::VEC4, STShader::toString(Vector4<stReal>(1.f, 0.f, 0.f, 1.f)))));
+         m_Uniforms.insert(std::pair<std::string, STShader::ShaderAttrib>("Material.Normal_Use", STShader::ShaderAttrib("Material.Normal_Use", STShader::INT, STShader::toString(0))));
+         m_Uniforms.insert(std::pair<std::string, STShader::ShaderAttrib>("Material.Metallic_Value", STShader::ShaderAttrib("Material.Metallic_Value", STShader::VEC2, STShader::toString(Vector2<stReal>(0.f, 1.f)))));
+         m_Uniforms.insert(std::pair<std::string, STShader::ShaderAttrib>("Material.Roughness_Value", STShader::ShaderAttrib("Material.Roughness_Value", STShader::VEC2, STShader::toString(Vector2<stReal>(0.f, 1.f)))));
      }
 
 
@@ -91,40 +95,25 @@ public:
      */
     inline void update(){
         shader->bind();
-        shader->updateUniforms(_uniforms);
-        for(unsigned int i = 0; i < texture->getTextureCount(); i++){
-            texture->bind(i);
-        }
+        shader->updateUniforms(m_Uniforms);
     }
 
     Shader* shdr(){ return shader; }
-    Texture* tex(){ return texture; }
 
     inline void update(std::vector<STShader::ShaderAttrib> entityUniforms){
         shader->bind();
-        shader->updateUniforms(_uniforms);
+        shader->updateUniforms(m_Uniforms);
         shader->updateUniforms(entityUniforms);
-        if(texture->getTextureCount() > 31){
-            texture->bind(0);
-        }else{
-            for(unsigned int i = 0, S = texture->getTextureCount(); i < S; i++){
-                texture->bind(i);
-            }
-        }
     }
 
-
-    void draw(std::vector<STShader::ShaderAttrib>& entityUniforms, Transform& T, Camera& C);
-    void draw(std::vector<STShader::ShaderAttrib> &entityUniforms, std::vector<STShader::ShaderAttrib> originalMaterialUniforms,
-              Transform &T, Camera &C);
+    void draw(std::map<std::string, STShader::ShaderAttrib>& entityUniforms, Transform& T, Camera& C);
+    void draw(std::map<std::string, STShader::ShaderAttrib>& entityUniform, std::map<std::string, STShader::ShaderAttrib> originalMaterialUniforms, Transform &T, Camera& C);
 private:
     void init_GLShaders(ShaderList list);
     void init_GLTextures(TextureList list);
-    Texture* texture;
     Shader* shader;
     Vector3<stReal> m_baseColor;
-    bool useTexture;
-    std::vector<STShader::ShaderAttrib> _uniforms;
+    std::map<std::string, STShader::ShaderAttrib> m_Uniforms;
 };
 
 #endif //WAHOO_STMATERIAL_H

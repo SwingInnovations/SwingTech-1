@@ -111,7 +111,6 @@ public:
         }
         _testActor2->setRotateY(counter);
         counter += 0.025f * delta;
-        //TODO Figure out why Transform appears to be broken...
         _testActor->update();
     }
 

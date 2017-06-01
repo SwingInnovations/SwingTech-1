@@ -17,7 +17,7 @@ void STScriptComponent::update() {
 }
 
 void STScriptComponent::initScript(const std::string &fileName) {
-    m_script.open_libraries(sol::lib::base, sol::lib::package);
+    m_script.open_libraries(sol::lib::base, sol::lib::package, sol::lib::math);
     //Regsiter Commands
     m_script.set_function("getGraphicsComponent",[](STEntity* ent){return ent->get<STGraphicsComponent>();});
     m_script.set_function("getEventComponent", [](STEntity* ent){ return ent->get<STEventComponent>(); });

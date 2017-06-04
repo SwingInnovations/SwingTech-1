@@ -39,7 +39,7 @@ void GLGraphics::init(stUint w, stUint h) {
     Motion_Blur = new GLShader("screen", "Motion_Blur");
     Tone_Mapping = new GLShader("screen", "Tone_Mapping");
     FXAAShader = new GLShader("screen", "FXAA");
-    Deff_LightPassShdr = new GLShader("screen", "deff_LightPass");
+    Deff_LightPassShdr = new GLShader("screen", "deff_LightPassPBR");
 
     FT_Library ft;
     if (FT_Init_FreeType(&ft)) {
@@ -332,6 +332,7 @@ void GLGraphics::drawScene(STScene *scene) {
         glEnable(GL_DEPTH_TEST);
 
         auto ortho = Matrix4f().initOrthographicProjection(-10.f, 10.f, -10.f, 10.f, 1.f, 10.f);
+        auto persp = Matrix4f().initPerpectiveProjection(45, 10, 10, 1.f, 10);
         for(stUint i = 0; i < lights.size(); i++){
             auto shadowProps = lights[i]->get<STShadowComponent>()->getProperties();
             if(lights[i]->get<STLightComponent>()->getType() == STLightComponent::DIRECTIONAL_LIGHT ||
@@ -341,6 +342,7 @@ void GLGraphics::drawScene(STScene *scene) {
                 glCullFace(GL_FRONT);
                 glEnable(GL_CULL_FACE);
                 for (stUint j = 0; j < actors.size(); j++) {
+                    auto m = ortho * lights[i]->get<STLightComponent>()->getLookAt();
                     actors[j]->setShdrUniform("lightSpaceMatrix", ortho * lights[i]->get<STLightComponent>()->getLookAt());
                     lights[i]->get<STShadowComponent>()->getProperties()->projections[0] = ortho * lights[i]->get<STLightComponent>()->getLookAt();
                     actors[j]->draw(lights[i]->get<STGraphicsComponent>()->getMaterial());

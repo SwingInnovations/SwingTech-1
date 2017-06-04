@@ -2,15 +2,15 @@
 #include "Components/STEventComponent.h"
 #include "Components/STAABBComponent.h"
 
-STActor::STActor(const std::string &filePath, const int type, STMaterial *material) {
-    m_transform = new Transform();
-    m_type = Actor;
-    m_visible = true;
-    addComponent(typeid(STMeshComponent), new STMeshComponent(filePath, type));
-    addComponent(typeid(STGraphicsComponent), new STGraphicsComponent(material));
-    addComponent(typeid(STEventComponent), new STEventComponent());
-    m_visible = true;
-}
+//STActor::STActor(const std::string &filePath, const int type, STMaterial *material) {
+//    m_transform = new Transform();
+//    m_type = Actor;
+//    m_visible = true;
+//    addComponent(typeid(STMeshComponent), new STMeshComponent(filePath, type));
+//    addComponent(typeid(STGraphicsComponent), new STGraphicsComponent(material));
+//    addComponent(typeid(STEventComponent), new STEventComponent());
+//    m_visible = true;
+//}
 
 /**
  * Creates a new Actor Entity based off defined STMeshStructure, uniqueTag, and Material.
@@ -53,7 +53,7 @@ STActor::STActor(const std::string &filePath, STMaterial *material) {
         return;
     }else{
         if(!errFlag){
-            addComponent(typeid(STMeshComponent), new STMeshComponent("base/ErrorMesh.obj", STMesh::OBJ));
+            //addComponent(typeid(STMeshComponent), new STMeshComponent("base/ErrorMesh.obj", STMesh::OBJ));
             addComponent(typeid(STGraphicsComponent), new STGraphicsComponent(new STMaterial(new GLShader("base/errorObject"))));
             get<STEventComponent>()->updateEvent([](STEntity* self){
                 auto grphx = self->get<STGraphicsComponent>();

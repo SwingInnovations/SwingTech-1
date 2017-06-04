@@ -62,11 +62,11 @@ public:
      * @param shdr - Specified Shader
      * @return
      */
-    STEntity(const std::string& fileName, const int type, Shader* shdr);
-    STEntity(const std::string& fileName, const int type, const std::string& shdrPath);
-    STEntity(const std::string& fileName, const int type, const std::string& shdrPath, const std::string texPath);
-    STEntity(const std::string& fileName, const int type, Shader* shdr, Texture* tex);
-    STEntity(const std::string& fileName, const int type, STMaterial* mat);
+//    STEntity(const std::string& fileName, const int type, Shader* shdr);
+//    STEntity(const std::string& fileName, const int type, const std::string& shdrPath);
+//    STEntity(const std::string& fileName, const int type, const std::string& shdrPath, const std::string texPath);
+//    STEntity(const std::string& fileName, const int type, Shader* shdr, Texture* tex);
+//    STEntity(const std::string& fileName, const int type, STMaterial* mat);
     STEntity(STRect*,Shader*);
     STEntity(STQuad*,Shader*);
     STEntity(STCube*,Shader*);

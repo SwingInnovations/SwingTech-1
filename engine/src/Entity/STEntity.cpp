@@ -6,46 +6,46 @@ STEntity::STEntity() {
     m_transform = new Transform();
 }
 
-STEntity::STEntity(const std::string &fileName, const int type, Shader *shdr) {
-    m_transform = new Transform();
-    addComponent(typeid(STMeshComponent), new STMeshComponent(fileName, type));
-    addComponent(typeid(STGraphicsComponent), new STGraphicsComponent(shdr));
-    addComponent(typeid(STEventComponent), new STEventComponent);
-    m_visible = true;
-}
-
-STEntity::STEntity(const std::string &fileName, const int type, Shader *shdr, Texture *tex) {
-    m_transform = new Transform();
-    addComponent(typeid(STMeshComponent), new STMeshComponent(fileName, type));
-    addComponent(typeid(STGraphicsComponent), new STGraphicsComponent(shdr, tex));
-    addComponent(typeid(STEventComponent), new STEventComponent);
-    m_visible = true;
-}
-
-STEntity::STEntity(const std::string &fileName, const int type, const std::string &shdrPath) {
-    m_transform = new Transform();
-    addComponent(typeid(STMeshComponent), new STMeshComponent(fileName, type));
-    addComponent(typeid(STGraphicsComponent), new STGraphicsComponent(shdrPath));
-    addComponent(typeid(STEventComponent), new STEventComponent);
-    m_visible = true;
-}
-
-STEntity::STEntity(const std::string &fileName, const int type, const std::string &shdrPath,
-                   const std::string texPath) {
-    m_transform = new Transform();
-    addComponent(typeid(STMeshComponent), new STMeshComponent(fileName, type));
-    addComponent(typeid(STGraphicsComponent), new STGraphicsComponent(shdrPath, texPath));
-    addComponent(typeid(STEventComponent), new STEventComponent);
-    m_visible = true;
-}
-
-STEntity::STEntity(const std::string &fileName, const int type, STMaterial *mat) {
-    m_transform = new Transform;
-    addComponent(typeid(STMeshComponent), new STMeshComponent(fileName, type));
-    addComponent(typeid(STGraphicsComponent), new STGraphicsComponent(mat));
-    addComponent(typeid(STEventComponent), new STEventComponent);
-    m_visible = true;
-}
+//STEntity::STEntity(const std::string &fileName, const int type, Shader *shdr) {
+//    m_transform = new Transform();
+//    addComponent(typeid(STMeshComponent), new STMeshComponent(fileName, type));
+//    addComponent(typeid(STGraphicsComponent), new STGraphicsComponent(shdr));
+//    addComponent(typeid(STEventComponent), new STEventComponent);
+//    m_visible = true;
+//}
+//
+//STEntity::STEntity(const std::string &fileName, const int type, Shader *shdr, Texture *tex) {
+//    m_transform = new Transform();
+//    addComponent(typeid(STMeshComponent), new STMeshComponent(fileName, type));
+//    addComponent(typeid(STGraphicsComponent), new STGraphicsComponent(shdr, tex));
+//    addComponent(typeid(STEventComponent), new STEventComponent);
+//    m_visible = true;
+//}
+//
+//STEntity::STEntity(const std::string &fileName, const int type, const std::string &shdrPath) {
+//    m_transform = new Transform();
+//    addComponent(typeid(STMeshComponent), new STMeshComponent(fileName, type));
+//    addComponent(typeid(STGraphicsComponent), new STGraphicsComponent(shdrPath));
+//    addComponent(typeid(STEventComponent), new STEventComponent);
+//    m_visible = true;
+//}
+//
+//STEntity::STEntity(const std::string &fileName, const int type, const std::string &shdrPath,
+//                   const std::string texPath) {
+//    m_transform = new Transform();
+//    addComponent(typeid(STMeshComponent), new STMeshComponent(fileName, type));
+//    addComponent(typeid(STGraphicsComponent), new STGraphicsComponent(shdrPath, texPath));
+//    addComponent(typeid(STEventComponent), new STEventComponent);
+//    m_visible = true;
+//}
+//
+//STEntity::STEntity(const std::string &fileName, const int type, STMaterial *mat) {
+//    m_transform = new Transform;
+//    addComponent(typeid(STMeshComponent), new STMeshComponent(fileName, type));
+//    addComponent(typeid(STGraphicsComponent), new STGraphicsComponent(mat));
+//    addComponent(typeid(STEventComponent), new STEventComponent);
+//    m_visible = true;
+//}
 
 
 STEntity::STEntity(STRect *rect,Shader *shdr) {

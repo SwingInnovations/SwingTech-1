@@ -16,8 +16,7 @@
 class GLMesh : public STMesh{
 public:
     GLMesh();
-    GLMesh(const std::string& fileName, int type);
-    GLMesh(const std::string& fileName);
+    //GLMesh(const std::string& fileName);
     GLMesh(STMesh_Structure structure);
     GLMesh(STRect* rect);
     GLMesh(STQuad* quad);

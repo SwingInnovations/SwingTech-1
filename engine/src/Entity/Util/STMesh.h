@@ -10,49 +10,7 @@
 #include "../../Math/Shape/Rect.h"
 #include "../../Math/Shape/Quad.h"
 #include "../../Math/Shape/Cube.h"
-
-struct STMesh_Structure{
-    Vector3<stReal> m_minPt;
-    Vector3<stReal> m_maxPt;
-    std::vector<int> m_indices;
-    std::vector<Vertex> m_vertices;
-
-    Vertex* getVertices(){ return &m_vertices[0]; }
-    int* getIndicies(){ return &m_indices[0]; }
-
-    inline stInt getVertexSize()const { return (stInt)m_vertices.size(); }
-    inline stInt getIndexSize() const { return (stInt)m_indices.size(); }
-};
-
-class OBJMesh{
-public:
-    OBJMesh();
-    OBJMesh(const std::string& filename);;
-    static bool Validate(const std::string& fileName, std::vector<std::string> *tags, std::vector<STMesh_Structure> *dataMesh);
-    static bool Validate(const std::string& fileName, bool* errFlag, std::vector<std::string> *tags, std::vector<STMesh_Structure> *dataMesh);
-    virtual ~OBJMesh();
-
-    int getVerticiesSize(){ return (int)verticies.size(); }
-    int getIndiciesSize(){ return (int)indicies.size(); }
-
-    Vertex* getVertices(){
-        return &verticies[0];
-    }
-
-    int* getIndicies(){
-        int* ret = &indicies[0];
-        return ret;
-    };
-
-    std::vector<int> indicies;
-    std::vector<Vertex> verticies;
-private:
-
-    std::vector<Vector3<stReal>> _vertex;
-    std::vector<Vector2<stReal>> _texCoord;
-    std::vector<Vector3<stReal>> _normal;
-    std::vector<int> _index;
-};
+#include "Loaders/STMeshCommon.h"
 
 
 class STMesh {

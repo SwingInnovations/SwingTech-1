@@ -10,7 +10,7 @@ class STAABBComponent;
  */
 class STActor : public STEntity {
 public:
-    STActor(const std::string& filePath, const int type, STMaterial* material);
+    //STActor(const std::string& filePath, const int type, STMaterial* material);
     STActor(const std::string& filePath, STMaterial* material);
     STActor(STMesh_Structure structure, std::string& tag, STMaterial* material);
     inline void addChild_Actor(STActor* actor){

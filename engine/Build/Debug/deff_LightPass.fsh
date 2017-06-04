@@ -25,20 +25,20 @@ void main(void){
 
     vec3 lighting = Color * 0.1;
     vec3 viewDir = normalize(_CameraPos - FragPos);
-//    for(int i = 0; i < LightCount; i++){
-//        float bias = max(0.05 * (1.0 - dot(Normal, (Light[i].Position - FragPos))), 0.005);
-//        vec3 lightDir = normalize(Light[i].Position - FragPos);
-//        vec4 FPLS = transpose(Light[i].LightSpaceMatrix) * vec4(FragPos, 1.0);
-//        float shadow = calculateShadow(FPLS, shadowArray, Light[i].ShadowIndex, bias);
-//        vec3 diffuse = max(dot(Normal, lightDir), 0.0) * (1.0 - shadow ) * Color * Light[i].Color;
-//        lighting += diffuse;
-//    }
     for(int i = 0; i < LightCount; i++){
         float bias = max(0.05 * (1.0 - dot(Normal, (Light[i].Position - FragPos))), 0.005);
+        vec3 lightDir = normalize(Light[i].Position - FragPos);
         vec4 FPLS = transpose(Light[i].LightSpaceMatrix) * vec4(FragPos, 1.0);
-        float shadow = calculateShadow(FPLS, shadowArray, 0, bias);
-        lighting += (1.0 - shadow) * DirectPBR(Color, MRA, FragPos, Normal, Light[i].Position, Light[i].Color, _CameraPos);
+        float shadow = calculateShadow(FPLS, shadowArray, Light[i].ShadowIndex, bias);
+        vec3 diffuse = max(dot(Normal, lightDir), 0.0) * (1.0 - shadow ) * Color * Light[i].Color;
+        lighting += diffuse;
     }
+//    for(int i = 0; i < LightCount; i++){
+//        float bias = max(0.05 * (1.0 - dot(Normal, (Light[i].Position - FragPos))), 0.005);
+//        vec4 FPLS = transpose(Light[i].LightSpaceMatrix) * vec4(FragPos, 1.0);
+//        float shadow = calculateShadow(FPLS, shadowArray, 0, bias);
+//        lighting += (1.0 - shadow) * DirectPBR(Color, MRA, FragPos, Normal, Light[i].Position, Light[i].Color, _CameraPos);
+//    }
 
     color = vec4(lighting, 1.0);
 

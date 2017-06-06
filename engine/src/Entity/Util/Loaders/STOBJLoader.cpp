@@ -228,4 +228,122 @@ bool STOBJLoader::Validate(const std::string &fileName, bool *errFlag, std::vect
     return (*dataMesh).size() > 1;
 }
 
+/**
+ * Loads a singular OBJ File
+ * @param fileName
+ * @return STMeshStructure.
+ */
+STMesh_Structure STOBJLoader::Load(const std::string fileName) {
+    STMesh_Structure ret;
+
+    std::vector<Vector3<stReal>> _vertex;
+    std::vector<Vector2<stReal>> _texCoords;
+    std::vector<Vector3<stReal>> _normal;
+    std::vector<stInt> _index;
+    std::vector<Vertex> vertList;
+    std::vector<int> indList;
+    stInt counter = 0;
+
+    //Loading the file
+    std::ifstream in(fileName.c_str(), std::ios_base::in);
+    if(!in){
+        std::cerr << "Invalid File! Could not load: " << fileName << std::endl;
+        STMesh_Structure ret2;
+        return ret2;
+    }
+
+    std::string line;
+    std::string lastTag;
+    if(in.good()){
+        while(std::getline(in, line)){
+            counter++;
+            if(line[0] == 'v' && line[1] == ' '){
+                _vertex.push_back(ExtractVector3(line.substr(2)));
+            }
+            if(line[0] == 'v' && line[1] == 't' && line[2] == ' '){
+                _texCoords.push_back(ExtractVector2(line.substr(3)));
+            }
+            if(line[0] == 'f' && line[1] == 'n' && line[2] == ' '){
+                _normal.push_back(ExtractVector3(line.substr(3)));
+            }
+            if(line[0] == 'f' && line[1] == ' '){
+                auto faceStrings = SplitFace(line.substr(2));
+                Vector3<stInt> values;
+                Vector3<stInt> cached[3];
+                stUint cachedCounter = 0;
+                for(stUint i = 0; i < 3; i++){
+                    values = ExtractFace(faceStrings.at(i));
+                    if(i == 0 || i == 2){
+                        cached[cachedCounter++] = values;
+                    }
+                    _index.push_back(values.getX() - 1);
+                    _index.push_back(values.getY() - 1);
+                    _index.push_back(values.getZ() - 1);
+                }
+                if(faceStrings.size() > 3){
+                    cached[cachedCounter] = ExtractFace(faceStrings.at(3));
+                    for(stUint i = 0; i < 3; i++){
+                        _index.push_back(cached[i].getX() - 1);
+                        _index.push_back(cached[i].getY() - 1);
+                        _index.push_back(cached[i].getZ() - 1);
+                    }
+                }
+            }
+        }
+    }
+    in.close();
+    stInt ind = 0;
+    for(stUint i = 0, S = (stUint)_index.size(); i < S; i+= 3){
+        Vertex vert(_vertex[_index.at(i)], _texCoords[_index.at(i+1)], _normal[_index.at(i+2)]);
+        vertList.push_back(vert);
+        indList.push_back(ind);
+        ind++;
+    }
+    ret.m_vertices = vertList;
+    ret.m_indices = indList;
+
+    return ret;
+}
+
+Vector3<stReal> STOBJLoader::ExtractVector3(std::string str) {
+    stReal arr[3];
+    stInt c = 0;
+    stReal tmp;
+    std::stringstream buff(str);
+    while(buff >> tmp){
+        arr[c++] = tmp;
+    }
+    return Vector3<stReal>(arr[0], arr[1], arr[2]);
+}
+
+Vector2<stReal> STOBJLoader::ExtractVector2(std::string str) {
+    stReal arr[2];
+    stInt c = 0;
+    stReal tmp;
+    std::stringstream buff(str);
+    while(buff >> tmp){
+        arr[c++] = tmp;
+    }
+    return Vector2<stReal>(arr[0], arr[1]);
+}
+
+Vector3<stInt> STOBJLoader::ExtractFace(std::string str) {
+    std::vector<stInt> ext_ind;
+    stInt tmp;
+    for(stUint i = 0, L = str.length(); i < L; i++){
+        if(str[i] == '/') str[i] = ' ';
+    }
+    std::stringstream buff(str);
+    while(buff >> tmp) ext_ind.push_back(tmp);
+    return Vector3<stInt>(ext_ind[0], ext_ind[1], ext_ind[2]);
+}
+
+std::vector<std::string> STOBJLoader::SplitFace(std::string str) {
+    std::vector<std::string> ret;
+    std::string tmp;
+    std::stringstream buff(str);
+    while(buff >> tmp) ret.push_back(tmp);
+    return ret;
+}
+
 

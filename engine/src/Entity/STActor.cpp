@@ -1,6 +1,7 @@
 #include "STActor.h"
 #include "Components/STEventComponent.h"
 #include "Components/STAABBComponent.h"
+#include "Util/Loaders/STOBJLoader.h"
 
 //STActor::STActor(const std::string &filePath, const int type, STMaterial *material) {
 //    m_transform = new Transform();
@@ -53,7 +54,7 @@ STActor::STActor(const std::string &filePath, STMaterial *material) {
         return;
     }else{
         if(!errFlag){
-            //addComponent(typeid(STMeshComponent), new STMeshComponent("base/ErrorMesh.obj", STMesh::OBJ));
+            addComponent(typeid(STMeshComponent), new STMeshComponent(STOBJLoader::Load("base/ErrorMesh.obj")));
             addComponent(typeid(STGraphicsComponent), new STGraphicsComponent(new STMaterial(new GLShader("base/errorObject"))));
             get<STEventComponent>()->updateEvent([](STEntity* self){
                 auto grphx = self->get<STGraphicsComponent>();

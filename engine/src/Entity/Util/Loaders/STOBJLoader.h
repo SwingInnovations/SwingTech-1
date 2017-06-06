@@ -17,7 +17,13 @@
 class STOBJLoader {
 public:
     STOBJLoader();
+    static STMesh_Structure Load(const std::string fileName);
     static bool Validate(const std::string& fileName, bool* errFlag, std::vector<std::string> *tags, std::vector<STMesh_Structure>* dataMesh);
+private:
+    static Vector3<stReal> ExtractVector3(std::string str);
+    static Vector2<stReal> ExtractVector2(std::string str);
+    static Vector3<stInt> ExtractFace(std::string str);
+    static std::vector<std::string> SplitFace(std::string str);
 };
 
 

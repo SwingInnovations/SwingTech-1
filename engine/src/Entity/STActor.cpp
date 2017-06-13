@@ -53,7 +53,7 @@ STActor::STActor(const std::string &filePath, STMaterial *material) {
         }
         return;
     }else{
-        if(!errFlag){
+        if(!errFlag || meshes.size() < 1){
             addComponent(typeid(STMeshComponent), new STMeshComponent(STOBJLoader::Load("base/ErrorMesh.obj")));
             addComponent(typeid(STGraphicsComponent), new STGraphicsComponent(new STMaterial(new GLShader("base/errorObject"))));
             get<STEventComponent>()->updateEvent([](STEntity* self){
@@ -62,11 +62,12 @@ STActor::STActor(const std::string &filePath, STMaterial *material) {
             });
             this->transform()->setRotateY(180.0f);
             return;
+        }else{
+            addComponent(typeid(STMeshComponent), new STMeshComponent(meshes.at(0)));
+            addComponent(typeid(STGraphicsComponent), new STGraphicsComponent(material));
+            addComponent(typeid(STEventComponent), new STEventComponent);
+            addComponent(typeid(STAABBComponent), new STAABBComponent((STEntity*)this, meshes[0].m_minPt, meshes[0].m_maxPt));
         }
-        addComponent(typeid(STMeshComponent), new STMeshComponent(meshes.at(0)));
-        addComponent(typeid(STGraphicsComponent), new STGraphicsComponent(material));
-        addComponent(typeid(STEventComponent), new STEventComponent);
-        addComponent(typeid(STAABBComponent), new STAABBComponent((STEntity*)this, meshes[0].m_minPt, meshes[0].m_maxPt));
     }
 
     if(tags.size() > 0)

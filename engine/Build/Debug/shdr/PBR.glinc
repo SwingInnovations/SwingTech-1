@@ -1,17 +1,22 @@
 float DistribGGX(vec3 N, vec3 H, float a){
-    float a2 = a * a;
+    float r = a * a;
+    float a2 = r * r;
     float NdotH = max(dot(N, H), 0.0);
     float NdotH2 = NdotH * NdotH;
     float nom = a2;
     float denom = (NdotH2 * (a2 - 1.0) + 1.0);
     denom = PI * denom * denom;
-    return nom / denom;
+    return nom / (denom + 0.001);
 }
 
-float GeomSchlickGGX(float NdotV, float k){
+float GeomSchlickGGX(float NdotV, float roughness){
+    float r = (roughness + 1.0);
+    float k = (r * r) / 8.0;
+
     float nom = NdotV;
     float denom = NdotV * (1.0 - k) + k;
-    return nom / denom;
+
+    return nom / (denom + 0.001);
 }
 
 float GeometrySmith(vec3 N, vec3 V, vec3 L, float k){
@@ -179,7 +184,8 @@ vec3 DirectPBR(vec3 albedo, vec3 MRA, vec3 pos, vec3 Normal, vec3 lightPosition,
     vec3 Lo = vec3(0.0);
     vec3 L = normalize(lightPosition - pos);
     vec3 H = normalize(V + L);
-    float distance = length(lightPosition - pos);
+    float len = length(lightPosition - pos);
+    float distance = (len == 0) ? len : 1;
     float attentation = 1.0 / (distance * distance);
     vec3 radiance = lightColor * attentation;
 
@@ -187,13 +193,13 @@ vec3 DirectPBR(vec3 albedo, vec3 MRA, vec3 pos, vec3 Normal, vec3 lightPosition,
     float G = GeometrySmith(N, V, L, MRA.y);
     vec3 F = FresnelSchlick(max(dot(H, V), 0.0), F0);
     vec3 kS = F;
-    vec3 kD = (1.0 - kS);
+    vec3 kD = (vec3(1.0) - kS);
     kD *= 1.0 - MRA.x;
     vec3 nom = NDF * G * F;
-    float denom = 4 * max(dot(N, V), 0.0) * max(dot(N, L), 0.0) + 0.001;
+    float denom = 4 * max(dot(N,V), 0.0) * max(dot(N,V), 0.0) + 0.001;
     vec3 specular = nom / denom;
     float NdotL = max(dot(N, L), 0.0);
-    Lo += (kD * albedo / PI + specular) * NdotL;
+    Lo += (kD * albedo / PI + specular) * radiance * NdotL;
 
     vec3 ambient = vec3(0.03) * albedo;
     vec3 color = ambient + Lo;

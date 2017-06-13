@@ -17,7 +17,7 @@ void main(void){
     vec3 Normal = texture(gNormal, TexCoord).rgb;
     vec3 Tangent = texture(gTangent, TexCoord).rgb;
     vec3 Color = texture(gColorSpec, TexCoord).rgb;
-    vec3 MRA = vec3(0, 0, 1);
+    vec3 MRA = vec3(1.0, 0.2, 1);
     float specular = texture(gColorSpec, TexCoord).a;
     vec3 B = cross(Tangent, Normal);
     mat3 TBN = mat3(Tangent, B, Normal);

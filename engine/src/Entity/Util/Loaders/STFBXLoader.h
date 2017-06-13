@@ -29,12 +29,16 @@ class STFBXLoader {
     };
 
     struct FBXNode{
-
+        struct FBXNodeProperty{
+            std::string dataType;
+            std::string dataValue;
+        };
     };
 
     enum class LoadMode{ ASCII, BINARY };
 public:
     STFBXLoader();
+    static STMesh_Structure Load(const std::string fileName);
     static bool Validate(const std::string& fileName, bool* errFlag, std::vector<std::string>* tags, std::vector<STMesh_Structure>* dataMesh);
 };
 

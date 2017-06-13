@@ -21,7 +21,7 @@ void main(void){
     gColorSpec.rgb = ColorEval3x4(texture(Material.Diffuse_Tex, TexCoord).rgb, Material.Diffuse_Color);
     gColorSpec.a = texture(texture_specular, TexCoord).r;
     gNormalMap = (Material.Normal_Use == 1) ? texture(Material.Normal_Tex, TexCoord).rgb : vec3(0.0);
-    gMRA = vec3(0.2, 0.4, 0.0);
+    gMRA = vec3(0.2, 0.1, 0.0);
 //    gMRA.r = texture(texture_Metallic, TexCoord).r;
 //    gMRA.g = texture(texture_Roughness, TexCoord).r;
 //    gMRA.b = texture(texture_AmbientOcclusion, TexCoord).r;

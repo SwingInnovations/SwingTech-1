@@ -72,4 +72,22 @@ void STEventComponent::update() {
     invokeInputEvent(this->getParent());
     invokeUpdateEvent(this->getParent());
     if(other != nullptr) other = nullptr;
+
+    for(auto event : m_Events){
+        if(m_currentEvent == event.first) event.second(getParent(), other);
+    }
+}
+
+void STEventComponent::addEvent(std::string name, std::function<void(STEntity*, STEntity*)> newFunction) {
+    m_Events.insert(std::pair<std::string, std::function<void(STEntity*, STEntity*)>>(name, newFunction));
+}
+
+void STEventComponent::triggerEvent(std::string eventName) {
+    other = nullptr;
+    m_currentEvent = eventName;
+}
+
+void STEventComponent::triggerEvent(std::string eventName, STEntity *other) {
+    m_currentEvent = eventName;
+    this->other = other;
 }

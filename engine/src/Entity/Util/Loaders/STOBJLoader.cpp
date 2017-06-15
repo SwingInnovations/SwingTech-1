@@ -167,7 +167,7 @@ bool STOBJLoader::Validate(const std::string &fileName, bool *errFlag, std::vect
                 stUint cachedCounter = 0;
                 for(stUint i = 0; i < 3; i++){
                     values = extractFace(faceStrings.at(i));
-                    if(i == 0 || i == 2){
+                    if(i == 1 || i == 2){
                         cached[cachedCounter++] = values;
                     }
                     _index.push_back(values.getX() - 1);
@@ -273,7 +273,7 @@ STMesh_Structure STOBJLoader::Load(const std::string fileName) {
                 stUint cachedCounter = 0;
                 for(stUint i = 0; i < 3; i++){
                     values = ExtractFace(faceStrings.at(i));
-                    if(i == 0 || i == 2){
+                    if(i == 1 || i == 2){
                         cached[cachedCounter++] = values;
                     }
                     _index.push_back(values.getX() - 1);

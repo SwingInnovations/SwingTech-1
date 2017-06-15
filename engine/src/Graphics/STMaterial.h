@@ -100,12 +100,6 @@ public:
 
     Shader* shdr(){ return shader; }
 
-    inline void update(std::vector<STShader::ShaderAttrib> entityUniforms){
-        shader->bind();
-        shader->updateUniforms(m_Uniforms);
-        shader->updateUniforms(entityUniforms);
-    }
-
     void draw(std::map<std::string, STShader::ShaderAttrib>& entityUniforms, Transform& T, Camera& C);
     void draw(std::map<std::string, STShader::ShaderAttrib>& entityUniform, std::map<std::string, STShader::ShaderAttrib> originalMaterialUniforms, Transform &T, Camera& C);
 private:

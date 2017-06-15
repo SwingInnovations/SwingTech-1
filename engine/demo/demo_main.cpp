@@ -53,14 +53,14 @@ public:
         _testActor2->setShdrUniform("_Roughness",1.0f);
         _testActor2->setScale(1);
         mat->setBaseColor(Vector3<stReal>(.1,.7,.1));
-        _testActor = new STActor("teapot.obj", resManager->getMaterial("default")->copy());
+        _testActor = new STActor("sphere.obj", resManager->getMaterial("default")->copy());
         _testActor->addScriptComponent("teapot.lua");
-        //_testActor->get<STGraphicsComponent>()->getMaterial()->setDiffuseColor(STColor(0.1, 0.9, 0.1, 1.0));
-        _testActor->get<STGraphicsComponent>()->getMaterial()->setDiffuseTexture("grid.png");
+        _testActor->get<STGraphicsComponent>()->getMaterial()->setDiffuseColor(STColor(0.8, 0.3, 0.3, 1.0));
+        //_testActor->get<STGraphicsComponent>()->getMaterial()->setDiffuseTexture("grid.png");
         _testActor->setShdrUniform("_Metallic", 0.f);
         _testActor->setShdrUniform("_Roughness", 1.f);
-        _testActor->setTranslateX(2.f);
-        _testActor->setTranslateZ(-2.f);
+        //_testActor->setTranslateX(2.f);
+        //_testActor->setTranslateZ(-2.f);
 
         _plane = new STActor("plane.obj", resManager->getMaterial("default"));
         _plane->setShdrUniform("_Metallic", 0.f);
@@ -69,7 +69,7 @@ public:
         //_plane->setNormalTexture("testNormal.png");
         _plane->setTranslateY(-0.5f);
 
-        _testLight = STLight::InitDirectionalLight(Vector3<stReal>(-2.f, 3.f, -7.f), Vector3<stReal>(-.577f, .577f, -.577f), Vector3<stReal>(1.0f, 1.0f, 1.0f));
+        _testLight = STLight::InitDirectionalLight(Vector3<stReal>(-2.f, 5.f, -7.f), Vector3<stReal>(-.577f, .577f, -.577f), Vector3<stReal>(1.0f, 1.0f, 1.0f));
         _testLight->get<STLightComponent>()->getProperties()->intensity = 0.9f;
         _testLight2 = STLight::InitDirectionalLight(Vector3<stReal>(5.f, -3.f, 5.f), Vector3<stReal>(.577f, .577f, .577f), Vector3<stReal>(1.f, 0.f, 1.f));
 

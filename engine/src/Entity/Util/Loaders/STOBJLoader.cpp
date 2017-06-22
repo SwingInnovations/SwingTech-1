@@ -1,4 +1,5 @@
 #include "STOBJLoader.h"
+#include "../../../Graphics/GL/GLShader.h"
 
 STOBJLoader::STOBJLoader() {
 
@@ -346,4 +347,223 @@ std::vector<std::string> STOBJLoader::SplitFace(std::string str) {
     return ret;
 }
 
+bool STOBJLoader::Validate(const std::string &fileName, bool *errFlag, std::vector<STMesh_Structure> *meshes,
+                           std::map<std::string, STMaterial *> *materials) {
+    stUint vertCount, texCount, normCount, objCount, lastVertCount, lastTexCount, lastNormCount;
+    vertCount = texCount = normCount = objCount = lastVertCount = lastNormCount = lastTexCount = 0;
+    std::string lastTag;    //Keeps a cache of the last code.
+    std::vector<Vector3<stUint>> vertCounts;
+    std::vector<Vector3<stReal>> _vertex;
+    std::vector<Vector2<stReal>> _texCoord;
+    std::vector<Vector3<stReal>> _normal;
+    std::string name;           //save the name of the current mesh
+    std::string materialName;
+    std::vector<int> _index;
+    stUint counter = 0;
+    std::string filePath = "";
+    if(fileName.find("/")!=0){
+        filePath = fileName.substr(0, fileName.find_last_of("/"));
+    }else if(fileName.find("\\") != 0){
+        filePath = fileName.substr(0, fileName.find_last_of('\\'));
+    }
+
+    std::ifstream in(fileName.c_str(), std::ios_base::in);
+    if(!in){
+        std::cerr << "Invalid File! Could not load: " << fileName << std::endl;
+        *errFlag = false;
+        return false;
+    }
+    std::string line;
+    if(in.good()){
+        while(std::getline(in, line)){
+            if(line[0] == 'm'){
+                //Do some material processing here.
+                std::string matName = line.substr(7);
+                STOBJLoader::PopulateMaterial(matName, materials);
+                //if(materials->count(matName) == 0) materials->insert(std::pair<std::string, STMaterial*>(matName, new STMaterial));
+            }
+            if(line[0] == 'o'){
+                name = line.substr(line.find(' '), line.length()-1);
+            }
+
+            if(line[0] == 'u'){
+                //Assume this means "Use Material"
+                materialName = line.substr(line.find(' ')+1);
+                std::cout << "Should be assigning material name" << std::endl;
+            }
+
+            if(line[0] == 'v'){
+                if(lastTag == "f"){
+                    if(_vertex.empty()){
+                        std::cerr << "Error! Mesh must have Verticies!" << std::endl;
+                        *errFlag = false;
+                        return false;
+                    }
+                    if(_texCoord.empty()){
+                        std::cerr << "Error! Mesh must have TexCoords!" << std::endl;
+                        *errFlag = false;
+                        return false;
+                    }
+                    if(_normal.empty()){
+                        std::cerr << "Error! Mesh must have Normals!" << std::endl;
+                        *errFlag = false;
+                        return false;
+                    }
+                    if(_index.empty()){
+                        std::cerr << "Error! Mesh must have Indicies!" << std::endl;
+                        *errFlag = false;
+                        return false;
+                    }
+                    //Assuming everything goes well.
+                    std::vector<int> adjustedIndicies;
+                    adjustedIndicies.reserve(_index.size());
+                    stInt ind = 0;
+                    lastVertCount++;
+                    lastTexCount++;
+                    lastNormCount++;
+                    if((*meshes).size() > 0){
+                        for(stUint i = 0, S = (stUint)_index.size(); i < S; i+=3){
+                            adjustedIndicies.push_back(_index.at(i) - lastVertCount);
+                            adjustedIndicies.push_back(_index.at(i+1) - lastTexCount);
+                            adjustedIndicies.push_back(_index.at(i+2) - lastNormCount);
+                        }
+                    }else adjustedIndicies = _index;
+                    STMesh_Structure mesh;
+                    mesh.name = name;
+                    mesh.materialKey = materialName;
+                    //Now we are ready to begin processing;
+                    for(stUint i = 0, S = (stUint)adjustedIndicies.size(); i < S; i+=3){
+                        mesh.m_vertices.push_back(Vertex(_vertex[adjustedIndicies[i]],
+                                                         _texCoord[adjustedIndicies[i+1]],
+                                                         _normal[adjustedIndicies[i+2]]));
+                        mesh.m_indices.push_back(ind);
+                        ind++;
+                    }
+                    (*meshes).push_back(mesh);
+                    lastVertCount = vertCount - 1;
+                    lastTexCount = texCount - 1;
+                    lastNormCount = normCount - 1;
+                    _vertex.clear();
+                    _texCoord.clear();
+                    _normal.clear();
+                    _index.clear();
+                    adjustedIndicies.clear();
+                }
+                if(line[1] == ' '){
+                    _vertex.push_back(STOBJLoader::ExtractVector3(line.substr(2)));
+                    vertCount++;
+                    lastTag = "v";
+                }
+
+                if(line[1] == 't' && line[2] == ' '){
+                    _texCoord.push_back(STOBJLoader::ExtractVector2(line.substr(3)));
+                    texCount++;
+                    lastTag = "vt";
+                }
+
+                if(line[1] == 'n' && line[2] == ' '){
+                    _normal.push_back(STOBJLoader::ExtractVector3(line.substr(3)));
+                    normCount++;
+                    lastTag = "vt";
+                }
+
+            }
+
+            if(line[0] == 'f' && line[1] == ' '){
+                auto faceStrings = STOBJLoader::SplitFace(line.substr(2));
+                Vector3<stInt> values;
+                Vector3<stInt> cached[3];
+                stUint cachedCounter = 0;
+                for(stUint i = 0; i < 3; i++){
+                    values = STOBJLoader::ExtractFace(faceStrings.at(i));
+                    if(i == 1 || i == 2){
+                        cached[cachedCounter++] = values;
+                    }
+                    _index.push_back(values.getX() - 1);
+                    _index.push_back(values.getY() - 1);
+                    _index.push_back(values.getZ() - 1);
+                }
+                if(faceStrings.size() > 3){
+                    cached[cachedCounter] = STOBJLoader::ExtractFace(faceStrings.at(3));
+                    for(stUint j = 0; j < 3; j++){
+                        _index.push_back(cached[j].getX() - 1);
+                        _index.push_back(cached[j].getY() - 1);
+                        _index.push_back(cached[j].getZ() - 1);
+                    }
+                }
+                lastTag = "f";
+            }
+            counter++;
+        }
+        in.close();
+        if(lastTag == "f"){
+            std::vector<int> adjustedIndices;
+            stInt ind;
+            lastVertCount++;
+            lastTexCount++;
+            lastNormCount++;
+            STMesh_Structure mesh;
+            mesh.name = name;
+            mesh.materialKey = materialName;
+            if((*meshes).size() > 0){
+                for(stUint i = 0, S = (stUint)_index.size(); i < S; i+=3){
+                    adjustedIndices.push_back(_index.at(i) - lastVertCount);
+                    adjustedIndices.push_back(_index.at(i+1) - lastTexCount);
+                    adjustedIndices.push_back(_index.at(i+2) - lastNormCount);
+                }
+            }else adjustedIndices = _index;
+            for(stUint i = 0, S = (stUint)adjustedIndices.size(); i < S; i+=3){
+                mesh.m_vertices.push_back(Vertex(_vertex[adjustedIndices[i]],
+                                                _texCoord[adjustedIndices[i+1]],
+                                                _normal[adjustedIndices[i+2]]));
+                mesh.m_indices.push_back(ind);
+                ind++;
+            }
+            (*meshes).push_back(mesh);
+            _vertex.clear();
+            _texCoord.clear();
+            _normal.clear();
+            _index.clear();
+        }
+    }
+
+    return (*meshes).size() > 1;
+}
+
+void STOBJLoader::PopulateMaterial(const std::string &fileName, std::map<std::string, STMaterial *> *materials) {
+    //Open The file now.
+    std::ifstream in(fileName.c_str());
+    if(!in){
+        std::cerr << "Error! Unable to load material file!" << std::endl;
+        return;
+    }
+    std::string matName;
+    std::string line;
+    STMaterial* mat;
+    bool beganMat = false;
+    if(in.good()){
+        while(getline(in, line)){
+            //Do Populating of material information here.
+            if(line[0] == 'n' && line[1] == 'e'){
+                mat = new STMaterial(new GLShader("standard"));
+                beganMat = true;
+                matName = line.substr(line.find(' ')+1);
+            }
+            if(line[0] == 'K'){
+                if(line[1] == 'd'){
+                    auto diffVec = STOBJLoader::ExtractVector3(line.substr(line.find_first_of(' ')));
+                    if(mat != nullptr) mat->setDiffuseColor(STColor(diffVec.getX(), diffVec.getY(), diffVec.getZ(), 1.f));
+                }
+                //TODO Implement Ambient
+                //TODO Implement Specular
+                //TODO Implement
+            }
+            if(line == "" && beganMat){
+                (*materials).insert(std::pair<std::string, STMaterial*>(matName, mat));
+            }
+        }
+    }
+    (*materials).insert(std::pair<std::string, STMaterial*>(matName, mat));
+    in.close();
+}
 

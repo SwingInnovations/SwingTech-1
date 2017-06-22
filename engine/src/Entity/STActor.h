@@ -12,7 +12,10 @@ class STActor : public STEntity {
 public:
     //STActor(const std::string& filePath, const int type, STMaterial* material);
     STActor(const std::string& filePath, STMaterial* material);
+    //This is the preferred Impementation
+    STActor(const std::string& filePath);
     STActor(STMesh_Structure structure, std::string& tag, STMaterial* material);
+    STActor(STMesh_Structure, std::map<std::string, STMaterial*>);
     inline void addChild_Actor(STActor* actor){
         this->m_children.push_back((STEntity*)actor);
     }

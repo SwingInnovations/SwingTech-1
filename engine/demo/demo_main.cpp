@@ -53,9 +53,9 @@ public:
         _testActor2->setShdrUniform("_Roughness",1.0f);
         _testActor2->setScale(1);
         mat->setBaseColor(Vector3<stReal>(.1,.7,.1));
-        _testActor = new STActor("sphere.obj", resManager->getMaterial("default")->copy());
+        _testActor = new STActor("smooth_sphere.obj");
         _testActor->addScriptComponent("teapot.lua");
-        _testActor->get<STGraphicsComponent>()->getMaterial()->setDiffuseColor(STColor(0.8, 0.3, 0.3, 1.0));
+        //_testActor->get<STGraphicsComponent>()->getMaterial()->setDiffuseColor(STColor(0.8, 0.3, 0.3, 1.0));
         //_testActor->get<STGraphicsComponent>()->getMaterial()->setDiffuseTexture("grid.png");
         _testActor->setShdrUniform("_Metallic", 0.f);
         _testActor->setShdrUniform("_Roughness", 1.f);
@@ -147,7 +147,7 @@ int main(int argc, char** argv){
     STGraphics::YUp = false;
     win->getInput()->setInputMap(inputMap);
     Vector3<stReal> campos(0.0, 0, 3.0f);
-    win->addCamera(new Camera(*win, campos, 0));
+    win->addCamera(new Camera(*win, Vector3<stReal>(-1.5f, -.2f, 0.f), 0));
     win->addState(new TestState(0));
     win->enterState(0);
     win->getGraphics()->enableShadow(true);

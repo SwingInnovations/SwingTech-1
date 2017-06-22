@@ -51,7 +51,7 @@ class Camera {
 public:
     Camera();
     Camera(STGame &, Vector3<stReal>&, ViewProfile&);
-    Camera(STGame &, Vector3<stReal>&, int);
+    Camera(STGame &, Vector3<stReal>, int);
 
     /*!
      *

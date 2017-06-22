@@ -28,6 +28,7 @@ public:
     };
     static bool Validate(const std::string& fileName, int* typeFlag, std::vector<std::string>* tags, std::vector<STMesh_Structure>* meshes);
     static bool Validate(const std::string& fileName, bool* errFlag, std::vector<std::string>* tags, std::vector<STMesh_Structure>* meshes);
+    static bool Validate(const std::string& fileName, bool* errFlag, std::vector<STMesh_Structure>* meshes, std::map<std::string, STMaterial*>* materials);
     STMesh(){}
     STMesh(const std::string& fileName, int type){}
     STMesh(Shape& shape){ }

@@ -13,6 +13,7 @@
 //    m_visible = true;
 //}
 
+
 /**
  * Creates a new Actor Entity based off defined STMeshStructure, uniqueTag, and Material.
  * @param structure
@@ -30,6 +31,49 @@ STActor::STActor(STMesh_Structure structure, std::string &tag, STMaterial* mater
     addComponent(typeid(STEventComponent), new STEventComponent);
     addComponent(typeid(STAABBComponent), new STAABBComponent((STEntity*)this, structure.m_minPt, structure.m_maxPt));
 }
+
+STActor::STActor(STMesh_Structure meshStructure, std::map<std::string, STMaterial *> materials) {
+    m_transform = new Transform;
+    m_tag = meshStructure.name;
+    m_type = Actor;
+    m_visible = true;
+    addComponent(typeid(STMeshComponent), new STMeshComponent(meshStructure));
+    addComponent(typeid(STGraphicsComponent), new STGraphicsComponent(materials.at(meshStructure.materialKey)));
+    addComponent(typeid(STEventComponent), new STEventComponent);
+    addComponent(typeid(STAABBComponent), new STAABBComponent((STEntity*)this, meshStructure.m_minPt, meshStructure.m_maxPt));
+}
+
+STActor::STActor(const std::string &filePath) {
+    m_transform = new Transform();
+    m_type = Actor;
+    stInt flag = 0;
+    bool errFlag = true;
+    std::vector<STMesh_Structure> meshes;
+    std::map<std::string, STMaterial*> materials;
+    addComponent(typeid(STEventComponent), new STEventComponent);
+    if(STMesh::Validate(filePath, &errFlag, &meshes, &materials)){
+        for(stUint i = 0, S = meshes.size(); i < S; i++) {
+            addChild_Actor(new STActor(meshes.at(i), materials));
+        }
+        return;
+    }else{
+        if(!errFlag || meshes.size() < 1){
+            addComponent(typeid(STMeshComponent), new STMeshComponent(STOBJLoader::Load("base/ErrorMesh.obj")));
+            addComponent(typeid(STGraphicsComponent), new STGraphicsComponent(new STMaterial(new GLShader("base/errorObject"))));
+            get<STEventComponent>()->updateEvent([](STEntity* self){
+                auto grphx = self->get<STGraphicsComponent>();
+                grphx->setShdrUniform("intensity", (stReal)sin(STGame::Get()->getTick() * 0.01f));
+            });
+            transform()->setRotateY(180.f);
+            return;
+        }else{
+            addComponent(typeid(STMeshComponent), new STMeshComponent(meshes.at(0)));
+            addComponent(typeid(STGraphicsComponent), new STGraphicsComponent(materials.at(meshes.at(0).materialKey)));
+            addComponent(typeid(STAABBComponent), new STAABBComponent(this, meshes.at(0).m_minPt, meshes.at(0).m_maxPt));
+        }
+    }
+}
+
 
 /**
  * Creates a new Actor Entity based on file path and material.
@@ -65,7 +109,6 @@ STActor::STActor(const std::string &filePath, STMaterial *material) {
         }else{
             addComponent(typeid(STMeshComponent), new STMeshComponent(meshes.at(0)));
             addComponent(typeid(STGraphicsComponent), new STGraphicsComponent(material));
-            addComponent(typeid(STEventComponent), new STEventComponent);
             addComponent(typeid(STAABBComponent), new STAABBComponent((STEntity*)this, meshes[0].m_minPt, meshes[0].m_maxPt));
         }
     }
@@ -142,5 +185,7 @@ void STActor::draw(STMaterial* overrideMaterial, bool flag){
         }
     }
 }
+
+
 
 

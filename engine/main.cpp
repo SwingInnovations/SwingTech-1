@@ -30,7 +30,6 @@ public:
         auto resManager = window->getResourceManager();
         resManager->addMaterial("lit", new STMaterial(new GLShader("lightSource"), new GLTexture("grid.png")));
 
-
         _testActor = new STActor("scene.obj", resManager->getMaterial("lit"));
         _testActor->addShdrUniform("objColor", Vector3<stReal>(1.0, 0.5, 0.31f));
         _testActor->get<STEventComponent>()->inputEvent([](STEntity* self){

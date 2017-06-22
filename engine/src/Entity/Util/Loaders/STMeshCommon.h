@@ -10,6 +10,8 @@
  * @brief Common Mesh Structure
  */
 struct STMesh_Structure{
+    std::string name;
+    std::string materialKey;
     Vector3<stReal> m_minPt;
     Vector3<stReal> m_maxPt;
     std::vector<int> m_indices;

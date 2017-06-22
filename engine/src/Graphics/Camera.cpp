@@ -19,7 +19,7 @@ Camera::Camera(STGame &win, Vector3<stReal> &pos, ViewProfile &viewProfile) {
     vAngle = 0.0f;
 }
 
-Camera::Camera(STGame &win, Vector3<stReal> &pos, int presetMode) {
+Camera::Camera(STGame &win, Vector3<stReal> pos, int presetMode) {
     m_start = false;
     m_Width = (float)win.getWidth();
     m_Height = (float)win.getHeight();

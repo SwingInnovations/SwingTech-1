@@ -10,3 +10,8 @@ function update(self, game)
     --self:getTransform():setTranslateY(2);
     counter = counter + 0.005 * game:getDelta();
 end
+
+--[@Function Call]
+function onCustomEven(self, other, game)
+
+end

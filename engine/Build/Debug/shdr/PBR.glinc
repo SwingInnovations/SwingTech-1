@@ -6,7 +6,7 @@ float DistribGGX(vec3 N, vec3 H, float a){
     float nom = a2;
     float denom = (NdotH2 * (a2 - 1.0) + 1.0);
     denom = PI * denom * denom;
-    return nom / (denom + 0.001);
+    return nom / (denom + 0.0001);
 }
 
 float GeomSchlickGGX(float NdotV, float roughness){
@@ -16,7 +16,7 @@ float GeomSchlickGGX(float NdotV, float roughness){
     float nom = NdotV;
     float denom = NdotV * (1.0 - k) + k;
 
-    return nom / (denom + 0.001);
+    return nom / (denom + 0.0001);
 }
 
 float GeometrySmith(vec3 N, vec3 V, vec3 L, float k){

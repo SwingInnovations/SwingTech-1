@@ -47,16 +47,16 @@ public:
 
         //auto actor = new STActor("sample.FBX", resManager->getMaterial("default")->copy());
 
-        _testActor2 = new STActor("smooth_sphere.obj");
+        _testActor2 = new STActor("teapot.obj");
         _testActor2->get<STGraphicsComponent>()->getMaterial()->setDiffuseColor(STColor(0.4, 0.2, 0.3, 1.0));
-        _testActor2->get<STGraphicsComponent>()->getMaterial()->setMetallic(0.2);
+        _testActor2->get<STGraphicsComponent>()->getMaterial()->setMetallic(0.0);
         _testActor2->get<STGraphicsComponent>()->getMaterial()->setRoughness(0.9);
-        _testActor2->transform()->setTranslateX(-1.5);
-        mat->setBaseColor(Vector3<stReal>(.1,.7,.1));
+        _testActor2->transform()->setTranslateX(-1.5f);
+        _testActor2->transform()->setScale(0.01);
         _testActor = new STActor("smooth_sphere.obj");
         _testActor->addScriptComponent("teapot.lua");
-        _testActor->get<STGraphicsComponent>()->getMaterial()->setMetallic(0.6);
-        _testActor->get<STGraphicsComponent>()->getMaterial()->setRoughness(0.3);
+        _testActor->get<STGraphicsComponent>()->getMaterial()->setMetallic(0.0);
+        _testActor->get<STGraphicsComponent>()->getMaterial()->setRoughness(1.0);
         _plane = new STActor("plane.obj");
         _plane->get<STGraphicsComponent>()->getMaterial()->setRoughness(1.0f);
         _plane->setDiffuseTexture("grid.png");
@@ -73,7 +73,7 @@ public:
 
 
         scene->addActor(_testActor2);
-        scene->addActor(_testActor);
+        //scene->addActor(_testActor);
         //scene->addLight(_testLight2);
         scene->addLight(_testLight);
         scene->addActor(_plane);

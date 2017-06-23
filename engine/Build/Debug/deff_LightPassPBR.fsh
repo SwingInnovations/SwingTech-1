@@ -32,6 +32,7 @@ void main(void){
     vec3 V = normalize(viewPos - FragPos);
     vec3 F0 = vec3(0.04);
     F0 = mix(F0, Color, MRA.x);
+    vec3 ambient = vec3(0.01) * Color * 1.0;
     vec3 Lo = vec3(0.0);
     for(int i = 0; i < LightCount; i++){
         float bias = max(0.05 * (1.0 - dot(Normal, (Light[i].Position - FragPos))), 0.005);
@@ -52,19 +53,18 @@ void main(void){
 
             vec3 kS = F;
             vec3 kD = vec3(1.0) - kS;
-            kD *= (1.0 - shadow) * (1.0 - MRA.x);
+            kD *= (1.0 - MRA.x);
 
             vec3 nom = NDF * G * F;
             float denom = 4 * max(dot(N,V), 0.0) * max(dot(N,L), 0.0) + 0.0001;
-            vec3 specular = nom / denom;
+            vec3 specular = nom / (denom + 0.0001);
 
             float NdotL = max(dot(N,L), 0.0);
             Lo += (kD * Color / PI + specular) * radiance * NdotL;
         }
+        lighting += ambient +  ((1.0 - shadow) *  Lo);
         //lighting += DirectPBR((1.0 - shadow) * Color, MRA, FragPos, Normal, Light[i].Position, Light[i].Color, _CameraPos);
     }
-    vec3 ambient = vec3(0.03) * Color * 1.0;
-    lighting = ambient + Lo;
 
     lighting = lighting / (lighting + vec3(1.0));
     lighting = pow(lighting, vec3(1.0 / 2.2));

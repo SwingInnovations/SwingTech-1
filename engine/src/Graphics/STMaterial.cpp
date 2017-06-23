@@ -38,15 +38,19 @@ void STMaterial::draw(std::map<std::string, STShader::ShaderAttrib> &entityUnifo
 
 
 void STMaterial::setMetallic(stReal value) {
-    //TODO Implement this
+    auto vec = STShader::toVector2(m_Uniforms.at("Material.Metallic").value);
+    vec.setX(value);
+    m_Uniforms.at("Material.Metallic").value = STShader::toString(vec);
 }
 
 void STMaterial::setMetallic(const std::string &fileName) {
     //TODO Implement This
 }
 
-void STMaterial::setRoughness(float) {
-    //TODO Implement This
+void STMaterial::setRoughness(stReal value) {
+    auto vec = STShader::toVector2(m_Uniforms.at("Material.Roughness").value);
+    vec.setX(value);
+    m_Uniforms.at("Material.Roughness").value = STShader::toString(vec);
 }
 
 void STMaterial::setRoughness(const std::string &fileName) {

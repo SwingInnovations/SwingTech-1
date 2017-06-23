@@ -85,8 +85,8 @@ public:
         //Initialize for map
          m_Uniforms.insert(std::pair<std::string, STShader::ShaderAttrib>("Material.Diffuse_Color", STShader::ShaderAttrib("Material.Diffuse_Color", STShader::VEC4, STShader::toString(Vector4<stReal>(1.f, 0.f, 0.f, 1.f)))));
          m_Uniforms.insert(std::pair<std::string, STShader::ShaderAttrib>("Material.Normal_Use", STShader::ShaderAttrib("Material.Normal_Use", STShader::INT, STShader::toString(0))));
-         m_Uniforms.insert(std::pair<std::string, STShader::ShaderAttrib>("Material.Metallic_Value", STShader::ShaderAttrib("Material.Metallic_Value", STShader::VEC2, STShader::toString(Vector2<stReal>(0.f, 1.f)))));
-         m_Uniforms.insert(std::pair<std::string, STShader::ShaderAttrib>("Material.Roughness_Value", STShader::ShaderAttrib("Material.Roughness_Value", STShader::VEC2, STShader::toString(Vector2<stReal>(0.f, 1.f)))));
+         m_Uniforms.insert(std::pair<std::string, STShader::ShaderAttrib>("Material.Metallic", STShader::ShaderAttrib("Material.Metallic", STShader::VEC2, STShader::toString(Vector2<stReal>(0.f, 1.f)))));
+         m_Uniforms.insert(std::pair<std::string, STShader::ShaderAttrib>("Material.Roughness", STShader::ShaderAttrib("Material.Roughness", STShader::VEC2, STShader::toString(Vector2<stReal>(0.f, 1.f)))));
      }
 
 

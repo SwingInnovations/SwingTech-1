@@ -29,8 +29,8 @@ struct STMaterial
 	sampler2D Specular_Tex;
 	vec4 Diffuse_Color;
 	int Normal_Use;
-    float Metallic;
-    float Roughness;
+    vec2 Metallic;
+    vec2 Roughness;
 };
 
 uniform STMaterial Material;

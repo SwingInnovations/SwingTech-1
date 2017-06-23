@@ -68,7 +68,8 @@ STActor::STActor(const std::string &filePath) {
             return;
         }else{
             addComponent(typeid(STMeshComponent), new STMeshComponent(meshes.at(0)));
-            addComponent(typeid(STGraphicsComponent), new STGraphicsComponent(materials.at(meshes.at(0).materialKey)));
+            if(meshes[0].materialKey == "") addComponent(typeid(STGraphicsComponent), new STGraphicsComponent(new STMaterial(new GLShader("standard"))));
+            else addComponent(typeid(STGraphicsComponent), new STGraphicsComponent(materials.at(meshes.at(0).materialKey)));
             addComponent(typeid(STAABBComponent), new STAABBComponent(this, meshes.at(0).m_minPt, meshes.at(0).m_maxPt));
         }
     }

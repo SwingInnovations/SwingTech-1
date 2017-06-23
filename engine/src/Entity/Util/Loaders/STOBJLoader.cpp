@@ -389,7 +389,6 @@ bool STOBJLoader::Validate(const std::string &fileName, bool *errFlag, std::vect
             if(line[0] == 'u'){
                 //Assume this means "Use Material"
                 materialName = line.substr(line.find(' ')+1);
-                std::cout << "Should be assigning material name" << std::endl;
             }
 
             if(line[0] == 'v'){
@@ -498,7 +497,7 @@ bool STOBJLoader::Validate(const std::string &fileName, bool *errFlag, std::vect
         in.close();
         if(lastTag == "f"){
             std::vector<int> adjustedIndices;
-            stInt ind;
+            stInt ind = 0;
             lastVertCount++;
             lastTexCount++;
             lastNormCount++;
@@ -559,11 +558,12 @@ void STOBJLoader::PopulateMaterial(const std::string &fileName, std::map<std::st
                 //TODO Implement
             }
             if(line == "" && beganMat){
+                beganMat = false;
                 (*materials).insert(std::pair<std::string, STMaterial*>(matName, mat));
             }
         }
     }
-    (*materials).insert(std::pair<std::string, STMaterial*>(matName, mat));
+    if(beganMat)(*materials).insert(std::pair<std::string, STMaterial*>(matName, mat));
     in.close();
 }
 

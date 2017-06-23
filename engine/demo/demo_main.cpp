@@ -47,25 +47,20 @@ public:
 
         //auto actor = new STActor("sample.FBX", resManager->getMaterial("default")->copy());
 
-        _testActor2 = new STActor("dice.obj", resManager->getMaterial("default")->copy());
+        _testActor2 = new STActor("smooth_sphere.obj");
         _testActor2->get<STGraphicsComponent>()->getMaterial()->setDiffuseColor(STColor(0.4, 0.2, 0.3, 1.0));
-        _testActor2->setShdrUniform("_Metallic", 0.0f);
-        _testActor2->setShdrUniform("_Roughness",1.0f);
-        _testActor2->setScale(1);
+        _testActor2->get<STGraphicsComponent>()->getMaterial()->setMetallic(0.2);
+        _testActor2->get<STGraphicsComponent>()->getMaterial()->setRoughness(0.9);
+        _testActor2->transform()->setTranslateX(-1.5);
         mat->setBaseColor(Vector3<stReal>(.1,.7,.1));
         _testActor = new STActor("smooth_sphere.obj");
         _testActor->addScriptComponent("teapot.lua");
-        //_testActor->get<STGraphicsComponent>()->getMaterial()->setDiffuseColor(STColor(0.8, 0.3, 0.3, 1.0));
-        //_testActor->get<STGraphicsComponent>()->getMaterial()->setDiffuseTexture("grid.png");
-        _testActor->setShdrUniform("_Metallic", 0.f);
-        _testActor->setShdrUniform("_Roughness", 1.f);
-        //_testActor->setTranslateX(2.f);
-        //_testActor->setTranslateZ(-2.f);
-
-        _plane = new STActor("plane.obj", resManager->getMaterial("default"));
-        _plane->setShdrUniform("_Metallic", 0.f);
-        _plane->setShdrUniform("_Roughness", 1.f);
+        _testActor->get<STGraphicsComponent>()->getMaterial()->setMetallic(0.6);
+        _testActor->get<STGraphicsComponent>()->getMaterial()->setRoughness(0.3);
+        _plane = new STActor("plane.obj");
+        _plane->get<STGraphicsComponent>()->getMaterial()->setRoughness(1.0f);
         _plane->setDiffuseTexture("grid.png");
+
         //_plane->setNormalTexture("testNormal.png");
         _plane->setTranslateY(-0.5f);
 
@@ -77,7 +72,7 @@ public:
 
 
 
-        //scene->addActor(_testActor2);
+        scene->addActor(_testActor2);
         scene->addActor(_testActor);
         //scene->addLight(_testLight2);
         scene->addLight(_testLight);
@@ -91,8 +86,8 @@ public:
         if(input->isKeyPressed(KEY::KEY_Q)){
             input->setCursorBound(!input->isCursorBound());
         }
-        _testActor2->setRotateY(counter);
-        counter += 0.025f * delta;
+        _testActor2->transform()->setTranslateY(abs(cos(counter)));
+        counter += 0.005f * delta;
         _testActor->update();
     }
 

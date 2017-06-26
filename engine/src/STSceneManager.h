@@ -120,6 +120,7 @@ public:
     STScene(){
         m_index = 0;
         m_numShadows = 0;
+        skyboxShader = "skybox";
     }
 
     STScene(stUint index){
@@ -141,6 +142,20 @@ public:
         uiElements.push_back(ui);
     }
 
+    /**
+     * Sets the skybox using the default skybox shader.
+     * @param filePath
+     */
+    inline void addSkybox(const std::string& filePath){
+        this->skyboxShader = "skybox";
+        this->skyboxName = filePath;
+    }
+
+    /**
+     * Sets the skybox using an override shader.
+     * @param file
+     * @param shader
+     */
     inline void addSkybox(const std::string& file, const std::string& shader){
         this->skyboxName = file;
         this->skyboxShader = shader;

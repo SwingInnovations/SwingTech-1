@@ -25,7 +25,7 @@ void main(void){
     mat3 TBN = mat3(Tangent, B, Normal);
 
 
-    vec3 lighting = Color * 0.1;
+    vec3 lighting = Color * vec3(0.001);
     vec3 viewDir = normalize(_CameraPos - FragPos);
 
     vec3 N = normalize(Normal);
@@ -62,7 +62,7 @@ void main(void){
             float NdotL = max(dot(N,L), 0.0);
             Lo += (kD * Color / PI + specular) * radiance * NdotL;
         }
-        lighting += ambient +  ((1.0 - shadow) *  Lo);
+        lighting += ambient +  ((1.0 - shadow) * Lo);
         //lighting += DirectPBR((1.0 - shadow) * Color, MRA, FragPos, Normal, Light[i].Position, Light[i].Color, _CameraPos);
     }
 

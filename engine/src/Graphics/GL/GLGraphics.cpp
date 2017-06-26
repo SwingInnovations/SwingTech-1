@@ -207,7 +207,7 @@ void GLGraphics::init(stUint w, stUint h) {
 
     glGenTextures(1, &gMRA);
     glBindTexture(GL_TEXTURE_2D, gMRA);
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, w, h, 0, GL_RGB, GL_UNSIGNED_BYTE, NULL);
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB16F, w, h, 0, GL_RGB, GL_FLOAT, NULL);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
     glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT4, GL_TEXTURE_2D, gMRA, 0);
@@ -331,7 +331,7 @@ void GLGraphics::drawScene(STScene *scene) {
         glViewport(0, 0, m_shadowRes, m_shadowRes);
         glEnable(GL_DEPTH_TEST);
 
-        auto ortho = Matrix4f().initOrthographicProjection(-10.f, 10.f, -10.f, 10.f, 1.f, 10.f);
+        auto ortho = Matrix4f().initOrthographicProjection(-20.f, 20.f, -20.f, 20.f, 1.f, 20.f);
         auto persp = Matrix4f().initPerpectiveProjection(45, 10, 10, 1.f, 10);
         for(stUint i = 0; i < lights.size(); i++){
             auto shadowProps = lights[i]->get<STShadowComponent>()->getProperties();
@@ -339,8 +339,8 @@ void GLGraphics::drawScene(STScene *scene) {
                     lights[i]->get<STLightComponent>()->getType() == STLightComponent::SPOT_LIGHT) {
                 glBindFramebuffer(GL_FRAMEBUFFER, shadowProps->shadowFrameBuffer[0]);
                 glClear(GL_DEPTH_BUFFER_BIT);
-                glCullFace(GL_FRONT);
                 glEnable(GL_CULL_FACE);
+                glCullFace(GL_BACK);
                 for (stUint j = 0; j < actors.size(); j++) {
                     auto m = ortho * lights[i]->get<STLightComponent>()->getLookAt();
                     actors[j]->setShdrUniform("lightSpaceMatrix", ortho * lights[i]->get<STLightComponent>()->getLookAt());
@@ -356,6 +356,7 @@ void GLGraphics::drawScene(STScene *scene) {
                 glTexSubImage3D(GL_TEXTURE_2D_ARRAY, 0, 0, 0, (int)shadowProps->shadowIndex, 1024, 1024, 1, GL_DEPTH_COMPONENT, GL_FLOAT, data);
                 glBindTexture(GL_TEXTURE_2D_ARRAY, 0);
                 delete data;
+                glDisable(GL_CULL_FACE);
                 glBindFramebuffer(GL_FRAMEBUFFER, 0);
             }else{
                 for(stUint j = 0; j < actors.size(); j++){
@@ -447,9 +448,12 @@ void GLGraphics::drawScene(STScene *scene) {
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         glEnable(GL_DEPTH_TEST);
         //Geometry Pass
+        glEnable(GL_CULL_FACE);
+        glCullFace(GL_FRONT);
         for(stUint i = 0, S = actors.size(); i < S; i++){
             actors[i]->draw(m_GBufferOverrideMat, true);
         }
+        glDisable(GL_CULL_FACE);
         glDisable(GL_DEPTH_TEST);
         glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
@@ -508,13 +512,10 @@ void GLGraphics::drawScene(STScene *scene) {
         return;
     }
 
-
-
     if((m_enabledEffects&BLOOM)>0)Bloom();
     if((m_enabledEffects&MOTION_BLUR)>0)MotionBlur();
     if((m_enabledEffects&TONE_MAPPING)>0)ToneMapping();
     if((m_enabledEffects&FXAA)>0)RenderScreenWithShader(FXAAShader);
-
 
     glClearColor(1.0, 1.0, 1.0, 1.0);
 

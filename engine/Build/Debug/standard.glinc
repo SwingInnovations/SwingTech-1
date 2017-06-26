@@ -55,6 +55,10 @@ vec3 ColorEval3x4(vec3 texel, vec4 color){
     else return color.xyz;
 }
 
+vec3 ColorEval3x2(vec3 texel, vec2 color){
+    return(color.y == 0) ? texel : vec3(color.x);
+}
+
 float ColorEval1x2(float texel, vec2 color){
     if(color.y == 0) return texel;
     return color.x;

@@ -133,8 +133,8 @@ namespace STShader{
 
     static Vector2<stReal> toVector2(const std::string& val){
         stReal _x = 0, _y = 0;
-        _x = atoi(val.substr(0, val.find('/')).c_str());
-        _y = atoi(val.substr(val.find('/')+1).c_str());
+        _x = (stReal)atof(val.substr(0, val.find('/')).c_str());
+        _y = (stReal)atof(val.substr(val.find('/')+1).c_str());
         return Vector2<stReal>(_x, _y);
     }
 

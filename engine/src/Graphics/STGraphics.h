@@ -29,6 +29,13 @@ public:
         TONE_MAPPING=4,
         FXAA=8
     };
+
+    enum Deferred_RenderNetwork : char{
+        BLINNPHONG = 0,
+        PBR = 1,
+        CUSTOM = 2
+    };
+
     enum RenderMode{ FORWARD, DEFERRED };
     enum Renderer{ OPENGL, VULKAN };
     static int RENDERER;

@@ -196,31 +196,24 @@ void GLGraphics::init(stUint w, stUint h) {
     glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, w, h, 0, GL_RGBA, GL_UNSIGNED_BYTE, NULL);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-    glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT2, GL_TEXTURE_2D, gColorSpec, 0);
-
-    glGenTextures(1, &gNormalMap);
-    glBindTexture(GL_TEXTURE_2D, gNormalMap);
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, w, h, 0, GL_RGB, GL_UNSIGNED_BYTE, NULL);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-    glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT3, GL_TEXTURE_2D, gNormalMap, 0);
+    glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT2, GL_TEXTURE_2D, gColorSpec, 0);;
 
     glGenTextures(1, &gMRA);
     glBindTexture(GL_TEXTURE_2D, gMRA);
     glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB16F, w, h, 0, GL_RGB, GL_FLOAT, NULL);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-    glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT4, GL_TEXTURE_2D, gMRA, 0);
+    glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT3, GL_TEXTURE_2D, gMRA, 0);
 
     glGenTextures(1, &gTangent);
     glBindTexture(GL_TEXTURE_2D, gTangent);
     glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB16F, w, h, 0, GL_RGB, GL_FLOAT, NULL);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-    glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT5, GL_TEXTURE_2D, gTangent, 0);
+    glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT4, GL_TEXTURE_2D, gTangent, 0);
 
-    GLuint glAttachments[6] = {GL_COLOR_ATTACHMENT0, GL_COLOR_ATTACHMENT1, GL_COLOR_ATTACHMENT2, GL_COLOR_ATTACHMENT3, GL_COLOR_ATTACHMENT4, GL_COLOR_ATTACHMENT5};
-    glDrawBuffers(6, glAttachments);
+    GLuint glAttachments[5] = {GL_COLOR_ATTACHMENT0, GL_COLOR_ATTACHMENT1, GL_COLOR_ATTACHMENT2, GL_COLOR_ATTACHMENT3, GL_COLOR_ATTACHMENT4};
+    glDrawBuffers(5, glAttachments);
     GLuint rboDepth;
     glGenRenderbuffers(1, &rboDepth);
     glBindRenderbuffer(GL_RENDERBUFFER, rboDepth);
@@ -256,6 +249,8 @@ void GLGraphics::drawScene(STScene *scene) {
             glBindTexture(GL_TEXTURE_2D_ARRAY, 0);
 
             for (stInt i = 0, S = lights.size(); i < S; i++) {
+                auto lightProperties = lights[i]->get<STLightComponent>()->getProperties();
+                lightProperties->useShadow = 1;
                 auto shadowProperties = lights[i]->get<STShadowComponent>()->getProperties();
                 if (lights[i]->get<STLightComponent>()->getType() == STLightComponent::DIRECTIONAL_LIGHT ||
                         lights[i]->get<STLightComponent>()->getType() == STLightComponent::SPOT_LIGHT) {
@@ -426,6 +421,7 @@ void GLGraphics::drawScene(STScene *scene) {
                 actors[i]->setShdrUniform("Light["+std::to_string(j)+"].Direction", lightProps->direction);
                 actors[i]->setShdrUniform("Light["+std::to_string(j)+"].Radius", lightProps->radius);
                 actors[i]->setShdrUniform("Light["+std::to_string(j)+"].Intensity", lightProps->intensity);
+                actors[i]->setShdrUniform("Light["+std::to_string(j)+"].UseShadow", lightProps->useShadow);
                 actors[i]->setShdrUniform("Light["+std::to_string(j)+"].ShadowIndex", (stInt)shadowProps->shadowIndex);
             }
             actors[i]->draw();
@@ -461,10 +457,9 @@ void GLGraphics::drawScene(STScene *scene) {
         Deff_LightPassShdr->update("gPosition", 0);
         Deff_LightPassShdr->update("gNormal", 1);
         Deff_LightPassShdr->update("gColorSpec", 2);
-        Deff_LightPassShdr->update("gNormalMap", 3);
-        Deff_LightPassShdr->update("gMRA", 4);
-        Deff_LightPassShdr->update("gTangent", 5);
-        Deff_LightPassShdr->update("shadowArray", 6);
+        Deff_LightPassShdr->update("gMRA", 3);
+        Deff_LightPassShdr->update("gTangent", 4);
+        Deff_LightPassShdr->update("shadowArray", 5);
         glActiveTexture(GL_TEXTURE0);
         glBindTexture(GL_TEXTURE_2D, gPosition);
         glActiveTexture(GL_TEXTURE1);
@@ -472,12 +467,10 @@ void GLGraphics::drawScene(STScene *scene) {
         glActiveTexture(GL_TEXTURE2);
         glBindTexture(GL_TEXTURE_2D, gColorSpec);
         glActiveTexture(GL_TEXTURE3);
-        glBindTexture(GL_TEXTURE_2D, gNormalMap);
-        glActiveTexture(GL_TEXTURE4);
         glBindTexture(GL_TEXTURE_2D, gMRA);
-        glActiveTexture(GL_TEXTURE5);
+        glActiveTexture(GL_TEXTURE4);
         glBindTexture(GL_TEXTURE_2D, gTangent);
-        glActiveTexture(GL_TEXTURE6);
+        glActiveTexture(GL_TEXTURE5);
         glBindTexture(GL_TEXTURE_2D_ARRAY, shadowArray);
         Deff_LightPassShdr->update("LightCount", (stInt)lights.size());
         Deff_LightPassShdr->update_CubeMap("_WorldCubeMap", scenes[scene->getIndex()].m_skybox);
@@ -490,6 +483,7 @@ void GLGraphics::drawScene(STScene *scene) {
             Deff_LightPassShdr->update("Light["+std::to_string(i)+"].Direction", lightProps->direction);
             Deff_LightPassShdr->update("Light["+std::to_string(i)+"].Radius", lightProps->radius);
             Deff_LightPassShdr->update("Light["+std::to_string(i)+"].Intensity", lightProps->intensity);
+            Deff_LightPassShdr->update("Light["+std::to_string(i)+"].UseShadow", lightProps->useShadow);
             Deff_LightPassShdr->update("Light["+std::to_string(i)+"].ShadowIndex", (stInt)shadowProps->shadowIndex);
             Deff_LightPassShdr->update("Light["+std::to_string(i)+"].LightSpaceMatrix", shadowProps->projections[0]);
         }

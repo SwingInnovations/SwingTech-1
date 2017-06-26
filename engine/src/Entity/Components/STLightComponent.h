@@ -9,7 +9,7 @@ struct STLightProperties{
     Vector2<stReal> spotLightAtribs = Vector2<stReal>(0.f, 0.f);    //Encode Light Attributes 0- ConeAngle, 1- coneHeight
     stReal intensity = 0.5f;
     stReal radius = -0.1f;
-    bool useShadow = false;
+    int useShadow = 0;
     Vector3<stReal> target = Vector3<stReal>(0, 0, 0);
     /**
      * Calculates the direction Vector

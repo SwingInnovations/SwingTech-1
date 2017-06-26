@@ -4,7 +4,9 @@ static const int NUM_KEYS = 512;
 static const int NUM_MOUSE = 0x40;
 
 static bool keyPressed[NUM_KEYS];
+static bool lastKey[NUM_KEYS];
 static bool mouseButtonPressed[NUM_MOUSE];
+int lastChar = 0;                           //TODO Clean this up.
 
 Input* Input::m_instance = nullptr;
 
@@ -18,6 +20,7 @@ Input::Input() {
 
     for(int i = 0; i < NUM_KEYS; i++){
         keyPressed[i] = false;
+        lastKey[i] = false;
     }
 
     for(int i = 0; i < NUM_MOUSE; i++){
@@ -64,6 +67,7 @@ void Input::poll(SDL_Event& event) {
 
     if(event.type == SDL_KEYUP){
         keyPressed[event.key.keysym.scancode] = false;
+        if(lastKey[lastChar]) lastKey[lastChar] = false;
     }
 
     if(event.type == SDL_MOUSEMOTION){
@@ -113,12 +117,14 @@ void Input::addJoystick() {
 
 bool Input::isKeyDown(int key){
     if(key > -1)    return keyPressed[key];
-    else return false;
+    return false;
 }
 
 bool Input::isKeyPressed(int key) {
-    if(keyPressed[key]){
+    if(keyPressed[key] && !lastKey[key]){
         keyPressed[key] = false;
+        lastKey[key] = true;
+        lastChar = key;
         return true;
     }
     return false;

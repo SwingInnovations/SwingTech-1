@@ -7,7 +7,6 @@
 uniform sampler2D gPosition;
 uniform sampler2D gNormal;
 uniform sampler2D gColorSpec;
-uniform sampler2D gNormalMap;
 uniform sampler2D gMRA;
 uniform sampler2D gTangent;
 uniform sampler2DArray shadowArray;
@@ -34,10 +33,14 @@ void main(void){
     F0 = mix(F0, Color, MRA.x);
     vec3 ambient = vec3(0.01) * Color * 1.0;
     vec3 Lo = vec3(0.0);
+    float shadow;
     for(int i = 0; i < LightCount; i++){
-        float bias = max(0.05 * (1.0 - dot(Normal, (Light[i].Position - FragPos))), 0.005);
-        vec4 FPLS = transpose(Light[i].LightSpaceMatrix) * vec4(FragPos, 1.0);
-        float shadow = calculateShadow(FPLS, shadowArray, 0, bias);
+        if(Light[i].UseShadow == 1) {
+            float bias = max(0.05 * (1.0 - dot(Normal, (Light[i].Position - FragPos))), 0.005);
+            vec4 FPLS = transpose(Light[i].LightSpaceMatrix) * vec4(FragPos, 1.0);
+            shadow = calculateShadow(FPLS, shadowArray, 0, bias);
+        }
+        else shadow = 0.0;
 
         if(Light[i].Direction.w == 0 || Light[i].Direction.w == 1){
             vec3 L = normalize(Light[i].Position - FragPos);

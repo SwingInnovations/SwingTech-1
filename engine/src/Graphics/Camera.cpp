@@ -11,6 +11,7 @@ Camera::Camera(STGame &win, Vector3<stReal> &pos, ViewProfile &viewProfile) {
     m_Width = (float)win.getWidth();
     m_Height = (float)win.getHeight();
 
+    m_transform = Transform(nullptr);
     m_transform.setTranslate(pos);
     m_viewProf = viewProfile;
     m_Forward = Vector3<stReal>(1.0f, 0.0f, 0.0f);
@@ -23,6 +24,7 @@ Camera::Camera(STGame &win, Vector3<stReal> pos, int presetMode) {
     m_start = false;
     m_Width = (float)win.getWidth();
     m_Height = (float)win.getHeight();
+    m_transform = Transform(nullptr);
     m_transform.setTranslate(pos);
     m_Forward = Vector3<stReal>(0.0f, 0.0f, 1.0f);
     m_Up = Vector3<stReal>(0.0f, 1.0f, 0.0f);

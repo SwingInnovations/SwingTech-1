@@ -8,9 +8,13 @@
 #include "Vector.h"
 #include "Euler.h"
 
+class STEntity;
+
 class Transform{
 public:
     enum RotationMode: unsigned char {Global = 0, Local = 1};
+
+    Transform(STEntity* parent);
 
     Transform(){
         translate = Vector3<stReal>(0.0f, 0.0f, 0.0f);
@@ -28,10 +32,10 @@ public:
         rotateMode = Global;
     }
 
-    inline void setTranslate(Vector3<stReal>& vec){ this->translate = vec; }
-    inline void setTranslateX(stReal _x){ this->translate.setX(_x); }
-    inline void setTranslateY(stReal _y){ this->translate.setY(_y); }
-    inline void setTranslateZ(stReal _z){ this->translate.setZ(_z); }
+    void setTranslate(Vector3<stReal>& vec);
+    void setTranslateX(stReal _x);
+    void setTranslateY(stReal _y);
+    void setTranslateZ(stReal _z);
     inline void setTranslate(stReal _value){
         setTranslateX(_value);
         setTranslateY(_value);
@@ -100,11 +104,13 @@ public:
     Vector3<stReal> getRotateF() const {return rotate;}
     Vector3<stReal> getScaleF() const {return scale;}
 private:
+    STEntity* parent;
     Vector3<stReal> translate;
     Vector3<stReal> rotate;
     Euler<stReal> localRotate;
     Vector3<stReal> scale;
     RotationMode rotateMode;
 };
+
 
 #endif //WAHOO_TRANSFORM_H

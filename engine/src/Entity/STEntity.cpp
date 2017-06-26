@@ -133,7 +133,7 @@ void STEntity::setTranslateX(stReal _x) {
     if(!m_children.empty()){
         for(auto entity : m_children){
             stReal cX = entity->transform()->getTranslate().getX();
-            cX += _x;
+             cX += _x;
             entity->setTranslateX(_x);
         }
     }

@@ -64,7 +64,7 @@ public:
     }
 
     STLight(){
-        m_transform = new Transform();
+        m_transform = new Transform(this);
     }
 
     ~STLight(){

@@ -49,29 +49,31 @@ public:
 
         _testActor2 = new STActor("smooth_sphere.obj");
         _testActor2->get<STGraphicsComponent>()->getMaterial()->setDiffuseTexture("checker.jpg");
-        _testActor2->get<STGraphicsComponent>()->getMaterial()->setMetallic(0);
-        _testActor2->get<STGraphicsComponent>()->getMaterial()->setRoughness(0.3);
-        _testActor2->transform()->setTranslateX(-1.5f);
-        _testActor = new STActor("smooth_sphere.obj");
+        _testActor2->get<STGraphicsComponent>()->getMaterial()->setMetallic(0.0);
+        _testActor2->get<STGraphicsComponent>()->getMaterial()->setRoughness(0.1);
+        _testActor2->transform()->setTranslateX(-5.f);
+        _testActor2->transform()->setScale(0.5);
+        _testActor = new STActor("teapot.obj");
+        _testActor->transform()->setTranslateY(2.f);
         _testActor->addScriptComponent("teapot.lua");
         _testActor->get<STGraphicsComponent>()->getMaterial()->setMetallic(0.0);
         _testActor->get<STGraphicsComponent>()->getMaterial()->setRoughness(0.3);
         _plane = new STActor("plane.obj");
-        _plane->get<STGraphicsComponent>()->getMaterial()->setRoughness(1.0);
+        _plane->get<STGraphicsComponent>()->getMaterial()->setRoughness(0.3);
         _plane->setDiffuseTexture("grid.png");
 
         //_plane->setNormalTexture("testNormal.png");
         _plane->setTranslateY(-0.5f);
 
-        _testLight = STLight::InitDirectionalLight(Vector3<stReal>(-2.f, 5.f, -7.f), Vector3<stReal>(-.577f, .577f, -.577f), Vector3<stReal>(1.0f, 1.0f, 1.0f));
+        _testLight = STLight::InitDirectionalLight(Vector3<stReal>(-2.f, 5.f, -7.f), Vector3<stReal>(-.577f, .577f, -.577f), Vector3<stReal>(0.85f, 0.85f, 1.0f));
         _testLight->get<STLightComponent>()->getProperties()->intensity = 0.9f;
-        _testLight2 = STLight::InitDirectionalLight(Vector3<stReal>(5.f, 5.f, 5.f), Vector3<stReal>(.577f, .577f, .577f), Vector3<stReal>(1.f, 0.f, 1.f));
+        _testLight2 = STLight::InitDirectionalLight(Vector3<stReal>(4.f, 5.f, 4.f), Vector3<stReal>(.577f, .577f, .577f), Vector3<stReal>(1.f, 0.f, 1.f));
 
         scene->addSkybox("Yokohama");
 
         scene->addActor(_testActor2);
         scene->addActor(_testActor);
-        scene->addLight(_testLight2);
+        //scene->addLight(_testLight2);
         scene->addLight(_testLight);
         scene->addActor(_plane);
         STGraphics::ClearColor = Vector4<stReal>(0.0, 0.0, 0.168, 1.0);

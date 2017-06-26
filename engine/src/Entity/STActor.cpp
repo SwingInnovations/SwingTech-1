@@ -22,7 +22,6 @@
  * @return
  */
 STActor::STActor(STMesh_Structure structure, std::string &tag, STMaterial* material) {
-    m_transform = new Transform;
     m_tag = tag;
     m_type = Actor;
     m_visible = true;
@@ -30,10 +29,10 @@ STActor::STActor(STMesh_Structure structure, std::string &tag, STMaterial* mater
     addComponent(typeid(STGraphicsComponent), new STGraphicsComponent(material));
     addComponent(typeid(STEventComponent), new STEventComponent);
     addComponent(typeid(STAABBComponent), new STAABBComponent((STEntity*)this, structure.m_minPt, structure.m_maxPt));
+    m_transform = new Transform(this);
 }
 
 STActor::STActor(STMesh_Structure meshStructure, std::map<std::string, STMaterial *> materials) {
-    m_transform = new Transform;
     m_tag = meshStructure.name;
     m_type = Actor;
     m_visible = true;
@@ -41,10 +40,10 @@ STActor::STActor(STMesh_Structure meshStructure, std::map<std::string, STMateria
     addComponent(typeid(STGraphicsComponent), new STGraphicsComponent(materials.at(meshStructure.materialKey)));
     addComponent(typeid(STEventComponent), new STEventComponent);
     addComponent(typeid(STAABBComponent), new STAABBComponent((STEntity*)this, meshStructure.m_minPt, meshStructure.m_maxPt));
+    m_transform = new Transform(this);
 }
 
 STActor::STActor(const std::string &filePath) {
-    m_transform = new Transform();
     m_type = Actor;
     stInt flag = 0;
     bool errFlag = true;
@@ -73,6 +72,7 @@ STActor::STActor(const std::string &filePath) {
             addComponent(typeid(STAABBComponent), new STAABBComponent(this, meshes.at(0).m_minPt, meshes.at(0).m_maxPt));
         }
     }
+    m_transform = new Transform(this);
 }
 
 

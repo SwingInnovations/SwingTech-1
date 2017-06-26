@@ -122,6 +122,7 @@ public:
 
     STEntity* childAtTag(const std::string& tag);
     inline stUint getChildSize(){ return m_children.size(); }
+    std::vector<STEntity*> getChildren(){ return m_children; }
 
     inline void setTag(const std::string& name){ m_tag = name; }
 

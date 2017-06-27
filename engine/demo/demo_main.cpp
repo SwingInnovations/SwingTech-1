@@ -48,16 +48,17 @@ public:
         //auto actor = new STActor("sample.FBX", resManager->getMaterial("default")->copy());
 
         _testActor2 = new STActor("smooth_sphere.obj");
-        _testActor2->get<STGraphicsComponent>()->getMaterial()->setDiffuseColor(STColor(0.f, 1.f, 0.2f, 1.0f));
-        _testActor2->get<STGraphicsComponent>()->getMaterial()->setMetallic(0.0);
-        _testActor2->get<STGraphicsComponent>()->getMaterial()->setRoughness(0.3);
+        _testActor2->get<STGraphicsComponent>()->getMaterial()->setDiffuseTexture("Bronze_Albedo.jpg");
+        _testActor2->get<STGraphicsComponent>()->getMaterial()->setMetallic("Bronze_Roughness.jpg");
+        _testActor2->get<STGraphicsComponent>()->getMaterial()->setRoughness("Bronze_Roughness.jpg");
         _testActor2->transform()->setTranslateX(-5.f);
         _testActor2->transform()->setScale(0.5);
-        _testActor = new STActor("monkey.obj");
+        _testActor = new STActor("dice.obj");
         _testActor->transform()->setTranslateY(0.f);
         _testActor->addScriptComponent("teapot.lua");
-        _testActor->get<STGraphicsComponent>()->getMaterial()->setMetallic(0.0);
-        _testActor->get<STGraphicsComponent>()->getMaterial()->setRoughness(0.5);
+        _testActor->get<STGraphicsComponent>()->getMaterial()->setDiffuseTexture("Bronze_Albedo.jpg");
+        _testActor->get<STGraphicsComponent>()->getMaterial()->setMetallic("Bronze_Roughness.jpg");
+        _testActor->get<STGraphicsComponent>()->getMaterial()->setRoughness("Bronze_Roughness.jpg");
         _plane = new STActor("plane.obj");
         _plane->get<STGraphicsComponent>()->getMaterial()->setRoughness(0.0);
         _plane->setDiffuseTexture("grid.png");
@@ -73,8 +74,8 @@ public:
 
         scene->addActor(_testActor2);
         scene->addActor(_testActor);
-        scene->addLight(_testLight2);
-        scene->addLight(_testLight3);
+       // scene->addLight(_testLight2);
+        //scene->addLight(_testLight3);
         scene->addLight(_testLight);
         scene->addActor(_plane);
         STGraphics::ClearColor = Vector4<stReal>(0.0, 0.0, 0.168, 1.0);
@@ -84,13 +85,10 @@ public:
         auto input = Input::Get();
         if(input->isKeyPressed(KEY::KEY_ESC)) input->requestClose();
         if(input->isKeyPressed(KEY::KEY_Q)){
-            Qhit++;
-            std::cout << "Q is being Pressed "<< Qhit << " times." << std::endl;
             input->setCursorBound(!input->isCursorBound());
+            input->setCursorVisible(!input->isCursorBound());
         }
         float c = counter * 0.05f;
-        _testActor2->get<STGraphicsComponent>()->getMaterial()->setRoughness(abs(sin(c)));
-        _testActor2->get<STGraphicsComponent>()->getMaterial()->setMetallic(abs(cos(c)));
         _testActor2->transform()->setRotateY(counter);
         counter += 0.005f * delta;
         _testActor->update();
@@ -114,7 +112,6 @@ private:
     int drawMode;
     int currObject;
     float counter = 0;
-    stUint Qhit = 0;
     STButton* btn;
     STActor* _testActor;
     vector<STActor*> _testActors;
@@ -150,7 +147,7 @@ int main(int argc, char** argv){
     win->addCamera(new Camera(*win, Vector3<stReal>(-1.5f, -.2f, 0.f), 0));
     win->addState(new TestState(0));
     win->enterState(0);
-    win->getGraphics()->enableShadow(false);
+    win->getGraphics()->enableShadow(true);
     win->getGraphics()->setRenderMode(STGraphics::DEFERRED);
     win->start();
 

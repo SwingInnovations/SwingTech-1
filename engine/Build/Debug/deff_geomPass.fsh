@@ -22,6 +22,6 @@ void main(void){
     gTangent = normalize(Tangent);
     gColorSpec.rgb = ColorEval3x4(texture(Material.Diffuse_Tex, TexCoord).rgb, Material.Diffuse_Color);
     gColorSpec.a = texture(texture_specular, TexCoord).r;
-    gMRA.r = Material.Metallic.x;
-    gMRA.g = Material.Roughness.x;
+    gMRA.r = ColorEval3x2(texture(Material.Metallic_Tex, TexCoord).rgb, Material.Metallic).r;
+    gMRA.g = ColorEval3x2(texture(Material.Roughness_Tex, TexCoord).rgb, Material.Roughness).r;
 }

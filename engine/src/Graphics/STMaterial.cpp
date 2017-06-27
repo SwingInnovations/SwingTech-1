@@ -44,7 +44,16 @@ void STMaterial::setMetallic(stReal value) {
 }
 
 void STMaterial::setMetallic(const std::string &fileName) {
-    //TODO Implement This
+    if(STGraphics::RENDERER == STGraphics::OPENGL){
+        if(m_Uniforms.count("Material.Metallic_Tex") > 0){
+            //TODO Proper cleanup and swap of textures
+        }else{
+            m_Uniforms.insert(std::pair<std::string, STShader::ShaderAttrib>("Material.Metallic_Tex", STShader::ShaderAttrib("Material.Metallic_Tex", STShader::TEX, STShader::toString(Vector2<stInt>(GLTexture::GenTex(fileName), 3)))));
+        }
+        if(m_Uniforms.count("Material.Metallic") > 0){
+            m_Uniforms.at("Material.Metallic").value = STShader::toString(Vector2<stReal>(0.f, 0.f));
+        }
+    }
 }
 
 void STMaterial::setRoughness(stReal value) {
@@ -54,7 +63,16 @@ void STMaterial::setRoughness(stReal value) {
 }
 
 void STMaterial::setRoughness(const std::string &fileName) {
-    //TODO Implement this
+    if(STGraphics::RENDERER == STGraphics::OPENGL){
+        if(m_Uniforms.count("Material.Roughness_Tex") > 0){
+            //TODO Proper cleanup and swap of textures
+        }else{
+            m_Uniforms.insert(std::pair<std::string, STShader::ShaderAttrib>("Material.Roughness_Tex", STShader::ShaderAttrib("Material.Roughness_Tex", STShader::TEX, STShader::toString(Vector2<stInt>(GLTexture::GenTex(fileName), 4)))));
+        }
+        if(m_Uniforms.count("Material.Roughness") > 0){
+            m_Uniforms.at("Material.Roughness").value = STShader::toString(Vector2<stReal>(0.f, 0.f));
+        }
+    }
 }
 
 void STMaterial::setDiffuseTexture(const std::string &fileName) {

@@ -25,6 +25,8 @@ struct STMaterial
 	sampler2D Normal_Tex;
 	sampler2D Alpha_Tex;
 	sampler2D Specular_Tex;
+	sampler2D Metallic_Tex;
+	sampler2D Roughness_Tex;
 	vec4 Diffuse_Color;
 	int Normal_Use;
     vec2 Metallic;

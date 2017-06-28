@@ -3563,7 +3563,6 @@ DataResult OpenGexDataDescription::ProcessData(void)
 		while (structure)
 		{
 			// Do something with the node here.
-
 			structure = structure->Next();
 		}
 	}

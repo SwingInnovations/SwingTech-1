@@ -47,7 +47,7 @@ public:
 
         //auto actor = new STActor("sample.FBX", resManager->getMaterial("default")->copy());
 
-        _testActor2 = new STActor("smooth_sphere.obj");
+        _testActor2 = new STActor("monkey.ogex");
         _testActor2->get<STGraphicsComponent>()->getMaterial()->setDiffuseTexture("Bronze_Albedo.jpg");
         _testActor2->get<STGraphicsComponent>()->getMaterial()->setMetallic("Bronze_Roughness.jpg");
         _testActor2->get<STGraphicsComponent>()->getMaterial()->setRoughness("Bronze_Roughness.jpg");

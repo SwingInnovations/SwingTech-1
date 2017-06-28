@@ -11,6 +11,7 @@
 //Loaders
 #include "Loaders/STOBJLoader.h"
 #include "Loaders/STFBXLoader.h"
+#include "Loaders/STOGEXLoader.h"
 
 
 bool STMesh::Validate(const std::string &fileName, int *typeFlag, std::vector<std::string> *tags,
@@ -26,7 +27,7 @@ bool STMesh::Validate(const std::string &fileName, int *typeFlag, std::vector<st
         *typeFlag = STMesh::FBX;
         //TODO FBX File Validation and Splitup.
         return false;
-    }else if(fileExtension == ".gex"){
+    }else if(fileExtension == ".ogex"){
         *typeFlag = STMesh::GEX;
         //TODO GEX File Validation and Splitup.
         return true;
@@ -55,6 +56,8 @@ bool STMesh::Validate(const std::string &fileName, bool* errFlag, std::vector<ST
     std::string fileExtension = fileName.substr(extenPoint);
     if(fileExtension == ".obj" || fileExtension == ".OBJ"){
         return STOBJLoader::Validate(fileName, errFlag, meshes, materials);
+    }else if(fileExtension == "ogex" || fileExtension == "OGEX") {
+        return STOGEXLoader::Validate(fileName, errFlag, meshes, materials);
     }
     return false;
 }

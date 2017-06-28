@@ -16,11 +16,13 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="5ee8588a-b915-4eb2-8583-18cd73e205f4" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/Entity/Util/Loaders/STOGEXLoader.cpp" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/Entity/Util/Loaders/STOGEXLoader.h" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/CMakeLists.txt" afterPath="$PROJECT_DIR$/CMakeLists.txt" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/demo/demo_main.cpp" afterPath="$PROJECT_DIR$/demo/demo_main.cpp" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Entity/Util/Loaders/OpenGEX/OpenGEX/OpenGEX.cpp" afterPath="$PROJECT_DIR$/src/Entity/Util/Loaders/OpenGEX/OpenGEX/OpenGEX.cpp" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Entity/Util/Loaders/STOGEXLoader.cpp" afterPath="$PROJECT_DIR$/src/Entity/Util/Loaders/STOGEXLoader.cpp" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Entity/Util/Loaders/STOGEXLoader.h" afterPath="$PROJECT_DIR$/src/Entity/Util/Loaders/STOGEXLoader.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Entity/Util/STMesh.cpp" afterPath="$PROJECT_DIR$/src/Entity/Util/STMesh.cpp" />
     </list>
     <ignored path="Wahoo.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -40,21 +42,23 @@
     <favorites_list name="Wahoo" />
   </component>
   <component name="FileEditorManager">
-    <splitter split-orientation="horizontal" split-proportion="0.6416611">
+    <splitter split-orientation="horizontal" split-proportion="0.49832553">
       <split-first>
         <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-          <file leaf-file-name="demo_main.cpp" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/demo/demo_main.cpp">
+          <file leaf-file-name="STOGEXLoader.h" pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/src/Entity/Util/Loaders/STOGEXLoader.h">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="440">
-                  <caret line="85" column="31" lean-forward="false" selection-start-line="85" selection-start-column="31" selection-end-line="85" selection-end-column="31" />
-                  <folding />
+                <state relative-caret-position="180">
+                  <caret line="9" column="14" lean-forward="false" selection-start-line="9" selection-start-column="14" selection-end-line="9" selection-end-column="14" />
+                  <folding>
+                    <element signature="e#69#94#0" expanded="true" />
+                  </folding>
                 </state>
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="STOGEXLoader.cpp" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/src/Entity/Util/Loaders/STOGEXLoader.cpp">
+          <file leaf-file-name="STMesh.h" pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/src/Entity/Util/STMesh.h">
               <provider selected="true" editor-type-id="text-editor">
                 <state relative-caret-position="0">
                   <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
@@ -63,23 +67,45 @@
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="STOGEXLoader.h" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/src/Entity/Util/Loaders/STOGEXLoader.h">
+          <file leaf-file-name="STMesh.cpp" pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/src/Entity/Util/STMesh.cpp">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="280">
-                  <caret line="14" column="0" lean-forward="false" selection-start-line="14" selection-start-column="0" selection-end-line="14" selection-end-column="0" />
+                <state relative-caret-position="624">
+                  <caret line="59" column="76" lean-forward="false" selection-start-line="59" selection-start-column="76" selection-end-line="59" selection-end-column="76" />
+                  <folding>
+                    <element signature="e#157#189#0" expanded="true" />
+                  </folding>
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="demo_main.cpp" pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/demo/demo_main.cpp">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="260">
+                  <caret line="49" column="49" lean-forward="true" selection-start-line="49" selection-start-column="49" selection-end-line="49" selection-end-column="49" />
                   <folding />
                 </state>
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="OpenGEX.cpp" pinned="false" current-in-tab="false">
+          <file leaf-file-name="STMeshCommon.h" pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/src/Entity/Util/Loaders/STMeshCommon.h">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="0">
+                  <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+                  <folding />
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="OpenGEX.cpp" pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/src/Entity/Util/Loaders/OpenGEX/OpenGEX/OpenGEX.cpp">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="430">
-                  <caret line="955" column="49" lean-forward="false" selection-start-line="955" selection-start-column="49" selection-end-line="955" selection-end-column="49" />
+                <state relative-caret-position="-320">
+                  <caret line="3556" column="28" lean-forward="false" selection-start-line="3556" selection-start-column="28" selection-end-line="3556" selection-end-column="28" />
                   <folding>
-                    <element signature="e#82581#83748#0" expanded="true" />
+                    <element signature="e#82580#83747#0" expanded="true" />
                   </folding>
                 </state>
               </provider>
@@ -88,67 +114,29 @@
           <file leaf-file-name="OpenGEX.h" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/src/Entity/Util/Loaders/OpenGEX/OpenGEX/OpenGEX.h">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="384">
-                  <caret line="558" column="13" lean-forward="true" selection-start-line="558" selection-start-column="13" selection-end-line="558" selection-end-column="13" />
+                <state relative-caret-position="219">
+                  <caret line="1394" column="42" lean-forward="false" selection-start-line="1394" selection-start-column="42" selection-end-line="1394" selection-end-column="42" />
                   <folding />
                 </state>
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="main.cpp" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/main.cpp">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="0">
-                  <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-                  <folding>
-                    <element signature="e#0#19#0" expanded="true" />
-                  </folding>
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file leaf-file-name="CMakeLists.txt" pinned="false" current-in-tab="true">
+          <file leaf-file-name="CMakeLists.txt" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/CMakeLists.txt">
               <provider selected="true" editor-type-id="text-editor">
                 <state relative-caret-position="480">
-                  <caret line="24" column="2672" lean-forward="false" selection-start-line="24" selection-start-column="2672" selection-end-line="24" selection-end-column="2672" />
+                  <caret line="24" column="3317" lean-forward="false" selection-start-line="24" selection-start-column="3317" selection-end-line="24" selection-end-column="3317" />
                   <folding />
                 </state>
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="OpenDDL.cpp" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/src/Entity/Util/Loaders/OpenGEX/OpenDDL/OpenDDL.cpp">
+          <file leaf-file-name="STFBXLoader.cpp" pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/src/Entity/Util/Loaders/STFBXLoader.cpp">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="260">
-                  <caret line="52" column="14" lean-forward="true" selection-start-line="52" selection-start-column="14" selection-end-line="52" selection-end-column="14" />
+                <state relative-caret-position="0">
+                  <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
                   <folding />
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file leaf-file-name="OpenDDL.h" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/src/Entity/Util/Loaders/OpenGEX/OpenDDL/OpenDDL.h">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="-13360">
-                  <caret line="60" column="46" lean-forward="true" selection-start-line="60" selection-start-column="46" selection-end-line="60" selection-end-column="46" />
-                  <folding>
-                    <element signature="e#2305#2327#0" expanded="true" />
-                  </folding>
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file leaf-file-name="ODDLTypes.h" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/src/Entity/Util/Loaders/OpenGEX/OpenDDL/ODDLTypes.h">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="-823">
-                  <caret line="73" column="51" lean-forward="false" selection-start-line="73" selection-start-column="51" selection-end-line="73" selection-end-column="51" />
-                  <folding>
-                    <element signature="e#2308#2329#0" expanded="true" />
-                    <element signature="e#2634#2702#0" expanded="true" />
-                    <element signature="e#2818#2974#0" expanded="true" />
-                  </folding>
                 </state>
               </provider>
             </entry>
@@ -157,7 +145,51 @@
       </split-first>
       <split-second>
         <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-          <file leaf-file-name="standard.glinc" pinned="false" current-in-tab="true">
+          <file leaf-file-name="STOGEXLoader.cpp" pinned="false" current-in-tab="true">
+            <entry file="file://$PROJECT_DIR$/src/Entity/Util/Loaders/STOGEXLoader.cpp">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="360">
+                  <caret line="18" column="25" lean-forward="false" selection-start-line="18" selection-start-column="25" selection-end-line="18" selection-end-column="25" />
+                  <folding>
+                    <element signature="e#0#18#0" expanded="true" />
+                  </folding>
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="STOBJLoader.cpp" pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/src/Entity/Util/Loaders/STOBJLoader.cpp">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="763">
+                  <caret line="297" column="0" lean-forward="false" selection-start-line="297" selection-start-column="0" selection-end-line="297" selection-end-column="0" />
+                  <folding />
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="OpenDDL.h" pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/src/Entity/Util/Loaders/OpenGEX/OpenDDL/OpenDDL.h">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="-4320">
+                  <caret line="60" column="32" lean-forward="false" selection-start-line="60" selection-start-column="32" selection-end-line="60" selection-end-column="32" />
+                  <folding>
+                    <element signature="e#2305#2327#0" expanded="true" />
+                  </folding>
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="STMeshLoader.h" pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/src/Entity/Util/Loaders/STMeshLoader.h">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="320">
+                  <caret line="18" column="11" lean-forward="false" selection-start-line="18" selection-start-column="11" selection-end-line="18" selection-end-column="11" />
+                  <folding />
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="standard.glinc" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/Build/Debug/standard.glinc">
               <provider selected="true" editor-type-id="text-editor">
                 <state relative-caret-position="230">
@@ -188,6 +220,7 @@
       <find>l</find>
       <find>setCursorVisible</find>
       <find>unsigned</find>
+      <find>processText</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -208,8 +241,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/src/Entity/Components/STScriptComponent.cpp" />
-        <option value="$PROJECT_DIR$/Build/Debug/shadow.glinc" />
         <option value="$PROJECT_DIR$/Build/Debug/deff_LightPass.fsh" />
         <option value="$PROJECT_DIR$/src/Graphics/GL/GLMesh.h" />
         <option value="$PROJECT_DIR$/src/Entity/Components/STMeshComponent.h" />
@@ -227,7 +258,6 @@
         <option value="$PROJECT_DIR$/src/Entity/Util/STMesh.h" />
         <option value="$PROJECT_DIR$/src/Entity/Util/Loaders/STOBJLoader.h" />
         <option value="$PROJECT_DIR$/src/Entity/STActor.h" />
-        <option value="$PROJECT_DIR$/src/Entity/Util/STMesh.cpp" />
         <option value="$PROJECT_DIR$/src/Entity/Util/Loaders/STOBJLoader.cpp" />
         <option value="$PROJECT_DIR$/Build/Debug/shdr/standard.glinc" />
         <option value="$PROJECT_DIR$/Build/Debug/shdr/PBR.glinc" />
@@ -236,7 +266,6 @@
         <option value="$PROJECT_DIR$/src/Graphics/STMaterial.h" />
         <option value="$PROJECT_DIR$/src/Graphics/Shader.h" />
         <option value="$PROJECT_DIR$/src/Math/Transform.cpp.cpp" />
-        <option value="$PROJECT_DIR$/CMakeLists.txt" />
         <option value="$PROJECT_DIR$/src/Entity/STEntity.h" />
         <option value="$PROJECT_DIR$/src/Entity/STActor.cpp" />
         <option value="$PROJECT_DIR$/src/Math/Transform.h" />
@@ -254,11 +283,15 @@
         <option value="$PROJECT_DIR$/Build/Debug/standard.glinc" />
         <option value="$PROJECT_DIR$/src/Graphics/STMaterial.cpp" />
         <option value="$PROJECT_DIR$/Build/Debug/deff_geomPass.fsh" />
-        <option value="$PROJECT_DIR$/demo/demo_main.cpp" />
         <option value="$PROJECT_DIR$/src/Entity/Util/Loaders/OpenGEX/OpenDDL/OpenDDL.h" />
         <option value="$PROJECT_DIR$/src/Entity/Util/Loaders/OpenGEX/OpenDDL/ODDLTypes.h" />
         <option value="$PROJECT_DIR$/src/Entity/Util/Loaders/OpenGEX/OpenGEX/OpenGEX.h" />
+        <option value="$PROJECT_DIR$/src/Entity/Util/Loaders/STOGEXLoader.h" />
         <option value="$PROJECT_DIR$/src/Entity/Util/Loaders/OpenGEX/OpenGEX/OpenGEX.cpp" />
+        <option value="$PROJECT_DIR$/CMakeLists.txt" />
+        <option value="$PROJECT_DIR$/src/Entity/Util/STMesh.cpp" />
+        <option value="$PROJECT_DIR$/demo/demo_main.cpp" />
+        <option value="$PROJECT_DIR$/src/Entity/Util/Loaders/STOGEXLoader.cpp" />
       </list>
     </option>
   </component>
@@ -520,6 +553,10 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="OpenGEX" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="OpenDDL" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -1194,7 +1231,7 @@
       <workItem from="1498500040898" duration="2519000" />
       <workItem from="1498515449567" duration="2743000" />
       <workItem from="1498537353529" duration="2737000" />
-      <workItem from="1498602125770" duration="2624000" />
+      <workItem from="1498602125770" duration="5250000" />
     </task>
     <task id="LOCAL-00001" summary="0.0.91">
       <created>1456015877403</created>
@@ -1392,11 +1429,18 @@
       <option name="project" value="LOCAL" />
       <updated>1498540121253</updated>
     </task>
-    <option name="localTasksCounter" value="29" />
+    <task id="LOCAL-00029" summary="[+] OpenGEX Libs.">
+      <created>1498628908662</created>
+      <option name="number" value="00029" />
+      <option name="presentableId" value="LOCAL-00029" />
+      <option name="project" value="LOCAL" />
+      <updated>1498628908662</updated>
+    </task>
+    <option name="localTasksCounter" value="30" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="469586000" />
+    <option name="totallyTimeSpent" value="472212000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -1412,11 +1456,11 @@
     <editor active="true" />
     <layout>
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.2232416" sideWeight="0.49675325" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25382262" sideWeight="0.42613637" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.23853211" sideWeight="0.42613637" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="CMake" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.18921669" sideWeight="0.35849568" order="11" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.22142857" sideWeight="0.6090022" order="8" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3296146" sideWeight="0.496875" order="9" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.13251784" sideWeight="0.39099783" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.13251784" sideWeight="0.39099783" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32925585" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.19514824" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="LuaJ" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -1490,7 +1534,6 @@
   <component name="VcsManagerConfiguration">
     <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_NEW_TODO" value="false" />
-    <MESSAGE value="[*] Some other changes that were somehow ignored.." />
     <MESSAGE value="[*] Updated to Modern Light Usage." />
     <MESSAGE value="[*] Implemented Shadow Code. Still needs testing&#10;[+] Implemented some other essential fixes." />
     <MESSAGE value="[*] Adjusted some shader offsets." />
@@ -1515,7 +1558,8 @@
     <MESSAGE value="[*] Transform Translate now affects Children." />
     <MESSAGE value="[*] Single Key Input Working under linux&#10;[*] PBR Fixes." />
     <MESSAGE value="[*] Moar PBR!" />
-    <option name="LAST_COMMIT_MESSAGE" value="[*] Moar PBR!" />
+    <MESSAGE value="[+] OpenGEX Libs." />
+    <option name="LAST_COMMIT_MESSAGE" value="[+] OpenGEX Libs." />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -1535,58 +1579,20 @@
           <line>64</line>
           <option name="timeStamp" value="680" />
         </line-breakpoint>
+        <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
+          <url>file://$PROJECT_DIR$/src/Entity/Util/Loaders/STOGEXLoader.cpp</url>
+          <line>19</line>
+          <option name="timeStamp" value="681" />
+        </line-breakpoint>
       </breakpoints>
       <breakpoints-dialog>
         <breakpoints-dialog />
       </breakpoints-dialog>
-      <option name="time" value="681" />
+      <option name="time" value="685" />
     </breakpoint-manager>
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$APPLICATION_CONFIG_DIR$/consoles/ide/ide-scripting.lua">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Build/Debug/standard.vsh">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Build/Debug/shdr/PBR.glinc">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Graphics/STGraphics.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="700">
-          <caret line="35" column="18" lean-forward="false" selection-start-line="35" selection-start-column="18" selection-end-line="35" selection-end-column="18" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/STSceneManager.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="3080">
-          <caret line="154" column="48" lean-forward="false" selection-start-line="154" selection-start-column="48" selection-end-line="154" selection-end-column="48" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Graphics/Shader.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="140">
-          <caret line="7" column="0" lean-forward="false" selection-start-line="7" selection-start-column="0" selection-end-line="7" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/Graphics/Interface/STPanel.cpp">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
@@ -1674,6 +1680,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1200">
           <caret line="60" column="63" lean-forward="false" selection-start-line="60" selection-start-column="63" selection-end-line="60" selection-end-column="63" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -1844,15 +1851,95 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/demo/demo_main.cpp">
+    <entry file="file://$PROJECT_DIR$/src/Entity/Util/Loaders/OpenGEX/OpenDDL/ODDLArray.h">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="440">
-          <caret line="85" column="31" lean-forward="false" selection-start-line="85" selection-start-column="31" selection-end-line="85" selection-end-column="31" />
+        <state relative-caret-position="-15890">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/Entity/Util/Loaders/STOGEXLoader.cpp">
+    <entry file="file://$PROJECT_DIR$/src/Entity/Util/Loaders/OpenGEX/OpenDDL/ODDLTypes.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-823">
+          <caret line="73" column="51" lean-forward="false" selection-start-line="73" selection-start-column="51" selection-end-line="73" selection-end-column="51" />
+          <folding>
+            <element signature="e#2308#2329#0" expanded="false" />
+            <element signature="e#2634#2702#0" expanded="false" />
+            <element signature="e#2818#2974#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/main.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding>
+            <element signature="e#0#19#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Entity/Util/Loaders/STMeshLoader.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="320">
+          <caret line="18" column="11" lean-forward="false" selection-start-line="18" selection-start-column="11" selection-end-line="18" selection-end-column="11" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/CMakeLists.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="480">
+          <caret line="24" column="3317" lean-forward="false" selection-start-line="24" selection-start-column="3317" selection-end-line="24" selection-end-column="3317" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Entity/Util/Loaders/STFBXLoader.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Entity/Util/Loaders/OpenGEX/OpenGEX/OpenGEX.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="219">
+          <caret line="1394" column="42" lean-forward="false" selection-start-line="1394" selection-start-column="42" selection-end-line="1394" selection-end-column="42" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/demo/demo_main.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="260">
+          <caret line="49" column="49" lean-forward="true" selection-start-line="49" selection-start-column="49" selection-end-line="49" selection-end-column="49" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Entity/Util/STMesh.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Entity/Util/STMesh.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="624">
+          <caret line="59" column="76" lean-forward="false" selection-start-line="59" selection-start-column="76" selection-end-line="59" selection-end-column="76" />
+          <folding>
+            <element signature="e#157#189#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Entity/Util/Loaders/STMeshCommon.h">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
@@ -1862,83 +1949,57 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/Entity/Util/Loaders/STOGEXLoader.h">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="280">
-          <caret line="14" column="0" lean-forward="false" selection-start-line="14" selection-start-column="0" selection-end-line="14" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Entity/Util/Loaders/OpenGEX/OpenDDL/OpenDDL.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="260">
-          <caret line="52" column="14" lean-forward="true" selection-start-line="52" selection-start-column="14" selection-end-line="52" selection-end-column="14" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Entity/Util/Loaders/OpenGEX/OpenDDL/ODDLArray.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-15890">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Entity/Util/Loaders/OpenGEX/OpenDDL/OpenDDL.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-13360">
-          <caret line="60" column="46" lean-forward="true" selection-start-line="60" selection-start-column="46" selection-end-line="60" selection-end-column="46" />
+        <state relative-caret-position="180">
+          <caret line="9" column="14" lean-forward="false" selection-start-line="9" selection-start-column="14" selection-end-line="9" selection-end-column="14" />
           <folding>
-            <element signature="e#2305#2327#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Entity/Util/Loaders/OpenGEX/OpenDDL/ODDLTypes.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-823">
-          <caret line="73" column="51" lean-forward="false" selection-start-line="73" selection-start-column="51" selection-end-line="73" selection-end-column="51" />
-          <folding>
-            <element signature="e#2308#2329#0" expanded="true" />
-            <element signature="e#2634#2702#0" expanded="true" />
-            <element signature="e#2818#2974#0" expanded="true" />
+            <element signature="e#69#94#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/Entity/Util/Loaders/OpenGEX/OpenGEX/OpenGEX.cpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="430">
-          <caret line="955" column="49" lean-forward="false" selection-start-line="955" selection-start-column="49" selection-end-line="955" selection-end-column="49" />
+        <state relative-caret-position="-320">
+          <caret line="3556" column="28" lean-forward="false" selection-start-line="3556" selection-start-column="28" selection-end-line="3556" selection-end-column="28" />
           <folding>
-            <element signature="e#82581#83748#0" expanded="true" />
+            <element signature="e#82580#83747#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/Entity/Util/Loaders/OpenGEX/OpenGEX/OpenGEX.h">
+    <entry file="file://$PROJECT_DIR$/src/Entity/Util/Loaders/OpenGEX/OpenDDL/OpenDDL.cpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="384">
-          <caret line="558" column="13" lean-forward="true" selection-start-line="558" selection-start-column="13" selection-end-line="558" selection-end-column="13" />
+        <state relative-caret-position="-325">
+          <caret line="2265" column="28" lean-forward="false" selection-start-line="2265" selection-start-column="28" selection-end-line="2265" selection-end-column="28" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/main.cpp">
+    <entry file="file://$PROJECT_DIR$/src/Entity/Util/Loaders/OpenGEX/OpenDDL/OpenDDL.h">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        <state relative-caret-position="-4320">
+          <caret line="60" column="32" lean-forward="false" selection-start-line="60" selection-start-column="32" selection-end-line="60" selection-end-column="32" />
           <folding>
-            <element signature="e#0#19#0" expanded="true" />
+            <element signature="e#2305#2327#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/CMakeLists.txt">
+    <entry file="file://$PROJECT_DIR$/src/Entity/Util/Loaders/STOBJLoader.cpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="480">
-          <caret line="24" column="2672" lean-forward="false" selection-start-line="24" selection-start-column="2672" selection-end-line="24" selection-end-column="2672" />
+        <state relative-caret-position="763">
+          <caret line="297" column="0" lean-forward="false" selection-start-line="297" selection-start-column="0" selection-end-line="297" selection-end-column="0" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Entity/Util/Loaders/STOGEXLoader.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="360">
+          <caret line="18" column="25" lean-forward="false" selection-start-line="18" selection-start-column="25" selection-end-line="18" selection-end-column="25" />
+          <folding>
+            <element signature="e#0#18#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

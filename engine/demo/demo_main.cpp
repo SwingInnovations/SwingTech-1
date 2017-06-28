@@ -74,8 +74,8 @@ public:
 
         scene->addActor(_testActor2);
         scene->addActor(_testActor);
-       // scene->addLight(_testLight2);
-        //scene->addLight(_testLight3);
+        scene->addLight(_testLight2);
+        scene->addLight(_testLight3);
         scene->addLight(_testLight);
         scene->addActor(_plane);
         STGraphics::ClearColor = Vector4<stReal>(0.0, 0.0, 0.168, 1.0);
@@ -147,7 +147,7 @@ int main(int argc, char** argv){
     win->addCamera(new Camera(*win, Vector3<stReal>(-1.5f, -.2f, 0.f), 0));
     win->addState(new TestState(0));
     win->enterState(0);
-    win->getGraphics()->enableShadow(true);
+    win->getGraphics()->enableShadow(false);
     win->getGraphics()->setRenderMode(STGraphics::DEFERRED);
     win->start();
 

@@ -46,6 +46,11 @@ public:
         this->m_type = type;
     }
 
+    void setTarget(Vector3<stReal> target){
+        getProperties()->target = target;
+        m_hasTarget = true;
+    }
+
     LIGHT_TYPE getType(){   return this->m_type; }
 
     void update() {
@@ -59,9 +64,10 @@ public:
     STLightProperties* getProperties(){ return &m_Properties; }
     Matrix4f getLookAt(){
         auto props = this->getProperties();
+        Vector3<stReal> dir = (parent->transform()->getTranslate() - props->target);
         if(m_hasTarget){
             return Matrix4f::LookAt(parent->transform()->getTranslate(),
-                                    parent->transform()->getTranslate() - props->target,
+                                    dir.normalize(),
                                     Vector3<stReal>(0.f, 1.f, 0.f));
         }
         return Matrix4f::LookAt(parent->transform()->getTranslate(),

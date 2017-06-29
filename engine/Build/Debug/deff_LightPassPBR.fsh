@@ -35,12 +35,14 @@ void main(void){
     vec3 Lo = vec3(0.0);
     float shadow;
     for(int i = 0; i < LightCount; i++){
-        if(Light[i].UseShadow == 1) {
-            float bias = max(0.05 * (1.0 - dot(Normal, (Light[i].Position - FragPos))), 0.005);
-            vec4 FPLS = transpose(Light[i].LightSpaceMatrix) * vec4(FragPos, 1.0);
-            shadow = calculateShadow(FPLS, shadowArray, 0, bias);
+        for(int j = 0; j < LightCount; j++){
+            if(Light[i].UseShadow == 1) {
+                float bias = max(0.05 * (1.0 - dot(Normal, (Light[j].Position - FragPos))), 0.005);
+                vec4 FPLS = transpose(Light[j].LightSpaceMatrix) * vec4(FragPos, 1.0);
+                shadow = max(calculateShadow(FPLS, shadowArray, Light[j].ShadowIndex, bias), shadow);
+            }
+            else shadow = 0.0;
         }
-        else shadow = 0.0;
 
         if(Light[i].Direction.w == 0 || Light[i].Direction.w == 1){
             vec3 L = normalize(Light[i].Position - FragPos);

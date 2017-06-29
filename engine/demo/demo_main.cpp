@@ -26,7 +26,6 @@ public:
         mat =  new STMaterial(new GLShader("standard"));
         auto resManager = window->getResourceManager();
         resManager->addMaterial("default",mat);
-        //  resManager->addMaterial("def", new STMaterial(new GLShader("standard")));
         GLGraphics::GlobalAmbient = Vector3<stReal>(.2,.2,.2);
         int count=0;
 //
@@ -47,17 +46,16 @@ public:
 
         //auto actor = new STActor("sample.FBX", resManager->getMaterial("default")->copy());
 
-        _testActor2 = new STActor("monkey.ogex");
+        _testActor2 = new STActor("monkey.obj");
         _testActor2->get<STGraphicsComponent>()->getMaterial()->setDiffuseTexture("Bronze_Albedo.jpg");
-        _testActor2->get<STGraphicsComponent>()->getMaterial()->setMetallic("Bronze_Roughness.jpg");
+        _testActor2->get<STGraphicsComponent>()->getMaterial()->setMetallic(0.0);
         _testActor2->get<STGraphicsComponent>()->getMaterial()->setRoughness("Bronze_Roughness.jpg");
         _testActor2->transform()->setTranslateX(-5.f);
         _testActor2->transform()->setScale(0.5);
-        _testActor = new STActor("dice.obj");
+        _testActor = new STActor("smooth_sphere.obj");
         _testActor->transform()->setTranslateY(0.f);
         _testActor->addScriptComponent("teapot.lua");
         _testActor->get<STGraphicsComponent>()->getMaterial()->setDiffuseTexture("Bronze_Albedo.jpg");
-        _testActor->get<STGraphicsComponent>()->getMaterial()->setMetallic("Bronze_Roughness.jpg");
         _testActor->get<STGraphicsComponent>()->getMaterial()->setRoughness("Bronze_Roughness.jpg");
         _plane = new STActor("plane.obj");
         _plane->get<STGraphicsComponent>()->getMaterial()->setRoughness(0.0);
@@ -68,12 +66,17 @@ public:
 
         _testLight = STLight::InitDirectionalLight(Vector3<stReal>(5.f, 5.f, -5.f), Vector3<stReal>(-.577f, .577f, -.577f), Vector3<stReal>(0.85f, 0.85f, 1.0f));
         _testLight->get<STLightComponent>()->getProperties()->intensity = 0.9f;
+        _testLight->get<STLightComponent>()->setTarget(Vector3<stReal>(0.f, 0.f, 0.f));
         _testLight2 = STLight::InitDirectionalLight(Vector3<stReal>(4.f, 5.f, 4.f), Vector3<stReal>(.577f, .577f, .577f), Vector3<stReal>(0.f, 0.25f, .98f));
-        _testLight3 = STLight::InitDirectionalLight(Vector3<stReal>(-4.f, 5.f, -3.f), Vector3<stReal>(.5, .5, .5), Vector3<stReal>(0.95, 0.15f, 0.15f));
-        scene->addSkybox("Yokohama");
+        _testLight3 = STLight::InitDirectionalLight(Vector3<stReal>(-4.f, 5.f, -3.f), Vector3<stReal>(.5, .5, .5), Vector3<stReal>(0.15, 0.15f, 0.15f));
+        _testLight2->get<STLightComponent>()->getProperties()->useShadow = 0;
+        _testLight2->get<STLightComponent>()->setTarget(Vector3<stReal>(0.f, 0.f, 0.f));
+        _testLight3->get<STLightComponent>()->getProperties()->useShadow = 0;
+        _testLight3->get<STLightComponent>()->setTarget(Vector3<stReal>(0.f, 0.f, 0.f));
+        scene->addSkybox("green");
 
         scene->addActor(_testActor2);
-        scene->addActor(_testActor);
+        //scene->addActor(_testActor);
         scene->addLight(_testLight2);
         scene->addLight(_testLight3);
         scene->addLight(_testLight);
@@ -143,11 +146,11 @@ int main(int argc, char** argv){
     win->setTargetFPS(120);
     STGraphics::YUp = false;
     win->getInput()->setInputMap(inputMap);
-    Vector3<stReal> campos(0.0, 0, 3.0f);
     win->addCamera(new Camera(*win, Vector3<stReal>(-1.5f, -.2f, 0.f), 0));
     win->addState(new TestState(0));
     win->enterState(0);
-    win->getGraphics()->enableShadow(false);
+    win->getGraphics()->enableShadow(true);
+    win->getGraphics()->setShadowResolution(512);
     win->getGraphics()->setRenderMode(STGraphics::DEFERRED);
     win->start();
 

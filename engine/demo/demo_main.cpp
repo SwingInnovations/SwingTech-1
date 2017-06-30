@@ -18,7 +18,6 @@ public:
     TestState(int id){ this->m_id = id; }
 
     void init(STGame * window) {
-        //window->getCamera()->setHAngle(90.0f);
         counter = 0;
         drawMode = STMesh::TRIANGLES;
         auto scene = STSceneManager::Get()->initScene((stUint) getID());
@@ -55,7 +54,7 @@ public:
         _testActor = new STActor("smooth_sphere.obj");
         _testActor->transform()->setTranslateY(0.f);
         _testActor->addScriptComponent("teapot.lua");
-        _testActor->get<STGraphicsComponent>()->getMaterial()->setDiffuseTexture("Bronze_Albedo.jpg");
+        //_testActor->get<STGraphicsComponent>()->getMaterial()->setDiffuseTexture("Bronze_Albedo.jpg");
         _testActor->get<STGraphicsComponent>()->getMaterial()->setRoughness("Bronze_Roughness.jpg");
         _plane = new STActor("plane.obj");
         _plane->get<STGraphicsComponent>()->getMaterial()->setRoughness(0.0);
@@ -67,7 +66,7 @@ public:
         _testLight = STLight::InitDirectionalLight(Vector3<stReal>(5.f, 5.f, -5.f), Vector3<stReal>(-.577f, .577f, -.577f), Vector3<stReal>(0.85f, 0.85f, 1.0f));
         _testLight->get<STLightComponent>()->getProperties()->intensity = 0.9f;
         _testLight->get<STLightComponent>()->setTarget(Vector3<stReal>(0.f, 0.f, 0.f));
-        _testLight2 = STLight::InitDirectionalLight(Vector3<stReal>(4.f, 5.f, 4.f), Vector3<stReal>(.577f, .577f, .577f), Vector3<stReal>(0.f, 0.25f, .98f));
+        _testLight2 = STLight::InitDirectionalLight(Vector3<stReal>(4.f, 5.f, 4.f), Vector3<stReal>(.577f, .577f, .577f), Vector3<stReal>(0.f, 0.85f, .1f));
         _testLight3 = STLight::InitDirectionalLight(Vector3<stReal>(-4.f, 5.f, -3.f), Vector3<stReal>(.5, .5, .5), Vector3<stReal>(0.15, 0.15f, 0.15f));
         _testLight2->get<STLightComponent>()->getProperties()->useShadow = 0;
         _testLight2->get<STLightComponent>()->setTarget(Vector3<stReal>(0.f, 0.f, 0.f));

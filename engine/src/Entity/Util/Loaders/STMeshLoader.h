@@ -37,6 +37,10 @@ public:
         std::vector<int> indices;
 
         const aiScene* scene = importer.ReadFile(fileName.c_str(), aiProcess_Triangulate | aiProcess_CalcTangentSpace);
+        if(!scene){
+            std::cerr << "Failed to load: " << fileName << std::endl;
+            *errFlag = false;
+        }
 
         if(scene->mNumMeshes == 1){
             const aiMesh* mesh = scene->mMeshes[0];
@@ -49,7 +53,9 @@ public:
             }
             STMesh_Structure stMesh;
             stMesh.name = mesh->mName.C_Str();
-
+            aiString matName;
+            scene->mMaterials[mesh->mMaterialIndex]->Get(AI_MATKEY_NAME, matName);
+            stMesh.materialKey = matName.C_Str();
             const aiVector3D Z(0.f, 0.f, 0.f);
             for(stUint j = 0, S = mesh->mNumVertices; j < S; j++){
 
@@ -62,7 +68,7 @@ public:
             }
             stMesh.m_indices = indices;
             (*dataMeshes).push_back(stMesh);
-            //TODO Material Processing.
+            (*materials).insert(std::pair<std::string, STMaterial*>(stMesh.materialKey, PopulateMaterial(mesh->mMaterialIndex, scene)));
             return false;
         }
         //Assuming there are multiple meshes now
@@ -70,6 +76,8 @@ public:
             const aiMesh* mesh = scene->mMeshes[0];
             STMesh_Structure stMesh;
             stMesh.name = mesh->mName.C_Str();
+            aiString matName;
+            scene->mMaterials[mesh->mMaterialIndex]->Get(AI_MATKEY_NAME, matName);
             const aiVector3D Z(0.f, 0.f, 0.f);
             for(stUint i = 0; i < mesh->mNumFaces; i++){
                 const aiFace& faces = mesh->mFaces[i];
@@ -96,6 +104,26 @@ public:
     static STMaterial* PopulateMaterial(stUint index, const aiScene* scene){
         const aiMaterial* material = scene->mMaterials[index];
         STMaterial* ret = new STMaterial(new GLShader("standard"));
+        aiColor3D diffuse;
+        aiColor3D specular;
+        aiColor3D ambient;
+        if(material->Get(AI_MATKEY_COLOR_DIFFUSE, diffuse) == AI_SUCCESS){
+            ret->setDiffuseColor(STColor(diffuse.r, diffuse.g, diffuse.b, 1.0));
+        }
+
+        //Handle Textures later on
+        if(material->GetTextureCount(aiTextureType_DIFFUSE) > 0){
+            aiString path;
+            if(material->GetTexture(aiTextureType_DIFFUSE, 0, &path) == AI_SUCCESS){
+                ret->setDiffuseTexture(path.C_Str());
+            }
+        }
+        if(material->GetTextureCount(aiTextureType_NORMALS) > 0){
+            aiString path;
+            if(material->GetTexture(aiTextureType_NORMALS, 0, &path) == AI_SUCCESS){
+                ret->setNormalTexture(path.C_Str());
+            }
+        }
         return ret;
     }
 };

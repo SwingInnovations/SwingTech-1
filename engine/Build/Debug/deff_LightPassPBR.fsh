@@ -39,7 +39,7 @@ void main(void){
             if(Light[i].UseShadow == 1) {
                 float bias = max(0.05 * (1.0 - dot(Normal, (Light[j].Position - FragPos))), 0.005);
                 vec4 FPLS = transpose(Light[j].LightSpaceMatrix) * vec4(FragPos, 1.0);
-                shadow = max(calculateShadow(FPLS, shadowArray, Light[j].ShadowIndex, bias), shadow);
+                shadow = clamp(max(calculateShadow(FPLS, shadowArray, Light[j].ShadowIndex, bias), shadow), 0.0, 1.0);
             }
             else shadow = 0.0;
         }

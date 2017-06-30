@@ -11,7 +11,7 @@
 //Loaders
 #include "Loaders/STOBJLoader.h"
 #include "Loaders/STFBXLoader.h"
-#include "Loaders/STOGEXLoader.h"
+#include "Loaders/STMeshLoader.h"
 
 
 bool STMesh::Validate(const std::string &fileName, int *typeFlag, std::vector<std::string> *tags,
@@ -41,23 +41,19 @@ bool STMesh::Validate(const std::string &fileName, bool *errFlag, std::vector<st
     std::string fileExtension = fileName.substr(extenPoint);
     if(fileExtension == ".obj" || fileExtension == ".OBJ"){
         return STOBJLoader::Validate(fileName, errFlag, tags, meshes);
-    } else if(fileExtension == ".fbx" || fileExtension == ".FBX"){
+    } else if(fileExtension == ".fbx" || fileExtension == ".FBX") {
         return STFBXLoader::Validate(fileName, errFlag, tags, meshes);
-    }else if(fileExtension == ".gex"){
-        //TODO GEX File Validation and Splitup.
-        return true;
     }
     return false;
 }
 
 bool STMesh::Validate(const std::string &fileName, bool* errFlag, std::vector<STMesh_Structure>* meshes,
                       std::map<std::string, STMaterial *>* materials) {
-    stUint extenPoint = fileName.size() - 4;
-    std::string fileExtension = fileName.substr(extenPoint);
-    if(fileExtension == ".obj" || fileExtension == ".OBJ"){
-        return STOBJLoader::Validate(fileName, errFlag, meshes, materials);
-    }else if(fileExtension == "ogex" || fileExtension == "OGEX") {
-        return STOGEXLoader::Validate(fileName, errFlag, meshes, materials);
-    }
-    return false;
+//    stUint extenPoint = fileName.size() - 4;
+//    std::string fileExtension = fileName.substr(extenPoint);
+//    if(fileExtension == ".obj" || fileExtension == ".OBJ"){
+//        return STOBJLoader::Validate(fileName, errFlag, meshes, materials);
+//    }
+//    return false;
+    return MeshLoader::Validate(fileName, errFlag, meshes, materials);
 }

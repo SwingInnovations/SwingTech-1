@@ -325,7 +325,7 @@ void GLGraphics::drawScene(STScene *scene) {
     begin = STGame::Get()->getTick();
     if(m_shadows) {
         glViewport(0, 0, m_shadowRes, m_shadowRes);
-        auto ortho = Matrix4f().initOrthographicProjection(-20.f, 20.f, -20.f, 20.f, 1.f, 20.f);
+        auto ortho = Matrix4f().initOrthographicProjection(-15.f, 15.f, -15.f, 15.f, 1.f, 15.f);
         auto persp = Matrix4f().initPerpectiveProjection(45, 10, 10, 1.f, 10);
         for(stUint i = 0; i < lights.size(); i++){
             auto shadowProps = lights[i]->get<STShadowComponent>()->getProperties();

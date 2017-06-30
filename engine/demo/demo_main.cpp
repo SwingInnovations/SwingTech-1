@@ -48,7 +48,7 @@ public:
 
         _testActor2 = new STActor("monkey.obj");
         _testActor2->get<STGraphicsComponent>()->getMaterial()->setDiffuseTexture("Bronze_Albedo.jpg");
-        _testActor2->get<STGraphicsComponent>()->getMaterial()->setMetallic(0.0);
+        _testActor2->get<STGraphicsComponent>()->getMaterial()->setMetallic(1.0);
         _testActor2->get<STGraphicsComponent>()->getMaterial()->setRoughness("Bronze_Roughness.jpg");
         _testActor2->transform()->setTranslateX(-5.f);
         _testActor2->transform()->setScale(0.5);
@@ -76,7 +76,7 @@ public:
         scene->addSkybox("green");
 
         scene->addActor(_testActor2);
-        //scene->addActor(_testActor);
+        scene->addActor(_testActor);
         scene->addLight(_testLight2);
         scene->addLight(_testLight3);
         scene->addLight(_testLight);

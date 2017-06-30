@@ -37,7 +37,8 @@ STActor::STActor(STMesh_Structure meshStructure, std::map<std::string, STMateria
     m_type = Actor;
     m_visible = true;
     addComponent(typeid(STMeshComponent), new STMeshComponent(meshStructure));
-    addComponent(typeid(STGraphicsComponent), new STGraphicsComponent(materials.at(meshStructure.materialKey)));
+    if(meshStructure.materialKey == "") addComponent(typeid(STGraphicsComponent), new STGraphicsComponent(new STMaterial(new GLShader("standard"))));
+    else addComponent(typeid(STGraphicsComponent), new STGraphicsComponent(materials.at(meshStructure.materialKey)));
     addComponent(typeid(STEventComponent), new STEventComponent);
     addComponent(typeid(STAABBComponent), new STAABBComponent((STEntity*)this, meshStructure.m_minPt, meshStructure.m_maxPt));
     m_transform = new Transform(this);

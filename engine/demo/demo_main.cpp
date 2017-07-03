@@ -45,20 +45,20 @@ public:
 
         //auto actor = new STActor("sample.FBX", resManager->getMaterial("default")->copy());
 
-        _testActor2 = new STActor("monkey.obj");
-        _testActor2->get<STGraphicsComponent>()->getMaterial()->setDiffuseTexture("Bronze_Albedo.jpg");
-        _testActor2->get<STGraphicsComponent>()->getMaterial()->setMetallic(1.0);
+        _testActor2 = new STActor("smooth_sphere.obj");
         _testActor2->get<STGraphicsComponent>()->getMaterial()->setRoughness("Bronze_Roughness.jpg");
-        _testActor2->transform()->setTranslateX(-5.f);
-        _testActor2->transform()->setScale(0.5);
-        _testActor = new STActor("smooth_sphere.obj");
+        _testActor2->transform()->setScale(0.25f);
+        _testActor2->transform()->setTranslateX(-12.f);
+        _testActor = new STActor("teapot.obj");
         _testActor->transform()->setTranslateY(0.f);
         _testActor->addScriptComponent("teapot.lua");
-        //_testActor->get<STGraphicsComponent>()->getMaterial()->setDiffuseTexture("Bronze_Albedo.jpg");
+        _testActor->transform()->setScale(0.01);
+        _testActor->get<STGraphicsComponent>()->getMaterial()->setDiffuseTexture("Bronze_Albedo.jpg");
+        _testActor->get<STGraphicsComponent>()->getMaterial()->setMetallic("Bronze_Roughness.jpg");
         _testActor->get<STGraphicsComponent>()->getMaterial()->setRoughness("Bronze_Roughness.jpg");
         _plane = new STActor("plane.obj");
         _plane->get<STGraphicsComponent>()->getMaterial()->setRoughness(0.0);
-        _plane->setDiffuseTexture("grid.png");
+        _plane->setDiffuseTexture("checker.jpg");
 
         //_plane->setNormalTexture("testNormal.png");
         _plane->setTranslateY(-0.5f);
@@ -91,7 +91,6 @@ public:
             input->setCursorVisible(!input->isCursorBound());
         }
         float c = counter * 0.05f;
-        _testActor2->transform()->setRotateY(counter);
         counter += 0.005f * delta;
         _testActor->update();
     }

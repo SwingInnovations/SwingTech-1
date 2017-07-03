@@ -46,7 +46,7 @@ void STMaterial::setMetallic(stReal value) {
 void STMaterial::setMetallic(const std::string &fileName) {
     if(STGraphics::RENDERER == STGraphics::OPENGL){
         if(m_Uniforms.count("Material.Metallic_Tex") > 0){
-            //TODO Proper cleanup and swap of textures
+            //TODO Implement this
         }else{
             m_Uniforms.insert(std::pair<std::string, STShader::ShaderAttrib>("Material.Metallic_Tex", STShader::ShaderAttrib("Material.Metallic_Tex", STShader::TEX, STShader::toString(Vector2<stInt>(GLTexture::GenTex(fileName), 3)))));
         }
@@ -79,7 +79,9 @@ void STMaterial::setDiffuseTexture(const std::string &fileName) {
     if(STGraphics::RENDERER == STGraphics::OPENGL){
         //Proper way for modifying map.
         if(m_Uniforms.count("Material.Diffuse_Tex") > 0){
-            //TODO Proper cleanup and swap of the texture
+            auto textureHandle = (stUint)STShader::toVector2(m_Uniforms.at("Material.Diffuse_Tex").value).getX();
+            glDeleteTextures(0, &textureHandle);
+            m_Uniforms.at("Material.Diffuse_Tex").value = STShader::toString(Vector2<stInt>(GLTexture::GenTex(fileName), 2));
         }else{
             m_Uniforms.insert(std::pair<std::string, STShader::ShaderAttrib>("Material.Diffuse_Tex", STShader::ShaderAttrib("Material.Diffuse_Tex", STShader::TEX, STShader::toString(Vector2<stInt>(GLTexture::GenTex(fileName), 2)))));
         }

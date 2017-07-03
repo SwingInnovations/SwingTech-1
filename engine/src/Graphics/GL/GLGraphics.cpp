@@ -320,9 +320,7 @@ void GLGraphics::drawScene(STScene *scene) {
 
     auto actors = scene->getActors();
     auto lights = scene->getLights();
-    long begin, end;
     //INITIALIZE the shadows;
-    begin = STGame::Get()->getTick();
     if(m_shadows) {
         glViewport(0, 0, m_shadowRes, m_shadowRes);
         auto ortho = Matrix4f().initOrthographicProjection(-15.f, 15.f, -15.f, 15.f, 1.f, 15.f);
@@ -372,8 +370,7 @@ void GLGraphics::drawScene(STScene *scene) {
         glDisable(GL_CULL_FACE);
         glDisable(GL_DEPTH_TEST);
     }
-    end = STGame::Get()->getTick();
-    std::cout << "Completed Shadow Calculation in: " << (end-begin) << " ms." << std::endl;
+
     if(getRenderMode() == RenderMode::FORWARD){
         glViewport(0, 0, WIDTH, HEIGHT);
         // Bind the frame buffer

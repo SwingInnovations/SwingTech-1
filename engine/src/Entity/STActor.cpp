@@ -39,7 +39,7 @@ STActor::STActor(STMesh_Structure meshStructure, std::map<std::string, STMateria
     addComponent(typeid(STMeshComponent), new STMeshComponent(meshStructure));
     if(meshStructure.materialKey == "") addComponent(typeid(STGraphicsComponent), new STGraphicsComponent(new STMaterial(new GLShader("standard"))));
     else addComponent(typeid(STGraphicsComponent), new STGraphicsComponent(materials.at(meshStructure.materialKey)));
-    addComponent(typeid(STEventComponent), new STEventComponent);
+    addComponent(typeid(STEventComponent), new STEventComponent());
     addComponent(typeid(STAABBComponent), new STAABBComponent((STEntity*)this, meshStructure.m_minPt, meshStructure.m_maxPt));
     m_transform = new Transform(this);
 }
@@ -60,7 +60,7 @@ STActor::STActor(const std::string &filePath) {
         if(!errFlag || meshes.size() < 1){
             addComponent(typeid(STMeshComponent), new STMeshComponent(STOBJLoader::Load("base/ErrorMesh.obj")));
             addComponent(typeid(STGraphicsComponent), new STGraphicsComponent(new STMaterial(new GLShader("base/errorObject"))));
-            get<STEventComponent>()->updateEvent([](STEntity* self){
+            get<STEventComponent>()->addEvent("update", [](STEntity* self, STEntity* other){
                 auto grphx = self->get<STGraphicsComponent>();
                 grphx->setShdrUniform("intensity", (stReal)sin(STGame::Get()->getTick() * 0.01f));
             });
@@ -102,7 +102,7 @@ STActor::STActor(const std::string &filePath, STMaterial *material) {
         if(!errFlag || meshes.size() < 1){
             addComponent(typeid(STMeshComponent), new STMeshComponent(STOBJLoader::Load("base/ErrorMesh.obj")));
             addComponent(typeid(STGraphicsComponent), new STGraphicsComponent(new STMaterial(new GLShader("base/errorObject"))));
-            get<STEventComponent>()->updateEvent([](STEntity* self){
+            get<STEventComponent>()->addEvent("update", [](STEntity* self, STEntity* other){
                 auto grphx = self->get<STGraphicsComponent>();
                 grphx->setShdrUniform("intensity", (stReal)sin(STGame::Get()->getTick() * 0.01f));
             });

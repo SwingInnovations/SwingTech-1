@@ -4,8 +4,11 @@
 #include "STEventComponent.h"
 
 STScriptComponent::STScriptComponent(STEntity *entity, const std::string &fileName) {
-    this->m_entity = entity;
     initScript(fileName);
+}
+
+STScriptComponent::STScriptComponent(const std::string &fileName) {
+    this->scriptName = fileName;
 }
 
 STScriptComponent::~STScriptComponent() {
@@ -13,7 +16,7 @@ STScriptComponent::~STScriptComponent() {
 }
 
 void STScriptComponent::update() {
-    m_script["update"](m_entity, STGame::Get());
+    m_script["update"](parent);
 }
 
 void STScriptComponent::initScript(const std::string &fileName) {
@@ -83,7 +86,8 @@ void STScriptComponent::initScript(const std::string &fileName) {
                                 "getDelta", &STGame::getDelta,
                                 "getWidth", &STGame::getWidth,
                                 "getHeight", &STGame::getHeight,
-                                "getCamera", &STGame::getCamera);
+                                "getCamera", &STGame::getCamera,
+                                "Get", &STGame::Get);
     m_script.new_usertype<Vector2<stReal>>("Vector2", sol::constructors<sol::types<>, sol::types<stReal, stReal>>(),
                                            "setX", &Vector2<stReal>::setX,
                                            "setY", &Vector2<stReal>::setY,
@@ -163,11 +167,26 @@ void STScriptComponent::initScript(const std::string &fileName) {
                                      "setScale", sol::resolve<void(Vector3<stReal>&)>(&Transform::setScale),
                                      "getScale", &Transform::getScaleF);
     m_script.new_usertype<STGraphicsComponent>("STGraphicsComponent",
-                                    "nextFrame", &STGraphicsComponent::nextFrame);
+                                    "nextFrame", &STGraphicsComponent::nextFrame,
+                                    "debug", &STGraphicsComponent::debugScript);
     m_script.script_file(fileName);
+    auto events = parent->get<STEventComponent>();
+    if(m_script["onHit"].valid()){
+        events->addEvent("onHit", m_script["onHit"]);
+    }
 }
 
 STGraphicsComponent *STScriptComponent::getGraphicsComponent() {
-    return m_entity->get<STGraphicsComponent>();
+    return parent->get<STGraphicsComponent>();
 }
+
+void STScriptComponent::registerFunction(const std::string &functionName, std::function<void()> newFunction) {
+    m_script.set_function(functionName.c_str(), newFunction);
+}
+
+void STScriptComponent::init(STEntity *parent) {
+    this->parent = parent;
+    this->initScript(this->scriptName);
+}
+
 

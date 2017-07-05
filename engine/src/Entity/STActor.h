@@ -17,6 +17,7 @@ public:
     STActor(STMesh_Structure structure, std::string& tag, STMaterial* material);
     STActor(STMesh_Structure, std::map<std::string, STMaterial*>);
     inline void addChild_Actor(STActor* actor){
+
         this->m_children.push_back((STEntity*)actor);
     }
     void draw();

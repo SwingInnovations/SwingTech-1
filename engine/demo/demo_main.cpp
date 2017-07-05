@@ -51,8 +51,7 @@ public:
         _testActor2->transform()->setTranslateX(-12.f);
         _testActor = new STActor("teapot.obj");
         _testActor->transform()->setTranslateY(0.f);
-        _testActor->addScriptComponent("teapot.lua");
-        _testActor->transform()->setScale(0.01);
+        _testActor->addComponent(typeid(STScriptComponent), new STScriptComponent("teapot.lua"));
         _testActor->get<STGraphicsComponent>()->getMaterial()->setDiffuseTexture("Bronze_Albedo.jpg");
         _testActor->get<STGraphicsComponent>()->getMaterial()->setMetallic("Bronze_Roughness.jpg");
         _testActor->get<STGraphicsComponent>()->getMaterial()->setRoughness("Bronze_Roughness.jpg");
@@ -89,6 +88,9 @@ public:
         if(input->isKeyPressed(KEY::KEY_Q)){
             input->setCursorBound(!input->isCursorBound());
             input->setCursorVisible(!input->isCursorBound());
+        }
+        if(input->isKeyPressed(KEY::KEY_R)){
+            _testActor->get<STEventComponent>()->setEvent("onHit");
         }
         float c = counter * 0.05f;
         counter += 0.005f * delta;

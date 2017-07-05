@@ -15,14 +15,17 @@ class STEntity;
 class STScriptComponent : public STComponent{
 public:
     STScriptComponent(STEntity* entity, const std::string& fileName);
+    STScriptComponent(const std::string& fileName);
+    void init(STEntity* parent);
+    void registerFunction(const std::string& functionName, std::function<void()> newFunction);
     ~STScriptComponent();
 
     void update();
-    STEntity* m_entity;
     sol::state m_script;
 private:
     STGraphicsComponent* getGraphicsComponent();
     void initScript(const std::string& fileName);
+    std::string scriptName;
 };
 
 

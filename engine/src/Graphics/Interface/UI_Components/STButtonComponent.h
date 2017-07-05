@@ -9,16 +9,20 @@ class STEntity;
 
 class STButtonComponent : public STComponent{
 public:
+    enum BUTTON_TYPE : char{
+        PUSH,
+        CHECK
+    };
     std::function<void (STEntity*)> OnClick = 0;
     void update(){
-        if(isClicked){
-            if(OnClick != 0) OnClick(this);
-        }
+
     }
     void draw(){
 
     }
 private:
+    BUTTON_TYPE m_buttonType;
+    bool isChecked;
     bool isClicked;
 };
 

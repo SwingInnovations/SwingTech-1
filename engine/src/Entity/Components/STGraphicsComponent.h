@@ -53,6 +53,9 @@ public:
     void setSpriteSheetIndex(int, int);
     void setSpriteSheetRow(int);
     void nextFrame();
+    void debugScript(){
+        std::cout << "Linked to Graphics Component, Can update uniforms from here" << std::endl;
+    }
 
     inline void setShader(Shader* shdr){ m_shdr = shdr; }
 

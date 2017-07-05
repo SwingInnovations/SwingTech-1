@@ -335,7 +335,7 @@ void GLGraphics::drawScene(STScene *scene) {
                 glClear(GL_DEPTH_BUFFER_BIT);
                 glEnable(GL_DEPTH_TEST);
                 glEnable(GL_CULL_FACE);
-                glCullFace(GL_FRONT);
+                glCullFace(GL_BACK);
                 for (stUint j = 0; j < actors.size(); j++) {
                     actors[j]->setShdrUniform("lightSpaceMatrix", shadowProps->projections[0]);
                     actors[j]->draw(lights[i]->get<STGraphicsComponent>()->getMaterial());
@@ -348,8 +348,8 @@ void GLGraphics::drawScene(STScene *scene) {
                 glBindTexture(GL_TEXTURE_2D_ARRAY, shadowArray);
                 glTexSubImage3D(GL_TEXTURE_2D_ARRAY, 0, 0, 0, (int)shadowProps->shadowIndex, m_shadowRes, m_shadowRes, 1, GL_DEPTH_COMPONENT, GL_FLOAT, data);
                 glBindTexture(GL_TEXTURE_2D_ARRAY, 0);
-                delete[] data;
                 glDisable(GL_CULL_FACE);
+                delete[] data;
                 glBindFramebuffer(GL_FRAMEBUFFER, 0);
             }else if(lights[i]->get<STLightComponent>()->getType() == STLightComponent::POINT_LIGHT){
                 for(stUint j = 0; j < actors.size(); j++){

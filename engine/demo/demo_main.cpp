@@ -45,7 +45,7 @@ public:
 
         //auto actor = new STActor("sample.FBX", resManager->getMaterial("default")->copy());
 
-        _testActor2 = new STActor("smooth_sphere.obj");
+        _testActor2 = new STActor("ball.obj");
         _testActor2->get<STGraphicsComponent>()->getMaterial()->setRoughness("Bronze_Roughness.jpg");
         _testActor2->transform()->setScale(0.25f);
         _testActor2->transform()->setTranslateX(-12.f);
@@ -95,6 +95,7 @@ public:
         float c = counter * 0.05f;
         counter += 0.005f * delta;
         _testActor->update();
+        _testActor2->update();
     }
 
     void render(STGame * win){

@@ -1,7 +1,7 @@
 #include "STActor.h"
 #include "Components/STEventComponent.h"
 #include "Components/STAABBComponent.h"
-#include "Util/Loaders/STOBJLoader.h"
+#include "Util/Loaders/STMeshLoader.h"
 
 //STActor::STActor(const std::string &filePath, const int type, STMaterial *material) {
 //    m_transform = new Transform();
@@ -58,13 +58,12 @@ STActor::STActor(const std::string &filePath) {
         return;
     }else{
         if(!errFlag || meshes.size() < 1){
-            addComponent(typeid(STMeshComponent), new STMeshComponent(STOBJLoader::Load("base/ErrorMesh.obj")));
+            addComponent(typeid(STMeshComponent), new STMeshComponent(MeshLoader::Load("base/ErrorMesh.obj")));
             addComponent(typeid(STGraphicsComponent), new STGraphicsComponent(new STMaterial(new GLShader("base/errorObject"))));
             get<STEventComponent>()->addEvent("update", [](STEntity* self, STEntity* other){
                 auto grphx = self->get<STGraphicsComponent>();
-                grphx->setShdrUniform("intensity", (stReal)sin(STGame::Get()->getTick() * 0.01f));
+                grphx->setShdrUniform("intensity", (stReal)sin(STGame::Get()->getTick() * 0.1f));
             });
-            transform()->setRotateY(180.f);
             return;
         }else{
             addComponent(typeid(STMeshComponent), new STMeshComponent(meshes.at(0)));
@@ -100,11 +99,12 @@ STActor::STActor(const std::string &filePath, STMaterial *material) {
         return;
     }else{
         if(!errFlag || meshes.size() < 1){
-            addComponent(typeid(STMeshComponent), new STMeshComponent(STOBJLoader::Load("base/ErrorMesh.obj")));
+            addComponent(typeid(STMeshComponent), new STMeshComponent(MeshLoader::Load("base/ErrorMesh.obj")));
             addComponent(typeid(STGraphicsComponent), new STGraphicsComponent(new STMaterial(new GLShader("base/errorObject"))));
             get<STEventComponent>()->addEvent("update", [](STEntity* self, STEntity* other){
                 auto grphx = self->get<STGraphicsComponent>();
-                grphx->setShdrUniform("intensity", (stReal)sin(STGame::Get()->getTick() * 0.01f));
+                grphx->setShdrUniform("intensity", (stReal)sin(STGame::Get()->getTick() * 0.1f));
+                self->transform()->setRotateY(STGame::Get()->getDelta() * 0.025f);
             });
             this->transform()->setRotateY(180.0f);
             return;

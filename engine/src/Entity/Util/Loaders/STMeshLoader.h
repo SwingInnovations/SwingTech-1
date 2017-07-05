@@ -20,8 +20,36 @@ public:
      * @param fileName
      * @return
      */
-    static STMesh_Structure Load(const std::string fileName){
-
+    static STMesh_Structure Load(const std::string& fileName){
+        Assimp::Importer importer;
+        std::vector<int> indicies;
+        STMesh_Structure stMesh;
+        const aiScene* scene = importer.ReadFile(fileName.c_str(), aiProcess_Triangulate | aiProcess_CalcTangentSpace);
+        if(!scene){
+            std::cerr << "Failed to load file: " << fileName << std::endl;
+            return stMesh;
+        }
+        const aiMesh* mesh = scene->mMeshes[0];
+        for(stUint i = 0, S = mesh->mNumFaces; i < S; i++){
+            const aiFace& faces = mesh->mFaces[i];
+            assert(faces.mNumIndices == 3);
+            indicies.push_back(faces.mIndices[0]);
+            indicies.push_back(faces.mIndices[1]);
+            indicies.push_back(faces.mIndices[2]);
+        }
+        stMesh.name = mesh->mName.C_Str();
+        stMesh.materialKey = "";
+        const aiVector3D Z(0.f, 0.f, 0.f);
+        for(stUint j = 0, S = mesh->mNumVertices; j < S; j++){
+            const aiVector3D* pPos = &(mesh->mVertices[j]);
+            const aiVector3D* pTexCoord = (mesh->HasTextureCoords(0)) ? &(mesh->mTextureCoords[0][j]) : &Z;
+            const aiVector3D* pNormal = &(mesh->mNormals[0]);
+            stMesh.m_vertices.push_back(Vertex(Vector3<stReal>(pPos->x, pPos->y, pPos->z),
+                                               Vector2<stReal>(pTexCoord->x, pTexCoord->y),
+                                               Vector3<stReal>(pNormal->x, pNormal->y, pNormal->z)));
+        }
+        stMesh.m_indices = indicies;
+        return stMesh;
     }
     /**
      * Loads a mesh from the specified path, and all its submeshes. Submeshes will be children of the "Root" object.
@@ -31,7 +59,6 @@ public:
      * @param dataMesh - MeshData itself.
      * @return
      */
-    //Implement this overload.
     static bool Validate(const std::string& fileName, bool* errFlag, std::vector<STMesh_Structure>* dataMeshes, std::map<std::string, STMaterial*>* materials){
         Assimp::Importer importer;
         std::vector<int> indices;
@@ -40,6 +67,7 @@ public:
         if(!scene){
             std::cerr << "Failed to load: " << fileName << std::endl;
             *errFlag = false;
+            return false;
         }
 
         if(scene->mNumMeshes == 1){
@@ -69,6 +97,7 @@ public:
             stMesh.m_indices = indices;
             (*dataMeshes).push_back(stMesh);
             (*materials).insert(std::pair<std::string, STMaterial*>(stMesh.materialKey, PopulateMaterial(mesh->mMaterialIndex, scene)));
+
             return false;
         }
         //Assuming there are multiple meshes now
@@ -98,7 +127,6 @@ public:
             stMesh.m_indices = indices;
             (*dataMeshes).push_back(stMesh);
         }
-
         return true;
     }
     static STMaterial* PopulateMaterial(stUint index, const aiScene* scene){

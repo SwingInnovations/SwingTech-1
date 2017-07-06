@@ -48,18 +48,22 @@ public:
     }
 
     inline void setRotateX(stReal _x){
-        if(rotateMode == Global) this->rotate.setX(_x);
-        else this->localRotate.setX(_x);
+//        if(rotateMode == Global) this->rotate.setX(_x);
+//        else this->localRotate.setX(_x);
+        rotate.setX(_x);
+
     }
 
     inline void setRotateY(stReal _y){
-        if(rotateMode == Global) this->rotate.setY(_y);
-        else this->localRotate.setY(_y);
+//        if(rotateMode == Global) this->rotate.setY(_y);
+//        else this->localRotate.setY(_y);
+        rotate.setY(_y);
     }
 
     inline void setRotateZ(stReal _z){
-        if(rotateMode == Global) this->rotate.setZ(_z);
-        else this->localRotate.setZ(_z);
+//        if(rotateMode == Global) this->rotate.setZ(_z);
+//        else this->localRotate.setZ(_z);
+        rotate.setZ(_z);
     }
 
     inline void setScale(Vector3<stReal>& vec){ this->scale = vec; }
@@ -82,7 +86,10 @@ public:
         if(rotateMode == Global){
             rot.initRotate(rotate);
         }else{
-            rot.initRotate(localRotate);
+            Matrix4f negTransMat;
+            negTransMat.initTranslation(-translate.getX(), -translate.getY(), -translate.getZ());
+            rot.initRotate(rotate);
+            rot = trans * rot * negTransMat;
         }
         scaleMat.initScale(scale);
 

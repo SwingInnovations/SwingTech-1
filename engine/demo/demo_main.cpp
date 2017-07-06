@@ -45,10 +45,10 @@ public:
 
         //auto actor = new STActor("sample.FBX", resManager->getMaterial("default")->copy());
 
-        _testActor2 = new STActor("ball.obj");
+        _testActor2 = new STActor("dice.obj");
         _testActor2->get<STGraphicsComponent>()->getMaterial()->setRoughness("Bronze_Roughness.jpg");
         _testActor2->transform()->setScale(0.25f);
-        _testActor2->transform()->setTranslateX(-12.f);
+        _testActor2->transform()->setTranslateX(14.f);
         _testActor = new STActor("teapot.obj");
         _testActor->transform()->setTranslateY(0.f);
         _testActor->addComponent(typeid(STScriptComponent), new STScriptComponent("teapot.lua"));
@@ -89,13 +89,18 @@ public:
             input->setCursorBound(!input->isCursorBound());
             input->setCursorVisible(!input->isCursorBound());
         }
-        if(input->isKeyPressed(KEY::KEY_R)){
-            _testActor->get<STEventComponent>()->setEvent("onHit");
+        if(input->isKeyDown(KEY::KEY_O)){
+            _testActor2->transform()->setTranslateX(_testActor2->transform()->getTranslate().getX() + 0.025f * delta);
+        }
+        if(input->isKeyDown(KEY::KEY_U)){
+            _testActor2->transform()->setTranslateX(_testActor2->transform()->getTranslate().getX() - 0.025f * delta);
         }
         float c = counter * 0.05f;
         counter += 0.005f * delta;
         _testActor->update();
         _testActor2->update();
+        _testActor2->transform()->setRotationMode(Transform::RotationMode::Local);
+        _testActor2->transform()->setRotateY(_testActor2->transform()->getRotateF().getY() + delta * 0.25f);
     }
 
     void render(STGame * win){

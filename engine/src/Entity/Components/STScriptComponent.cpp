@@ -33,6 +33,9 @@ void STScriptComponent::initScript(const std::string &fileName) {
     m_script.new_usertype<Camera>("Camera",
                                 "getForward", &Camera::getForward,
                                 "getUp", &Camera::getUp);
+    m_script.new_enum("RotationMode",
+                "Global", 0,
+                "Local", 1);
     m_script.new_enum("KEY",
                "KEY_A", KEY::KEY_A,
                 "KEY_B", KEY::KEY_B,
@@ -165,7 +168,8 @@ void STScriptComponent::initScript(const std::string &fileName) {
                                      "setRotateZ", &Transform::setRotateZ,
                                      "getRotate", &Transform::getRotateF,
                                      "setScale", sol::resolve<void(Vector3<stReal>&)>(&Transform::setScale),
-                                     "getScale", &Transform::getScaleF);
+                                     "getScale", &Transform::getScaleF,
+                                     "setRotationMode", &Transform::setRotationMode);
     m_script.new_usertype<STGraphicsComponent>("STGraphicsComponent",
                                     "nextFrame", &STGraphicsComponent::nextFrame,
                                     "debug", &STGraphicsComponent::debugScript);

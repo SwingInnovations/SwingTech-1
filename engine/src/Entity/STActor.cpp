@@ -63,6 +63,8 @@ STActor::STActor(const std::string &filePath) {
             get<STEventComponent>()->addEvent("update", [](STEntity* self, STEntity* other){
                 auto grphx = self->get<STGraphicsComponent>();
                 grphx->setShdrUniform("intensity", (stReal)sin(STGame::Get()->getTick() * 0.1f));
+                self->transform()->setRotationMode(Transform::RotationMode::Local);
+                self->transform()->setRotateY(self->transform()->getRotateF().getY() + STGame::Get()->getDelta() * 0.25f);
             });
             return;
         }else{

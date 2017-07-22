@@ -2,8 +2,6 @@
 #include "../src/STGame.h"
 #include "../src/Entity/STEntity.h"
 #include "../src/Graphics/GL/GLGraphics.h"
-#include "../src/Graphics/Interface/STLabel.h"
-#include "../src/Graphics/Interface/STButton.h"
 
 class InputMap;
 class STGame;
@@ -49,7 +47,7 @@ public:
         _testActor2->get<STGraphicsComponent>()->getMaterial()->setRoughness("Bronze_Roughness.jpg");
         _testActor2->transform()->setScale(0.25f);
         _testActor2->transform()->setTranslateX(14.f);
-        _testActor = new STActor("teapot.obj");
+        _testActor = new STActor("Chalice.fbx");
         _testActor->transform()->setTranslateY(0.f);
         _testActor->addComponent(typeid(STScriptComponent), new STScriptComponent("teapot.lua"));
         _testActor->get<STGraphicsComponent>()->getMaterial()->setDiffuseTexture("Bronze_Albedo.jpg");
@@ -90,10 +88,10 @@ public:
             input->setCursorVisible(!input->isCursorBound());
         }
         if(input->isKeyDown(KEY::KEY_O)){
-            _testActor2->transform()->setTranslateX(_testActor2->transform()->getTranslate().getX() + 0.025f * delta);
+            _testActor2->transform()->setTranslateZ(_testActor2->transform()->getTranslate().getZ() + 0.025f * delta);
         }
         if(input->isKeyDown(KEY::KEY_U)){
-            _testActor2->transform()->setTranslateX(_testActor2->transform()->getTranslate().getX() - 0.025f * delta);
+            _testActor2->transform()->setTranslateZ(_testActor2->transform()->getTranslate().getZ() - 0.025f * delta);
         }
         float c = counter * 0.05f;
         counter += 0.005f * delta;
@@ -121,7 +119,6 @@ private:
     int drawMode;
     int currObject;
     float counter = 0;
-    STButton* btn;
     STActor* _testActor;
     vector<STActor*> _testActors;
     STActor* _testActor2;
@@ -131,7 +128,6 @@ private:
     STLight* _testLight3;
     GLTexture* roughnessTex;
     STMaterial* mat;
-    STLabel* lbl;
     Vector3<stReal> lightPos;
     int width = 0, height = 0;
 };

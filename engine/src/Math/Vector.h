@@ -402,6 +402,10 @@ public:
         return Vector3(x, y, z);
     }
 
+    const bool operator== (const Vector3& other)const{
+        return (getX() == other.getX()) && (getY() == other.getY()) && (getZ()==other.getZ());
+    }
+
 private:
     T m_Val[3];
 };

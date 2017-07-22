@@ -1,14 +1,11 @@
 counter = 0;
 function update(self)
     val = math.sin(counter) * 10;
-    scale = Vector3.new(0.01, 0.01, 0.01);
-    self:getTransform():setScale(scale)
-    self:getTransform():setTranslateZ(300.0);
-    --self:getTransform():setTranslateX(2.0);
-    --self:getTransform():setTranslateZ(2.0);
-    --self:getTransform():setTranslateY(math.abs(val));
-    self:getTransform():setRotationMode(RotationMode.Local);
-    self:getTransform():setRotateY(counter);
+    scale = Vector3.new(0.1, 0.1, 0.1);
+    self:transform():setScale(scale);
+    self:transform():setTranslateZ(300.0);
+    self:transform():setRotationMode(RotationMode.Local);
+    self:transform():setRotateY(counter);
     counter = counter + 0.05 * STGame:Get():getDelta();
 end
 

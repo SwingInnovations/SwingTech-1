@@ -145,7 +145,7 @@ void STScriptComponent::initScript(const std::string &fileName) {
                                            "toVector3", &Vector4<stReal>::toVector3);
     m_script.new_usertype<STEntity>("STEntity",
                                     "getTag", &STEntity::getTag,
-                                    "getTransform", &STEntity::transform,
+                                    "transform", &STEntity::transform,
                                     "setShdrUniformi", sol::resolve<void(const std::string&, int)>(&STEntity::setShdrUniform),
                                     "setShdrUniformf", sol::resolve<void(const std::string&, float)>(&STEntity::setShdrUniform),
                                     "setShdrUniformV3", sol::resolve<void(const std::string&, Vector3<stReal>)>(&STEntity::setShdrUniform),

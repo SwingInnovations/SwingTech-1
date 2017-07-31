@@ -175,5 +175,10 @@ std::map<std::string, STShader::ShaderAttrib> &STGraphicsComponent::GetUniforms(
     return m_Uniforms;
 }
 
+void STGraphicsComponent::draw() {
+    //m_material->draw(m_uniforms);
+    //m_material->draw();
+}
+
 
 

@@ -25,19 +25,22 @@ class STMeshComponent : public STComponent{
  *  Purpose: Handle Mesh operations within the m_entity.
  *
  */
-
 public:
-    STMeshComponent(STMesh_Structure structure);
-    STMeshComponent(Shape& shape);
-    STMeshComponent(STQuad*);
-    STMeshComponent(STRect*);
-    STMeshComponent(STCube*);
+    explicit STMeshComponent(STMesh_Structure structure);
+
+    explicit STMeshComponent(Shape& shape);
+
+    explicit STMeshComponent(STQuad*);
+
+    explicit STMeshComponent(STRect*);
+
+    explicit STMeshComponent(STCube*);
     STMeshComponent(float *vert, int vSize, float *tex, int tSize, int *ind, int indSize);
-    ~STMeshComponent();
+    ~STMeshComponent() override;
 
-    void update();
+    void update() override;
 
-    inline void draw(){
+    inline void draw() override {
         m_mesh->draw();
     }
 

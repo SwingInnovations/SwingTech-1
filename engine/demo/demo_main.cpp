@@ -2,6 +2,7 @@
 #include "../src/STGame.h"
 #include "../src/Entity/STEntity.h"
 #include "../src/Graphics/GL/GLGraphics.h"
+#include "../src/STSceneManager.h"
 
 class InputMap;
 class STGame;
@@ -45,16 +46,21 @@ public:
 
         _testActor2 = new STActor("dice.obj");
         _testActor2->get<STGraphicsComponent>()->getMaterial()->setRoughness("Bronze_Roughness.jpg");
-        _testActor2->transform()->setScale(0.25f);
         _testActor2->transform()->setTranslateX(14.f);
+        _testActor2->transform()->setRotationMode(Transform::RotationMode::Local);
+        _testActor2->get<STEventComponent>()->addEvent("update", [](STEntity* self, STEntity* other){
+            auto delta = STGame::Get()->getDelta();
+            self->transform()->setRotateY(self->transform()->getRotateF().getY() + delta * 0.25f);
+        });
         _testActor = new STActor("Chalice.fbx");
-        _testActor->transform()->setTranslateY(0.f);
+        _testActor->transform()->setTranslateY(1.f);
         _testActor->addComponent(typeid(STScriptComponent), new STScriptComponent("teapot.lua"));
         _testActor->get<STGraphicsComponent>()->getMaterial()->setDiffuseTexture("Bronze_Albedo.jpg");
         _testActor->get<STGraphicsComponent>()->getMaterial()->setMetallic("Bronze_Roughness.jpg");
         _testActor->get<STGraphicsComponent>()->getMaterial()->setRoughness("Bronze_Roughness.jpg");
         _plane = new STActor("plane.obj");
         _plane->get<STGraphicsComponent>()->getMaterial()->setRoughness(0.0);
+        _plane->transform()->setTranslateY(1.f);
         _plane->setDiffuseTexture("checker.jpg");
 
         //_plane->setNormalTexture("testNormal.png");
@@ -71,8 +77,8 @@ public:
         _testLight3->get<STLightComponent>()->setTarget(Vector3<stReal>(0.f, 0.f, 0.f));
         scene->addSkybox("green");
 
-        scene->addActor(_testActor2);
         scene->addActor(_testActor);
+        scene->addActor(_testActor2);
         scene->addLight(_testLight2);
         scene->addLight(_testLight3);
         scene->addLight(_testLight);
@@ -95,10 +101,11 @@ public:
         }
         float c = counter * 0.05f;
         counter += 0.005f * delta;
-        _testActor->update();
-        _testActor2->update();
-        _testActor2->transform()->setRotationMode(Transform::RotationMode::Local);
-        _testActor2->transform()->setRotateY(_testActor2->transform()->getRotateF().getY() + delta * 0.25f);
+        STSceneManager::Get()->getScene((stUint)getID())->update();
+//        _testActor->update();
+//        _testActor2->update();
+//        _testActor2->transform()->setRotationMode(Transform::RotationMode::Local);
+//        _testActor2->transform()->setRotateY(_testActor2->transform()->getRotateF().getY() + delta * 0.25f);
     }
 
     void render(STGame * win){

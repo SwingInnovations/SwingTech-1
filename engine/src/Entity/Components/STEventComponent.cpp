@@ -34,3 +34,11 @@ void STEventComponent::addEvent(std::string name, std::function<void(STEntity*, 
 void STEventComponent::setEvent(const std::string& newEvent) {
     m_currentEvent = newEvent;
 }
+
+void STEventComponent::updateEvent(std::string name, std::function<void(STEntity *, STEntity *)> alteredFunction) {
+    if(m_Events.count(name) > 0) {
+        m_Events.at(name) = alteredFunction;
+        return;
+    }
+    addEvent(name, alteredFunction);
+}

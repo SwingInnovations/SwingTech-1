@@ -388,6 +388,13 @@ public:
         return Vector3(x, y, z);
     }
 
+    Vector3 operator*= (const T& other){
+        m_Val[0] *= other;
+        m_Val[1] *= other;
+        m_Val[2] *= other;
+        return *this;
+    }
+
     const Vector3 operator/ (const T& other)const{
         T x = getX() / other;
         T y = getY() / other;

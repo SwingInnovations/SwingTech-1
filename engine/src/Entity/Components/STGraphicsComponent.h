@@ -70,11 +70,8 @@ public:
 
     }
 
-    void update();
-    inline void draw(){
-        //m_material->draw(m_uniforms);
-        //m_material->draw();
-    }
+    void update() override;
+    inline void draw();
 
     std::map<std::string, STShader::ShaderAttrib> &GetUniforms();
 

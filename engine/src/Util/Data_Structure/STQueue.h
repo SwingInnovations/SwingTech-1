@@ -20,6 +20,7 @@ public:
 
     void  clear(){ list.clear(); }
     stUint size()const{ return list.size(); }
+    bool isEmpty()const{ return list.isEmpty(); }
 protected:
     STList<T> list;
 };

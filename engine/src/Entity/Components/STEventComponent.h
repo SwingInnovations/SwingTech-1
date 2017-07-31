@@ -17,12 +17,12 @@ public:
     STEventComponent();
     ~STEventComponent();
 
-    void update();
-    void draw();
+    void update() override;
+    void draw() override;
 
     void setEvent(const std::string& event);
     void addEvent(std::string name, std::function<void(STEntity*, STEntity*)> newFunction);
-
+    void updateEvent(std::string name, std::function<void(STEntity*, STEntity*)> alteredFunction);
 private:
 
     std::map<std::string, std::function<void(STEntity*, STEntity*)>> m_Events;

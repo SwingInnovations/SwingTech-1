@@ -14,6 +14,9 @@ public:
         Node* next = nullptr;
     };
 
+    /**
+     *
+     */
     class iterator : public std::iterator<std::output_iterator_tag, T>{
     public:
         explicit iterator(STList<T> &list, stUint startIndex): m_list(list) {
@@ -45,8 +48,8 @@ public:
      * Constructor
      */
     STList(){
-        head = nullptr;
-        tail = nullptr;
+        head = NULL;
+        tail = NULL;
         m_Size = 0;
     }
 
@@ -54,7 +57,7 @@ public:
      * Checks if list is empty.
      * @return True if list is empty, otherwise false;
      */
-    bool isEmpty()const{ return head != nullptr; }
+    bool isEmpty()const{ return head != NULL; }
 
     /**
      * Adds to beginning of the list
@@ -64,11 +67,12 @@ public:
         Node* node = new Node(data);
         if(head == nullptr){
             head = tail = node;
+            m_Size++;
             return;
         }
         node->next = head;
         head = node;
-        m_Size++;
+        ++m_Size;
     }
 
     /**
@@ -79,6 +83,7 @@ public:
         Node* node = new Node(data);
         if(head == nullptr){
             head = tail = node;
+            m_Size++;
             return;
         }
         tail->next = node;
@@ -86,6 +91,9 @@ public:
         m_Size++;
     }
 
+    /**
+     * Clears the Linked List
+     */
     void clear(){
         while(head != nullptr){
             removeLast();
@@ -163,7 +171,7 @@ public:
     }
 
 private:
-    stUint m_Size;
+    stUint m_Size{};
     Node* head = nullptr;
     Node* tail = nullptr;
 };

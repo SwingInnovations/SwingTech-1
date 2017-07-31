@@ -6,113 +6,114 @@
 #include "Entity/STEntity.h"
 #include "Entity/STActor.h"
 #include "Entity/STLight.h"
+#include "Math/Shape/BoundingBox.h"
+#include "Util/Data_Structure/STQueue.h"
 
 class STLight;
 class STInterWidget;
 
-template<typename G>
-class Node{
-protected:
-    Node* parent;
-    G* data;
-    virtual void split() = 0;
-};
-
-template<typename GameObject>
-class QuadNode : public Node<GameObject>{
+class OctNode{
 public:
-    QuadNode(){
-        this->parent = nullptr;
-        this->data = nullptr;
-        childCount = 0;
+    explicit OctNode(STBoundingBox* boundingBox){
+        this->boundingBox = boundingBox;
+        this->data = NULL;
+        for (auto &i : children) i = NULL;
     }
 
-    QuadNode(GameObject* data){
-        this->parent = nullptr;
+    explicit OctNode(const OctNode& copy){
+        this->boundingBox = copy.boundingBox;
+        this->data = copy.data;
+    }
+
+    OctNode(Vector3<stReal>& originPt, Vector3<stReal>& extants){
+        this->boundingBox = new STBoundingBox;
+        this->boundingBox->setDimensions(originPt, extants);
+        this->data = NULL;
+        for (auto &i : children) i = NULL;
+    }
+
+    OctNode(STEntity* data, STBoundingBox* boundingBox){
+        this->boundingBox = boundingBox;
         this->data = data;
-        childCount = 0;
     }
 
-    QuadNode(QuadNode* parent, GameObject* data){
-        this->parent = parent;
-        this->data = data;
-        childCount = 0;
-    }
-
-    inline void setData(GameObject* data){
-        this->data = data;
-    }
-
-    inline void addChild(GameObject* childData){
-        if(childCount < 4){
-            if(this->data != nullptr){
-                children[childCount] = new QuadNode(this, this->data);
-                delete this->data;
-                childCount++;
-            }
-            children[childCount] = new QuadNode(this, childData);
-            childCount++;
+    ~OctNode(){
+        delete this->boundingBox;
+        delete this->data;
+        for(stUint i = 0; i < 8; i++){
+            delete children[i];
         }
-        //Do something when all children are filled;
     }
 
-    GameObject* getData(){ return this->data; }
+    void insert(STEntity* newEntity){
+        if(isLeafNode()){
+            if(this->data == NULL){
+                this->data = newEntity;
+            }else{
+                STEntity* oldData = this->data;
+                this->data = NULL;
 
-protected:
-    inline void split() override {
-        //Do something to split.
-    }
-private:
-    QuadNode* children[4] = {nullptr, nullptr, nullptr, nullptr};
-    stUint childCount;
-};
-
-template<typename GameObject>
-class OctoNode : public Node<GameObject> {
-public:
-    OctoNode(){
-        this->parent = nullptr;
-        this->data = nullptr;
-        this->childCount = 0;
-    }
-
-    OctoNode(GameObject* data){
-        this->parent = nullptr;
-        this->data = data;
-        this->childCount = 0;
-    }
-
-    OctoNode(OctoNode* parent, GameObject* data){
-        this->parent = parent;
-        this->data = data;
-        this->childCount = 0;
-    }
-
-    inline void setParent(OctoNode* parent){ this->parent = parent; }
-    inline void setData(GameObject* data){ this->data = data; }
-
-    inline void addChild(GameObject* data){
-        if(this->childCount < 8){
-            if(this->data != nullptr){
-                children[this->childCount] = new OctoNode(this, this->data);
-                delete this->data;
-                this->data = nullptr;
-                this->childCount++;
+                for(stUint i = 0; i < 8; i++){
+                    auto originPt = this->boundingBox->getOriginPoint();
+                    auto extants = this->boundingBox->getExtants();
+                    stReal nX = originPt.getX() + extants.getX() * (i&4 ? 0.5f : -0.5f);
+                    stReal nY = originPt.getY() + extants.getY() * (i&2 ? 0.5f : -0.5f);
+                    stReal nZ = originPt.getZ() + extants.getZ() * (i&1 ? 0.5f : -0.5f);
+                    Vector3<stReal> newOrigin(nX, nY, nZ);
+                    extants *= 0.5f;
+                    children[i] = new OctNode(newOrigin, extants);
+                }
+                auto oldPt = getOctantContainingPt(oldData->transform()->getTranslate());
+                auto newPt = getOctantContainingPt(newEntity->transform()->getTranslate());
+                if(oldPt == newPt){
+                    int c = 0;
+                    while(children[c]->data != NULL){
+                        c++;
+                    }
+                    newPt = c % 8;
+                }
+                children[oldPt]->insert(oldData);
+                children[newPt]->insert(newEntity);
             }
-            children[this->childCount] = new OctoNode(this, data);
-            this->childCount++;
+        }else{
+            int octant = getOctantContainingPt(newEntity->transform()->getTranslate());
+            children[octant]->insert(newEntity);
         }
-
     }
-protected:
-    inline void split() override {
-        // Do something to split
 
+    int getOctantContainingPt(const Vector3<stReal>& point){
+        int oct = 0;
+        Vector3<stReal> originPoint = boundingBox->getOriginPoint();
+        if(point.getX() >= originPoint.getX()) oct |= 4;
+        if(point.getY() >= originPoint.getY()) oct |= 2;
+        if(point.getZ() >= originPoint.getZ()) oct |= 1;
+        return oct;
+    }
+
+    bool isLeafNode()const{
+        for(short i = 0; i < 8; ++i){
+            if(children[i] != NULL) return false;
+        }
+        return true;
+    }
+
+    void update(){
+        if(data != NULL){
+            data->update();
+            if(!boundingBox->contains(data->transform()->getTranslate())){
+                //Flag for re-insertion;
+            }
+        }
+        for (auto &i : children) {
+            if(i != NULL) i->update();
+        }
     }
 
 private:
-    OctoNode* children[8] = {nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr};
-    stUint childCount;
+    STEntity* data;
+    STBoundingBox* boundingBox;
+    OctNode* parent;
+    OctNode* children[8];
 };
 
 class STScene{
@@ -121,14 +122,17 @@ public:
         m_index = 0;
         m_numShadows = 0;
         skyboxShader = "skybox";
+        rootNode = new OctNode(new STBoundingBox(Vector3<stReal>(-1000.f, -1000.f, -1000.f), Vector3<stReal>(1000.f, 1000.f, 1000.f)));
     }
 
     STScene(stUint index){
         m_index = index;
+        rootNode = new OctNode(new STBoundingBox(Vector3<stReal>(-1000.f, -1000.f, -1000.f), Vector3<stReal>(1000.f, 1000.f, 1000.f)));
     }
 
     inline void addActor(STActor* actor){
         actors.push_back(actor);
+        pendingEntities.push(actor);
     }
 
     inline void addLight(STLight* light){
@@ -140,6 +144,13 @@ public:
 
     inline void addUIElement(STInterWidget* ui){
         uiElements.push_back(ui);
+    }
+
+    inline void update(){
+        while(pendingEntities.size() > 0){
+            rootNode->insert(pendingEntities.pop());
+        }
+        rootNode->update();
     }
 
     /**
@@ -174,6 +185,8 @@ public:
 private:
     stUint m_index;
     stUint m_numShadows;
+    STQueue<STEntity*> pendingEntities;
+    OctNode* rootNode;
     std::vector<STActor*> actors;
     std::vector<STLight*> lights;
     std::vector<STInterWidget*> uiElements;

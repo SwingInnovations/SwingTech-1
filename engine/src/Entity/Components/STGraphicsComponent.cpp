@@ -1,6 +1,10 @@
 #include "STGraphicsComponent.h"
 #include "../../Graphics/GL/GLShader.h"
 
+STGraphicsComponent::STGraphicsComponent(const STGraphicsComponent &copy) {
+    this->m_material = copy.m_material;
+}
+
 STGraphicsComponent::STGraphicsComponent(Shader *shdr) {
     m_shdr = shdr;
     useTexture = false;
@@ -179,6 +183,5 @@ void STGraphicsComponent::draw() {
     //m_material->draw(m_uniforms);
     //m_material->draw();
 }
-
 
 

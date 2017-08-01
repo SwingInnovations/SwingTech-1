@@ -262,6 +262,10 @@ public:
 
     inline T* getData(){ return m_Val; }
 
+    /**
+     * Returns the length of the Vector.
+     * @return
+     */
     inline double getLength()const{
         double _x = (double)getX();
         double _y = (double)getY();
@@ -407,6 +411,14 @@ public:
         T y = getY() / other.getY();
         T z = getZ() / other.getZ();
         return Vector3(x, y, z);
+    }
+
+    const bool operator<= (const Vector3& other)const{
+        return ((getX() <= other.getX()) && (getY() <= other.getY()) && (getZ() <= other.getZ()));
+    }
+
+    const bool operator>= (const Vector3& other)const{
+        return ((getX() >= other.getX()) && (getY() >= other.getY()) && (getZ() >= other.getZ()) );
     }
 
     const bool operator== (const Vector3& other)const{

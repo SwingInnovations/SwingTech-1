@@ -73,12 +73,7 @@ public:
      * @return
      */
     bool contains(const Vector3<stReal> point){
-        return (point.getX() < maxPoint.getX())
-               && (point.getY() < maxPoint.getY())
-               && (point.getZ() < maxPoint.getZ())
-               && (point.getX() > minPoint.getX())
-               && (point.getY() > minPoint.getY())
-               && (point.getZ() > minPoint.getZ());
+        return (point >= minPoint) && (point <= maxPoint);
     }
 
     /**

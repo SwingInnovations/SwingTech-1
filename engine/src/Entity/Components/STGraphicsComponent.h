@@ -16,12 +16,15 @@ class STComponent;
 
 class STGraphicsComponent : public STComponent{
 public:
-    STGraphicsComponent(Shader* shdr);
+    explicit STGraphicsComponent(Shader* shdr);
+    explicit STGraphicsComponent(const STGraphicsComponent& copy);
     STGraphicsComponent(Shader* shdr, Texture* tex);
-    STGraphicsComponent(STMaterial* mat);
-    STGraphicsComponent(const std::string& shdr);
+
+    explicit STGraphicsComponent(STMaterial* mat);
+
+    explicit STGraphicsComponent(const std::string& shdr);
     STGraphicsComponent(const std::string& shdrPath, const std::string& texPath);
-    ~STGraphicsComponent(){
+    ~STGraphicsComponent() override {
         delete m_shdr;
         if(useTexture) delete m_tex;
     }
@@ -71,7 +74,7 @@ public:
     }
 
     void update() override;
-    inline void draw();
+    void draw() override;
 
     std::map<std::string, STShader::ShaderAttrib> &GetUniforms();
 

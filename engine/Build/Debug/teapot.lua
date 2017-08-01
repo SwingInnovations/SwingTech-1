@@ -1,7 +1,7 @@
 counter = 0;
 function update(self)
     val = math.sin(counter) * 10;
-    scale = Vector3.new(0.1, 0.1, 0.1);
+    scale = Vector3.new(0.01, 0.01, 0.01);
     self:transform():setScale(scale);
     self:transform():setTranslateZ(300.0);
     self:transform():setRotationMode(RotationMode.Local);

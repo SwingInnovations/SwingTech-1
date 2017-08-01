@@ -46,14 +46,12 @@ public:
 
         _testActor2 = new STActor("dice.obj");
         _testActor2->get<STGraphicsComponent>()->getMaterial()->setRoughness("Bronze_Roughness.jpg");
-        _testActor2->transform()->setTranslateX(14.f);
         _testActor2->transform()->setRotationMode(Transform::RotationMode::Local);
         _testActor2->get<STEventComponent>()->addEvent("update", [](STEntity* self, STEntity* other){
             auto delta = STGame::Get()->getDelta();
-            self->transform()->setRotateY(self->transform()->getRotateF().getY() + delta * 0.25f);
+            self->transform()->setRotateY(self->transform()->getRotateF().getY() + delta * 0.025f);
         });
-        _testActor = new STActor("Chalice.fbx");
-        _testActor->transform()->setTranslateY(1.f);
+        _testActor = new STActor("teapot.obj");
         _testActor->addComponent(typeid(STScriptComponent), new STScriptComponent("teapot.lua"));
         _testActor->get<STGraphicsComponent>()->getMaterial()->setDiffuseTexture("Bronze_Albedo.jpg");
         _testActor->get<STGraphicsComponent>()->getMaterial()->setMetallic("Bronze_Roughness.jpg");

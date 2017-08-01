@@ -62,6 +62,7 @@ public:
                     Vector3<stReal> newOrigin(nX, nY, nZ);
                     extants *= 0.5f;
                     children[i] = new OctNode(newOrigin, extants);
+                    children[i]->parent = this;
                 }
                 auto oldPt = getOctantContainingPt(oldData->transform()->getTranslate());
                 auto newPt = getOctantContainingPt(newEntity->transform()->getTranslate());
@@ -100,9 +101,6 @@ public:
     void update(){
         if(data != NULL){
             data->update();
-            if(!boundingBox->contains(data->transform()->getTranslate())){
-                //Flag for re-insertion;
-            }
         }
         for (auto &i : children) {
             if(i != NULL) i->update();
@@ -130,6 +128,13 @@ public:
         rootNode = new OctNode(new STBoundingBox(Vector3<stReal>(-1000.f, -1000.f, -1000.f), Vector3<stReal>(1000.f, 1000.f, 1000.f)));
     }
 
+    ~STScene(){
+        delete rootNode;
+        actors.clear();
+        lights.clear();
+        uiElements.clear();
+    }
+
     inline void addActor(STActor* actor){
         actors.push_back(actor);
         pendingEntities.push(actor);
@@ -150,7 +155,7 @@ public:
         while(pendingEntities.size() > 0){
             rootNode->insert(pendingEntities.pop());
         }
-        rootNode->update();
+        rootNode->update(); //Updates all entities.
     }
 
     /**

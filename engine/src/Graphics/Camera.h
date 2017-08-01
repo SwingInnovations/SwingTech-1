@@ -77,6 +77,10 @@ public:
     inline ViewProfile* viewProf(){ return &m_viewProf; }
     inline Transform* transform(){ return &m_transform; }
 
+    /**
+     * Sets speed of camera;
+     * @param speed
+     */
     inline void setSpeed(stReal speed){this->m_Speed = speed;}
 
     inline stReal getHAngle(){ return hAngle; }

@@ -17,9 +17,11 @@ public:
     void update(){
 
     }
+
     void draw(){
 
     }
+
 private:
     BUTTON_TYPE m_buttonType;
     bool isChecked;

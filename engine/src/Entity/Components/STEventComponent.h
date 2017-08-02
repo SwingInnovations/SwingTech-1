@@ -15,7 +15,7 @@ class STEventComponent : public STComponent{
 public:
 
     STEventComponent();
-    ~STEventComponent();
+    ~STEventComponent() override;
 
     void update() override;
     void draw() override;

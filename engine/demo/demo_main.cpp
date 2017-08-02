@@ -3,6 +3,7 @@
 #include "../src/Entity/STEntity.h"
 #include "../src/Graphics/GL/GLGraphics.h"
 #include "../src/STSceneManager.h"
+#include "../src/Entity/Components/STAABBComponent.h"
 
 class InputMap;
 class STGame;
@@ -44,8 +45,9 @@ public:
 
         //auto actor = new STActor("sample.FBX", resManager->getMaterial("default")->copy());
 
-        _testActor2 = new STActor("dice.obj");
+        _testActor2 = new STActor("smooth_sphere.obj");
         _testActor2->get<STGraphicsComponent>()->getMaterial()->setRoughness("Bronze_Roughness.jpg");
+        _testActor2->get<STGraphicsComponent>()->getMaterial()->setDiffuseColor(STColor(1.f, 0.f, 0.f, 1.f));
         _testActor2->transform()->setRotationMode(Transform::RotationMode::Local);
         _testActor2->get<STEventComponent>()->addEvent("update", [](STEntity* self, STEntity* other){
             auto delta = STGame::Get()->getDelta();
@@ -92,10 +94,10 @@ public:
             input->setCursorVisible(!input->isCursorBound());
         }
         if(input->isKeyDown(KEY::KEY_O)){
-            _testActor2->transform()->setTranslateZ(_testActor2->transform()->getTranslate().getZ() + 0.025f * delta);
+            _testActor2->transform()->setTranslateY(_testActor2->transform()->getTranslate().getY() + 0.025f * delta);
         }
         if(input->isKeyDown(KEY::KEY_U)){
-            _testActor2->transform()->setTranslateZ(_testActor2->transform()->getTranslate().getZ() - 0.025f * delta);
+            _testActor2->transform()->setTranslateY(_testActor2->transform()->getTranslate().getY() - 0.025f * delta);
         }
         float c = counter * 0.05f;
         counter += 0.005f * delta;

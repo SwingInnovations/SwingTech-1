@@ -20,17 +20,23 @@
   <component name="ChangeListManager">
     <list default="true" id="5ee8588a-b915-4eb2-8583-18cd73e205f4" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Build/Debug/teapot.lua" afterPath="$PROJECT_DIR$/Build/Debug/teapot.lua" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/demo/demo_main.cpp" afterPath="$PROJECT_DIR$/demo/demo_main.cpp" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Entity/Components/STAABBComponent.cpp" afterPath="$PROJECT_DIR$/src/Entity/Components/STAABBComponent.cpp" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Entity/Components/STAABBComponent.h" afterPath="$PROJECT_DIR$/src/Entity/Components/STAABBComponent.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Entity/Components/STBoundsComponent.h" afterPath="$PROJECT_DIR$/src/Entity/Components/STBoundsComponent.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Entity/Components/STEventComponent.h" afterPath="$PROJECT_DIR$/src/Entity/Components/STEventComponent.h" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Entity/Components/STGraphicsComponent.cpp" afterPath="$PROJECT_DIR$/src/Entity/Components/STGraphicsComponent.cpp" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Entity/Components/STGraphicsComponent.h" afterPath="$PROJECT_DIR$/src/Entity/Components/STGraphicsComponent.h" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Graphics/Camera.h" afterPath="$PROJECT_DIR$/src/Graphics/Camera.h" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Graphics/Interface/UI_Components/STButtonComponent.h" afterPath="$PROJECT_DIR$/src/Graphics/Interface/UI_Components/STButtonComponent.h" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Graphics/Interface/UI_Components/STTextComponent.h" afterPath="$PROJECT_DIR$/src/Graphics/Interface/UI_Components/STTextComponent.h" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Math/Shape/BoundingBox.h" afterPath="$PROJECT_DIR$/src/Math/Shape/BoundingBox.h" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Math/Vector.h" afterPath="$PROJECT_DIR$/src/Math/Vector.h" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/STSceneManager.h" afterPath="$PROJECT_DIR$/src/STSceneManager.h" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Util/Data_Structure/STQueue.h" afterPath="$PROJECT_DIR$/src/Util/Data_Structure/STQueue.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Entity/Components/STMeshComponent.cpp" afterPath="$PROJECT_DIR$/src/Entity/Components/STMeshComponent.cpp" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Entity/Components/STMeshComponent.h" afterPath="$PROJECT_DIR$/src/Entity/Components/STMeshComponent.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Entity/STActor.cpp" afterPath="$PROJECT_DIR$/src/Entity/STActor.cpp" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Entity/STActor.h" afterPath="$PROJECT_DIR$/src/Entity/STActor.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Entity/STEntity.cpp" afterPath="$PROJECT_DIR$/src/Entity/STEntity.cpp" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Entity/STEntity.h" afterPath="$PROJECT_DIR$/src/Entity/STEntity.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Entity/Util/STMesh.h" afterPath="$PROJECT_DIR$/src/Entity/Util/STMesh.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Graphics/GL/GLShader.h" afterPath="$PROJECT_DIR$/src/Graphics/GL/GLShader.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Graphics/STMaterial.h" afterPath="$PROJECT_DIR$/src/Graphics/STMaterial.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Util/Data_Structure/STList.h" afterPath="$PROJECT_DIR$/src/Util/Data_Structure/STList.h" />
     </list>
     <ignored path="Wahoo.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -50,20 +56,32 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="demo_main.cpp" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/demo/demo_main.cpp">
+      <file leaf-file-name="STAABBComponent.cpp" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/Entity/Components/STAABBComponent.cpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="432">
-              <caret line="42" column="42" lean-forward="false" selection-start-line="42" selection-start-column="42" selection-end-line="42" selection-end-column="42" />
+            <state relative-caret-position="90">
+              <caret line="5" column="0" lean-forward="false" selection-start-line="5" selection-start-column="0" selection-end-line="5" selection-end-column="0" />
               <folding>
-                <element signature="e#0#31#0" expanded="true" />
+                <element signature="e#0#28#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="SwingTech1.h" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/SwingTech1.h">
+      <file leaf-file-name="STActor.cpp" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/Entity/STActor.cpp">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="452">
+              <caret line="42" column="61" lean-forward="false" selection-start-line="42" selection-start-column="61" selection-end-line="42" selection-end-column="61" />
+              <folding>
+                <element signature="e#0#20#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Transform.cpp" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/Math/Transform.cpp">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="0">
               <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
@@ -72,21 +90,53 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Camera.h" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/Graphics/Camera.h">
+      <file leaf-file-name="Transform.h" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/Math/Transform.h">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="246">
-              <caret line="80" column="28" lean-forward="false" selection-start-line="80" selection-start-column="28" selection-end-line="80" selection-end-column="28" />
+            <state relative-caret-position="0">
+              <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="STGraphicsComponent.h" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/Entity/Components/STGraphicsComponent.h">
+      <file leaf-file-name="Vector.h" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/Math/Vector.h">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-414">
-              <caret line="38" column="36" lean-forward="false" selection-start-line="38" selection-start-column="36" selection-end-line="38" selection-end-column="36" />
+            <state relative-caret-position="4194">
+              <caret line="233" column="25" lean-forward="false" selection-start-line="233" selection-start-column="25" selection-end-line="233" selection-end-column="25" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="demo_main.cpp" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/demo/demo_main.cpp">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="272">
+              <caret line="103" column="67" lean-forward="false" selection-start-line="103" selection-start-column="67" selection-end-line="103" selection-end-column="67" />
+              <folding>
+                <element signature="e#0#31#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="STMaterial.h" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/Graphics/STMaterial.h">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="954">
+              <caret line="53" column="48" lean-forward="false" selection-start-line="53" selection-start-column="48" selection-end-line="53" selection-end-column="48" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="STBoundsComponent.h" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/Entity/Components/STBoundsComponent.h">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="126">
+              <caret line="7" column="39" lean-forward="true" selection-start-line="7" selection-start-column="39" selection-end-line="7" selection-end-column="39" />
               <folding />
             </state>
           </provider>
@@ -95,64 +145,21 @@
       <file leaf-file-name="STEntity.cpp" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/Entity/STEntity.cpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1206">
-              <caret line="69" column="0" lean-forward="false" selection-start-line="69" selection-start-column="0" selection-end-line="69" selection-end-column="82" />
+            <state relative-caret-position="1314">
+              <caret line="105" column="32" lean-forward="false" selection-start-line="105" selection-start-column="32" selection-end-line="105" selection-end-column="32" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="STSceneManager.h" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/STSceneManager.h">
+      <file leaf-file-name="STAABBComponent.h" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/Entity/Components/STAABBComponent.h">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-828">
-              <caret line="134" column="27" lean-forward="false" selection-start-line="134" selection-start-column="27" selection-end-line="134" selection-end-column="27" />
+            <state relative-caret-position="108">
+              <caret line="6" column="0" lean-forward="false" selection-start-line="6" selection-start-column="0" selection-end-line="6" selection-end-column="0" />
               <folding>
-                <element signature="e#63#80#0" expanded="true" />
+                <element signature="e#75#105#0" expanded="true" />
               </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="STQueue.h" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/Util/Data_Structure/STQueue.h">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="378">
-              <caret line="41" column="0" lean-forward="false" selection-start-line="41" selection-start-column="0" selection-end-line="41" selection-end-column="0" />
-              <folding>
-                <element signature="e#59#89#0" expanded="true" />
-                <element signature="e#119#131#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="STTextComponent.h" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/Graphics/Interface/UI_Components/STTextComponent.h">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="144">
-              <caret line="8" column="51" lean-forward="false" selection-start-line="8" selection-start-column="51" selection-end-line="8" selection-end-column="51" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Vector.h" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/Math/Vector.h">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="216">
-              <caret line="230" column="5" lean-forward="false" selection-start-line="230" selection-start-column="5" selection-end-line="230" selection-end-column="5" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Camera.cpp" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/Graphics/Camera.cpp">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="0">
-              <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-              <folding />
             </state>
           </provider>
         </entry>
@@ -199,13 +206,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/src/Graphics/STMaterial.h" />
-        <option value="$PROJECT_DIR$/src/Graphics/Shader.h" />
-        <option value="$PROJECT_DIR$/src/Math/Transform.cpp.cpp" />
-        <option value="$PROJECT_DIR$/src/Graphics/Camera.cpp" />
-        <option value="$PROJECT_DIR$/src/Math/Transform.cpp" />
-        <option value="$PROJECT_DIR$/src/Entity/STLight.h" />
-        <option value="$PROJECT_DIR$/src/Input.cpp" />
         <option value="$PROJECT_DIR$/src/Input.h" />
         <option value="$PROJECT_DIR$/Build/Debug/standard.glinc" />
         <option value="$PROJECT_DIR$/Build/Debug/deff_geomPass.fsh" />
@@ -219,12 +219,8 @@
         <option value="$PROJECT_DIR$/Build/Debug/deff_LightPassPBR.fsh" />
         <option value="$PROJECT_DIR$/src/Graphics/STMaterial.cpp" />
         <option value="$PROJECT_DIR$/src/Graphics/GL/GLGraphics.cpp" />
-        <option value="$PROJECT_DIR$/src/Entity/STActor.h" />
-        <option value="$PROJECT_DIR$/src/Entity/STEntity.h" />
-        <option value="$PROJECT_DIR$/src/Entity/STEntity.cpp" />
         <option value="$PROJECT_DIR$/src/Entity/Util/STMesh.cpp" />
         <option value="$PROJECT_DIR$/src/Entity/Util/Loaders/STMeshLoader.h" />
-        <option value="$PROJECT_DIR$/src/Entity/STActor.cpp" />
         <option value="$PROJECT_DIR$/src/Math/Transform.h" />
         <option value="$PROJECT_DIR$/src/Entity/Components/STScriptComponent.cpp" />
         <option value="$PROJECT_DIR$/demo/STSample.cpp" />
@@ -233,23 +229,34 @@
         <option value="$PROJECT_DIR$/src/STGameState.cpp" />
         <option value="$PROJECT_DIR$/demo/DataStructureTest.cpp" />
         <option value="$PROJECT_DIR$/src/Entity/Components/STEventComponent.cpp" />
-        <option value="$PROJECT_DIR$/src/Entity/Components/STEventComponent.h" />
         <option value="$PROJECT_DIR$/src/Entity/Components/STScriptComponent.h" />
         <option value="$PROJECT_DIR$/src/Entity/Components/STComponent.h" />
-        <option value="$PROJECT_DIR$/src/Entity/Components/STMeshComponent.h" />
         <option value="$PROJECT_DIR$/src/Entity/Components/STLightComponent.h" />
-        <option value="$PROJECT_DIR$/src/Util/Data_Structure/STList.h" />
         <option value="$PROJECT_DIR$/Build/Debug/teapot.lua" />
-        <option value="$PROJECT_DIR$/demo/demo_main.cpp" />
         <option value="$PROJECT_DIR$/src/Graphics/Interface/UI_Components/STTextComponent.h" />
         <option value="$PROJECT_DIR$/src/Graphics/Interface/UI_Components/STButtonComponent.h" />
         <option value="$PROJECT_DIR$/src/Math/Shape/BoundingBox.h" />
         <option value="$PROJECT_DIR$/src/Util/Data_Structure/STQueue.h" />
         <option value="$PROJECT_DIR$/src/Graphics/Camera.h" />
-        <option value="$PROJECT_DIR$/src/Entity/Components/STGraphicsComponent.cpp" />
-        <option value="$PROJECT_DIR$/src/Entity/Components/STGraphicsComponent.h" />
         <option value="$PROJECT_DIR$/src/Math/Vector.h" />
         <option value="$PROJECT_DIR$/src/STSceneManager.h" />
+        <option value="$PROJECT_DIR$/src/Entity/STEntity.h" />
+        <option value="$PROJECT_DIR$/src/Entity/Components/STGraphicsComponent.h" />
+        <option value="$PROJECT_DIR$/src/Entity/Components/STEventComponent.h" />
+        <option value="$PROJECT_DIR$/src/Entity/Components/STGraphicsComponent.cpp" />
+        <option value="$PROJECT_DIR$/src/Graphics/STMaterial.h" />
+        <option value="$PROJECT_DIR$/src/Graphics/GL/GLShader.h" />
+        <option value="$PROJECT_DIR$/src/Util/Data_Structure/STList.h" />
+        <option value="$PROJECT_DIR$/src/Entity/Util/STMesh.h" />
+        <option value="$PROJECT_DIR$/src/Entity/Components/STMeshComponent.cpp" />
+        <option value="$PROJECT_DIR$/src/Entity/Components/STMeshComponent.h" />
+        <option value="$PROJECT_DIR$/src/Entity/STActor.h" />
+        <option value="$PROJECT_DIR$/src/Entity/Components/STAABBComponent.h" />
+        <option value="$PROJECT_DIR$/src/Entity/Components/STAABBComponent.cpp" />
+        <option value="$PROJECT_DIR$/src/Entity/Components/STBoundsComponent.h" />
+        <option value="$PROJECT_DIR$/src/Entity/STEntity.cpp" />
+        <option value="$PROJECT_DIR$/src/Entity/STActor.cpp" />
+        <option value="$PROJECT_DIR$/demo/demo_main.cpp" />
       </list>
     </option>
   </component>
@@ -327,6 +334,28 @@
               <item name="SwingTech1" type="dad4c3:CidrFilesViewHelper$MyProjectTreeStructure$1" />
               <item name="engine" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="Entity" type="462c0819:PsiDirectoryNode" />
+              <item name="Components" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="SwingTech1" type="dad4c3:CidrFilesViewHelper$MyProjectTreeStructure$1" />
+              <item name="engine" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="Entity" type="462c0819:PsiDirectoryNode" />
+              <item name="Util" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="SwingTech1" type="dad4c3:CidrFilesViewHelper$MyProjectTreeStructure$1" />
+              <item name="engine" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="Entity" type="462c0819:PsiDirectoryNode" />
+              <item name="Util" type="462c0819:PsiDirectoryNode" />
+              <item name="Loaders" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="SwingTech1" type="dad4c3:CidrFilesViewHelper$MyProjectTreeStructure$1" />
+              <item name="engine" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="Graphics" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
@@ -334,34 +363,13 @@
               <item name="engine" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="Graphics" type="462c0819:PsiDirectoryNode" />
-              <item name="Interface" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="SwingTech1" type="dad4c3:CidrFilesViewHelper$MyProjectTreeStructure$1" />
-              <item name="engine" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="Graphics" type="462c0819:PsiDirectoryNode" />
-              <item name="Interface" type="462c0819:PsiDirectoryNode" />
-              <item name="UI_Components" type="462c0819:PsiDirectoryNode" />
+              <item name="GL" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="SwingTech1" type="dad4c3:CidrFilesViewHelper$MyProjectTreeStructure$1" />
               <item name="engine" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="Math" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="SwingTech1" type="dad4c3:CidrFilesViewHelper$MyProjectTreeStructure$1" />
-              <item name="engine" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="Util" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="SwingTech1" type="dad4c3:CidrFilesViewHelper$MyProjectTreeStructure$1" />
-              <item name="engine" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="Util" type="462c0819:PsiDirectoryNode" />
-              <item name="Data_Structure" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -1048,7 +1056,13 @@
       <workItem from="1500743178988" duration="1888000" />
       <workItem from="1501371868668" duration="2386000" />
       <workItem from="1501507990007" duration="15658000" />
-      <workItem from="1501560693581" duration="886000" />
+      <workItem from="1501560693581" duration="2657000" />
+      <workItem from="1501616903889" duration="546000" />
+      <workItem from="1501620082258" duration="1539000" />
+      <workItem from="1501704163330" duration="44000" />
+      <workItem from="1501704224359" duration="3283000" />
+      <workItem from="1501708136962" duration="2185000" />
+      <workItem from="1501713020826" duration="279000" />
     </task>
     <task id="LOCAL-00001" summary="0.0.91">
       <created>1456015877403</created>
@@ -1323,11 +1337,18 @@
       <option name="project" value="LOCAL" />
       <updated>1501538508865</updated>
     </task>
-    <option name="localTasksCounter" value="40" />
+    <task id="LOCAL-00040" summary="[*] Tuneups and fixes">
+      <created>1501561593392</created>
+      <option name="number" value="00040" />
+      <option name="presentableId" value="LOCAL-00040" />
+      <option name="project" value="LOCAL" />
+      <updated>1501561593392</updated>
+    </task>
+    <option name="localTasksCounter" value="41" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="567204000" />
+    <option name="totallyTimeSpent" value="576851000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -1400,7 +1421,6 @@
   <component name="VcsManagerConfiguration">
     <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_NEW_TODO" value="false" />
-    <MESSAGE value="[*] Deferred shadows Properly Working&#10;[*] Other internal Improvements." />
     <MESSAGE value="[*] Moved Uniforms from Vector to Map" />
     <MESSAGE value="[*] Fixed Scripting Math Issue" />
     <MESSAGE value="[*] Some Code Cleanup. Moved OBJ Loader to new Loaders Folder." />
@@ -1425,19 +1445,20 @@
     <MESSAGE value="[*] Fixed Local Rotations" />
     <MESSAGE value="[*] Simple Data Structures." />
     <MESSAGE value="[+] Working Octree Implementation" />
-    <option name="LAST_COMMIT_MESSAGE" value="[+] Working Octree Implementation" />
+    <MESSAGE value="[*] Tuneups and fixes" />
+    <option name="LAST_COMMIT_MESSAGE" value="[*] Tuneups and fixes" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
           <url>file://$PROJECT_DIR$/src/Entity/STEntity.cpp</url>
-          <line>92</line>
+          <line>18</line>
           <option name="timeStamp" value="335" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
           <url>file://$PROJECT_DIR$/src/Entity/STEntity.cpp</url>
-          <line>115</line>
+          <line>41</line>
           <option name="timeStamp" value="678" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
@@ -1499,7 +1520,7 @@
       <breakpoints-dialog>
         <breakpoints-dialog />
       </breakpoints-dialog>
-      <option name="time" value="759" />
+      <option name="time" value="761" />
     </breakpoint-manager>
     <watches-manager>
       <configuration name="CMakeRunConfiguration">
@@ -1510,169 +1531,6 @@
     </watches-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/Math/Vector.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="640">
-          <caret line="32" column="22" lean-forward="true" selection-start-line="32" selection-start-column="22" selection-end-line="32" selection-end-column="22" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Entity/Util/Loaders/STMeshLoader.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1200">
-          <caret line="60" column="7" lean-forward="false" selection-start-line="60" selection-start-column="7" selection-end-line="60" selection-end-column="7" />
-          <folding>
-            <element signature="e#69#83#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Math/Vertex.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Entity/STActor.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1320">
-          <caret line="66" column="84" lean-forward="false" selection-start-line="66" selection-start-column="84" selection-end-line="66" selection-end-column="84" />
-          <folding>
-            <element signature="e#0#20#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Math/Matrix.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2400">
-          <caret line="120" column="18" lean-forward="false" selection-start-line="120" selection-start-column="18" selection-end-line="120" selection-end-column="18" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Math/STCore.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Math/Transform.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1300">
-          <caret line="65" column="24" lean-forward="false" selection-start-line="65" selection-start-column="24" selection-end-line="65" selection-end-column="24" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Entity/Util/Loaders/STMeshLoader.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1200">
-          <caret line="60" column="7" lean-forward="false" selection-start-line="60" selection-start-column="7" selection-end-line="60" selection-end-column="7" />
-          <folding>
-            <element signature="e#69#83#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Graphics/Interface/STButtonGroup.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Graphics/Interface/STButton.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Graphics/Interface/STButton.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/CMakeLists.txt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="468">
-          <caret line="26" column="2823" lean-forward="false" selection-start-line="26" selection-start-column="2823" selection-end-line="26" selection-end-column="2823" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/demo/STSample.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="198">
-          <caret line="11" column="0" lean-forward="false" selection-start-line="11" selection-start-column="0" selection-end-line="11" selection-end-column="0" />
-          <folding>
-            <element signature="e#0#31#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/STGameState.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="198">
-          <caret line="11" column="27" lean-forward="false" selection-start-line="11" selection-start-column="27" selection-end-line="11" selection-end-column="27" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/main.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-324">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding>
-            <element signature="e#0#19#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/demo/DataStructureTest.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="324">
-          <caret line="18" column="31" lean-forward="false" selection-start-line="18" selection-start-column="31" selection-end-line="18" selection-end-column="31" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Entity/Components/STEventComponent.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="306">
-          <caret line="19" column="27" lean-forward="true" selection-start-line="19" selection-start-column="27" selection-end-line="19" selection-end-column="27" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Entity/Components/STRectBoundsComponent.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Entity/Components/STLightComponent.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="273">
-          <caret line="59" column="11" lean-forward="false" selection-start-line="59" selection-start-column="11" selection-end-line="59" selection-end-column="11" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Entity/Components/STMeshComponent.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Entity/Components/STScriptComponent.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="360">
-          <caret line="21" column="20" lean-forward="true" selection-start-line="21" selection-start-column="20" selection-end-line="21" selection-end-column="20" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/Entity/Components/STRectBoundsComponent.h">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="216">
@@ -1687,51 +1545,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/Entity/Components/STComponent.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="198">
-          <caret line="11" column="7" lean-forward="false" selection-start-line="11" selection-start-column="7" selection-end-line="11" selection-end-column="7" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Entity/Components/STBoundsComponent.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Entity/Components/STAABBComponent.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding>
-            <element signature="e#0#28#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Entity/Components/STAABBComponent.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Entity/Components/STMeshComponent.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="432">
-          <caret line="40" column="14" lean-forward="true" selection-start-line="40" selection-start-column="14" selection-end-line="40" selection-end-column="14" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/Math/Euler.h">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1753,7 +1570,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="270">
           <caret line="179" column="5" lean-forward="true" selection-start-line="179" selection-start-column="5" selection-end-line="179" selection-end-column="5" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1761,24 +1577,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="506">
           <caret line="170" column="0" lean-forward="false" selection-start-line="170" selection-start-column="0" selection-end-line="170" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Util/Data_Structure/STList.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="118">
-          <caret line="51" column="19" lean-forward="false" selection-start-line="51" selection-start-column="19" selection-end-line="51" selection-end-column="19" />
-          <folding>
-            <element signature="e#97#109#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/STGameState.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="3" lean-forward="false" selection-start-line="0" selection-start-column="3" selection-end-line="0" selection-end-column="3" />
         </state>
       </provider>
     </entry>
@@ -1809,7 +1607,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1817,23 +1614,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="306">
           <caret line="17" column="0" lean-forward="false" selection-start-line="17" selection-start-column="0" selection-end-line="17" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Entity/Components/STGraphicsComponent.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-54">
-          <caret line="4" column="39" lean-forward="false" selection-start-line="4" selection-start-column="39" selection-end-line="4" selection-end-column="39" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Entity/STEntity.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1206">
-          <caret line="69" column="0" lean-forward="false" selection-start-line="69" selection-start-column="0" selection-end-line="69" selection-end-column="82" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1841,7 +1621,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="144">
           <caret line="8" column="51" lean-forward="false" selection-start-line="8" selection-start-column="51" selection-end-line="8" selection-end-column="51" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1849,25 +1628,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Entity/Components/STGraphicsComponent.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-414">
-          <caret line="38" column="36" lean-forward="false" selection-start-line="38" selection-start-column="36" selection-end-line="38" selection-end-column="36" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/demo/demo_main.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="432">
-          <caret line="42" column="42" lean-forward="false" selection-start-line="42" selection-start-column="42" selection-end-line="42" selection-end-column="42" />
-          <folding>
-            <element signature="e#0#31#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1875,18 +1635,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Util/Data_Structure/STQueue.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="378">
-          <caret line="41" column="0" lean-forward="false" selection-start-line="41" selection-start-column="0" selection-end-line="41" selection-end-column="0" />
-          <folding>
-            <element signature="e#59#89#0" expanded="true" />
-            <element signature="e#119#131#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1902,17 +1650,277 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/Graphics/Camera.h">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="246">
+        <state relative-caret-position="1440">
           <caret line="80" column="28" lean-forward="false" selection-start-line="80" selection-start-column="28" selection-end-line="80" selection-end-column="28" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/STGameState.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="3" lean-forward="false" selection-start-line="0" selection-start-column="3" selection-end-line="0" selection-end-column="3" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Graphics/GL/GLGraphics.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="5292">
+          <caret line="294" column="0" lean-forward="false" selection-start-line="294" selection-start-column="0" selection-end-line="294" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Entity/Components/STEventComponent.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="288">
+          <caret line="16" column="23" lean-forward="false" selection-start-line="16" selection-start-column="23" selection-end-line="16" selection-end-column="23" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Graphics/GL/GLShader.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="228">
+          <caret line="94" column="11" lean-forward="false" selection-start-line="94" selection-start-column="11" selection-end-line="94" selection-end-column="11" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Graphics/GL/GLTexture.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Graphics/GL/GLTexture.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Entity/Components/STGraphicsComponent.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="90">
+          <caret line="5" column="31" lean-forward="false" selection-start-line="5" selection-start-column="31" selection-end-line="5" selection-end-column="31" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Entity/Components/STGraphicsComponent.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="468">
+          <caret line="26" column="39" lean-forward="false" selection-start-line="26" selection-start-column="39" selection-end-line="26" selection-end-column="39" />
+          <folding>
+            <element signature="e#73#107#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/STGlobal.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Util/Data_Structure/STQueue.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="738">
+          <caret line="41" column="0" lean-forward="false" selection-start-line="41" selection-start-column="0" selection-end-line="41" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Util/Data_Structure/STList.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2574">
+          <caret line="143" column="18" lean-forward="false" selection-start-line="143" selection-start-column="18" selection-end-line="143" selection-end-column="18" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Entity/Components/STRectBoundsComponent.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Entity/Util/STMesh.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="540">
+          <caret line="51" column="17" lean-forward="false" selection-start-line="51" selection-start-column="17" selection-end-line="51" selection-end-column="17" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Entity/Util/STMesh.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="342">
+          <caret line="48" column="20" lean-forward="false" selection-start-line="48" selection-start-column="20" selection-end-line="48" selection-end-column="20" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Entity/STEntity.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="648">
+          <caret line="68" column="77" lean-forward="false" selection-start-line="68" selection-start-column="77" selection-end-line="68" selection-end-column="77" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Entity/Components/STMeshComponent.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="396">
+          <caret line="39" column="18" lean-forward="false" selection-start-line="39" selection-start-column="18" selection-end-line="39" selection-end-column="18" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Graphics/GL/GLMesh.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="342">
+          <caret line="19" column="48" lean-forward="false" selection-start-line="19" selection-start-column="48" selection-end-line="19" selection-end-column="48" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Graphics/GL/GLMesh.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Entity/Util/Loaders/STMeshLoader.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="270">
+          <caret line="15" column="6" lean-forward="false" selection-start-line="15" selection-start-column="6" selection-end-line="15" selection-end-column="6" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Entity/Util/Loaders/STMeshCommon.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="288">
+          <caret line="19" column="20" lean-forward="false" selection-start-line="19" selection-start-column="20" selection-end-line="19" selection-end-column="20" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Entity/Components/STMeshComponent.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="177">
+          <caret line="22" column="25" lean-forward="false" selection-start-line="22" selection-start-column="25" selection-end-line="22" selection-end-column="25" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Entity/Components/STComponent.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="27" lean-forward="true" selection-start-line="0" selection-start-column="27" selection-end-line="0" selection-end-column="27" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Entity/STActor.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="54">
+          <caret line="3" column="21" lean-forward="false" selection-start-line="3" selection-start-column="21" selection-end-line="3" selection-end-column="21" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Graphics/GL/GLShader.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="702">
+          <caret line="39" column="16" lean-forward="false" selection-start-line="39" selection-start-column="16" selection-end-line="39" selection-end-column="16" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Math/Transform.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/Math/Vector.h">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="216">
-          <caret line="230" column="5" lean-forward="false" selection-start-line="230" selection-start-column="5" selection-end-line="230" selection-end-column="5" />
+        <state relative-caret-position="4194">
+          <caret line="233" column="25" lean-forward="false" selection-start-line="233" selection-start-column="25" selection-end-line="233" selection-end-column="25" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Math/Transform.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Graphics/STMaterial.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="954">
+          <caret line="53" column="48" lean-forward="false" selection-start-line="53" selection-start-column="48" selection-end-line="53" selection-end-column="48" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Entity/Components/STAABBComponent.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="90">
+          <caret line="5" column="0" lean-forward="false" selection-start-line="5" selection-start-column="0" selection-end-line="5" selection-end-column="0" />
+          <folding>
+            <element signature="e#0#28#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Entity/Components/STAABBComponent.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="108">
+          <caret line="6" column="0" lean-forward="false" selection-start-line="6" selection-start-column="0" selection-end-line="6" selection-end-column="0" />
+          <folding>
+            <element signature="e#75#105#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Entity/Components/STBoundsComponent.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="126">
+          <caret line="7" column="39" lean-forward="true" selection-start-line="7" selection-start-column="39" selection-end-line="7" selection-end-column="39" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Entity/STEntity.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1314">
+          <caret line="105" column="32" lean-forward="false" selection-start-line="105" selection-start-column="32" selection-end-line="105" selection-end-column="32" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Entity/STActor.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="452">
+          <caret line="42" column="61" lean-forward="false" selection-start-line="42" selection-start-column="61" selection-end-line="42" selection-end-column="61" />
+          <folding>
+            <element signature="e#0#20#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/demo/demo_main.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="272">
+          <caret line="103" column="67" lean-forward="false" selection-start-line="103" selection-start-column="67" selection-end-line="103" selection-end-column="67" />
+          <folding>
+            <element signature="e#0#31#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

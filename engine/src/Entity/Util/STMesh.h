@@ -41,6 +41,14 @@ public:
     virtual void draw(){}
     virtual void draw(int drawMode){  }
 
+    void setMeshStructure(STMesh_Structure& meshStructure){
+        this->mesh = meshStructure;
+    }
+
+    STMesh_Structure getMeshStructure()const{
+        return mesh;
+    }
+
     std::vector<Vector3<stReal>> new_GenTangent(std::vector<Vector3<stReal>>& normal){
         std::vector<Vector3<stReal>> ret;
         Vector3<stReal> Z(0.0f, 0.0f, 1.0f);
@@ -120,6 +128,8 @@ public:
 
         return ret;
     }
+private:
+    STMesh_Structure mesh;
 };
 
 

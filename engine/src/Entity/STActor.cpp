@@ -28,7 +28,7 @@ STActor::STActor(STMesh_Structure structure, std::string &tag, STMaterial* mater
     addComponent(typeid(STMeshComponent), new STMeshComponent(structure));
     addComponent(typeid(STGraphicsComponent), new STGraphicsComponent(material));
     addComponent(typeid(STEventComponent), new STEventComponent);
-    addComponent(typeid(STAABBComponent), new STAABBComponent((STEntity*)this, structure.m_minPt, structure.m_maxPt));
+    addComponent(typeid(STAABBComponent), new STAABBComponent);
     m_transform = new Transform(this);
 }
 
@@ -40,7 +40,7 @@ STActor::STActor(STMesh_Structure meshStructure, std::map<std::string, STMateria
     if(meshStructure.materialKey == "") addComponent(typeid(STGraphicsComponent), new STGraphicsComponent(new STMaterial(new GLShader("standard"))));
     else addComponent(typeid(STGraphicsComponent), new STGraphicsComponent(materials.at(meshStructure.materialKey)));
     addComponent(typeid(STEventComponent), new STEventComponent());
-    addComponent(typeid(STAABBComponent), new STAABBComponent((STEntity*)this, meshStructure.m_minPt, meshStructure.m_maxPt));
+    addComponent(typeid(STAABBComponent), new STAABBComponent);
     m_transform = new Transform(this);
 }
 

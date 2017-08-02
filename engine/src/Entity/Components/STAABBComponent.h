@@ -2,20 +2,25 @@
 #define SWINGTECH1_STAABBCOMPONENT_H
 
 #include "STBoundsComponent.h"
+#include "../../Math/Vertex.h"
 
 class STAABBComponent : public STBoundsComponent{
 public:
+    STAABBComponent();
     STAABBComponent(STEntity* parent, Vector3<stReal> minPoint, Vector3<stReal> maxPoint);
 
-    void update();
-    void adjustTransX(stReal x);
-    void adjustTransY(stReal y);
-    void adjustTransZ(stReal z);
+    void init(STEntity* parent);
 
-    void reconstructBounds();
-    bool contains(STEntity* other){
+    void update() override;
+
+    Vector3<stReal> getMinPoint()const{ return m_MinPoint; }
+    Vector3<stReal> getMaxPoint()const{ return m_MaxPoint; }
+
+    bool contains(STEntity* other) override {
         return false;
     }
+
+    void calculateBounds();
 
 private:
     Vector3<stReal> m_MinPoint;

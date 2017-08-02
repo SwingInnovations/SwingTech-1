@@ -6,6 +6,7 @@
 STMeshComponent::STMeshComponent(STMesh_Structure structure) {
     if(STGraphics::RENDERER == STGraphics::OPENGL){
         m_mesh = new GLMesh(structure);
+        m_mesh->setMeshStructure(structure);
     }
 }
 
@@ -41,6 +42,10 @@ STMeshComponent::~STMeshComponent() {
 
 void STMeshComponent::update() {
 
+}
+
+STMesh *STMeshComponent::getMesh() const {
+    return m_mesh;
 }
 
 

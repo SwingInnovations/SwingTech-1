@@ -48,7 +48,12 @@ public:
 
     ~STMaterial(){
         delete shader;
-
+        for(auto uniform : m_Uniforms){
+            if(uniform.second.type == STShader::TEX){
+                auto texHandle = (stUint)STShader::toVector2(uniform.second.value).getX();
+                glDeleteTextures(1, &texHandle);
+            }
+        }
     }
 
     void setUniforms(std::map<std::string, STShader::ShaderAttrib> newUniforms);

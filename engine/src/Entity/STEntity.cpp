@@ -6,80 +6,6 @@ STEntity::STEntity() {
     m_transform = new Transform();
 }
 
-//STEntity::STEntity(const std::string &fileName, const int type, Shader *shdr) {
-//    m_transform = new Transform();
-//    addComponent(typeid(STMeshComponent), new STMeshComponent(fileName, type));
-//    addComponent(typeid(STGraphicsComponent), new STGraphicsComponent(shdr));
-//    addComponent(typeid(STEventComponent), new STEventComponent);
-//    m_visible = true;
-//}
-//
-//STEntity::STEntity(const std::string &fileName, const int type, Shader *shdr, Texture *tex) {
-//    m_transform = new Transform();
-//    addComponent(typeid(STMeshComponent), new STMeshComponent(fileName, type));
-//    addComponent(typeid(STGraphicsComponent), new STGraphicsComponent(shdr, tex));
-//    addComponent(typeid(STEventComponent), new STEventComponent);
-//    m_visible = true;
-//}
-//
-//STEntity::STEntity(const std::string &fileName, const int type, const std::string &shdrPath) {
-//    m_transform = new Transform();
-//    addComponent(typeid(STMeshComponent), new STMeshComponent(fileName, type));
-//    addComponent(typeid(STGraphicsComponent), new STGraphicsComponent(shdrPath));
-//    addComponent(typeid(STEventComponent), new STEventComponent);
-//    m_visible = true;
-//}
-//
-//STEntity::STEntity(const std::string &fileName, const int type, const std::string &shdrPath,
-//                   const std::string texPath) {
-//    m_transform = new Transform();
-//    addComponent(typeid(STMeshComponent), new STMeshComponent(fileName, type));
-//    addComponent(typeid(STGraphicsComponent), new STGraphicsComponent(shdrPath, texPath));
-//    addComponent(typeid(STEventComponent), new STEventComponent);
-//    m_visible = true;
-//}
-//
-//STEntity::STEntity(const std::string &fileName, const int type, STMaterial *mat) {
-//    m_transform = new Transform;
-//    addComponent(typeid(STMeshComponent), new STMeshComponent(fileName, type));
-//    addComponent(typeid(STGraphicsComponent), new STGraphicsComponent(mat));
-//    addComponent(typeid(STEventComponent), new STEventComponent);
-//    m_visible = true;
-//}
-
-
-STEntity::STEntity(STRect *rect,Shader *shdr) {
-    m_transform = new Transform();
-    addComponent(typeid(STMeshComponent), new STMeshComponent(rect));
-    addComponent(typeid(STGraphicsComponent), new STGraphicsComponent(shdr));
-    addComponent(typeid(STEventComponent), new STEventComponent);
-    m_visible = true;
-}
-
-STEntity::STEntity(STCube* cube, Shader* shdr){
-    m_transform = new Transform();
-    addComponent(typeid(STMeshComponent), new STMeshComponent(cube));
-    addComponent(typeid(STGraphicsComponent), new STGraphicsComponent(shdr));
-    addComponent(typeid(STEventComponent), new STEventComponent);
-    m_visible = true;
-}
-
-STEntity::STEntity(STCube* cube, Shader* shdr, Texture* tex){
-    m_transform = new Transform();
-    addComponent(typeid(STMeshComponent), new STMeshComponent(cube));
-    addComponent(typeid(STGraphicsComponent), new STGraphicsComponent(shdr, tex));
-    addComponent(typeid(STEventComponent), new STEventComponent);
-    m_visible = true;
-}
-
-STEntity::STEntity(STQuad *quad, Shader *shdr) {
-    m_transform = new Transform();
-    addComponent(typeid(STMeshComponent), new STMeshComponent(quad));
-    addComponent(typeid(STGraphicsComponent), new STGraphicsComponent(shdr));
-    addComponent(typeid(STEventComponent), new STEventComponent);
-    m_visible = true;
-}
-
 STEntity::~STEntity() {
     delete m_transform;
     m_transform = 0;
@@ -137,10 +63,6 @@ void STEntity::setTranslateX(stReal _x) {
             entity->setTranslateX(_x);
         }
     }
-    auto AABB_Bounds = this->get<STAABBComponent>();
-    if(AABB_Bounds != nullptr){
-        AABB_Bounds->adjustTransX(_x);
-    }
 
 }
 
@@ -153,11 +75,6 @@ void STEntity::setTranslateY(stReal _y) {
             entity->setTranslateY(_y);
         }
     }
-    auto AABB_Bounds = this->get<STAABBComponent>();
-    if(AABB_Bounds != nullptr){
-        AABB_Bounds->adjustTransY(_y);
-    }
-
 }
 
 void STEntity::setTranslateZ(stReal _z){
@@ -169,10 +86,6 @@ void STEntity::setTranslateZ(stReal _z){
             entity->setTranslateZ(_z);
         }
     }
-    auto AABB_Bounds = this->get<STAABBComponent>();
-    if(AABB_Bounds != nullptr){
-        AABB_Bounds->adjustTransZ(_z);
-    }
 }
 
 void STEntity::setRotate(Vector3<stReal> &vec) {
@@ -183,26 +96,14 @@ void STEntity::setRotate(Vector3<stReal> &vec) {
 
 void STEntity::setRotateX(stReal _x) {
     m_transform->setRotateX(_x);
-    auto AABB_Bounds = this->get<STAABBComponent>();
-    if(AABB_Bounds != nullptr){
-        AABB_Bounds->reconstructBounds();
-    }
 }
 
 void STEntity::setRotateY(stReal _y){
     m_transform->setRotateY(_y);
-    auto AABB_Bounds = this->get<STAABBComponent>();
-    if(AABB_Bounds != nullptr){
-        AABB_Bounds->reconstructBounds();
-    }
 }
 
 void STEntity::setRotateZ(stReal _z) {
     m_transform->setRotateZ(_z);
-    auto AABB_Bounds = this->get<STAABBComponent>();
-    if(AABB_Bounds != nullptr){
-        AABB_Bounds->reconstructBounds();
-    }
 }
 
 

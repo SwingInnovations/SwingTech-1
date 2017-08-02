@@ -67,10 +67,6 @@ public:
 //    STEntity(const std::string& fileName, const int type, const std::string& shdrPath, const std::string texPath);
 //    STEntity(const std::string& fileName, const int type, Shader* shdr, Texture* tex);
 //    STEntity(const std::string& fileName, const int type, STMaterial* mat);
-    STEntity(STRect*,Shader*);
-    STEntity(STQuad*,Shader*);
-    STEntity(STCube*,Shader*);
-    STEntity(STCube*,Shader*, Texture*);
     ~STEntity();
 
     void addComponent(std::type_index, STComponent*);

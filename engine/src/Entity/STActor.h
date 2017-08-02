@@ -3,8 +3,6 @@
 
 #include "STEntity.h"
 
-class STAABBComponent;
-
 /*
  * Actor class describes all visible entities in the scene.
  */

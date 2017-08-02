@@ -67,7 +67,7 @@ public:
         Node* node = new Node(data);
         if(head == nullptr){
             head = tail = node;
-            m_Size++;
+            ++m_Size;
             return;
         }
         node->next = head;
@@ -83,12 +83,12 @@ public:
         Node* node = new Node(data);
         if(head == nullptr){
             head = tail = node;
-            m_Size++;
+            ++m_Size;
             return;
         }
         tail->next = node;
         tail = node;
-        m_Size++;
+        ++m_Size;
     }
 
     /**

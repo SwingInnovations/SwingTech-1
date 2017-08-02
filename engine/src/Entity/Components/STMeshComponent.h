@@ -40,6 +40,8 @@ public:
 
     void update() override;
 
+    STMesh *getMesh() const;
+
     inline void draw() override {
         m_mesh->draw();
     }
@@ -47,10 +49,10 @@ public:
     inline void draw(int drawMode){
         m_mesh->draw(drawMode);
     }
-
 private:
 
     STMesh* m_mesh;
+
 };
 
 

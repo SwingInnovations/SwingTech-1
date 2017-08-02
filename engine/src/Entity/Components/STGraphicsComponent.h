@@ -17,16 +17,19 @@ class STComponent;
 class STGraphicsComponent : public STComponent{
 public:
     explicit STGraphicsComponent(Shader* shdr);
-    explicit STGraphicsComponent(const STGraphicsComponent& copy);
-    STGraphicsComponent(Shader* shdr, Texture* tex);
+    STGraphicsComponent(const STGraphicsComponent& copy);
 
     explicit STGraphicsComponent(STMaterial* mat);
 
     explicit STGraphicsComponent(const std::string& shdr);
-    STGraphicsComponent(const std::string& shdrPath, const std::string& texPath);
     ~STGraphicsComponent() override {
-        delete m_shdr;
-        if(useTexture) delete m_tex;
+        delete m_material;
+        for(auto uniform : m_Uniforms){
+            if(uniform.second.type == STShader::TEX) {
+                auto texHandle = (stUint)STShader::toVector2(uniform.second.value).getX();
+                glDeleteTextures(1, &texHandle);
+            }
+        }
     }
 
     void addShdrUniform(const std::string& name, int value);
@@ -65,11 +68,10 @@ public:
     inline STMaterial* getMaterial(){ return m_material; }
 
     inline Shader* shdr(){
-        if(useMaterial){
+        if(m_material != nullptr){
             return m_material->shdr();
-        }else{
-            return m_shdr;
         }
+        return m_shdr;
 
     }
 
@@ -82,7 +84,6 @@ public:
 private:
     SpriteSheet m_spriteSheet;
     Shader* m_shdr;
-    Texture* m_tex;
     STMaterial* m_material;
     bool useTexture;
     bool useMaterial;

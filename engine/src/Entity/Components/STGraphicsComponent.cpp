@@ -3,6 +3,7 @@
 
 STGraphicsComponent::STGraphicsComponent(const STGraphicsComponent &copy) {
     this->m_material = copy.m_material;
+    this->parent = copy.parent;
 }
 
 STGraphicsComponent::STGraphicsComponent(Shader *shdr) {
@@ -11,23 +12,9 @@ STGraphicsComponent::STGraphicsComponent(Shader *shdr) {
     useMaterial = false;
 }
 
-STGraphicsComponent::STGraphicsComponent(Shader *shdr, Texture *tex) {
-    m_shdr = shdr;
-    m_tex = tex;
-    useTexture = true;
-    useMaterial = false;
-}
-
 STGraphicsComponent::STGraphicsComponent(const std::string &shdr) {
     m_shdr = new GLShader(shdr);
     useTexture = false;
-    useMaterial = false;
-}
-
-STGraphicsComponent::STGraphicsComponent(const std::string &shdrPath, const std::string &texPath) {
-    m_shdr = new GLShader(shdrPath);
-    m_tex = new GLTexture(texPath);
-    useTexture = true;
     useMaterial = false;
 }
 
@@ -124,10 +111,6 @@ void STGraphicsComponent::setShdrUniform_CubeMap(const std::string &name, stUint
 }
 
 void STGraphicsComponent::addSpriteSheet(Texture *tex, uint32_t rowCount, uint32_t colCount) {
-    if(!useTexture) {
-        useTexture = true;
-        m_tex = tex;
-    }
     m_spriteSheet.width = tex->getTextureWidth();
     m_spriteSheet.height = tex->getTextureHeight();
     m_spriteSheet.row_cellSize = rowCount / tex->getTextureHeight();

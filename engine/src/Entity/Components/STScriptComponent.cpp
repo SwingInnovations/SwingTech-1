@@ -193,4 +193,11 @@ void STScriptComponent::init(STEntity *parent) {
     this->initScript(this->scriptName);
 }
 
+void STScriptComponent::registerEvent(const std::string &eventName) {
+    auto ec = parent->get<STEventComponent>();
+    if(m_script[eventName].valid()){
+        ec->addEvent(eventName, m_script[eventName]);
+    }
+}
+
 

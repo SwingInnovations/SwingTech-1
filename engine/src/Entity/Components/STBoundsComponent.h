@@ -7,6 +7,7 @@ class STBoundsComponent : public STComponent{
 public:
     virtual void calculateBounds() = 0;
     virtual bool contains(STEntity*) = 0;
+    virtual bool intersects(STEntity*) = 0;
 };
 
 

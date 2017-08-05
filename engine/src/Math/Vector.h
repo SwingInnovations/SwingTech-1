@@ -223,6 +223,12 @@ public:
         m_Val[2] = 0.0;
     }
 
+    /**
+     * Constructs an minimum vector on a component basis
+     * @param v1
+     * @param v2
+     * @return
+     */
     static Vector3 Min(const Vector3& v1, const Vector3& v2){
         const T x = v1.getX() < v2.getX() ? v1.getX() : v2.getX();
         const T y = v1.getY() < v2.getY() ? v1.getY() : v2.getY();

@@ -3,31 +3,27 @@
 
 #include "STBoundsComponent.h"
 #include "../../Math/Vertex.h"
+#include "../../Math/Shape/BoundingBox.h"
 
 class STAABBComponent : public STBoundsComponent{
 public:
     STAABBComponent();
     STAABBComponent(STEntity* parent, Vector3<stReal> minPoint, Vector3<stReal> maxPoint);
+    ~STAABBComponent();
 
-    void init(STEntity* parent);
+    void init(STEntity* parent) override;
 
     void update() override;
 
-    Vector3<stReal> getMinPoint()const{ return m_MinPoint; }
-    Vector3<stReal> getMaxPoint()const{ return m_MaxPoint; }
+    Vector3<stReal> getMinPoint()const{ return m_boundingBox->getMinPoint(); }
+    Vector3<stReal> getMaxPoint()const{ return m_boundingBox->getMaxPoint(); }
 
-    bool contains(STEntity* other) override {
-        return false;
-    }
-
-    void calculateBounds();
+    bool contains(STEntity* other) override;
+    bool intersects(STEntity* other) override;
+    void calculateBounds() override;
 
 private:
-    Vector3<stReal> m_MinPoint;
-    Vector3<stReal> m_MaxPoint;
-    Vector3<stReal> m_CalcMinPt;
-    Vector3<stReal> m_CalcMaxPt;
-    STEntity* m_Entity;
+    STBoundingBox* m_boundingBox;
 };
 
 

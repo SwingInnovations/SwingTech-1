@@ -49,9 +49,10 @@ public:
         _testActor2->get<STGraphicsComponent>()->getMaterial()->setRoughness("Bronze_Roughness.jpg");
         _testActor2->get<STGraphicsComponent>()->getMaterial()->setDiffuseColor(STColor(1.f, 0.f, 0.f, 1.f));
         _testActor2->transform()->setRotationMode(Transform::RotationMode::Local);
-        _testActor2->get<STEventComponent>()->addEvent("update", [](STEntity* self, STEntity* other){
-            auto delta = STGame::Get()->getDelta();
-            self->transform()->setRotateY(self->transform()->getRotateF().getY() + delta * 0.025f);
+        _testActor2->addComponent(typeid(STScriptComponent), new STScriptComponent("example_Movement.lua"));
+        _testActor2->get<STScriptComponent>()->registerEvent("OnStrike");
+        _testActor2->get<STScriptComponent>()->registerFunction("Foo", [](){
+            std::cout << "This is a function from C++ being called in LUA." << std::endl;
         });
         _testActor = new STActor("teapot.obj");
         _testActor->addComponent(typeid(STScriptComponent), new STScriptComponent("teapot.lua"));
@@ -86,19 +87,18 @@ public:
         STGraphics::ClearColor = Vector4<stReal>(0.0, 0.0, 0.168, 1.0);
     }
 
-    void update(STGame* game, stUint delta){
+    void update(STGame* game, stUint delta) override {
         auto input = Input::Get();
         if(input->isKeyPressed(KEY::KEY_ESC)) input->requestClose();
         if(input->isKeyPressed(KEY::KEY_Q)){
             input->setCursorBound(!input->isCursorBound());
             input->setCursorVisible(!input->isCursorBound());
         }
-        if(input->isKeyDown(KEY::KEY_O)){
-            _testActor2->transform()->setTranslateY(_testActor2->transform()->getTranslate().getY() + 0.025f * delta);
+
+        if(input->isKeyPressed(KEY::KEY_C)){
+            _testActor2->get<STEventComponent>()->setEvent("OnStrike");
         }
-        if(input->isKeyDown(KEY::KEY_U)){
-            _testActor2->transform()->setTranslateY(_testActor2->transform()->getTranslate().getY() - 0.025f * delta);
-        }
+
         float c = counter * 0.05f;
         counter += 0.005f * delta;
         STSceneManager::Get()->getScene((stUint)getID())->update();

@@ -155,7 +155,17 @@ void STScriptComponent::initScript(const std::string &fileName) {
                                     "setTranslateZ", &STEntity::setTranslateZ,
                                     "setRotateX", &STEntity::setRotateX,
                                     "setRotateY", &STEntity::setRotateY,
-                                    "setRotateZ", &STEntity::setRotateZ);
+                                    "setRotateZ", &STEntity::setRotateZ,
+                                    "setAttributei", sol::resolve<void(const std::string&, const int&)>(&STEntity::setAttribute),
+                                    "setAttributef", sol::resolve<void(const std::string&, const float&)>(&STEntity::setAttribute),
+                                    "setAttribute2v", sol::resolve<void(const std::string&, const Vector2<stReal>&)>(&STEntity::setAttribute),
+                                    "setAttribute3v", sol::resolve<void(const std::string&, const Vector3<stReal>&)>(&STEntity::setAttribute),
+                                    "setAttribute4v", sol::resolve<void(const std::string&, const Vector4<stReal>&)>(&STEntity::setAttribute),
+                                    "getAttributei", &STEntity::getAttributei,
+                                    "getAttributef", &STEntity::getAttributef,
+                                    "getAttribute2v", &STEntity::getAttribute2v,
+                                    "getAttribute3v", &STEntity::getAttribute3v,
+                                    "getAttribute4v", &STEntity::getAttribute4v);
     m_script.new_usertype<Transform>("Transform", sol::constructors<sol::types<>>(),
                                      "setTranslate", sol::resolve<void(Vector3<stReal>&)>(&Transform::setTranslate),
                                      "setTranslateX", &Transform::setTranslateX,

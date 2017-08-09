@@ -22,6 +22,7 @@ public:
         auto character = new STActor("smooth_sphere.obj");
         character->get<STGraphicsComponent>()->getMaterial()->setRoughness("Bronze_Roughness.jpg");
         character->addComponent(typeid(STScriptComponent), new STScriptComponent("Suzanne_Control.lua"));
+        character->setAttribute("speedFactor", 0.025f);
 
         auto plane = new STActor("plane.obj");
         plane->transform()->setTranslateY(-1.f);

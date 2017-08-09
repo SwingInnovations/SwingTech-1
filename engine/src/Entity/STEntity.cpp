@@ -404,29 +404,28 @@ void STEntity::setAttribute(const std::string &name, const Vector4<stReal> &valu
 
 int STEntity::getAttributei(const std::string &name) const {
     if(m_attributes.count(name) > 0){
-        return m_attributes[name]->toInt();
+        return m_attributes.at(name)->toInt();
     }
     return NULL;
 }
 
 float STEntity::getAttributef(const std::string &name) const {
     if(m_attributes.count(name) > 0){
-        return m_attributes[name]->toFloat();
+        return m_attributes.at(name)->toFloat();
     }
     return NULL;
 }
 
 Vector2<stReal> STEntity::getAttribute2v(const std::string &name) const {
-    if(m_attributes.count(name) > 0) return m_attributes[name]->toVector2();
-    return NULL;
+    if(m_attributes.count(name) > 0) return m_attributes.at(name)->toVector2();
 }
 
 Vector3<stReal> STEntity::getAttribute3v(const std::string &name) const {
-    if(m_attributes.count(name) > 0) return m_attributes[name]->toVector3();
+    if(m_attributes.count(name) > 0) return m_attributes.at(name)->toVector3();
 }
 
 Vector4<stReal> STEntity::getAttribute4v(const std::string &name) const {
-    if(m_attributes.count(name) > 0) return m_attributes[name]->toVector4();
+    if(m_attributes.count(name) > 0) return m_attributes.at(name)->toVector4();
 }
 
 STAttribute::STAttribute(const Vector2<stReal> &value){
@@ -490,12 +489,12 @@ STAttribute::STAttribute(const std::string &value) {
 }
 
 int STAttribute::toInt() const {
-    if(type == Int) return atoi(m_value);
+    if(type == Int) return atoi(m_value.c_str());
     return NULL;
 }
 
 float STAttribute::toFloat() const {
-    if(type == Float) return atof(m_value);
+    if(type == Float) return (float)atof(m_value.c_str());
     return NULL;
 }
 
@@ -507,7 +506,6 @@ Vector2<stReal> STAttribute::toVector2() const {
         _y = (stReal)atof(val.substr(val.find('/')+1).c_str());
         return Vector2<stReal>(_x, _y);
     }
-    return NULL;
 }
 
 Vector3<stReal> STAttribute::toVector3() const {
@@ -522,7 +520,6 @@ Vector3<stReal> STAttribute::toVector3() const {
         Vector3<stReal> ret(_x, _y, _z);
         return ret;
     }
-    return NULL;
 }
 
 Vector4<stReal> STAttribute::toVector4() const {
@@ -542,7 +539,6 @@ Vector4<stReal> STAttribute::toVector4() const {
         Vector4<stReal> ret(_x, _y, _z, _w);
         return ret;
     }
-    return NULL;
 }
 
 

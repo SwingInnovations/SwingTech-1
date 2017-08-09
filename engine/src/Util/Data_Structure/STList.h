@@ -64,7 +64,7 @@ public:
      * @param data
      */
     void addFirst(T data){
-        Node* node = new Node(data);
+        auto node = new Node(data);
         if(head == nullptr){
             head = tail = node;
             ++m_Size;
@@ -80,7 +80,7 @@ public:
      * @param data
      */
     void addLast(T data){
-        Node* node = new Node(data);
+        auto node = new Node(data);
         if(head == nullptr){
             head = tail = node;
             ++m_Size;

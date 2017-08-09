@@ -19,14 +19,7 @@ public:
 
     void init(STGame * window) {
         counter = 0;
-        drawMode = STMesh::TRIANGLES;
         auto scene = STSceneManager::Get()->initScene((stUint) getID());
-
-        mat =  new STMaterial(new GLShader("standard"));
-        auto resManager = window->getResourceManager();
-        resManager->addMaterial("default",mat);
-        GLGraphics::GlobalAmbient = Vector3<stReal>(.2,.2,.2);
-        int count=0;
 //
 //        for (int i = 0; i< 5; i++) {
 //            for(int j = 0; j< 5; j++) {
@@ -122,9 +115,6 @@ public:
         delete _testLight3;
     }
 private:
-    STSceneManager* sceneManager;
-    int drawMode;
-    int currObject;
     float counter = 0;
     STActor* _testActor;
     vector<STActor*> _testActors;
@@ -133,9 +123,6 @@ private:
     STLight* _testLight;
     STLight* _testLight2;
     STLight* _testLight3;
-    GLTexture* roughnessTex;
-    STMaterial* mat;
-    Vector3<stReal> lightPos;
     int width = 0, height = 0;
 };
 
@@ -158,7 +145,7 @@ int main(int argc, char** argv){
     win->addCamera(new Camera(*win, Vector3<stReal>(-1.5f, -.2f, 0.f), 0));
     win->addState(new TestState(0));
     win->enterState(0);
-    win->getGraphics()->enableShadow(true);
+    win->getGraphics()->enableShadow(false);
     win->getGraphics()->setShadowResolution(512);
     win->getGraphics()->setRenderMode(STGraphics::DEFERRED);
     win->start();

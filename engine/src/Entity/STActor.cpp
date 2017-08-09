@@ -3,17 +3,6 @@
 #include "Components/STAABBComponent.h"
 #include "Util/Loaders/STMeshLoader.h"
 
-//STActor::STActor(const std::string &filePath, const int type, STMaterial *material) {
-//    m_transform = new Transform();
-//    m_type = Actor;
-//    m_visible = true;
-//    addComponent(typeid(STMeshComponent), new STMeshComponent(filePath, type));
-//    addComponent(typeid(STGraphicsComponent), new STGraphicsComponent(material));
-//    addComponent(typeid(STEventComponent), new STEventComponent());
-//    m_visible = true;
-//}
-
-
 /**
  * Creates a new Actor Entity based off defined STMeshStructure, uniqueTag, and Material.
  * @param structure
@@ -37,7 +26,7 @@ STActor::STActor(STMesh_Structure meshStructure, std::map<std::string, STMateria
     m_type = Actor;
     m_visible = true;
     addComponent(typeid(STMeshComponent), new STMeshComponent(meshStructure));
-    if(meshStructure.materialKey == "") addComponent(typeid(STGraphicsComponent), new STGraphicsComponent(new STMaterial(new GLShader("standard"))));
+    if(meshStructure.materialKey.empty()) addComponent(typeid(STGraphicsComponent), new STGraphicsComponent(new STMaterial(new GLShader("standard"))));
     else addComponent(typeid(STGraphicsComponent), new STGraphicsComponent(materials.at(meshStructure.materialKey)));
     addComponent(typeid(STEventComponent), new STEventComponent());
     addComponent(typeid(STAABBComponent), new STAABBComponent);
@@ -50,14 +39,17 @@ STActor::STActor(const std::string &filePath) {
     bool errFlag = true;
     std::vector<STMesh_Structure> meshes;
     std::map<std::string, STMaterial*> materials;
+
+    m_transform = new Transform(this);
     addComponent(typeid(STEventComponent), new STEventComponent);
     if(STMesh::Validate(filePath, &errFlag, &meshes, &materials)){
-        for(stUint i = 0, S = meshes.size(); i < S; i++) {
-            addChild_Actor(new STActor(meshes.at(i), materials));
+        for (const auto &mesh : meshes) {
+            addChild_Actor(new STActor(mesh, materials));
         }
         return;
-    }else{
-        if(!errFlag || meshes.size() < 1){
+    }
+
+    if(!errFlag || meshes.size() < 1){
             addComponent(typeid(STMeshComponent), new STMeshComponent(MeshLoader::Load("base/ErrorMesh.obj")));
             addComponent(typeid(STGraphicsComponent), new STGraphicsComponent(new STMaterial(new GLShader("base/errorObject"))));
             get<STEventComponent>()->addEvent("update", [](STEntity* self, STEntity* other){
@@ -67,14 +59,13 @@ STActor::STActor(const std::string &filePath) {
                 self->transform()->setRotateY(self->transform()->getRotateF().getY() + STGame::Get()->getDelta() * 0.25f);
             });
             return;
-        }else{
-            addComponent(typeid(STMeshComponent), new STMeshComponent(meshes.at(0)));
-            if(meshes[0].materialKey == "") addComponent(typeid(STGraphicsComponent), new STGraphicsComponent(new STMaterial(new GLShader("standard"))));
-            else addComponent(typeid(STGraphicsComponent), new STGraphicsComponent(materials.at(meshes.at(0).materialKey)));
-            addComponent(typeid(STAABBComponent), new STAABBComponent(this, meshes.at(0).m_minPt, meshes.at(0).m_maxPt));
         }
-    }
-    m_transform = new Transform(this);
+        addComponent(typeid(STMeshComponent), new STMeshComponent(meshes.at(0)));
+        if(meshes[0].materialKey == "") addComponent(typeid(STGraphicsComponent), new STGraphicsComponent(new STMaterial(new GLShader("standard"))));
+        else addComponent(typeid(STGraphicsComponent), new STGraphicsComponent(materials.at(meshes.at(0).materialKey)));
+        addComponent(typeid(STAABBComponent), new STAABBComponent(this, meshes.at(0).m_minPt, meshes.at(0).m_maxPt));
+
+
 }
 
 
@@ -188,6 +179,10 @@ void STActor::draw(STMaterial* overrideMaterial, bool flag){
             dynamic_cast<STActor*>(child)->draw(overrideMaterial, flag);
         }
     }
+}
+
+STActor::~STActor() {
+    delete m_transform;
 }
 
 

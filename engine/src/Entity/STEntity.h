@@ -4,6 +4,7 @@
 #include <map>
 #include <vector>
 #include <typeindex>
+#include "../Math/Vector.h"
 #include "../Math/Transform.h"
 #include "Components/STComponent.h"
 #include "Components/STGraphicsComponent.h"
@@ -24,21 +25,33 @@ struct STAttribute{
     enum Type{
         Int = 0,
         Float = 1,
-        Double = 2,
-        String = 3,
-        Vector3 = 4,
-        Vector4 = 5
+        String = 2,
+        Vec2 = 3,
+        Vec3 = 4,
+        Vec4 = 5
     };
-    STAttribute(const int value){
-        type = Int;
-    }
 
-    STAttribute(const float value){
+    static std::string toString(const int& value);
+    static std::string toString(const float& value);
+    static std::string toString(const Vector2<stReal>& vec);
+    static std::string toString(const Vector3<stReal>& vec);
+    static std::string toString(const Vector4<stReal>& vec);
 
-    }
-private:
+    explicit STAttribute(const int& value);
+    explicit STAttribute(const float& value);
+    explicit STAttribute(const std::string& value);
+    explicit STAttribute(const Vector2<stReal> &value);
+    explicit STAttribute(const Vector3<stReal> &value);
+    explicit STAttribute(const Vector4<stReal>& value);
+
+    int toInt()const;
+    float toFloat()const;
+    Vector2<stReal> toVector2()const;
+    Vector3<stReal> toVector3()const;
+    Vector4<stReal> toVector4()const;
+
     Type type;
-    std::string value;
+    std::string m_value;
 };
 
 class STEntity {
@@ -62,11 +75,6 @@ public:
      * @param shdr - Specified Shader
      * @return
      */
-//    STEntity(const std::string& fileName, const int type, Shader* shdr);
-//    STEntity(const std::string& fileName, const int type, const std::string& shdrPath);
-//    STEntity(const std::string& fileName, const int type, const std::string& shdrPath, const std::string texPath);
-//    STEntity(const std::string& fileName, const int type, Shader* shdr, Texture* tex);
-//    STEntity(const std::string& fileName, const int type, STMaterial* mat);
     ~STEntity();
 
     void addComponent(std::type_index, STComponent*);
@@ -75,6 +83,25 @@ public:
     STEntity* getChild(int ind);
 
     inline bool hasChildren(){ return m_children.size() > 0; }
+
+    //Attributes
+    void addAttribute(const std::string& name, const int& value);
+    void addAttribute(const std::string& name, const float& value);
+    void addAttribute(const std::string& name, const Vector2<stReal>& value);
+    void addAttribute(const std::string& name, const Vector3<stReal>& value);
+    void addAttribute(const std::string& name, const Vector4<stReal>& value);
+
+    void setAttribute(const std::string& name, const int& value);
+    void setAttribute(const std::string& name, const float& value);
+    void setAttribute(const std::string& name, const Vector2<stReal>& value);
+    void setAttribute(const std::string& name, const Vector3<stReal>& value);
+    void setAttribute(const std::string& name, const Vector4<stReal>& value);
+
+    int getAttributei(const std::string& name) const;
+    float getAttributef(const std::string& name) const;
+    Vector2<stReal> getAttribute2v(const std::string& name) const;
+    Vector3<stReal> getAttribute3v(const std::string& name) const;
+    Vector4<stReal> getAttribute4v(const std::string& name) const;
 
     //Overload Transforms
     void setTranslate(Vector3<stReal>& vec);
@@ -167,7 +194,7 @@ public:
     }
 
 
-    void draw(Camera* cam, int drawMode){
+    virtual void draw(Camera* cam, int drawMode){
         auto grphx = this->get<STGraphicsComponent>();
         auto mesh = this->get<STMeshComponent>();
         grphx->draw();

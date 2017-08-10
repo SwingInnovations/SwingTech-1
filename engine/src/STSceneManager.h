@@ -99,7 +99,7 @@ public:
         return m_Instance;
     }
 
-    STSceneManager(){ m_NumLights = 0; }
+    STSceneManager() = default;
 
     inline STScene* initScene(const stUint index){
         scenes.insert(std::pair<stUint, STScene*>(index, new STScene(index)));
@@ -115,46 +115,7 @@ public:
         }
     }
 
-    inline void addEntity(STEntity* entity){
-        m_Entities.push_back(entity);
-    }
-
-    inline void addLight(STLight* light){
-
-    }
-
-    inline void addSkyBox(const std::string& file, const std::string& shader){
-        m_skyboxName = file;
-        m_skyboxShader = shader;
-    }
-
-    inline void addSkyCube(const std::string& file){
-        m_skyboxName = file;
-    }
-
-    inline void addSkyboxShader(const std::string& shader){
-        m_skyboxShader = shader;
-    }
-
-    const std::vector<STEntity *> &getEntities() const {
-        return m_Entities;
-    }
-
-    const std::vector<STLight *> &getLights() const {
-        return m_Lights;
-    }
-
-    const std::string getSkyboxName()const{ return m_skyboxName; }
-    const std::string getSkyboxShader()const{return m_skyboxShader;}
 private:
-    std::vector<STEntity*> m_Entities;
-    std::vector<STLight*> m_Lights;
-
-    std::string m_skyboxName;
-    std::string m_skyboxShader;
-
-    int m_NumLights;
-
     std::map<stUint, STScene*> scenes;
 };
 

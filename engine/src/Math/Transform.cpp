@@ -12,11 +12,13 @@ Transform::Transform(STEntity *parent) {
 
 void Transform::setTranslate(Vector3<stReal> &vec) {
     this->translate = vec;
-    if(parent != nullptr && parent->hasChildren()){
-        for(auto child : parent->getChildren()){
-            auto childPos = child->transform()->getTranslate();
-            childPos = childPos + vec;
-            child->transform()->setTranslate(childPos);
+    if(parent != nullptr){
+        if(parent->hasChildren()){
+            for(auto child : parent->getChildren()){
+                auto childPos = child->transform()->getTranslate();
+                childPos = childPos + vec;
+                child->transform()->setTranslate(childPos);
+            }
         }
     }
 }

@@ -406,14 +406,14 @@ int STEntity::getAttributei(const std::string &name) const {
     if(m_attributes.count(name) > 0){
         return m_attributes.at(name)->toInt();
     }
-    return NULL;
+    return 10001;
 }
 
 float STEntity::getAttributef(const std::string &name) const {
     if(m_attributes.count(name) > 0){
         return m_attributes.at(name)->toFloat();
     }
-    return NULL;
+    return 10001;
 }
 
 Vector2<stReal> STEntity::getAttribute2v(const std::string &name) const {
@@ -490,12 +490,12 @@ STAttribute::STAttribute(const std::string &value) {
 
 int STAttribute::toInt() const {
     if(type == Int) return atoi(m_value.c_str());
-    return NULL;
+    return 10001;
 }
 
 float STAttribute::toFloat() const {
     if(type == Float) return (float)atof(m_value.c_str());
-    return NULL;
+    return 10001;
 }
 
 Vector2<stReal> STAttribute::toVector2() const {

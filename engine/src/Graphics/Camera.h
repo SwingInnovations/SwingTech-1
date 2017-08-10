@@ -52,6 +52,7 @@ public:
     Camera();
     Camera(STGame &, Vector3<stReal>&, ViewProfile&);
     Camera(STGame &, Vector3<stReal>, int);
+    ~Camera();
 
     /*!
      *
@@ -75,7 +76,7 @@ public:
     void setVAngle(const stReal _v);
 
     inline ViewProfile* viewProf(){ return &m_viewProf; }
-    inline Transform* transform(){ return &m_transform; }
+    inline Transform* transform(){ return m_transform; }
 
     /**
      * Sets speed of camera;
@@ -99,7 +100,7 @@ public:
     Vector3<stReal> getUp()const{ return m_Up; }
 private:
     void processFPS(Input* input);
-    Transform m_transform;
+    Transform* m_transform;
     bool m_start;
 
     Vector3<stReal> m_Forward;

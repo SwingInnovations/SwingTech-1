@@ -91,6 +91,10 @@ void STScriptComponent::initScript(const std::string &fileName) {
                                 "getHeight", &STGame::getHeight,
                                 "getCamera", &STGame::getCamera,
                                 "Get", &STGame::Get);
+    m_script.new_usertype<Camera>("Camera",
+                                "getForward", &Camera::getForward,
+                                "getUp", &Camera::getUp,
+                                "transform", &Camera::transform);
     m_script.new_usertype<Vector2<stReal>>("Vector2", sol::constructors<sol::types<>, sol::types<stReal, stReal>>(),
                                            "setX", &Vector2<stReal>::setX,
                                            "setY", &Vector2<stReal>::setY,

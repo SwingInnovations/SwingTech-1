@@ -39,7 +39,7 @@ public:
         //auto actor = new STActor("sample.FBX", resManager->getMaterial("default")->copy());
 
         _testActor2 = new STActor("smooth_sphere.obj");
-        _testActor2->get<STGraphicsComponent>()->getMaterial()->setRoughness("Bronze_Roughness.jpg");
+        //_testActor2->get<STGraphicsComponent>()->getMaterial()->setRoughness("Bronze_Roughness.jpg");
         _testActor2->get<STGraphicsComponent>()->getMaterial()->setDiffuseColor(STColor(1.f, 0.f, 0.f, 1.f));
         _testActor2->transform()->setRotationMode(Transform::RotationMode::Local);
         _testActor2->addComponent(typeid(STScriptComponent), new STScriptComponent("example_Movement.lua"));
@@ -69,7 +69,7 @@ public:
         _testLight2->get<STLightComponent>()->setTarget(Vector3<stReal>(0.f, 0.f, 0.f));
         _testLight3->get<STLightComponent>()->getProperties()->useShadow = 0;
         _testLight3->get<STLightComponent>()->setTarget(Vector3<stReal>(0.f, 0.f, 0.f));
-        scene->addSkybox("green");
+        scene->addSkybox("Lycksele");
 
         scene->addActor(_testActor);
         scene->addActor(_testActor2);

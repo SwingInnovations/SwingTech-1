@@ -14,21 +14,21 @@ class Transform{
 public:
     enum RotationMode: unsigned char {Global = 0, Local = 1};
 
-    Transform(STEntity* parent);
+    explicit Transform(STEntity* parent);
 
     Transform(){
+        parent = nullptr;
         translate = Vector3<stReal>(0.0f, 0.0f, 0.0f);
         rotate = Vector3<stReal>(0.0f, 0.0f, 0.0f);
         scale = Vector3<stReal>(1.0f, 1.0f, 1.0f);
-        localRotate = Euler<stReal>(0.0f, 0.0f, 0.0f);
         rotateMode = Global;
     }
 
     Transform(Vector3<stReal>& translate, Vector3<stReal>& rotate, Vector3<stReal> scale){
+        parent = nullptr;
         this->translate = translate;
         this->rotate = rotate;
         this->scale = scale;
-        localRotate = Euler<stReal>(0.0f, 0.0f, 0.0f);
         rotateMode = Global;
     }
 
@@ -43,26 +43,19 @@ public:
     }
 
     inline void setRotate(Vector3<stReal>& vec){
-        if(rotateMode == Global) this->rotate = vec;
-        else this->localRotate.set(vec);
+        this->rotate = vec;
     }
 
     inline void setRotateX(stReal _x){
-//        if(rotateMode == Global) this->rotate.setX(_x);
-//        else this->localRotate.setX(_x);
         rotate.setX(_x);
 
     }
 
     inline void setRotateY(stReal _y){
-//        if(rotateMode == Global) this->rotate.setY(_y);
-//        else this->localRotate.setY(_y);
         rotate.setY(_y);
     }
 
     inline void setRotateZ(stReal _z){
-//        if(rotateMode == Global) this->rotate.setZ(_z);
-//        else this->localRotate.setZ(_z);
         rotate.setZ(_z);
     }
 
@@ -105,7 +98,6 @@ public:
 
     Vector3<stReal> getTranslate()const{return translate; }
     template<typename T> Vector3<T> getRotate()const{ return Vector3<T>( (T)rotate.getX(), (T)rotate.getY(), (T)rotate.getZ() ); }
-    Euler<stReal> getLocalRotate()const{ return localRotate; }
     template<typename T> Vector3<T> getScale()const{ return Vector3<T>( (T)scale.getX(), (T)scale.getY(), (T)scale.getZ() ); }
     Vector3<stReal> getTranslateF()const{ return translate; }
     Vector3<stReal> getRotateF() const {return rotate;}
@@ -114,7 +106,6 @@ private:
     STEntity* parent;
     Vector3<stReal> translate;
     Vector3<stReal> rotate;
-    Euler<stReal> localRotate;
     Vector3<stReal> scale;
     RotationMode rotateMode;
 };

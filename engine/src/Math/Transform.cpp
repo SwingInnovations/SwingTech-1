@@ -6,8 +6,7 @@ Transform::Transform(STEntity *parent) {
     this->translate = Vector3<stReal>(0.f, 0.f, 0.f);
     rotate = Vector3<stReal>(0.0f, 0.0f, 0.0f);
     scale = Vector3<stReal>(1.0f, 1.0f, 1.0f);
-    localRotate = Euler<stReal>(0.0f, 0.0f, 0.0f);
-    rotateMode = Global;
+    rotateMode = Local;
 }
 
 void Transform::setTranslate(Vector3<stReal> &vec) {

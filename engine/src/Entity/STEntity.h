@@ -202,8 +202,8 @@ public:
         mesh->draw(drawMode);
 
         if(hasChildren()){
-            for(unsigned int i = 0, lim = (unsigned int)m_children.size(); i < lim; i++){
-                m_children.at(i)->draw(cam, drawMode);
+            for (auto &child : m_children) {
+                child->draw(cam, drawMode);
             }
         }
     }

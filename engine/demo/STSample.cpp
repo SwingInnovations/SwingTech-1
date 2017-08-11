@@ -54,11 +54,11 @@ private:
 };
 
 int main(int argc, char** argv){
-    auto inputMapping = new InputMap;
-    inputMapping->addMapping(MOVEMENT::FORWARD, KEY::KEY_W);
-    inputMapping->addMapping(MOVEMENT::BACKWARD, KEY::KEY_S);
-    inputMapping->addMapping(MOVEMENT::STRAFE_LEFT, KEY::KEY_A);
-    inputMapping->addMapping(MOVEMENT::STRAFE_RIGHT, KEY::KEY_D);
+    auto inputMapping = new InputMap("Input.json");
+//    inputMapping->addMapping(MOVEMENT::FORWARD, KEY::KEY_W);
+//    inputMapping->addMapping(MOVEMENT::BACKWARD, KEY::KEY_S);
+//    inputMapping->addMapping(MOVEMENT::STRAFE_LEFT, KEY::KEY_A);
+//    inputMapping->addMapping(MOVEMENT::STRAFE_RIGHT, KEY::KEY_D);
 
     auto win = STGame::Init("Swing Tech", 1440, 720);
     win->setOpenGLVersion(4, 0);

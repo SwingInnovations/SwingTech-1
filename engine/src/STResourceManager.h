@@ -26,10 +26,7 @@ protected:
     std::string fileResource;
 };
 
-class STImage_Asset : public STAsset{
-public:
 
-};
 
 //TODO Refractor this to act as an intermediary File Manager. This will essentially "rewrite" assets that are not already
 //In a faster format/directory. Future directory should be more formal.

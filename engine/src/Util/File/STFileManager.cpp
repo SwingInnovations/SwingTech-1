@@ -9,5 +9,9 @@ bool STFileManager::DirExists(const std::string &str) {
 }
 
 int STFileManager::CreateDir(const std::string &filePath) {
+#if __MINGW__
     return mkdir(filePath.c_str());
+#else
+    return mkdir(filePath.c_str(), S_IFDIR);
+    #endif
 }

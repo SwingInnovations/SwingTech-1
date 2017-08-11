@@ -24,7 +24,7 @@ struct STColor{
         color = Vector4<stReal>(r, g, b, a);
     }
 
-    STColor(int col){
+    explicit STColor(int col){
         switch(col){
             case RED:
                 color = Vector4<stReal>(1.0f, 0.0f, 0.0f, 1.0f);

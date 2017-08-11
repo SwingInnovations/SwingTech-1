@@ -517,8 +517,7 @@ Vector3<stReal> STAttribute::toVector3() const {
         _x = (stReal)atof(val.substr(0, val.find('/')).c_str());
         _y = (stReal)atof(val.substr(val.find('/')+1, val.find_last_of('/') ).c_str());
         _z = (stReal)atof(val.substr(val.find_last_of('/')+1).c_str());
-        Vector3<stReal> ret(_x, _y, _z);
-        return ret;
+        return Vector3<stReal>(_x, _y, _z);
     }
 }
 
@@ -536,8 +535,7 @@ Vector4<stReal> STAttribute::toVector4() const {
         _y = (stReal)atof(vY.c_str());
         _z = (stReal)atof(vZ.c_str());
         _w = (stReal)atof(vW.c_str());
-        Vector4<stReal> ret(_x, _y, _z, _w);
-        return ret;
+        return Vector4<stReal>(_x, _y, _z, _w);
     }
 }
 

@@ -4,6 +4,7 @@
 #include "../include/SDL2/SDL.h"
 #include "../include/SDL2/SDL_joystick.h"
 #include "../include/SDL2/SDL_gamecontroller.h"
+#include "../include/json11/json.hpp"
 #include "Math/Vector.h"
 
 #include <string>
@@ -15,6 +16,8 @@
 #endif
 
 #include "STGame.h"
+
+using json = nlohmann::json;
 
 class STGame;
 
@@ -66,7 +69,7 @@ namespace JOYSTICK_BUTTON{
 };
 
 namespace KEY{
-    enum{
+    enum Keys{
         KEY_A = 0x04,
         KEY_B = 0x05,
         KEY_C = 0x06,
@@ -170,7 +173,11 @@ public:
         return ret.str();
     }
 private:
+    void initKeyMap();
     std::vector<InputKey> mapping;
+    std::map<std::string, KEY::Keys> m_keyMap;
+    std::map<std::string, int> m_movementMap;
+
 };
 
 class Input {
@@ -231,6 +238,7 @@ public:
     const char getInputCharacter()const;
 
 private:
+
     bool closeRequested;
     bool cursorBound;
 

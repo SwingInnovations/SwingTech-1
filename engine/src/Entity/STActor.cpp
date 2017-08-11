@@ -44,7 +44,7 @@ STActor::STActor(const std::string &filePath) {
     addComponent(typeid(STEventComponent), new STEventComponent);
     if(STMesh::Validate(filePath, &errFlag, &meshes, &materials)){
         for (const auto &mesh : meshes) {
-            addChild_Actor(new STActor(mesh, materials));
+            addChild_Actor(new STActor(this, mesh, materials));
         }
         return;
     }
@@ -61,7 +61,7 @@ STActor::STActor(const std::string &filePath) {
             return;
         }
         addComponent(typeid(STMeshComponent), new STMeshComponent(meshes.at(0)));
-        if(meshes[0].materialKey == "") addComponent(typeid(STGraphicsComponent), new STGraphicsComponent(new STMaterial(new GLShader("standard"))));
+        if(meshes[0].materialKey.empty()) addComponent(typeid(STGraphicsComponent), new STGraphicsComponent(new STMaterial(new GLShader("standard"))));
         else addComponent(typeid(STGraphicsComponent), new STGraphicsComponent(materials.at(meshes.at(0).materialKey)));
         addComponent(typeid(STAABBComponent), new STAABBComponent(this, meshes.at(0).m_minPt, meshes.at(0).m_maxPt));
 
@@ -113,6 +113,20 @@ STActor::STActor(const std::string &filePath, STMaterial *material) {
     else m_tag = "Actor";
 
 }
+
+STActor::STActor(STEntity *parent, STMesh_Structure meshStructure, std::map<std::string, STMaterial *> materials) {
+    m_tag = meshStructure.name;
+    m_parent = parent;
+    m_type = Actor;
+    m_visible = true;
+    addComponent(typeid(STMeshComponent), new STMeshComponent(meshStructure));
+    if(meshStructure.materialKey.empty()) addComponent(typeid(STGraphicsComponent), new STGraphicsComponent(new STMaterial(new GLShader("standard"))));
+    else addComponent(typeid(STGraphicsComponent), new STGraphicsComponent(materials.at(meshStructure.materialKey)));
+    addComponent(typeid(STEventComponent), new STEventComponent());
+    addComponent(typeid(STAABBComponent), new STAABBComponent);
+    m_transform = new Transform(this);
+}
+
 
 /**
  * Draws actor and all children if visible.
@@ -184,6 +198,7 @@ void STActor::draw(STMaterial* overrideMaterial, bool flag){
 STActor::~STActor() {
     delete m_transform;
 }
+
 
 
 

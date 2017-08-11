@@ -12,6 +12,7 @@ public:
     STActor(const std::string& filePath);
     STActor(STMesh_Structure structure, std::string& tag, STMaterial* material);
     STActor(STMesh_Structure, std::map<std::string, STMaterial*>);
+    STActor(STEntity* parent, STMesh_Structure, std::map<std::string, STMaterial*>);
     ~STActor();
     inline void addChild_Actor(STActor* actor){
 

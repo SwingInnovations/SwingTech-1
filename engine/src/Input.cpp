@@ -235,7 +235,11 @@ InputMap::InputMap(const std::string &filePath) {
     in.close();
 
     for(json::iterator it = j.begin(); it != j.end(); ++it){
-        addMapping(m_movementMap[it.key()], m_keyMap[it.value()]);
+        if(it.key() == "KEY"){
+            json jt = *it;
+            for(json::iterator it2 = jt.begin(); it2 != jt.end(); ++it2)
+                addMapping(m_movementMap[it2.key()], m_keyMap[it2.value()]);
+        }
     }
 
 }

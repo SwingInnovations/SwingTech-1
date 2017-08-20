@@ -1,6 +1,8 @@
 #include "../src/Math/STCore.h"
 #include "../src/STGame.h"
 #include "../src/STSceneManager.h"
+#include "../include/json11/json.hpp"
+using json = nlohmann::json;
 
 /**
  * This is an example class for demonstrating How a typical game state would be setup.

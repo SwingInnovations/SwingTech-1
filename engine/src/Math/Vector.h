@@ -5,8 +5,12 @@
 #include <string>
 #include <sstream>
 
+#include "../../include/json11/json.hpp"
+
 #include "STCore.h"
 #include "Quaternion.h"
+
+using json = nlohmann::json;
 
 class Quaternion;
 

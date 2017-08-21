@@ -5,7 +5,7 @@ function update(self)
     local oldX = position:getX();
     local oldZ = position:getZ();
     local delta = STGame:Get():getDelta();
-    local speedFactor = 0.025;
+    local speedFactor = self:getAttributef("speedFactor")
     if input:isKeyDown(KEY.KEY_L) then
         self:transform():setTranslateX(oldX + (speedFactor * delta));
     elseif input:isKeyDown(KEY.KEY_J) then

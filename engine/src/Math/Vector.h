@@ -435,6 +435,16 @@ public:
         return (getX() == other.getX()) && (getY() == other.getY()) && (getZ()==other.getZ());
     }
 
+    void to_json(json& j, const Vector3& vector){
+        j = json{{ "x", vector.getX(), "y", vector.getY(), "z", vector.getZ() }};
+    }
+
+    void from_json(const json& j, Vector3& vector){
+        vector.setX(j.at("x").get<T>());
+        vector.setY(j.at("y").get<T>());
+        vector.setZ(j.at("z").get<T>());
+    }
+
 private:
     T m_Val[3];
 };

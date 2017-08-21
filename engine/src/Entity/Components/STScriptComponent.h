@@ -17,7 +17,7 @@ public:
     STScriptComponent(STEntity* entity, const std::string& fileName);
 
     explicit STScriptComponent(const std::string& fileName);
-    void init(STEntity* parent);
+    void init(STEntity* parent) override;
     void registerFunction(const std::string& functionName, std::function<void()> newFunction);
     void registerEvent(const std::string& eventName);
     ~STScriptComponent() override;

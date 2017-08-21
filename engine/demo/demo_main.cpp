@@ -1,12 +1,9 @@
-
 #include "../src/Math/STCore.h"
 #include "../src/STGame.h"
 #include "../src/Entity/STEntity.h"
 #include "../src/Graphics/GL/GLGraphics.h"
-#include "../src/Entity/Components/STEventComponent.h"
-#include "../src/Entity/STActor.h"
-#include "../src/Graphics/Interface/STLabel.h"
-#include "../src/Graphics/Interface/STButton.h"
+#include "../src/STSceneManager.h"
+#include "../src/Entity/Components/STAABBComponent.h"
 
 class InputMap;
 class STGame;
@@ -21,17 +18,9 @@ public:
     TestState(int id){ this->m_id = id; }
 
     void init(STGame * window) {
-        //window->getCamera()->setHAngle(90.0f);
         counter = 0;
-        drawMode = STMesh::TRIANGLES;
         auto scene = STSceneManager::Get()->initScene((stUint) getID());
-
-
-        auto resManager = window->getResourceManager();
-        resManager->addMaterial("default", new STMaterial(new GLShader("standard", "standard_directional_forward")));
-        GLGraphics::GlobalAmbient = Vector3<stReal>(.1,.1,.1);
-        int count=0;
-
+//
 //        for (int i = 0; i< 5; i++) {
 //            for(int j = 0; j< 5; j++) {
 //
@@ -47,69 +36,69 @@ public:
 //         }
         STGame::Get()->getCamera()->setSpeed(0.005f);
 
-        _testActor2 = new STActor("monkey.obj", STMesh::OBJ, resManager->getMaterial("default"));
-        //_testActor2->setTranslateX(1);
-        _testActor2->setShdrUniform("_Metallic", 1.0f);
-        _testActor2->setShdrUniform("_Roughness",0.0f);
-        _testActor2->setScale(1);
+        //auto actor = new STActor("sample.FBX", resManager->getMaterial("default")->copy());
 
-         roughnessTex = new GLTexture("roughness.png");
+        _testActor2 = new STActor("smooth_sphere.obj");
+        //_testActor2->get<STGraphicsComponent>()->getMaterial()->setRoughness("Bronze_Roughness.jpg");
+        _testActor2->get<STGraphicsComponent>()->getMaterial()->setDiffuseColor(STColor(1.f, 0.f, 0.f, 1.f));
+        _testActor2->transform()->setRotationMode(Transform::RotationMode::Local);
+        _testActor2->addComponent(typeid(STScriptComponent), new STScriptComponent("example_Movement.lua"));
+        _testActor2->get<STScriptComponent>()->registerEvent("OnStrike");
+        _testActor2->get<STScriptComponent>()->registerFunction("Foo", [](){
+            std::cout << "This is a function from C++ being called in LUA." << std::endl;
+        });
+        _testActor = new STActor("teapot.obj");
+        _testActor->addComponent(typeid(STScriptComponent), new STScriptComponent("teapot.lua"));
+        _testActor->get<STGraphicsComponent>()->getMaterial()->setDiffuseTexture("Bronze_Albedo.jpg");
+        _testActor->get<STGraphicsComponent>()->getMaterial()->setMetallic("Bronze_Roughness.jpg");
+        _testActor->get<STGraphicsComponent>()->getMaterial()->setRoughness("Bronze_Roughness.jpg");
+        _plane = new STActor("plane.obj");
+        _plane->get<STGraphicsComponent>()->getMaterial()->setRoughness(0.0);
+        _plane->transform()->setTranslateY(1.f);
+        _plane->setDiffuseTexture("checker.jpg");
 
-        //_testActor2->setShdrUniform_Texture("_RoughnessTex",roughnessTex->genTex("roughness.png"));
-        //_testActor2->setTranslateY(-4);
-        _testLight = new STLight(4,Vector3<stReal>(1,0,0));
+        //_plane->setNormalTexture("testNormal.png");
+        _plane->setTranslateY(-0.5f);
 
-        _testLight->setTranslateZ(2);
+        _testLight = STLight::InitDirectionalLight(Vector3<stReal>(5.f, 5.f, -5.f), Vector3<stReal>(-.577f, .577f, -.577f), Vector3<stReal>(0.85f, 0.85f, 1.0f));
+        _testLight->get<STLightComponent>()->getProperties()->intensity = 0.9f;
+        _testLight->get<STLightComponent>()->setTarget(Vector3<stReal>(0.f, 0.f, 0.f));
+        _testLight2 = STLight::InitDirectionalLight(Vector3<stReal>(4.f, 5.f, 4.f), Vector3<stReal>(.577f, .577f, .577f), Vector3<stReal>(0.f, 0.85f, .1f));
+        _testLight3 = STLight::InitDirectionalLight(Vector3<stReal>(-4.f, 5.f, -3.f), Vector3<stReal>(.5, .5, .5), Vector3<stReal>(0.15, 0.15f, 0.15f));
+        _testLight2->get<STLightComponent>()->getProperties()->useShadow = 0;
+        _testLight2->get<STLightComponent>()->setTarget(Vector3<stReal>(0.f, 0.f, 0.f));
+        _testLight3->get<STLightComponent>()->getProperties()->useShadow = 0;
+        _testLight3->get<STLightComponent>()->setTarget(Vector3<stReal>(0.f, 0.f, 0.f));
+        scene->addSkybox("Lycksele");
 
-
-        _testLight2 = new STLight(Vector3<stReal>(-1,-1,-1),Vector3<stReal>(1,0,1));
-       // _testLight2->intensity =1;
-       // _testLight->setTranslateZ(1.2f);
-       // _testLight->setTranslateX(1.2f);
-
-        scene->addSkybox("lycksele", "skybox");
-
-
-        scene->addLight(_testLight);
-
+        scene->addActor(_testActor);
         scene->addActor(_testActor2);
         scene->addLight(_testLight2);
-                STGraphics::ClearColor = Vector4<stReal>(0.0, 0.0, 0.168, 1.0);
+        scene->addLight(_testLight3);
+        scene->addLight(_testLight);
+        scene->addActor(_plane);
+        STGraphics::ClearColor = Vector4<stReal>(0.0, 0.0, 0.168, 1.0);
     }
 
-    void handleInput(STGame * win, Uint32 delta){
-        Input* input = win->getInput();
-        auto cam = win->getCamera();
-        if(input->isKeyPressed(KEY::KEY_ESC)){
-            input->requestClose();
-        }
-
+    void update(STGame* game, stUint delta) override {
+        auto input = Input::Get();
+        if(input->isKeyPressed(KEY::KEY_ESC)) input->requestClose();
         if(input->isKeyPressed(KEY::KEY_Q)){
-            bool state = input->isCursorBound();
-            input->setCursorBound(!state);
-            input->setCursorVisible(state);
+            input->setCursorBound(!input->isCursorBound());
+            input->setCursorVisible(!input->isCursorBound());
         }
 
-        if(input->isKeyPressed(KEY::KEY_6)) currObject = 0;
-
-        if(input->isKeyPressed(KEY::KEY_7)) currObject = 1;
-
-        if(input->isKeyPressed(KEY::KEY_0)){
-            win->getCamera()->centerCam(input);
+        if(input->isKeyPressed(KEY::KEY_C)){
+            _testActor2->get<STEventComponent>()->setEvent("OnStrike");
         }
-    }
 
-    void handleLogic(STGame * win, Uint32 delta){
-//        int count=0;
-//        for (int i = 0; i< 5; i++) {
-//            for(int j = 0; j< 5; j++) {
-//                _testActors.at(count)->update();
-//                count++;
-//            }
-//        }
-        counter += 0.025f * delta;
-        _testLight->setTranslateY(3.0f*std::sin(counter*.1f));
-      //  _testLight2->setTranslateY(3.0f*std::sin(counter*.02f+3));
+        float c = counter * 0.05f;
+        counter += 0.005f * delta;
+        STSceneManager::Get()->getScene((stUint)getID())->update();
+//        _testActor->update();
+//        _testActor2->update();
+//        _testActor2->transform()->setRotationMode(Transform::RotationMode::Local);
+//        _testActor2->transform()->setRotateY(_testActor2->transform()->getRotateF().getY() + delta * 0.25f);
     }
 
     void render(STGame * win){
@@ -126,25 +115,20 @@ public:
         delete _testLight3;
     }
 private:
-    STSceneManager* sceneManager;
-    int drawMode;
-    int currObject;
     float counter = 0;
-    STButton* btn;
     STActor* _testActor;
     vector<STActor*> _testActors;
     STActor* _testActor2;
+    STActor* _plane;
     STLight* _testLight;
     STLight* _testLight2;
     STLight* _testLight3;
-    GLTexture* roughnessTex;
-    STLabel* lbl;
-    Vector3<stReal> lightPos;
     int width = 0, height = 0;
 };
 
 
 int main(int argc, char** argv){
+
     InputMap* inputMap = new InputMap;
     inputMap->addMapping(MOVEMENT::FORWARD, KEY::KEY_W);
     inputMap->addMapping(MOVEMENT::BACKWARD, KEY::KEY_S);
@@ -158,13 +142,16 @@ int main(int argc, char** argv){
     win->setTargetFPS(120);
     STGraphics::YUp = false;
     win->getInput()->setInputMap(inputMap);
-    Vector3<stReal> campos(0.0, 0, -3.0f);
-    win->addCamera(new Camera(*win, campos, 0));
+    win->addCamera(new Camera(*win, Vector3<stReal>(-1.5f, -.2f, 0.f), 0));
     win->addState(new TestState(0));
     win->enterState(0);
-
+    win->getGraphics()->enableShadow(false);
+    win->getGraphics()->setShadowResolution(512);
+    win->getGraphics()->setRenderMode(STGraphics::DEFERRED);
     win->start();
 
     return 0;
+
 }
+
 

@@ -28,7 +28,7 @@ public:
         lightPos = Vector3<stReal>(1.0f, 1.0f, -1.0f);
 
         auto resManager = window->getResourceManager();
-        resManager->addMaterial("lit", new STMaterial(new GLShader("lightSource")));
+        resManager->addMaterial("lit", new STMaterial(new GLShader("lightSource"), new GLTexture("grid.png")));
 
         _testActor = new STActor("scene.obj", resManager->getMaterial("lit"));
         _testActor->addShdrUniform("objColor", Vector3<stReal>(1.0, 0.5, 0.31f));
@@ -55,7 +55,7 @@ public:
         });
 
         scene->addSkybox("green", "skybox");
-        //scene->addActor(_testActor);
+        scene->addActor(_testActor);
         STGraphics::ClearColor = Vector4<stReal>(0.0, 0.0, 0.168, 1.0);
     }
 
@@ -86,6 +86,7 @@ public:
         btn->update(win);
         _testActor->update();
         counter += 0.025f * delta;
+        //_testActor->getChild(1)->setTranslateY(1.5f * sin(counter*0.1f));
     }
 
     void render(STGame * win){

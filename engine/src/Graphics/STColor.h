@@ -20,7 +20,11 @@ struct STColor{
         color = Vector4<stReal>(1.0, 1.0f, 1.0f, 1.0f); //Creates blank white color
     }
 
-    STColor(int col){
+    STColor(stReal r, stReal g, stReal b, stReal a){
+        color = Vector4<stReal>(r, g, b, a);
+    }
+
+    explicit STColor(int col){
         switch(col){
             case RED:
                 color = Vector4<stReal>(1.0f, 0.0f, 0.0f, 1.0f);

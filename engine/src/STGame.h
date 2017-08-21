@@ -1,15 +1,23 @@
 #ifndef WAHOO_STECHWINDOW_H
 #define WAHOO_STECHWINDOW_H
 
+#if __MINGW32__
 #include "../include/GL/glew.h"
 extern "C"{
     #include "../include/SDL2/SDL.h"
     #include "../include/SDL2/SDL_opengl.h"
 };
+#else
+#include <GL/glew.h>
+extern "C"{
+#include <stdio.h>
+#include <SDL2/SDL.h>
+#include <SDL2/SDL_opengl.h>
+};
+#endif
 
-#define GLEW_STATIC
+#define  GLEW_STATIC
 
-#include <string>
 #include <iostream>
 #include <vector>
 
@@ -105,7 +113,11 @@ public:
      *  \param v Cursor Visibility state.
      */
     void showCursor(bool v){ this->isCursorOnDisplay = v; }
-    void setIcon(const std::string& filePath); //TODO Implement this
+    /** Sets the Window Icon
+     *
+     * @param filePath Path to window icon.
+     */
+    void setIcon(const std::string& filePath);
     //! Sets Current State of Game
     /*!
      *  \param v Current State
@@ -136,8 +148,16 @@ public:
         this->dimMode = dim;
     }
 
+    void setFullScreen(int);
+
     static void SetResolutionWidth(int val){ STGame::RES_WIDTH = val; }
     static void SetResolutionHeight(int val){ STGame::RES_HEIGHT = val; }
+
+    /**
+     * Sets the Active Index for the Camera.
+     * @param index
+     */
+    void setActiveCamera(stUint index);
 
     /*-The Getters-*/
     //! Gets pointer to Input
@@ -171,6 +191,12 @@ public:
     int getWidth(){ return this->WIDTH; }
     int getHeight(){ return this->HEIGHT; }
 
+    int getTick(){ return SDL_GetTicks(); }
+
+    int getGraphicsMajorVersion(){ return this->m_graphics_MAJOR; }
+    int getGraphicsMinorVersion(){ return this->m_graphics_MINOR; }
+    int getGraphicsProfile(){ return this->m_graphics_Profile; }
+
     const DIMENSION_MODE getDimensionMode()const{ return this->dimMode; }
     //! Gets Pointer to SDL_Window
     SDL_Window* getWindow(){ return this->m_Window; }/*! \return pointer to SDL_Window */
@@ -180,11 +206,8 @@ protected:
     bool isRunning;
     //! Initializes Game States
     void init(); /*! Initializes Game states when necessary, deactivates last state */
-    //! Updates Logical operations
-    void updateLogic(); /*! Updates on every delta tick. */
-    //! Updates Input Operations
-    void updateInput(SDL_Event& event);/*! Operates on every input event*/
     //! Renders Scene
+    void update();
     void render();
     //! Calculates Delta for every CPU cycle
     void calcDelta();
@@ -212,6 +235,9 @@ private:
     STGraphics * g;
     unsigned int WIDTH, HEIGHT;
     int m_CurrentState;
+    stInt m_graphics_MAJOR;
+    stInt m_graphics_MINOR;
+    stInt m_graphics_Profile;
     Uint32 delta, oldTime, newTime, fps;
     Vector4<stReal> m_clearColor;
     STResourceManager* resourceManager;

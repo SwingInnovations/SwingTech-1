@@ -64,25 +64,26 @@ STGame::STGame(const std::string title, unsigned int WIDTH, unsigned int HEIGHT)
 }
 
 void STGame::setOpenGLVersion(int MajorVersion, int MinorVersion) {
+    m_graphics_MAJOR = MajorVersion;
+    m_graphics_MINOR = MinorVersion;
     SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, MajorVersion);
     SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, MinorVersion);
     if(MajorVersion < 3 && MinorVersion < 2){
         SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_COMPATIBILITY);
+        m_graphics_Profile = 0;
     }else{
+        m_graphics_Profile = 1;
         SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
     }
 
 
     m_Context = SDL_GL_CreateContext(m_Window);
-   // g = new LGraphics(this);
     STGraphics::RENDERER = STGraphics::OPENGL;
     if(m_Context == NULL){
         std::cout << "Error 401: Unable to initialize GLContext" << std::endl;
     }else{
         glewExperimental = GL_TRUE;
         GLenum err = glewInit();
-
-        g = new GLGraphics(this);
 
         if(err != GLEW_OK){
             std::cout << "Error loading GLEW: " << glewGetErrorString(err);
@@ -92,6 +93,7 @@ void STGame::setOpenGLVersion(int MajorVersion, int MinorVersion) {
 
         std::cout << "Using OpenGL Version: " << glGetString(GL_VERSION) << std::endl;
         std::cout << "Using Graphics Driver: " << glGetString(GL_VENDOR) << std::endl;
+        g = new GLGraphics(this);
     }
 }
 
@@ -136,14 +138,13 @@ void STGame::start(){
         }else{
             delta = 0;
         }
-        while(SDL_PollEvent(&m_e)){
-            updateInput(m_e);
-        }
-        updateLogic();
+        while(SDL_PollEvent(&m_e)) Input::Get()->poll(m_e);
+        update();
 
         render();
     }
     m_gameStates.clear();
+    if(Input::m_instance != nullptr) delete Input::m_instance;
     if(STGame::m_instance != nullptr) delete STGame::m_instance;
 }
 
@@ -155,29 +156,19 @@ void STGame::init() {
     }
 }
 
-void STGame::updateLogic() {
-    if(!m_gameStates.empty()){
-        m_gameStates.at(m_currentIndex)->handleLogic(this, delta);
-    }
-    if(getCamera() != nullptr){
-        getCamera()->update(getInput());
-    }
-}
-
 void STGame::enterState(unsigned int index) {
     if(!m_gameStates.empty() && index < m_gameStates.size()){
         m_currentIndex = index;
     }
 }
 
-void STGame::updateInput(SDL_Event& event) {
-    Input::Get()->poll(event);
-
-    if(Input::Get()->isCloseRequested()){
+void STGame::update() {
+    auto input = Input::Get();
+    if(input->isCloseRequested()){
         isRunning = false;
     }
-    if(!m_gameStates.empty()){ m_gameStates.at(m_currentIndex)->handleInput(this, delta); }
-
+    if(getCamera() != nullptr) getCamera()->update(input);
+    if(!m_gameStates.empty() && m_currentIndex < m_gameStates.size()) m_gameStates.at(m_currentIndex)->update(this, delta);
 }
 
 void STGame::render() {
@@ -189,11 +180,11 @@ void STGame::render() {
 }
 
 void STGame::addCamera(Camera* cam){
-    g->setCamera(cam);
+    g->addCamera(cam);
 }
 
 Camera*STGame::getCamera(){
-    return g->camera();
+    return g->getActiveCamera();
 }
 
 STResourceManager* STGame::getResourceManager() {
@@ -215,4 +206,37 @@ STGame *STGame::Init(const std::string &title, const stUint WIDTH, const stUint 
 
 STGame *STGame::Get() {
     return m_instance;
+}
+
+void STGame::setIcon(const std::string &filePath) {
+    SDL_Surface* img = NULL;
+    img = IMG_Load(filePath.c_str());
+    if(img == NULL){
+        std::cerr << "Failed to load filepath. Invalid file?" << std::endl;
+    }
+    SDL_SetWindowIcon(m_Window, img);
+
+    SDL_FreeSurface(img);
+    img = 0;
+}
+
+void STGame::setActiveCamera(stUint index) {
+    this->g->setCameraIndex(index);
+}
+
+void STGame::setFullScreen(int flag) {
+    switch(flag){
+        case 0:
+            SDL_SetWindowFullscreen(m_Window, 0);
+            return;
+        case 1:
+            SDL_SetWindowFullscreen(m_Window, SDL_WINDOW_FULLSCREEN);
+            return;
+        case 2:
+            SDL_SetWindowFullscreen(m_Window, SDL_WINDOW_FULLSCREEN_DESKTOP);
+        default:
+            ;
+    }
+
+
 }

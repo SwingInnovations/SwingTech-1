@@ -4,6 +4,7 @@
 #include <map>
 #include <vector>
 #include <typeindex>
+#include "../Math/Vector.h"
 #include "../Math/Transform.h"
 #include "Components/STComponent.h"
 #include "Components/STGraphicsComponent.h"
@@ -24,22 +25,33 @@ struct STAttribute{
     enum Type{
         Int = 0,
         Float = 1,
-        Double = 2,
-        String = 3,
-        Vector3 = 4,
-        Vector4 = 5
+        String = 2,
+        Vec2 = 3,
+        Vec3 = 4,
+        Vec4 = 5
     };
-    STAttribute(const int value){
-        type = Int;
 
-    }
+    static std::string toString(const int& value);
+    static std::string toString(const float& value);
+    static std::string toString(const Vector2<stReal>& vec);
+    static std::string toString(const Vector3<stReal>& vec);
+    static std::string toString(const Vector4<stReal>& vec);
 
-    STAttribute(const float value){
+    explicit STAttribute(const int& value);
+    explicit STAttribute(const float& value);
+    explicit STAttribute(const std::string& value);
+    explicit STAttribute(const Vector2<stReal> &value);
+    explicit STAttribute(const Vector3<stReal> &value);
+    explicit STAttribute(const Vector4<stReal>& value);
 
-    }
-private:
+    int toInt()const;
+    float toFloat()const;
+    Vector2<stReal> toVector2()const;
+    Vector3<stReal> toVector3()const;
+    Vector4<stReal> toVector4()const;
+
     Type type;
-    std::string value;
+    std::string m_value;
 };
 
 class STEntity {
@@ -50,16 +62,19 @@ public:
         GUI = 2
     };
 
+    /**
+     * Default Constructor
+     * @return new STEntity
+     */
     STEntity();
-    STEntity(const std::string& fileName, const int type, Shader* shdr);
-    STEntity(const std::string& fileName, const int type, const std::string& shdrPath);
-    STEntity(const std::string& fileName, const int type, const std::string& shdrPath, const std::string texPath);
-    STEntity(const std::string& fileName, const int type, Shader* shdr, Texture* tex);
-    STEntity(const std::string& fileName, const int type, STMaterial* mat);
-    STEntity(STRect*,Shader*);
-    STEntity(STQuad*,Shader*);
-    STEntity(STCube*,Shader*);
-    STEntity(STCube*,Shader*, Texture*);
+
+    /** Creates new STEntity.
+     *
+     * @param fileName - Path to model file
+     * @param type - File Format
+     * @param shdr - Specified Shader
+     * @return
+     */
     ~STEntity();
 
     void addComponent(std::type_index, STComponent*);
@@ -68,6 +83,25 @@ public:
     STEntity* getChild(int ind);
 
     inline bool hasChildren(){ return m_children.size() > 0; }
+
+    //Attributes
+    void addAttribute(const std::string& name, const int& value);
+    void addAttribute(const std::string& name, const float& value);
+    void addAttribute(const std::string& name, const Vector2<stReal>& value);
+    void addAttribute(const std::string& name, const Vector3<stReal>& value);
+    void addAttribute(const std::string& name, const Vector4<stReal>& value);
+
+    void setAttribute(const std::string& name, const int& value);
+    void setAttribute(const std::string& name, const float& value);
+    void setAttribute(const std::string& name, const Vector2<stReal>& value);
+    void setAttribute(const std::string& name, const Vector3<stReal>& value);
+    void setAttribute(const std::string& name, const Vector4<stReal>& value);
+
+    int getAttributei(const std::string& name) const;
+    float getAttributef(const std::string& name) const;
+    Vector2<stReal> getAttribute2v(const std::string& name) const;
+    Vector3<stReal> getAttribute3v(const std::string& name) const;
+    Vector4<stReal> getAttribute4v(const std::string& name) const;
 
     //Overload Transforms
     void setTranslate(Vector3<stReal>& vec);
@@ -89,21 +123,33 @@ public:
 
     void addShdrUniform(const std::string& name, int value);
     void addShdrUniform(const std::string& name, float value);
+    void addShdrUniform(const std::string& name, Vector2<stReal> value);
     void addShdrUniform(const std::string& name, Vector3<stReal> value);
     void addShdrUniform(const std::string& name, Vector4<stReal> value);
     void addShdrUniform(const std::string& name, Matrix4f value);
     void addShdrUniform_Texture(const std::string& name, stUint tag);
     void addShdrUniform_CubeMap(const std::string& name, stUint tag);
+    void setDiffuseTexture(const std::string& fileName);
+    void setNormalTexture(const std::string& fileName);
 
     void setShdrUniform(const std::string& name, int value);
     void setShdrUniform(const std::string& name, float value);
+    void setShdrUniform(const std::string& name, Vector2<stReal> value);
     void setShdrUniform(const std::string& name, Vector3<stReal> value);
     void setShdrUniform(const std::string& name, Vector4<stReal> value);
     void setShdrUniform(const std::string& name, Matrix4f value);
+    void setShdrUniform_Texture(const std::string& name, stUint id, stUint index);
+    void setShdrUniform_Texture2DArray(const std::string& name, stUint id, stUint index);
     void setShdrUniform_Texture(const std::string& name, stUint tag);
     void setShdrUniform_CubeMap(const std::string& name, stUint tag);
 
     STEntity* childAtTag(const std::string& tag);
+    inline stUint getChildSize(){ return m_children.size(); }
+    std::vector<STEntity*> getChildren(){ return m_children; }
+
+    inline void setTag(const std::string& name){ m_tag = name; }
+
+    std::string getTag()const{ return m_tag; }
 
     void setVisible(bool value);
     bool isVisible();
@@ -148,7 +194,7 @@ public:
     }
 
 
-    void draw(Camera* cam, int drawMode){
+    virtual void draw(Camera* cam, int drawMode){
         auto grphx = this->get<STGraphicsComponent>();
         auto mesh = this->get<STMeshComponent>();
         grphx->draw();
@@ -156,8 +202,8 @@ public:
         mesh->draw(drawMode);
 
         if(hasChildren()){
-            for(unsigned int i = 0, lim = (unsigned int)m_children.size(); i < lim; i++){
-                m_children.at(i)->draw(cam, drawMode);
+            for (auto &child : m_children) {
+                child->draw(cam, drawMode);
             }
         }
     }

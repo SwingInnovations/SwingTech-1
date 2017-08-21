@@ -4,11 +4,13 @@ in vec3 Position;
 in vec3 Normal;
 in vec2 TexCoord;
 in mat3 TBN;
+in vec4 FragPosLightSpace;
 
 
 uniform samplerCube _WorldCubeMap;
 uniform vec3 _GlobalAmbient;
 uniform vec3 _CameraPos;
+uniform vec3 _LightPosition;
 
  uniform float _Metallic;
  uniform float _Roughness;
@@ -20,6 +22,7 @@ struct STMaterial
 	sampler2D Diffuse_Tex;
 	sampler2D Normal_Tex;
 };
+uniform sampler2D shadowMap;
 
 uniform STMaterial Material;
 
@@ -180,12 +183,28 @@ vec3 Spec_IBL( float roughness, vec3 N, vec3 V, vec3 baseColor){
 	return  PreFilteredColor* (baseColor*  BRDF.x + BRDF.y);
 }
 
+float CalculateShadow(vec4 fragPos){
+    vec3 projCoord = fragPos.xyz / fragPos.w;
+    vec2 texelSize = 1.0 / textureSize(shadowMap, 0);
+    projCoord = projCoord * 0.5 + 0.5;
+    vec2 texCoord = vec2(projCoord.x, projCoord.y);
+    float closestDepth = texture(shadowMap, texCoord).r;
+    float currentDepth = projCoord.z;
+    float bias = max( 0.05 * (1.0 - dot(Normal, _LightPosition)), 0.005);
+    //float shadow = currentDepth - 0.008f > closestDepth ? 1.0 : 0.0;
+    float shadow = 0;
+    for(int x = -1; x <= 1; x++){
+        for(int y = -1; y <= 1; y++){
+            float pcfDepth = texture(shadowMap, texCoord + vec2(x, y) * texelSize).r;
+            shadow += currentDepth - bias > pcfDepth ? 1.0 : 0.0;
+        }
+    }
+    return shadow / 11.0;
+}
 
 vec3 BlendMaterial(vec3 Spec, vec3 Diff, vec3 Base,float fresnel){
-
 	
-	
-	vec3 dialectric = Base* texture2D(Material.Diffuse_Tex,TexCoord).xyz*Diff+fresnel*Spec*.6;
+	vec3 dialectric = Base* texture2D(Material.Diffuse_Tex,TexCoord).rgb+fresnel*Spec*.6;
 	vec3 metal = Base*Spec;
 
 	return mix(dialectric,metal,_Metallic);
@@ -193,28 +212,26 @@ vec3 BlendMaterial(vec3 Spec, vec3 Diff, vec3 Base,float fresnel){
 
 
 
-
 void main(void){
 
 		
-	vec3 Norm = (TBN* (texture2D(Material.Normal_Tex,TexCoord*3).xyz*2-1));
-Norm.y= -Norm.y;
-
+	vec3 Norm = (TBN* (texture2D(Material.Normal_Tex,TexCoord).xyz*2-1));
+	
 	vec3 V = normalize(  _CameraPos - Position );
 
     float roughness = clamp(_Roughness,.01, 1.0);
-	
-	
- 	
- 	Norm.y*=-1;
+
 	vec3 Spec_Cook_Torrance =Spec_IBL(roughness,Norm,V,Material.BaseColor);
 
 	///*Ommiting ambient Lighting for now*/vec3 diffuse =mix(baseColor*NdotL*_LightColor,((1- NdotL*_LightColor)*PreFilterEnvMap(1,2* dot(V,Normal)*Normal-V,10)),.4);
 	vec3 diffuse =Material.BaseColor/PI;
 	//vec3 diffuse =mix(baseColor*NdotL*_LightColor,((1- NdotL*_LightColor)*PreFilterEnvMap(1,2* dot(V,Normal)*Norm-V,100)),.4);
-    float fresnel = pow(1- dot(( -Norm),V),1);
-    
-    color =  vec4(Norm,1);//	vec4(BlendMaterial(Spec_Cook_Torrance,diffuse,Material.BaseColor ,fresnel),1);
+    float fresnel = pow(1- dot(( Norm),V),1);
+    float s = CalculateShadow(FragPosLightSpace);
+    vec3 col = BlendMaterial(Spec_Cook_Torrance,diffuse,Material.BaseColor ,fresnel);
+    vec3 amb = 0.15 * col;
+    //color =  vec4(amb + ((1.0 - s) * col),1);
+    color = vec4(1.0, 0.0, 0.0, 1.0);
 }
 
 

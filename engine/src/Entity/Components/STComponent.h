@@ -4,15 +4,13 @@
 #include "../../STGame.h"
 
 class STEntity;
-
-//TODO Replace the update function from refering to self to update()
-/*
- * Parent of componenet can always be refered to by accesing the parent.
+/**
+ * Parent of componenet can always be referred to by accessing the parent.
  * Game can be accessed via the STGame Singleton
  */
-
 class STComponent {
 public:
+    virtual void init(STEntity* newParent){this->parent = newParent;}      //This will actually initialize anything dependent on the parent pointer.
     virtual void update() = 0;
     virtual void draw(){ }
     virtual ~STComponent(){}

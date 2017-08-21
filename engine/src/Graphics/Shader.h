@@ -6,6 +6,7 @@
 #include <iostream>
 #include <sstream>
 #include <vector>
+#include <map>
 
 #include "../Math/Vector.h"
 #include "../Math/Transform.h"
@@ -26,7 +27,10 @@ namespace STShader{
        MAT4 = 4,
        TEX = 5,
        CUBE_MAP = 6,
-       STRING = 7
+       STRING = 7,
+       VEC2 = 8,
+       TEX1DARR = 9,
+       TEX2DARR = 10
    };
 
     /*!
@@ -48,6 +52,18 @@ namespace STShader{
     static std::string toString(const float& val) {
         std::ostringstream buff;
         buff << val;
+        return buff.str();
+    }
+
+    static std::string toString(const Vector2<stInt>& vec){
+        std::ostringstream buff;
+        buff << vec.getX() << "/" << vec.getY();
+        return buff.str();
+    }
+
+    template<typename T> static std::string toString(const Vector2<T>& val) {
+        std::ostringstream buff;
+        buff << val.getX() << "/" << val.getY();
         return buff.str();
     }
 
@@ -115,6 +131,13 @@ namespace STShader{
         return (stUint)atol(val.c_str());
     }
 
+    static Vector2<stReal> toVector2(const std::string& val){
+        stReal _x = 0, _y = 0;
+        _x = (stReal)atof(val.substr(0, val.find('/')).c_str());
+        _y = (stReal)atof(val.substr(val.find('/')+1).c_str());
+        return Vector2<stReal>(_x, _y);
+    }
+
     /*!
      *
      * @param val Input stringified Vector3 uniform
@@ -151,7 +174,12 @@ namespace STShader{
         Vector4<stReal> ret(_x, _y, _z, _w);
         return ret;
     }
-    //TODO - Test this.
+
+    /** Converts Serialized Matrix to Matrix4f
+     *
+     * @param value Matrix4f serialized
+     * @return Matrix4f non-serialized
+     */
     static Matrix4f toMatrix4f(const std::string& value){
         std::vector<stReal> elements;
         Matrix4f ret;
@@ -199,12 +227,15 @@ public:
     virtual void update(Transform& trans, Camera& cam){ }
     virtual void update(const std::string& name, int val){}
     virtual void update(const std::string& name, float val){ }
+    virtual void update(const std::string& name, Vector2<stReal> val){ }
     virtual void update(const std::string& name, Vector3<stReal> val){ }
     virtual void update(const std::string& name, Vector4<stReal> val){  }
     virtual void update(const std::string& name, Matrix4f mat){ }
     virtual void update_Texture(const std::string& name, stUint){ }
+    virtual void update_Texture(const std::string& name, Vector2<stInt> val){ }
+    virtual void update_Texture2DArray(const std::string& name, Vector2<stInt> val){}
     virtual void update_CubeMap(const std::string& name, stUint){ }
-    void updateUniforms(std::vector<STShader::ShaderAttrib> _uniforms);
+    void updateUniforms(std::map<std::string, STShader::ShaderAttrib>);
     virtual std::string getShaderName(){ return NULL; }
     virtual ~Shader(){}
 private:

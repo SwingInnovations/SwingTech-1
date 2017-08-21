@@ -3,27 +3,35 @@
   <component name="BookmarkManager">
     <bookmark url="file://$PROJECT_DIR$/src/Graphics/STGraphics.h" line="17" />
   </component>
-  <component name="CMakeRunConfigurationManager" shouldGenerate="true" assignedExecutableTargets="true" buildAllGenerated="true">
+  <component name="CMakeRunConfigurationManager" shouldGenerate="true" shouldDeleteObsolete="true" buildAllGenerated="true">
     <generated>
       <config projectName="SwingTech1" targetName="demoSwing" />
-      <config projectName="Wahoo" targetName="Wahoo" />
+      <config projectName="SwingTech1" targetName="STSample" />
+      <config projectName="SwingTech1" targetName="ds_test" />
       <config projectName="SwingTech1" targetName="SwingTech1" />
+      <config projectName="SwingTech1" targetName="SwingTech_1" />
     </generated>
   </component>
-  <component name="CMakeSettings" AUTO_RELOAD="false" GENERATION_PASS_SYSTEM_ENVIRONMENT="true">
-    <ADDITIONAL_GENERATION_ENVIRONMENT>
-      <envs />
-    </ADDITIONAL_GENERATION_ENVIRONMENT>
+  <component name="CMakeSettings">
+    <configurations>
+      <configuration CONFIG_NAME="Debug" />
+    </configurations>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="5ee8588a-b915-4eb2-8583-18cd73e205f4" name="Default" comment="0.0.91">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/Wahoo.iml" afterPath="$PROJECT_DIR$/.idea/Wahoo.iml" />
+    <list default="true" id="5ee8588a-b915-4eb2-8583-18cd73e205f4" name="Default" comment="">
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/Util/STJson.h" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Graphics/Interface/STPanel.cpp" afterPath="$PROJECT_DIR$/src/Graphics/Interface/STPanel.cpp" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Graphics/STMaterial.h" afterPath="$PROJECT_DIR$/src/Graphics/STMaterial.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Build/Debug/Input.json" afterPath="$PROJECT_DIR$/Build/Debug/Input.json" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Build/Debug/example_Movement.lua" afterPath="$PROJECT_DIR$/Build/Debug/example_Movement.lua" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/CMakeLists.txt" afterPath="$PROJECT_DIR$/CMakeLists.txt" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/demo/STSample.cpp" afterPath="$PROJECT_DIR$/demo/STSample.cpp" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Entity/Components/STScriptComponent.h" afterPath="$PROJECT_DIR$/src/Entity/Components/STScriptComponent.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Math/Vector.h" afterPath="$PROJECT_DIR$/src/Math/Vector.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Util/File/STFileManager.cpp" afterPath="$PROJECT_DIR$/src/Util/File/STFileManager.cpp" />
     </list>
     <ignored path="Wahoo.iws" />
     <ignored path=".idea/workspace.xml" />
+    <ignored path="$PROJECT_DIR$/cmake-build-debug/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -34,112 +42,121 @@
   <component name="CreatePatchCommitExecutor">
     <option name="PATCH_PATH" value="" />
   </component>
-  <component name="ExecutionTargetManager" SELECTED_TARGET="default_target" />
   <component name="FavoritesManager">
     <favorites_list name="Wahoo" />
   </component>
   <component name="FileEditorManager">
     <splitter split-orientation="horizontal" split-proportion="0.5">
       <split-first>
-        <leaf SIDE_TABS_SIZE_LIMIT_KEY="600">
-          <file leaf-file-name="STGraphics.h" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/src/Graphics/STGraphics.h">
+        <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
+          <file leaf-file-name="STSample.cpp" pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/demo/STSample.cpp">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="571">
-                  <caret line="53" column="6" selection-start-line="53" selection-start-column="6" selection-end-line="53" selection-end-column="6" />
-                  <folding />
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file leaf-file-name="main.cpp" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/main.cpp">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="1089">
-                  <caret line="49" column="20" selection-start-line="49" selection-start-column="20" selection-end-line="49" selection-end-column="20" />
-                  <folding />
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file leaf-file-name="STResourceManager.cpp" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/src/STResourceManager.cpp">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="0">
-                  <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-                  <folding />
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file leaf-file-name="STResourceManager.h" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/src/STResourceManager.h">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="-396">
-                  <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-                  <folding />
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file leaf-file-name="STRectBoundsComponent.h" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/src/Entity/Components/STRectBoundsComponent.h">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="0">
-                  <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-                  <folding />
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file leaf-file-name="STRectBoundsComponent.cpp" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/src/Entity/Components/STRectBoundsComponent.cpp">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="0">
-                  <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-                  <folding />
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file leaf-file-name="STMeshComponent.h" pinned="false" current-in-tab="true">
-            <entry file="file://$PROJECT_DIR$/src/Entity/Components/STMeshComponent.h">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="957">
-                  <caret line="41" column="0" selection-start-line="41" selection-start-column="0" selection-end-line="41" selection-end-column="0" />
-                  <folding />
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file leaf-file-name="STMesh.cpp" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/src/Entity/Util/STMesh.cpp">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="604">
-                  <caret line="417" column="51" selection-start-line="417" selection-start-column="51" selection-end-line="417" selection-end-column="51" />
-                  <folding />
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file leaf-file-name="STInterWidget.h" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/src/Graphics/Interface/STInterWidget.h">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="858">
-                  <caret line="29" column="30" selection-start-line="29" selection-start-column="30" selection-end-line="29" selection-end-column="30" />
+                <state relative-caret-position="221">
+                  <caret line="13" column="0" lean-forward="false" selection-start-line="13" selection-start-column="0" selection-end-line="13" selection-end-column="0" />
                   <folding>
-                    <element signature="e#61#86#0" expanded="true" />
+                    <element signature="e#0#31#0" expanded="true" />
                   </folding>
                 </state>
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="STPanel.h" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/src/Graphics/Interface/STPanel.h">
+          <file leaf-file-name="Input.h" pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/src/Input.h">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="528">
-                  <caret line="24" column="0" selection-start-line="24" selection-start-column="0" selection-end-line="24" selection-end-column="0" />
+                <state relative-caret-position="3655">
+                  <caret line="215" column="23" lean-forward="false" selection-start-line="215" selection-start-column="23" selection-end-line="215" selection-end-column="23" />
+                  <folding>
+                    <element signature="e#45#77#0" expanded="true" />
+                    <element signature="e#4226#4238#0" expanded="true" />
+                  </folding>
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="example_Movement.lua" pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/Build/Debug/example_Movement.lua">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="204">
+                  <caret line="12" column="42" lean-forward="false" selection-start-line="12" selection-start-column="42" selection-end-line="12" selection-end-column="42" />
                   <folding />
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="Camera.cpp" pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/src/Graphics/Camera.cpp">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="476">
+                  <caret line="28" column="0" lean-forward="false" selection-start-line="28" selection-start-column="0" selection-end-line="28" selection-end-column="0" />
+                  <folding />
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="Suzanne_Control.lua" pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/Build/Debug/Suzanne_Control.lua">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="357">
+                  <caret line="21" column="3" lean-forward="false" selection-start-line="21" selection-start-column="3" selection-end-line="21" selection-end-column="3" />
+                  <folding />
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="STEntity.h" pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/src/Entity/STEntity.h">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="1428">
+                  <caret line="84" column="0" lean-forward="false" selection-start-line="84" selection-start-column="0" selection-end-line="84" selection-end-column="0" />
+                  <folding />
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="Transform.cpp" pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/src/Math/Transform.cpp">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="493">
+                  <caret line="29" column="10" lean-forward="false" selection-start-line="29" selection-start-column="10" selection-end-line="29" selection-end-column="10" />
+                  <folding>
+                    <element signature="e#0#22#0" expanded="true" />
+                  </folding>
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="STFileManager.cpp" pinned="false" current-in-tab="true">
+            <entry file="file://$PROJECT_DIR$/src/Util/File/STFileManager.cpp">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="102">
+                  <caret line="6" column="26" lean-forward="false" selection-start-line="6" selection-start-column="26" selection-end-line="6" selection-end-column="26" />
+                  <folding>
+                    <element signature="e#0#22#0" expanded="true" />
+                    <element signature="e#373#413#0" expanded="true" />
+                  </folding>
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="Input.json" pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/Build/Debug/Input.json">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="0">
+                  <caret line="0" column="1" lean-forward="true" selection-start-line="0" selection-start-column="1" selection-end-line="0" selection-end-column="1" />
+                  <folding />
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="Transform.h" pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/src/Math/Transform.h">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="612">
+                  <caret line="36" column="34" lean-forward="false" selection-start-line="36" selection-start-column="34" selection-end-line="36" selection-end-column="34" />
+                  <folding>
+                    <element signature="e#53#72#0" expanded="true" />
+                  </folding>
                 </state>
               </provider>
             </entry>
@@ -147,64 +164,73 @@
         </leaf>
       </split-first>
       <split-second>
-        <leaf SIDE_TABS_SIZE_LIMIT_KEY="600">
-          <file leaf-file-name="STPanel.h" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/src/Graphics/Interface/STPanel.h">
+        <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
+          <file leaf-file-name="Camera.cpp" pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/src/Graphics/Camera.cpp">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="528">
-                  <caret line="24" column="0" selection-start-line="24" selection-start-column="0" selection-end-line="24" selection-end-column="0" />
+                <state relative-caret-position="0">
+                  <caret line="28" column="20" lean-forward="false" selection-start-line="28" selection-start-column="20" selection-end-line="28" selection-end-column="20" />
                   <folding />
                 </state>
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="STLabel.cpp" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/src/Graphics/Interface/STLabel.cpp">
+          <file leaf-file-name="STGame.h" pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/src/STGame.h">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="693">
-                  <caret line="21" column="0" selection-start-line="21" selection-start-column="0" selection-end-line="21" selection-end-column="0" />
+                <state relative-caret-position="676">
+                  <caret line="238" column="14" lean-forward="false" selection-start-line="238" selection-start-column="14" selection-end-line="238" selection-end-column="14" />
                   <folding>
-                    <element signature="e#0#20#0" expanded="true" />
+                    <element signature="e#121#153#0" expanded="true" />
+                    <element signature="e#207#312#0" expanded="true" />
+                    <element signature="e#343#362#0" expanded="true" />
                   </folding>
                 </state>
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="STPanel.cpp" pinned="false" current-in-tab="true">
-            <entry file="file://$PROJECT_DIR$/src/Graphics/Interface/STPanel.cpp">
+          <file leaf-file-name="STScriptComponent.h" pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/src/Entity/Components/STScriptComponent.h">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="726">
-                  <caret line="22" column="16" selection-start-line="22" selection-start-column="16" selection-end-line="22" selection-end-column="16" />
+                <state relative-caret-position="238">
+                  <caret line="14" column="37" lean-forward="false" selection-start-line="14" selection-start-column="37" selection-end-line="14" selection-end-column="37" />
+                  <folding>
+                    <element signature="e#69#93#0" expanded="true" />
+                    <element signature="e#161#186#0" expanded="true" />
+                  </folding>
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="STScriptComponent.cpp" pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/src/Entity/Components/STScriptComponent.cpp">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="924">
+                  <caret line="175" column="52" lean-forward="false" selection-start-line="175" selection-start-column="52" selection-end-line="175" selection-end-column="52" />
                   <folding />
                 </state>
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="STGraphicsComponent.h" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/src/Entity/Components/STGraphicsComponent.h">
+          <file leaf-file-name="Vector.h" pinned="false" current-in-tab="true">
+            <entry file="file://$PROJECT_DIR$/src/Math/Vector.h">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="637">
-                  <caret line="41" column="61" selection-start-line="41" selection-start-column="61" selection-end-line="41" selection-end-column="61" />
-                  <folding />
+                <state relative-caret-position="1155">
+                  <caret line="466" column="24" lean-forward="true" selection-start-line="466" selection-start-column="24" selection-end-line="466" selection-end-column="24" />
+                  <folding>
+                    <element signature="e#47#63#0" expanded="true" />
+                    <element signature="e#11699#11711#0" expanded="true" />
+                    <element signature="e#11976#11988#0" expanded="true" />
+                  </folding>
                 </state>
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="STMaterial.h" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/src/Graphics/STMaterial.h">
+          <file leaf-file-name="CMakeLists.txt" pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/CMakeLists.txt">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="754">
-                  <caret line="84" column="5" selection-start-line="84" selection-start-column="5" selection-end-line="84" selection-end-column="5" />
-                  <folding />
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file leaf-file-name="STMaterial.cpp" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/src/Graphics/STMaterial.cpp">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="891">
-                  <caret line="29" column="22" selection-start-line="29" selection-start-column="22" selection-end-line="29" selection-end-column="22" />
+                <state relative-caret-position="0">
+                  <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
                   <folding />
                 </state>
               </provider>
@@ -218,72 +244,93 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="GLSL Shader" />
+        <option value="Copy of GLSL Vertex Shader" />
       </list>
     </option>
+  </component>
+  <component name="FindInProjectRecents">
+    <findStrings>
+      <find>Light</find>
+      <find>Direction</find>
+      <find>globalAmbient</find>
+      <find>albedo</find>
+      <find>l</find>
+      <find>setCursorVisible</find>
+      <find>unsigned</find>
+      <find>processText</find>
+      <find>NodeStructure</find>
+      <find>DataStructureTest</find>
+    </findStrings>
   </component>
   <component name="Git.Settings">
     <option name="PREVIOUS_COMMIT_AUTHORS">
       <list>
+        <option value="Nathan Danque &lt;nathan@danque.net&gt;" />
         <option value="Nathan Danque" />
       </list>
     </option>
     <option name="ROOT_SYNC" value="DONT_SYNC" />
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$/.." value="develop" />
+      </map>
+    </option>
   </component>
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/src/Graphics/Camera.h" />
-        <option value="$PROJECT_DIR$/src/Math/STCore.h" />
-        <option value="$PROJECT_DIR$/src/Entity/Components/STComponent.h" />
-        <option value="$PROJECT_DIR$/src/Entity/Components/STEventComponent.h" />
-        <option value="$PROJECT_DIR$/src/Entity/Components/STEventComponent.cpp" />
-        <option value="$PROJECT_DIR$/src/Entity/Components/STRectBoundsComponent.h" />
-        <option value="$PROJECT_DIR$/src/Entity/Components/STRectBoundsComponent.cpp" />
-        <option value="$PROJECT_DIR$/src/Entity/Components/STScriptComponent.h" />
-        <option value="$PROJECT_DIR$/src/Entity/Components/STScriptComponent.cpp" />
-        <option value="$PROJECT_DIR$/src/Graphics/Interface/STLabel.h" />
-        <option value="$PROJECT_DIR$/src/STSceneManager.cpp" />
-        <option value="$PROJECT_DIR$/src/Graphics/GL/GLTexture.cpp" />
-        <option value="$PROJECT_DIR$/src/STGame.h" />
-        <option value="$PROJECT_DIR$/src/STGame.cpp" />
-        <option value="$PROJECT_DIR$/Build/Debug/lightSource.fsh" />
-        <option value="$PROJECT_DIR$/src/STSceneManager.h" />
-        <option value="$PROJECT_DIR$/src/Input.h" />
-        <option value="$PROJECT_DIR$/src/Input.cpp" />
-        <option value="$PROJECT_DIR$/src/Graphics/Interface/STButton.h" />
-        <option value="$PROJECT_DIR$/src/Graphics/Interface/STEntry.h" />
-        <option value="$PROJECT_DIR$/src/Graphics/GL/GLShader.h" />
-        <option value="$PROJECT_DIR$/src/Graphics/Interface/STEntry.cpp" />
-        <option value="$PROJECT_DIR$/src/Entity/STEntity.h" />
-        <option value="$PROJECT_DIR$/src/Entity/STEntity.cpp" />
+        <option value="$PROJECT_DIR$/src/Entity/Util/Loaders/STMeshLoader.h" />
         <option value="$PROJECT_DIR$/CMakeLists.txt" />
+        <option value="$PROJECT_DIR$/src/STGameState.cpp" />
+        <option value="$PROJECT_DIR$/demo/DataStructureTest.cpp" />
+        <option value="$PROJECT_DIR$/src/Entity/Components/STEventComponent.cpp" />
+        <option value="$PROJECT_DIR$/src/Entity/Components/STComponent.h" />
+        <option value="$PROJECT_DIR$/src/Entity/Components/STLightComponent.h" />
+        <option value="$PROJECT_DIR$/src/Graphics/Interface/UI_Components/STTextComponent.h" />
+        <option value="$PROJECT_DIR$/src/Graphics/Interface/UI_Components/STButtonComponent.h" />
+        <option value="$PROJECT_DIR$/src/Math/Shape/BoundingBox.h" />
+        <option value="$PROJECT_DIR$/src/Util/Data_Structure/STQueue.h" />
+        <option value="$PROJECT_DIR$/src/Entity/Components/STGraphicsComponent.h" />
+        <option value="$PROJECT_DIR$/src/Entity/Components/STEventComponent.h" />
         <option value="$PROJECT_DIR$/src/Entity/Components/STGraphicsComponent.cpp" />
+        <option value="$PROJECT_DIR$/src/Graphics/STMaterial.h" />
+        <option value="$PROJECT_DIR$/src/Graphics/GL/GLShader.h" />
         <option value="$PROJECT_DIR$/src/Entity/Util/STMesh.h" />
-        <option value="$PROJECT_DIR$/src/Entity/Util/STMesh.cpp" />
-        <option value="$PROJECT_DIR$/src/Entity/Components/STMeshComponent.h" />
         <option value="$PROJECT_DIR$/src/Entity/Components/STMeshComponent.cpp" />
-        <option value="$PROJECT_DIR$/src/Graphics/GL/GLMesh.h" />
-        <option value="$PROJECT_DIR$/src/Graphics/GL/GLMesh.cpp" />
+        <option value="$PROJECT_DIR$/src/Entity/Components/STMeshComponent.h" />
+        <option value="$PROJECT_DIR$/src/STSceneManager.cpp" />
+        <option value="$PROJECT_DIR$/src/Entity/Components/STBoundsComponent.h" />
+        <option value="$PROJECT_DIR$/Build/Debug/teapot.lua" />
+        <option value="$PROJECT_DIR$/src/Entity/Components/STScriptComponent.h" />
+        <option value="$PROJECT_DIR$/Build/Debug/example_Movement.lua" />
+        <option value="$PROJECT_DIR$/src/Entity/Components/STAABBComponent.h" />
+        <option value="$PROJECT_DIR$/src/Entity/Components/STAABBComponent.cpp" />
+        <option value="$PROJECT_DIR$/src/STGameState.h" />
+        <option value="$PROJECT_DIR$/src/Util/File/STFileManager.h" />
+        <option value="$PROJECT_DIR$/src/Util/Data_Structure/STList.h" />
+        <option value="$PROJECT_DIR$/demo/demo_main.cpp" />
+        <option value="$PROJECT_DIR$/src/Entity/STEntity.cpp" />
+        <option value="$PROJECT_DIR$/src/STSceneManager.h" />
+        <option value="$PROJECT_DIR$/Build/Debug/Suzanne_Control.lua" />
+        <option value="$PROJECT_DIR$/src/Graphics/Camera.h" />
+        <option value="$PROJECT_DIR$/src/Graphics/Camera.cpp" />
+        <option value="$PROJECT_DIR$/src/Entity/Components/STScriptComponent.cpp" />
+        <option value="$PROJECT_DIR$/src/Math/Transform.h" />
+        <option value="$PROJECT_DIR$/src/Math/Transform.cpp" />
+        <option value="$PROJECT_DIR$/src/Util/File/STFileManager.cpp" />
+        <option value="$PROJECT_DIR$/src/Entity/STEntity.h" />
+        <option value="$PROJECT_DIR$/src/STResourceManager.h" />
         <option value="$PROJECT_DIR$/src/Entity/STActor.h" />
         <option value="$PROJECT_DIR$/src/Entity/STActor.cpp" />
-        <option value="$PROJECT_DIR$/src/Math/Vector.h" />
-        <option value="$PROJECT_DIR$/src/Graphics/GL/GLGraphics.cpp" />
-        <option value="$PROJECT_DIR$/src/Graphics/Shader.cpp" />
-        <option value="$PROJECT_DIR$/src/Graphics/STMaterial.cpp" />
-        <option value="$PROJECT_DIR$/Build/Debug/shdr/panel.vsh" />
-        <option value="$PROJECT_DIR$/Build/Debug/shdr/panel.fsh" />
         <option value="$PROJECT_DIR$/src/Graphics/STColor.h" />
-        <option value="$PROJECT_DIR$/src/Graphics/STGraphics.h" />
-        <option value="$PROJECT_DIR$/src/Graphics/GL/GLGraphics.h" />
-        <option value="$PROJECT_DIR$/src/Graphics/Interface/STLabel.cpp" />
-        <option value="$PROJECT_DIR$/main.cpp" />
-        <option value="$PROJECT_DIR$/src/Graphics/Interface/STButton.cpp" />
-        <option value="$PROJECT_DIR$/src/Graphics/Interface/STPanel.h" />
-        <option value="$PROJECT_DIR$/src/Graphics/Interface/STInterWidget.h" />
-        <option value="$PROJECT_DIR$/src/Entity/Components/STGraphicsComponent.h" />
-        <option value="$PROJECT_DIR$/src/Graphics/STMaterial.h" />
-        <option value="$PROJECT_DIR$/src/Graphics/Interface/STPanel.cpp" />
+        <option value="$PROJECT_DIR$/src/Input.cpp" />
+        <option value="$PROJECT_DIR$/src/Input.h" />
+        <option value="$PROJECT_DIR$/Build/Debug/vec2.json" />
+        <option value="$PROJECT_DIR$/demo/STSample.cpp" />
+        <option value="$PROJECT_DIR$/Build/Debug/Input.json" />
+        <option value="$PROJECT_DIR$/src/Math/Vector.h" />
+        <option value="$PROJECT_DIR$/src/Util/STJson.h" />
       </list>
     </option>
   </component>
@@ -294,11 +341,11 @@
     <sorting>DEFINITION_ORDER</sorting>
   </component>
   <component name="OCFindUsagesOptions" text="true" ivars="false" properties="true" derivedClasses="false" />
-  <component name="ProjectFrameBounds">
-    <option name="x" value="131" />
-    <option name="y" value="-13" />
-    <option name="width" value="3722" />
-    <option name="height" value="2186" />
+  <component name="ProjectFrameBounds" extendedState="6">
+    <option name="x" value="186" />
+    <option name="y" value="-4" />
+    <option name="width" value="1400" />
+    <option name="height" value="786" />
   </component>
   <component name="ProjectInspectionProfilesVisibleTreeState">
     <entry key="Project Default">
@@ -317,14 +364,7 @@
     </entry>
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true">
-    <OptionsSetting value="true" id="Add" />
-    <OptionsSetting value="true" id="Remove" />
-    <OptionsSetting value="true" id="Checkout" />
-    <OptionsSetting value="true" id="Update" />
-    <OptionsSetting value="true" id="Status" />
-    <OptionsSetting value="true" id="Edit" />
     <ConfirmationsSetting value="2" id="Add" />
-    <ConfirmationsSetting value="0" id="Remove" />
   </component>
   <component name="ProjectView">
     <navigator currentView="ProjectPane" proportions="" version="1">
@@ -343,285 +383,69 @@
     <panes>
       <pane id="ProjectPane">
         <subPane>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Wahoo" />
-              <option name="myItemType" value="com.jetbrains.cidr.projectView.CidrFilesViewHelper$MyProjectTreeStructure$1" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Wahoo" />
-              <option name="myItemType" value="com.jetbrains.cidr.projectView.CidrFilesViewHelper$MyProjectTreeStructure$1" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="engine" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Wahoo" />
-              <option name="myItemType" value="com.jetbrains.cidr.projectView.CidrFilesViewHelper$MyProjectTreeStructure$1" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="engine" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Wahoo" />
-              <option name="myItemType" value="com.jetbrains.cidr.projectView.CidrFilesViewHelper$MyProjectTreeStructure$1" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="engine" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Math" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Wahoo" />
-              <option name="myItemType" value="com.jetbrains.cidr.projectView.CidrFilesViewHelper$MyProjectTreeStructure$1" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="engine" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Math" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Shape" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Wahoo" />
-              <option name="myItemType" value="com.jetbrains.cidr.projectView.CidrFilesViewHelper$MyProjectTreeStructure$1" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="engine" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Math" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="2D Bounds" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Wahoo" />
-              <option name="myItemType" value="com.jetbrains.cidr.projectView.CidrFilesViewHelper$MyProjectTreeStructure$1" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="engine" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Graphics" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Wahoo" />
-              <option name="myItemType" value="com.jetbrains.cidr.projectView.CidrFilesViewHelper$MyProjectTreeStructure$1" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="engine" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Graphics" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Interface" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Wahoo" />
-              <option name="myItemType" value="com.jetbrains.cidr.projectView.CidrFilesViewHelper$MyProjectTreeStructure$1" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="engine" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Graphics" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="GL" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Wahoo" />
-              <option name="myItemType" value="com.jetbrains.cidr.projectView.CidrFilesViewHelper$MyProjectTreeStructure$1" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="engine" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Entity" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Wahoo" />
-              <option name="myItemType" value="com.jetbrains.cidr.projectView.CidrFilesViewHelper$MyProjectTreeStructure$1" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="engine" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Entity" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Util" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Wahoo" />
-              <option name="myItemType" value="com.jetbrains.cidr.projectView.CidrFilesViewHelper$MyProjectTreeStructure$1" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="engine" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Entity" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Components" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Wahoo" />
-              <option name="myItemType" value="com.jetbrains.cidr.projectView.CidrFilesViewHelper$MyProjectTreeStructure$1" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="engine" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Build" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Debug" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Wahoo" />
-              <option name="myItemType" value="com.jetbrains.cidr.projectView.CidrFilesViewHelper$MyProjectTreeStructure$1" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="engine" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Build" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Debug" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="shdr" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Wahoo" />
-              <option name="myItemType" value="com.jetbrains.cidr.projectView.CidrFilesViewHelper$MyProjectTreeStructure$1" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="engine" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Build" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
+          <expand>
+            <path>
+              <item name="SwingTech1" type="dad4c3:CidrFilesViewHelper$MyProjectTreeStructure$1" />
+              <item name="engine" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="SwingTech1" type="dad4c3:CidrFilesViewHelper$MyProjectTreeStructure$1" />
+              <item name="engine" type="462c0819:PsiDirectoryNode" />
+              <item name="Build" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="SwingTech1" type="dad4c3:CidrFilesViewHelper$MyProjectTreeStructure$1" />
+              <item name="engine" type="462c0819:PsiDirectoryNode" />
+              <item name="Build" type="462c0819:PsiDirectoryNode" />
+              <item name="Debug" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="SwingTech1" type="dad4c3:CidrFilesViewHelper$MyProjectTreeStructure$1" />
+              <item name="engine" type="462c0819:PsiDirectoryNode" />
+              <item name="demo" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="SwingTech1" type="dad4c3:CidrFilesViewHelper$MyProjectTreeStructure$1" />
+              <item name="engine" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="SwingTech1" type="dad4c3:CidrFilesViewHelper$MyProjectTreeStructure$1" />
+              <item name="engine" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="Math" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="SwingTech1" type="dad4c3:CidrFilesViewHelper$MyProjectTreeStructure$1" />
+              <item name="engine" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="Math" type="462c0819:PsiDirectoryNode" />
+              <item name="2D Bounds" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="SwingTech1" type="dad4c3:CidrFilesViewHelper$MyProjectTreeStructure$1" />
+              <item name="engine" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="Math" type="462c0819:PsiDirectoryNode" />
+              <item name="Shape" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="SwingTech1" type="dad4c3:CidrFilesViewHelper$MyProjectTreeStructure$1" />
+              <item name="engine" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="Util" type="462c0819:PsiDirectoryNode" />
+            </path>
+          </expand>
+          <select />
         </subPane>
       </pane>
     </panes>
   </component>
   <component name="PropertiesComponent">
     <property name="recentsLimit" value="5" />
-    <property name="settings.editor.selected.configurable" value="fileTemplates" />
+    <property name="settings.editor.selected.configurable" value="reference.settingsdialog.IDE.editor.colors" />
     <property name="settings.editor.splitter.proportion" value="0.20674269" />
-    <property name="last_opened_file_path" value="C:/Program Files/Git/bin/git.exe" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="js-jscs-nodeInterpreter" value="C:\Program Files\nodejs\node.exe" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_flatWidth0" value="260" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_flatOrder0" value="0" />
@@ -641,26 +465,105 @@
     <property name="FileHistory.git4idea.history.GitHistoryProvider_treeOrder3" value="3" />
     <property name="SearchEverywhereHistoryKey" value="&#9;FILE&#9;file://C:/Users/NDanq/Documents/Projects/Wahoo/src/Graphics/GL/GLGraphics.cpp" />
     <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="nodejs_interpreter_path" value="C:/Program Files/nodejs/node" />
+    <property name="js.eslint.eslintPackage" value="" />
   </component>
   <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/Entity/Util/Loaders" />
+      <recent name="$PROJECT_DIR$/Build/Debug/shdr" />
+    </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/include" />
       <recent name="C:\Users\NDanq\Documents\GitHub\SwingTech-1\engine\src\Entity" />
       <recent name="C:\Users\NDanq\Documents\GitHub\SwingTech-1\engine\src\Entity\Components" />
       <recent name="C:\Users\NDanq\Documents\GitHub\SwingTech-1\engine\src\Entity\Util" />
       <recent name="C:\Users\NDanq\Documents\Projects\Wahoo\Build\Debug" />
-      <recent name="C:\Users\NDanq\Documents\Projects\Wahoo\src\Graphics\VK" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.SwingTech1">
-    <configuration default="true" type="CMakeGoogleTestRunConfigurationType" factoryName="Google Test" PASS_PARENT_ENVS_2="true" PROJECT_NAME="Wahoo" TARGET_NAME="Wahoo" CONFIG_NAME="Debug" TEST_MODE="SUITE_TEST">
+  <component name="RunDashboard">
+    <option name="ruleStates">
+      <list>
+        <RuleState>
+          <option name="name" value="ConfigurationTypeDashboardGroupingRule" />
+        </RuleState>
+        <RuleState>
+          <option name="name" value="StatusDashboardGroupingRule" />
+        </RuleState>
+      </list>
+    </option>
+  </component>
+  <component name="RunManager" selected="Application.STSample">
+    <configuration name="Build All" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="SwingTech1" TARGET_NAME="Wahoo" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="SwingTech1" RUN_TARGET_NAME="Wahoo">
+      <envs />
+    </configuration>
+    <configuration name="STSample" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="SwingTech1" TARGET_NAME="STSample" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="SwingTech1" RUN_TARGET_NAME="STSample">
+      <envs />
+    </configuration>
+    <configuration name="SwingTech1" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="SwingTech1" TARGET_NAME="SwingTech1" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="SwingTech1" RUN_TARGET_NAME="SwingTech1">
+      <envs />
+    </configuration>
+    <configuration name="SwingTech_1" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="SwingTech1" TARGET_NAME="SwingTech_1" CONFIG_NAME="Debug">
+      <envs />
+    </configuration>
+    <configuration name="Wahoo" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="SwingTech1" TARGET_NAME="SwingTech1" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="SwingTech1" RUN_TARGET_NAME="SwingTech1">
+      <envs />
+    </configuration>
+    <configuration name="Wahoo_debug" type="CMakeRunConfiguration" factoryName="Application" WORKING_DIR="file://$PROJECT_DIR$/Build/Debug" PASS_PARENT_ENVS_2="true" PROJECT_NAME="SwingTech1" TARGET_NAME="SwingTech1" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="SwingTech1" RUN_TARGET_NAME="SwingTech1">
+      <envs />
+    </configuration>
+    <configuration default="true" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="SwingTech1" TARGET_NAME="Wahoo" CONFIG_NAME="Debug">
+      <envs />
+    </configuration>
+    <configuration default="true" type="CMakeGoogleTestRunConfigurationType" factoryName="Google Test" PASS_PARENT_ENVS_2="true" PROJECT_NAME="SwingTech1" TARGET_NAME="Wahoo" CONFIG_NAME="Debug" TEST_MODE="SUITE_TEST">
+      <envs />
+    </configuration>
+    <configuration default="true" type="js.build_tools.grunt" factoryName="Grunt.js">
+      <node-interpreter value="project" />
+      <envs />
+    </configuration>
+    <configuration default="true" type="js.build_tools.gulp" factoryName="Gulp.js">
+      <node-interpreter>project</node-interpreter>
+      <node-options />
+      <gulpfile />
+      <tasks />
+      <arguments />
+      <pass-parent-envs>true</pass-parent-envs>
+      <envs />
+    </configuration>
+    <configuration default="true" type="CLion_Remote" factoryName="GDB Remote Debug" remoteCommand="" symbolFile="" sysroot="">
+      <method />
+    </configuration>
+    <configuration default="true" type="CMakeCatchTestRunConfigurationType" factoryName="Catch Test" PASS_PARENT_ENVS_2="true" TEST_MODE="SUITE_TEST">
       <envs />
       <method />
     </configuration>
-    <configuration default="true" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="Wahoo" TARGET_NAME="Wahoo" CONFIG_NAME="Debug">
+    <configuration default="true" type="ChromiumRemoteDebugType" factoryName="Chromium Remote">
+      <method />
+    </configuration>
+    <configuration default="true" type="CompoundRunConfigurationType" factoryName="Compound Run Configuration">
+      <method />
+    </configuration>
+    <configuration default="true" type="FirefoxRemoteDebugType" factoryName="Firefox Remote">
+      <method />
+    </configuration>
+    <configuration default="true" type="JavaScriptTestRunnerJest" factoryName="Jest">
+      <node-interpreter value="project" />
+      <working-dir value="" />
+      <envs />
+      <scope-kind value="ALL" />
+      <method />
+    </configuration>
+    <configuration default="true" type="JavaScriptTestRunnerProtractor" factoryName="Protractor">
+      <config-file value="" />
+      <node-interpreter value="project" />
       <envs />
       <method />
     </configuration>
     <configuration default="true" type="JavascriptDebugType" factoryName="JavaScript Debug">
+      <method />
+    </configuration>
+    <configuration default="true" type="NodeWebKit" factoryName="NW.js">
       <method />
     </configuration>
     <configuration default="true" type="PythonConfigurationType" factoryName="Python">
@@ -678,6 +581,13 @@
       <option name="SCRIPT_NAME" value="" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <method />
+    </configuration>
+    <configuration default="true" type="ReactNative" factoryName="React Native">
+      <node-interpreter value="project" />
+      <platform value="ANDROID" />
+      <envs />
       <method />
     </configuration>
     <configuration default="true" type="Tox" factoryName="Tox">
@@ -692,40 +602,39 @@
       <module name="Wahoo" />
       <method />
     </configuration>
-    <configuration default="true" type="js.build_tools.gulp" factoryName="Gulp.js">
-      <node-interpreter>project</node-interpreter>
-      <node-options />
-      <gulpfile />
-      <tasks />
-      <arguments />
-      <pass-parent-envs>true</pass-parent-envs>
+    <configuration default="true" type="XSLT" factoryName="XSLT">
+      <option name="myOutputFile" />
+      <option name="myOpenOutputFile" value="false" />
+      <option name="myOpenInBrowser" value="false" />
+      <option name="mySmartErrorHandling" value="true" />
+      <option name="myRunnerPort" value="34873" />
+      <option name="myVmArguments" />
+      <option name="myWorkingDirectory" />
+      <option name="myModule" />
+      <option name="myJdk" />
+      <parameters />
+      <OutputType value="CONSOLE" save-to-file="false" />
+      <FileType name="XML" />
+      <JdkChoice value="FROM_MODULE" />
+      <method />
+    </configuration>
+    <configuration default="true" type="#com.sylvanaar.idea.Lua.run.LuaConfigurationType" factoryName="Lua Script">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="INTERPRETER_PATH" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <option name="ALTERNATE_INTERPRETER" value="false" />
       <envs />
+      <module name="" />
+      <option name="SCRIPT_NAME" value="" />
+      <option name="PARAMETERS" value="" />
       <method />
     </configuration>
     <configuration default="true" type="js.build_tools.npm" factoryName="npm">
-      <command value="run-script" />
+      <command value="run" />
       <scripts />
       <node-interpreter value="project" />
       <envs />
-      <method />
-    </configuration>
-    <configuration default="true" type="tests" factoryName="Attests">
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs />
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="" />
-      <option name="IS_MODULE_SDK" value="false" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <module name="Wahoo" />
-      <option name="SCRIPT_NAME" value="" />
-      <option name="CLASS_NAME" value="" />
-      <option name="METHOD_NAME" value="" />
-      <option name="FOLDER_NAME" value="" />
-      <option name="TEST_TYPE" value="TEST_SCRIPT" />
-      <option name="PATTERN" value="" />
-      <option name="USE_PATTERN" value="false" />
       <method />
     </configuration>
     <configuration default="true" type="tests" factoryName="Doctests">
@@ -757,15 +666,10 @@
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <module name="Wahoo" />
-      <option name="SCRIPT_NAME" value="" />
-      <option name="CLASS_NAME" value="" />
-      <option name="METHOD_NAME" value="" />
-      <option name="FOLDER_NAME" value="" />
-      <option name="TEST_TYPE" value="TEST_SCRIPT" />
-      <option name="PATTERN" value="" />
-      <option name="USE_PATTERN" value="false" />
-      <option name="PARAMS" value="" />
-      <option name="USE_PARAM" value="false" />
+      <option name="_new_regexPattern" value="&quot;&quot;" />
+      <option name="_new_additionalArguments" value="&quot;&quot;" />
+      <option name="_new_target" value="&quot;.&quot;" />
+      <option name="_new_targetType" value="&quot;PATH&quot;" />
       <method />
     </configuration>
     <configuration default="true" type="tests" factoryName="Unittests">
@@ -778,19 +682,28 @@
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <module name="Wahoo" />
-      <option name="SCRIPT_NAME" value="" />
-      <option name="CLASS_NAME" value="" />
-      <option name="METHOD_NAME" value="" />
-      <option name="FOLDER_NAME" value="" />
-      <option name="TEST_TYPE" value="TEST_SCRIPT" />
-      <option name="PATTERN" value="" />
-      <option name="USE_PATTERN" value="false" />
-      <option name="PUREUNITTEST" value="true" />
-      <option name="PARAMS" value="" />
-      <option name="USE_PARAM" value="false" />
+      <option name="_new_additionalArguments" value="&quot;&quot;" />
+      <option name="_new_target" value="&quot;.&quot;" />
+      <option name="_new_targetType" value="&quot;PATH&quot;" />
       <method />
     </configuration>
     <configuration default="true" type="tests" factoryName="py.test">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <module name="Wahoo" />
+      <option name="_new_keywords" value="&quot;&quot;" />
+      <option name="_new_additionalArguments" value="&quot;&quot;" />
+      <option name="_new_target" value="&quot;.&quot;" />
+      <option name="_new_targetType" value="&quot;PATH&quot;" />
+      <method />
+    </configuration>
+    <configuration default="true" type="tests" factoryName="Attests">
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
       <envs />
@@ -807,39 +720,23 @@
       <option name="TEST_TYPE" value="TEST_SCRIPT" />
       <option name="PATTERN" value="" />
       <option name="USE_PATTERN" value="false" />
-      <option name="testToRun" value="" />
-      <option name="keywords" value="" />
-      <option name="params" value="" />
-      <option name="USE_PARAM" value="false" />
-      <option name="USE_KEYWORD" value="false" />
       <method />
     </configuration>
-    <configuration default="false" name="Wahoo" type="CMakeRunConfiguration" factoryName="Application" WORKING_DIR="" PASS_PARENT_ENVS_2="true" PROJECT_NAME="SwingTech1" TARGET_NAME="SwingTech1" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="SwingTech1" RUN_TARGET_NAME="SwingTech1">
+    <configuration name="demoSwing" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="SwingTech1" TARGET_NAME="demoSwing" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="SwingTech1" RUN_TARGET_NAME="demoSwing">
       <envs />
-      <method />
     </configuration>
-    <configuration default="false" name="Build All" type="CMakeRunConfiguration" factoryName="Application" WORKING_DIR="" PASS_PARENT_ENVS_2="true" PROJECT_NAME="Wahoo" TARGET_NAME="Wahoo" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="Wahoo" RUN_TARGET_NAME="Wahoo">
+    <configuration name="ds_test" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="SwingTech1" TARGET_NAME="ds_test" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="SwingTech1" RUN_TARGET_NAME="ds_test">
       <envs />
-      <method />
     </configuration>
-    <configuration default="false" name="Wahoo_debug" type="CMakeRunConfiguration" factoryName="Application" WORKING_DIR="file://$PROJECT_DIR$/Build/Debug" PASS_PARENT_ENVS_2="true" PROJECT_NAME="SwingTech1" TARGET_NAME="SwingTech1" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="SwingTech1" RUN_TARGET_NAME="SwingTech1">
-      <envs />
-      <method />
-    </configuration>
-    <configuration default="false" name="SwingTech1" type="CMakeRunConfiguration" factoryName="Application" WORKING_DIR="" PASS_PARENT_ENVS_2="true" PROJECT_NAME="SwingTech1" TARGET_NAME="SwingTech1" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="SwingTech1" RUN_TARGET_NAME="SwingTech1">
-      <envs />
-      <method />
-    </configuration>
-    <configuration default="false" name="demoSwing" type="CMakeRunConfiguration" factoryName="Application" WORKING_DIR="" PASS_PARENT_ENVS_2="true" PROJECT_NAME="SwingTech1" TARGET_NAME="demoSwing" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="SwingTech1" RUN_TARGET_NAME="demoSwing">
-      <envs />
-      <method />
-    </configuration>
-    <list size="5">
+    <list size="8">
       <item index="0" class="java.lang.String" itemvalue="Application.Wahoo" />
       <item index="1" class="java.lang.String" itemvalue="Application.Build All" />
       <item index="2" class="java.lang.String" itemvalue="Application.Wahoo_debug" />
       <item index="3" class="java.lang.String" itemvalue="Application.SwingTech1" />
-      <item index="4" class="java.lang.String" itemvalue="Application.demoSwing" />
+      <item index="4" class="java.lang.String" itemvalue="Application.SwingTech_1" />
+      <item index="5" class="java.lang.String" itemvalue="Application.demoSwing" />
+      <item index="6" class="java.lang.String" itemvalue="Application.ds_test" />
+      <item index="7" class="java.lang.String" itemvalue="Application.STSample" />
     </list>
   </component>
   <component name="ShelveChangesManager" show_recycled="false">
@@ -933,6 +830,331 @@
       <workItem from="1476486724792" duration="302000" />
       <workItem from="1476487057631" duration="2913000" />
       <workItem from="1476761436729" duration="423000" />
+      <workItem from="1476762915197" duration="1360000" />
+      <workItem from="1476808952004" duration="1839000" />
+      <workItem from="1477449313117" duration="2263000" />
+      <workItem from="1477526372098" duration="2825000" />
+      <workItem from="1478221907706" duration="3625000" />
+      <workItem from="1480492062097" duration="1202000" />
+      <workItem from="1480493321029" duration="1838000" />
+      <workItem from="1480495182066" duration="104000" />
+      <workItem from="1480521098754" duration="331000" />
+      <workItem from="1480525215250" duration="1226000" />
+      <workItem from="1480527091858" duration="853000" />
+      <workItem from="1480538871807" duration="2443000" />
+      <workItem from="1480959301667" duration="25000" />
+      <workItem from="1481095921913" duration="566000" />
+      <workItem from="1481302691191" duration="1740000" />
+      <workItem from="1481591265882" duration="2239000" />
+      <workItem from="1482296585890" duration="368000" />
+      <workItem from="1482297047110" duration="1258000" />
+      <workItem from="1482298675135" duration="186000" />
+      <workItem from="1482301745696" duration="52000" />
+      <workItem from="1482302378053" duration="2146000" />
+      <workItem from="1482359112173" duration="905000" />
+      <workItem from="1482360864349" duration="1457000" />
+      <workItem from="1482370153367" duration="1898000" />
+      <workItem from="1482555172121" duration="363000" />
+      <workItem from="1482732065050" duration="1099000" />
+      <workItem from="1482821740194" duration="100000" />
+      <workItem from="1482821867250" duration="595000" />
+      <workItem from="1483130849477" duration="604000" />
+      <workItem from="1483134176528" duration="86000" />
+      <workItem from="1483134294037" duration="39000" />
+      <workItem from="1483135175179" duration="1263000" />
+      <workItem from="1484522202140" duration="553000" />
+      <workItem from="1485139190305" duration="25000" />
+      <workItem from="1485139230278" duration="282000" />
+      <workItem from="1485237036187" duration="1185000" />
+      <workItem from="1485295005579" duration="275000" />
+      <workItem from="1485903136890" duration="489000" />
+      <workItem from="1486018264034" duration="50000" />
+      <workItem from="1486507649103" duration="1418000" />
+      <workItem from="1486509090641" duration="2510000" />
+      <workItem from="1486583659212" duration="700000" />
+      <workItem from="1486590871237" duration="1997000" />
+      <workItem from="1486677264694" duration="2575000" />
+      <workItem from="1486680020252" duration="1983000" />
+      <workItem from="1486756804959" duration="1143000" />
+      <workItem from="1487109653445" duration="427000" />
+      <workItem from="1487110235295" duration="1271000" />
+      <workItem from="1487197643660" duration="48000" />
+      <workItem from="1487197732246" duration="1405000" />
+      <workItem from="1487282266067" duration="4299000" />
+      <workItem from="1487322495439" duration="1302000" />
+      <workItem from="1487368486415" duration="294000" />
+      <workItem from="1487576618463" duration="402000" />
+      <workItem from="1487627883563" duration="941000" />
+      <workItem from="1487716705286" duration="1979000" />
+      <workItem from="1487887666045" duration="3665000" />
+      <workItem from="1487891370990" duration="386000" />
+      <workItem from="1487916277120" duration="1172000" />
+      <workItem from="1487919965541" duration="2628000" />
+      <workItem from="1488166763997" duration="125000" />
+      <workItem from="1488318814566" duration="1255000" />
+      <workItem from="1488320796466" duration="2765000" />
+      <workItem from="1488339250920" duration="5053000" />
+      <workItem from="1488388850329" duration="1608000" />
+      <workItem from="1488409007407" duration="2921000" />
+      <workItem from="1488489261745" duration="1860000" />
+      <workItem from="1488493349626" duration="47000" />
+      <workItem from="1488494042519" duration="2246000" />
+      <workItem from="1488831317002" duration="4097000" />
+      <workItem from="1488869009322" duration="1021000" />
+      <workItem from="1490423515161" duration="170000" />
+      <workItem from="1490423729727" duration="152000" />
+      <workItem from="1490424119137" duration="472000" />
+      <workItem from="1490425362066" duration="83000" />
+      <workItem from="1490425493556" duration="68000" />
+      <workItem from="1490456737350" duration="579000" />
+      <workItem from="1490457565489" duration="174000" />
+      <workItem from="1490507197202" duration="599000" />
+      <workItem from="1490592442275" duration="614000" />
+      <workItem from="1490593121397" duration="67000" />
+      <workItem from="1490593298175" duration="5405000" />
+      <workItem from="1490599100109" duration="323000" />
+      <workItem from="1490632316758" duration="75000" />
+      <workItem from="1490635587360" duration="694000" />
+      <workItem from="1490637882991" duration="1604000" />
+      <workItem from="1490676891304" duration="464000" />
+      <workItem from="1490683520962" duration="2375000" />
+      <workItem from="1490770013864" duration="2184000" />
+      <workItem from="1490854995441" duration="84000" />
+      <workItem from="1490855105160" duration="105000" />
+      <workItem from="1490855565557" duration="2386000" />
+      <workItem from="1490896628794" duration="607000" />
+      <workItem from="1490898443634" duration="453000" />
+      <workItem from="1490928095659" duration="99000" />
+      <workItem from="1491029436889" duration="601000" />
+      <workItem from="1491175740782" duration="3614000" />
+      <workItem from="1491271232920" duration="599000" />
+      <workItem from="1491281890500" duration="3096000" />
+      <workItem from="1491289368801" duration="1046000" />
+      <workItem from="1491322556311" duration="1552000" />
+      <workItem from="1491325610074" duration="816000" />
+      <workItem from="1491329756200" duration="1389000" />
+      <workItem from="1491340245686" duration="2168000" />
+      <workItem from="1491374127742" duration="4246000" />
+      <workItem from="1491378809726" duration="53000" />
+      <workItem from="1491413004817" duration="472000" />
+      <workItem from="1491417467779" duration="53000" />
+      <workItem from="1491417628548" duration="37000" />
+      <workItem from="1491424001223" duration="854000" />
+      <workItem from="1491433609809" duration="173000" />
+      <workItem from="1491433865101" duration="312000" />
+      <workItem from="1491497032703" duration="71000" />
+      <workItem from="1491512616242" duration="4815000" />
+      <workItem from="1491520505811" duration="470000" />
+      <workItem from="1491588524322" duration="382000" />
+      <workItem from="1491638358882" duration="22000" />
+      <workItem from="1491712728384" duration="7195000" />
+      <workItem from="1492835625946" duration="680000" />
+      <workItem from="1492837360642" duration="1052000" />
+      <workItem from="1492838976279" duration="1234000" />
+      <workItem from="1492902597940" duration="599000" />
+      <workItem from="1493088107129" duration="35000" />
+      <workItem from="1493179781440" duration="1126000" />
+      <workItem from="1493444380161" duration="550000" />
+      <workItem from="1493445218289" duration="1019000" />
+      <workItem from="1493446253594" duration="71000" />
+      <workItem from="1493488384885" duration="3816000" />
+      <workItem from="1493534399779" duration="2698000" />
+      <workItem from="1493581663681" duration="188000" />
+      <workItem from="1493609272811" duration="28000" />
+      <workItem from="1493623262051" duration="956000" />
+      <workItem from="1493655908034" duration="12000" />
+      <workItem from="1493672618597" duration="949000" />
+      <workItem from="1493673815291" duration="660000" />
+      <workItem from="1493674743731" duration="614000" />
+      <workItem from="1493676382731" duration="517000" />
+      <workItem from="1493677318528" duration="1634000" />
+      <workItem from="1493691897137" duration="2414000" />
+      <workItem from="1493694487667" duration="17000" />
+      <workItem from="1493705621442" duration="905000" />
+      <workItem from="1493707413566" duration="254000" />
+      <workItem from="1493707679338" duration="1344000" />
+      <workItem from="1493709060596" duration="426000" />
+      <workItem from="1493709700039" duration="1908000" />
+      <workItem from="1493711853116" duration="209000" />
+      <workItem from="1493737463316" duration="319000" />
+      <workItem from="1493741302336" duration="1451000" />
+      <workItem from="1493755918037" duration="255000" />
+      <workItem from="1493758612287" duration="2272000" />
+      <workItem from="1493760927892" duration="1766000" />
+      <workItem from="1493762771094" duration="233000" />
+      <workItem from="1493846953075" duration="702000" />
+      <workItem from="1493848111661" duration="1124000" />
+      <workItem from="1493874788358" duration="1083000" />
+      <workItem from="1494008525547" duration="1172000" />
+      <workItem from="1494017088357" duration="259000" />
+      <workItem from="1494017430228" duration="2823000" />
+      <workItem from="1494028218493" duration="71000" />
+      <workItem from="1494028341896" duration="49000" />
+      <workItem from="1494033383475" duration="4414000" />
+      <workItem from="1494576318750" duration="508000" />
+      <workItem from="1494828299476" duration="1107000" />
+      <workItem from="1494914985907" duration="452000" />
+      <workItem from="1495002340276" duration="12000" />
+      <workItem from="1495002368522" duration="316000" />
+      <workItem from="1495054670162" duration="4216000" />
+      <workItem from="1495058972743" duration="914000" />
+      <workItem from="1495059932831" duration="309000" />
+      <workItem from="1495080042617" duration="599000" />
+      <workItem from="1495088852143" duration="15000" />
+      <workItem from="1495128234920" duration="17000" />
+      <workItem from="1495128377661" duration="863000" />
+      <workItem from="1495131510825" duration="289000" />
+      <workItem from="1495132546901" duration="6665000" />
+      <workItem from="1495405746115" duration="97000" />
+      <workItem from="1495437000992" duration="174000" />
+      <workItem from="1495494370353" duration="615000" />
+      <workItem from="1495518379730" duration="610000" />
+      <workItem from="1495591432428" duration="883000" />
+      <workItem from="1495634512888" duration="651000" />
+      <workItem from="1495645608639" duration="165000" />
+      <workItem from="1495645810030" duration="15000" />
+      <workItem from="1495645996674" duration="347000" />
+      <workItem from="1495651747113" duration="324000" />
+      <workItem from="1495695276975" duration="123000" />
+      <workItem from="1495695439094" duration="394000" />
+      <workItem from="1495776144632" duration="599000" />
+      <workItem from="1495825492905" duration="1736000" />
+      <workItem from="1495867176565" duration="597000" />
+      <workItem from="1496016525463" duration="600000" />
+      <workItem from="1496092186245" duration="633000" />
+      <workItem from="1496102386204" duration="747000" />
+      <workItem from="1496174332058" duration="9955000" />
+      <workItem from="1496184557450" duration="138000" />
+      <workItem from="1496196518463" duration="2779000" />
+      <workItem from="1496203520388" duration="806000" />
+      <workItem from="1496204392038" duration="5085000" />
+      <workItem from="1496211709460" duration="1205000" />
+      <workItem from="1496267789887" duration="2405000" />
+      <workItem from="1496272424273" duration="392000" />
+      <workItem from="1496285108202" duration="723000" />
+      <workItem from="1496303721991" duration="592000" />
+      <workItem from="1496357210578" duration="450000" />
+      <workItem from="1496467004092" duration="1377000" />
+      <workItem from="1496469000175" duration="868000" />
+      <workItem from="1496519954748" duration="549000" />
+      <workItem from="1496550153656" duration="3103000" />
+      <workItem from="1496724172381" duration="5684000" />
+      <workItem from="1496730396533" duration="693000" />
+      <workItem from="1496795942169" duration="48000" />
+      <workItem from="1497021324448" duration="819000" />
+      <workItem from="1497072506832" duration="308000" />
+      <workItem from="1497072830162" duration="1699000" />
+      <workItem from="1497328376862" duration="460000" />
+      <workItem from="1497330468947" duration="5236000" />
+      <workItem from="1497335908393" duration="2727000" />
+      <workItem from="1497363109867" duration="315000" />
+      <workItem from="1497486917040" duration="6446000" />
+      <workItem from="1497505666855" duration="5995000" />
+      <workItem from="1497542232985" duration="1078000" />
+      <workItem from="1498053292211" duration="74000" />
+      <workItem from="1498083255719" duration="5797000" />
+      <workItem from="1498167730371" duration="4870000" />
+      <workItem from="1498191488059" duration="6845000" />
+      <workItem from="1498237936952" duration="2736000" />
+      <workItem from="1498329521754" duration="3432000" />
+      <workItem from="1498429005231" duration="651000" />
+      <workItem from="1498447779196" duration="1230000" />
+      <workItem from="1498451601373" duration="2406000" />
+      <workItem from="1498454040895" duration="528000" />
+      <workItem from="1498482100274" duration="2578000" />
+      <workItem from="1498491768466" duration="425000" />
+      <workItem from="1498500040898" duration="2519000" />
+      <workItem from="1498515449567" duration="2743000" />
+      <workItem from="1498537353529" duration="2737000" />
+      <workItem from="1498602125770" duration="5512000" />
+      <workItem from="1498657590222" duration="945000" />
+      <workItem from="1498672390085" duration="184000" />
+      <workItem from="1498674716264" duration="941000" />
+      <workItem from="1498676007907" duration="3568000" />
+      <workItem from="1498713347470" duration="141000" />
+      <workItem from="1498756657282" duration="2136000" />
+      <workItem from="1498761043697" duration="468000" />
+      <workItem from="1498761538109" duration="545000" />
+      <workItem from="1498762145154" duration="433000" />
+      <workItem from="1498797880321" duration="4034000" />
+      <workItem from="1498831339507" duration="1798000" />
+      <workItem from="1498842847941" duration="1478000" />
+      <workItem from="1498844336786" duration="1260000" />
+      <workItem from="1498855561836" duration="5176000" />
+      <workItem from="1499011179348" duration="426000" />
+      <workItem from="1499020402751" duration="3728000" />
+      <workItem from="1499037687706" duration="599000" />
+      <workItem from="1499052390516" duration="1241000" />
+      <workItem from="1499185195737" duration="337000" />
+      <workItem from="1499186095659" duration="12000" />
+      <workItem from="1499186196877" duration="6278000" />
+      <workItem from="1499215873949" duration="4804000" />
+      <workItem from="1499265052838" duration="1483000" />
+      <workItem from="1499323835804" duration="4000" />
+      <workItem from="1499350927153" duration="1239000" />
+      <workItem from="1499360197298" duration="3640000" />
+      <workItem from="1499367009182" duration="1442000" />
+      <workItem from="1499403450751" duration="2027000" />
+      <workItem from="1499406683204" duration="618000" />
+      <workItem from="1499408085110" duration="2000" />
+      <workItem from="1499410258583" duration="28000" />
+      <workItem from="1499497122514" duration="56000" />
+      <workItem from="1499497192023" duration="582000" />
+      <workItem from="1499706747895" duration="649000" />
+      <workItem from="1499815367505" duration="327000" />
+      <workItem from="1499896939067" duration="1240000" />
+      <workItem from="1500014960298" duration="1067000" />
+      <workItem from="1500178935869" duration="3922000" />
+      <workItem from="1500269894404" duration="736000" />
+      <workItem from="1500321326786" duration="1532000" />
+      <workItem from="1500351027144" duration="3046000" />
+      <workItem from="1500411937371" duration="317000" />
+      <workItem from="1500438192470" duration="1382000" />
+      <workItem from="1500447283160" duration="4344000" />
+      <workItem from="1500530305965" duration="158000" />
+      <workItem from="1500608190543" duration="5000" />
+      <workItem from="1500698879662" duration="3312000" />
+      <workItem from="1500702656510" duration="167000" />
+      <workItem from="1500703076783" duration="43000" />
+      <workItem from="1500703137695" duration="12000" />
+      <workItem from="1500743178988" duration="1888000" />
+      <workItem from="1501371868668" duration="2386000" />
+      <workItem from="1501507990007" duration="15658000" />
+      <workItem from="1501560693581" duration="2657000" />
+      <workItem from="1501616903889" duration="546000" />
+      <workItem from="1501620082258" duration="1539000" />
+      <workItem from="1501704163330" duration="44000" />
+      <workItem from="1501704224359" duration="3283000" />
+      <workItem from="1501708136962" duration="2185000" />
+      <workItem from="1501713020826" duration="279000" />
+      <workItem from="1501776345727" duration="1977000" />
+      <workItem from="1501793090655" duration="599000" />
+      <workItem from="1501904920311" duration="4776000" />
+      <workItem from="1501960922993" duration="1791000" />
+      <workItem from="1502081725156" duration="55000" />
+      <workItem from="1502157591691" duration="28000" />
+      <workItem from="1502160428695" duration="3003000" />
+      <workItem from="1502207753186" duration="89000" />
+      <workItem from="1502214857816" duration="1899000" />
+      <workItem from="1502229725785" duration="4156000" />
+      <workItem from="1502258722832" duration="3472000" />
+      <workItem from="1502289768663" duration="799000" />
+      <workItem from="1502313022843" duration="154000" />
+      <workItem from="1502332427248" duration="2372000" />
+      <workItem from="1502335645750" duration="1154000" />
+      <workItem from="1502337557850" duration="405000" />
+      <workItem from="1502472893233" duration="3670000" />
+      <workItem from="1502495291957" duration="930000" />
+      <workItem from="1502517461714" duration="1049000" />
+      <workItem from="1502587742882" duration="1260000" />
+      <workItem from="1502654281188" duration="933000" />
+      <workItem from="1502688982790" duration="487000" />
+      <workItem from="1502693336973" duration="599000" />
+      <workItem from="1502747817491" duration="762000" />
+      <workItem from="1502770570448" duration="168000" />
+      <workItem from="1503207052756" duration="618000" />
+      <workItem from="1503208183572" duration="946000" />
+      <workItem from="1503289264824" duration="1138000" />
     </task>
     <task id="LOCAL-00001" summary="0.0.91">
       <created>1456015877403</created>
@@ -941,11 +1163,319 @@
       <option name="project" value="LOCAL" />
       <updated>1456015877403</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="[*] Some other changes that were somehow ignored..">
+      <created>1490423859859</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1490423859859</updated>
+    </task>
+    <task id="LOCAL-00003" summary="[*] Updated to Modern Light Usage.">
+      <created>1490592937114</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1490592937114</updated>
+    </task>
+    <task id="LOCAL-00004" summary="[*] Implemented Shadow Code. Still needs testing&#10;[+] Implemented some other essential fixes.">
+      <created>1490598695448</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1490598695448</updated>
+    </task>
+    <task id="LOCAL-00005" summary="[*] Adjusted some shader offsets.">
+      <created>1490772188793</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1490772188793</updated>
+    </task>
+    <task id="LOCAL-00006" summary="[*] Before some major overhaul shit is done.">
+      <created>1491282085515</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1491282085515</updated>
+    </task>
+    <task id="LOCAL-00007" summary="[*] Implemented shadows for directional. TextureArray Working&#10;[*] Cleaned up legacy code.">
+      <created>1491378363496</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1491378363496</updated>
+    </task>
+    <task id="LOCAL-00008" summary="[*] Shadow Debugging.">
+      <created>1491514566347</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1491514566347</updated>
+    </task>
+    <task id="LOCAL-00009" summary="[*] Shadow Debugging.">
+      <created>1491517196960</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1491517196960</updated>
+    </task>
+    <task id="LOCAL-00010" summary="[*] Fixed Rotation issue.">
+      <created>1491720561983</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1491720561983</updated>
+    </task>
+    <task id="LOCAL-00011" summary="[*]Started Deferred Implementation.">
+      <created>1493446287043</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1493446287043</updated>
+    </task>
+    <task id="LOCAL-00012" summary="[*]Deferred working with some incorrect results.">
+      <created>1493492138647</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1493492138647</updated>
+    </task>
+    <task id="LOCAL-00013" summary="[*]Deferred brought into mainline develop.">
+      <created>1493744283738</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1493744283738</updated>
+    </task>
+    <task id="LOCAL-00014" summary="[*] Deferred shadows Properly Working&#10;[*] Other internal Improvements.">
+      <created>1496184369231</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1496184369231</updated>
+    </task>
+    <task id="LOCAL-00015" summary="[*] Moved Uniforms from Vector to Map">
+      <created>1496270184475</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1496270184475</updated>
+    </task>
+    <task id="LOCAL-00016" summary="[*] Fixed Scripting Math Issue">
+      <created>1496285197890</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1496285197890</updated>
+    </task>
+    <task id="LOCAL-00017" summary="[*] Some Code Cleanup. Moved OBJ Loader to new Loaders Folder.">
+      <created>1496557602615</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1496557602615</updated>
+    </task>
+    <task id="LOCAL-00018" summary="[*] Implemented Singular OBJ Loader for Error Mesh&#10;[+] Began Implementing FBX Loader.">
+      <created>1496730144136</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1496730144136</updated>
+    </task>
+    <task id="LOCAL-00019" summary="[*] Shitload of other changes.">
+      <created>1497336674345</created>
+      <option name="number" value="00019" />
+      <option name="presentableId" value="LOCAL-00019" />
+      <option name="project" value="LOCAL" />
+      <updated>1497336674345</updated>
+    </task>
+    <task id="LOCAL-00020" summary="[*] EventHandler can be added as a map.">
+      <created>1497492084511</created>
+      <option name="number" value="00020" />
+      <option name="presentableId" value="LOCAL-00020" />
+      <option name="project" value="LOCAL" />
+      <updated>1497492084511</updated>
+    </task>
+    <task id="LOCAL-00021" summary="[+] STMaterial created from .MTL File now.">
+      <created>1498169632709</created>
+      <option name="number" value="00021" />
+      <option name="presentableId" value="LOCAL-00021" />
+      <option name="project" value="LOCAL" />
+      <updated>1498169632709</updated>
+    </task>
+    <task id="LOCAL-00022" summary="[+] Metallic and Roughness Uniform Control">
+      <created>1498195767487</created>
+      <option name="number" value="00022" />
+      <option name="presentableId" value="LOCAL-00022" />
+      <option name="project" value="LOCAL" />
+      <updated>1498195767487</updated>
+    </task>
+    <task id="LOCAL-00023" summary="[+] PBR Fixes">
+      <created>1498199474593</created>
+      <option name="number" value="00023" />
+      <option name="presentableId" value="LOCAL-00023" />
+      <option name="project" value="LOCAL" />
+      <updated>1498199474593</updated>
+    </task>
+    <task id="LOCAL-00024" summary="[*] PBR Fixes">
+      <created>1498239874766</created>
+      <option name="number" value="00024" />
+      <option name="presentableId" value="LOCAL-00024" />
+      <option name="project" value="LOCAL" />
+      <updated>1498239874766</updated>
+    </task>
+    <task id="LOCAL-00025" summary="[*] PBR Fixes">
+      <created>1498454562308</created>
+      <option name="number" value="00025" />
+      <option name="presentableId" value="LOCAL-00025" />
+      <option name="project" value="LOCAL" />
+      <updated>1498454562308</updated>
+    </task>
+    <task id="LOCAL-00026" summary="[*] Transform Translate now affects Children.">
+      <created>1498484668471</created>
+      <option name="number" value="00026" />
+      <option name="presentableId" value="LOCAL-00026" />
+      <option name="project" value="LOCAL" />
+      <updated>1498484668471</updated>
+    </task>
+    <task id="LOCAL-00027" summary="[*] Single Key Input Working under linux&#10;[*] PBR Fixes.">
+      <created>1498517545248</created>
+      <option name="number" value="00027" />
+      <option name="presentableId" value="LOCAL-00027" />
+      <option name="project" value="LOCAL" />
+      <updated>1498517545248</updated>
+    </task>
+    <task id="LOCAL-00028" summary="[*] Moar PBR!">
+      <created>1498540121253</created>
+      <option name="number" value="00028" />
+      <option name="presentableId" value="LOCAL-00028" />
+      <option name="project" value="LOCAL" />
+      <updated>1498540121253</updated>
+    </task>
+    <task id="LOCAL-00029" summary="[+] OpenGEX Libs.">
+      <created>1498628908662</created>
+      <option name="number" value="00029" />
+      <option name="presentableId" value="LOCAL-00029" />
+      <option name="project" value="LOCAL" />
+      <updated>1498628908662</updated>
+    </task>
+    <task id="LOCAL-00030" summary="[*] OpenGEX Libs Linked.">
+      <created>1498631535547</created>
+      <option name="number" value="00030" />
+      <option name="presentableId" value="LOCAL-00030" />
+      <option name="project" value="LOCAL" />
+      <updated>1498631535547</updated>
+    </task>
+    <task id="LOCAL-00031" summary="[*] Fixed Multiple Shadows in Deferred.">
+      <created>1498761560980</created>
+      <option name="number" value="00031" />
+      <option name="presentableId" value="LOCAL-00031" />
+      <option name="project" value="LOCAL" />
+      <updated>1498761560980</updated>
+    </task>
+    <task id="LOCAL-00032" summary="[*] Implemented ASSIMP for model loading.">
+      <created>1498845583436</created>
+      <option name="number" value="00032" />
+      <option name="presentableId" value="LOCAL-00032" />
+      <option name="project" value="LOCAL" />
+      <updated>1498845583437</updated>
+    </task>
+    <task id="LOCAL-00033" summary="[*] Updated Material loading from MeshImporter">
+      <created>1498857178435</created>
+      <option name="number" value="00033" />
+      <option name="presentableId" value="LOCAL-00033" />
+      <option name="project" value="LOCAL" />
+      <updated>1498857178435</updated>
+    </task>
+    <task id="LOCAL-00034" summary="[+] Now Able to export library">
+      <created>1499056640363</created>
+      <option name="number" value="00034" />
+      <option name="presentableId" value="LOCAL-00034" />
+      <option name="project" value="LOCAL" />
+      <updated>1499056640363</updated>
+    </task>
+    <task id="LOCAL-00035" summary="[+] Cleaned Up Scripting Component&#10;[*] Streamlined Event Component.">
+      <created>1499237181905</created>
+      <option name="number" value="00035" />
+      <option name="presentableId" value="LOCAL-00035" />
+      <option name="project" value="LOCAL" />
+      <updated>1499237181905</updated>
+    </task>
+    <task id="LOCAL-00036" summary="[*] Fixed Error Mesh Loading.">
+      <created>1499266527826</created>
+      <option name="number" value="00036" />
+      <option name="presentableId" value="LOCAL-00036" />
+      <option name="project" value="LOCAL" />
+      <updated>1499266527826</updated>
+    </task>
+    <task id="LOCAL-00037" summary="[*] Fixed Local Rotations">
+      <created>1499367081917</created>
+      <option name="number" value="00037" />
+      <option name="presentableId" value="LOCAL-00037" />
+      <option name="project" value="LOCAL" />
+      <updated>1499367081917</updated>
+    </task>
+    <task id="LOCAL-00038" summary="[*] Simple Data Structures.">
+      <created>1500701153652</created>
+      <option name="number" value="00038" />
+      <option name="presentableId" value="LOCAL-00038" />
+      <option name="project" value="LOCAL" />
+      <updated>1500701153652</updated>
+    </task>
+    <task id="LOCAL-00039" summary="[+] Working Octree Implementation">
+      <created>1501538508865</created>
+      <option name="number" value="00039" />
+      <option name="presentableId" value="LOCAL-00039" />
+      <option name="project" value="LOCAL" />
+      <updated>1501538508865</updated>
+    </task>
+    <task id="LOCAL-00040" summary="[*] Tuneups and fixes">
+      <created>1501561593392</created>
+      <option name="number" value="00040" />
+      <option name="presentableId" value="LOCAL-00040" />
+      <option name="project" value="LOCAL" />
+      <updated>1501561593392</updated>
+    </task>
+    <task id="LOCAL-00041" summary="[+] Movement Example script&#10;[+] Additional Documentation&#10;[*] Bounding Box improvements">
+      <created>1501908849446</created>
+      <option name="number" value="00041" />
+      <option name="presentableId" value="LOCAL-00041" />
+      <option name="project" value="LOCAL" />
+      <updated>1501908849446</updated>
+    </task>
+    <task id="LOCAL-00042" summary="[+] Implemented Attribute System">
+      <created>1502262954106</created>
+      <option name="number" value="00042" />
+      <option name="presentableId" value="LOCAL-00042" />
+      <option name="project" value="LOCAL" />
+      <updated>1502262954106</updated>
+    </task>
+    <task id="LOCAL-00043" summary="[*] C++14 Modernizations">
+      <created>1502334589670</created>
+      <option name="number" value="00043" />
+      <option name="presentableId" value="LOCAL-00043" />
+      <option name="project" value="LOCAL" />
+      <updated>1502334589670</updated>
+    </task>
+    <task id="LOCAL-00044" summary="[+] InputMapping via JSON file.">
+      <created>1502475972967</created>
+      <option name="number" value="00044" />
+      <option name="presentableId" value="LOCAL-00044" />
+      <option name="project" value="LOCAL" />
+      <updated>1502475972967</updated>
+    </task>
+    <task id="LOCAL-00045" summary="[*] InputFixes">
+      <created>1502496213724</created>
+      <option name="number" value="00045" />
+      <option name="presentableId" value="LOCAL-00045" />
+      <option name="project" value="LOCAL" />
+      <updated>1502496213724</updated>
+    </task>
+    <option name="localTasksCounter" value="46" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="140853000" />
+    <option name="totallyTimeSpent" value="619138000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -957,28 +1487,52 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="131" y="-13" width="3722" height="2186" extended-state="6" />
+    <frame x="66" y="-6" width="1861" height="1093" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.13636364" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32962024" sideWeight="0.49675325" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.278481" sideWeight="0.5551948" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="CMake" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.19037975" sideWeight="0.35849568" order="11" side_tool="false" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.2207595" sideWeight="0.6845238" order="8" side_tool="true" content_ui="tabs" />
-      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3296146" sideWeight="0.496875" order="9" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.2207595" sideWeight="0.31547618" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.2232416" sideWeight="0.49675325" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.2522889" sideWeight="0.42613637" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="CMake" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.18858308" sideWeight="0.35849568" order="11" side_tool="false" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.22142857" sideWeight="0.6090022" order="8" side_tool="true" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32925585" sideWeight="0.496875" order="9" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.2638037" sideWeight="0.39099783" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32925585" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.14997293" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="LuaJ" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.23898734" sideWeight="0.4383117" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.39471006" sideWeight="0.39848813" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Data View" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Documentation" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="FLOATING" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" x="453" y="329" width="1657" height="892" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3270886" sideWeight="0.48376623" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32619774" sideWeight="0.48160174" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
     </layout>
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="1" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State>
+              <option name="RECENTLY_FILTERED_USER_GROUPS">
+                <collection />
+              </option>
+              <option name="RECENTLY_FILTERED_BRANCH_GROUPS">
+                <collection />
+              </option>
+            </State>
+          </value>
+        </entry>
+      </map>
+    </option>
   </component>
   <component name="Vcs.Log.UiProperties">
     <option name="RECENTLY_FILTERED_USER_GROUPS">
@@ -992,513 +1546,469 @@
     <option name="myLimit" value="2678400000" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="0.0.91" />
-    <option name="LAST_COMMIT_MESSAGE" value="0.0.91" />
+    <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="false" />
+    <option name="CHECK_NEW_TODO" value="false" />
+    <MESSAGE value="[*] EventHandler can be added as a map." />
+    <MESSAGE value="[+] STMaterial created from .MTL File now." />
+    <MESSAGE value="[+] Metallic and Roughness Uniform Control" />
+    <MESSAGE value="[+] PBR Fixes" />
+    <MESSAGE value="[*] PBR Fixes" />
+    <MESSAGE value="[*] Transform Translate now affects Children." />
+    <MESSAGE value="[*] Single Key Input Working under linux&#10;[*] PBR Fixes." />
+    <MESSAGE value="[*] Moar PBR!" />
+    <MESSAGE value="[+] OpenGEX Libs." />
+    <MESSAGE value="[*] OpenGEX Libs Linked." />
+    <MESSAGE value="[*] Fixed Multiple Shadows in Deferred." />
+    <MESSAGE value="[*] Implemented ASSIMP for model loading." />
+    <MESSAGE value="[*] Updated Material loading from MeshImporter" />
+    <MESSAGE value="[+] Now Able to export library" />
+    <MESSAGE value="[+] Cleaned Up Scripting Component&#10;[*] Streamlined Event Component." />
+    <MESSAGE value="[*] Fixed Error Mesh Loading." />
+    <MESSAGE value="[*] Fixed Local Rotations" />
+    <MESSAGE value="[*] Simple Data Structures." />
+    <MESSAGE value="[+] Working Octree Implementation" />
+    <MESSAGE value="[*] Tuneups and fixes" />
+    <MESSAGE value="[+] Movement Example script&#10;[+] Additional Documentation&#10;[*] Bounding Box improvements" />
+    <MESSAGE value="[+] Implemented Attribute System" />
+    <MESSAGE value="[*] C++14 Modernizations" />
+    <MESSAGE value="[+] InputMapping via JSON file." />
+    <MESSAGE value="[*] InputFixes" />
+    <option name="LAST_COMMIT_MESSAGE" value="[*] InputFixes" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
-          <url>file://$PROJECT_DIR$/src/Math/Matrix.h</url>
-          <line>78</line>
-          <option name="timeStamp" value="203" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
-          <url>file://$PROJECT_DIR$/src/Math/Transform.h</url>
-          <line>80</line>
-          <option name="timeStamp" value="205" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
-          <url>file://$PROJECT_DIR$/src/Math/Matrix.h</url>
-          <line>77</line>
-          <option name="timeStamp" value="206" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
-          <url>file://$PROJECT_DIR$/src/Math/Matrix.h</url>
-          <line>105</line>
-          <option name="timeStamp" value="209" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
-          <url>file://$PROJECT_DIR$/src/Math/Matrix.h</url>
-          <line>88</line>
-          <option name="timeStamp" value="217" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
-          <url>file://$PROJECT_DIR$/src/Math/Matrix.h</url>
-          <line>86</line>
-          <option name="timeStamp" value="218" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
-          <url>file://$PROJECT_DIR$/src/Math/Matrix.h</url>
-          <line>85</line>
-          <option name="timeStamp" value="219" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
-          <url>file://$PROJECT_DIR$/src/Math/Matrix.h</url>
-          <line>87</line>
-          <option name="timeStamp" value="220" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
           <url>file://$PROJECT_DIR$/src/Entity/STEntity.cpp</url>
-          <line>93</line>
+          <line>18</line>
           <option name="timeStamp" value="335" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
-          <url>file://$PROJECT_DIR$/src/Entity/Util/STMesh.cpp</url>
-          <line>106</line>
-          <option name="timeStamp" value="365" />
+          <url>file://$PROJECT_DIR$/src/Entity/STEntity.cpp</url>
+          <line>41</line>
+          <option name="timeStamp" value="678" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
-          <url>file://$PROJECT_DIR$/src/Entity/Util/STMesh.cpp</url>
-          <line>211</line>
-          <option name="timeStamp" value="383" />
+          <url>file://$PROJECT_DIR$/src/Entity/Util/Loaders/STMeshLoader.h</url>
+          <line>109</line>
+          <option name="timeStamp" value="698" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
-          <url>file://$PROJECT_DIR$/src/Entity/Util/STMesh.cpp</url>
-          <line>325</line>
-          <option name="timeStamp" value="390" />
+          <url>file://$PROJECT_DIR$/src/Entity/Components/STEventComponent.cpp</url>
+          <line>14</line>
+          <option name="timeStamp" value="715" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
-          <url>file://$PROJECT_DIR$/src/Entity/Util/STMesh.cpp</url>
-          <line>113</line>
-          <option name="timeStamp" value="395" />
+          <url>file://$PROJECT_DIR$/src/Entity/Components/STEventComponent.cpp</url>
+          <line>42</line>
+          <option name="timeStamp" value="717" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
-          <url>file://$PROJECT_DIR$/src/Entity/Util/STMesh.cpp</url>
-          <line>328</line>
-          <option name="timeStamp" value="435" />
+          <url>file://$PROJECT_DIR$/src/Entity/Components/STEventComponent.cpp</url>
+          <line>7</line>
+          <option name="timeStamp" value="719" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
-          <url>file://$PROJECT_DIR$/src/Entity/Util/STMesh.cpp</url>
-          <line>327</line>
-          <option name="timeStamp" value="436" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
-          <url>file://$PROJECT_DIR$/src/Entity/Util/STMesh.cpp</url>
-          <line>326</line>
-          <option name="timeStamp" value="437" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
-          <url>file://$PROJECT_DIR$/src/Entity/Util/STMesh.cpp</url>
-          <line>332</line>
-          <option name="timeStamp" value="446" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
-          <url>file://$PROJECT_DIR$/src/Graphics/Shader.cpp</url>
-          <line>15</line>
-          <option name="timeStamp" value="523" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
-          <url>file://$PROJECT_DIR$/src/Graphics/GL/GLShader.cpp</url>
-          <line>143</line>
-          <option name="timeStamp" value="524" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
-          <url>file://$PROJECT_DIR$/src/Graphics/Interface/STLabel.cpp</url>
-          <line>19</line>
-          <option name="timeStamp" value="525" />
+          <url>file://$PROJECT_DIR$/src/Entity/Components/STEventComponent.cpp</url>
+          <line>13</line>
+          <option name="timeStamp" value="720" />
         </line-breakpoint>
       </breakpoints>
       <breakpoints-dialog>
         <breakpoints-dialog />
       </breakpoints-dialog>
-      <option name="time" value="528" />
+      <option name="time" value="770" />
     </breakpoint-manager>
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/Math/Vertex.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/STGame.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="5247">
-          <caret line="159" column="29" selection-start-line="159" selection-start-column="29" selection-end-line="159" selection-end-column="29" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Graphics/Camera.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="594">
-          <caret line="18" column="85" selection-start-line="18" selection-start-column="85" selection-end-line="18" selection-end-column="85" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Math/Matrix.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://C:/MinGW/mingw-w64/x86_64-4.8.3-posix-seh-rt_v3-rev2/mingw64/x86_64-w64-mingw32/include/c++/bits/basic_string.tcc">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-207">
-          <caret line="759" column="4" selection-start-line="759" selection-start-column="4" selection-end-line="759" selection-end-column="4" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Entity/STActor.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="363">
-          <caret line="11" column="63" selection-start-line="11" selection-start-column="63" selection-end-line="11" selection-end-column="63" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Build/Debug/text.fsh">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Entity/Components/STMeshComponent.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="528">
-          <caret line="34" column="24" selection-start-line="34" selection-start-column="24" selection-end-line="34" selection-end-column="24" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Graphics/GL/GLMesh.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="297">
-          <caret line="14" column="40" selection-start-line="14" selection-start-column="40" selection-end-line="14" selection-end-column="40" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Build/Debug/text.vsh">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Entity/Util/STMesh.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="795">
-          <caret line="30" column="22" selection-start-line="30" selection-start-column="22" selection-end-line="30" selection-end-column="22" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Graphics/STGraphics.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Graphics/GL/GLGraphics.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="604">
-          <caret line="552" column="12" selection-start-line="552" selection-start-column="12" selection-end-line="552" selection-end-column="12" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Entity/STLight.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Graphics/GL/GLMesh.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="5841">
-          <caret line="177" column="0" selection-start-line="177" selection-start-column="0" selection-end-line="177" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Math/Transform.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Graphics/GL/GLShader.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="594">
-          <caret line="26" column="5" selection-start-line="26" selection-start-column="5" selection-end-line="26" selection-end-column="5" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Graphics/Shader.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="964">
-          <caret line="159" column="17" selection-start-line="159" selection-start-column="17" selection-end-line="159" selection-end-column="17" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Graphics/GL/GLTexture.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="693">
-          <caret line="21" column="17" selection-start-line="21" selection-start-column="17" selection-end-line="21" selection-end-column="17" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Graphics/GL/GLTexture.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Entity/STActor.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="663">
-          <caret line="62" column="38" selection-start-line="62" selection-start-column="38" selection-end-line="62" selection-end-column="38" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Math/Vector.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="11649">
-          <caret line="353" column="0" selection-start-line="353" selection-start-column="0" selection-end-line="353" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Graphics/Interface/STMenu.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Entity/Components/STGraphicsComponent.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2442">
-          <caret line="74" column="26" selection-start-line="74" selection-start-column="26" selection-end-line="74" selection-end-column="26" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Build/Debug/shdr/panel.vsh">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="396">
-          <caret line="12" column="1" selection-start-line="12" selection-start-column="1" selection-end-line="12" selection-end-column="1" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Build/Debug/shdr/panel.fsh">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="297">
-          <caret line="9" column="25" selection-start-line="9" selection-start-column="25" selection-end-line="9" selection-end-column="25" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Graphics/Interface/STEntry.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Graphics/Interface/STLabel.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="363">
-          <caret line="13" column="0" selection-start-line="13" selection-start-column="0" selection-end-line="13" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Entity/STEntity.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="486">
-          <caret line="93" column="0" selection-start-line="93" selection-start-column="0" selection-end-line="93" selection-end-column="0" />
-          <folding>
-            <element signature="e#0#21#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Graphics/Shader.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="495">
-          <caret line="15" column="0" selection-start-line="15" selection-start-column="0" selection-end-line="15" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Graphics/GL/GLShader.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="750">
-          <caret line="143" column="0" selection-start-line="143" selection-start-column="0" selection-end-line="143" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Graphics/Interface/STButton.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="924">
-          <caret line="28" column="17" selection-start-line="28" selection-start-column="16" selection-end-line="28" selection-end-column="17" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Entity/STEntity.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2376">
-          <caret line="72" column="10" selection-start-line="72" selection-start-column="9" selection-end-line="72" selection-end-column="10" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Graphics/Interface/STButton.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="792">
-          <caret line="24" column="0" selection-start-line="24" selection-start-column="0" selection-end-line="24" selection-end-column="0" />
-          <folding>
-            <element signature="e#0#21#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Graphics/STColor.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1881">
-          <caret line="66" column="20" selection-start-line="66" selection-start-column="20" selection-end-line="66" selection-end-column="20" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Graphics/GL/GLGraphics.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2970">
-          <caret line="90" column="5" selection-start-line="90" selection-start-column="5" selection-end-line="90" selection-end-column="5" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Graphics/Interface/STLabel.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="693">
-          <caret line="21" column="0" selection-start-line="21" selection-start-column="0" selection-end-line="21" selection-end-column="0" />
-          <folding>
-            <element signature="e#0#20#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Graphics/Interface/STPanel.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="528">
-          <caret line="24" column="0" selection-start-line="24" selection-start-column="0" selection-end-line="24" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Graphics/Interface/STInterWidget.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="858">
-          <caret line="29" column="30" selection-start-line="29" selection-start-column="30" selection-end-line="29" selection-end-column="30" />
-          <folding>
-            <element signature="e#61#86#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Graphics/STMaterial.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="891">
-          <caret line="29" column="22" selection-start-line="29" selection-start-column="22" selection-end-line="29" selection-end-column="22" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Graphics/STMaterial.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="754">
-          <caret line="84" column="5" selection-start-line="84" selection-start-column="5" selection-end-line="84" selection-end-column="5" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Entity/Util/STMesh.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="604">
-          <caret line="417" column="51" selection-start-line="417" selection-start-column="51" selection-end-line="417" selection-end-column="51" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Graphics/STGraphics.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="571">
-          <caret line="53" column="6" selection-start-line="53" selection-start-column="6" selection-end-line="53" selection-end-column="6" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/main.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1089">
-          <caret line="49" column="20" selection-start-line="49" selection-start-column="20" selection-end-line="49" selection-end-column="20" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/STResourceManager.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/STResourceManager.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-396">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/Entity/Components/STRectBoundsComponent.h">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/Entity/Components/STRectBoundsComponent.cpp">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Entity/Components/STAABBComponent.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="468">
+          <caret line="26" column="48" lean-forward="false" selection-start-line="26" selection-start-column="48" selection-end-line="26" selection-end-column="48" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/Entity/Components/STMeshComponent.h">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="957">
-          <caret line="41" column="0" selection-start-line="41" selection-start-column="0" selection-end-line="41" selection-end-column="0" />
+        <state relative-caret-position="288">
+          <caret line="16" column="0" lean-forward="false" selection-start-line="16" selection-start-column="0" selection-end-line="16" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Entity/Components/STBoundsComponent.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="162">
+          <caret line="9" column="26" lean-forward="false" selection-start-line="9" selection-start-column="26" selection-end-line="9" selection-end-column="26" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Build/Debug/sampleScript.lua" />
+    <entry file="file://$PROJECT_DIR$/src/Entity/Components/STAABBComponent.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="180">
+          <caret line="10" column="90" lean-forward="false" selection-start-line="10" selection-start-column="90" selection-end-line="10" selection-end-column="90" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Util/File/STFileManager.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="234">
+          <caret line="13" column="22" lean-forward="false" selection-start-line="13" selection-start-column="22" selection-end-line="13" selection-end-column="22" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/STGameState.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="252">
+          <caret line="14" column="17" lean-forward="false" selection-start-line="14" selection-start-column="17" selection-end-line="14" selection-end-column="17" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Entity/Components/STEventComponent.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="238">
+          <caret line="14" column="0" lean-forward="false" selection-start-line="14" selection-start-column="0" selection-end-line="14" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/Entity/Components/STGraphicsComponent.h">
+    <entry file="file://$PROJECT_DIR$/src/Util/Data_Structure/STList.h">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="637">
-          <caret line="41" column="61" selection-start-line="41" selection-start-column="61" selection-end-line="41" selection-end-column="61" />
+        <state relative-caret-position="867">
+          <caret line="51" column="19" lean-forward="false" selection-start-line="51" selection-start-column="19" selection-end-line="51" selection-end-column="19" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Util/Data_Structure/STQueue.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="782">
+          <caret line="46" column="12" lean-forward="false" selection-start-line="46" selection-start-column="12" selection-end-line="46" selection-end-column="12" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/STGameState.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="3" lean-forward="false" selection-start-line="0" selection-start-column="3" selection-end-line="0" selection-end-column="3" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Build/Debug/lightSource.fsh">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Build/Debug/lightSource.vsh">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Build/Debug/LightVis.fsh">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Build/Debug/LightVis.vsh">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://C:/Program Files/mingw-w64/x86_64-5.2.0-posix-seh-rt_v4-rev1/mingw64/x86_64-w64-mingw32/include/c++/bits/stl_vector.h" />
+    <entry file="file://$PROJECT_DIR$/src/Graphics/Camera.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-304">
+          <caret line="70" column="31" lean-forward="false" selection-start-line="70" selection-start-column="31" selection-end-line="70" selection-end-column="31" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Math/Transform.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="612">
+          <caret line="36" column="34" lean-forward="false" selection-start-line="36" selection-start-column="34" selection-end-line="36" selection-end-column="34" />
+          <folding>
+            <element signature="e#53#72#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Math/Transform.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="493">
+          <caret line="29" column="10" lean-forward="false" selection-start-line="29" selection-start-column="10" selection-end-line="29" selection-end-column="10" />
+          <folding>
+            <element signature="e#0#22#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/STResourceManager.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Entity/STActor.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="900">
+          <caret line="50" column="0" lean-forward="false" selection-start-line="50" selection-start-column="0" selection-end-line="50" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/SwingTech1.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="31" lean-forward="false" selection-start-line="0" selection-start-column="31" selection-end-line="0" selection-end-column="31" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Entity/STActor.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="252">
+          <caret line="14" column="74" lean-forward="false" selection-start-line="14" selection-start-column="74" selection-end-line="14" selection-end-column="74" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Entity/STEntity.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1428">
+          <caret line="84" column="0" lean-forward="false" selection-start-line="84" selection-start-column="0" selection-end-line="84" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/Graphics/Interface/STPanel.cpp">
+    <entry file="file://$PROJECT_DIR$/src/Entity/STEntity.cpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="726">
-          <caret line="22" column="16" selection-start-line="22" selection-start-column="16" selection-end-line="22" selection-end-column="16" />
+        <state relative-caret-position="915">
+          <caret line="519" column="30" lean-forward="false" selection-start-line="519" selection-start-column="30" selection-end-line="519" selection-end-column="30" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Graphics/Shader.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Graphics/Shader.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="3132">
+          <caret line="174" column="19" lean-forward="false" selection-start-line="174" selection-start-column="19" selection-end-line="174" selection-end-column="19" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/STSceneManager.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="180">
+          <caret line="10" column="0" lean-forward="false" selection-start-line="10" selection-start-column="0" selection-end-line="10" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/STGame.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="3618">
+          <caret line="201" column="16" lean-forward="false" selection-start-line="201" selection-start-column="16" selection-end-line="201" selection-end-column="16" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Graphics/STColor.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="468">
+          <caret line="26" column="18" lean-forward="false" selection-start-line="26" selection-start-column="18" selection-end-line="26" selection-end-column="18" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/STResourceManager.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="504">
+          <caret line="28" column="0" lean-forward="false" selection-start-line="28" selection-start-column="0" selection-end-line="28" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/demo/demo_main.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="954">
+          <caret line="53" column="11" lean-forward="false" selection-start-line="53" selection-start-column="11" selection-end-line="53" selection-end-column="11" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/include/json11/json.hpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="15642">
+          <caret line="869" column="0" lean-forward="false" selection-start-line="869" selection-start-column="0" selection-end-line="869" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Build/Debug/vec2.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="54">
+          <caret line="3" column="1" lean-forward="true" selection-start-line="3" selection-start-column="1" selection-end-line="3" selection-end-column="1" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/STSceneManager.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2196">
+          <caret line="122" column="20" lean-forward="false" selection-start-line="122" selection-start-column="20" selection-end-line="122" selection-end-column="20" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Input.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="657">
+          <caret line="202" column="38" lean-forward="false" selection-start-line="202" selection-start-column="38" selection-end-line="202" selection-end-column="38" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Build/Debug/Suzanne_Control.lua">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="357">
+          <caret line="21" column="3" lean-forward="false" selection-start-line="21" selection-start-column="3" selection-end-line="21" selection-end-column="3" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Build/Debug/example_Movement.lua">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="204">
+          <caret line="12" column="42" lean-forward="false" selection-start-line="12" selection-start-column="42" selection-end-line="12" selection-end-column="42" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Input.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="3655">
+          <caret line="215" column="23" lean-forward="false" selection-start-line="215" selection-start-column="23" selection-end-line="215" selection-end-column="23" />
+          <folding>
+            <element signature="e#45#77#0" expanded="true" />
+            <element signature="e#4226#4238#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/demo/STSample.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="221">
+          <caret line="13" column="0" lean-forward="false" selection-start-line="13" selection-start-column="0" selection-end-line="13" selection-end-column="0" />
+          <folding>
+            <element signature="e#0#31#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Entity/Components/STScriptComponent.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="924">
+          <caret line="175" column="52" lean-forward="false" selection-start-line="175" selection-start-column="52" selection-end-line="175" selection-end-column="52" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Util/STJson.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="442">
+          <caret line="26" column="6" lean-forward="false" selection-start-line="26" selection-start-column="6" selection-end-line="26" selection-end-column="6" />
+          <folding>
+            <element signature="e#113#141#0" expanded="true" />
+            <element signature="e#366#394#0" expanded="true" />
+            <element signature="e#532#564#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/CMakeLists.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Entity/Components/STScriptComponent.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="238">
+          <caret line="14" column="37" lean-forward="false" selection-start-line="14" selection-start-column="37" selection-end-line="14" selection-end-column="37" />
+          <folding>
+            <element signature="e#69#93#0" expanded="true" />
+            <element signature="e#161#186#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/STGame.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="676">
+          <caret line="238" column="14" lean-forward="false" selection-start-line="238" selection-start-column="14" selection-end-line="238" selection-end-column="14" />
+          <folding>
+            <element signature="e#121#153#0" expanded="true" />
+            <element signature="e#207#312#0" expanded="true" />
+            <element signature="e#343#362#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Build/Debug/Input.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="1" lean-forward="true" selection-start-line="0" selection-start-column="1" selection-end-line="0" selection-end-column="1" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Util/File/STFileManager.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="102">
+          <caret line="6" column="26" lean-forward="false" selection-start-line="6" selection-start-column="26" selection-end-line="6" selection-end-column="26" />
+          <folding>
+            <element signature="e#0#22#0" expanded="true" />
+            <element signature="e#373#413#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Graphics/Camera.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="28" column="20" lean-forward="false" selection-start-line="28" selection-start-column="20" selection-end-line="28" selection-end-column="20" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Math/Vector.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1155">
+          <caret line="466" column="24" lean-forward="true" selection-start-line="466" selection-start-column="24" selection-end-line="466" selection-end-column="24" />
+          <folding>
+            <element signature="e#47#63#0" expanded="true" />
+            <element signature="e#11699#11711#0" expanded="true" />
+            <element signature="e#11976#11988#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

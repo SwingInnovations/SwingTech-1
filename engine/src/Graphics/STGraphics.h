@@ -22,6 +22,20 @@ struct STRenderScene{
 
 class STGraphics {
 public:
+    enum POST_EFFECT: unsigned int
+    {
+        BLOOM = 1,
+        MOTION_BLUR = 2,
+        TONE_MAPPING=4,
+        FXAA=8
+    };
+
+    enum Deferred_RenderNetwork : char{
+        BLINNPHONG = 0,
+        PBR = 1,
+        CUSTOM = 2
+    };
+
     enum RenderMode{ FORWARD, DEFERRED };
     enum Renderer{ OPENGL, VULKAN };
     static int RENDERER;
@@ -32,8 +46,15 @@ public:
     STGraphics(STGame *);
     ~STGraphics();
 
+    virtual void cleanup() = 0;
+    virtual void init(stUint w, stUint h) = 0;
+
     void setCamera(Camera* cam){
         m_Cam = cam;
+    }
+
+    void addCamera(Camera* cam){
+        m_cameras.push_back(cam);
     }
 
     /**
@@ -46,8 +67,8 @@ public:
     virtual void initScene(stUint index){;}
     virtual void drawScene(STScene* scene) = 0;
     virtual void setShader(int,Shader*){;}
-    virtual void enableBlend(){;}
-    virtual void disableBlend(){;}
+
+    virtual void setShadowResolution(const stUint res){  }
 
     /*
      *
@@ -59,28 +80,55 @@ public:
 
     Vector4<stReal> getFontColor()const { return m_fontColor; }
 
+    void setCameraIndex(stUint index){ this->m_activeCameraIndex = index; }
+    stUint getActiveCameraIndex()const{ return this->m_activeCameraIndex; }
+
     virtual void drawText(Vector2<stReal> pos, const std::string& text, stReal fontSize ){ ; }
     virtual void drawText(Vector2<stReal> pos, const std::string& text, stReal fontSize, Vector4<stReal>* color){ ; }
     virtual void drawText(Vector2<stReal> pos, const std::string& text, stReal fontSize, stReal value){ ; }
     virtual void drawText(Vector2<stReal> pos, const std::string& text, stReal fontSize, std::string& msg){ ; }
-    virtual void drawText(Vector2<stReal> pos, const std::string& text, stReal fontSize, int value){  }
-    virtual void drawText(Vector2<stReal> pos, const std::string& text, stReal fontSize, stReal v1, stReal v2){ ; }
-    virtual void drawText(Vector2<stReal> pos, const std::string& text, stReal fontSize, Vector2<stReal> vector){ ; }
-    virtual void drawText(Vector2<stReal> pos, const std::string& text, stReal fontSize, stReal v1, stReal v2, stReal v3){ ; }
-    virtual void drawText(Vector2<stReal> pos, const std::string& text, stReal fontSize, Vector3<stReal> vector){ ; }
+
+    virtual void enableShadow(bool) = 0;
+    virtual void enableBlend() = 0;
+    virtual void disableBlend() = 0;
+    virtual void loadFont(const std::string&) = 0;  //TODO Implement this.
 
     virtual Matrix4f getOrthographicProjection()const{ return Matrix4f(); }
+
+    Camera* getActiveCamera(){
+        if(m_activeCameraIndex < m_cameras.size()) return m_cameras[m_activeCameraIndex];
+        return nullptr;
+    }
 
     Camera* camera(){
         return m_Cam;
     }
 
+    void enablePostEffect(int index){
+        m_enabledEffects|=index;
+    }
+
+    void disablePostEffect(int index){
+        m_enabledEffects&=~index;
+    }
+
+    void setRenderMode(RenderMode rm){
+        m_renderMode = rm;
+    }
+
+    RenderMode getRenderMode()const {
+        return m_renderMode;
+    }
+
 
 protected:
+    unsigned int m_enabledEffects = 0x00000000;
     unsigned int WIDTH, HEIGHT;
     Camera* m_Cam;
+    std::vector<Camera*> m_cameras;
+    stUint m_activeCameraIndex;
     Vector4<stReal> m_fontColor;
-
+    RenderMode m_renderMode;
 };
 
 

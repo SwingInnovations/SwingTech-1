@@ -6,7 +6,13 @@
 #include <iostream>
 #include <cassert>
 
+#if __MINGW32__
 #include "../../../include/GL/glew.h"
+#else
+#include <GL/glew.h>
+#include <GL/glut.h>
+#endif
+
 #include "../../../include/SDL2/SDL_image.h"
 #include "../Texture.h"
 
@@ -17,6 +23,12 @@ public:
     virtual ~GLTexture();
 
     GLuint genTex(const std::string& fileName);
+    /** Generate a Texture Handle
+     *
+     * @param fileName
+     * @return
+     */
+    static GLuint GenTex(const std::string& fileName);
     void addTexture(const std::string& fileName);
     void addTexture(const std::string& fileName, int ind);
     void bind(unsigned int index);
@@ -26,6 +38,11 @@ public:
     unsigned int getTextureWidth(){ return m_texWidth; }
     unsigned int getTextureHeight(){ return m_texHeight; }
 
+    /** Loads a cubemap.
+     *
+     * @param fileName
+     * @return Uint id of the texture loaded in OpenGL.
+     */
     static GLuint loadCubemapTexture(const std::string& fileName);
 
 protected:

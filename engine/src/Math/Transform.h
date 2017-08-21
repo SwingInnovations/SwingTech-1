@@ -8,30 +8,34 @@
 #include "Vector.h"
 #include "Euler.h"
 
+class STEntity;
+
 class Transform{
 public:
-    enum RotationMode{Global = 0, Local = 1};
+    enum RotationMode: unsigned char {Global = 0, Local = 1};
+
+    explicit Transform(STEntity* parent);
 
     Transform(){
+        parent = nullptr;
         translate = Vector3<stReal>(0.0f, 0.0f, 0.0f);
         rotate = Vector3<stReal>(0.0f, 0.0f, 0.0f);
         scale = Vector3<stReal>(1.0f, 1.0f, 1.0f);
-        localRotate = Euler<stReal>(0.0f, 0.0f, 0.0f);
         rotateMode = Global;
     }
 
     Transform(Vector3<stReal>& translate, Vector3<stReal>& rotate, Vector3<stReal> scale){
+        parent = nullptr;
         this->translate = translate;
         this->rotate = rotate;
         this->scale = scale;
-        localRotate = Euler<stReal>(0.0f, 0.0f, 0.0f);
         rotateMode = Global;
     }
 
-    inline void setTranslate(Vector3<stReal>& vec){ this->translate = vec; }
-    inline void setTranslateX(stReal _x){ this->translate.setX(_x); }
-    inline void setTranslateY(stReal _y){ this->translate.setY(_y); }
-    inline void setTranslateZ(stReal _z){ this->translate.setZ(_z); }
+    void setTranslate(Vector3<stReal>& vec);
+    void setTranslateX(stReal _x);
+    void setTranslateY(stReal _y);
+    void setTranslateZ(stReal _z);
     inline void setTranslate(stReal _value){
         setTranslateX(_value);
         setTranslateY(_value);
@@ -39,23 +43,20 @@ public:
     }
 
     inline void setRotate(Vector3<stReal>& vec){
-        if(rotateMode == Global) this->rotate = vec;
-        else this->localRotate.set(vec);
+        this->rotate = vec;
     }
 
     inline void setRotateX(stReal _x){
-        if(rotateMode == Global) this->rotate.setX(_x);
-        else this->localRotate.setX(_x);
+        rotate.setX(_x);
+
     }
 
     inline void setRotateY(stReal _y){
-        if(rotateMode == Global) this->rotate.setY(_y);
-        else this->localRotate.setY(_y);
+        rotate.setY(_y);
     }
 
     inline void setRotateZ(stReal _z){
-        if(rotateMode == Global) this->rotate.setZ(_z);
-        else this->localRotate.setZ(_z);
+        rotate.setZ(_z);
     }
 
     inline void setScale(Vector3<stReal>& vec){ this->scale = vec; }
@@ -78,7 +79,10 @@ public:
         if(rotateMode == Global){
             rot.initRotate(rotate);
         }else{
-            rot.initRotate(localRotate);
+            Matrix4f negTransMat;
+            negTransMat.initTranslation(-translate.getX(), -translate.getY(), -translate.getZ());
+            rot.initRotate(rotate);
+            rot = trans * rot * negTransMat;
         }
         scaleMat.initScale(scale);
 
@@ -92,16 +96,19 @@ public:
         return mat.getInfo();
     }
 
-    template<typename T> Vector3<T> getTranslate()const{return Vector3<T>((T)translate.getX(), (T)translate.getY(), (T)translate.getZ()); }
+    Vector3<stReal> getTranslate()const{return translate; }
     template<typename T> Vector3<T> getRotate()const{ return Vector3<T>( (T)rotate.getX(), (T)rotate.getY(), (T)rotate.getZ() ); }
-    Euler<stReal> getLocalRotate()const{ return localRotate; }
     template<typename T> Vector3<T> getScale()const{ return Vector3<T>( (T)scale.getX(), (T)scale.getY(), (T)scale.getZ() ); }
+    Vector3<stReal> getTranslateF()const{ return translate; }
+    Vector3<stReal> getRotateF() const {return rotate;}
+    Vector3<stReal> getScaleF() const {return scale;}
 private:
+    STEntity* parent;
     Vector3<stReal> translate;
     Vector3<stReal> rotate;
-    Euler<stReal> localRotate;
     Vector3<stReal> scale;
     RotationMode rotateMode;
 };
+
 
 #endif //WAHOO_TRANSFORM_H

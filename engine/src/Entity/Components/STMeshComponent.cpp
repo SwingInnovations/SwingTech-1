@@ -2,21 +2,11 @@
 #include "../../Graphics/STGraphics.h"
 #include "../../Graphics/GL/GLMesh.h"
 
-STMeshComponent::STMeshComponent(const std::string &fileName, int type) {
-    if(STGraphics::RENDERER == STGraphics::OPENGL){
-        m_mesh = new GLMesh(fileName, type);
-    }
-}
-
-STMeshComponent::STMeshComponent(const std::string &fileName) {
-    if(STGraphics::RENDERER == STGraphics::OPENGL){
-        m_mesh = new GLMesh(fileName);
-    }
-}
 
 STMeshComponent::STMeshComponent(STMesh_Structure structure) {
     if(STGraphics::RENDERER == STGraphics::OPENGL){
         m_mesh = new GLMesh(structure);
+        m_mesh->setMeshStructure(structure);
     }
 }
 
@@ -52,6 +42,10 @@ STMeshComponent::~STMeshComponent() {
 
 void STMeshComponent::update() {
 
+}
+
+STMesh *STMeshComponent::getMesh() const {
+    return m_mesh;
 }
 
 

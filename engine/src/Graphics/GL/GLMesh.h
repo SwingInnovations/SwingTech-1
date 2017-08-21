@@ -4,15 +4,19 @@
 #include <string>
 #include <vector>
 
+#if __MINGW32__
 #include "../../../include/GL/glew.h"
+#else
+#include <GL/glew.h>
+#include <GL/glut.h>
+#endif
 
 #include "../../Entity/Util/STMesh.h"
 
 class GLMesh : public STMesh{
 public:
     GLMesh();
-    GLMesh(const std::string& fileName, int type);
-    GLMesh(const std::string& fileName);
+    //GLMesh(const std::string& fileName);
     GLMesh(STMesh_Structure structure);
     GLMesh(STRect* rect);
     GLMesh(STQuad* quad);
@@ -36,6 +40,7 @@ private:
     GLuint m_VBO[NUM_BUFFERS];
     std::string m_fileName;
     uint32_t m_drawCount;
+    stUint m_numIndicies;
 };
 
 

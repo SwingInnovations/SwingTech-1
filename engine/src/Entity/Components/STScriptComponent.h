@@ -1,38 +1,33 @@
 #ifndef WAHOO_STSCRIPTCOMPONENT_H
 #define WAHOO_STSCRIPTCOMPONENT_H
 
-#include <iostream>
-
-#include "LuaBridge.h"
-
-extern "C"{
-    #include "lualib.h"
-    #include "lauxlib.h"
-    #include "lua.h"
-};
-
 #include "STComponent.h"
 #include "../STEntity.h"
 
-#define ADD_FUNC(x) addFunction(#x, &STScriptComponent::x)
-
-using namespace luabridge;
+#if __MINGW32__
+#include <sol.hpp>
+#else
+#include <lua5.1/sol.hpp>
+#endif
 
 class STEntity;
 
 class STScriptComponent : public STComponent{
 public:
     STScriptComponent(STEntity* entity, const std::string& fileName);
-    ~STScriptComponent();
 
-    void update();
-    void test();
-    void test2();
-    static int l_test(lua_State*);
+    explicit STScriptComponent(const std::string& fileName);
+    void init(STEntity* parent) override;
+    void registerFunction(const std::string& functionName, std::function<void()> newFunction);
+    void registerEvent(const std::string& eventName);
+    ~STScriptComponent() override;
+
+    void update() override;
+    sol::state m_script;
 private:
-    template<typename T, typename R, typename  S>
-    void initFunctions(lua_State* L);
-    STEntity*m_entity;
+    STGraphicsComponent* getGraphicsComponent();
+    void initScript(const std::string& fileName);
+    std::string scriptName;
 };
 
 

@@ -17,7 +17,7 @@ STLabel::STLabel(stReal x, stReal y, std::string text) {
     m_visible = true;
     STFontMetrics::bounds(m_text, m_fontSize, m_font, &width, &height);
     addComponent(typeid(STRectBoundsComponent), new STRectBoundsComponent(x, y, width, height, STGraphics::YUp));
-    addChild(new STPanel(x, y, width, height));
+    m_Panel = new STPanel(x, y, width, height);
 }
 
 void STLabel::update(STGame *window) {
@@ -31,7 +31,7 @@ void STLabel::update(STGame *window) {
 
 void STLabel::draw(STGraphics* grphx){
     if(m_visible) {
-        m_children.at(0)->draw(grphx);
+        m_Panel->draw(grphx);
         grphx->drawText(m_position, m_text, m_fontSize, &m_fontColor.color);
     }
 }

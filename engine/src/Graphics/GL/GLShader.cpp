@@ -1,5 +1,5 @@
 #include "GLShader.h"
-
+#include "../../Entity/Util/GLSLPreprocessor.h"
 GLShader::GLShader() {
     m_Program = glCreateProgram();
     m_Shaders[0] = createShader(loadShader("standardShader.vsh"), GL_VERTEX_SHADER);
@@ -29,7 +29,7 @@ GLShader::GLShader() {
 }
 
 GLShader::GLShader(const std::string &filePath) {
-    m_shaderName = filePath;
+    m_shaderName = m_fragShaderName = filePath;
     m_Program = glCreateProgram();
     m_Shaders[0] = createShader(loadShader(filePath + ".vsh"), GL_VERTEX_SHADER);
     m_Shaders[1] = createShader(loadShader(filePath + ".fsh"), GL_FRAGMENT_SHADER);
@@ -60,15 +60,14 @@ GLShader::GLShader(const std::string &filePath) {
     for(unsigned int i = 0; i < NUM_SHADER; i++){
         glDeleteShader(m_Shaders[i]);
     }
-
-    std::cout << "Program Status: " << m_Program << std::endl;
 }
 
 GLShader::GLShader(const std::string &vShaderPath, const std::string &fShaderPath) {
     m_shaderName = vShaderPath;
+    m_fragShaderName = fShaderPath;
     m_Program = glCreateProgram();
-    m_Shaders[0] = createShader(loadShader(vShaderPath + ".vsh"), GL_VERTEX_SHADER);
-    m_Shaders[1] = createShader(loadShader(fShaderPath + ".fsh"), GL_FRAGMENT_SHADER);
+    if(!vShaderPath.empty())m_Shaders[0] = createShader(loadShader(vShaderPath + ".vsh"), GL_VERTEX_SHADER);
+    if(!fShaderPath.empty())m_Shaders[1] = createShader(loadShader(fShaderPath + ".fsh"), GL_FRAGMENT_SHADER);
     for(unsigned int i = 0; i < NUM_SHADER; i++){
         glAttachShader(m_Program, m_Shaders[i]);
     }
@@ -122,7 +121,7 @@ void GLShader::update(Camera& cam){
 }
 
 void GLShader::update(Transform& trans, Camera& cam){ ;
-    Vector3<stReal> camPos = cam.transform()->getTranslate<stReal>();
+    Vector3<stReal> camPos = cam.transform()->getTranslate();
 
     glUniformMatrix4fv(m_uniforms[0], 1, GL_TRUE, &trans.getModel().m[0][0]);
     glUniformMatrix4fv(m_uniforms[1], 1, GL_TRUE, &cam.getViewProjection().m[0][0]);
@@ -131,31 +130,43 @@ void GLShader::update(Transform& trans, Camera& cam){ ;
     glUniformMatrix4fv(m_uniforms[4], 1, GL_TRUE, &cam.getProjection().m[0][0]);
     glUniformMatrix4fv(m_uniforms[5], 1, GL_TRUE, &m_cachedMVP.m[0][0]);
 
-    m_cachedMVP = cam.getViewProjection() * trans.getModel(); //Cache transform from last tick.
+    m_cachedMVP = cam.getProjection()* cam.getView() * trans.getModel(); //Cache transform from last tick.
 }
 
 void GLShader::update(const std::string &name, int val) {
-    glUniform1i(glGetUniformLocation(m_Program, name.c_str()), val);
+    auto uniLoc = glGetUniformLocation(m_Program, name.c_str());
+    if(uniLoc != -1) glUniform1i(uniLoc, val);
+
 }
 
 void GLShader::update(const std::string& name, float val) {
-    glUniform1f(glGetUniformLocation(m_Program, name.c_str()), val);
+    auto uniLoc = glGetUniformLocation(m_Program, name.c_str());
+    if(uniLoc != -1) glUniform1f(uniLoc, val);
+}
+
+void GLShader::update(const std::string &name, Vector2<stReal> val) {
+    auto uniLoc = glGetUniformLocation(m_Program, name.c_str());
+    if(uniLoc != -1) glUniform2f(uniLoc, val.getX(), val.getY());
 }
 
 void GLShader::update(const std::string &name, Vector3<stReal> val) {
-    glUniform3f(glGetUniformLocation(m_Program, name.c_str()), val.getX(), val.getY(), val.getZ());
+    auto uniLoc = glGetUniformLocation(m_Program, name.c_str());
+    if(uniLoc != -1) glUniform3f(uniLoc, val.getX(), val.getY(), val.getZ());
 }
 
 void GLShader::update(const std::string &name, Vector4<stReal> val) {
-    glUniform4f(glGetUniformLocation(m_Program, name.c_str()), val.getX(), val.getY(), val.getZ(), val.getW());
+    auto uniLoc = glGetUniformLocation(m_Program, name.c_str());
+    if(uniLoc != -1) glUniform4f(uniLoc, val.getX(), val.getY(), val.getZ(), val.getW());
 }
 
 void GLShader::update(const std::string &name, Matrix4f mat) {
-    glUniformMatrix4fv(glGetUniformLocation(m_Program, name.c_str()),1, GL_FALSE, &mat.m[0][0]);
+    auto uniLoc = glGetUniformLocation(m_Program, name.c_str());
+    if(uniLoc != -1) glUniformMatrix4fv( uniLoc,1, GL_FALSE, &mat.m[0][0]);
 }
 
 void GLShader::update(const std::string &name, Matrix4f &mat, bool flag) {
-    glUniformMatrix4fv(glGetUniformLocation(m_Program, name.c_str()),1, flag, &mat.m[0][0]);
+    auto uniLoc = glGetUniformLocation(m_Program, name.c_str());
+    if(uniLoc != -1) glUniformMatrix4fv(uniLoc,1, flag, &mat.m[0][0]);
 }
 
 void GLShader::update_Texture(const std::string &name, stUint id) {
@@ -185,11 +196,11 @@ void GLShader::checkShaderStatus(GLuint shaderID, GLuint flag, bool isProgram, c
             glGetShaderInfoLog(shaderID, sizeof(error), NULL, error);
         }
         std::cerr <<"Error occured on " << m_shaderName << " : " << errMsg << " : " << error << "'" << std::endl;
-    }else{
-        std::cout << "Shader passed validation. Success Code:  " << success << std::endl;
     }
 }
 
+
+//TODO - Check if shader has mismatched version.
 std::string GLShader::loadShader(const std::string &filePath) {
     std::ifstream file;
     file.open(filePath.c_str());
@@ -204,10 +215,17 @@ std::string GLShader::loadShader(const std::string &filePath) {
     if(file.is_open()){
         while(file.good()){
             std::getline(file, line);
-            output.append(line + "\n");
+            if(line == "#INSERT_HEADER"){
+                auto game = STGame::Get();
+                std::string prof = (game->getGraphicsProfile() == 1) ? " core" : " compatibility";
+                stInt version = game->getGraphicsMajorVersion()*100 + (game->getGraphicsMinorVersion() * 10);
+                output.append("#version " + std::to_string(version) + prof + "\n");
+            }else {
+                output.append(line + "\n");
+            }
         }
     }
-    return output;
+    return GLSLPREPROCESSOR::Process(output);
 }
 
 GLuint GLShader::createShader(const std::string &text, unsigned int type) {
@@ -225,6 +243,24 @@ GLuint GLShader::createShader(const std::string &text, unsigned int type) {
     glCompileShader(shader);
     checkShaderStatus(shader, GL_COMPILE_STATUS, false, "Failed to compile shader! ");
     return shader;
+}
+
+void GLShader::update_Texture(const std::string &name, Vector2<stInt> val) {
+    auto uniLoc = glGetUniformLocation(m_Program, name.c_str());
+    if(uniLoc != -1){
+        glActiveTexture(GL_TEXTURE0 + val.getY());
+        glBindTexture(GL_TEXTURE_2D, (stUint)val.getX());
+        glUniform1i(glGetUniformLocation(m_Program, name.c_str()), val.getY());
+    }
+}
+
+void GLShader::update_Texture2DArray(const std::string &name, Vector2<stInt> val) {
+    auto uniLoc = glGetUniformLocation(m_Program, name.c_str());
+    if(uniLoc != -1){
+        glActiveTexture(GL_TEXTURE0 + val.getY());
+        glBindTexture(GL_TEXTURE_2D_ARRAY, (stUint)val.getX());
+        glUniform1i(uniLoc, val.getY());
+    }
 }
 
 

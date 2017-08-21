@@ -1,8 +1,6 @@
 #ifndef WAHOO_STGRAPHICSCOMPONENT_H
 #define WAHOO_STGRAPHICSCOMPONENT_H
 
-#include <vector>
-
 #include "../../Graphics/Shader.h"
 #include "../../Graphics/Texture.h"
 #include "STComponent.h"
@@ -18,26 +16,39 @@ class STComponent;
 
 class STGraphicsComponent : public STComponent{
 public:
-    STGraphicsComponent(Shader* shdr);
-    STGraphicsComponent(Shader* shdr, Texture* tex);
-    STGraphicsComponent(STMaterial* mat);
-    STGraphicsComponent(const std::string& shdr);
-    STGraphicsComponent(const std::string& shdrPath, const std::string& texPath);
-    ~STGraphicsComponent(){
-        delete m_shdr;
-        if(useTexture) delete m_tex;
+    explicit STGraphicsComponent(Shader* shdr);
+    STGraphicsComponent(const STGraphicsComponent& copy);
+
+    explicit STGraphicsComponent(STMaterial* mat);
+
+    explicit STGraphicsComponent(const std::string& shdr);
+    ~STGraphicsComponent() override {
+        delete m_material;
+        for(auto uniform : m_Uniforms){
+            if(uniform.second.type == STShader::TEX) {
+                auto texHandle = (stUint)STShader::toVector2(uniform.second.value).getX();
+                glDeleteTextures(1, &texHandle);
+            }
+        }
     }
 
     void addShdrUniform(const std::string& name, int value);
     void addShdrUniform(const std::string& name, float value);
+    void addShdrUniform(const std::string& name, Vector2<stReal> value);
     void addShdrUniform(const std::string& name, Vector3<stReal> value);
     void addShdrUniform(const std::string& name, Vector4<stReal> value);
     void addShdrUniform(const std::string& name, Matrix4f value);
     void addShdrUniform_Texture(const std::string& name, stUint value);
+    void addShdrUniform_Texture2DArray(const std::string& name, stUint value);
     void addShdrUniform_CubeMap(const std::string& name, stUint value);
+    void setDiffuseTexture(const std::string& fileName);
+    void setNormalTexture(const std::string& fileName);
+    void setShdrUniform_Texture(const std::string& name, stUint id, stUint index);
+    void setShdrUniform_Texture2DArray(const std::string& name, stUint id, stUint index);
 
     void setShdrUniform(const std::string& name, int value);
     void setShdrUniform(const std::string& name, float value);
+    void setShdrUniform(const std::string& name, Vector2<stReal> value);
     void setShdrUniform(const std::string& name, Vector3<stReal> value);
     void setShdrUniform(const std::string& name, Vector4<stReal> value);
     void setShdrUniform(const std::string& name, Matrix4f value);
@@ -48,34 +59,35 @@ public:
     void setSpriteSheetIndex(int, int);
     void setSpriteSheetRow(int);
     void nextFrame();
+    void debugScript(){
+        std::cout << "Linked to Graphics Component, Can update uniforms from here" << std::endl;
+    }
 
     inline void setShader(Shader* shdr){ m_shdr = shdr; }
 
+    inline STMaterial* getMaterial(){ return m_material; }
+
     inline Shader* shdr(){
-        if(useMaterial){
+        if(m_material != nullptr){
             return m_material->shdr();
-        }else{
-            return m_shdr;
         }
+        return m_shdr;
 
     }
 
-    void update();
-    inline void draw(){
-        m_material->draw(m_uniforms);
-    }
+    void update() override;
+    void draw() override;
 
-    std::vector<STShader::ShaderAttrib> &getUniforms();
+    std::map<std::string, STShader::ShaderAttrib> &GetUniforms();
 
     void draw(Transform& T, Camera& C);
 private:
     SpriteSheet m_spriteSheet;
     Shader* m_shdr;
-    Texture* m_tex;
     STMaterial* m_material;
     bool useTexture;
     bool useMaterial;
-    std::vector<STShader::ShaderAttrib> m_uniforms;
+    std::map<std::string, STShader::ShaderAttrib> m_Uniforms;
 };
 
 

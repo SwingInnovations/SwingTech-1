@@ -3,7 +3,13 @@
 
 #include <regex>
 
+#if __MINGW32__
 #include "../../../include/GL/glew.h"
+#else
+#include <GL/glew.h>
+#endif
+
+
 #include "../../Entity/STLight.h"
 #include "../../Entity/STEntity.h"
 #include "../../STSceneManager.h"
@@ -67,20 +73,31 @@ public:
 
     std::string getVendor();
 
+    void cleanup();
+    void init(stUint w, stUint h);
+
+    void loadFont(const std::string&);
+
     void drawText(Vector2<stReal> pos, const std::string& text, stReal fontSize );
     void drawText(Vector2<stReal> pos, const std::string& text, stReal fontSize, Vector4<stReal>* color);
     void drawText(Vector2<stReal> pos, const std::string& text, stReal fontSize, stReal value);
     void drawText(Vector2<stReal> pos, const std::string& text, stReal fontSize, std::string& msg);
-    void drawText(Vector2<stReal> pos, const std::string& text, stReal fontSize, stReal v1, stReal v2);
-    void drawText(Vector2<stReal> pos, const std::string& text, stReal fontSize, Vector2<stReal> vector);
-    void drawText(Vector2<stReal> pos, const std::string& text, stReal fontSize, stReal v1, stReal v2, stReal v3);
-    void drawText(Vector2<stReal> pos, const std::string& text, stReal fontSize, Vector3<stReal> vector);
+
     Matrix4f getOrthographicProjection()const {
         return orthoProjection;
     }
 
     virtual void drawScene(STScene* scene);
     virtual void initScene(stUint index);
+
+    /**
+     * Sets the shadow resolution
+     * Note - Must be 2^n
+     * @param res
+     */
+    void setShadowResolution(const stUint res){ m_shadowRes = res;}
+
+    void enableShadow(bool value){ m_shadows = value; }
 
     inline void enableBlend(){
         glEnable(GL_BLEND);
@@ -89,7 +106,26 @@ public:
     inline void disableBlend(){
         glDisable(GL_BLEND);
     }
+
+
+
     static Vector3<stReal> TextColor;
+
+   ~GLGraphics(){
+       delete screenShdr;
+       delete Bloom_Composite;
+       delete Bloom_Threshold;
+       delete Motion_Blur;
+       delete Tone_Mapping;
+       delete FXAAShader;
+
+       delete m_directionalLightMat;
+       delete m_pointLightMat;
+       delete m_spotLightMat;
+       delete m_albedoMat;
+       delete m_IBLMat;
+       delete m_velocityMat;
+    }
 
 protected:
 
@@ -99,21 +135,57 @@ private:
     GLuint textVAO;
     GLuint textVBO;
     GLShader* textShader;
+
+    GLuint shadowArray;
+
     Matrix4f orthoProjection;
     GLuint frameBuffer;
     GLuint frameTexBuffer;
     GLuint velocityBuffer;
-    GLuint velocityTexBuffer;
+    GLuint velocityTexture;
     GLuint rendBuffer;
+    GLuint  bloomThresTex;
+    GLuint bloomThresBuf;
+
+    //Render Buffer
+    GLuint gBuffer;
+    GLuint gPosition;
+    GLuint gNormal;
+    GLuint gTangent;
+    GLuint gColorSpec;
+    GLuint gNormalMap;
+    GLuint gMRA;        //Store Metallic; Roughness; Ambient Occlusion.
+
+
     GLShader* screenShdr;
+    GLShader* Bloom_Composite;
+    GLShader* Bloom_Threshold;
+    GLShader* Motion_Blur;
+    GLShader* Tone_Mapping;
+    GLShader* FXAAShader;
+    GLShader* GBufferShader;
+    GLShader* Deff_LightPassShdr;
+
     GLMesh* screenQuad;
+    STMaterial* m_GBufferOverrideMat;
     STMaterial* m_directionalLightMat;
     STMaterial* m_pointLightMat;
     STMaterial* m_spotLightMat;
     STMaterial* m_albedoMat;
     STMaterial* m_IBLMat;
+    STMaterial* m_velocityMat;
 
+    bool m_shadows;
+
+    void Bloom();
+    void MotionBlur();
+    void ToneMapping();
+    void RenderScreenWithShader(const std::string& shaderName);
+    void RenderScreenWithShader(GLShader* shader);
+
+    stUint m_shadowRes;
 };
+
 
 
 #endif //WAHOO_GLGRAPHICS_H

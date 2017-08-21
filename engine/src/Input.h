@@ -4,13 +4,20 @@
 #include "../include/SDL2/SDL.h"
 #include "../include/SDL2/SDL_joystick.h"
 #include "../include/SDL2/SDL_gamecontroller.h"
+#include "../include/json11/json.hpp"
 #include "Math/Vector.h"
 
 #include <string>
 #include <vector>
+#if __linux__
+#include <sstream>
+#else
 #include <c++/sstream>
+#endif
 
 #include "STGame.h"
+
+using json = nlohmann::json;
 
 class STGame;
 
@@ -62,7 +69,7 @@ namespace JOYSTICK_BUTTON{
 };
 
 namespace KEY{
-    enum{
+    enum Keys{
         KEY_A = 0x04,
         KEY_B = 0x05,
         KEY_C = 0x06,
@@ -154,19 +161,28 @@ private:
 class InputMap{
 public:
     InputMap();
-    InputMap(const std::string& filePath);
+
+    /**
+     * Loads Keyboard mapping info from a JSON File.
+     * @param filePath JSON file containing input information.
+     */
+    explicit InputMap(const std::string& filePath);
 
     void addMapping(int target, int key);
     int get(int target);
     std::string info() {
         std::ostringstream ret;
-        for (unsigned int i = 0, m = mapping.size(); i < m; i++) {
-            ret << "Target: " << mapping.at(i).getTarget() << " Key: " << mapping.at(i).getKey();
+        for (auto &i : mapping) {
+            ret << "Target: " << i.getTarget() << " Key: " << i.getKey();
         }
         return ret.str();
     }
 private:
+    void initKeyMap();
     std::vector<InputKey> mapping;
+    std::map<std::string, KEY::Keys> m_keyMap;
+    std::map<std::string, int> m_movementMap;
+
 };
 
 class Input {
@@ -176,11 +192,14 @@ public:
     Input();
     Input(STGame * app, SDL_Event& e);
     ~Input();
-
+    
     void poll(SDL_Event&);
     inline void requestClose(){ closeRequested = true; }
     void setCursorVisible(bool);
 
+    /** Centers cursor to window.
+     *
+     */
     void centerMouseInWindow();
 
     static Input* Get();
@@ -224,6 +243,7 @@ public:
     const char getInputCharacter()const;
 
 private:
+
     bool closeRequested;
     bool cursorBound;
 

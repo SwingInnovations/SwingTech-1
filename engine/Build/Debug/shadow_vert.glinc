@@ -1,0 +1,3 @@
+struct ShadowSpecs{
+    vec2 offsetUV;
+};

@@ -20,7 +20,7 @@ STButton::STButton(const std::string &text) {
     STFontMetrics::bounds(m_text, m_fontSize, m_font, &width, &height);
     addComponent(typeid(STRectBoundsComponent), new STRectBoundsComponent(0, 0, width, height, STGraphics::YUp));
     buttonType = PUSH;
-    addChild(new STPanel(0, 0, width, height));
+    m_Panel = new STPanel(0, 0, width, height);
 }
 
 STButton::STButton(stReal x, stReal y, std::string text) {
@@ -34,7 +34,7 @@ STButton::STButton(stReal x, stReal y, std::string text) {
     STFontMetrics::bounds(m_text, m_fontSize, m_font, &width, &height);
     addComponent(typeid(STRectBoundsComponent), new STRectBoundsComponent(x, y, width, height, STGraphics::getYUpSetting()));
     buttonType = PUSH;
-    addChild(new STPanel(x, y, width, height));
+    m_Panel = new STPanel(x, y, width, height);
 }
 
 STButton::STButton(stReal x, stReal y, std::string text, STButton::ButtonType type) {
@@ -48,7 +48,7 @@ STButton::STButton(stReal x, stReal y, std::string text, STButton::ButtonType ty
     STFontMetrics::bounds(m_text, m_fontSize, m_font, &width, &height);
     addComponent(typeid(STRectBoundsComponent), new STRectBoundsComponent(x, y, width, height, STGraphics::getYUpSetting()));
     buttonType = type;
-    addChild(new STPanel(x, y, width, height));
+    m_Panel = new STPanel(x, y, width, height);
 }
 
 void STButton::update(STGame *window) {
@@ -59,7 +59,7 @@ void STButton::update(STGame *window) {
 
 void STButton::draw(STGraphics *grphx) {
     if(m_visible){
-        m_children.at(0)->draw(grphx);
+        m_Panel->draw(grphx);
         grphx->drawText(m_position, m_text, m_fontSize, &m_fontColor.color);
     }
 }
@@ -74,4 +74,16 @@ void STButton::invokeInputEvent(STEntity *entity) {
 
 void STButton::setIndex(stUint value) {
     m_index = value;
+}
+
+void STButton::setPosition(const Vector2<stReal> &position) {
+    m_position = position;
+    auto rect = get<STRectBoundsComponent>();
+    if(rect != nullptr){
+        stReal width = rect->bounds()->getWidth();
+        stReal height = rect->bounds()->getHeight();
+        stReal y = abs((stInt)m_position.getY() - STGame::RES_HEIGHT) - height;
+        m_Panel->reset((stInt)m_position.getX(), (stInt)m_position.getY(), width, height);
+        rect->reset(m_position.getX(), y, width, height);
+    }
 }

@@ -10,85 +10,78 @@
 #include "Components/STGraphicsComponent.h"
 #include "Components/STMeshComponent.h"
 #include "Components/STEventComponent.h"
-
-
+#include "Components/STLightComponent.h"
+#include "STActor.h"
+#include "Components/STShadowComponent.h"
 
 
 class STLight :public STEntity{
 public:
 
-    enum STLIGHT_TYPE: char
+    static STLight* InitDirectionalLight(Vector3<stReal> position, Vector3<stReal> direction, Vector3<stReal> color){
+        STLight* ret = new STLight;
+        ret->addComponent(typeid(STLightComponent), new STLightComponent);
+        ret->addComponent(typeid(STShadowComponent), new STShadowComponent);
+        ret->setTranslate(position);
+        ret->get<STLightComponent>()->setType(STLightComponent::DIRECTIONAL_LIGHT);
+        ret->get<STLightComponent>()->setParent(ret);
+        auto lightProps = ret->get<STLightComponent>()->getProperties();
+        lightProps->color = color;
+        lightProps->spotLightAtribs = Vector2<stReal>(0.f, 0.f);
+        lightProps->direction = Vector4<stReal>(direction, 0.0f);
+        lightProps->intensity = 1.f;
+        return ret;
+    }
+
+    static STLight* InitSpotLight(Vector3<stReal> position, Vector3<stReal> direction, Vector3<stReal> color, stReal coneAngle, stReal coneDistance)
     {
-
-        DirectionalLight,
-        PointLight,
-        SpotLight
-    };
-
-    STLight(Vector3<stReal> direction , Vector3<stReal> color){
-        this->direction = direction;
-        this->color = color;
-        intensity =.5f;
-        m_transform = new Transform();
-        //m_material = new STMaterial(new GLShader("standard"));
-        //addComponent(typeid(STEventComponent),new STEventComponent());
-        //addComponent(typeid(STGraphicsComponent), new STGraphicsComponent(m_material));
-        //addComponent(typeid(STMeshComponent), new STMeshComponent());
-        type = DirectionalLight;
-
+        STLight* ret = new STLight;
+        ret->setTranslate(position);
+        ret->addComponent(typeid(STLightComponent), new STLightComponent);
+        ret->addComponent(typeid(STShadowComponent), new STShadowComponent);
+        ret->get<STLightComponent>()->setType(STLightComponent::SPOT_LIGHT);
+        ret->get<STLightComponent>()->setParent(ret);
+        auto lightProps = ret->get<STLightComponent>()->getProperties();
+        lightProps->color = color;
+        lightProps->direction = Vector4<stReal>(direction, 1.f);
+        lightProps->spotLightAtribs = Vector2<stReal>(coneAngle, coneDistance);
+        lightProps->intensity = 1.f;
+        return ret;
     }
 
-    STLight(stReal radius , Vector3<stReal> color){
-        this->radius = radius;
-        this->color = color;
-        intensity=.5f;
-        m_transform = new Transform();
-        //m_material = new STMaterial(new GLShader("standard"));
-        //addComponent(typeid(STEventComponent),new STEventComponent());
-        //addComponent(typeid(STGraphicsComponent), new STGraphicsComponent(m_material));
-        //addComponent(typeid(STMeshComponent), new STMeshComponent());
-        type = PointLight;
-
+    static STLight* InitPointLight(Vector3<stReal> position, Vector3<stReal> color, stReal radius){
+        STLight* ret = new STLight;
+        ret->setTranslate(position);
+        ret->addComponent(typeid(STLightComponent), new STLightComponent);
+        ret->addComponent(typeid(STShadowComponent), new STShadowComponent);
+        ret->get<STLightComponent>()->setType(STLightComponent::POINT_LIGHT);
+        ret->get<STLightComponent>()->setParent(ret);
+        auto lightProps = ret->get<STLightComponent>()->getProperties();
+        lightProps->radius = radius;
+        lightProps->direction = Vector4<stReal>(0.f, 0.f, 0.f, -1.f);
+        lightProps->intensity = 1.f;
+        return ret;
     }
 
-    STLight(stReal coneAngle , stReal coneHeight){
-        this->coneAngle= coneAngle;
-        this->coneHeight = coneHeight;
-        intensity=.5f;
-        m_transform = new Transform();
-        //m_material = new STMaterial(new GLShader("standard"));
-        //addComponent(typeid(STEventComponent),new STEventComponent());
-        //addComponent(typeid(STGraphicsComponent), new STGraphicsComponent(m_material));
-        //addComponent(typeid(STMeshComponent), new STMeshComponent());
-        type = SpotLight;
-
+    STLight(){
+        m_transform = new Transform(this);
     }
 
     ~STLight(){
        delete m_material;
     }
 
-    STLIGHT_TYPE type;
+    bool isDebug(){ return m_debug; }
+    bool setDebug(bool value){
+        this->m_debug = value;
+    }
 
-    //Shared Attributes
-    Vector4<stReal> position;
-    Vector3<stReal> color;
-    stReal intensity;
-
-
-    //Directional Light Attributes
-    Vector3<stReal> direction;
-
-
-    //Point Light Attributes
-    stReal radius;
-
-    //Spot Light Attributes
-    stReal coneAngle;
-    stReal coneHeight;
-
+    stUint shadowMapID[6];
+    stUint shadowFrameBuffer[6];
+    Matrix4f projections[6];
 private :
     STMaterial* m_material;
+    bool m_debug;
 };
 
 

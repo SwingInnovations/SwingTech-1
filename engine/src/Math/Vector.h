@@ -8,6 +8,10 @@
 #include "STCore.h"
 #include "Quaternion.h"
 
+#include "../../include/json11/json11.hpp"
+
+using namespace json11;
+
 class Quaternion;
 
 template<typename T>
@@ -183,6 +187,182 @@ public:
 
 private:
     T m_val[2];
+};
+
+class Vector2f{
+public:
+    /**
+     * Constructs a new Vector2
+     * @return
+     */
+    Vector2f(){
+        m_val[0] = 0;
+        m_val[1] = 0;
+    }
+
+    /**
+     * Constructs a new Vector 2
+     * @param _x X Component
+     * @param _y Y Component
+     * @return
+     */
+    Vector2f(stReal _x, stReal _y){
+        m_val[0] = _x;
+        m_val[1] = _y;
+    }
+
+    /**
+     * Linearly interpolates between two vectors.
+     * @param start Start Vector
+     * @param end   Destination Vector
+     * @param step  Progression between two vectors(0.0-1.0)
+     * @return
+     */
+    static Vector2f Lerp(const Vector2f& start, const Vector2f& end, const stReal& step){
+        stReal st1 = 1.0f - step;
+        auto x = (st1 * start.getX()) + (step * end.getX());
+        auto y = (st1 * start.getY()) + (step * end.getY());
+        return Vector2f(x, y);
+    }
+
+    /**
+     * Sets the X Component
+     * @param _x
+     */
+    void setX(stReal _x){
+        m_val[0] = _x;
+    }
+
+    /**
+     * Sets the Y Component
+     * @param _y
+     */
+    void setY(stReal _y){
+        m_val[1] = _y;
+    }
+
+    /**
+     * Sets the X and Y Components
+     * @param _x X Component
+     * @param _y Y Component
+     */
+    void set(stReal _x, stReal _y){
+        m_val[0] = _x;
+        m_val[1] = _y;
+    }
+
+    /**
+     * Returns the X Component of Vector2
+     * @return X Component
+     */
+    stReal getX() const{ return m_val[0]; }
+
+    /**
+     * Returns the Y Component
+     * @return Y Component
+     */
+    stReal getY() const{ return m_val[1]; }
+
+    /**
+     * Returns the data of the Vector as an array of type T.
+     * @return data
+     */
+    stReal* getData(){ return m_val; }
+
+    /**
+     * Returns the magnitude of the vector.
+     * @return Magnitude.
+     */
+    inline double getLength() const{
+        double _x = m_val[0];
+        double _y = m_val[1];
+        return sqrt(_x * _x + _y * _y);
+    }
+
+    /**
+     * Normalizes Vector
+     * @return vector normalized.
+     */
+    Vector2f normalize(){
+        m_val[0] /= getLength();
+        m_val[1] /= getLength();
+        return *this;
+    }
+
+    /**
+     * Calculates the dot product
+     * @param other
+     * @return Dot product of two vectors.
+     */
+    inline double dot(Vector2f& other){
+        double x = this->getX();
+        double y = this->getY();
+        double _x = other.getX();
+        double _y = other.getY();
+
+        return x * _x + y * _y;
+    }
+
+    /**
+     * Printed components of the Vector
+     * @return
+     */
+    std::string info()const{
+        std::stringstream buff;
+        buff <<  "X: " << getX() << "Y: " << getY() << "/n";
+        return buff.str();
+    }
+
+    const Vector2f operator+ (const stReal other){
+        auto _x = getX() + other;
+        auto _y = getY() + other;
+        return Vector2f(_x, _y);
+    }
+
+    const Vector2f operator+(const Vector2f& other){
+        auto _x = getX() + other.getX();
+        auto _y = getY() + other.getY();
+        return Vector2f(_x, _y);
+    }
+
+    const Vector2f operator- (const stReal other){
+        auto _x = getX() - other;
+        auto _y = getY() - other;
+        return Vector2f(_x, _y);
+    }
+
+    const Vector2f operator- (const Vector2f& other){
+        auto _x = getX() - other.getX();
+        auto _y = getY() - other.getY();
+        return Vector2f(_x, _y);
+    }
+
+    const Vector2f operator* (const stReal other){
+        auto _x = getX() * other;
+        auto _y = getY() * other;
+        return Vector2f(_x, _y);
+    }
+
+    const Vector2f operator* (const Vector2f& other){
+        auto _x = getX() * other.getX();
+        auto _y = getY() * other.getY();
+        return Vector2f(_x, _y);
+    }
+
+    const Vector2f operator/ (const stReal other){
+        auto _x = getX() / other;
+        auto _y = getY() / other;
+        return Vector2f(_x, _y);
+    }
+
+    const Vector2f operator/ (const Vector2f& other){
+        auto _x = getX() / other.getX();
+        auto _y = getY() / other.getY();
+        return Vector2f(_x, _y);
+    }
+
+private:
+    stReal m_val[2];
 };
 
 template<typename T>
@@ -433,6 +613,211 @@ public:
 
 private:
     T m_Val[3];
+};
+
+class Vector3f {
+public:
+    /**
+     * Default Vector3 Constructor
+     * @return
+     */
+    Vector3f();
+
+    /** Vector3 Constructor
+     *
+     * @param _x - X Component
+     * @param _y - Y Component
+     * @param _z - Z Component
+     * @return Vector3()
+     */
+    Vector3f(stReal _x, stReal _y, stReal _z);
+
+    /**Vector3 Constructor that expands a Vector2
+     *
+     * @param in Vector 2 that will occupy the X and Y Components
+     * @param _z - Z Component
+     * @return
+     */
+    Vector3f(Vector2f in, stReal _z);
+
+    /**
+     * Constructs an minimum vector on a component basis
+     * @param v1
+     * @param v2
+     * @return
+     */
+    static Vector3f Min(const Vector3f& v1, const Vector3f& v2);
+
+    static Vector3f Max(const Vector3f& v1, const Vector3f& v2){
+        const auto x = v1.getX() > v2.getX() ? v1.getX() : v2.getX();
+        const auto y = v1.getY() > v2.getY() ? v1.getY() : v2.getY();
+        const auto z = v1.getZ() > v2.getZ() ? v1.getZ() : v2.getZ();
+        return Vector3f(x, y, z);
+    }
+
+    /**Linearly interpolates between two vectors.
+     *
+     * @param start     Start Vector
+     * @param end       Destination Vector
+     * @param step      Progression between two vectors(0.0-1.0)
+     * @return  Interpolated Vector based on progression.
+     */
+    static Vector3f Lerp(const Vector3f& start, const Vector3f& end, const stReal& step);
+
+    inline void setX(const stReal& _x){ m_Val[0] = _x; }
+    inline void setY(const stReal& _y){ m_Val[1] = _y; }
+    inline void setZ(const stReal& _z){ m_Val[2] = _z; }
+
+    inline stReal getX() const{ return m_Val[0]; }
+    inline stReal getY() const{ return m_Val[1]; }
+    inline stReal getZ() const{ return m_Val[2]; }
+
+    inline stReal* getData(){ return m_Val; }
+
+    /**
+     * Returns the length of the Vector.
+     * @return
+     */
+    inline double getLength()const{
+        double _x = (double)getX();
+        double _y = (double)getY();
+        double _z = (double)getZ();
+        return sqrt(pow(_x, 2) + pow(_y, 2) + pow(_z, 2));
+    }
+
+    /**
+     *  Normalizes the Vector.
+     * @return Normalized Vector
+     */
+    inline Vector3f normalize(){
+        auto len = getLength();
+        if(len > 0){
+            m_Val[0] /= getLength();
+            m_Val[1] /= getLength();
+            m_Val[2] /= getLength();
+        }
+        return *this;
+    }
+
+    inline Vector3f negate(){
+        m_Val[0] = -abs(m_Val[0]);
+        m_Val[1] = -abs(m_Val[1]);
+        m_Val[2] = -abs(m_Val[2]);
+        return *this;
+    }
+
+    /**
+     * Printed components of the Vector
+     * @return Componenets in stirng form.
+     */
+    inline std::string getInfo() const;
+
+    /**Rotates the Vector by an angle and Axis
+     *
+     * @param angle Amount to rotate(degrees)
+     * @param axis  Vector3 Axis
+     */
+    inline void rotate(stReal angle, Vector3f& axis);
+
+    /**Calculate the Dot Product between two vectos
+     *
+     * @param other
+     * @return Dot Product.
+     */
+    inline double dot(const Vector3f& other){
+        return this->getX() * other.getX() + this->getY() * other.getY() + other.getZ() * other.getZ();
+    }
+
+    /**Calculates the Cross Product between two vectors.
+     *
+     * @param other Other Vector
+     * @return Vector3 that is perpendicular to the two inputted vectors.
+     */
+    inline Vector3f cross(const Vector3f& other)const{
+        auto _x = (this->getY() * other.getZ()) - (this->getZ() * other.getY());
+        auto _y = (this->getZ() * other.getX()) - (this->getX() * other.getZ());
+        auto _z = (this->getX() * other.getY()) - (this->getY() * other.getX());
+        Vector3f ret(_x, _y, _z);
+        return ret;
+    }
+
+    const Vector3f operator+ (const stReal& other)const{
+        stReal x = getX() + other;
+        stReal y = getY() + other;
+        stReal z = getZ() + other;
+        return Vector3f(x, y, z);
+    }
+
+    const Vector3f operator+ (const Vector3f& other)const{
+        stReal x = getX() + other.getX();
+        stReal y = getY() + other.getY();
+        stReal z = getZ() + other.getZ();
+        return Vector3f(x, y, z);
+    }
+
+    const Vector3f operator- (const stReal other)const{
+        stReal x = getX() - other;
+        stReal y = getY() - other;
+        stReal z = getZ() - other;
+        return Vector3f(x, y, z);
+    }
+
+    const Vector3f operator- (const Vector3f& other)const{
+        auto x = getX() - other.getX();
+        auto y = getY() - other.getY();
+        auto z = getZ() - other.getZ();
+        return Vector3f(x, y, z);
+    }
+
+    const Vector3f operator* (const stReal& other)const{
+        auto x = getX() * other;
+        auto y = getY() * other;
+        auto z = getZ() * other;
+        return Vector3f(x, y, z);
+    }
+
+    const Vector3f operator* (const Vector3f& other)const{
+        auto x = getX() * other.getX();
+        auto y = getY() * other.getY();
+        auto z = getZ() * other.getZ();
+        return Vector3f(x, y, z);
+    }
+
+    Vector3f operator*= (const stReal& other){
+        m_Val[0] *= other;
+        m_Val[1] *= other;
+        m_Val[2] *= other;
+        return *this;
+    }
+
+    const Vector3f operator/ (const stReal& other)const{
+        auto x = getX() / other;
+        auto y = getY() / other;
+        auto z = getZ() / other;
+        return Vector3f(x, y, z);
+    }
+
+    const Vector3f operator/ (const Vector3f& other)const{
+        auto x = getX() / other.getX();
+        auto y = getY() / other.getY();
+        auto z = getZ() / other.getZ();
+        return Vector3f(x, y, z);
+    }
+
+    const bool operator<= (const Vector3f& other)const{
+        return ((getX() <= other.getX()) && (getY() <= other.getY()) && (getZ() <= other.getZ()));
+    }
+
+    const bool operator>= (const Vector3f& other)const{
+        return ((getX() >= other.getX()) && (getY() >= other.getY()) && (getZ() >= other.getZ()) );
+    }
+
+    const bool operator== (const Vector3f& other)const{
+        return (getX() == other.getX()) && (getY() == other.getY()) && (getZ()==other.getZ());
+    }
+
+private:
+    stReal m_Val[3];
 };
 
 template<typename T>

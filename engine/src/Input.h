@@ -4,7 +4,7 @@
 #include "../include/SDL2/SDL.h"
 #include "../include/SDL2/SDL_joystick.h"
 #include "../include/SDL2/SDL_gamecontroller.h"
-#include "../include/json11/json.hpp"
+#include "../include/json11/json11.hpp"
 #include "Math/Vector.h"
 
 #include <string>
@@ -17,7 +17,8 @@
 
 #include "STGame.h"
 
-using json = nlohmann::json;
+using namespace json11;
+
 
 class STGame;
 

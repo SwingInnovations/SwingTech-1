@@ -229,17 +229,17 @@ InputMap::InputMap() = default;
 
 InputMap::InputMap(const std::string &filePath) {
     initKeyMap();
-    json  j;
     std::ifstream in(filePath);
-    in >> j;
+    std::stringstream readBuf;
+    readBuf << in.rdbuf();
     in.close();
+    std::string inputString = readBuf.str();
+    std::string errStr;
 
-    for(json::iterator it = j.begin(); it != j.end(); ++it){
-        if(it.key() == "KEY"){
-            json jt = *it;
-            for(json::iterator it2 = jt.begin(); it2 != jt.end(); ++it2)
-                addMapping(m_movementMap[it2.key()], m_keyMap[it2.value()]);
-        }
+    Json jsonDoc = Json::parse(inputString, errStr, JsonParse::STANDARD);
+    for(auto& key : jsonDoc["KEY"].object_items()){
+        std::string keySubstr = key.second.dump().substr(1, key.second.dump().length() - 2);
+        addMapping(m_movementMap[key.first], m_keyMap[keySubstr]);
     }
 
 }

@@ -3,12 +3,16 @@
 
 #include <iostream>
 
+#include "../../include/json11/json11.hpp"
+
 #include "STCore.h"
 #include "Matrix.h"
 #include "Vector.h"
 #include "Euler.h"
 
 class STEntity;
+
+using namespace json11;
 
 class Transform{
 public:
@@ -36,28 +40,15 @@ public:
     void setTranslateX(stReal _x);
     void setTranslateY(stReal _y);
     void setTranslateZ(stReal _z);
-    inline void setTranslate(stReal _value){
-        setTranslateX(_value);
-        setTranslateY(_value);
-        setTranslateZ(_value);
-    }
+    void setTranslate(stReal _value);
 
-    inline void setRotate(Vector3<stReal>& vec){
-        this->rotate = vec;
-    }
+    void setRotate(Vector3<stReal>& vec);
 
-    inline void setRotateX(stReal _x){
-        rotate.setX(_x);
+    void setRotateX(stReal _x);
 
-    }
+    void setRotateY(stReal _y);
 
-    inline void setRotateY(stReal _y){
-        rotate.setY(_y);
-    }
-
-    inline void setRotateZ(stReal _z){
-        rotate.setZ(_z);
-    }
+    void setRotateZ(stReal _z);
 
     inline void setScale(Vector3<stReal>& vec){ this->scale = vec; }
     inline void setScaleX(stReal _x){ this->scale.setX(_x); }
@@ -73,35 +64,16 @@ public:
         rotateMode = rotMode;
     }
 
-    const Matrix4f getModel(){
-        Matrix4f trans, rot, scaleMat, rotX, rotY, rotZ;
-        trans.initTranslation(translate);
-        if(rotateMode == Global){
-            rot.initRotate(rotate);
-        }else{
-            Matrix4f negTransMat;
-            negTransMat.initTranslation(-translate.getX(), -translate.getY(), -translate.getZ());
-            rot.initRotate(rotate);
-            rot = trans * rot * negTransMat;
-        }
-        scaleMat.initScale(scale);
+    const Matrix4f getModel()const;
 
-        Matrix4f ret;
-        ret = scaleMat * rot * trans;
-        return ret;
-    }
+    inline std::string getInfo();
 
-    inline std::string getInfo(){
-        Matrix4f mat = getModel();
-        return mat.getInfo();
-    }
+    inline Vector3<stReal> getTranslate()const{return translate; }
+    inline Vector3<stReal> getRotate() const {return rotate;}
+    inline Vector3<stReal> getScale() const {return scale;}
 
-    Vector3<stReal> getTranslate()const{return translate; }
-    template<typename T> Vector3<T> getRotate()const{ return Vector3<T>( (T)rotate.getX(), (T)rotate.getY(), (T)rotate.getZ() ); }
-    template<typename T> Vector3<T> getScale()const{ return Vector3<T>( (T)scale.getX(), (T)scale.getY(), (T)scale.getZ() ); }
-    Vector3<stReal> getTranslateF()const{ return translate; }
-    Vector3<stReal> getRotateF() const {return rotate;}
-    Vector3<stReal> getScaleF() const {return scale;}
+    Json to_json()const;
+
 private:
     STEntity* parent;
     Vector3<stReal> translate;

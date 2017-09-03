@@ -51,3 +51,57 @@ void Transform::setTranslateZ(stReal _z) {
         }
     }
 }
+
+const Matrix4f Transform::getModel() const {
+    Matrix4f trans, rot, scaleMat, rotX, rotY, rotZ;
+    trans.initTranslation(translate);
+    if(rotateMode == Global){
+        rot.initRotate(rotate);
+    }else{
+        Matrix4f negTransMat;
+        negTransMat.initTranslation(-translate.getX(), -translate.getY(), -translate.getZ());
+        rot.initRotate(rotate);
+        rot = trans * rot * negTransMat;
+    }
+    scaleMat.initScale(scale);
+
+    Matrix4f ret;
+    ret = scaleMat * rot * trans;
+    return ret;
+}
+
+void Transform::setTranslate(stReal _value) {
+    setTranslateX(_value);
+    setTranslateY(_value);
+    setTranslateZ(_value);
+}
+
+void Transform::setRotate(Vector3<stReal> &vec) {
+    this->rotate = vec;
+}
+
+void Transform::setRotateX(stReal _x) {
+    rotate.setX(_x);
+
+}
+
+void Transform::setRotateZ(stReal _z) {
+    rotate.setZ(_z);
+}
+
+void Transform::setRotateY(stReal _y) {
+    rotate.setY(_y);
+}
+
+std::string Transform::getInfo() {
+    Matrix4f mat = getModel();
+    return mat.getInfo();
+}
+
+Json Transform::to_json() const {
+    return Json::object{
+            {"translate", translate},
+            {"rotate", rotate},
+            {"scale", scale}
+    };
+}

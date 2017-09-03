@@ -78,7 +78,7 @@ public:
         return *this;
     }
 
-    inline Matrix4f initRotate(Vector3<stReal>& vec){
+    inline Matrix4f initRotate(const Vector3<stReal>& vec){
         *this = initRotate(vec.getX(), vec.getY(), vec.getZ());
         return *this;
     }
@@ -186,7 +186,7 @@ public:
         m[3][3] = 1.0;
     }
 
-    inline Matrix4f initScale(Vector3<stReal>& vec){
+    inline Matrix4f initScale(const Vector3<stReal>& vec){
         return initScale(vec.getX(), vec.getY(), vec.getZ());
     }
 

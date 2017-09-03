@@ -1,6 +1,8 @@
 #include "../src/Math/STCore.h"
 #include "../src/STGame.h"
 #include "../src/STSceneManager.h"
+#include "../src/Util/STJson.h"
+
 /**
  * This is an example class for demonstrating How a typical game state would be setup.
  */
@@ -11,6 +13,9 @@ public:
         scene = STSceneManager::Get()->initScene(getID());
         scene->addSkybox("green");
         game->getCamera()->setSpeed(0.025f);
+        Vector2<stReal> vec(5, 7);
+
+        auto str = STJson::ToJson(vec);
 
         auto mainLight = STLight::InitDirectionalLight(Vector3<stReal>(4.f, 5.f, 3.f), Vector3<stReal>(-.5f, -.5f, -.5f), Vector3<stReal>(0.25f, 0.25f, 0.85f));
         mainLight->get<STLightComponent>()->setTarget(Vector3<stReal>(0.f, 0.f, 0.f));

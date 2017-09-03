@@ -21,7 +21,7 @@ void STAABBComponent::calculateBounds() {
     auto vertex = parent->get<STMeshComponent>()->getMesh()->getMeshStructure().m_vertices;
     auto transform = parent->transform()->getModel();
     Vector3<stReal> minPoint, maxPoint;
-    minPoint = maxPoint = parent->transform()->getTranslate() * parent->transform()->getScaleF();
+    minPoint = maxPoint = parent->transform()->getTranslate() * parent->transform()->getScale();
     for (auto &v : vertex) {
         minPoint = Vector3<stReal>::Min(minPoint, transform * *v.getVertex());
         maxPoint = Vector3<stReal>::Max(maxPoint, transform * *v.getVertex());

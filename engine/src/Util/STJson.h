@@ -11,6 +11,14 @@
 class STJson{
 public:
 
+    static Vector2<stReal> FromJson(const std::string& jsonFile){
+
+    }
+
+    static Vector2<stReal> FromJson(const Json doc){
+        return Vector2<stReal>::FromJson(doc);
+    }
+
     static std::string ToJson(const Vector2<stReal>& vec) {
         return Json(vec).dump();
     }

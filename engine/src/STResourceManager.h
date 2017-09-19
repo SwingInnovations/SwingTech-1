@@ -35,7 +35,7 @@ protected:
  *  Holds pointers of Materials/Textures/Shaders for
  *  reusability.
  */
-class STResourceManager {
+class[[deprecated("This will be replaced with the STAsset Manager")]] STResourceManager {
 public:
     //! A constructor
     STResourceManager();

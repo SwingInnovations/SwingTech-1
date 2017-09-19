@@ -100,8 +100,28 @@ std::string Transform::getInfo() {
 
 Json Transform::to_json() const {
     return Json::object{
-            {"translate", translate},
-            {"rotate", rotate},
-            {"scale", scale}
+            {
+                "Transform", Json::object{
+                {"translate", translate},
+                {"rotate", rotate},
+                {"scale", scale}
+                }
+            }
+
     };
+}
+
+Transform *Transform::FromJson(const std::string &jsonFile) {
+    std::ifstream in(jsonFile);
+    std::stringstream readBuff;
+    readBuff << in.rdbuf();
+    in.close();
+    std::string errStr;
+    Json doc = Json::parse(readBuff.str(), errStr, JsonParse::STANDARD);
+}
+
+Transform *Transform::FromJson(const Json doc) {
+    auto ret = new Transform();
+
+    return ret;
 }

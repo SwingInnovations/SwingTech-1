@@ -212,11 +212,17 @@ public:
     inline void setCursorBound(bool v){ cursorBound = v; }
     inline InputMap* inputMapping(){ return inputMap; }
 
-    template<typename T> Vector2<T> getMouseCoords(){
+
+    template<typename T>  [[deprecated("Used the Non-templated Vector2f Function")]]
+    Vector2<T> getMouseCoords(){
         T _x = (T)mouseX;
         T _y = (T)mouseY;
         Vector2<T> ret(_x, _y);
         return ret;
+    }
+
+    Vector2<stReal> GetMouseCoords(){
+        return {mouseX, mouseY};
     }
 
     void addJoystick(int id);

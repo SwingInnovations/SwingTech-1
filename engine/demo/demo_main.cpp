@@ -47,6 +47,9 @@ public:
         _testActor2->get<STScriptComponent>()->registerFunction("Foo", [](){
             std::cout << "This is a function from C++ being called in LUA." << std::endl;
         });
+
+        std::string characterTransform = _testActor2->transform()->to_json().dump();
+
         _testActor = new STActor("teapot.obj");
         _testActor->addComponent(typeid(STScriptComponent), new STScriptComponent("teapot.lua"));
         _testActor->get<STGraphicsComponent>()->getMaterial()->setDiffuseTexture("Bronze_Albedo.jpg");

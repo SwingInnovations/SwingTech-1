@@ -18,6 +18,9 @@ class Transform{
 public:
     enum RotationMode: unsigned char {Global = 0, Local = 1};
 
+    static Transform* FromJson(const std::string& jsonFile);
+    static Transform* FromJson(const Json doc);
+
     explicit Transform(STEntity* parent);
 
     Transform(){

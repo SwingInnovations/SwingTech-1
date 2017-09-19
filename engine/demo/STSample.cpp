@@ -17,6 +17,9 @@ public:
 
         auto str = STJson::ToJson(vec);
 
+        std::string errStr;
+        auto copyVec = STJson::FromJson(Json::parse(str, errStr, JsonParse::STANDARD));
+
         auto mainLight = STLight::InitDirectionalLight(Vector3<stReal>(4.f, 5.f, 3.f), Vector3<stReal>(-.5f, -.5f, -.5f), Vector3<stReal>(0.25f, 0.25f, 0.85f));
         mainLight->get<STLightComponent>()->setTarget(Vector3<stReal>(0.f, 0.f, 0.f));
 
@@ -27,6 +30,8 @@ public:
         character->get<STGraphicsComponent>()->getMaterial()->setRoughness("Bronze_Roughness.jpg");
         character->addComponent(typeid(STScriptComponent), new STScriptComponent("Suzanne_Control.lua"));
         character->setAttribute("speedFactor", 0.025f);
+
+        auto characterTransform = character->transform()->to_json().dump();
 
         auto plane = new STActor("plane.obj");
         plane->transform()->setTranslateY(-1.f);

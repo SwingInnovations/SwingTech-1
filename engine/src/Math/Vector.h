@@ -4,6 +4,7 @@
 #include <cmath>
 #include <string>
 #include <sstream>
+#include <fstream>
 
 #include "STCore.h"
 #include "Quaternion.h"
@@ -17,6 +18,10 @@ class Quaternion;
 template<typename T>
 class Vector2{
 public:
+    static Vector2 FromJson(const std::string& jsonFile);
+
+    static Vector2 FromJson(const Json& jsonDoc);
+
     /**
      * Constructs a new Vector2
      * @return
@@ -195,10 +200,33 @@ public:
 private:
     T m_val[2];
 };
+template<typename T>
+Vector2<T> Vector2<T>::FromJson(const std::string &jsonFile) {
+    std::ifstream in(jsonFile);
+    std::stringstream readBuff;
+    readBuff << in.rdbuf();
+    std::string errStr;
+    auto doc = Json::parse(readBuff.str(), errStr, JsonParse::STANDARD);
+    auto vX = (T)doc["x"].number_value();
+    auto vY = (T)doc["y"].number_value();
+    return Vector2<stReal>(vX, vY);
+}
+
+template<typename T>
+Vector2<T> Vector2<T>::FromJson(const Json& jsonDoc) {
+    auto vX = jsonDoc["x"];
+    auto vY = jsonDoc["y"];
+    auto ret = Vector2<T>((T)vX.number_value(), (T)vY.number_value());
+    return ret;
+}
 
 template<typename T>
 class Vector3 {
 public:
+
+    static Vector3 FromJson(const std::string& str);
+    static Vector3 FromJson(const Json& jsonDoc);
+
     /**
      * Default Vector3 Constructor
      * @return
@@ -454,9 +482,33 @@ private:
     T m_Val[3];
 };
 
+template<typename  T>
+Vector3<T> Vector3<T>::FromJson(const std::string &str) {
+    std::ifstream in(str);
+    std::stringstream readBuff;
+    readBuff << in.rdbuf();
+    std::string err;
+    auto doc = Json::parse(readBuff.str(), err, JsonParse::STANDARD);
+    auto vX = (T)doc["x"].number_value();
+    auto vY = (T)doc["y"].number_value();
+    auto vZ = (T)doc["z"].number_value();
+    return Vector3<T>( vX, vY, vZ);
+}
+
+template<typename T>
+Vector3<T> Vector3<T>::FromJson(const Json &jsonDoc) {
+    auto vX = jsonDoc["x"].number_value();
+    auto vY = jsonDoc["y"].number_value();
+    auto vZ = jsonDoc["z"].number_value();
+    return Vector3<T>((T)vX, (T)vY, (T)vZ);
+}
+
 template<typename T>
 class Vector4{
 public:
+    static Vector4 FromJson(const std::string& jsonDoc);
+    static Vector4 FromJson(const Json& doc);
+
     Vector4(){
         for(int i = 0; i < 4; i++){
             m_Val[i] = 0;
@@ -552,7 +604,33 @@ private:
     T m_Val[4];
 };
 
+template<typename T>
+Vector4<T> Vector4<T>::FromJson(const std::string &jsonDoc) {
+    std::ifstream in(jsonDoc);
+    std::stringstream readBuff;
+    readBuff << in.rdbuf();
+    in.close();
 
+    std::string errStr;
+    auto doc = Json::parse(readBuff.str(), errStr, JsonParse::STANDARD);
+    auto vX = (T)doc["x"].number_value();
+    auto vY = (T)doc["y"].number_value();
+    auto vZ = (T)doc["z"].number_value();
+    auto vW = (T)doc["w"].number_value();
+
+    return Vector4<T>(vX, vY, vZ, vW);
+}
+
+template<typename T>
+Vector4<T> Vector4<T>::FromJson(const Json &doc) {
+    auto vX = (T)doc["x"].number_value();
+    auto vY = (T)doc["y"].number_value();
+    auto vZ = (T)doc["z"].number_value();
+    auto vW = (T)doc["w"].number_value();
+    return Vector4<T>(vX, vY, vZ, vW);
+}
 
 
 #endif //WAHOO_VECTOR_H
+
+

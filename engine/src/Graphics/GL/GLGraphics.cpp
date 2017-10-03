@@ -270,6 +270,9 @@ void GLGraphics::drawScene(STScene *scene) {
                                            shadowProperties->shadowMapID[0], 0);
                     glDrawBuffer(GL_NONE);
                     glReadBuffer(GL_NONE);
+                    if(glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE){
+                        std::cerr << "Error: Failed to generate Framebuffer for shadow on Light: " + i << std::endl;
+                    }
                     glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
                     lights[i]->projections[0] = Matrix4f::LookAt(lights[i]->transform()->getTranslate(),

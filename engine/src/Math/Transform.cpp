@@ -104,7 +104,8 @@ Json Transform::to_json() const {
                 "Transform", Json::object{
                 {"translate", translate},
                 {"rotate", rotate},
-                {"scale", scale}
+                {"scale", scale},
+                {"rotationMode", (rotateMode == Global) ? 0 : 1}
                 }
             }
 
@@ -118,10 +119,23 @@ Transform *Transform::FromJson(const std::string &jsonFile) {
     in.close();
     std::string errStr;
     Json doc = Json::parse(readBuff.str(), errStr, JsonParse::STANDARD);
+    return Transform::FromJson(doc);
 }
 
 Transform *Transform::FromJson(const Json doc) {
     auto ret = new Transform();
-
+    for(auto key : doc["Transform"].object_items()){
+        auto vec = Vector3<stReal>::FromJson(key.second);
+        if(key.first == "translate"){
+            ret->setTranslate(vec);
+        }else if(key.first == "rotate"){
+            ret->setRotate(vec);
+        }else if(key.first == "scale"){
+            ret->setScale(vec);
+        }else if(key.first == "rotationMode"){
+            ret->rotateMode = (key.second.int_value() == 0) ? Global : Local;
+        }
+    }
     return ret;
+
 }

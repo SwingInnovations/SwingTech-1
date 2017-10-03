@@ -30,8 +30,10 @@ public:
         character->get<STGraphicsComponent>()->getMaterial()->setRoughness("Bronze_Roughness.jpg");
         character->addComponent(typeid(STScriptComponent), new STScriptComponent("Suzanne_Control.lua"));
         character->setAttribute("speedFactor", 0.025f);
+        character->transform()->setRotationMode(Transform::Local);
 
         auto characterTransform = character->transform()->to_json().dump();
+        auto newTransform = Transform::FromJson(characterTransform);
 
         auto plane = new STActor("plane.obj");
         plane->transform()->setTranslateY(-1.f);
@@ -47,6 +49,9 @@ public:
     void update(STGame* game, stUint delta) override {
         auto input = game->getInput();
         if(input->isKeyPressed(KEY::KEY_ESC)) input->requestClose();
+        if(input->isKeyPressed(KEY::KEY_Q)){
+            input->setCursorBound(!input->isCursorBound());
+        }
         scene->update();
     }
 
@@ -70,7 +75,7 @@ int main(int argc, char** argv){
 //    inputMapping->addMapping(MOVEMENT::STRAFE_RIGHT, KEY::KEY_D);
 
     auto win = STGame::Init("Swing Tech", 1440, 720);
-    win->setOpenGLVersion(4, 0);
+    win->setOpenGLVersion(4, 1);
     win->setTargetFPS(60);
     win->setClearColor(0.0f, 0.0f, 0.67f, 1.0f);
     STGraphics::YUp = false;

@@ -192,6 +192,7 @@ void STScriptComponent::initScript(const std::string &fileName) {
     if(m_script["onHit"].valid()){
         events->addEvent("onHit", m_script["onHit"]);
     }
+    m_script["start"](parent);
 }
 
 STGraphicsComponent *STScriptComponent::getGraphicsComponent() {

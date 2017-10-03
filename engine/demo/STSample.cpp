@@ -18,7 +18,7 @@ public:
         auto str = STJson::ToJson(vec);
 
         std::string errStr;
-        auto copyVec = STJson::FromJson(Json::parse(str, errStr, JsonParse::STANDARD));
+        auto copyVec = Vector2<stReal>::FromJson(str);
 
         auto mainLight = STLight::InitDirectionalLight(Vector3<stReal>(4.f, 5.f, 3.f), Vector3<stReal>(-.5f, -.5f, -.5f), Vector3<stReal>(0.25f, 0.25f, 0.85f));
         mainLight->get<STLightComponent>()->setTarget(Vector3<stReal>(0.f, 0.f, 0.f));
@@ -26,10 +26,12 @@ public:
         auto accentLight = STLight::InitDirectionalLight(Vector3<stReal>(2.f, 4.f, -3.f), Vector3<stReal>(), Vector3<stReal>(1.f, 1.f, 1.f));
         accentLight->get<STLightComponent>()->setTarget(Vector3<stReal>());
 
-        auto character = new STActor("smooth_sphere.obj");
-        character->get<STGraphicsComponent>()->getMaterial()->setRoughness("Bronze_Roughness.jpg");
+        auto character = new STActor("sphere.obj");
+        character->get<STGraphicsComponent>()->getMaterial()->setRoughness(0.6f);
+        character->get<STGraphicsComponent>()->getMaterial()->setMetallic(0.5f);
         character->addComponent(typeid(STScriptComponent), new STScriptComponent("Suzanne_Control.lua"));
         character->setAttribute("speedFactor", 0.025f);
+        character->transform()->setRotateX(-90);
         character->transform()->setRotationMode(Transform::Local);
 
         auto characterTransform = character->transform()->to_json().dump();
@@ -75,7 +77,7 @@ int main(int argc, char** argv){
 //    inputMapping->addMapping(MOVEMENT::STRAFE_RIGHT, KEY::KEY_D);
 
     auto win = STGame::Init("Swing Tech", 1440, 720);
-    win->setOpenGLVersion(4, 1);
+    win->setOpenGLVersion(4, 0);
     win->setTargetFPS(60);
     win->setClearColor(0.0f, 0.0f, 0.67f, 1.0f);
     STGraphics::YUp = false;

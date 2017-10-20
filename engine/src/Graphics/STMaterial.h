@@ -44,6 +44,10 @@ public:
 
     }
 
+    /**
+     * @name Creates a copy of the existing material
+     * @return
+     */
     STMaterial* copy();
 
     ~STMaterial(){
@@ -56,12 +60,24 @@ public:
         }
     }
 
+    /**
+     * Sets Uniform map.
+     * @param newUniforms
+     */
     void setUniforms(std::map<std::string, STShader::ShaderAttrib> newUniforms);
 
+    /**
+     *
+     * @return New Material using Standard Shaders
+     */
     static STMaterial* CreateStandardMaterial(){
         return new STMaterial({"standard", "standard"}, {});
     }
 
+    /**
+     *
+     * @return  New Material using Standard PBR Shaders
+     */
     static STMaterial* CreateStandardPBRMaterial(){
         return new STMaterial({"standard", "standardPBR"}, {});
     }
@@ -70,13 +86,22 @@ public:
      * @param fileName Adds diffuse texture and assigns to texture index 0
      */
     void setDiffuseTexture(const std::string& fileName);
+
     void setDiffuseColor(STColor);
     void setNormalTexture(const std::string& fileName);
     void setMetallic(stReal);
     void setMetallic(const std::string& fileName);
     void setRoughness(stReal);
+    /**
+     * Sets "roughness" value.
+     * @param fileName
+     */
     void setRoughness(const std::string& fileName);
 
+    /**
+     * Sets Base Color
+     * @param color
+     */
     void setBaseColor(Vector3<stReal> color){
         m_baseColor = color;
     }

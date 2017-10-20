@@ -15,8 +15,8 @@ enum ST_YUpState{
 };
 
 struct STRenderScene{
-    virtual void initSkybox(const std::string& shdr, const std::string& skybox) = 0;
-    virtual void drawSkybox(Camera& cam) = 0;
+    virtual void initSkybox(const std::string& shdr, const std::string& skybox){;}
+    virtual void drawSkybox(Camera& cam){;};
     bool m_initiated;
 };
 
@@ -65,6 +65,7 @@ public:
     static bool getYUpSetting(){ return YUp; }
 
     virtual void initScene(stUint index){;}
+    virtual void initScene(STScene* scene) = 0;
     virtual void drawScene(STScene* scene) = 0;
     virtual void setShader(int,Shader*){;}
 

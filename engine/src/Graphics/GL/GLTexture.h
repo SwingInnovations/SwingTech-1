@@ -19,24 +19,25 @@
 class GLTexture : public Texture{
 public:
     GLTexture();
-    GLTexture(const std::string& fileName);
+
+    explicit GLTexture(const std::string& fileName);
     virtual ~GLTexture();
 
     GLuint genTex(const std::string& fileName);
-    /** Generate a Texture Handle
-     *
+    /**
+     *  Generates a GL Texture Handle
      * @param fileName
      * @return
      */
     static GLuint GenTex(const std::string& fileName);
-    void addTexture(const std::string& fileName);
-    void addTexture(const std::string& fileName, int ind);
-    void bind(unsigned int index);
-    unsigned int getTextureCount();
+    void addTexture(const std::string& fileName) override;
+    void addTexture(const std::string& fileName, int ind) override;
+    void bind(unsigned int index) override;
+    unsigned int getTextureCount() override;
     static GLenum getMode(int, int);
 
-    unsigned int getTextureWidth(){ return m_texWidth; }
-    unsigned int getTextureHeight(){ return m_texHeight; }
+    unsigned int getTextureWidth() override { return m_texWidth; }
+    unsigned int getTextureHeight() override { return m_texHeight; }
 
     /** Loads a cubemap.
      *
@@ -46,7 +47,7 @@ public:
     static GLuint loadCubemapTexture(const std::string& fileName);
 
 protected:
-    void reBind();
+    void reBind() override;
 private:
     GLuint m_tex[32];
     unsigned int m_texIndex;

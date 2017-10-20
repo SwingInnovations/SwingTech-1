@@ -373,13 +373,13 @@ public:
         this->m_Val[2] = W.getZ();
     }
 
-    /**Calculate the Dot Product between two vectos
+    /**Calculate the Dot Product between two vectors
      *
      * @param other
      * @return Dot Product.
      */
     inline double dot(const Vector3& other){
-        return this->getX() * other.getX() + this->getY() * other.getY() + other.getZ() * other.getZ();
+        return this->getX() * other.getX() + this->getY() * other.getY() + this->getZ() * other.getZ();
     }
 
     /**Calculates the Cross Product between two vectors.

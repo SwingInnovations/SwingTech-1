@@ -150,9 +150,8 @@ void STGame::start(){
 
 void STGame::init() {
     if(!m_gameStates.empty()){
-        for(unsigned int i = 0; i < m_gameStates.size(); i++){
-            m_gameStates.at(i)->init(this);
-        }
+        m_gameStates[m_currentIndex]->init_Internal(this);
+        m_gameStates[m_currentIndex]->init(this);
     }
 }
 
@@ -168,7 +167,7 @@ void STGame::update() {
         isRunning = false;
     }
     if(getCamera() != nullptr) getCamera()->update(input);
-    if(!m_gameStates.empty() && m_currentIndex < m_gameStates.size()) m_gameStates.at(m_currentIndex)->update(this, delta);
+    if(!m_gameStates.empty() && m_currentIndex < m_gameStates.size()) m_gameStates[m_currentIndex]->update(this);
 }
 
 void STGame::render() {

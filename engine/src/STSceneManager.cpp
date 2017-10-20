@@ -148,3 +148,7 @@ void STScene::addSkybox(const std::string &file, const std::string &shader) {
     this->skyboxShader = shader;
 }
 
+void STScene::setRenderScene(STRenderScene scene) {
+    m_renderScene = scene;
+}
+

@@ -36,7 +36,8 @@ public:
     STMesh(STQuad* quad){  }
     STMesh(STCube* cube){  }
     STMesh(float vert[], int vSize, float tex[], int tSize, int ind[], int indSize){ }
-    ~STMesh(){  }
+
+    virtual ~STMesh(){  }
 
     virtual void draw(){}
     virtual void draw(int drawMode){  }

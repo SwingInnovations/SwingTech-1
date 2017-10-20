@@ -67,6 +67,10 @@ public:
         rotateMode = rotMode;
     }
 
+    /**
+     * Calculates the final transformation Matrix
+     * @return Transformation Matrix
+     */
     const Matrix4f getModel()const;
 
     inline std::string getInfo();

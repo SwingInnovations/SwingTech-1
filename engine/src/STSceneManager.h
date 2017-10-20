@@ -9,6 +9,8 @@
 #include "Math/Shape/BoundingBox.h"
 #include "Util/Data_Structure/STQueue.h"
 
+class STRenderScene;
+
 class STLight;
 class STInterWidget;
 
@@ -44,6 +46,8 @@ public:
     STScene();
 
     STScene(stUint index);
+
+    void setRenderScene(STRenderScene renderScene);
 
     ~STScene();
 
@@ -88,6 +92,7 @@ private:
     std::vector<STInterWidget*> uiElements;
     std::string skyboxName;
     std::string skyboxShader;
+    STRenderScene m_renderScene;
 };
 
 class STSceneManager{

@@ -53,7 +53,7 @@ void Transform::setTranslateZ(stReal _z) {
 }
 
 const Matrix4f Transform::getModel() const {
-    Matrix4f trans, rot, scaleMat, rotX, rotY, rotZ;
+    Matrix4f trans, rot, scaleMat;
     trans.initTranslation(translate);
     if(rotateMode == Global){
         rot.initRotate(rotate);

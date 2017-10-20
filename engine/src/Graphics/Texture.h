@@ -7,7 +7,8 @@ class Texture {
 public:
     Texture(){ }
     Texture(const std::string& fileName){}
-    ~Texture(){}
+
+    virtual ~Texture(){}
     virtual void addTexture(const std::string& fileName){ }
     virtual void addTexture(const std::string& fileName, int ind){ }
     virtual void bind(unsigned int index){ }

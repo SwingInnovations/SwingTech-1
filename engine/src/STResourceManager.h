@@ -8,26 +8,6 @@
 #include "Graphics/STMaterial.h"
 
 class STEntity;
-
-/**
- * Template Class
- */
-class STAsset{
-public:
-    virtual void init(std::string& fileName) = 0;
-    virtual void deInit() = 0;
-    bool isInit = false;
-    inline void setResourceTag(stUint tag){
-        this->resourceTag = tag;
-    }
-    inline stUint getResourceTag()const{ return this->resourceTag; }
-protected:
-    stUint      resourceTag;
-    std::string fileResource;
-};
-
-
-
 //TODO Refractor this to act as an intermediary File Manager. This will essentially "rewrite" assets that are not already
 //In a faster format/directory. Future directory should be more formal.
 

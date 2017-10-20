@@ -88,6 +88,7 @@ public:
     }
 
     virtual void drawScene(STScene* scene);
+    void initScene(STScene* scene);
     virtual void initScene(stUint index);
 
     /**

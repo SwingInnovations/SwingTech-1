@@ -222,7 +222,7 @@ public:
     }
 
     Vector2<stReal> GetMouseCoords(){
-        return {mouseX, mouseY};
+        return {(stReal)mouseX, (stReal)mouseY};
     }
 
     void addJoystick(int id);

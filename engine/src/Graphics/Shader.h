@@ -9,7 +9,7 @@
 #include <map>
 
 #include "../Math/Vector.h"
-#include "../Math/Transform.h"
+#include "../Entity/Transform.h"
 
 class Transform;
 class Camera;

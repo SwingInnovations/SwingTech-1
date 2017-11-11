@@ -1,6 +1,6 @@
 #include "STActor.h"
-#include "Components/STEventComponent.h"
 #include "Components/STAABBComponent.h"
+#include "Components/STEventComponent.h"
 #include "Util/Loaders/STMeshLoader.h"
 
 /**
@@ -33,6 +33,10 @@ STActor::STActor(STMesh_Structure meshStructure, std::map<std::string, STMateria
     m_transform = new Transform(this);
 }
 
+/**
+ * @brief Creates Actor based off location of asset in Path.
+ * @param filePath Directory to load file
+ */
 STActor::STActor(const std::string &filePath) {
     m_type = Actor;
     stInt flag = 0;

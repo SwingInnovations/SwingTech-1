@@ -1,7 +1,7 @@
 #ifndef SWINGTECH1_STSHADOWCOMPONENT_H
 #define SWINGTECH1_STSHADOWCOMPONENT_H
 
-#include "../../STGlobal.h"
+#include "STComponent.h"
 
 struct STShadowProperties{
     stUint shadowIndex;

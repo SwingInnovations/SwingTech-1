@@ -3,6 +3,8 @@
 
 #include <map>
 
+#include "../../../Graphics/GL/GLShader.h"
+
 #include "STMeshCommon.h"
 #include "../../../Graphics/STMaterial.h"
 #include "../../../../include/assimp/Importer.hpp"

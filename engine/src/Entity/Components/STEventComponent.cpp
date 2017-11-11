@@ -7,12 +7,12 @@ STEventComponent::STEventComponent() {
 void STEventComponent::update() {
     for(auto event : m_Events){
         if(event.first == m_currentEvent){
-            event.second(this->parent, other);
+            event.second(this->m_entity, other);
             m_currentEvent = "";
         }
 
         if(event.first == "update"){
-            event.second(this->parent, other);
+            event.second(this->m_entity, other);
         }
     }
 }

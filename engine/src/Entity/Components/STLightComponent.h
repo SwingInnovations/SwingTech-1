@@ -1,7 +1,8 @@
 #ifndef SWINGTECH1_STLIGHTCOMPONENT_H
 #define SWINGTECH1_STLIGHTCOMPONENT_H
 
-#include "../../STGlobal.h"
+#include "STComponent.h"
+#include "../STEntity.h"
 
 struct STLightProperties{
     Vector4<stReal> direction = Vector4<stReal>(0.f, 0.f, 0.f, 0.f);//4th component determines type. -1 for pointlights, 0 for directional, 1 for spotlight     //Specify the target.
@@ -64,13 +65,13 @@ public:
     STLightProperties* getProperties(){ return &m_Properties; }
     Matrix4f getLookAt(){
         auto props = this->getProperties();
-        Vector3<stReal> dir = (parent->transform()->getTranslate() - props->target);
+        Vector3<stReal> dir = (m_entity->transform()->getTranslate() - props->target);
         if(m_hasTarget){
-            return Matrix4f::LookAt(parent->transform()->getTranslate(),
+            return Matrix4f::LookAt(m_entity->transform()->getTranslate(),
                                     dir.normalize(),
                                     Vector3<stReal>(0.f, 1.f, 0.f));
         }
-        return Matrix4f::LookAt(parent->transform()->getTranslate(),
+        return Matrix4f::LookAt(m_entity->transform()->getTranslate(),
                                 props->direction,
                                 Vector3<stReal>(0.f, 1.f, 0.f));
     }

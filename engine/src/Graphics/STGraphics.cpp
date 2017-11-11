@@ -1,4 +1,5 @@
 #include "STGraphics.h"
+#include "../Application/STGame.h"
 
 Vector4<stReal> STGraphics::ClearColor = Vector4<stReal>(0.0f, 0.0f, 0.0f, 1.0f);
 
@@ -21,4 +22,8 @@ STGraphics::STGraphics(STGame * win){
 STGraphics::~STGraphics() {
     WIDTH = 0;
     HEIGHT = 0;
+}
+
+void STGraphics::setCurrentCamera(stUint cameraIndex) {
+    m_activeCameraIndex = cameraIndex;
 }

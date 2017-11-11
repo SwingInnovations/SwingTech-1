@@ -1,4 +1,5 @@
 #include "STPanel.h"
+#include "../GL/GLShader.h"
 
 STPanel::STPanel(int x, int y, int width, int height) {
     m_transform = new Transform();

@@ -6,6 +6,8 @@
 #include "STComponent.h"
 
 #include "../../Math/Vector.h"
+#include "../../Graphics/STMaterial.h"
+
 
 struct SpriteSheet{
     int width, height;

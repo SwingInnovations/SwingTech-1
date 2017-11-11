@@ -1,7 +1,8 @@
 
 -- Initialize Variables Here
 function start(self)
-    print("Welcome to lua")
+    print("Initializing Script")
+    addEvent(self, "onPress")
 end
 
 counter = 0;
@@ -29,4 +30,11 @@ function update(self)
     self:transform():setRotateY(counter);
     counter = counter + 0.25 * STGame:Get():getDelta()
 
+end
+
+function onPress(self, other)
+    print("This is passing a function as a register. This is being called from a script")
+    local lastPosition = self:transform():getTranslate():getY()
+    lastPosition = lastPosition+  (0.25 * self:getAttributef("speedFactor"))
+    self:transform():setTranslateY(lastPosition)
 end

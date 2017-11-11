@@ -11,7 +11,9 @@
 #include "../../Math/Shape/Quad.h"
 #include "../../Math/Shape/Cube.h"
 #include "Loaders/STMeshCommon.h"
+#include "../../Graphics/STMaterial.h"
 
+class STMaterial;
 
 class STMesh {
 public:

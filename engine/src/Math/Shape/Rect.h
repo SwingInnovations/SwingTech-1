@@ -4,8 +4,8 @@
 #include <vector>
 
 #include "Shape.h"
-#include "../Transform.h"
-#include "../../STGame.h"
+#include "../../Entity/Transform.h"
+#include "../../Application/STGame.h"
 
 class STRect : public Shape{
 public:

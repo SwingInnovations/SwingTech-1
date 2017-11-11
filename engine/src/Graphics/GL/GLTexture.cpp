@@ -1,5 +1,4 @@
 #include "GLTexture.h"
-#include "../../STGlobal.h"
 
 GLTexture::GLTexture() {
     m_texIndex = 0;

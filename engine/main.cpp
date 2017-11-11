@@ -1,7 +1,7 @@
 #include <iostream>
 
 #include "src/Math/STCore.h"
-#include "src/STGame.h"
+#include "src/Application/STGame.h"
 #include "src/Entity/STEntity.h"
 #include "src/Graphics/GL/GLGraphics.h"
 #include "src/Entity/Components/STEventComponent.h"

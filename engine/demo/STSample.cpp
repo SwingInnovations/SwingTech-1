@@ -1,7 +1,9 @@
 #include "../src/Math/STCore.h"
-#include "../src/STGame.h"
-#include "../src/STSceneManager.h"
-#include "../src/Util/STJson.h"
+#include "../src/Application/STGame.h"
+#include "../src/Application/STSceneManager.h"
+#include "../src/Application/Util/STJson.h"
+
+
 
 /**
  * This is an example class for demonstrating How a typical game state would be setup.
@@ -10,8 +12,7 @@ class SampleState : public STGameState{
 public:
     SampleState(stInt id){ m_id = id; }
     void init(STGame* game) override {
-        scene = STSceneManager::Get()->initScene(getID());
-        scene->addSkybox("green");
+        m_scene->addSkybox("green");
         game->getCamera()->setSpeed(0.025f);
         Vector2<stReal> vec(5, 7);
 
@@ -42,10 +43,11 @@ public:
         plane->get<STGraphicsComponent>()->setDiffuseTexture("grid.png");
         plane->get<STGraphicsComponent>()->getMaterial()->setRoughness(0.4);
 
-        scene->addLight(mainLight);
-        scene->addLight(accentLight);
-        scene->addActor(character);
-        scene->addActor(plane);
+        m_scene->addLight(mainLight);
+        m_scene->addLight(accentLight);
+        m_scene->addActor(character);
+        m_scene->addActor(plane);
+        counter = 0;
     }
 
     void update(STGame* game) override{
@@ -54,32 +56,34 @@ public:
         if(input->isKeyPressed(KEY::KEY_Q)){
             input->setCursorBound(!input->isCursorBound());
         }
-        scene->update();
+        if(input->isKeyPressed(KEY::KEY_L)){
+            this->m_scene->sendMessage("onPress");
+        }
+
+        if(input->isKeyPressed(KEY::KEY_F)){
+            counter++;
+            game->setFullScreen(counter % 3);
+        }
+        m_scene->update();
     }
 
     void render(STGame* game) override {
-        game->getGraphics()->drawScene(scene);
+        game->getGraphics()->drawScene(m_scene);
     }
 
     ~SampleState(){
-        delete scene;
+        delete m_scene;
     }
-
 private:
-    STScene* scene;
+    stUint counter;
 };
 
 int main(int argc, char** argv){
     auto inputMapping = new InputMap("Input.json");
-//    inputMapping->addMapping(MOVEMENT::FORWARD, KEY::KEY_W);
-//    inputMapping->addMapping(MOVEMENT::BACKWARD, KEY::KEY_S);
-//    inputMapping->addMapping(MOVEMENT::STRAFE_LEFT, KEY::KEY_A);
-//    inputMapping->addMapping(MOVEMENT::STRAFE_RIGHT, KEY::KEY_D);
 
     auto win = STGame::Init("Swing Tech", 1440, 720);
     win->setOpenGLVersion(4, 0);
     win->setTargetFPS(60);
-    win->setClearColor(0.0f, 0.0f, 0.67f, 1.0f);
     STGraphics::YUp = false;
     win->getInput()->setInputMap(inputMapping);
     win->addCamera(new Camera(*win, Vector3<stReal>(0.f, 0.f, -1.f), 0));

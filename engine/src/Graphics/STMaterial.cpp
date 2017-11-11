@@ -1,8 +1,7 @@
 #include "STMaterial.h"
 #include "STGraphics.h"
 #include "GL/GLTexture.h"
-
-//TODO Implement Map Version of things.
+#include "GL/GLShader.h"
 
 STMaterial::STMaterial() {
     shader = nullptr;

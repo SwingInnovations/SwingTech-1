@@ -23,7 +23,6 @@ GLGraphics::GLGraphics(STGame *game) {
     stUint width = (stUint)game->getWidth();
     stUint height = (stUint)game->getHeight();
     init(width, height);
-    glViewport(0, 0, width, height);
 }
 
 void GLGraphics::init(stUint w, stUint h) {
@@ -227,10 +226,9 @@ void GLGraphics::init(stUint w, stUint h) {
 }
 
 void GLGraphics::drawScene(STScene *scene) {
-    auto rendScene = scenes[scene->getIndex()];
-    if(!rendScene.m_initiated) {
-        scenes[scene->getIndex()].initSkybox(scene->getSkyboxShader(), scene->getSkyboxName());
-
+    auto rendScene = (GLRenderScene*)scene->getRenderScene();
+    if(!scene->getRenderScene()->m_initiated) {
+        rendScene->initSkybox(scene->getSkyboxShader(), scene->getSkyboxName());
 
         auto w = STGame::RES_WIDTH;
         auto h = STGame::RES_HEIGHT;
@@ -318,7 +316,7 @@ void GLGraphics::drawScene(STScene *scene) {
             }
         }
 
-        scenes[scene->getIndex()].m_initiated = true;
+        rendScene->m_initiated = true;
     }// endregion
 
     auto actors = scene->getActors();
@@ -400,7 +398,8 @@ void GLGraphics::drawScene(STScene *scene) {
         glClearColor(clearColor.getX(), clearColor.getY(), clearColor.getZ(), clearColor.getZ());
         glClear(GL_COLOR_BUFFER_BIT);
 
-        scenes[scene->getIndex()].drawSkybox(*getActiveCamera());
+        //scenes[scene->getIndex()].drawSkybox(*getActiveCamera());
+        rendScene->drawSkybox(*getActiveCamera());
 
         glDisable(GL_BLEND);
         glDepthFunc(GL_EQUAL);
@@ -409,7 +408,7 @@ void GLGraphics::drawScene(STScene *scene) {
         for(stUint i =0; i < actors.size(); i++){
             for(stUint j =0; j < lights.size(); j++) {
                 actors[i]->setShdrUniform("_CameraPos", getActiveCamera()->transform()->getTranslate());
-                actors[i]->setShdrUniform_CubeMap("_WorldCubeMap", scenes[scene->getIndex()].m_skybox);
+                actors[i]->setShdrUniform_CubeMap("_WorldCubeMap", rendScene->m_skybox);
                 actors[i]->setShdrUniform_Texture2DArray("shadowArray", shadowArray, 1);
                 actors[i]->setShdrUniform("LightCount", (stInt)lights.size());
 
@@ -476,7 +475,7 @@ void GLGraphics::drawScene(STScene *scene) {
         glActiveTexture(GL_TEXTURE5);
         glBindTexture(GL_TEXTURE_2D_ARRAY, shadowArray);
         Deff_LightPassShdr->update("LightCount", (stInt)lights.size());
-        Deff_LightPassShdr->update_CubeMap("_WorldCubeMap", scenes[scene->getIndex()].m_skybox);
+        Deff_LightPassShdr->update_CubeMap("_WorldCubeMap", rendScene->m_skybox);
         for(stUint i = 0, S = lights.size(); i < S; i++){
             auto lightProps = lights[i]->get<STLightComponent>()->getProperties();
             auto shadowProps = lights[i]->get<STShadowComponent>()->getProperties();
@@ -498,7 +497,8 @@ void GLGraphics::drawScene(STScene *scene) {
         glBindFramebuffer(GL_DRAW_FRAMEBUFFER, 0);
         glBlitFramebuffer(0, 0, WIDTH, HEIGHT, 0, 0, WIDTH, HEIGHT, GL_DEPTH_BUFFER_BIT, GL_NEAREST);
         glDepthFunc(GL_LEQUAL);
-        scenes[scene->getIndex()].drawSkybox(*getActiveCamera());
+
+        rendScene->drawSkybox(*getActiveCamera());
         glDisable(GL_BLEND);
         glDepthFunc(GL_LESS);
 
@@ -521,7 +521,6 @@ void GLGraphics::drawScene(STScene *scene) {
     glBindTexture(GL_TEXTURE_2D, frameTexBuffer);
     screenQuad->draw();
     screenShdr->unbind();
-
 }
 
 
@@ -819,11 +818,7 @@ std::string GLGraphics::getVendor() {
 }
 
 void GLGraphics::initScene(STScene *scene) {
-    scene->setRenderScene(GLRenderScene());
-}
-
-void GLGraphics::initScene(stUint index) {
-    scenes.insert(std::pair<stUint, GLRenderScene>(index, GLRenderScene()));
+    scene->setRenderScene(new GLRenderScene());
 }
 
 void GLGraphics::cleanup() {
@@ -844,5 +839,11 @@ void GLGraphics::cleanup() {
 
 void GLGraphics::loadFont(const std::string &) {
     //TODO Imlement this.
+}
+
+void GLGraphics::setResolution(stUint w, stUint h) {
+    WIDTH = w;
+    HEIGHT = h;
+    glViewport(0, 0, w, h);
 }
 

@@ -1,7 +1,7 @@
 #ifndef WAHOO_STINTERWIDGET_H
 #define WAHOO_STINTERWIDGET_H
 
-#include "../../STGame.h"
+#include "../../Application/STGame.h"
 #include "../../Entity/STEntity.h"
 #include "../STColor.h"
 #include "../../Entity/Components/STRectBoundsComponent.h"

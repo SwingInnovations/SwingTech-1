@@ -26,7 +26,7 @@ extern "C"{
 #include "../Math/Vector.h"
 
 class Input;
-
+class STScene;
 class STGameState;
 class STGraphics;
 class GLGraphics;
@@ -174,6 +174,8 @@ public:
     int getHeight(){ return this->HEIGHT; }
 
     int getTick(){ return SDL_GetTicks(); }
+
+    STScene* GetCurrentScene();
 
     int getGraphicsMajorVersion(){ return this->m_graphics_MAJOR; }
     int getGraphicsMinorVersion(){ return this->m_graphics_MINOR; }

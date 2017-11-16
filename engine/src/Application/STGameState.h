@@ -14,6 +14,8 @@ public:
     int getID(){ return m_id; }
     void init_Internal(STGame* rootGame);
 
+    STScene* getScene();
+
     virtual void init(STGame *) = 0; // Initialize game relevant assets here
     virtual void update(STGame*) = 0;
     virtual void render(STGame *) = 0; // Handle all rendering here.

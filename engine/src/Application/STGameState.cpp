@@ -31,3 +31,7 @@ void STGameState::init_Internal(STGame* rootGame) {
     m_scene = new STScene();
     rootGame->getGraphics()->initScene(m_scene);
 }
+
+STScene *STGameState::getScene() {
+    return m_scene;
+}

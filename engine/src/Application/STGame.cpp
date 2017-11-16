@@ -223,3 +223,7 @@ void STGame::setFullScreen(int flag) {
 
 
 }
+
+STScene *STGame::GetCurrentScene() {
+    return m_gameStates[m_currentIndex]->getScene();
+}

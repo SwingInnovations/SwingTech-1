@@ -42,7 +42,6 @@ public:
         plane->transform()->setTranslateY(-1.f);
         plane->get<STGraphicsComponent>()->setDiffuseTexture("grid.png");
         plane->get<STGraphicsComponent>()->getMaterial()->setRoughness(0.4);
-
         m_scene->addLight(mainLight);
         m_scene->addLight(accentLight);
         m_scene->addActor(character);

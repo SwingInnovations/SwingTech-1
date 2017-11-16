@@ -1,6 +1,6 @@
 #include "STActor.h"
-#include "Components/STEventComponent.h"
 #include "Components/STAABBComponent.h"
+#include "Components/STEventComponent.h"
 #include "Util/Loaders/STMeshLoader.h"
 
 /**
@@ -33,6 +33,10 @@ STActor::STActor(STMesh_Structure meshStructure, std::map<std::string, STMateria
     m_transform = new Transform(this);
 }
 
+/**
+ * @brief Creates Actor based off location of asset in Path.
+ * @param filePath Directory to load file
+ */
 STActor::STActor(const std::string &filePath) {
     m_type = Actor;
     stInt flag = 0;
@@ -56,7 +60,7 @@ STActor::STActor(const std::string &filePath) {
                 auto grphx = self->get<STGraphicsComponent>();
                 grphx->setShdrUniform("intensity", (stReal)sin(STGame::Get()->getTick() * 0.1f));
                 self->transform()->setRotationMode(Transform::RotationMode::Local);
-                self->transform()->setRotateY(self->transform()->getRotateF().getY() + STGame::Get()->getDelta() * 0.25f);
+                self->transform()->setRotateY(self->transform()->getRotate().getY() + STGame::Get()->getDelta() * 0.25f);
             });
             return;
         }

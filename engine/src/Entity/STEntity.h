@@ -4,8 +4,9 @@
 #include <map>
 #include <vector>
 #include <typeindex>
+
 #include "../Math/Vector.h"
-#include "../Math/Transform.h"
+#include "Transform.h"
 #include "Components/STComponent.h"
 #include "Components/STGraphicsComponent.h"
 #include "Components/STMeshComponent.h"
@@ -21,6 +22,9 @@ class STMeshComponent;
 class STGraphicsComponent;
 class STScriptComponent;
 
+/**
+ * Attributes that can be attached to entities.
+ */
 struct STAttribute{
     enum Type{
         Int = 0,
@@ -68,13 +72,6 @@ public:
      */
     STEntity();
 
-    /** Creates new STEntity.
-     *
-     * @param fileName - Path to model file
-     * @param type - File Format
-     * @param shdr - Specified Shader
-     * @return
-     */
     ~STEntity();
 
     void addComponent(std::type_index, STComponent*);
@@ -144,7 +141,7 @@ public:
     void setShdrUniform_CubeMap(const std::string& name, stUint tag);
 
     STEntity* childAtTag(const std::string& tag);
-    inline stUint getChildSize(){ return m_children.size(); }
+    inline stUint getChildSize(){ return (stUint)m_children.size(); }
     std::vector<STEntity*> getChildren(){ return m_children; }
 
     inline void setTag(const std::string& name){ m_tag = name; }
@@ -154,6 +151,11 @@ public:
     void setVisible(bool value);
     bool isVisible();
 
+    /**
+     * @brief Returns Component Added to Entity.
+     * @tparam T Component Type
+     * @return Component Requested
+     */
     template<typename T> inline T* get(){
         auto it = m_components.find(std::type_index(typeid(T)));
         if(it != m_components.end()){
@@ -172,8 +174,8 @@ public:
         grphx->draw();
         mesh->draw();
         if(hasChildren()){
-            for(unsigned int i = 0, lim = (unsigned int)m_children.size(); i < lim; i++){
-                m_children.at(i)->draw();
+            for (auto &child : m_children) {
+                child->draw();
             }
         }
     }
@@ -210,6 +212,7 @@ public:
 
 protected:
     Type m_type;
+    std::string m_name;
     std::string m_tag;
     Transform* m_transform;
     bool m_visible;

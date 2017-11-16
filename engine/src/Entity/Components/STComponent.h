@@ -1,7 +1,8 @@
 #ifndef WAHOO_STCOMPONENT_H
 #define WAHOO_STCOMPONENT_H
 
-#include "../../STGame.h"
+#include <sol.hpp>
+#include "../../Application/STGame.h"
 
 class STEntity;
 /**
@@ -10,16 +11,20 @@ class STEntity;
  */
 class STComponent {
 public:
-    virtual void init(STEntity* newParent){this->parent = newParent;}      //This will actually initialize anything dependent on the parent pointer.
+    virtual void init(STEntity* newParent){this->m_entity = newParent;}      //This will actually initialize anything dependent on the m_entity pointer.
+    /**
+     * Initializes stuff
+     */
+    virtual void initScriptingFunctions(sol::state m_script){;}
     virtual void update() = 0;
     virtual void draw(){ }
     virtual ~STComponent(){}
 
-    inline void setParent(STEntity* parent){ this->parent = parent; }
-    STEntity* getParent(){ return this->parent; }
+    inline void setParent(STEntity* parent){ this->m_entity = parent; }
+    STEntity* getParent(){ return this->m_entity; }
 
 protected:
-    STEntity* parent;
+    STEntity* m_entity;
 };
 
 

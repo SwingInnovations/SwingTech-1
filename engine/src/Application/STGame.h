@@ -10,7 +10,7 @@ extern "C"{
 #else
 #include <GL/glew.h>
 extern "C"{
-#include <stdio.h>
+#include <cstdio>
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_opengl.h>
 };
@@ -23,11 +23,10 @@ extern "C"{
 
 #include "Input.h"
 #include "STGameState.h"
-#include "Math/Vector.h"
-#include "STResourceManager.h"
+#include "../Math/Vector.h"
 
 class Input;
-
+class STScene;
 class STGameState;
 class STGraphics;
 class GLGraphics;
@@ -118,24 +117,13 @@ public:
      * @param filePath Path to window icon.
      */
     void setIcon(const std::string& filePath);
+
     //! Sets Current State of Game
     /*!
      *  \param v Current State
      */
     void enterState(unsigned int);
-    //! Sets Clear Color for background of screen.
-    /*!
-     *  \param r Red value for clear color. From range [0.0f - 1.0f]
-     *  \param g Green value for clear color. From range [0.0f - 1.0f]
-     *  \param b Blue value for clear color. From range [0.0f - 1.0f]
-     *  \param a Alpha value for clear color. From range [0.0f - 1.0f]
-     */
-    void setClearColor(stReal, stReal, stReal, stReal);
-    //! Sets Clear Color for background of screen.
-    /*!
-     *  \param clearColor - Vector4 describing clear color;
-     */
-    void setClearColor(const Vector4<stReal> clearColor);
+
     //! Sets Camera for Game
     /*!
      *  Sets Camera for STGame. Note, camera will be persistant
@@ -157,6 +145,7 @@ public:
      * Sets the Active Index for the Camera.
      * @param index
      */
+
     void setActiveCamera(stUint index);
 
     /*-The Getters-*/
@@ -181,17 +170,12 @@ public:
      *  \return Returns pointer to Camera.
      */
     STGraphics* getGraphics();
-    //! Gets pointer to STResourceManager
-    /*!
-     *  Note: This is global and persistant,
-     *  for all STGameStates.
-     *  \return Returns pointer to STResourceManager.
-     */
-    STResourceManager* getResourceManager();
     int getWidth(){ return this->WIDTH; }
     int getHeight(){ return this->HEIGHT; }
 
     int getTick(){ return SDL_GetTicks(); }
+
+    STScene* GetCurrentScene();
 
     int getGraphicsMajorVersion(){ return this->m_graphics_MAJOR; }
     int getGraphicsMinorVersion(){ return this->m_graphics_MINOR; }
@@ -232,15 +216,16 @@ private:
     SDL_Window* m_Window;
     SDL_GLContext m_Context;
     SDL_Event m_e;
+
     STGraphics * g;
     unsigned int WIDTH, HEIGHT;
     int m_CurrentState;
+
     stInt m_graphics_MAJOR;
     stInt m_graphics_MINOR;
     stInt m_graphics_Profile;
+
     Uint32 delta, oldTime, newTime, fps;
-    Vector4<stReal> m_clearColor;
-    STResourceManager* resourceManager;
     DIMENSION_MODE dimMode;
 };
 

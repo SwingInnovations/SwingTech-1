@@ -1,8 +1,5 @@
 #include "STSceneManager.h"
 
-STSceneManager* STSceneManager::m_Instance = nullptr;
-
-
 OctNode::OctNode(STBoundingBox *boundingBox) {
     this->boundingBox = boundingBox;
     this->data = NULL;
@@ -146,5 +143,15 @@ void STScene::addSkybox(const std::string &filePath) {
 void STScene::addSkybox(const std::string &file, const std::string &shader) {
     this->skyboxName = file;
     this->skyboxShader = shader;
+}
+
+void STScene::setRenderScene(STRenderScene* scene) {
+    m_renderScene = scene;
+}
+
+void STScene::sendMessage(const std::string &msg) {
+    for(auto actor : actors){
+        actor->get<STEventComponent>()->setEvent(msg);
+    }
 }
 

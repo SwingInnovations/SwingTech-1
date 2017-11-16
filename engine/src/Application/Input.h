@@ -1,11 +1,11 @@
 #ifndef WAHOO_INPUT_H
 #define WAHOO_INPUT_H
 
-#include "../include/SDL2/SDL.h"
-#include "../include/SDL2/SDL_joystick.h"
-#include "../include/SDL2/SDL_gamecontroller.h"
-#include "../include/json11/json.hpp"
-#include "Math/Vector.h"
+#include "../../include/SDL2/SDL.h"
+#include "../../include/SDL2/SDL_joystick.h"
+#include "../../include/SDL2/SDL_gamecontroller.h"
+#include "../../include/json11/json11.hpp"
+#include "../Math/Vector.h"
 
 #include <string>
 #include <vector>
@@ -17,7 +17,8 @@
 
 #include "STGame.h"
 
-using json = nlohmann::json;
+using namespace json11;
+
 
 class STGame;
 
@@ -211,11 +212,17 @@ public:
     inline void setCursorBound(bool v){ cursorBound = v; }
     inline InputMap* inputMapping(){ return inputMap; }
 
-    template<typename T> Vector2<T> getMouseCoords(){
+
+    template<typename T>  [[deprecated("Used the Non-templated Vector2f Function")]]
+    Vector2<T> getMouseCoords(){
         T _x = (T)mouseX;
         T _y = (T)mouseY;
         Vector2<T> ret(_x, _y);
         return ret;
+    }
+
+    Vector2<stReal> GetMouseCoords(){
+        return {(stReal)mouseX, (stReal)mouseY};
     }
 
     void addJoystick(int id);

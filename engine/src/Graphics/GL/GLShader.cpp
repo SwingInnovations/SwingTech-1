@@ -1,5 +1,7 @@
 #include "GLShader.h"
 #include "../../Entity/Util/GLSLPreprocessor.h"
+#include "../../Application/STGame.h"
+
 GLShader::GLShader() {
     m_Program = glCreateProgram();
     m_Shaders[0] = createShader(loadShader("standardShader.vsh"), GL_VERTEX_SHADER);

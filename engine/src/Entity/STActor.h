@@ -3,6 +3,8 @@
 
 #include "STEntity.h"
 
+class STEntity;
+
 /*
  * Actor class describes all visible entities in the scene.
  */
@@ -15,7 +17,6 @@ public:
     STActor(STEntity* parent, STMesh_Structure, std::map<std::string, STMaterial*>);
     ~STActor();
     inline void addChild_Actor(STActor* actor){
-
         this->m_children.push_back((STEntity*)actor);
     }
     void draw() override;

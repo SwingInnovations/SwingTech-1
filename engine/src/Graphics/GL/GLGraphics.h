@@ -12,7 +12,7 @@
 
 #include "../../Entity/STLight.h"
 #include "../../Entity/STEntity.h"
-#include "../../STSceneManager.h"
+#include "../../Application/STSceneManager.h"
 #include "../STGraphics.h"
 #include "GLShader.h"
 #include "GLTexture.h"
@@ -88,7 +88,9 @@ public:
     }
 
     virtual void drawScene(STScene* scene);
-    virtual void initScene(stUint index);
+    void initScene(STScene* scene);
+
+    void setResolution(stUint w, stUint h);
 
     /**
      * Sets the shadow resolution
@@ -131,7 +133,6 @@ protected:
 
 private:
     std::map<GLchar, Character> characters;
-    std::map<stUint, GLRenderScene> scenes;
     GLuint textVAO;
     GLuint textVBO;
     GLShader* textShader;

@@ -1,8 +1,12 @@
 #ifndef WAHOO_STECHGRAPHICS_H
 #define WAHOO_STECHGRAPHICS_H
 
-#include "../STGlobal.h"
+#include "../Math/STCore.h"
+#include "../Math/Vector.h"
+#include "../Math/Matrix.h"
+#include "Shader.h"
 
+#include <string>
 
 class Camera;
 class STGame;
@@ -15,8 +19,8 @@ enum ST_YUpState{
 };
 
 struct STRenderScene{
-    virtual void initSkybox(const std::string& shdr, const std::string& skybox) = 0;
-    virtual void drawSkybox(Camera& cam) = 0;
+    virtual void initSkybox(const std::string& shdr, const std::string& skybox){;}
+    virtual void drawSkybox(Camera& cam){;};
     bool m_initiated;
 };
 
@@ -49,13 +53,13 @@ public:
     virtual void cleanup() = 0;
     virtual void init(stUint w, stUint h) = 0;
 
-    void setCamera(Camera* cam){
-        m_Cam = cam;
-    }
+    void setCurrentCamera(stUint cameraIndex);
 
     void addCamera(Camera* cam){
         m_cameras.push_back(cam);
     }
+
+    void setResolution(stUint w, stUint h){;}
 
     /**
      * Sets whether Y-Up should be up or down relative to the window.
@@ -63,8 +67,7 @@ public:
      */
     static void SetYUp(bool val){ YUp = val; }
     static bool getYUpSetting(){ return YUp; }
-
-    virtual void initScene(stUint index){;}
+    virtual void initScene(STScene* scene) = 0;
     virtual void drawScene(STScene* scene) = 0;
     virtual void setShader(int,Shader*){;}
 
@@ -74,7 +77,7 @@ public:
      *
      * @return Returns the Graphics Card Driver
      */
-    virtual std::string getVendor(){ return NULL; }
+    virtual std::string getVendor(){ return nullptr; }
 
     void setFontColor(const Vector4<stReal>& vec){ m_fontColor = vec; }
 
@@ -100,9 +103,6 @@ public:
         return nullptr;
     }
 
-    Camera* camera(){
-        return m_Cam;
-    }
 
     void enablePostEffect(int index){
         m_enabledEffects|=index;
@@ -124,7 +124,6 @@ public:
 protected:
     unsigned int m_enabledEffects = 0x00000000;
     unsigned int WIDTH, HEIGHT;
-    Camera* m_Cam;
     std::vector<Camera*> m_cameras;
     stUint m_activeCameraIndex;
     Vector4<stReal> m_fontColor;

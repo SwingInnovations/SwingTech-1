@@ -17,15 +17,18 @@ class GLMesh : public STMesh{
 public:
     GLMesh();
     //GLMesh(const std::string& fileName);
-    GLMesh(STMesh_Structure structure);
-    GLMesh(STRect* rect);
-    GLMesh(STQuad* quad);
-    GLMesh(STCube* cube);
+    explicit GLMesh(STMesh_Structure structure);
+
+    explicit GLMesh(STRect* rect);
+
+    explicit GLMesh(STQuad* quad);
+
+    explicit GLMesh(STCube* cube);
     GLMesh(float vert[], int vSize, float tex[], int tSize, int ind[], int indSize);
     ~GLMesh();
 
-    void draw();
-    void draw(int drawMode);
+    void draw() override;
+    void draw(int drawMode) override;
 private:
     enum{
         VERTEX_BUFFER,

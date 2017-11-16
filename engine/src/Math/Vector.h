@@ -4,19 +4,24 @@
 #include <cmath>
 #include <string>
 #include <sstream>
-
-#include "../../include/json11/json.hpp"
+#include <fstream>
 
 #include "STCore.h"
 #include "Quaternion.h"
 
-using json = nlohmann::json;
+#include "../../include/json11/json11.hpp"
+
+using namespace json11;
 
 class Quaternion;
 
 template<typename T>
 class Vector2{
 public:
+    static Vector2 FromJson(const std::string& jsonFile);
+
+    static Vector2 FromJson(const Json& jsonDoc);
+
     /**
      * Constructs a new Vector2
      * @return
@@ -185,13 +190,43 @@ public:
         return Vector2(_x, _y);
     }
 
+    Json to_json()const{
+        return Json::object{
+                {"x", m_val[0]},
+                {"y", m_val[1]}
+        };
+    }
+
 private:
     T m_val[2];
 };
+template<typename T>
+Vector2<T> Vector2<T>::FromJson(const std::string &jsonFile) {
+    std::ifstream in(jsonFile);
+    std::stringstream readBuff;
+    readBuff << in.rdbuf();
+    std::string errStr;
+    auto doc = Json::parse(readBuff.str(), errStr, JsonParse::STANDARD);
+    auto vX = (T)doc["x"].number_value();
+    auto vY = (T)doc["y"].number_value();
+    return Vector2<stReal>(vX, vY);
+}
+
+template<typename T>
+Vector2<T> Vector2<T>::FromJson(const Json& jsonDoc) {
+    auto vX = jsonDoc["x"];
+    auto vY = jsonDoc["y"];
+    auto ret = Vector2<T>((T)vX.number_value(), (T)vY.number_value());
+    return ret;
+}
 
 template<typename T>
 class Vector3 {
 public:
+
+    static Vector3 FromJson(const std::string& str);
+    static Vector3 FromJson(const Json& jsonDoc);
+
     /**
      * Default Vector3 Constructor
      * @return
@@ -338,13 +373,13 @@ public:
         this->m_Val[2] = W.getZ();
     }
 
-    /**Calculate the Dot Product between two vectos
+    /**Calculate the Dot Product between two vectors
      *
      * @param other
      * @return Dot Product.
      */
     inline double dot(const Vector3& other){
-        return this->getX() * other.getX() + this->getY() * other.getY() + other.getZ() * other.getZ();
+        return this->getX() * other.getX() + this->getY() * other.getY() + this->getZ() * other.getZ();
     }
 
     /**Calculates the Cross Product between two vectors.
@@ -435,23 +470,45 @@ public:
         return (getX() == other.getX()) && (getY() == other.getY()) && (getZ()==other.getZ());
     }
 
-    void to_json(json& j, const Vector3& vector){
-        j = json{{ "x", vector.getX(), "y", vector.getY(), "z", vector.getZ() }};
-    }
-
-    void from_json(const json& j, Vector3& vector){
-        vector.setX(j.at("x").get<T>());
-        vector.setY(j.at("y").get<T>());
-        vector.setZ(j.at("z").get<T>());
+    Json to_json()const{
+        return Json::object{
+                {"x", m_Val[0]},
+                {"y", m_Val[1]},
+                {"z", m_Val[2]}
+        };
     }
 
 private:
     T m_Val[3];
 };
 
+template<typename  T>
+Vector3<T> Vector3<T>::FromJson(const std::string &str) {
+    std::ifstream in(str);
+    std::stringstream readBuff;
+    readBuff << in.rdbuf();
+    std::string err;
+    auto doc = Json::parse(readBuff.str(), err, JsonParse::STANDARD);
+    auto vX = (T)doc["x"].number_value();
+    auto vY = (T)doc["y"].number_value();
+    auto vZ = (T)doc["z"].number_value();
+    return Vector3<T>( vX, vY, vZ);
+}
+
+template<typename T>
+Vector3<T> Vector3<T>::FromJson(const Json &jsonDoc) {
+    auto vX = jsonDoc["x"].number_value();
+    auto vY = jsonDoc["y"].number_value();
+    auto vZ = jsonDoc["z"].number_value();
+    return Vector3<T>((T)vX, (T)vY, (T)vZ);
+}
+
 template<typename T>
 class Vector4{
 public:
+    static Vector4 FromJson(const std::string& jsonDoc);
+    static Vector4 FromJson(const Json& doc);
+
     Vector4(){
         for(int i = 0; i < 4; i++){
             m_Val[i] = 0;
@@ -520,25 +577,60 @@ public:
         return Vector4(x, y, z, w);
     }
 
-    Vector3<T> toVector3()const{
+    Vector3<T> toVector3() const {
         T x = this->getX();
         T y = this->getY();
         T z = this->getZ();
         return Vector3<T>(x, y, z);
     }
 
-    Vector3<T> toVector3Norm()const{
+    Vector3<T> toVector3Norm() const {
         T x = this->getX() / this->getW();
         T y = this->getY() / this->getW();
         T z = this->getZ() / this->getW();
         return Vector3<T>(x, y, z);
     }
 
+    Json to_json()const{
+        return Json::object{
+                {"x", m_Val[0]},
+                {"y", m_Val[1]},
+                {"z", m_Val[2]},
+                {"w", m_Val[3]}
+        };
+    }
+
 private:
     T m_Val[4];
 };
 
+template<typename T>
+Vector4<T> Vector4<T>::FromJson(const std::string &jsonDoc) {
+    std::ifstream in(jsonDoc);
+    std::stringstream readBuff;
+    readBuff << in.rdbuf();
+    in.close();
 
+    std::string errStr;
+    auto doc = Json::parse(readBuff.str(), errStr, JsonParse::STANDARD);
+    auto vX = (T)doc["x"].number_value();
+    auto vY = (T)doc["y"].number_value();
+    auto vZ = (T)doc["z"].number_value();
+    auto vW = (T)doc["w"].number_value();
+
+    return Vector4<T>(vX, vY, vZ, vW);
+}
+
+template<typename T>
+Vector4<T> Vector4<T>::FromJson(const Json &doc) {
+    auto vX = (T)doc["x"].number_value();
+    auto vY = (T)doc["y"].number_value();
+    auto vZ = (T)doc["z"].number_value();
+    auto vW = (T)doc["w"].number_value();
+    return Vector4<T>(vX, vY, vZ, vW);
+}
 
 
 #endif //WAHOO_VECTOR_H
+
+

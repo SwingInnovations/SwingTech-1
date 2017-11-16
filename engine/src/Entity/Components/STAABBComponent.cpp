@@ -7,21 +7,21 @@ STAABBComponent::STAABBComponent(){
 }
 
 void STAABBComponent::init(STEntity *parent) {
-    this->parent = parent;
+    this->m_entity = parent;
     calculateBounds();
 }
 
 STAABBComponent::STAABBComponent(STEntity *parent, Vector3<stReal> minPoint, Vector3<stReal> maxPoint) {
-    this->parent = parent;
+    this->m_entity = parent;
     m_boundingBox = new STBoundingBox(minPoint, maxPoint);
     calculateBounds();
 }
 
 void STAABBComponent::calculateBounds() {
-    auto vertex = parent->get<STMeshComponent>()->getMesh()->getMeshStructure().m_vertices;
-    auto transform = parent->transform()->getModel();
+    auto vertex = m_entity->get<STMeshComponent>()->getMesh()->getMeshStructure().m_vertices;
+    auto transform = m_entity->transform()->getModel();
     Vector3<stReal> minPoint, maxPoint;
-    minPoint = maxPoint = parent->transform()->getTranslate() * parent->transform()->getScaleF();
+    minPoint = maxPoint = m_entity->transform()->getTranslate() * m_entity->transform()->getScale();
     for (auto &v : vertex) {
         minPoint = Vector3<stReal>::Min(minPoint, transform * *v.getVertex());
         maxPoint = Vector3<stReal>::Max(maxPoint, transform * *v.getVertex());

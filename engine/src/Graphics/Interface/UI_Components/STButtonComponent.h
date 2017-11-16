@@ -2,6 +2,7 @@
 #define SWINGTECH1_STBUTTONCOMPONENT_H
 
 #include "../../../Entity/Components/STComponent.h"
+#include "../../../Entity/Components/STEventComponent.h"
 
 #include <functional>
 
@@ -13,9 +14,12 @@ public:
         PUSH,
         CHECK
     };
-    std::function<void (STEntity*)> OnClick = 0;
-    void update(){
 
+    void update() override {
+        if(m_entity != nullptr){
+            //Should never hit here but whatever
+            m_entity->get<STEventComponent>();
+        }
     }
 
     void draw(){
@@ -25,6 +29,7 @@ public:
 private:
     BUTTON_TYPE m_buttonType;
     bool isChecked;
+    bool isCheckeable;
     bool isClicked;
 };
 

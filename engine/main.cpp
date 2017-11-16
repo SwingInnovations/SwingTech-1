@@ -1,7 +1,7 @@
 #include <iostream>
 
 #include "src/Math/STCore.h"
-#include "src/STGame.h"
+#include "src/Application/STGame.h"
 #include "src/Entity/STEntity.h"
 #include "src/Graphics/GL/GLGraphics.h"
 #include "src/Entity/Components/STEventComponent.h"
@@ -131,6 +131,7 @@ int main(int argc, char** argv) {
     win->addState(new TestState(0));
     win->enterState(0);
     win->setClearColor(Vector4<stReal>(0.0f, 0.0f, 0.14f, 1.0f));
+    win->getGraphics()->enableShadow(true);
     win->start();
 
     return 0;

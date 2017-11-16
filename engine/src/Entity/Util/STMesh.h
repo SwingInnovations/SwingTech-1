@@ -11,7 +11,9 @@
 #include "../../Math/Shape/Quad.h"
 #include "../../Math/Shape/Cube.h"
 #include "Loaders/STMeshCommon.h"
+#include "../../Graphics/STMaterial.h"
 
+class STMaterial;
 
 class STMesh {
 public:
@@ -36,7 +38,8 @@ public:
     STMesh(STQuad* quad){  }
     STMesh(STCube* cube){  }
     STMesh(float vert[], int vSize, float tex[], int tSize, int ind[], int indSize){ }
-    ~STMesh(){  }
+
+    virtual ~STMesh(){  }
 
     virtual void draw(){}
     virtual void draw(int drawMode){  }

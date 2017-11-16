@@ -1,8 +1,8 @@
 #include "../src/Math/STCore.h"
-#include "../src/STGame.h"
+#include "../src/Application/STGame.h"
 #include "../src/Entity/STEntity.h"
 #include "../src/Graphics/GL/GLGraphics.h"
-#include "../src/STSceneManager.h"
+#include "../src/Application/STSceneManager.h"
 #include "../src/Entity/Components/STAABBComponent.h"
 
 class InputMap;
@@ -47,6 +47,9 @@ public:
         _testActor2->get<STScriptComponent>()->registerFunction("Foo", [](){
             std::cout << "This is a function from C++ being called in LUA." << std::endl;
         });
+
+        std::string characterTransform = _testActor2->transform()->to_json().dump();
+
         _testActor = new STActor("teapot.obj");
         _testActor->addComponent(typeid(STScriptComponent), new STScriptComponent("teapot.lua"));
         _testActor->get<STGraphicsComponent>()->getMaterial()->setDiffuseTexture("Bronze_Albedo.jpg");
@@ -145,7 +148,7 @@ int main(int argc, char** argv){
     win->addCamera(new Camera(*win, Vector3<stReal>(-1.5f, -.2f, 0.f), 0));
     win->addState(new TestState(0));
     win->enterState(0);
-    win->getGraphics()->enableShadow(false);
+    win->getGraphics()->enableShadow(true);
     win->getGraphics()->setShadowResolution(512);
     win->getGraphics()->setRenderMode(STGraphics::DEFERRED);
     win->start();

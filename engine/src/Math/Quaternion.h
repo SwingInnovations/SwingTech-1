@@ -1,7 +1,15 @@
 #ifndef WAHOO_QUATERNION_H
 #define WAHOO_QUATERNION_H
 
+#include "../../include/json11/json11.hpp"
+
+#include "Vector.h"
+
 template<typename>class Vector3;
+
+class Vector3f;
+
+using namespace json11;
 
 class Quaternion {
 public:
@@ -86,12 +94,23 @@ public:
         return Quaternion(_x, _y, _z, _w);
     }
 
+
     template<typename T>inline Quaternion multiply(Vector3<T>& vec)const{
         float _x = (this->getW()*(float)vec.getX()) + (this->getY() * (float)vec.getZ()) - (this->getZ() * (float)vec.getY());
         float _y = (this->getW()*(float)vec.getY()) + (this->getZ() * (float)vec.getX()) - (this->getX() * (float)vec.getZ());
         float _z = (this->getW()*(float)vec.getZ()) + (this->getX() * (float)vec.getY()) - (this->getY() * (float)vec.getX());
         float _w = -(this->getX()*(float)vec.getX()) - (this->getY() * (float)vec.getY()) - (this->getZ() * (float)vec.getZ());
         return Quaternion(_x, _y, _z, _w);
+    }
+
+    Json to_json()const {
+        return Json::object{
+                {"x", m_val[0]},
+                {"y", m_val[1]},
+                {"z", m_val[2]},
+                {"w", m_val[3]}
+        };
+
     }
 
 private:

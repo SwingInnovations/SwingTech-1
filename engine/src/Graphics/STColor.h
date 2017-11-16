@@ -54,10 +54,18 @@ struct STColor{
         }
     }
 
+    /**
+     * Sets Color
+     * @param col
+     */
     inline void set(Vector3<stReal> col){
         color = Vector4<stReal>(col, 1.0);
     }
 
+    /**
+     * Sets Color
+     * @param col
+     */
     inline void set(Vector4<stReal> col){
         color = col;
     }
@@ -92,18 +100,30 @@ struct STColor{
         }
     }
 
+    /**
+     * Sets Red value of color
+     * @param value Red Color
+     */
     inline void setRed(const stReal value){
         auto val = value;
         if(value > 1.0f) val /= 255.0f;
         color.setX(val);
     }
 
+    /**
+     * Sets Green value of Color
+     * @param value Green Color
+     */
     inline void setGreen(const stReal value){
         auto val = value;
         if(value > 1.0f) val /= 255.0f;
         color.setY(val);
     }
 
+    /**
+     * Sets Blue value of Color
+     * @param value Blue Color
+     */
     inline void setBlue(const stReal value){
         auto val = value;
         if(value > 1.0f) val /= 255.0f;

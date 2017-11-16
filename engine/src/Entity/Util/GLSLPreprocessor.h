@@ -1,7 +1,3 @@
-//
-// Created by Barry on 11/28/2016.
-//
-
 #ifndef GLSLPREPROCESSOR
 #define GLSLPREPROCESSOR
 
@@ -57,9 +53,9 @@ static string Process(string source) {
         }
     }
 
-    string result = "";
-    for (int i = 0; i < lines.size(); i++)
-        result += lines[i]+"\n";
+    string result;
+    for (const auto &line : lines)
+        result += line +"\n";
 
 
     return result;

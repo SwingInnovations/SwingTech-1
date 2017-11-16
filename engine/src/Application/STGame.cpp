@@ -1,8 +1,8 @@
 #include "STGame.h"
 
-#include "Graphics/STGraphics.h"
-#include "Graphics/GL/GLGraphics.h"
-#include "Graphics/Camera.h"
+#include "../Graphics/STGraphics.h"
+#include "../Graphics/GL/GLGraphics.h"
+#include "../Graphics/Camera.h"
 
 int STGame::RES_WIDTH = 0;
 int STGame::RES_HEIGHT = 0;
@@ -53,8 +53,6 @@ STGame::STGame(const std::string title, unsigned int WIDTH, unsigned int HEIGHT)
     STGame::SetResolutionWidth(WIDTH);
     STGame::SetResolutionHeight(HEIGHT);
 
-    resourceManager = new STResourceManager();
-
     m_currentIndex = 0;
     oldTime = 0;
     newTime = SDL_GetTicks();
@@ -97,17 +95,6 @@ void STGame::setOpenGLVersion(int MajorVersion, int MinorVersion) {
     }
 }
 
-void STGame::setClearColor(stReal _x, stReal _y, stReal _z, stReal _w) {
-    m_clearColor.setX(_x);
-    m_clearColor.setY(_y);
-    m_clearColor.setZ(_z);
-    m_clearColor.setW(_w);
-}
-
-void STGame::setClearColor(const Vector4<stReal> clearColor) {
-    m_clearColor = clearColor;
-}
-
 void STGame::addState(STGameState * gameState) {
     m_gameStates.push_back(gameState);
 }
@@ -119,7 +106,7 @@ Input* STGame::getInput() {
 void STGame::calcDelta() {
     if(newTime > oldTime){
         delta = newTime - oldTime;
-        Uint32 targetInterval = (Uint32)(1000 / this->fps);
+        Uint32 targetInterval = (Uint32)(1000.0f / this->fps);
         if(delta < targetInterval || delta > targetInterval){
             delta = targetInterval;
         }
@@ -150,9 +137,8 @@ void STGame::start(){
 
 void STGame::init() {
     if(!m_gameStates.empty()){
-        for(unsigned int i = 0; i < m_gameStates.size(); i++){
-            m_gameStates.at(i)->init(this);
-        }
+        m_gameStates[m_currentIndex]->init_Internal(this);
+        m_gameStates[m_currentIndex]->init(this);
     }
 }
 
@@ -168,7 +154,7 @@ void STGame::update() {
         isRunning = false;
     }
     if(getCamera() != nullptr) getCamera()->update(input);
-    if(!m_gameStates.empty() && m_currentIndex < m_gameStates.size()) m_gameStates.at(m_currentIndex)->update(this, delta);
+    if(!m_gameStates.empty() && m_currentIndex < m_gameStates.size()) m_gameStates[m_currentIndex]->update(this);
 }
 
 void STGame::render() {
@@ -185,10 +171,6 @@ void STGame::addCamera(Camera* cam){
 
 Camera*STGame::getCamera(){
     return g->getActiveCamera();
-}
-
-STResourceManager* STGame::getResourceManager() {
-    return resourceManager;
 }
 
 STGraphics* STGame::getGraphics() {
@@ -209,9 +191,9 @@ STGame *STGame::Get() {
 }
 
 void STGame::setIcon(const std::string &filePath) {
-    SDL_Surface* img = NULL;
+    SDL_Surface* img = nullptr;
     img = IMG_Load(filePath.c_str());
-    if(img == NULL){
+    if(img == nullptr){
         std::cerr << "Failed to load filepath. Invalid file?" << std::endl;
     }
     SDL_SetWindowIcon(m_Window, img);
@@ -231,6 +213,7 @@ void STGame::setFullScreen(int flag) {
             return;
         case 1:
             SDL_SetWindowFullscreen(m_Window, SDL_WINDOW_FULLSCREEN);
+            g->setResolution(1920, 1080);
             return;
         case 2:
             SDL_SetWindowFullscreen(m_Window, SDL_WINDOW_FULLSCREEN_DESKTOP);
@@ -239,4 +222,8 @@ void STGame::setFullScreen(int flag) {
     }
 
 
+}
+
+STScene *STGame::GetCurrentScene() {
+    return m_gameStates[m_currentIndex]->getScene();
 }

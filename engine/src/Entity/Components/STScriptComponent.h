@@ -19,7 +19,7 @@ public:
     explicit STScriptComponent(const std::string& fileName);
     void init(STEntity* parent) override;
     void registerFunction(const std::string& functionName, std::function<void()> newFunction);
-    void registerEvent(const std::string& eventName);
+    void registerEvent(STEntity* self, const std::string& eventName);
     ~STScriptComponent() override;
 
     void update() override;

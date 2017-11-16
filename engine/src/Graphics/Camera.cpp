@@ -1,4 +1,5 @@
 #include "Camera.h"
+#include "../Application/STGame.h"
 
 Camera::Camera() {
     m_start = false;

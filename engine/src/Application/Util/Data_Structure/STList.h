@@ -1,7 +1,7 @@
 #ifndef SWINGTECH1_STLIST_H
 #define SWINGTECH1_STLIST_H
 
-#include "../../Math/STCore.h"
+#include "../../../Math/STCore.h"
 
 template<typename T>
 class STList{

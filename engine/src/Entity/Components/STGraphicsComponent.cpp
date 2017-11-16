@@ -3,7 +3,7 @@
 
 STGraphicsComponent::STGraphicsComponent(const STGraphicsComponent &copy) {
     this->m_material = copy.m_material;
-    this->parent = copy.parent;
+    this->m_entity = copy.m_entity;
 }
 
 STGraphicsComponent::STGraphicsComponent(Shader *shdr) {

@@ -1,7 +1,7 @@
 #ifndef SWINGTECH1_STQUEUE_H
 #define SWINGTECH1_STQUEUE_H
 
-#include "../../Math/STCore.h"
+#include "../../../Math/STCore.h"
 #include "STList.h"
 
 template<typename T>

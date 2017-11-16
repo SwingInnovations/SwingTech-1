@@ -3,11 +3,13 @@
 
 #include <vector>
 #include <map>
-#include "Entity/STEntity.h"
-#include "Entity/STActor.h"
-#include "Entity/STLight.h"
-#include "Math/Shape/BoundingBox.h"
+#include "../Entity/STEntity.h"
+#include "../Entity/STActor.h"
+#include "../Entity/STLight.h"
+#include "../Math/Shape/BoundingBox.h"
 #include "Util/Data_Structure/STQueue.h"
+
+class STRenderScene;
 
 class STLight;
 class STInterWidget;
@@ -39,21 +41,46 @@ private:
     OctNode* children[8];
 };
 
+/**
+ * Handles 2D scenes.
+ */
+class QuadNode{
+private:
+    QuadNode* children[4];
+};
+
 class STScene{
 public:
     STScene();
 
     STScene(stUint index);
 
+    void setRenderScene(STRenderScene* renderScene);
+    STRenderScene* getRenderScene(){ return m_renderScene; }
+
     ~STScene();
 
+    /**
+     * Adds Actor to scene.
+     * @param actor
+     */
     void addActor(STActor* actor);
 
+    /**
+     * Adds Light to the scene
+     * @param light
+     */
     void addLight(STLight* light);
 
     void addUIElement(STInterWidget* ui);
 
     void update();
+
+    /**
+     * Sends a message to all Actors.
+     * @param msg
+     */
+    void sendMessage(const std::string &msg);
 
     /**
      * Sets the skybox using the default skybox shader.
@@ -77,7 +104,6 @@ public:
 
     const stUint getIndex()const{ return m_index; }
     const stUint getShadowCount()const{ return m_numShadows; }
-
 private:
     stUint m_index;
     stUint m_numShadows;
@@ -88,35 +114,7 @@ private:
     std::vector<STInterWidget*> uiElements;
     std::string skyboxName;
     std::string skyboxShader;
-};
-
-class STSceneManager{
-public:
-    static STSceneManager* m_Instance;
-
-    static STSceneManager* Get(){
-        if(m_Instance == nullptr) m_Instance = new STSceneManager;
-        return m_Instance;
-    }
-
-    STSceneManager() = default;
-
-    inline STScene* initScene(const stUint index){
-        scenes.insert(std::pair<stUint, STScene*>(index, new STScene(index)));
-        //Allocate something to manage the scene
-        auto grphx = STGame::Get()->getGraphics();
-        grphx->initScene(index);
-        return scenes[index];
-    }
-
-    inline STScene* getScene(stUint index){
-        if(index < scenes.size()){
-            return scenes[index];
-        }
-    }
-
-private:
-    std::map<stUint, STScene*> scenes;
+    STRenderScene* m_renderScene;
 };
 
 #endif //WAHOO_STSCENEMANAGER_H

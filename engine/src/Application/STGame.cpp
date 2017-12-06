@@ -1,3 +1,4 @@
+#include <SDL2/SDL_video.h>
 #include "STGame.h"
 
 #include "../Graphics/STGraphics.h"
@@ -207,21 +208,22 @@ void STGame::setActiveCamera(stUint index) {
 }
 
 void STGame::setFullScreen(int flag) {
+    SDL_DisplayMode DM;
+
     switch(flag){
         case 0:
             SDL_SetWindowFullscreen(m_Window, 0);
-            return;
+            g->setResolution(WIDTH, HEIGHT);
+            break;
         case 1:
             SDL_SetWindowFullscreen(m_Window, SDL_WINDOW_FULLSCREEN);
-            g->setResolution(1920, 1080);
-            return;
-        case 2:
-            SDL_SetWindowFullscreen(m_Window, SDL_WINDOW_FULLSCREEN_DESKTOP);
+            SDL_GetDesktopDisplayMode(0, &DM);
+            g->setResolution(DM.w, DM.h);
+            std::cout << "Fullscreen Desktop with " << DM.w << " : " << DM.h << std::endl;
+            break;
         default:
             ;
     }
-
-
 }
 
 STScene *STGame::GetCurrentScene() {

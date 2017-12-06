@@ -54,6 +54,7 @@ public:
     virtual void init(stUint w, stUint h) = 0;
 
     void setCurrentCamera(stUint cameraIndex);
+    virtual void setScreenShader(const std::string&) = 0;
 
     void addCamera(Camera* cam){
         m_cameras.push_back(cam);

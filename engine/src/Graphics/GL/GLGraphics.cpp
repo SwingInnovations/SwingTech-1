@@ -125,8 +125,6 @@ void GLGraphics::init(stUint w, stUint h) {
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
     glBindTexture(GL_TEXTURE_2D, 0);
 
-
-
     glGenRenderbuffers(1, &rendBuffer);
     glBindRenderbuffer(GL_RENDERBUFFER, rendBuffer);
     glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH24_STENCIL8, w, h);
@@ -152,22 +150,21 @@ void GLGraphics::init(stUint w, stUint h) {
     glBindTexture(GL_TEXTURE_2D, 0);
 
     glGenFramebuffers(1, &bloomThresBuf);
+    glBindFramebuffer(GL_FRAMEBUFFER, bloomThresBuf);
     glGenTextures(1, &bloomThresTex);
 
     glBindTexture(GL_TEXTURE_2D, bloomThresTex);
-
     glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB32F, w, h, 0, GL_RGB, GL_FLOAT, NULL);
-
+    glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, bloomThresTex, 0);
     glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
     glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
     glBindTexture(GL_TEXTURE_2D, 0);
 
-    glBindFramebuffer(GL_FRAMEBUFFER, bloomThresBuf);
     glDrawBuffer(GL_NONE);
     glReadBuffer(GL_NONE);
-    glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, bloomThresTex, 0);
+
     if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
         std::cerr << "Failed to generate Bloom Buffer" << std::endl;
     GLenum drawBuffers1[] = {GL_COLOR_ATTACHMENT0};
@@ -400,7 +397,6 @@ void GLGraphics::drawScene(STScene *scene) {
         glClearColor(clearColor.getX(), clearColor.getY(), clearColor.getZ(), clearColor.getZ());
         glClear(GL_COLOR_BUFFER_BIT);
 
-        //scenes[scene->getIndex()].drawSkybox(*getActiveCamera());
         rendScene->drawSkybox(*getActiveCamera());
 
         glDisable(GL_BLEND);
@@ -408,12 +404,11 @@ void GLGraphics::drawScene(STScene *scene) {
         glDepthMask(GL_TRUE);
 
         for(stUint i =0; i < actors.size(); i++){
+            actors[i]->setShdrUniform("_CameraPos", getActiveCamera()->transform()->getTranslate());
+            actors[i]->setShdrUniform_CubeMap("_WorldCubeMap", rendScene->m_skybox);
+            actors[i]->setShdrUniform_Texture2DArray("shadowArray", shadowArray, 1);
+            actors[i]->setShdrUniform("LightCount", (stInt)lights.size());
             for(stUint j =0; j < lights.size(); j++) {
-                actors[i]->setShdrUniform("_CameraPos", getActiveCamera()->transform()->getTranslate());
-                actors[i]->setShdrUniform_CubeMap("_WorldCubeMap", rendScene->m_skybox);
-                actors[i]->setShdrUniform_Texture2DArray("shadowArray", shadowArray, 1);
-                actors[i]->setShdrUniform("LightCount", (stInt)lights.size());
-
                 auto lightProps = lights[j]->get<STLightComponent>()->getProperties();
                 auto shadowProps = lights[j]->get<STShadowComponent>()->getProperties();
 
@@ -445,6 +440,17 @@ void GLGraphics::drawScene(STScene *scene) {
 
         glBindBuffer(GL_FRAMEBUFFER, frameBuffer);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+        glEnable(GL_DEPTH_TEST);
+
+        glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, velocityTexture, 0);
+
+        //Predepth pass for velocity
+        for(auto actor : actors){
+            actor->draw(m_velocityMat);
+        }
+
+        glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, frameTexBuffer, 0);
+        glClear(GL_COLOR_BUFFER_BIT);
 
         glBindFramebuffer(GL_FRAMEBUFFER, gBuffer);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -527,7 +533,6 @@ void GLGraphics::drawScene(STScene *scene) {
     screenQuad->draw();
     screenShdr->unbind();
 }
-
 
 
 void GLGraphics::Bloom(){
@@ -849,6 +854,16 @@ void GLGraphics::loadFont(const std::string &) {
 void GLGraphics::setResolution(stUint w, stUint h) {
     WIDTH = w;
     HEIGHT = h;
+    cleanup();
     glViewport(0, 0, w, h);
+    init(w, h);
+}
+
+/**
+ * Uses a custom screen shader to render the sceen.
+ * @param shdrPath
+ */
+void GLGraphics::setScreenShader(const std::string &shdrPath) {
+    screenShdr = new GLShader("screen", shdrPath);
 }
 

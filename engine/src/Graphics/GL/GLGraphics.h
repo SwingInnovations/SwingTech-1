@@ -87,6 +87,8 @@ public:
         return orthoProjection;
     }
 
+    void setScreenShader(const std::string& screenShdr) override ;
+
     virtual void drawScene(STScene* scene);
     void initScene(STScene* scene);
 

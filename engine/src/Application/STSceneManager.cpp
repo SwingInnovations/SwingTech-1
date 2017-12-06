@@ -154,4 +154,3 @@ void STScene::sendMessage(const std::string &msg) {
         actor->get<STEventComponent>()->setEvent(msg);
     }
 }
-

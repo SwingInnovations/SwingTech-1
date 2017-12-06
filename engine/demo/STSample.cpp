@@ -61,7 +61,7 @@ public:
 
         if(input->isKeyPressed(KEY::KEY_F)){
             counter++;
-            game->setFullScreen(counter % 3);
+            game->setFullScreen(counter % 2);
         }
         m_scene->update();
     }
@@ -90,6 +90,7 @@ int main(int argc, char** argv){
     win->enterState(0);
     win->getGraphics()->enableShadow(true);
     win->getGraphics()->setRenderMode(STGraphics::DEFERRED);
-    win->getGraphics()->enablePostEffect(STGraphics::BLOOM);
+    win->getGraphics()->enablePostEffect(STGraphics::BLOOM | STGraphics::MOTION_BLUR);
+    win->getGraphics()->setScreenShader("screenCustom");
     win->start();
 }

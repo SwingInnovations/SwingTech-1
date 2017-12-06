@@ -187,9 +187,6 @@ void STScriptComponent::initScript(const std::string &fileName) {
                                      "setScale", sol::resolve<void(Vector3<stReal>&)>(&Transform::setScale),
                                      "getScale", &Transform::getScale,
                                      "setRotationMode", &Transform::setRotationMode);
-    m_script.new_usertype<STGraphicsComponent>("STGraphicsComponent",
-                                    "nextFrame", &STGraphicsComponent::nextFrame,
-                                    "debug", &STGraphicsComponent::debugScript);
     m_script.script_file(fileName);
     auto events = m_entity->get<STEventComponent>();
     if(m_script["onHit"].valid()){
@@ -203,10 +200,6 @@ void STScriptComponent::registerEvent(STEntity *self, const std::string &eventNa
     if(m_script[eventName].valid()){
         ec->addEvent(eventName, m_script[eventName]);
     }
-}
-
-STGraphicsComponent *STScriptComponent::getGraphicsComponent() {
-    return m_entity->get<STGraphicsComponent>();
 }
 
 void STScriptComponent::registerFunction(const std::string &functionName, std::function<void()> newFunction) {

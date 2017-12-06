@@ -23,8 +23,12 @@ STGame::~STGame() {
 
     m_currentIndex = 0;
     if(!m_gameStates.empty()){
-        m_gameStates.clear();
+        for(auto state : m_gameStates){
+            delete state;
+        }
     }
+    m_gameStates.clear();
+    g->cleanup();
 
     SDL_GL_DeleteContext(m_Context);
     SDL_DestroyWindow(m_Window);
@@ -131,7 +135,6 @@ void STGame::start(){
 
         render();
     }
-    m_gameStates.clear();
     if(Input::m_instance != nullptr) delete Input::m_instance;
     if(STGame::m_instance != nullptr) delete STGame::m_instance;
 }

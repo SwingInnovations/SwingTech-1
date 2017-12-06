@@ -258,13 +258,14 @@ void GLGraphics::drawScene(STScene *scene) {
                     glBindTexture(GL_TEXTURE_2D, shadowProperties->shadowMapID[0]);
                     glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT, m_shadowRes, m_shadowRes, 0, GL_DEPTH_COMPONENT, GL_FLOAT,
                                  NULL);
+                    glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D,
+                                           shadowProperties->shadowMapID[0], 0);
                     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
                     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
                     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
                     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+                    glBindTexture(GL_TEXTURE_2D, 0);
 
-                    glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D,
-                                           shadowProperties->shadowMapID[0], 0);
                     glDrawBuffer(GL_NONE);
                     glReadBuffer(GL_NONE);
                     if(glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE){
@@ -832,6 +833,7 @@ void GLGraphics::initScene(STScene *scene) {
 }
 
 void GLGraphics::cleanup() {
+    std::cout << "Clearing Graphics" << std::endl;
     for(auto c : characters){
         glDeleteTextures(1, &c.second.texID);
     }

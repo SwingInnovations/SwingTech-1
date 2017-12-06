@@ -180,6 +180,11 @@ void STActor::draw(STMaterial *material) {
     }
 }
 
+/**
+ *
+ * @param overrideMaterial
+ * @param flag
+ */
 void STActor::draw(STMaterial* overrideMaterial, bool flag){
     auto mesh = get<STMeshComponent>();
     auto grphx = get<STGraphicsComponent>();

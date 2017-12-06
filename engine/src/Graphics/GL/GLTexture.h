@@ -30,6 +30,7 @@ public:
      * @return
      */
     static GLuint GenTex(const std::string& fileName);
+    static void   DisposeTex(GLuint texHandle);
     void addTexture(const std::string& fileName) override;
     void addTexture(const std::string& fileName, int ind) override;
     void bind(unsigned int index) override;

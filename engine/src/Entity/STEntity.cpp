@@ -428,6 +428,13 @@ Vector4<stReal> STEntity::getAttribute4v(const std::string &name) const {
     if(m_attributes.count(name) > 0) return m_attributes.at(name)->toVector4();
 }
 
+void STEntity::dispose() {
+    for(auto comp : m_components){
+        comp.second->dispose();
+    }
+    m_components.clear();
+}
+
 STAttribute::STAttribute(const Vector2<stReal> &value){
     type = Vec2;
     m_value = STAttribute::toString(value);

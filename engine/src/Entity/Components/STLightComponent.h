@@ -71,8 +71,9 @@ public:
                                     dir.normalize(),
                                     Vector3<stReal>(0.f, 1.f, 0.f));
         }
+        auto normDir = props->direction.toVector3().normalize();
         return Matrix4f::LookAt(m_entity->transform()->getTranslate(),
-                                props->direction,
+                                normDir,
                                 Vector3<stReal>(0.f, 1.f, 0.f));
     }
 private:

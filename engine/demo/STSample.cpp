@@ -35,6 +35,11 @@ public:
         character->transform()->setRotateX(-90);
         character->transform()->setRotationMode(Transform::Local);
 
+        auto diceBox = new STActor("dice.obj");
+        diceBox->get<STGraphicsComponent>()->getMaterial()->setMetallic(0.5f);
+        diceBox->transform()->setTranslateX(1.0f);
+        diceBox->transform()->setTranslateZ(2.f);
+
         auto characterTransform = character->transform()->to_json().dump();
         auto newTransform = Transform::FromJson(characterTransform);
 
@@ -45,6 +50,7 @@ public:
         m_scene->addLight(mainLight);
         m_scene->addLight(accentLight);
         m_scene->addActor(character);
+        m_scene->addActor(diceBox);
         m_scene->addActor(plane);
         counter = 0;
     }
@@ -54,9 +60,6 @@ public:
         if(input->isKeyPressed(KEY::KEY_ESC)) input->requestClose();
         if(input->isKeyPressed(KEY::KEY_Q)){
             input->setCursorBound(!input->isCursorBound());
-        }
-        if(input->isKeyPressed(KEY::KEY_L)){
-            this->m_scene->sendMessage("onPress");
         }
 
         if(input->isKeyPressed(KEY::KEY_F)){
@@ -71,6 +74,8 @@ public:
     }
 
     ~SampleState(){
+        std::cout << "Clearing Game State" << std::endl;
+        m_scene->dispose();
         delete m_scene;
     }
 private:
@@ -90,7 +95,7 @@ int main(int argc, char** argv){
     win->enterState(0);
     win->getGraphics()->enableShadow(true);
     win->getGraphics()->setRenderMode(STGraphics::DEFERRED);
-    win->getGraphics()->enablePostEffect(STGraphics::BLOOM | STGraphics::MOTION_BLUR);
-    win->getGraphics()->setScreenShader("screenCustom");
     win->start();
+
+    return 0;
 }

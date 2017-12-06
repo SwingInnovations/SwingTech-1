@@ -61,9 +61,6 @@ public:
     void setSpriteSheetIndex(int, int);
     void setSpriteSheetRow(int);
     void nextFrame();
-    void debugScript(){
-        std::cout << "Linked to Graphics Component, Can update uniforms from here" << std::endl;
-    }
 
     inline void setShader(Shader* shdr){ m_shdr = shdr; }
 
@@ -79,6 +76,7 @@ public:
 
     void update() override;
     void draw() override;
+    void dispose() override;
 
     std::map<std::string, STShader::ShaderAttrib> &GetUniforms();
 

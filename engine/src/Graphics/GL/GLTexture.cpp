@@ -229,3 +229,8 @@ GLuint GLTexture::GenTex(const std::string &fileName) {
     glBindTexture(GL_TEXTURE_2D, 0);
     return texID;
 }
+
+void GLTexture::DisposeTex(GLuint texHandle) {
+    glDeleteTextures(1, &texHandle);
+}
+

@@ -104,12 +104,45 @@ void GLGraphics::init(stUint w, stUint h) {
     glBindBuffer(GL_ARRAY_BUFFER, textVBO);
     glBufferData(GL_ARRAY_BUFFER, sizeof(GL_FLOAT) * 6 * 4, NULL, GL_DYNAMIC_DRAW);
     glEnableVertexAttribArray(0);
-    glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, 4 * sizeof(GL_FLOAT), 0);
+    glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, 4 * sizeof(GL_FLOAT), nullptr);
     glBindBuffer(GL_ARRAY_BUFFER, 0);
     glBindVertexArray(0);
 
-    glGenTextures(1, &velocityTexture);
+    glGenFramebuffers(1, &frameBuffer);
+    glBindFramebuffer(GL_FRAMEBUFFER, frameBuffer);
+    glFramebufferParameteri(GL_FRAMEBUFFER, GL_FRAMEBUFFER_DEFAULT_WIDTH, w);
+    glFramebufferParameteri(GL_FRAMEBUFFER, GL_FRAMEBUFFER_DEFAULT_HEIGHT, h);
+    glFramebufferParameteri(GL_FRAMEBUFFER, GL_FRAMEBUFFER_DEFAULT_SAMPLES, 4);
 
+    glGenTextures(1, &frameTexBuffer);
+    glBindTexture(GL_TEXTURE_2D, frameTexBuffer);
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, w, h, 0, GL_RGB, GL_UNSIGNED_BYTE, NULL);
+    glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, frameTexBuffer, 0);
+    glGenerateMipmap(GL_TEXTURE_2D);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    glBindTexture(GL_TEXTURE_2D, 0);
+
+
+
+    glGenRenderbuffers(1, &rendBuffer);
+    glBindRenderbuffer(GL_RENDERBUFFER, rendBuffer);
+    glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH24_STENCIL8, w, h);
+    glBindRenderbuffer(GL_RENDERBUFFER, 0);
+    glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, rendBuffer);
+
+    GLenum drawBuffers[] = {GL_COLOR_ATTACHMENT0};
+    glDrawBuffers(1, drawBuffers);
+    if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE) {
+        std::cerr << "Failed to create FrameBuffer" << std::endl;
+    }else{
+        std::cout << "Successfully Created Frame buffer" << std::endl;
+    }
+    glBindFramebuffer(GL_FRAMEBUFFER, 0);
+
+    glGenTextures(1, &velocityTexture);
     glBindTexture(GL_TEXTURE_2D, velocityTexture);
     glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB16F, w, h, 0, GL_RG, GL_FLOAT, NULL);
     glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
@@ -141,37 +174,6 @@ void GLGraphics::init(stUint w, stUint h) {
     glDrawBuffers(1, drawBuffers1);
     glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
-    glGenFramebuffers(1, &frameBuffer);
-    glGenTextures(1, &frameTexBuffer);
-
-    glBindTexture(GL_TEXTURE_2D, frameTexBuffer);
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB32F, w, h, 0, GL_RGB, GL_FLOAT, NULL);
-    glGenerateMipmap(GL_TEXTURE_2D);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-    glBindTexture(GL_TEXTURE_2D, 0);
-
-
-    glBindFramebuffer(GL_FRAMEBUFFER, frameBuffer);
-    glFramebufferParameteri(GL_FRAMEBUFFER, GL_FRAMEBUFFER_DEFAULT_WIDTH, w);
-    glFramebufferParameteri(GL_FRAMEBUFFER, GL_FRAMEBUFFER_DEFAULT_HEIGHT, h);
-    glFramebufferParameteri(GL_FRAMEBUFFER, GL_FRAMEBUFFER_DEFAULT_SAMPLES, 4);
-
-
-    glGenRenderbuffers(1, &rendBuffer);
-    glBindRenderbuffer(GL_RENDERBUFFER, rendBuffer);
-    glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH24_STENCIL8, w, h);
-    glBindRenderbuffer(GL_RENDERBUFFER, 0);
-    glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT, GL_RENDERBUFFER, rendBuffer);
-
-    GLenum drawBuffers[] = {GL_COLOR_ATTACHMENT0};
-    glDrawBuffers(1, drawBuffers);
-    if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE) {
-        std::cerr << "Failed to create FrameBuffer" << std::endl;
-    }
-    glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
     glGenFramebuffers(1, &gBuffer);
     glBindFramebuffer(GL_FRAMEBUFFER, gBuffer);
@@ -440,11 +442,14 @@ void GLGraphics::drawScene(STScene *scene) {
         glDisable(GL_CULL_FACE);
     }else if(getRenderMode() == RenderMode::DEFERRED){
         glViewport(0, 0, WIDTH, HEIGHT);
+
         glBindBuffer(GL_FRAMEBUFFER, frameBuffer);
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
         glBindFramebuffer(GL_FRAMEBUFFER, gBuffer);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         glEnable(GL_DEPTH_TEST);
+
         //Geometry Pass
         glEnable(GL_CULL_FACE);
         glCullFace(GL_FRONT);
@@ -453,7 +458,8 @@ void GLGraphics::drawScene(STScene *scene) {
         }
         glDisable(GL_CULL_FACE);
         glDisable(GL_DEPTH_TEST);
-        glBindFramebuffer(GL_FRAMEBUFFER, 0);
+
+        glBindFramebuffer(GL_FRAMEBUFFER, frameBuffer);
 
         Deff_LightPassShdr->bind();
         Deff_LightPassShdr->update("gPosition", 0);
@@ -476,7 +482,7 @@ void GLGraphics::drawScene(STScene *scene) {
         glBindTexture(GL_TEXTURE_2D_ARRAY, shadowArray);
         Deff_LightPassShdr->update("LightCount", (stInt)lights.size());
         Deff_LightPassShdr->update_CubeMap("_WorldCubeMap", rendScene->m_skybox);
-        for(stUint i = 0, S = lights.size(); i < S; i++){
+        for(stUint i = 0, S = (stUint)lights.size(); i < S; i++){
             auto lightProps = lights[i]->get<STLightComponent>()->getProperties();
             auto shadowProps = lights[i]->get<STShadowComponent>()->getProperties();
             Deff_LightPassShdr->update("Light["+std::to_string(i)+"].LightType", (stInt)lightProps->direction.getW());
@@ -494,7 +500,7 @@ void GLGraphics::drawScene(STScene *scene) {
 
         glEnable(GL_DEPTH_TEST);
         glBindFramebuffer(GL_READ_FRAMEBUFFER, gBuffer);
-        glBindFramebuffer(GL_DRAW_FRAMEBUFFER, 0);
+        glBindFramebuffer(GL_DRAW_FRAMEBUFFER, frameBuffer);
         glBlitFramebuffer(0, 0, WIDTH, HEIGHT, 0, 0, WIDTH, HEIGHT, GL_DEPTH_BUFFER_BIT, GL_NEAREST);
         glDepthFunc(GL_LEQUAL);
 
@@ -506,7 +512,6 @@ void GLGraphics::drawScene(STScene *scene) {
 
         glDisable(GL_DEPTH_TEST);
         glDisable(GL_CULL_FACE);
-        return;
     }
 
     if((m_enabledEffects&BLOOM)>0)Bloom();

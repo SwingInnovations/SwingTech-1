@@ -99,3 +99,7 @@ engine/cmake-build-debug/Makefile
 engine/cmake-build-debug/SwingTech1.cbp
 engine/cmake-build-debug/cmake_install.cmake
 engine/cmake-build-debug/libdemoSwing.dll.a
+
+engine/cmake-build-debug/
+
+engine/cmake-build-release/

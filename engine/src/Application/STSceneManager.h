@@ -75,6 +75,7 @@ public:
     void addUIElement(STInterWidget* ui);
 
     void update();
+    void dispose();
 
     /**
      * Sends a message to all Actors.

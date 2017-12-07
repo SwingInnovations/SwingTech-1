@@ -154,3 +154,15 @@ void STScene::sendMessage(const std::string &msg) {
         actor->get<STEventComponent>()->setEvent(msg);
     }
 }
+
+void STScene::dispose() {
+    for(auto actor : actors){
+        actor->dispose();
+    }
+
+    for(auto light : lights){
+        light->dispose();
+    }
+    actors.clear();
+    m_renderScene->dispose();
+}

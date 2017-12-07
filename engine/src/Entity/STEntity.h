@@ -151,6 +151,8 @@ public:
     void setVisible(bool value);
     bool isVisible();
 
+    void dispose();
+
     /**
      * @brief Returns Component Added to Entity.
      * @tparam T Component Type

@@ -1,5 +1,6 @@
 #include "STGraphicsComponent.h"
 #include "../../Graphics/GL/GLShader.h"
+#include "../../Graphics/STGraphics.h"
 
 STGraphicsComponent::STGraphicsComponent(const STGraphicsComponent &copy) {
     this->m_material = copy.m_material;
@@ -165,6 +166,18 @@ std::map<std::string, STShader::ShaderAttrib> &STGraphicsComponent::GetUniforms(
 void STGraphicsComponent::draw() {
     //m_material->draw(m_uniforms);
     //m_material->draw();
+}
+
+void STGraphicsComponent::dispose() {
+    for(auto uniform : m_Uniforms){
+        if(uniform.second.type == STShader::TEX){
+            if(STGraphics::RENDERER == STGraphics::OPENGL){
+                auto texHandle = (stUint)STShader::toVector2(uniform.second.value).getX();
+                GLTexture::DisposeTex(texHandle);
+            }
+        }
+    }
+    delete m_material;
 }
 
 

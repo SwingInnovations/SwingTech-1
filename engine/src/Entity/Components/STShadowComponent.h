@@ -21,6 +21,17 @@ public:
     void draw(){
 
     }
+
+    void dispose(){
+        if(STGraphics::RENDERER == STGraphics::OPENGL){
+            for(stUint i = 0; i < 6; i++){
+                GLTexture::DisposeTex(getProperties()->shadowMapID[i]);
+            }
+            for(int i = 0; i < 6; i++){
+                glDeleteFramebuffers(1, &getProperties()->shadowFrameBuffer[i]);
+            }
+        }
+    }
 private:
    STShadowProperties m_Properties;
 };

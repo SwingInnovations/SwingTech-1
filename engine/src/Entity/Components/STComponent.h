@@ -1,7 +1,7 @@
 #ifndef WAHOO_STCOMPONENT_H
 #define WAHOO_STCOMPONENT_H
 
-#include <sol.hpp>
+#include "../../../include/sol.hpp"
 #include "../../Application/STGame.h"
 
 class STEntity;
@@ -18,6 +18,7 @@ public:
     virtual void initScriptingFunctions(sol::state m_script){;}
     virtual void update() = 0;
     virtual void draw(){ }
+    virtual void dispose(){}
     virtual ~STComponent(){}
 
     inline void setParent(STEntity* parent){ this->m_entity = parent; }

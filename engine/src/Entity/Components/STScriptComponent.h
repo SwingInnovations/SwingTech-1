@@ -6,8 +6,10 @@
 
 #if __MINGW32__
 #include <sol.hpp>
-#else
+#elif __linux__
 #include <lua5.1/sol.hpp>
+#else
+#include <sol.hpp>
 #endif
 
 class STEntity;
@@ -25,7 +27,6 @@ public:
     void update() override;
     sol::state m_script;
 private:
-    STGraphicsComponent* getGraphicsComponent();
     void initScript(const std::string& fileName);
     std::string scriptName;
 };

@@ -61,6 +61,12 @@ struct GLRenderScene : public STRenderScene{
         glCullFace(GL_FRONT);
     }
 
+    void dispose(){
+        delete m_skyboxShdr;
+        glDeleteTextures(1, &m_skybox);
+        delete skyboxMesh;
+    }
+
     GLuint m_skybox;
     GLShader* m_skyboxShdr;
     GLMesh* skyboxMesh;
@@ -140,6 +146,7 @@ private:
     GLShader* textShader;
 
     GLuint shadowArray;
+    GLuint rboDepth;
 
     Matrix4f orthoProjection;
     GLuint frameBuffer;
@@ -156,7 +163,6 @@ private:
     GLuint gNormal;
     GLuint gTangent;
     GLuint gColorSpec;
-    GLuint gNormalMap;
     GLuint gMRA;        //Store Metallic; Roughness; Ambient Occlusion.
 
 

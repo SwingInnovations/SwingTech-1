@@ -48,6 +48,10 @@ STMesh *STMeshComponent::getMesh() const {
     return m_mesh;
 }
 
+void STMeshComponent::dispose() {
+    delete m_mesh;
+}
+
 
 
 

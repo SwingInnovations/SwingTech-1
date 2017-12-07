@@ -862,6 +862,7 @@ void GLGraphics::cleanup() {
     delete m_IBLMat;
     delete m_velocityMat;
     delete Deff_LightPassShdr;
+    delete m_GBufferOverrideMat;
     delete screenQuad;
 
     delete textShader;
@@ -870,6 +871,7 @@ void GLGraphics::cleanup() {
     delete Bloom_Threshold;
     delete Motion_Blur;
     delete Tone_Mapping;
+    delete FXAAShader;
 
 }
 

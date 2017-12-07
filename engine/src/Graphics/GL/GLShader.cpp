@@ -28,6 +28,9 @@ GLShader::GLShader() {
     m_uniforms[3] = glGetUniformLocation(m_Program, "view");
     m_uniforms[4] = glGetUniformLocation(m_Program, "projection");
     m_uniforms[5] = glGetUniformLocation(m_Program, "cachedMVP");
+    for(unsigned int i = 0; i < NUM_SHADER; i++){
+        glDeleteShader(m_Shaders[i]);
+    }
 }
 
 GLShader::GLShader(const std::string &filePath) {
@@ -92,6 +95,10 @@ GLShader::GLShader(const std::string &vShaderPath, const std::string &fShaderPat
     m_uniforms[3] = glGetUniformLocation(m_Program, "view");
     m_uniforms[4] = glGetUniformLocation(m_Program, "projection");
     m_uniforms[5] = glGetUniformLocation(m_Program, "cachedMVP");
+
+    for(unsigned int i = 0; i < NUM_SHADER; i++){
+        glDeleteShader(m_Shaders[i]);
+    }
 }
 
 GLShader::~GLShader() {

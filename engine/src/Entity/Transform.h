@@ -14,6 +14,9 @@ class STEntity;
 
 using namespace json11;
 
+/**
+ * @brief Hold Transformation Information.
+ */
 class Transform{
 public:
     enum RotationMode: unsigned char {Global = 0, Local = 1};

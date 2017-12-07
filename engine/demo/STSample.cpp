@@ -3,8 +3,6 @@
 #include "../src/Application/STSceneManager.h"
 #include "../src/Application/Util/STJson.h"
 
-
-
 /**
  * This is an example class for demonstrating How a typical game state would be setup.
  */

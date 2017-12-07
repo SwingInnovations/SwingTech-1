@@ -326,13 +326,15 @@ void GLGraphics::drawScene(STScene *scene) {
         glViewport(0, 0, m_shadowRes, m_shadowRes);
         auto ortho = Matrix4f().initOrthographicProjection(-15.f, 15.f, -15.f, 15.f, 1.f, 15.f);
         auto persp = Matrix4f().initPerpectiveProjection(45, 10, 10, 1.f, 10);
+
         for(stUint i = 0; i < lights.size(); i++){
             auto shadowProps = lights[i]->get<STShadowComponent>()->getProperties();
             auto lightProps = lights[i]->get<STLightComponent>()->getProperties();
             if((lights[i]->get<STLightComponent>()->getType() == STLightComponent::DIRECTIONAL_LIGHT ||
                     lights[i]->get<STLightComponent>()->getType() == STLightComponent::SPOT_LIGHT) && lightProps->useShadow == 1) {
                 shadowProps->projections[0] = ortho * lights[i]->get<STLightComponent>()->getLookAt();
-                auto data = new GLfloat[m_shadowRes*m_shadowRes];
+
+                auto data = new GLfloat[m_shadowRes*m_shadowRes*sizeof(GLfloat)];
                 glBindFramebuffer(GL_FRAMEBUFFER, shadowProps->shadowFrameBuffer[0]);
                 glClear(GL_DEPTH_BUFFER_BIT);
                 glEnable(GL_DEPTH_TEST);
@@ -340,17 +342,19 @@ void GLGraphics::drawScene(STScene *scene) {
                 glCullFace(GL_BACK);
                 for (auto &actor : actors) {
                     actor->setShdrUniform("lightSpaceMatrix", shadowProps->projections[0]);
-                    actor->draw(lights[i]->get<STGraphicsComponent>()->getMaterial());
+                    actor->draw(lights[i]->get<STGraphicsComponent>()->getMaterial(), true);
                 }
                 glBindTexture(GL_TEXTURE_2D, shadowProps->shadowMapID[0]);
                 glGetTexImage(GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT, GL_FLOAT, data);
                 glBindTexture(GL_TEXTURE_2D, 0);
 
+                glDisable(GL_CULL_FACE);
+                glBindFramebuffer(GL_FRAMEBUFFER, 0);
+
                 glBindTexture(GL_TEXTURE_2D_ARRAY, shadowArray);
                 glTexSubImage3D(GL_TEXTURE_2D_ARRAY, 0, 0, 0, (int)shadowProps->shadowIndex, m_shadowRes, m_shadowRes, 1, GL_DEPTH_COMPONENT, GL_FLOAT, data);
                 glBindTexture(GL_TEXTURE_2D_ARRAY, 0);
-                glDisable(GL_CULL_FACE);
-                glBindFramebuffer(GL_FRAMEBUFFER, 0);
+
                 delete[] data;
             }else if(lights[i]->get<STLightComponent>()->getType() == STLightComponent::POINT_LIGHT){
                 for(stUint j = 0; j < actors.size(); j++){

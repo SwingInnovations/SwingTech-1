@@ -7,6 +7,9 @@
 
 class STComponent;
 
+/**
+ * @brief Handle Animation of Character(supplied by file)
+ */
 class ST3DAnimationComponent : public STComponent {
 public:
     explicit ST3DAnimationComponent();

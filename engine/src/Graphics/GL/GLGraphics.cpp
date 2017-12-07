@@ -212,7 +212,7 @@ void GLGraphics::init(stUint w, stUint h) {
 
     GLuint glAttachments[5] = {GL_COLOR_ATTACHMENT0, GL_COLOR_ATTACHMENT1, GL_COLOR_ATTACHMENT2, GL_COLOR_ATTACHMENT3, GL_COLOR_ATTACHMENT4};
     glDrawBuffers(5, glAttachments);
-    GLuint rboDepth;
+
     glGenRenderbuffers(1, &rboDepth);
     glBindRenderbuffer(GL_RENDERBUFFER, rboDepth);
     glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT, w, h);
@@ -838,15 +838,39 @@ void GLGraphics::cleanup() {
         glDeleteTextures(1, &c.second.texID);
     }
     glDeleteBuffers(1, &textVBO);
-    delete screenShdr;
-    delete Bloom_Composite;
-    delete Motion_Blur;
+    glDeleteBuffers(1, &velocityBuffer);
+
+    glDeleteVertexArrays(1, &textVAO);
+    glDeleteFramebuffers(1, &frameBuffer);
+    glDeleteFramebuffers(1, &gBuffer);
+    glDeleteFramebuffers(1, &bloomThresBuf);
+    glDeleteRenderbuffers(1, &rendBuffer);
+    glDeleteRenderbuffers(1, &rboDepth);
+    glDeleteTextures(1, &frameTexBuffer);
+    glDeleteTextures(1, &gPosition);
+    glDeleteTextures(1, &gNormal);
+    glDeleteTextures(1, &gMRA);
+    glDeleteTextures(1, &gColorSpec);
+    glDeleteTextures(1, &gTangent);
+    glDeleteTextures(1, &shadowArray);
+    glDeleteTextures(1, &velocityTexture);
+    glDeleteTextures(1, &bloomThresTex);
+
     delete m_directionalLightMat;
     delete m_pointLightMat;
-    delete m_spotLightMat;
     delete m_albedoMat;
     delete m_IBLMat;
     delete m_velocityMat;
+    delete Deff_LightPassShdr;
+    delete screenQuad;
+
+    delete textShader;
+    delete screenShdr;
+    delete Bloom_Composite;
+    delete Bloom_Threshold;
+    delete Motion_Blur;
+    delete Tone_Mapping;
+
 }
 
 void GLGraphics::loadFont(const std::string &) {

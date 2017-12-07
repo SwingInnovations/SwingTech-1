@@ -159,5 +159,10 @@ void STScene::dispose() {
     for(auto actor : actors){
         actor->dispose();
     }
+
+    for(auto light : lights){
+        light->dispose();
+    }
     actors.clear();
+    m_renderScene->dispose();
 }

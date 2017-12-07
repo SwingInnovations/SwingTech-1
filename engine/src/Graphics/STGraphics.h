@@ -21,6 +21,7 @@ enum ST_YUpState{
 struct STRenderScene{
     virtual void initSkybox(const std::string& shdr, const std::string& skybox){;}
     virtual void drawSkybox(Camera& cam){;};
+    virtual void dispose() = 0;
     bool m_initiated;
 };
 

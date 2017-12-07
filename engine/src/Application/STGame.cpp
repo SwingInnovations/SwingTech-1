@@ -29,7 +29,7 @@ STGame::~STGame() {
     }
     m_gameStates.clear();
     g->cleanup();
-
+    delete g;
     SDL_GL_DeleteContext(m_Context);
     SDL_DestroyWindow(m_Window);
     m_Window = nullptr;

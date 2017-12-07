@@ -46,6 +46,8 @@ public:
         m_mesh->draw();
     }
 
+    void dispose() override;
+
     inline void draw(int drawMode){
         m_mesh->draw(drawMode);
     }

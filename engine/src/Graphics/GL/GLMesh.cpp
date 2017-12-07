@@ -224,6 +224,7 @@ GLMesh::GLMesh(float *vert, int vSize, float *tex, int tSize, int *ind, int indS
 
 GLMesh::~GLMesh() {
     glDeleteVertexArrays(1, &m_VAO);
+    glDeleteBuffers(NUM_BUFFERS, m_VBO);
 }
 
 void GLMesh::draw() {

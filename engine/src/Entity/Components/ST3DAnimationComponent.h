@@ -7,6 +7,8 @@
 
 class STComponent;
 
+
+
 /**
  * @brief Handle Animation of Character(supplied by file)
  */
@@ -14,7 +16,9 @@ class ST3DAnimationComponent : public STComponent {
 public:
     explicit ST3DAnimationComponent();
     ST3DAnimationComponent(const ST3DAnimationComponent& copy);
+    void loadBones();
     void init(STEntity* parent);
+    void update() override ;
 protected:
     STGraphicsComponent* m_gfxComponent;
 };

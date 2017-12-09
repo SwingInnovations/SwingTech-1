@@ -339,7 +339,7 @@ void GLGraphics::drawScene(STScene *scene) {
                 glClear(GL_DEPTH_BUFFER_BIT);
                 glEnable(GL_DEPTH_TEST);
                 glEnable(GL_CULL_FACE);
-                glCullFace(GL_BACK);
+                glCullFace(GL_FRONT);
                 for (auto &actor : actors) {
                     actor->setShdrUniform("lightSpaceMatrix", shadowProps->projections[0]);
                     actor->draw(lights[i]->get<STGraphicsComponent>()->getMaterial(), true);
@@ -573,7 +573,7 @@ void GLGraphics::Bloom(){
 void GLGraphics::MotionBlur(){
     glBindFramebuffer(GL_FRAMEBUFFER, frameBuffer);
 
-    glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, frameTexBuffer, 0);
+    //glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, frameTexBuffer, 0);
 
     Motion_Blur->bind();
     glActiveTexture(GL_TEXTURE0);

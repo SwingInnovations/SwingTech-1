@@ -25,16 +25,18 @@ public:
         auto accentLight = STLight::InitDirectionalLight(Vector3<stReal>(2.f, 4.f, -3.f), Vector3<stReal>(), Vector3<stReal>(1.f, 1.f, 1.f));
         accentLight->get<STLightComponent>()->setTarget(Vector3<stReal>());
 
-        auto character = new STActor("smooth_sphere.obj");
-        character->get<STGraphicsComponent>()->getMaterial()->setRoughness("Bronze_Roughness.jpg");
-        character->get<STGraphicsComponent>()->getMaterial()->setMetallic(0.5f);
+        auto character = new STActor("Suzanne.fbx");
+        //character->get<STGraphicsComponent>()->getMaterial()->setRoughness("Bronze_Roughness.jpg");
+        character->get<STGraphicsComponent>()->getMaterial()->setDiffuseColor(STColor(BLUE));
+        character->get<STGraphicsComponent>()->getMaterial()->setMetallic(0.1f);
         character->addComponent(typeid(STScriptComponent), new STScriptComponent("Suzanne_Control.lua"));
         character->setAttribute("speedFactor", 0.025f);
         character->transform()->setRotateX(-90);
         character->transform()->setRotationMode(Transform::Local);
 
         auto diceBox = new STActor("dice.obj");
-        diceBox->get<STGraphicsComponent>()->getMaterial()->setMetallic(0.5f);
+        diceBox->get<STGraphicsComponent>()->getMaterial()->setMetallic(1.f);
+        diceBox->get<STGraphicsComponent>()->getMaterial()->setDiffuseColor(STColor(RED));
         diceBox->transform()->setTranslateX(1.0f);
         diceBox->transform()->setTranslateZ(2.f);
 
@@ -42,9 +44,8 @@ public:
         auto newTransform = Transform::FromJson(characterTransform);
 
         auto plane = new STActor("plane.obj");
-        plane->transform()->setTranslateY(-1.f);
+        plane->transform()->setTranslateY(-0.5f);
         plane->get<STGraphicsComponent>()->setDiffuseTexture("grid.png");
-        plane->get<STGraphicsComponent>()->getMaterial()->setRoughness(0.4);
         m_scene->addLight(mainLight);
         m_scene->addLight(accentLight);
         m_scene->addActor(character);
@@ -93,6 +94,7 @@ int main(int argc, char** argv){
     win->enterState(0);
     win->getGraphics()->enableShadow(true);
     win->getGraphics()->setRenderMode(STGraphics::DEFERRED);
+    win->getGraphics()->enablePostEffect(STGraphics::MOTION_BLUR);
     win->start();
 
     return 0;

@@ -3,6 +3,7 @@
 
 #include <string>
 #include <sstream>
+#include <assimp/matrix4x4.h>
 
 #include "STCore.h"
 #include "Vector.h"
@@ -52,6 +53,17 @@ public:
         trans.m[3][0] = 0.f;    trans.m[3][1] = 0.f;    trans.m[3][2] = 0.f;    trans.m[3][3] = 1.f;
 
         return orient * trans;
+    }
+
+    static Matrix4f From(const aiMatrix4x4& matrix4x4){
+        Matrix4f m;
+
+        m.m[0][0] = matrix4x4.a1; m.m[0][1] = matrix4x4.a2; m.m[0][2] = matrix4x4.a3; m.m[0][3] = matrix4x4.a4;
+        m.m[1][0] = matrix4x4.b1; m.m[1][1] = matrix4x4.b2; m.m[1][2] = matrix4x4.b3; m.m[1][3] = matrix4x4.b4;
+        m.m[2][0] = matrix4x4.c1; m.m[2][1] = matrix4x4.c2; m.m[2][2] = matrix4x4.c3; m.m[2][3] = matrix4x4.c4;
+        m.m[3][0] = matrix4x4.d1; m.m[3][1] = matrix4x4.d2; m.m[3][2] = matrix4x4.d3; m.m[3][3] = matrix4x4.d4;
+
+        return m;
     }
 
     inline void initIdentity(){

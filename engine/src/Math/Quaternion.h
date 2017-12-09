@@ -1,6 +1,7 @@
 #ifndef WAHOO_QUATERNION_H
 #define WAHOO_QUATERNION_H
 
+#include <assimp/quaternion.h>
 #include "../../include/json11/json11.hpp"
 
 #include "Vector.h"
@@ -37,6 +38,10 @@ public:
         m_val[1] = _y;
         m_val[2] = _z;
         m_val[3] = _w;
+    }
+
+    static Quaternion From(aiQuaternion quaternion){
+        return Quaternion(quaternion.x, quaternion.y, quaternion.z, quaternion.w);
     }
 
     inline void setX(const float _x){ m_val[0] = _x; }

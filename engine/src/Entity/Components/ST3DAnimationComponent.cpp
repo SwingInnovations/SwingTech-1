@@ -13,3 +13,7 @@ ST3DAnimationComponent::ST3DAnimationComponent() {
 ST3DAnimationComponent::ST3DAnimationComponent(const ST3DAnimationComponent &copy) {
 
 }
+
+void ST3DAnimationComponent::update() {
+
+}

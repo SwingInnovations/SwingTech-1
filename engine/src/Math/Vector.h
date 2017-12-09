@@ -10,6 +10,7 @@
 #include "Quaternion.h"
 
 #include "../../include/json11/json11.hpp"
+#include "../../include/assimp/vector3.h"
 
 using namespace json11;
 
@@ -260,6 +261,10 @@ public:
         m_Val[0] = in.getX();
         m_Val[1] = in.getY();
         m_Val[2] = 0.0;
+    }
+
+    static Vector3<stReal> From(const aiVector3D& vec){
+        return Vector3<stReal>(vec.x, vec.y, vec.z);
     }
 
     /**
@@ -629,6 +634,10 @@ Vector4<T> Vector4<T>::FromJson(const Json &doc) {
     auto vW = (T)doc["w"].number_value();
     return Vector4<T>(vX, vY, vZ, vW);
 }
+
+typedef  Vector2<stReal> Vector2D;
+typedef  Vector3<stReal> Vector3D;
+typedef  Vector4<stReal> Vector4D;
 
 
 #endif //WAHOO_VECTOR_H

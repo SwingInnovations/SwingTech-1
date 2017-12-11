@@ -153,6 +153,17 @@ public:
 
     void dispose();
 
+    template<typename T> inline std::vector<T*> getInChildren(){
+        auto ret = std::vector<T*>();
+        for(auto child : m_children){
+            auto entry = child->get<T>();
+            if(entry != nullptr){
+                ret.push_back(entry);
+            }
+        }
+        return ret;
+    }
+
     /**
      * @brief Returns Component Added to Entity.
      * @tparam T Component Type

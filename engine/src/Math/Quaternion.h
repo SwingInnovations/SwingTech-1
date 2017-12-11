@@ -115,8 +115,9 @@ public:
                 {"z", m_val[2]},
                 {"w", m_val[3]}
         };
-
     }
+
+    //TODO Implement Interpolation
 
 private:
     float m_val[4];

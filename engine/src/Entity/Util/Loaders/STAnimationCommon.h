@@ -43,6 +43,7 @@ struct STNodeAnim{
 };
 
 struct STAnimation{
+    std::string name;
     stReal m_Duration;
     stReal m_TicksPerSecond;
     STList<STNodeAnim*> m_channels;

@@ -86,8 +86,8 @@ public:
 
 private:
     STEntity* parent;
-    Vector3<stReal> translate;
-    Vector3<stReal> rotate;
+    Vector3D translate;
+    Vector3D rotate;
     Vector3<stReal> scale;
     RotationMode rotateMode;
 };

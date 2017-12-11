@@ -443,7 +443,7 @@ void GLGraphics::drawScene(STScene *scene) {
     }else if(getRenderMode() == RenderMode::DEFERRED){
         glViewport(0, 0, WIDTH, HEIGHT);
 
-        glBindBuffer(GL_FRAMEBUFFER, frameBuffer);
+        glBindFramebuffer(GL_FRAMEBUFFER, frameBuffer);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         glEnable(GL_DEPTH_TEST);
 

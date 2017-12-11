@@ -1,10 +1,16 @@
 #include "STMeshComponent.h"
 #include "../../Graphics/STGraphics.h"
 #include "../../Graphics/GL/GLMesh.h"
+#include "../../Graphics/GL/GLSkinnedMesh.h"
 
 
 STMeshComponent::STMeshComponent(STMesh_Structure structure) {
     if(STGraphics::RENDERER == STGraphics::OPENGL){
+        if(structure.m_hasBones){
+            m_mesh = new GLSkinnedMesh(structure);
+            m_mesh->setMeshStructure(structure);
+            return;
+        }
         m_mesh = new GLMesh(structure);
         m_mesh->setMeshStructure(structure);
     }

@@ -12,21 +12,33 @@
 struct STMeshNode{
     std::string m_Name;
     Matrix4f transform;
-    STMeshNode** m_children;
+    STList<STMeshNode*> m_children;
 };
+
+#define NUM_BONE_FOR_VERTS 4
 
 /**
  * @brief Bone Weight Information
  */
 struct STBoneWeight{
-    stUint m_vertexID;
-    stReal m_weight;
+    stUint m_vertexID[NUM_BONE_FOR_VERTS];
+    stReal m_weight[NUM_BONE_FOR_VERTS];
+
+    inline void addBoneData(stUint id, stReal weight){
+        for(stUint i = 0; i < 4; i++){
+            if(m_weight[i] == 0.0){
+                m_vertexID[i] = id;
+                m_weight[i] = weight;
+                return;
+            }
+        }
+    }
 };
 
 struct STBoneData{
     std::string m_name;
-    STBoneWeight* m_boneWeights;
     Matrix4f m_offsetMatrix;
+    Matrix4f m_finalTransformation;
 };
 
 /**
@@ -37,9 +49,13 @@ struct STMesh_Structure{
     std::string materialKey;
     Vector3<stReal> m_minPt;
     Vector3<stReal> m_maxPt;
+    stUint m_baseVertex;
+    stUint m_baseIndex;
     std::vector<int> m_indices;
     std::vector<Vertex> m_vertices;
-    STBoneData* m_boneData;
+    STList<STBoneData*> m_boneData;
+    std::map<std::string, stUint> m_boneMap;
+    std::vector<STBoneWeight> m_boneWeights;
     STMeshNode* m_node;
     STList<STAnimation*> m_animations;
     bool m_hasAnimations = false;

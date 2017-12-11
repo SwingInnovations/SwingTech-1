@@ -8,6 +8,7 @@ STAABBComponent::STAABBComponent(){
 
 void STAABBComponent::init(STEntity *parent) {
     this->m_entity = parent;
+    this->m_boundingBox = new STBoundingBox();
     calculateBounds();
 }
 
@@ -26,6 +27,7 @@ void STAABBComponent::calculateBounds() {
         minPoint = Vector3<stReal>::Min(minPoint, transform * *v.getVertex());
         maxPoint = Vector3<stReal>::Max(maxPoint, transform * *v.getVertex());
     }
+
     m_boundingBox->setMinPoint(minPoint);
     m_boundingBox->setMaxPoint(maxPoint);
 }

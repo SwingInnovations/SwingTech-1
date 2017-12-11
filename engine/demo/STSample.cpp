@@ -12,23 +12,17 @@ public:
     void init(STGame* game) override {
         m_scene->addSkybox("green");
         game->getCamera()->setSpeed(0.025f);
-        Vector2<stReal> vec(5, 7);
 
-        auto str = STJson::ToJson(vec);
+        auto mainLight = STLight::InitDirectionalLight(Vector3D(4.f, 5.f, 3.f), Vector3D(-.5f, -.5f, -.5f), Vector3D(0.25f, 0.25f, 0.85f));
+        mainLight->get<STLightComponent>()->setTarget(Vector3D(0.f, 0.f, 0.f));
 
-        std::string errStr;
-        auto copyVec = Vector2<stReal>::FromJson(str);
+        auto accentLight = STLight::InitDirectionalLight(Vector3D(2.f, 4.f, -3.f), Vector3D(), Vector3D(1.f, 1.f, 1.f));
+        accentLight->get<STLightComponent>()->setTarget(Vector3D());
 
-        auto mainLight = STLight::InitDirectionalLight(Vector3<stReal>(4.f, 5.f, 3.f), Vector3<stReal>(-.5f, -.5f, -.5f), Vector3<stReal>(0.25f, 0.25f, 0.85f));
-        mainLight->get<STLightComponent>()->setTarget(Vector3<stReal>(0.f, 0.f, 0.f));
-
-        auto accentLight = STLight::InitDirectionalLight(Vector3<stReal>(2.f, 4.f, -3.f), Vector3<stReal>(), Vector3<stReal>(1.f, 1.f, 1.f));
-        accentLight->get<STLightComponent>()->setTarget(Vector3<stReal>());
-
-        auto character = new STActor("Suzanne.fbx");
+        auto character = new STActor("animCylinder.fbx");
         //character->get<STGraphicsComponent>()->getMaterial()->setRoughness("Bronze_Roughness.jpg");
-        character->get<STGraphicsComponent>()->getMaterial()->setDiffuseColor(STColor(BLUE));
-        character->get<STGraphicsComponent>()->getMaterial()->setMetallic(0.1f);
+//        character->get<STGraphicsComponent>()->getMaterial()->setDiffuseColor(STColor(BLUE));
+//        character->get<STGraphicsComponent>()->getMaterial()->setMetallic(0.1f);
         character->addComponent(typeid(STScriptComponent), new STScriptComponent("Suzanne_Control.lua"));
         character->setAttribute("speedFactor", 0.025f);
         character->transform()->setRotateX(-90);
@@ -89,12 +83,12 @@ int main(int argc, char** argv){
     win->setTargetFPS(60);
     STGraphics::YUp = false;
     win->getInput()->setInputMap(inputMapping);
-    win->addCamera(new Camera(*win, Vector3<stReal>(0.f, 0.f, -1.f), 0));
+    win->addCamera(new Camera(*win, Vector3D(0.f, 0.f, -1.f), 0));
     win->addState(new SampleState(0));
     win->enterState(0);
     win->getGraphics()->enableShadow(true);
     win->getGraphics()->setRenderMode(STGraphics::DEFERRED);
-    win->getGraphics()->enablePostEffect(STGraphics::MOTION_BLUR);
+    win->getGraphics()->enablePostEffect(STGraphics::BLOOM);
     win->start();
 
     return 0;

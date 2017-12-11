@@ -26,5 +26,5 @@ function update(self)
         self:transform():setTranslateZ(oldZ - (speedFactor * delta))
     end
     self:transform():setRotateY(counter);
-    counter = counter + 0.25 * STGame:Get():getDelta()
+    counter = counter + 0.025 * STGame:Get():getDelta()
 end

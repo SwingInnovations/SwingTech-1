@@ -97,6 +97,7 @@ public:
                 stMesh.m_hasAnimations = true;
                 for(stUint i = 0, S = scene->mNumAnimations; i < S; i++){
                     auto * anim = new STAnimation;
+                    anim->name = scene->mAnimations[i]->mName.C_Str();
                     anim->m_Duration = (stReal)scene->mAnimations[i]->mDuration;
                     anim->m_TicksPerSecond = (stReal)scene->mAnimations[i]->mTicksPerSecond;
                     for(stUint j = 0; j < scene->mAnimations[i]->mNumChannels; j++){
@@ -121,15 +122,22 @@ public:
                 std::function<void(aiNode*, STMeshNode*)> recursiveAddNode;
                 recursiveAddNode = [&recursiveAddNode](aiNode* rootNode, STMeshNode* node) -> void {
                     if(rootNode->mNumChildren < 1) return;
-                    node->m_children = new STMeshNode*[rootNode->mNumChildren];
+                    auto newNode = new STMeshNode;
+                    newNode->m_Name = rootNode->mName.C_Str();
+                    newNode->transform = Matrix4f::From(rootNode->mTransformation);
+                    node->m_children.addLast(newNode);
                     for(stUint i = 0, S = rootNode->mNumChildren; i < S; i++){
-                        node->transform = Matrix4f::From(rootNode->mTransformation);
-                        node->m_Name = rootNode->mName.C_Str();
-                        recursiveAddNode(rootNode->mChildren[i], node->m_children[i]);
+                        recursiveAddNode(rootNode->mChildren[i], newNode);
                     }
                 };
-                recursiveAddNode(scene->mRootNode, stMesh.m_node);
+                stMesh.m_node = new STMeshNode;
+                stMesh.m_node->m_Name = scene->mRootNode->mName.C_Str();
+                stMesh.m_node->transform = Matrix4f::From(scene->mRootNode->mTransformation);
+                for(stUint i = 0; i < scene->mRootNode->mNumChildren; i++){
+                    recursiveAddNode(scene->mRootNode->mChildren[i], stMesh.m_node);
+                }
             }
+
             stMesh.name = mesh->mName.C_Str();
             aiString matName;
             scene->mMaterials[mesh->mMaterialIndex]->Get(AI_MATKEY_NAME, matName);
@@ -145,37 +153,62 @@ public:
                                                    Vector3<stReal>(pNormal->x, pNormal->y, pNormal->z)));
             }
             stMesh.m_indices = indices;
-            (*dataMeshes).push_back(stMesh);
-            (*materials).insert(std::pair<std::string, STMaterial*>(stMesh.materialKey, PopulateMaterial(mesh->mMaterialIndex, scene)));
+            stMesh.m_boneWeights.resize(mesh->mNumVertices);
+            stMesh.m_baseVertex = 0;
+            stMesh.m_baseIndex = 0;
+            stUint numBones = 0;
+
             if(mesh->mNumBones > 0){
                 stMesh.m_hasBones = true;
-                stMesh.m_boneData = new STBoneData[mesh->mNumBones];
                 for(stUint i = 0, L = mesh->mNumBones; i < L; i++){
-                    stMesh.m_boneData[i].m_name = mesh->mBones[i]->mName.C_Str();
-                    stMesh.m_boneData[i].m_offsetMatrix = Matrix4f::From(mesh->mBones[i]->mOffsetMatrix);
-                    stMesh.m_boneData[i].m_boneWeights = new STBoneWeight[mesh->mBones[i]->mNumWeights];
+                    stUint boneIndex = 0;
+                    auto boneData = new STBoneData;
+                    std::string boneName = boneData->m_name = mesh->mBones[i]->mName.C_Str();
+
+                    if(stMesh.m_boneMap.find(boneName) == stMesh.m_boneMap.end()){
+                        boneIndex = numBones;
+                        numBones++;
+                        stMesh.m_boneData.addLast(boneData);
+                        stMesh.m_boneData[boneIndex]->m_offsetMatrix = Matrix4f::From(mesh->mBones[i]->mOffsetMatrix);
+                        stMesh.m_boneMap[boneName] = boneIndex;
+                    }else{
+                        boneIndex = stMesh.m_boneMap[boneName];
+                    }
+
                     for(stUint j = 0, K = mesh->mBones[i]->mNumWeights; j < K; j++){
-                        stMesh.m_boneData[i].m_boneWeights[j].m_vertexID = mesh->mBones[i]->mWeights[j].mVertexId;
-                        stMesh.m_boneData[i].m_boneWeights[j].m_weight = mesh->mBones[i]->mWeights[j].mWeight;
+                        stUint vID = stMesh.m_baseVertex + mesh->mBones[i]->mWeights[j].mVertexId;
+                        stReal weight = mesh->mBones[i]->mWeights[j].mWeight;
+                        stMesh.m_boneWeights[vID].addBoneData(boneIndex, weight);
                     }
                 }
             }
+            (*dataMeshes).push_back(stMesh);
+            (*materials).insert(std::pair<std::string, STMaterial*>(stMesh.materialKey, PopulateMaterial(mesh->mMaterialIndex, scene)));
             return false;
         }
+
         //Assuming there are multiple meshes now
+        stUint baseIndex = 0;
+        stUint baseVertex = 0;
         for(stUint k = 0, S = scene->mNumMeshes; k < S; k++){
             const aiMesh* mesh = scene->mMeshes[k];
             STMesh_Structure stMesh;
+            stMesh.m_baseVertex = baseVertex;
+            stMesh.m_baseIndex = baseIndex;
+            baseVertex += mesh->mNumVertices;
+            baseIndex += mesh->mNumFaces*3;
             stMesh.name = mesh->mName.C_Str();
             aiString matName;
             scene->mMaterials[mesh->mMaterialIndex]->Get(AI_MATKEY_NAME, matName);
             const aiVector3D Z(0.f, 0.f, 0.f);
+
             for(stUint i = 0; i < mesh->mNumFaces; i++){
                 const aiFace& faces = mesh->mFaces[i];
                 assert(faces.mNumIndices == 3);
                 indices.push_back(faces.mIndices[0]);
                 indices.push_back(faces.mIndices[1]);
                 indices.push_back(faces.mIndices[2]);
+
             }
 
             for(stUint j = 0, K = mesh->mNumVertices; j < S; j++){
@@ -188,17 +221,40 @@ public:
             }
 
             stMesh.m_indices = indices;
+
+
+//            if(scene->mRootNode->mNumChildren > 0){
+//                std::function<void(aiNode*, STMeshNode*)> recursiveAddNode;
+//
+//                recursiveAddNode = [&recursiveAddNode](aiNode* rootNode, STMeshNode* node) -> void {
+//                    if(rootNode->mNumChildren < 1) return;
+//                    for(stUint i = 0, S = rootNode->mNumChildren; i < S; i++){
+//                        auto newNode = new STMeshNode;
+//                        newNode->m_Name = rootNode->mName.C_Str();
+//                        newNode->transform = Matrix4f::From(rootNode->mTransformation);
+//                        recursiveAddNode(rootNode->mChildren[i], newNode);
+//                        node->m_children.addLast(newNode);
+//                    }
+//                };
+//
+//                stMesh.m_node = new STMeshNode;
+//                stMesh.m_node->m_Name = scene->mRootNode->mName.C_Str();
+//                stMesh.m_node->transform = Matrix4f::From(scene->mRootNode->mTransformation);
+//                for(stUint o = 0; o < scene->mRootNode->mNumChildren; o){
+//                    recursiveAddNode(scene->mRootNode->mChildren[o], stMesh.m_node);
+//                }
+//            }
+
             if(mesh->mNumBones > 0){
                 stMesh.m_hasBones = true;
-                stMesh.m_boneData = new STBoneData[mesh->mNumBones];
+
                 for(stUint i = 0, L = mesh->mNumBones; i < L; i++){
-                    stMesh.m_boneData[i].m_name = mesh->mBones[i]->mName.C_Str();
-                    stMesh.m_boneData[i].m_offsetMatrix = Matrix4f::From(mesh->mBones[i]->mOffsetMatrix);
-                    stMesh.m_boneData[i].m_boneWeights = new STBoneWeight[mesh->mBones[i]->mNumWeights];
+                    STBoneData* boneData = new STBoneData;
+                    boneData->m_name = mesh->mBones[i]->mName.C_Str();
+                    boneData->m_offsetMatrix = Matrix4f::From((mesh->mBones[i]->mOffsetMatrix));
                     for(stUint j = 0, K = mesh->mBones[i]->mNumWeights; j < K; j++){
-                        stMesh.m_boneData[i].m_boneWeights[j].m_vertexID = mesh->mBones[i]->mWeights[j].mVertexId;
-                        stMesh.m_boneData[i].m_boneWeights[j].m_weight = mesh->mBones[i]->mWeights[j].mWeight;
                     }
+                    stMesh.m_boneData.addLast(boneData);
                 }
             }
 

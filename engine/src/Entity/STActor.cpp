@@ -2,6 +2,7 @@
 #include "Components/STAABBComponent.h"
 #include "Components/STEventComponent.h"
 #include "Util/Loaders/STMeshLoader.h"
+#include "Components/ST3DAnimationComponent.h"
 
 /**
  * Creates a new Actor Entity based off defined STMeshStructure, uniqueTag, and Material.
@@ -65,12 +66,13 @@ STActor::STActor(const std::string &filePath) {
             return;
         }
     addComponent(typeid(STMeshComponent), new STMeshComponent(meshes.at(0)));
+    if(meshes.at(0).m_hasAnimations){
+        addComponent(typeid(ST3DAnimationComponent), new ST3DAnimationComponent(meshes.at(0)));
+    }
     if(meshes[0].materialKey.empty()) addComponent(typeid(STGraphicsComponent), new STGraphicsComponent(new STMaterial(new GLShader("standard"))));
     else addComponent(typeid(STGraphicsComponent), new STGraphicsComponent(materials.at(meshes.at(0).materialKey)));
     addComponent(typeid(STAABBComponent), new STAABBComponent(this, meshes.at(0).m_minPt, meshes.at(0).m_maxPt));
 }
-
-
 
 STActor::STActor(STEntity *parent, STMesh_Structure meshStructure, std::map<std::string, STMaterial *> materials) {
     m_tag = meshStructure.name;
@@ -143,6 +145,12 @@ void STActor::draw(STMaterial* overrideMaterial, bool flag){
     auto mesh = get<STMeshComponent>();
     auto grphx = get<STGraphicsComponent>();
     auto cam = STGame::Get()->getCamera();
+    if(m_children.size() > 0){
+        for(auto child : m_children){
+            ((STActor*)child)->draw(overrideMaterial, flag);
+        }
+        return;
+    }
     if(flag){
         overrideMaterial->draw(grphx->GetUniforms(), grphx->getMaterial()->GetUniforms(), *m_transform, *cam);
         mesh->draw();

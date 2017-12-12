@@ -21,6 +21,7 @@ private:
         TANGENT_BUFFER,
         BITANGENT_BUFFER,
         BONE_BUFFER,
+        BONE_WEIGHT_BUFFER,
         NUM_BUFFERS
     };
     GLuint m_VAO;

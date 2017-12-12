@@ -186,6 +186,7 @@ public:
     SDL_Window* getWindow(){ return this->m_Window; }/*! \return pointer to SDL_Window */
     //! Gets Delta time.
     Uint32 getDelta(){ return this->delta; } /*! \return Delta time */
+    stReal getDeltaTIme() const ;
 protected:
     bool isRunning;
     //! Initializes Game States

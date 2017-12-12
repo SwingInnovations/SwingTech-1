@@ -21,11 +21,10 @@ public:
 
         auto character = new STActor("animCylinder.fbx");
         //character->get<STGraphicsComponent>()->getMaterial()->setRoughness("Bronze_Roughness.jpg");
-//        character->get<STGraphicsComponent>()->getMaterial()->setDiffuseColor(STColor(BLUE));
+        character->get<STGraphicsComponent>()->getMaterial()->setDiffuseColor(STColor(BLUE));
 //        character->get<STGraphicsComponent>()->getMaterial()->setMetallic(0.1f);
         character->addComponent(typeid(STScriptComponent), new STScriptComponent("Suzanne_Control.lua"));
         character->setAttribute("speedFactor", 0.025f);
-        character->transform()->setRotateX(-90);
         character->transform()->setRotationMode(Transform::Local);
 
         auto diceBox = new STActor("dice.obj");
@@ -88,7 +87,6 @@ int main(int argc, char** argv){
     win->enterState(0);
     win->getGraphics()->enableShadow(true);
     win->getGraphics()->setRenderMode(STGraphics::DEFERRED);
-    win->getGraphics()->enablePostEffect(STGraphics::BLOOM);
     win->start();
 
     return 0;

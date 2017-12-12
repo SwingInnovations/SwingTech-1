@@ -359,7 +359,7 @@ public:
      * @param angle Amount to rotate(degrees)
      * @param axis  Vector3 Axis
      */
-    inline void rotate(stReal angle, Vector3& axis){
+    void rotate(stReal angle, Vector3& axis){
         float hSinF = sinf(toRadian(angle/2));
         float hCosF = cosf(toRadian(angle/2));
 
@@ -635,9 +635,9 @@ Vector4<T> Vector4<T>::FromJson(const Json &doc) {
     return Vector4<T>(vX, vY, vZ, vW);
 }
 
-typedef  Vector2<stReal> Vector2D;
-typedef  Vector3<stReal> Vector3D;
-typedef  Vector4<stReal> Vector4D;
+typedef class Vector2<stReal> Vector2D;
+typedef class Vector3<stReal> Vector3D;
+typedef class Vector4<stReal> Vector4D;
 
 
 #endif //WAHOO_VECTOR_H

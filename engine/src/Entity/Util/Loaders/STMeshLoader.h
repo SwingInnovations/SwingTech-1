@@ -93,6 +93,7 @@ public:
 
             STMesh_Structure stMesh;
             stMesh.m_node = new STMeshNode;
+            stMesh.globalInverseMat = Matrix4f::From(scene->mRootNode->mTransformation.Inverse());
             if(scene->mNumAnimations > 0){
                 stMesh.m_hasAnimations = true;
                 for(stUint i = 0, S = scene->mNumAnimations; i < S; i++){
@@ -183,7 +184,7 @@ public:
                 }
             }
             (*dataMeshes).push_back(stMesh);
-            (*materials).insert(std::pair<std::string, STMaterial*>(stMesh.materialKey, PopulateMaterial(mesh->mMaterialIndex, scene)));
+            (*materials).insert(std::pair<std::string, STMaterial*>(stMesh.materialKey, PopulateMaterial(mesh->mMaterialIndex, scene, stMesh.m_hasBones)));
             return false;
         }
 
@@ -222,29 +223,6 @@ public:
 
             stMesh.m_indices = indices;
 
-
-//            if(scene->mRootNode->mNumChildren > 0){
-//                std::function<void(aiNode*, STMeshNode*)> recursiveAddNode;
-//
-//                recursiveAddNode = [&recursiveAddNode](aiNode* rootNode, STMeshNode* node) -> void {
-//                    if(rootNode->mNumChildren < 1) return;
-//                    for(stUint i = 0, S = rootNode->mNumChildren; i < S; i++){
-//                        auto newNode = new STMeshNode;
-//                        newNode->m_Name = rootNode->mName.C_Str();
-//                        newNode->transform = Matrix4f::From(rootNode->mTransformation);
-//                        recursiveAddNode(rootNode->mChildren[i], newNode);
-//                        node->m_children.addLast(newNode);
-//                    }
-//                };
-//
-//                stMesh.m_node = new STMeshNode;
-//                stMesh.m_node->m_Name = scene->mRootNode->mName.C_Str();
-//                stMesh.m_node->transform = Matrix4f::From(scene->mRootNode->mTransformation);
-//                for(stUint o = 0; o < scene->mRootNode->mNumChildren; o){
-//                    recursiveAddNode(scene->mRootNode->mChildren[o], stMesh.m_node);
-//                }
-//            }
-
             if(mesh->mNumBones > 0){
                 stMesh.m_hasBones = true;
 
@@ -266,6 +244,36 @@ public:
     static STMaterial* PopulateMaterial(stUint index, const aiScene* scene){
         const aiMaterial* material = scene->mMaterials[index];
         STMaterial* ret = new STMaterial(new GLShader("standard"));
+        aiColor3D diffuse;
+        aiColor3D specular;
+        aiColor3D ambient;
+        if(material->Get(AI_MATKEY_COLOR_DIFFUSE, diffuse) == AI_SUCCESS){
+            ret->setDiffuseColor(STColor(diffuse.r, diffuse.g, diffuse.b, 1.0));
+        }
+
+        //Handle Textures later on
+        if(material->GetTextureCount(aiTextureType_DIFFUSE) > 0){
+            aiString path;
+            if(material->GetTexture(aiTextureType_DIFFUSE, 0, &path) == AI_SUCCESS){
+                ret->setDiffuseTexture(path.C_Str());
+            }
+        }
+        if(material->GetTextureCount(aiTextureType_NORMALS) > 0){
+            aiString path;
+            if(material->GetTexture(aiTextureType_NORMALS, 0, &path) == AI_SUCCESS){
+                ret->setNormalTexture(path.C_Str());
+            }
+        }
+        return ret;
+    }
+
+    static STMaterial* PopulateMaterial(stUint index, const aiScene* scene, bool flag){
+        const aiMaterial* material = scene->mMaterials[index];
+        STMaterial* ret;
+        if(flag)
+            ret = new STMaterial(new GLShader("standardSkinned", "standard"));
+        else
+            ret = new STMaterial(new GLShader("standard"));
         aiColor3D diffuse;
         aiColor3D specular;
         aiColor3D ambient;

@@ -28,13 +28,13 @@ public:
 
     Transform(){
         parent = nullptr;
-        translate = Vector3<stReal>(0.0f, 0.0f, 0.0f);
-        rotate = Vector3<stReal>(0.0f, 0.0f, 0.0f);
-        scale = Vector3<stReal>(1.0f, 1.0f, 1.0f);
+        translate = Vector3D(0.0f, 0.0f, 0.0f);
+        rotate = Vector3D(0.0f, 0.0f, 0.0f);
+        scale = Vector3D(1.0f, 1.0f, 1.0f);
         rotateMode = Global;
     }
 
-    Transform(Vector3<stReal>& translate, Vector3<stReal>& rotate, Vector3<stReal> scale){
+    Transform(Vector3D& translate, Vector3D& rotate, Vector3D scale){
         parent = nullptr;
         this->translate = translate;
         this->rotate = rotate;
@@ -42,13 +42,13 @@ public:
         rotateMode = Global;
     }
 
-    void setTranslate(Vector3<stReal>& vec);
+    void setTranslate(Vector3D& vec);
     void setTranslateX(stReal _x);
     void setTranslateY(stReal _y);
     void setTranslateZ(stReal _z);
     void setTranslate(stReal _value);
 
-    void setRotate(Vector3<stReal>& vec);
+    void setRotate(Vector3D& vec);
 
     void setRotateX(stReal _x);
 
@@ -56,7 +56,7 @@ public:
 
     void setRotateZ(stReal _z);
 
-    inline void setScale(Vector3<stReal>& vec){ this->scale = vec; }
+    inline void setScale(Vector3D& vec){ this->scale = vec; }
     inline void setScaleX(stReal _x){ this->scale.setX(_x); }
     inline void setScaleY(stReal _y){ this->scale.setY(_y); }
     inline void setScaleZ(stReal _z){ this->scale.setZ(_z); }
@@ -78,9 +78,9 @@ public:
 
     inline std::string getInfo();
 
-    inline Vector3<stReal> getTranslate()const{return translate; }
-    inline Vector3<stReal> getRotate() const {return rotate;}
-    inline Vector3<stReal> getScale() const {return scale;}
+    inline Vector3D getTranslate()const{return translate; }
+    inline Vector3D getRotate() const {return rotate;}
+    inline Vector3D getScale() const {return scale;}
 
     Json to_json()const;
 
@@ -88,7 +88,7 @@ private:
     STEntity* parent;
     Vector3D translate;
     Vector3D rotate;
-    Vector3<stReal> scale;
+    Vector3D scale;
     RotationMode rotateMode;
 };
 

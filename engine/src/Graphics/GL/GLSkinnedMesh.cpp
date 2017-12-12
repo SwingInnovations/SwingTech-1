@@ -10,8 +10,10 @@ GLSkinnedMesh::GLSkinnedMesh(STMesh_Structure &structure) {
     std::vector<Vector3D> normal;
     std::vector<Vector3D> tangent;
     std::vector<Vector3D> biTangent;
+    std::vector<stUint> boneIDs;
+    std::vector<stReal> boneWeights;
 
-    stUint numVert = structure.getVertexSize();
+    stUint numVert = (stUint)structure.getVertexSize();
     m_drawCount = (stUint)structure.getIndexSize();
     for(auto v : structure.m_vertices){
         vertex.push_back(*v.getVertex());
@@ -22,6 +24,14 @@ GLSkinnedMesh::GLSkinnedMesh(STMesh_Structure &structure) {
     biTangent = genBiTangent(vertex, texCoord);
 
     auto Bones = structure.m_boneWeights;
+    for(auto bone : Bones){
+        for(auto v : bone.m_vertexID){
+            boneIDs.push_back(v);
+        }
+        for(auto w : bone.m_weight){
+            boneWeights.push_back(w);
+        }
+    }
 
     glGenVertexArrays(1, &m_VAO);
     glBindVertexArray(m_VAO);
@@ -48,16 +58,19 @@ GLSkinnedMesh::GLSkinnedMesh(STMesh_Structure &structure) {
     glVertexAttribPointer(3, 3, GL_FLOAT, GL_FALSE, 0, 0);
 
     glBindBuffer(GL_ARRAY_BUFFER, m_VBO[BITANGENT_BUFFER]);
-    glBufferData(GL_ARRAY_BUFFER, numVert*sizeof(&biTangent[0]), &biTangent[0], GL_STATIC_DRAW);
+    glBufferData(GL_ARRAY_BUFFER, numVert*sizeof(biTangent[0]), &biTangent[0], GL_STATIC_DRAW);
     glEnableVertexAttribArray(4);
     glVertexAttribPointer(4, 3, GL_FLOAT, GL_FALSE, 0, 0);
 
     glBindBuffer(GL_ARRAY_BUFFER, m_VBO[BONE_BUFFER]);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(&Bones[0]) * Bones.size(), &Bones[0], GL_STATIC_DRAW);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(boneIDs[0]) * boneIDs.size(), &boneIDs[0], GL_STATIC_DRAW);
     glEnableVertexAttribArray(5);
-    glVertexAttribIPointer(5, 4, GL_INT, sizeof(STBoneWeight), (const GLvoid*)0);
+    glVertexAttribIPointer(5, 4, GL_INT, 4*(sizeof(stUint)), (const GLvoid*)0);
+
+    glBindBuffer(GL_ARRAY_BUFFER, m_VBO[BONE_WEIGHT_BUFFER]);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(boneWeights[0]) * boneWeights.size(), &boneWeights[0], GL_STATIC_DRAW);
     glEnableVertexAttribArray(6);
-    glVertexAttribPointer(6, 4, GL_FLOAT, GL_FALSE, sizeof(STBoneWeight), (const GLvoid*)16);
+    glVertexAttribPointer(6, 4, GL_FLOAT, GL_FALSE, 0, 0);
 
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_VBO[INDEX_BUFFER]);
     glBufferData(GL_ELEMENT_ARRAY_BUFFER, m_drawCount * sizeof(structure.m_indices[0]), &structure.m_indices[0], GL_STATIC_DRAW);

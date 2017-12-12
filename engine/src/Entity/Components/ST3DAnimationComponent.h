@@ -15,6 +15,7 @@ public:
     explicit ST3DAnimationComponent();
     ST3DAnimationComponent(STMesh_Structure& meshStructure);
     ST3DAnimationComponent(const ST3DAnimationComponent& copy);
+    ~ST3DAnimationComponent();
     void loadBones();
     void init(STEntity* parent);
     void update() override ;
@@ -26,7 +27,13 @@ protected:
     std::map<std::string, STAnimation*> m_animationMap;
     STList<STBoneData*>                 m_boneData;
     STMeshNode*                         m_nodeData;
+    std::map<std::string, stUint>       m_boneMap;
+    Matrix4f                            m_globalInverseMat;
 private:
+    STNodeAnim* FindAnimMode(STAnimation*, std::string nodeName);
+    void MoveBones(stReal animationTime);
+    void ReadNodeHeirarchy(float AnimationTime, STMeshNode* node, Matrix4f& parentTransform);
+
     stUint FindPosition(stReal animationTime, STNodeAnim* node);
     stUint FindRotation(stReal animationTime, STNodeAnim* node);
     stUint FindScale(stReal animation, STNodeAnim* node);

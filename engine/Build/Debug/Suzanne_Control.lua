@@ -25,6 +25,6 @@ function update(self)
     elseif input:isKeyDown(KEY.KEY_K) then
         self:transform():setTranslateZ(oldZ - (speedFactor * delta))
     end
-    self:transform():setRotateY(counter);
-    counter = counter + 0.025 * STGame:Get():getDelta()
+    local scale = Vector3.new(0.005, 0.005, 0.005);
+
 end

@@ -120,6 +120,10 @@ void STGame::calcDelta() {
     }
 }
 
+stReal STGame::getDeltaTIme() const {
+    return (stReal)(oldTime - newTime) / 1000.f;
+}
+
 void STGame::start(){
     isRunning = true;
     init();
@@ -232,3 +236,5 @@ void STGame::setFullScreen(int flag) {
 STScene *STGame::GetCurrentScene() {
     return m_gameStates[m_currentIndex]->getScene();
 }
+
+

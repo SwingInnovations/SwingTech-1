@@ -13,6 +13,11 @@ struct STMeshNode{
     std::string m_Name;
     Matrix4f transform;
     STList<STMeshNode*> m_children;
+    ~STMeshNode(){
+        for(auto meshNode : m_children){
+            delete meshNode;
+        }
+    }
 };
 
 #define NUM_BONE_FOR_VERTS 4
@@ -26,7 +31,7 @@ struct STBoneWeight{
 
     inline void addBoneData(stUint id, stReal weight){
         for(stUint i = 0; i < 4; i++){
-            if(m_weight[i] == 0.0){
+            if(m_weight[i] == 0.0f){
                 m_vertexID[i] = id;
                 m_weight[i] = weight;
                 return;
@@ -60,6 +65,7 @@ struct STMesh_Structure{
     STList<STAnimation*> m_animations;
     bool m_hasAnimations = false;
     bool m_hasBones = false;
+    Matrix4f globalInverseMat;
 
     Vertex* getVertices(){ return &m_vertices[0]; }
     int* getIndicies(){ return &m_indices[0]; }

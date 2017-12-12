@@ -40,6 +40,11 @@ struct STNodeAnim{
     STList<STVectorKey*>        m_positions;
     STList<STQuaternionKey*>    m_rotations;
     STList<STVectorKey*>        m_scalings;
+    ~STNodeAnim(){
+        for(auto pos : m_positions) delete pos;
+        for(auto rot : m_rotations) delete rot;
+        for(auto scale: m_scalings) delete scale;
+    }
 };
 
 struct STAnimation{
@@ -47,6 +52,10 @@ struct STAnimation{
     stReal m_Duration;
     stReal m_TicksPerSecond;
     STList<STNodeAnim*> m_channels;
+
+    ~STAnimation(){
+        for(auto anim : m_channels)delete anim;
+    }
 };
 
 #endif //SWINGTECH1_STANIMATIONCOMMON_H

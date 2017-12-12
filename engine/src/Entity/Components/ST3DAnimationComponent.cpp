@@ -15,15 +15,19 @@ ST3DAnimationComponent::ST3DAnimationComponent(const ST3DAnimationComponent &cop
 }
 
 void ST3DAnimationComponent::update() {
-
+    auto time = SDL_GetTicks()/1000.f;
+    MoveBones(time);
 }
 
 ST3DAnimationComponent::ST3DAnimationComponent(STMesh_Structure &meshStructure) {
     for(auto anim : meshStructure.m_animations){
         m_animationMap[anim->name] = anim;
     }
+    m_currentAnimation = meshStructure.m_animations[0]->name;
     m_boneData = meshStructure.m_boneData;
     m_nodeData = meshStructure.m_node;
+    m_boneMap  = meshStructure.m_boneMap;
+    m_globalInverseMat = meshStructure.globalInverseMat;
 }
 
 void ST3DAnimationComponent::setCurrentAnimation(const std::string& animation) {
@@ -56,7 +60,6 @@ void ST3DAnimationComponent::CalcInterpolatedPosition(Vector3D &out, float animT
         out = node->m_positions[0]->m_Value;
         return;
     }
-
     stUint PositionIndex = FindPosition(animTime, node);
     stUint NextPositionIndex = PositionIndex + 1;
     assert(NextPositionIndex < node->m_positions.size());
@@ -70,14 +73,27 @@ void ST3DAnimationComponent::CalcInterpolatedPosition(Vector3D &out, float animT
 }
 
 void ST3DAnimationComponent::CalcInterpolatedRotation(Quaternion &out, float animTime, STNodeAnim *node) {
+    if(node->m_rotations.size() == 1){
+        out = node->m_rotations[0]->m_value;
+        return;
+    }
 
+    stUint RotationIndex = FindRotation(animTime, node);
+    stUint NextRotationIndex = RotationIndex+1;
+    assert(NextRotationIndex < node->m_rotations.size());
+    stReal dt = node->m_rotations[NextRotationIndex]->m_time - node->m_rotations[RotationIndex]->m_time;
+    stReal factor = (animTime - node->m_rotations[RotationIndex]->m_time) / dt;
+    assert(factor >= 0.f && factor <= 1.f);
+    auto start = node->m_rotations[RotationIndex]->m_value;
+    auto end = node->m_rotations[NextRotationIndex]->m_value;
+    out = Quaternion::slerp(start, end, factor).normalize();
 }
 
 void ST3DAnimationComponent::CalcInterpolatedScaling(Vector3D &out, float animTime, STNodeAnim *node) {
     if(node->m_scalings.size() == 1){
         out = node->m_scalings[0]->m_Value;
+        return;
     }
-
     stUint PositionIndex = FindScale(animTime, node);
     stUint NextPositionIndex = PositionIndex + 1;
     assert(NextPositionIndex < node->m_scalings.size());
@@ -88,4 +104,77 @@ void ST3DAnimationComponent::CalcInterpolatedScaling(Vector3D &out, float animTi
     const Vector3D end = node->m_scalings[NextPositionIndex]->m_Value;
     auto dV = end - start;
     out = start + (dV * factor);
+}
+
+
+
+void ST3DAnimationComponent::ReadNodeHeirarchy(float AnimationTime, STMeshNode *node, Matrix4f &parentTransform) {
+    auto anim = m_animationMap[m_currentAnimation];
+    Matrix4f nodeTransform = node->transform;
+    auto animNode = FindAnimMode(anim, node->m_Name);
+    if(animNode){
+        Vector3D scaling;
+        CalcInterpolatedScaling(scaling, AnimationTime, animNode);
+        Matrix4f scaleM;
+        scaleM.initScale(scaling);
+
+        Quaternion rot;
+        CalcInterpolatedRotation(rot, AnimationTime, animNode);
+        Matrix4f rotM;
+        rotM.initRotation(rot);
+
+        Vector3D translation;
+        CalcInterpolatedPosition(translation, AnimationTime, animNode);
+        Matrix4f transM;
+        transM.initTranslation(translation);
+
+        nodeTransform = rotM * transM;
+    }
+
+    Matrix4f GlobalTransform = parentTransform * nodeTransform;
+
+    if(m_boneMap.find(node->m_Name) != m_boneMap.end()){
+        stUint boneIndex = m_boneMap[node->m_Name];
+        m_boneData[boneIndex]->m_finalTransformation = m_globalInverseMat * GlobalTransform * m_boneData[boneIndex]->m_offsetMatrix;
+    }
+
+    for(auto child : node->m_children){
+        ReadNodeHeirarchy(AnimationTime, child, GlobalTransform);
+    }
+}
+
+STNodeAnim *ST3DAnimationComponent::FindAnimMode(STAnimation *animation, std::string nodeName) {
+    for (auto nodeAnim : animation->m_channels) {
+        if(nodeAnim->name == nodeName){
+            return nodeAnim;
+        }
+    }
+    return nullptr;
+}
+
+void ST3DAnimationComponent::MoveBones( stReal animationTime) {
+    Matrix4f Ident;
+    auto anim = m_animationMap[m_currentAnimation];
+    if(anim){
+        stReal TicksPerSecond = m_animationMap[m_currentAnimation]->m_TicksPerSecond != 0 ? m_animationMap[m_currentAnimation]->m_TicksPerSecond : 25.f;
+        stReal TimeInTicks = animationTime * TicksPerSecond;
+        float AnimationTime = fmodf(TimeInTicks, m_animationMap[m_currentAnimation]->m_Duration);
+        ReadNodeHeirarchy(AnimationTime, m_nodeData, Ident);
+
+        if(m_gfxComponent == nullptr) m_gfxComponent = getParent()->get<STGraphicsComponent>();
+        if(m_gfxComponent!= nullptr){
+            for(stUint i = 0; i < m_boneData.size(); i++){
+                m_gfxComponent->setShdrUniform("gBones["+std::to_string(i)+"]", m_boneData[i]->m_finalTransformation);
+            }
+        }
+    }
+}
+
+ST3DAnimationComponent::~ST3DAnimationComponent() {
+    for(auto bone : m_boneData){
+        delete bone;
+    }
+    delete m_nodeData;
+    m_boneMap.clear();
+    m_animationMap.clear();
 }

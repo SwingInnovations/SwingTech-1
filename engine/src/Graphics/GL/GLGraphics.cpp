@@ -12,6 +12,7 @@ extern "C"{
 #endif
 
 #include "GLGraphics.h"
+#include "../../Entity/Components/ST3DAnimationComponent.h"
 
 Vector3<stReal> GLGraphics::TextColor = Vector3<stReal>(1.0, 1.0, 1.0);
 
@@ -97,6 +98,8 @@ void GLGraphics::init(stUint w, stUint h) {
     m_IBLMat = new STMaterial(new GLShader("standard", "standard_IBL"));
     m_velocityMat = new STMaterial(new GLShader("Velocity"));
     m_GBufferOverrideMat = new STMaterial(new GLShader("standard", "deff_geomPass"));
+    m_GBufferOverrideSkinnedMat = new STMaterial(new GLShader("standardSkinned", "deff_geomPass"));
+    m_directionalSkinnedOverrideMat = new STMaterial(new GLShader("direct_skinned_shadow"));
 
     glGenVertexArrays(1, &textVAO);
     glGenBuffers(1, &textVBO);
@@ -342,7 +345,11 @@ void GLGraphics::drawScene(STScene *scene) {
                 glCullFace(GL_FRONT);
                 for (auto &actor : actors) {
                     actor->setShdrUniform("lightSpaceMatrix", shadowProps->projections[0]);
-                    actor->draw(lights[i]->get<STGraphicsComponent>()->getMaterial(), true);
+                    if(actor->get<ST3DAnimationComponent>() != nullptr){
+                        actor->draw(m_directionalSkinnedOverrideMat, true);
+                    }else{
+                        actor->draw(lights[i]->get<STGraphicsComponent>()->getMaterial(), true);
+                    }
                 }
                 glBindTexture(GL_TEXTURE_2D, shadowProps->shadowMapID[0]);
                 glGetTexImage(GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT, GL_FLOAT, data);
@@ -465,7 +472,12 @@ void GLGraphics::drawScene(STScene *scene) {
         glEnable(GL_CULL_FACE);
         glCullFace(GL_FRONT);
         for(stUint i = 0, S = actors.size(); i < S; i++){
-            actors[i]->draw(m_GBufferOverrideMat, true);
+            if(actors[i]->get<ST3DAnimationComponent>() != nullptr){
+                actors[i]->draw(m_GBufferOverrideSkinnedMat, true);
+            }else{
+                actors[i]->draw(m_GBufferOverrideMat, true);
+            }
+
         }
         glDisable(GL_CULL_FACE);
         glDisable(GL_DEPTH_TEST);
@@ -861,12 +873,14 @@ void GLGraphics::cleanup() {
     glDeleteTextures(1, &bloomThresTex);
 
     delete m_directionalLightMat;
+    delete m_directionalSkinnedOverrideMat;
     delete m_pointLightMat;
     delete m_albedoMat;
     delete m_IBLMat;
     delete m_velocityMat;
     delete Deff_LightPassShdr;
     delete m_GBufferOverrideMat;
+    delete m_GBufferOverrideSkinnedMat;
     delete screenQuad;
 
     delete textShader;

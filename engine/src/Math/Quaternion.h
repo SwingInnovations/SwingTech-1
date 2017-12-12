@@ -1,14 +1,12 @@
 #ifndef WAHOO_QUATERNION_H
 #define WAHOO_QUATERNION_H
 
+
 #include <assimp/quaternion.h>
 #include "../../include/json11/json11.hpp"
+#include "STCore.h"
 
-#include "Vector.h"
-
-template<typename>class Vector3;
-
-class Vector3f;
+template <typename T> class Vector3;
 
 using namespace json11;
 
@@ -90,6 +88,11 @@ public:
         Vector3<T> ret(_x, _y, _z);
         return ret;
     }
+    static stReal dot(Quaternion& q1, Quaternion& q2);
+
+    static Quaternion lerp(Quaternion& q1, Quaternion& q2, stReal t);
+
+    static Quaternion slerp(Quaternion& q1, Quaternion& q2, stReal t);
 
     inline Quaternion multiply(Quaternion& r)const{
         float _x = this->getW()*r.getX() + this->getX()*r.getW() + this->getY()*r.getZ() - this->getZ() * r.getY();
@@ -99,13 +102,23 @@ public:
         return Quaternion(_x, _y, _z, _w);
     }
 
+    Quaternion multiply(Vector3<stReal>& vec)const;
 
-    template<typename T>inline Quaternion multiply(Vector3<T>& vec)const{
-        float _x = (this->getW()*(float)vec.getX()) + (this->getY() * (float)vec.getZ()) - (this->getZ() * (float)vec.getY());
-        float _y = (this->getW()*(float)vec.getY()) + (this->getZ() * (float)vec.getX()) - (this->getX() * (float)vec.getZ());
-        float _z = (this->getW()*(float)vec.getZ()) + (this->getX() * (float)vec.getY()) - (this->getY() * (float)vec.getX());
-        float _w = -(this->getX()*(float)vec.getX()) - (this->getY() * (float)vec.getY()) - (this->getZ() * (float)vec.getZ());
-        return Quaternion(_x, _y, _z, _w);
+    const Quaternion operator*(float scale)const{
+        return Quaternion(getX() * scale, getY() * scale, getZ() * scale, getW() * scale);
+    }
+
+    const Quaternion operator+(const Quaternion& q)const{
+
+        return {getX() + q.getX(), getY() + q.getY(), getZ() + q.getZ(), getW() + q.getW()};
+    }
+
+    const Quaternion operator/(float scale) const{
+        return {getX() / scale, getY() / scale, getZ() / scale, getW() / scale};
+    }
+
+    const Quaternion operator -()const{
+        return {-getX(), -getY(), -getZ(), -getW()};
     }
 
     Json to_json()const {
@@ -116,8 +129,6 @@ public:
                 {"w", m_val[3]}
         };
     }
-
-    //TODO Implement Interpolation
 
 private:
     float m_val[4];

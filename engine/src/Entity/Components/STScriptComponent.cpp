@@ -115,7 +115,7 @@ void STScriptComponent::initScript(const std::string &fileName) {
                                             sol::meta_function::division, [](Vector2<stReal> v1, Vector2<stReal> v2){
                                                                                 return v1 / v2;
                                                                             });
-    m_script.new_usertype<Vector3<stReal>>("Vector3", sol::constructors<sol::types<>, sol::types<stReal, stReal, stReal>>(),
+    m_script.new_usertype<Vector3D>("Vector3", sol::constructors<sol::types<>, sol::types<stReal, stReal, stReal>>(),
                                            "setX", &Vector3<stReal>::setX,
                                            "setY", &Vector3<stReal>::setY,
                                            "setZ", &Vector3<stReal>::setZ,
@@ -186,12 +186,11 @@ void STScriptComponent::initScript(const std::string &fileName) {
                                      "getRotate", &Transform::getRotate,
                                      "setScale", sol::resolve<void(Vector3<stReal>&)>(&Transform::setScale),
                                      "getScale", &Transform::getScale,
-                                     "setRotationMode", &Transform::setRotationMode);
+                                     "setRotationMode", &Transform::setRotationMode,
+                                     "getForward", &Transform::getForward,
+                                     "getUp", &Transform::getUp,
+                                     "getRight", &Transform::getRight);
     m_script.script_file(fileName);
-    auto events = m_entity->get<STEventComponent>();
-    if(m_script["onHit"].valid()){
-        events->addEvent("onHit", m_script["onHit"]);
-    }
     m_script["start"](m_entity);
 }
 

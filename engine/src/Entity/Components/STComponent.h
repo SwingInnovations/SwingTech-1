@@ -15,7 +15,7 @@ public:
     /**
      * Initializes stuff
      */
-    virtual void initScriptingFunctions(sol::state m_script){;}
+    virtual void initScriptingFunctions(sol::state& m_script){;}
     virtual void update() = 0;
     virtual void draw(){ }
     /**

@@ -1,6 +1,7 @@
 #ifndef SWINGTECH1_ST3DANIMATIONCOMPONENT_H
 #define SWINGTECH1_ST3DANIMATIONCOMPONENT_H
 
+#include <sol.hpp>
 #include "STComponent.h"
 #include "STGraphicsComponent.h"
 #include "../STEntity.h"
@@ -16,6 +17,7 @@ public:
     ST3DAnimationComponent(STMesh_Structure& meshStructure);
     ST3DAnimationComponent(const ST3DAnimationComponent& copy);
     ~ST3DAnimationComponent();
+    void initScriptingFunctions(sol::state& script) override ;
     void loadBones();
     void init(STEntity* parent);
     void update() override ;

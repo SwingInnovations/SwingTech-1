@@ -180,6 +180,7 @@ private:
     STMaterial* m_GBufferOverrideSkinnedMat;
     STMaterial* m_directionalLightMat;
     STMaterial* m_directionalSkinnedOverrideMat;
+    STMaterial* m_directShadowMat;
     STMaterial* m_pointLightMat;
     STMaterial* m_spotLightMat;
     STMaterial* m_albedoMat;

@@ -221,7 +221,7 @@ public:
         return ret;
     }
 
-    Vector2<stReal> GetMouseCoords(){
+    Vector2D GetMouseCoords(){
         return {(stReal)mouseX, (stReal)mouseY};
     }
 

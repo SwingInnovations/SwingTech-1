@@ -175,6 +175,10 @@ public:
 
     int getTick(){ return SDL_GetTicks(); }
 
+    /**
+     * Get the current active scene in the game.
+     * @return STScene Object
+     */
     STScene* GetCurrentScene();
 
     int getGraphicsMajorVersion(){ return this->m_graphics_MAJOR; }

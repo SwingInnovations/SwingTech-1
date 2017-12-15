@@ -194,11 +194,58 @@ public:
         for(stUint k = 0, S = scene->mNumMeshes; k < S; k++){
             const aiMesh* mesh = scene->mMeshes[k];
             STMesh_Structure stMesh;
+            stMesh.m_node = new STMeshNode;
             stMesh.m_baseVertex = baseVertex;
             stMesh.m_baseIndex = baseIndex;
             baseVertex += mesh->mNumVertices;
             baseIndex += mesh->mNumFaces*3;
             stMesh.name = mesh->mName.C_Str();
+            stMesh.globalInverseMat = Matrix4f::From(scene->mRootNode->mTransformation.Inverse());
+            if(scene->mNumAnimations > 0){
+                stMesh.m_hasAnimations = true;
+                for(stUint i = 0, T = scene->mNumAnimations; i < T; i++){
+                    auto * anim = new STAnimation;
+                    anim->name = scene->mAnimations[i]->mName.C_Str();
+                    anim->m_Duration = (stReal)scene->mAnimations[i]->mDuration;
+                    anim->m_TicksPerSecond = (stReal)scene->mAnimations[i]->mTicksPerSecond;
+                    for(stUint j = 0; j < scene->mAnimations[i]->mNumChannels; j++){
+                        auto * nodeAnim = new STNodeAnim;
+                        nodeAnim->name = scene->mAnimations[i]->mChannels[j]->mNodeName.C_Str();
+                        for(stUint l = 0; l < scene->mAnimations[i]->mChannels[j]->mNumPositionKeys; l++){
+                            nodeAnim->m_positions.addLast(new STVectorKey( (stReal)scene->mAnimations[i]->mChannels[j]->mPositionKeys[l].mTime,Vector3<stReal>::From(scene->mAnimations[i]->mChannels[j]->mPositionKeys[l].mValue)));
+                        }
+                        for(stUint l = 0; l < scene->mAnimations[i]->mChannels[j]->mNumRotationKeys; l++){
+                            nodeAnim->m_rotations.addLast(new STQuaternionKey( (stReal)scene->mAnimations[i]->mChannels[j]->mRotationKeys[l].mTime, Quaternion::From(scene->mAnimations[i]->mChannels[j]->mRotationKeys[l].mValue)));
+                        }
+                        for(stUint l = 0; l < scene->mAnimations[i]->mChannels[j]->mNumScalingKeys; l++){
+                            nodeAnim->m_scalings.addLast(new STVectorKey( (stReal)scene->mAnimations[i]->mChannels[j]->mScalingKeys[l].mTime,Vector3<stReal>::From(scene->mAnimations[i]->mChannels[j]->mScalingKeys[l].mValue)));
+                        }
+                        anim->m_channels.addLast(nodeAnim);
+                    }
+                    stMesh.m_animations.addLast(anim);
+                }
+            }
+
+            if(scene->mRootNode->mNumChildren > 0){
+                std::function<void(aiNode*, STMeshNode*)> recursiveAddNode;
+                recursiveAddNode = [&recursiveAddNode](aiNode* rootNode, STMeshNode* node) -> void {
+                    if(rootNode->mNumChildren < 1) return;
+                    auto newNode = new STMeshNode;
+                    newNode->m_Name = rootNode->mName.C_Str();
+                    newNode->transform = Matrix4f::From(rootNode->mTransformation);
+                    node->m_children.addLast(newNode);
+                    for(stUint i = 0, T = rootNode->mNumChildren; i < T; i++){
+                        recursiveAddNode(rootNode->mChildren[i], newNode);
+                    }
+                };
+                stMesh.m_node = new STMeshNode;
+                stMesh.m_node->m_Name = scene->mRootNode->mName.C_Str();
+                stMesh.m_node->transform = Matrix4f::From(scene->mRootNode->mTransformation);
+                for(stUint i = 0; i < scene->mRootNode->mNumChildren; i++){
+                    recursiveAddNode(scene->mRootNode->mChildren[i], stMesh.m_node);
+                }
+            }
+
             aiString matName;
             scene->mMaterials[mesh->mMaterialIndex]->Get(AI_MATKEY_NAME, matName);
             const aiVector3D Z(0.f, 0.f, 0.f);
@@ -222,17 +269,29 @@ public:
             }
 
             stMesh.m_indices = indices;
-
+            stUint numBones = 0;
             if(mesh->mNumBones > 0){
                 stMesh.m_hasBones = true;
-
                 for(stUint i = 0, L = mesh->mNumBones; i < L; i++){
-                    STBoneData* boneData = new STBoneData;
-                    boneData->m_name = mesh->mBones[i]->mName.C_Str();
-                    boneData->m_offsetMatrix = Matrix4f::From((mesh->mBones[i]->mOffsetMatrix));
-                    for(stUint j = 0, K = mesh->mBones[i]->mNumWeights; j < K; j++){
+                    stUint boneIndex = 0;
+                    auto boneData = new STBoneData;
+                    std::string boneName = boneData->m_name = mesh->mBones[i]->mName.C_Str();
+
+                    if(stMesh.m_boneMap.find(boneName) == stMesh.m_boneMap.end()){
+                        boneIndex = numBones;
+                        numBones++;
+                        stMesh.m_boneData.addLast(boneData);
+                        stMesh.m_boneData[boneIndex]->m_offsetMatrix = Matrix4f::From(mesh->mBones[i]->mOffsetMatrix);
+                        stMesh.m_boneMap[boneName] = boneIndex;
+                    }else{
+                        boneIndex = stMesh.m_boneMap[boneName];
                     }
-                    stMesh.m_boneData.addLast(boneData);
+
+                    for(stUint j = 0, K = mesh->mBones[i]->mNumWeights; j < K; j++){
+                        stUint vID = stMesh.m_baseVertex + mesh->mBones[i]->mWeights[j].mVertexId;
+                        stReal weight = mesh->mBones[i]->mWeights[j].mWeight;
+                        stMesh.m_boneWeights[vID].addBoneData(boneIndex, weight);
+                    }
                 }
             }
 

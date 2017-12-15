@@ -82,7 +82,6 @@ void Transform::setRotate(Vector3<stReal> &vec) {
 
 void Transform::setRotateX(stReal _x) {
     rotate.setX(_x);
-
 }
 
 void Transform::setRotateZ(stReal _z) {
@@ -138,4 +137,61 @@ Transform *Transform::FromJson(const Json doc) {
     }
     return ret;
 
+}
+
+Transform::Transform() {
+    parent = nullptr;
+    translate = Vector3D(0.0f, 0.0f, 0.0f);
+    rotate = Vector3D(0.0f, 0.0f, 0.0f);
+    scale = Vector3D(1.0f, 1.0f, 1.0f);
+    rotateMode = Global;
+}
+
+Transform::Transform(Vector3D &translate, Vector3D &rotate, Vector3D scale) {
+    parent = nullptr;
+    this->translate = translate;
+    this->rotate = rotate;
+    this->scale = scale;
+    rotateMode = Global;
+}
+
+void Transform::setScale(stReal _value) {
+    setScaleX(_value);
+    setScaleY(_value);
+    setScaleZ(_value);
+}
+
+void Transform::setRotationMode(Transform::RotationMode rotMode) {
+    rotateMode = rotMode;
+}
+
+Transform::Transform(STEntity *parent, Vector3D &translate, Vector3D &rotate, Vector3D &scale) {
+    this->parent = parent;
+    this->translate = translate;
+    this->rotate = rotate;
+    this->scale = scale;
+    rotateMode = Global;
+}
+
+void Transform::setScale(Vector3D &vec) { this->scale = vec; }
+
+void Transform::setScaleZ(stReal _z) { this->scale.setZ(_z); }
+
+void Transform::setScaleX(stReal _x) { this->scale.setX(_x); }
+
+void Transform::setScaleY(stReal _y) { this->scale.setY(_y); }
+
+Vector3D Transform::getForward() const {
+    auto rot = Matrix4f().initRotate(rotate);
+    return Vector3D(rot.m[2][0], rot.m[2][1], rot.m[2][2]);
+}
+
+Vector3D Transform::getUp() const {
+    auto rot = Matrix4f().initRotate(rotate);
+    return Vector3D(rot.m[1][0], rot.m[1][1], rot.m[1][2]);
+}
+
+Vector3D Transform::getRight() const {
+    auto rot = Matrix4f().initRotate(rotate);
+    return Vector3D(rot.m[0][0], rot.m[0][1], rot.m[2][2]);
 }

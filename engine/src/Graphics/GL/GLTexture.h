@@ -24,12 +24,17 @@ public:
     virtual ~GLTexture();
 
     GLuint genTex(const std::string& fileName);
+
     /**
      *  Generates a GL Texture Handle
      * @param fileName
      * @return
      */
     static GLuint GenTex(const std::string& fileName);
+    /**
+     * Disposes a given Texture Handle
+     * @param texHandle
+     */
     static void   DisposeTex(GLuint texHandle);
     void addTexture(const std::string& fileName) override;
     void addTexture(const std::string& fileName, int ind) override;
@@ -37,7 +42,15 @@ public:
     unsigned int getTextureCount() override;
     static GLenum getMode(int, int);
 
+    /**
+     * Gets Texture width.
+     * @return
+     */
     unsigned int getTextureWidth() override { return m_texWidth; }
+    /**
+     * Get Texture Height;
+     * @return
+     */
     unsigned int getTextureHeight() override { return m_texHeight; }
 
     /** Loads a cubemap.

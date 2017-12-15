@@ -100,6 +100,7 @@ void GLGraphics::init(stUint w, stUint h) {
     m_GBufferOverrideMat = new STMaterial(new GLShader("standard", "deff_geomPass"));
     m_GBufferOverrideSkinnedMat = new STMaterial(new GLShader("standardSkinned", "deff_geomPass"));
     m_directionalSkinnedOverrideMat = new STMaterial(new GLShader("direct_skinned_shadow"));
+    m_directShadowMat = new STMaterial(new GLShader("direct_shadows"));
 
     glGenVertexArrays(1, &textVAO);
     glGenBuffers(1, &textVBO);
@@ -276,31 +277,31 @@ void GLGraphics::drawScene(STScene *scene) {
                     }
                     glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
-                    lights[i]->projections[0] = Matrix4f::LookAt(lights[i]->transform()->getTranslate(),
-                                                                 lights[i]->get<STLightComponent>()->getProperties()->direction,
-                                                                 Vector3<stReal>(0, 1, 0));
-                    lights[i]->addComponent(typeid(STGraphicsComponent), new STGraphicsComponent(
-                            new STMaterial(new GLShader("direct_shadows"))));
+                    shadowProperties->projections[0] = Matrix4f::LookAt(lights[i]->transform()->getTranslate(),
+                                                                        lights[i]->get<STLightComponent>()->getProperties()->direction,
+                                                                        Vector3<stReal>(0, 1, 0));
+//                    lights[i]->addComponent(typeid(STGraphicsComponent), new STGraphicsComponent(
+//                            new STMaterial(new GLShader("direct_shadows"))));
                 } else if(lights[i]->get<STLightComponent>()->getType() == STLightComponent::POINT_LIGHT){
                     auto pos = lights[i]->transform()->getTranslate();
-                    lights[i]->projections[0] = Matrix4f::LookAt(pos, pos - Vector3<stReal>(1.0f, 0.0f, 0.0f),
+                    shadowProperties->projections[0] = Matrix4f::LookAt(pos, pos - Vector3<stReal>(1.0f, 0.0f, 0.0f),
                                                                  Vector3<stReal>(0.0, -1.0f, 0.0));    //Right
-                    lights[i]->projections[1] = Matrix4f::LookAt(pos, pos - Vector3<stReal>(-1.0f, .0, 0.0),
+                    shadowProperties->projections[1] = Matrix4f::LookAt(pos, pos - Vector3<stReal>(-1.0f, .0, 0.0),
                                                                  Vector3<stReal>(0.0, -1.0f, 0.0));    //Left
-                    lights[i]->projections[2] = Matrix4f::LookAt(pos, pos - Vector3<stReal>(0.0, 1.0, 0.0),
+                    shadowProperties->projections[2] = Matrix4f::LookAt(pos, pos - Vector3<stReal>(0.0, 1.0, 0.0),
                                                                  Vector3<stReal>(0.0, 0.0, 1.0));    //Top
-                    lights[i]->projections[3] = Matrix4f::LookAt(pos, pos - Vector3<stReal>(0.0, -1.0f, 0.0),
+                    shadowProperties->projections[3] = Matrix4f::LookAt(pos, pos - Vector3<stReal>(0.0, -1.0f, 0.0),
                                                                  Vector3<stReal>(0.0, 0.0, 1.0));    //Bottom
-                    lights[i]->projections[4] = Matrix4f::LookAt(pos, pos - Vector3<stReal>(0.0, 0.0, 1.0),
+                    shadowProperties->projections[4] = Matrix4f::LookAt(pos, pos - Vector3<stReal>(0.0, 0.0, 1.0),
                                                                  Vector3<stReal>(0.0, -1.0f, 0.0));    //Near
-                    lights[i]->projections[5] = Matrix4f::LookAt(pos, pos - Vector3<stReal>(0.0, 0.0, -1.0f),
+                    shadowProperties->projections[5] = Matrix4f::LookAt(pos, pos - Vector3<stReal>(0.0, 0.0, -1.0f),
                                                                  Vector3<stReal>(0.0, -1.0f, 0.0));    //Far
                     lights[i]->addComponent(typeid(STGraphicsComponent),
                                             new STGraphicsComponent(new GLShader("spotLight_shadows")));
                     for (stUint j = 0; j < 6; j++) {
-                        glGenFramebuffers(1, &lights[i]->shadowFrameBuffer[j]);
-                        glGenTextures(1, &lights[i]->shadowMapID[j]);
-                        glBindTexture(GL_TEXTURE_2D, lights[i]->shadowMapID[j]);
+                        glGenFramebuffers(1, &shadowProperties->shadowFrameBuffer[j]);
+                        glGenTextures(1, &shadowProperties->shadowMapID[j]);
+                        glBindTexture(GL_TEXTURE_2D, shadowProperties->shadowMapID[j]);
                         glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT, m_shadowRes, m_shadowRes, 0,
                                      GL_DEPTH_COMPONENT, GL_FLOAT, NULL);
                         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
@@ -308,9 +309,9 @@ void GLGraphics::drawScene(STScene *scene) {
                         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
                         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
 
-                        glBindFramebuffer(GL_FRAMEBUFFER, lights[i]->shadowFrameBuffer[j]);
+                        glBindFramebuffer(GL_FRAMEBUFFER, shadowProperties->shadowFrameBuffer[j]);
                         glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D,
-                                               lights[i]->shadowMapID[j], 0);
+                                               shadowProperties->shadowMapID[j], 0);
                         glDrawBuffer(GL_NONE);
                         glReadBuffer(GL_NONE);
                         glBindFramebuffer(GL_FRAMEBUFFER, 0);
@@ -327,7 +328,7 @@ void GLGraphics::drawScene(STScene *scene) {
     //INITIALIZE the shadows;
     if(m_shadows) {
         glViewport(0, 0, m_shadowRes, m_shadowRes);
-        auto ortho = Matrix4f().initOrthographicProjection(-15.f, 15.f, -15.f, 15.f, 1.f, 15.f);
+        auto ortho = Matrix4f().initOrthographicProjection(-50.f, 50.f, -50.f, 50.f, 1.f, 50.f);
         auto persp = Matrix4f().initPerpectiveProjection(45, 10, 10, 1.f, 10);
 
         for(stUint i = 0; i < lights.size(); i++){
@@ -348,7 +349,7 @@ void GLGraphics::drawScene(STScene *scene) {
                     if(actor->get<ST3DAnimationComponent>() != nullptr){
                         actor->draw(m_directionalSkinnedOverrideMat, true);
                     }else{
-                        actor->draw(lights[i]->get<STGraphicsComponent>()->getMaterial(), true);
+                        actor->draw(m_directShadowMat, true);
                     }
                 }
                 glBindTexture(GL_TEXTURE_2D, shadowProps->shadowMapID[0]);
@@ -367,12 +368,12 @@ void GLGraphics::drawScene(STScene *scene) {
                 for(stUint j = 0; j < actors.size(); j++){
                     for(stUint k = 0; k < 6; k++){
                         //TODO test this.
-                        glBindFramebuffer(GL_FRAMEBUFFER, lights[i]->shadowFrameBuffer[k]);
+                        glBindFramebuffer(GL_FRAMEBUFFER, shadowProps->shadowFrameBuffer[k]);
                         glClear(GL_DEPTH_BUFFER_BIT);
                         glEnable(GL_CULL_FACE);
                         glCullFace(GL_FRONT);
 
-                        actors[j]->setShdrUniform("lightSpaceMatrix", ortho * lights[j]->projections[k]);
+                        actors[j]->setShdrUniform("lightSpaceMatrix", ortho * shadowProps->projections[k]);
                         actors[j]->draw(lights[i]->get<STGraphicsComponent>()->getMaterial());
                         glBindFramebuffer(GL_FRAMEBUFFER, 0);
                     }
@@ -874,6 +875,7 @@ void GLGraphics::cleanup() {
 
     delete m_directionalLightMat;
     delete m_directionalSkinnedOverrideMat;
+    delete m_directShadowMat;
     delete m_pointLightMat;
     delete m_albedoMat;
     delete m_IBLMat;

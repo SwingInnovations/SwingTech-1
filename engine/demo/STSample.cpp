@@ -2,6 +2,7 @@
 #include "../src/Application/STGame.h"
 #include "../src/Application/STSceneManager.h"
 #include "../src/Application/Util/STJson.h"
+#include "../src/Entity/Components/ST3DAnimationComponent.h"
 
 /**
  * This is an example class for demonstrating How a typical game state would be setup.
@@ -19,31 +20,40 @@ public:
         auto accentLight = STLight::InitDirectionalLight(Vector3D(2.f, 4.f, -3.f), Vector3D(), Vector3D(1.f, 1.f, 1.f));
         accentLight->get<STLightComponent>()->setTarget(Vector3D());
 
-        auto character = new STActor("animCylinder.fbx");
+        auto accentLight2 = STLight::InitDirectionalLight(Vector3D(-2.f, 4.f, -2.f), Vector3D(), Vector3D(0.f, 0.2f, 1.f));
+        accentLight2->get<STLightComponent>()->setTarget(Vector3D());
+        accentLight2->get<STLightComponent>()->getProperties()->intensity = 0.9f;
+
+        auto character = new STActor("humanoid.fbx");
+        character->setTag("Main");
         //character->get<STGraphicsComponent>()->getMaterial()->setRoughness("Bronze_Roughness.jpg");
-        character->get<STGraphicsComponent>()->getMaterial()->setDiffuseColor(STColor(BLUE));
 //        character->get<STGraphicsComponent>()->getMaterial()->setMetallic(0.1f);
         character->addComponent(typeid(STScriptComponent), new STScriptComponent("Suzanne_Control.lua"));
         character->setAttribute("speedFactor", 0.025f);
         character->transform()->setRotationMode(Transform::Local);
 
+        auto c2 = new STActor("animCylinder.fbx");
+        c2->transform()->setTranslateX(4.f);
+        c2->transform()->setTranslateZ(4.f);
+        c2->transform()->setRotationMode(Transform::Local);
+        c2->get<STGraphicsComponent>()->getMaterial()->setDiffuseColor(STColor(GREEN));
+
         auto diceBox = new STActor("dice.obj");
         diceBox->get<STGraphicsComponent>()->getMaterial()->setMetallic(1.f);
-        diceBox->get<STGraphicsComponent>()->getMaterial()->setDiffuseColor(STColor(RED));
+        diceBox->get<STGraphicsComponent>()->getMaterial()->setDiffuseTexture("Bronze_Albedo.jpg");
         diceBox->transform()->setTranslateX(1.0f);
         diceBox->transform()->setTranslateZ(2.f);
-
-        auto characterTransform = character->transform()->to_json().dump();
-        auto newTransform = Transform::FromJson(characterTransform);
 
         auto plane = new STActor("plane.obj");
         plane->transform()->setTranslateY(-0.5f);
         plane->get<STGraphicsComponent>()->setDiffuseTexture("grid.png");
         m_scene->addLight(mainLight);
         m_scene->addLight(accentLight);
+        m_scene->addLight(accentLight2);
         m_scene->addActor(character);
         m_scene->addActor(diceBox);
         m_scene->addActor(plane);
+        m_scene->addActor(c2);
         counter = 0;
     }
 

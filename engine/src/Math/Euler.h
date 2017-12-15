@@ -49,4 +49,6 @@ private:
     T m_val[3];
 };
 
+typedef Euler<stReal> Euler3D;
+
 #endif //SWINGTECH1_EULER_H

@@ -164,6 +164,16 @@ public:
         return ret;
     }
 
+    std::vector<std::string> getLoadedComponentNames(){
+        std::vector<std::string> ret;
+        for(auto comp : m_components){
+            ret.push_back(comp.first.name());
+        }
+        return ret;
+    }
+
+    const std::map<std::type_index, STComponent *> &getAllComponents() const;
+
     /**
      * @brief Returns Component Added to Entity.
      * @tparam T Component Type
@@ -230,6 +240,7 @@ protected:
     Transform* m_transform;
     bool m_visible;
     std::map<std::type_index, STComponent*> m_components;
+protected:
     std::map<std::string, STAttribute*> m_attributes;
     std::vector<STEntity*> m_children;
 };

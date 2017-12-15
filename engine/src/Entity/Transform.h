@@ -19,56 +19,73 @@ using namespace json11;
  */
 class Transform{
 public:
+    /**
+     * Rotation Mode
+     */
     enum RotationMode: unsigned char {Global = 0, Local = 1};
 
     static Transform* FromJson(const std::string& jsonFile);
     static Transform* FromJson(const Json doc);
 
+    /**
+     * Default Constructor
+     * @param parent
+     */
     explicit Transform(STEntity* parent);
 
-    Transform(){
-        parent = nullptr;
-        translate = Vector3D(0.0f, 0.0f, 0.0f);
-        rotate = Vector3D(0.0f, 0.0f, 0.0f);
-        scale = Vector3D(1.0f, 1.0f, 1.0f);
-        rotateMode = Global;
-    }
+    Transform();
 
-    Transform(Vector3D& translate, Vector3D& rotate, Vector3D scale){
-        parent = nullptr;
-        this->translate = translate;
-        this->rotate = rotate;
-        this->scale = scale;
-        rotateMode = Global;
-    }
+    /**
+     * Instantiates Transform
+     * @param translate
+     * @param rotate
+     * @param scale
+     */
+    Transform(Vector3D& translate, Vector3D& rotate, Vector3D scale);
 
+    /**
+     * @brief Constructor for transform. Sets binding to entity.
+     * @param parent        STEntity type
+     * @param translate     Initial Position
+     * @param rotate        Initial Rotation
+     * @param scale         Initial Scale.
+     */
+    Transform(STEntity* parent, Vector3D& translate, Vector3D& rotate, Vector3D& scale);
+
+    /**
+     * Sets position of Transform to Vector3
+     * @param vec
+     */
     void setTranslate(Vector3D& vec);
     void setTranslateX(stReal _x);
     void setTranslateY(stReal _y);
     void setTranslateZ(stReal _z);
     void setTranslate(stReal _value);
 
+    /**
+     * Sets Rotation of Transform to Vector3
+     * @param vec
+     */
     void setRotate(Vector3D& vec);
-
     void setRotateX(stReal _x);
-
     void setRotateY(stReal _y);
-
     void setRotateZ(stReal _z);
 
-    inline void setScale(Vector3D& vec){ this->scale = vec; }
-    inline void setScaleX(stReal _x){ this->scale.setX(_x); }
-    inline void setScaleY(stReal _y){ this->scale.setY(_y); }
-    inline void setScaleZ(stReal _z){ this->scale.setZ(_z); }
-    inline void setScale(stReal _value){
-        setScaleX(_value);
-        setScaleY(_value);
-        setScaleZ(_value);
-    }
+    /**
+     * Sets Scale of Transform to Vector3
+     * @param vec
+     */
+    void setScale(Vector3D& vec);
+    void setScaleX(stReal _x);
+    void setScaleY(stReal _y);
+    void setScaleZ(stReal _z);
+    void setScale(stReal _value);
 
-    inline void setRotationMode(RotationMode rotMode){
-        rotateMode = rotMode;
-    }
+    /**
+     * Sets Rotation Mode. Either Global or Local.
+     * @param rotMode
+     */
+    void setRotationMode(RotationMode rotMode);
 
     /**
      * Calculates the final transformation Matrix
@@ -82,9 +99,16 @@ public:
     inline Vector3D getRotate() const {return rotate;}
     inline Vector3D getScale() const {return scale;}
 
+    Vector3D getForward()const;
+    Vector3D getUp()const;
+    Vector3D getRight()const;
+
     Json to_json()const;
 
 private:
+    /**
+     * Calculates the Forward Right and Up Vectors
+     */
     STEntity* parent;
     Vector3D translate;
     Vector3D rotate;

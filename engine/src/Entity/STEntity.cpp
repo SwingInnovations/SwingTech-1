@@ -435,6 +435,10 @@ void STEntity::dispose() {
     m_components.clear();
 }
 
+const std::map<std::type_index, STComponent *> &STEntity::getAllComponents() const {
+    return m_components;
+}
+
 STAttribute::STAttribute(const Vector2<stReal> &value){
     type = Vec2;
     m_value = STAttribute::toString(value);

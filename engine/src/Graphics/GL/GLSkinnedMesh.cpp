@@ -65,7 +65,7 @@ GLSkinnedMesh::GLSkinnedMesh(STMesh_Structure &structure) {
     glBindBuffer(GL_ARRAY_BUFFER, m_VBO[BONE_BUFFER]);
     glBufferData(GL_ARRAY_BUFFER, sizeof(boneIDs[0]) * boneIDs.size(), &boneIDs[0], GL_STATIC_DRAW);
     glEnableVertexAttribArray(5);
-    glVertexAttribIPointer(5, 4, GL_INT, 4*(sizeof(stUint)), (const GLvoid*)0);
+    glVertexAttribIPointer(5, 4, GL_UNSIGNED_INT, 4*(sizeof(stUint)), (const GLvoid*)0);
 
     glBindBuffer(GL_ARRAY_BUFFER, m_VBO[BONE_WEIGHT_BUFFER]);
     glBufferData(GL_ARRAY_BUFFER, sizeof(boneWeights[0]) * boneWeights.size(), &boneWeights[0], GL_STATIC_DRAW);

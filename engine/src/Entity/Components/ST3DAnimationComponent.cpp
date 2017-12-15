@@ -128,14 +128,14 @@ void ST3DAnimationComponent::ReadNodeHeirarchy(float AnimationTime, STMeshNode *
         Matrix4f transM;
         transM.initTranslation(translation);
 
-        nodeTransform = rotM * transM;
+        nodeTransform = scaleM * rotM * transM;
     }
 
     Matrix4f GlobalTransform = parentTransform * nodeTransform;
 
     if(m_boneMap.find(node->m_Name) != m_boneMap.end()){
         stUint boneIndex = m_boneMap[node->m_Name];
-        m_boneData[boneIndex]->m_finalTransformation = m_globalInverseMat * GlobalTransform * m_boneData[boneIndex]->m_offsetMatrix;
+        m_boneData[boneIndex]->m_finalTransformation = GlobalTransform * m_boneData[boneIndex]->m_offsetMatrix;
     }
 
     for(auto child : node->m_children){
@@ -167,14 +167,26 @@ void ST3DAnimationComponent::MoveBones( stReal animationTime) {
                 m_gfxComponent->setShdrUniform("gBones["+std::to_string(i)+"]", m_boneData[i]->m_finalTransformation);
             }
         }
+    }else{
+        if(m_gfxComponent != nullptr){
+            for(stUint i = 0; i < m_boneData.size(); i++){
+                m_gfxComponent->setShdrUniform("gBones["+std::to_string(i)+"]", Ident);
+            }
+        }
     }
 }
 
 ST3DAnimationComponent::~ST3DAnimationComponent() {
-    for(auto bone : m_boneData){
-        delete bone;
-    }
+    m_boneData.clear();
     delete m_nodeData;
     m_boneMap.clear();
     m_animationMap.clear();
+}
+
+void ST3DAnimationComponent::initScriptingFunctions(sol::state& script) {
+    script.set_function("get3DAnimationComponent", [](STEntity* ent){
+        return ent->get<ST3DAnimationComponent>();
+    });
+    script.new_usertype<ST3DAnimationComponent>("ST3DAnimation",
+                                                "setCurrentAnimation", &ST3DAnimationComponent::setCurrentAnimation);
 }

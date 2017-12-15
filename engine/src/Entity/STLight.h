@@ -24,11 +24,27 @@ public:
      * @param color     Color of light
      * @return new STLight
      */
-    static STLight* InitDirectionalLight(Vector3<stReal> position, Vector3<stReal> direction, Vector3<stReal> color);
+    static STLight* InitDirectionalLight(Vector3D position, Vector3D direction, Vector3D color);
 
-    static STLight* InitSpotLight(Vector3<stReal> position, Vector3<stReal> direction, Vector3<stReal> color, stReal coneAngle, stReal coneDistance);
+    /**
+     * Initializes a Spotlight.
+     * @param position
+     * @param direction
+     * @param color
+     * @param coneAngle
+     * @param coneDistance
+     * @return
+     */
+    static STLight* InitSpotLight(Vector3D position, Vector3D direction, Vector3D color, stReal coneAngle, stReal coneDistance);
 
-    static STLight* InitPointLight(Vector3<stReal> position, Vector3<stReal> color, stReal radius);
+    /**
+     * Initializes a Point light. Illuminates all directions
+     * @param position
+     * @param color
+     * @param radius
+     * @return
+     */
+    static STLight* InitPointLight(Vector3D position, Vector3D color, stReal radius);
 
     STLight();
 
@@ -38,10 +54,6 @@ public:
     bool setDebug(bool value){
         this->m_debug = value;
     }
-
-    stUint shadowMapID[6]{};
-    stUint shadowFrameBuffer[6]{};
-    Matrix4f projections[6];
 private :
     STMaterial* m_material{};
     bool m_debug{};

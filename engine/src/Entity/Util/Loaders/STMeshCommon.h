@@ -14,9 +14,7 @@ struct STMeshNode{
     Matrix4f transform;
     STList<STMeshNode*> m_children;
     ~STMeshNode(){
-        for(auto meshNode : m_children){
-            delete meshNode;
-        }
+        m_children.clear();
     }
 };
 

@@ -95,9 +95,9 @@ public:
      * Clears the Linked List
      */
     void clear(){
+        m_Size = 0;
         while(head != nullptr){
             removeLast();
-            m_Size--;
         }
     }
 
@@ -121,7 +121,7 @@ public:
      * @return Data from last node.
      */
     T removeLast(){
-        if(head == nullptr || tail == nullptr) return false;
+        if(head == nullptr || tail == nullptr) return nullptr;
         Node* cur = head;
         Node* prev = nullptr;
         while(cur->next != nullptr){

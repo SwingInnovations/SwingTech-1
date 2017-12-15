@@ -38,6 +38,11 @@ public:
         m_val[3] = _w;
     }
 
+    /**
+     * Initializes ST Quaternion from assimp quaternion
+     * @param quaternion
+     * @return
+     */
     static Quaternion From(aiQuaternion quaternion){
         return Quaternion(quaternion.x, quaternion.y, quaternion.z, quaternion.w);
     }
@@ -94,41 +99,19 @@ public:
 
     static Quaternion slerp(Quaternion& q1, Quaternion& q2, stReal t);
 
-    inline Quaternion multiply(Quaternion& r)const{
-        float _x = this->getW()*r.getX() + this->getX()*r.getW() + this->getY()*r.getZ() - this->getZ() * r.getY();
-        float _y = this->getW()*r.getY() - this->getX()*r.getZ() + this->getY()*r.getW() + this->getZ()*r.getX();
-        float _z = this->getW()*r.getZ() + this->getX()*r.getY() - this->getY()*r.getX() + this->getZ()*r.getW();
-        float _w = this->getW()*r.getW() - this->getX()*r.getX() - this->getY()*r.getY() - this->getZ()*r.getZ();
-        return Quaternion(_x, _y, _z, _w);
-    }
+    Quaternion multiply(Quaternion& r)const;
 
     Quaternion multiply(Vector3<stReal>& vec)const;
 
-    const Quaternion operator*(float scale)const{
-        return Quaternion(getX() * scale, getY() * scale, getZ() * scale, getW() * scale);
-    }
+    const Quaternion operator*(float scale)const;
 
-    const Quaternion operator+(const Quaternion& q)const{
+    const Quaternion operator+(const Quaternion& q)const;
 
-        return {getX() + q.getX(), getY() + q.getY(), getZ() + q.getZ(), getW() + q.getW()};
-    }
+    const Quaternion operator/(float scale) const;
 
-    const Quaternion operator/(float scale) const{
-        return {getX() / scale, getY() / scale, getZ() / scale, getW() / scale};
-    }
+    const Quaternion operator -()const;
 
-    const Quaternion operator -()const{
-        return {-getX(), -getY(), -getZ(), -getW()};
-    }
-
-    Json to_json()const {
-        return Json::object{
-                {"x", m_val[0]},
-                {"y", m_val[1]},
-                {"z", m_val[2]},
-                {"w", m_val[3]}
-        };
-    }
+    Json to_json()const;
 
 private:
     float m_val[4];

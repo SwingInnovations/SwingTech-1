@@ -36,3 +36,37 @@ Quaternion Quaternion::lerp(Quaternion &q1, Quaternion &q2, stReal t) {
     auto ret = (q1 * (1-t) + q2 * t);
     return ret.normalize();
 }
+
+Quaternion Quaternion::multiply(Quaternion &r) const {
+    float _x = this->getW()*r.getX() + this->getX()*r.getW() + this->getY()*r.getZ() - this->getZ() * r.getY();
+    float _y = this->getW()*r.getY() - this->getX()*r.getZ() + this->getY()*r.getW() + this->getZ()*r.getX();
+    float _z = this->getW()*r.getZ() + this->getX()*r.getY() - this->getY()*r.getX() + this->getZ()*r.getW();
+    float _w = this->getW()*r.getW() - this->getX()*r.getX() - this->getY()*r.getY() - this->getZ()*r.getZ();
+    return Quaternion(_x, _y, _z, _w);
+}
+
+const Quaternion Quaternion::operator*(float scale) const {
+    return Quaternion(getX() * scale, getY() * scale, getZ() * scale, getW() * scale);
+}
+
+const Quaternion Quaternion::operator+(const Quaternion &q) const {
+
+    return {getX() + q.getX(), getY() + q.getY(), getZ() + q.getZ(), getW() + q.getW()};
+}
+
+const Quaternion Quaternion::operator/(float scale) const {
+    return {getX() / scale, getY() / scale, getZ() / scale, getW() / scale};
+}
+
+const Quaternion Quaternion::operator-() const {
+    return {-getX(), -getY(), -getZ(), -getW()};
+}
+
+Json Quaternion::to_json() const {
+    return Json::object{
+            {"x", m_val[0]},
+            {"y", m_val[1]},
+            {"z", m_val[2]},
+            {"w", m_val[3]}
+    };
+}

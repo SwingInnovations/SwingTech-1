@@ -15,6 +15,10 @@ public:
     void update(stUint delta) override;
     void setGravity(stReal gravity) override;
     void dispose() override;
+
+    //Bullet Physics Specific Functions
+    void addRigidBody();
+    void clearScene();
 private:
     btDefaultCollisionConfiguration* m_collisionConfiguration;
     btBroadphaseInterface*           m_broadphase;

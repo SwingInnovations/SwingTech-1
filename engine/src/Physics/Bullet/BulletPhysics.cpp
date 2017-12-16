@@ -16,7 +16,9 @@ void BulletPhysics::update(stUint delta) {
 }
 
 void BulletPhysics::setGravity(stReal gravity) {
-
+    if(m_dynamicsWorld){
+        m_dynamicsWorld->setGravity(btVector3(0, -gravity, 0));
+    }
 }
 
 void BulletPhysics::dispose() {
@@ -35,6 +37,10 @@ void BulletPhysics::init(STPhysics::PhysicsEngine engineMode) {
     m_solver = new btSequentialImpulseConstraintSolver;
     m_dynamicsWorld = new btDiscreteDynamicsWorld(m_dispatcher, m_broadphase, m_solver, m_collisionConfiguration);
     if(m_dynamicsWorld){
-        std::cout << "Successfully built Bullet!" << std::endl;
+        std::cout << "Using Bullet Physics Engine" << std::endl;
     }
+}
+
+void BulletPhysics::clearScene() {
+    m_dynamicsWorld->getCollisionObjectArray().clear();
 }

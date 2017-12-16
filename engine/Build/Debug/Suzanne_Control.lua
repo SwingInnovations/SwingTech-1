@@ -50,6 +50,5 @@ function update(self)
 --    local scale = Vector3.new(0.5, 0.5, 0.5);
 --    self:transform():setScale(scale);
 --
-    print(self:transform():getForward():getInfo());
 
 end

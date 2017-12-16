@@ -1,10 +1,9 @@
 {
   "ExpandedNodes": [
     "",
-    "\\src",
     "\\src\\Entity",
     "\\src\\Entity\\Components"
   ],
-  "SelectedNode": "\\src\\Entity\\Transform.h",
+  "SelectedNode": "\\CMakeLists.txt",
   "PreviewInSolutionExplorer": false
 }

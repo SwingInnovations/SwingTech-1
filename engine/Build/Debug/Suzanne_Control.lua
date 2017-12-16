@@ -14,7 +14,7 @@ function update(self)
     local rotation = self:transform():getRotate()
     local oldX, oldZ = position:getX(), position:getZ()
     local rotY = rotation:getY()
-    local forward = self:transform():getForward()
+    local forward = self:transform():getRight()
     local delta = STGame:Get():getDelta()
     local speedFactor = self:getAttributef("speedFactor")
 

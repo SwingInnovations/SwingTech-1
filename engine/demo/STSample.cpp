@@ -27,7 +27,7 @@ public:
         auto character = new STActor("humanoid.fbx");
         character->setTag("Main");
         //character->get<STGraphicsComponent>()->getMaterial()->setRoughness("Bronze_Roughness.jpg");
-//        character->get<STGraphicsComponent>()->getMaterial()->setMetallic(0.1f);
+        character->get<STGraphicsComponent>()->getMaterial()->setMetallic(0.1f);
         character->addComponent(typeid(STScriptComponent), new STScriptComponent("Suzanne_Control.lua"));
         character->setAttribute("speedFactor", 0.025f);
         character->transform()->setRotationMode(Transform::Local);
@@ -87,7 +87,7 @@ private:
 int main(int argc, char** argv){
     auto inputMapping = new InputMap("Input.json");
 
-    auto win = STGame::Init("Swing Tech", 1440, 720);
+    auto win = STGame::Init("Swing Tech", 1440, 720, STPhysics::PhysicsEngine::BULLET);
     win->setOpenGLVersion(4, 0);
     win->setTargetFPS(60);
     STGraphics::YUp = false;

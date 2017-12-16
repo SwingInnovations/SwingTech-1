@@ -22,6 +22,7 @@ extern "C"{
 #include <vector>
 
 #include "Input.h"
+#include "../Physics/STPhysics.h"
 #include "STGameState.h"
 #include "../Math/Vector.h"
 
@@ -46,6 +47,7 @@ public:
     static STGame* m_instance;
 
     static STGame* Init(const std::string& title, const stUint WIDTH, const stUint HEIGHT);
+    static STGame* Init(const std::string& title, stUint width, stUint height, STPhysics::PhysicsEngine mode);
     static STGame* Get();
 
     enum DIMENSION_MODE{
@@ -216,6 +218,8 @@ private:
         STGame::SetResolutionHeight(val);
     }
 
+    void InitPhysics(STPhysics::PhysicsEngine mode);
+
     unsigned int m_currentIndex;
     std::vector<STGameState *> m_gameStates;
     SDL_Window* m_Window;
@@ -223,6 +227,7 @@ private:
     SDL_Event m_e;
 
     STGraphics * g;
+    STPhysics* m_physics;
     unsigned int WIDTH, HEIGHT;
     int m_CurrentState;
 

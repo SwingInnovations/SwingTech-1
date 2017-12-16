@@ -11,6 +11,7 @@
 
 #include "../../include/json11/json11.hpp"
 #include "../../include/assimp/vector3.h"
+#include <LinearMath/btVector3.h>
 
 using namespace json11;
 
@@ -265,6 +266,10 @@ public:
 
     static Vector3<stReal> From(const aiVector3D& vec){
         return Vector3<stReal>(vec.x, vec.y, vec.z);
+    }
+
+    static Vector3<stReal> From(btVector3& vector){
+        return Vector3<stReal>(vector.getX(), vector.getY(), vector.getZ());
     }
 
     /**

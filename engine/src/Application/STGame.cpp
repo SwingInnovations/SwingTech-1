@@ -4,6 +4,7 @@
 #include "../Graphics/STGraphics.h"
 #include "../Graphics/GL/GLGraphics.h"
 #include "../Graphics/Camera.h"
+#include "../Physics/Bullet/BulletPhysics.h"
 
 int STGame::RES_WIDTH = 0;
 int STGame::RES_HEIGHT = 0;
@@ -194,6 +195,12 @@ STGame *STGame::Init(const std::string &title, const stUint WIDTH, const stUint 
     return m_instance;
 }
 
+STGame *STGame::Init(const std::string &title, stUint width, stUint height, STPhysics::PhysicsEngine mode) {
+    m_instance = new STGame(title, width, height);
+    m_instance->InitPhysics(mode);
+    return m_instance;
+}
+
 STGame *STGame::Get() {
     return m_instance;
 }
@@ -236,5 +243,14 @@ void STGame::setFullScreen(int flag) {
 STScene *STGame::GetCurrentScene() {
     return m_gameStates[m_currentIndex]->getScene();
 }
+
+void STGame::InitPhysics(STPhysics::PhysicsEngine mode) {
+    if(mode == STPhysics::BULLET){
+        m_physics = new BulletPhysics;
+        m_physics->init(mode);
+    }
+}
+
+
 
 

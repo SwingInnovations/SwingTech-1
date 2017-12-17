@@ -27,6 +27,8 @@ private:
 
     std::map<std::string, std::function<void(STEntity*, STEntity*)>> m_Events;
     STEntity* other;
+    STEntity** resultants;
+    stUint numResultants;
     std::string m_currentEvent;
 };
 

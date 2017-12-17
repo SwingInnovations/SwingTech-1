@@ -202,6 +202,7 @@ protected:
     void render();
     //! Calculates Delta for every CPU cycle
     void calcDelta();
+
 private:
     bool isPause;
     bool useLua;

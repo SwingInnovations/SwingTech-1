@@ -24,6 +24,7 @@ public:
 
 protected:
     Transform* m_transform;
+    stReal m_Mass = 1.0f;
 };
 
 #endif //SWINGTECH1_STRIGIDBODY_H

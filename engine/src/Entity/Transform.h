@@ -105,6 +105,8 @@ public:
 
     Json to_json()const;
 
+    STEntity* getEntity();
+
 private:
     /**
      * Calculates the Forward Right and Up Vectors

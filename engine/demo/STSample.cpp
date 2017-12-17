@@ -26,7 +26,6 @@ public:
 
         auto character = new STActor("humanoid.fbx");
         character->setTag("Main");
-        //character->get<STGraphicsComponent>()->getMaterial()->setRoughness("Bronze_Roughness.jpg");
         character->get<STGraphicsComponent>()->getMaterial()->setMetallic(0.1f);
         character->addComponent(typeid(STScriptComponent), new STScriptComponent("Suzanne_Control.lua"));
         character->setAttribute("speedFactor", 0.025f);
@@ -47,6 +46,7 @@ public:
         auto plane = new STActor("plane.obj");
         plane->transform()->setTranslateY(-0.5f);
         plane->get<STGraphicsComponent>()->setDiffuseTexture("grid.png");
+
         m_scene->addLight(mainLight);
         m_scene->addLight(accentLight);
         m_scene->addLight(accentLight2);

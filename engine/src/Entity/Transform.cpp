@@ -195,3 +195,7 @@ Vector3D Transform::getRight() const {
     auto rot = Matrix4f().initRotate(rotate);
     return Vector3D(rot.m[0][0], rot.m[0][1], rot.m[2][2]);
 }
+
+STEntity *Transform::getEntity() {
+    return parent;
+}

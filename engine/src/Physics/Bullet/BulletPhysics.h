@@ -10,14 +10,14 @@ class btDiscreteDynamicsWorld;
 class BulletPhysics : public STPhysics{
 public:
     BulletPhysics();
+    ~BulletPhysics();
     void init() override ;
     void init(STPhysics::PhysicsEngine engineMode) override;
+    void initScene(STScene* scene) override ;
     void update(stUint delta) override;
     void setGravity(stReal gravity) override;
     void dispose() override;
 
-    //Bullet Physics Specific Functions
-    void addRigidBody();
     void clearScene();
 private:
     btDefaultCollisionConfiguration* m_collisionConfiguration;

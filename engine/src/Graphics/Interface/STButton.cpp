@@ -52,7 +52,7 @@ STButton::STButton(stReal x, stReal y, std::string text, STButton::ButtonType ty
 }
 
 void STButton::update(STGame *window) {
-    if(get<STRectBoundsComponent>()->bounds()->contains(window->getInput()->getMouseCoords<stReal>())){
+    if(get<STRectBoundsComponent>()->bounds()->contains(window->getInput()->getMouseCoords())){
         if(inputEvents != 0)invokeInputEvent(this);
     }
 }

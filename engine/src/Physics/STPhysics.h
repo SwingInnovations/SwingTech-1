@@ -18,6 +18,7 @@ public:
 
     virtual void init() = 0;
     virtual void init(PhysicsEngine engine);
+    virtual void initScene(STScene* scene) = 0;
     virtual void update(stUint delta)  = 0;
     virtual void setGravity(stReal gravity) = 0;
     virtual void dispose() = 0;

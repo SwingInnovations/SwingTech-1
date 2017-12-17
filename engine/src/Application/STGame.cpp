@@ -31,6 +31,7 @@ STGame::~STGame() {
     m_gameStates.clear();
     g->cleanup();
     delete g;
+    delete m_physics;
     SDL_GL_DeleteContext(m_Context);
     SDL_DestroyWindow(m_Window);
     m_Window = nullptr;
@@ -132,6 +133,9 @@ void STGame::start(){
         if(!isPause){
             calcDelta();
             Input::Get()->setDelta(delta);
+            if(m_physics){
+                m_physics->update(delta);
+            }
         }else{
             delta = 0;
         }
@@ -153,7 +157,10 @@ void STGame::init() {
 
 void STGame::enterState(unsigned int index) {
     if(!m_gameStates.empty() && index < m_gameStates.size()){
+        auto physicsValid = (m_physics != nullptr);
+        if(physicsValid){ m_physics->dispose(); }
         m_currentIndex = index;
+        //if(physicsValid){ m_physics->initScene(m_gameStates[m_currentIndex]->getScene()); }
     }
 }
 
@@ -250,7 +257,6 @@ void STGame::InitPhysics(STPhysics::PhysicsEngine mode) {
         m_physics->init(mode);
     }
 }
-
 
 
 

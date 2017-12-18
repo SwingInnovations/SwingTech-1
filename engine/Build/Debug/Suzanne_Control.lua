@@ -2,7 +2,7 @@
 -- Initialize Variables Here
 function start(self)
     print("Initializing Script")
-    addEvent(self, "onPress")
+    addEvent(self, "onCollision");
 end
 
 counter = 0;
@@ -50,5 +50,8 @@ function update(self)
 --    local scale = Vector3.new(0.5, 0.5, 0.5);
 --    self:transform():setScale(scale);
 --
+end
 
+function onCollision(self, other)
+    print("A Collision Occured!");
 end

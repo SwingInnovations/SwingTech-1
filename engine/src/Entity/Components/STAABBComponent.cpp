@@ -9,6 +9,7 @@ STAABBComponent::STAABBComponent(){
 void STAABBComponent::init(STEntity *parent) {
     this->m_entity = parent;
     this->m_boundingBox = new STBoundingBox();
+    m_isCalculated = false;
     calculateBounds();
 }
 
@@ -19,21 +20,25 @@ STAABBComponent::STAABBComponent(STEntity *parent, Vector3<stReal> minPoint, Vec
 }
 
 void STAABBComponent::calculateBounds() {
-    auto vertex = m_entity->get<STMeshComponent>()->getMesh()->getMeshStructure().m_vertices;
-    auto transform = m_entity->transform()->getModel();
-    Vector3<stReal> minPoint, maxPoint;
-    minPoint = maxPoint = m_entity->transform()->getTranslate() * m_entity->transform()->getScale();
-    for (auto &v : vertex) {
-        minPoint = Vector3<stReal>::Min(minPoint, transform * *v.getVertex());
-        maxPoint = Vector3<stReal>::Max(maxPoint, transform * *v.getVertex());
+    if(!m_isCalculated){
+        auto vertex = m_entity->get<STMeshComponent>()->getMesh()->getMeshStructure().m_vertices;
+        Vector3<stReal> minPoint, maxPoint;
+        minPoint = maxPoint = Vector3D();
+        for (auto &v : vertex) {
+            minPoint = Vector3D::Min(minPoint, *v.getVertex());
+            maxPoint = Vector3D::Max(maxPoint, *v.getVertex());
+        }
+        m_boundingBox->setMinPoint(m_entity->transform()->getModel() * minPoint);
+        m_boundingBox->setMaxPoint(m_entity->transform()->getModel() * maxPoint);
+        m_isCalculated = true;
     }
-
-    m_boundingBox->setMinPoint(minPoint);
-    m_boundingBox->setMaxPoint(maxPoint);
 }
 
 void STAABBComponent::update() {
     calculateBounds();
+    if(m_isCalculated){
+        m_boundingBox->update(*m_entity->transform());
+    }
 }
 
 bool STAABBComponent::contains(STEntity *other) {
@@ -50,6 +55,10 @@ bool STAABBComponent::intersects(STEntity *other) {
 
 STAABBComponent::~STAABBComponent() {
     delete m_boundingBox;
+}
+
+STBoundingBox *STAABBComponent::getBoundingBox() {
+    return m_boundingBox;
 }
 
 

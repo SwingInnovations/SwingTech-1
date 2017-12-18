@@ -21,9 +21,17 @@ void BulletPhysics::update(stUint delta) {
         m_dynamicsWorld->stepSimulation(delta);
         for(stUint i = 0; i < m_dynamicsWorld->getDispatcher()->getNumManifolds(); i++){
             auto collision = m_dynamicsWorld->getDispatcher()->getManifoldByIndexInternal(i);
-            auto body0 = collision->getBody0();
-            auto body1 = collision->getBody1();
-            auto gameObject = ((STActor*)body0->getUserPointer());
+            auto gameObject = ((STEntity*)collision->getBody0()->getUserPointer());
+            auto otherObject = ((STEntity*)collision->getBody1()->getUserPointer());
+            std::vector<STEntity*> result;
+            result.push_back(otherObject);
+            auto eventComp = gameObject->get<STEventComponent>();
+            eventComp->setResultants(result, 0);
+            eventComp->setEvent("onCollision");
+        }
+
+        for(auto rigidBody : m_rigidBodyPool){
+            auto transform = rigidBody->getWorldTransform();
         }
     }
 }
@@ -54,6 +62,7 @@ void BulletPhysics::init(STPhysics::PhysicsEngine engineMode) {
 
 void BulletPhysics::clearScene() {
     m_dynamicsWorld->getCollisionObjectArray().clear();
+    m_rigidBodyPool.clear();
 }
 
 void BulletPhysics::initScene(STScene *scene) {
@@ -61,7 +70,9 @@ void BulletPhysics::initScene(STScene *scene) {
     for(auto actor : scene->getActors()){
         auto physComponent = actor->get<ST3DPhysicsComponent>();
         if(physComponent != nullptr){
-            m_dynamicsWorld->addRigidBody(dynamic_cast<BulletRigidBody*>(actor->get<ST3DPhysicsComponent>())->getRigidBody());
+            auto rigidBody = ((BulletRigidBody*)physComponent->getRigidBody())->getRigidBody();
+            m_dynamicsWorld->addRigidBody(rigidBody);
+            m_rigidBodyPool.push_back(rigidBody);
         }
     }
 }

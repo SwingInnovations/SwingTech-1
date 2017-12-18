@@ -9,8 +9,11 @@
 
 class BulletRigidBody : public STRigidBody{
 public:
-    BulletRigidBody(Transform* transform, RigidBodyShape shape, std::vector<stReal> points);
+    explicit BulletRigidBody(Transform* transform, RigidBodyShape shape = BOX);
     btRigidBody*    getRigidBody();
+    void setMass(stReal mass) override;
+    stReal getMass()const override;
+    void update(Transform* transform) override;
 private:
     btCollisionShape* m_collisionShape;
     btRigidBody*      m_rigidBody;

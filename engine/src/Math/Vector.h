@@ -279,16 +279,16 @@ public:
      * @return
      */
     static Vector3 Min(const Vector3& v1, const Vector3& v2){
-        const T x = v1.getX() < v2.getX() ? v1.getX() : v2.getX();
-        const T y = v1.getY() < v2.getY() ? v1.getY() : v2.getY();
-        const T z = v1.getZ() < v2.getZ() ? v1.getZ() : v2.getZ();
+        const T x = v1.getX() <= v2.getX() ? v1.getX() : v2.getX();
+        const T y = v1.getY() <= v2.getY() ? v1.getY() : v2.getY();
+        const T z = v1.getZ() <= v2.getZ() ? v1.getZ() : v2.getZ();
         return Vector3(x, y, z);
     }
 
     static Vector3 Max(const Vector3& v1, const Vector3& v2){
-        const T x = v1.getX() > v2.getX() ? v1.getX() : v2.getX();
-        const T y = v1.getY() > v2.getY() ? v1.getY() : v2.getY();
-        const T z = v1.getZ() > v2.getZ() ? v1.getZ() : v2.getZ();
+        const T x = v1.getX() >= v2.getX() ? v1.getX() : v2.getX();
+        const T y = v1.getY() >= v2.getY() ? v1.getY() : v2.getY();
+        const T z = v1.getZ() >= v2.getZ() ? v1.getZ() : v2.getZ();
         return Vector3(x, y, z);
     }
 

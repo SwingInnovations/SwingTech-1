@@ -129,6 +129,7 @@ stReal STGame::getDeltaTIme() const {
 void STGame::start(){
     isRunning = true;
     init();
+    if(m_physics) m_physics->initScene(m_gameStates[m_currentIndex]->getScene());
     while(isRunning){
         if(!isPause){
             calcDelta();
@@ -160,7 +161,7 @@ void STGame::enterState(unsigned int index) {
         auto physicsValid = (m_physics != nullptr);
         if(physicsValid){ m_physics->dispose(); }
         m_currentIndex = index;
-        //if(physicsValid){ m_physics->initScene(m_gameStates[m_currentIndex]->getScene()); }
+        if(physicsValid && m_gameStates[m_currentIndex]->getScene() != nullptr){ m_physics->initScene(m_gameStates[m_currentIndex]->getScene()); }
     }
 }
 
@@ -255,8 +256,12 @@ void STGame::InitPhysics(STPhysics::PhysicsEngine mode) {
     if(mode == STPhysics::BULLET){
         m_physics = new BulletPhysics;
         m_physics->init(mode);
+        m_physicsMode = mode;
     }
 }
 
+stInt STGame::getPhysicsMode() const {
+    return m_physicsMode;
+}
 
 

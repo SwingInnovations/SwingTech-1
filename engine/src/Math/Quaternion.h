@@ -16,12 +16,7 @@ public:
      *
      * @return
      */
-    Quaternion(){
-        m_val[0] = 0.0f;
-        m_val[1] = 0.0f;
-        m_val[2] = 0.0f;
-        m_val[3] = 1.0f;
-    }
+    Quaternion();
 
     /** Quaternion Constructor
      *
@@ -31,22 +26,19 @@ public:
      * @param _w    W - Component
      * @return
      */
-    Quaternion(const float _x, const float _y, const float _z, const float _w){
-        m_val[0] = _x;
-        m_val[1] = _y;
-        m_val[2] = _z;
-        m_val[3] = _w;
-    }
+    Quaternion(const float _x, const float _y, const float _z, const float _w);
 
     /**
      * Initializes ST Quaternion from assimp quaternion
      * @param quaternion
      * @return
      */
-    static Quaternion From(aiQuaternion quaternion){
-        return Quaternion(quaternion.x, quaternion.y, quaternion.z, quaternion.w);
-    }
+    static Quaternion From(aiQuaternion quaternion);
 
+    /**
+     * Sets X component of Quaternion
+     * @param _x
+     */
     inline void setX(const float _x){ m_val[0] = _x; }
     inline void setY(const float _y){ m_val[1] = _y; }
     inline void setZ(const float _z){ m_val[2] = _z; }
@@ -64,22 +56,13 @@ public:
      *
      * @return quaternion normalized.
      */
-    inline Quaternion normalize(){
-        float len = getLength();
-        m_val[0] /= len;
-        m_val[1] /= len;
-        m_val[2] /= len;
-        m_val[3] /= len;
-        return *this;
-    }
+    Quaternion normalize();
 
     /**Returns the Conjugate of the Quaternion
      *
      * @return Conjugate of the quaternion.
      */
-    inline Quaternion conjugate(){
-        return Quaternion(-m_val[0], -m_val[1], -m_val[2], m_val[3]);
-    }
+    Quaternion conjugate();
 
     /**Converts Quaternion to Vector3
      *
@@ -114,7 +97,7 @@ public:
     Json to_json()const;
 
 private:
-    float m_val[4];
+    float m_val[4]{};
 };
 
 #endif //WAHOO_QUATERNION_H

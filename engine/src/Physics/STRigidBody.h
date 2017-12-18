@@ -20,6 +20,7 @@ public:
     STRigidBody(){}
     STRigidBody(Transform* transform, RigidBodyShape shape){;}
     virtual void setMass(stReal mass) = 0;
+    virtual stReal getMass()const = 0;
     virtual void update(Transform* transform) = 0;
 
 protected:

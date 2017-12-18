@@ -4,8 +4,8 @@
 #if __MINGW32__
 #include "../include/GL/glew.h"
 extern "C"{
-    #include "../include/SDL2/SDL.h"
-    #include "../include/SDL2/SDL_opengl.h"
+    #include <SDL2/SDL.h>
+    #include <SDL2/SDL_opengl.h>
 };
 #else
 #include <GL/glew.h>
@@ -193,6 +193,7 @@ public:
     //! Gets Delta time.
     Uint32 getDelta(){ return this->delta; } /*! \return Delta time */
     stReal getDeltaTIme() const ;
+    stInt getPhysicsMode()const;
 protected:
     bool isRunning;
     //! Initializes Game States
@@ -235,6 +236,7 @@ private:
     stInt m_graphics_MAJOR;
     stInt m_graphics_MINOR;
     stInt m_graphics_Profile;
+    stInt m_physicsMode;
 
     Uint32 delta, oldTime, newTime, fps;
     DIMENSION_MODE dimMode;

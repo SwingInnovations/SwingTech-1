@@ -103,3 +103,7 @@ engine/cmake-build-debug/libdemoSwing.dll.a
 engine/cmake-build-debug/
 
 engine/cmake-build-release/
+
+engine/\.vs/engine/v15/Browse\.VC\.db
+
+engine/\.vs/engine/v15/ipch/AutoPCH/bd591ab91ec62bc1/STGAME\.ipch

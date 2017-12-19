@@ -2,7 +2,7 @@
 -- Initialize Variables Here
 function start(self)
     print("Initializing Script")
-    addEvent(self, "onPress")
+    addEvent(self, "onCollision");
 end
 
 counter = 0;
@@ -14,7 +14,7 @@ function update(self)
     local rotation = self:transform():getRotate()
     local oldX, oldZ = position:getX(), position:getZ()
     local rotY = rotation:getY()
-    local forward = self:transform():getForward()
+    local forward = self:transform():getRight()
     local delta = STGame:Get():getDelta()
     local speedFactor = self:getAttributef("speedFactor")
 
@@ -50,6 +50,8 @@ function update(self)
 --    local scale = Vector3.new(0.5, 0.5, 0.5);
 --    self:transform():setScale(scale);
 --
-    print(self:transform():getForward():getInfo());
+end
 
+function onCollision(self, other)
+    print("A Collision Occured!");
 end

@@ -145,7 +145,6 @@ public:
             stMesh.materialKey = matName.C_Str();
             const aiVector3D Z(0.f, 0.f, 0.f);
             for(stUint j = 0, S = mesh->mNumVertices; j < S; j++){
-
                 const aiVector3D* pPos = &(mesh->mVertices[j]);
                 const aiVector3D* pNormal = &(mesh->mNormals[j]);
                 const aiVector3D* pTexCoord = (mesh->HasTextureCoords(0)) ? &(mesh->mTextureCoords[0][j]) : &Z;

@@ -4,8 +4,8 @@
 #if __MINGW32__
 #include "../include/GL/glew.h"
 extern "C"{
-    #include "../include/SDL2/SDL.h"
-    #include "../include/SDL2/SDL_opengl.h"
+    #include <SDL2/SDL.h>
+    #include <SDL2/SDL_opengl.h>
 };
 #else
 #include <GL/glew.h>
@@ -22,6 +22,7 @@ extern "C"{
 #include <vector>
 
 #include "Input.h"
+#include "../Physics/STPhysics.h"
 #include "STGameState.h"
 #include "../Math/Vector.h"
 
@@ -46,6 +47,7 @@ public:
     static STGame* m_instance;
 
     static STGame* Init(const std::string& title, const stUint WIDTH, const stUint HEIGHT);
+    static STGame* Init(const std::string& title, stUint width, stUint height, STPhysics::PhysicsEngine mode);
     static STGame* Get();
 
     enum DIMENSION_MODE{
@@ -191,6 +193,7 @@ public:
     //! Gets Delta time.
     Uint32 getDelta(){ return this->delta; } /*! \return Delta time */
     stReal getDeltaTIme() const ;
+    stInt getPhysicsMode()const;
 protected:
     bool isRunning;
     //! Initializes Game States
@@ -200,6 +203,7 @@ protected:
     void render();
     //! Calculates Delta for every CPU cycle
     void calcDelta();
+
 private:
     bool isPause;
     bool useLua;
@@ -216,6 +220,8 @@ private:
         STGame::SetResolutionHeight(val);
     }
 
+    void InitPhysics(STPhysics::PhysicsEngine mode);
+
     unsigned int m_currentIndex;
     std::vector<STGameState *> m_gameStates;
     SDL_Window* m_Window;
@@ -223,12 +229,14 @@ private:
     SDL_Event m_e;
 
     STGraphics * g;
+    STPhysics* m_physics;
     unsigned int WIDTH, HEIGHT;
     int m_CurrentState;
 
     stInt m_graphics_MAJOR;
     stInt m_graphics_MINOR;
     stInt m_graphics_Profile;
+    stInt m_physicsMode;
 
     Uint32 delta, oldTime, newTime, fps;
     DIMENSION_MODE dimMode;

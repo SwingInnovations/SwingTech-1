@@ -3,6 +3,7 @@
 #include "Components/STEventComponent.h"
 #include "Util/Loaders/STMeshLoader.h"
 #include "Components/ST3DAnimationComponent.h"
+#include "Components/ST3DPhysicsComponent.h"
 
 /**
  * Creates a new Actor Entity based off defined STMeshStructure, uniqueTag, and Material.
@@ -45,8 +46,6 @@ STActor::STActor(const std::string &filePath) {
     std::vector<STMesh_Structure> meshes;
     std::map<std::string, STMaterial*> materials;
 
-    m_transform = new Transform(this);
-    addComponent(typeid(STEventComponent), new STEventComponent);
     if(STMesh::Validate(filePath, &errFlag, &meshes, &materials)){
         for (const auto &mesh : meshes) {
             addChild_Actor(new STActor(this, mesh, materials));
@@ -64,7 +63,9 @@ STActor::STActor(const std::string &filePath) {
                 self->transform()->setRotateY(self->transform()->getRotate().getY() + STGame::Get()->getDelta() * 0.25f);
             });
             return;
-        }
+    }
+    m_transform = new Transform(this);
+    addComponent(typeid(STEventComponent), new STEventComponent);
     addComponent(typeid(STMeshComponent), new STMeshComponent(meshes.at(0)));
     if(meshes.at(0).m_hasAnimations){
         addComponent(typeid(ST3DAnimationComponent), new ST3DAnimationComponent(meshes.at(0)));
@@ -83,6 +84,9 @@ STActor::STActor(STEntity *parent, STMesh_Structure meshStructure, std::map<std:
     if(meshStructure.materialKey.empty()) addComponent(typeid(STGraphicsComponent), new STGraphicsComponent(new STMaterial(new GLShader("standard"))));
     else addComponent(typeid(STGraphicsComponent), new STGraphicsComponent(materials.at(meshStructure.materialKey)));
     addComponent(typeid(STEventComponent), new STEventComponent());
+    if(meshStructure.m_hasAnimations){
+        addComponent(typeid(ST3DAnimationComponent), new ST3DAnimationComponent(meshStructure));
+    }
     addComponent(typeid(STAABBComponent), new STAABBComponent);
     m_transform = new Transform(this);
 }

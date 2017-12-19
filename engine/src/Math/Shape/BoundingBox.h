@@ -4,6 +4,8 @@
 #include "../STCore.h"
 #include "../Vector.h"
 
+class Transform;
+
 class STBoundingBox{
 public:
     /**
@@ -42,6 +44,10 @@ public:
     void setDimensions(const Vector3<stReal>& centerPoint, const Vector3<stReal>& extants){
         this->minPoint = centerPoint - extants;
         this->maxPoint = centerPoint + extants;
+    }
+
+    void update(const Transform& transform){
+        //Should be updating with transform
     }
 
     /**

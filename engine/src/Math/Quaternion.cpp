@@ -70,3 +70,38 @@ Json Quaternion::to_json() const {
             {"w", m_val[3]}
     };
 }
+
+Quaternion::Quaternion() {
+    m_val[0] = 0.0f;
+    m_val[1] = 0.0f;
+    m_val[2] = 0.0f;
+    m_val[3] = 1.0f;
+}
+
+Quaternion::Quaternion(const float _x, const float _y, const float _z, const float _w) {
+    m_val[0] = _x;
+    m_val[1] = _y;
+    m_val[2] = _z;
+    m_val[3] = _w;
+}
+
+Quaternion Quaternion::From(aiQuaternion quaternion) {
+    return Quaternion(quaternion.x, quaternion.y, quaternion.z, quaternion.w);
+}
+
+Quaternion Quaternion::normalize() {
+    float len = getLength();
+    m_val[0] /= len;
+    m_val[1] /= len;
+    m_val[2] /= len;
+    m_val[3] /= len;
+    return *this;
+}
+
+Quaternion Quaternion::conjugate() {
+    return Quaternion(-m_val[0], -m_val[1], -m_val[2], m_val[3]);
+}
+
+Quaternion Quaternion::From(btQuaternion quaternion) {
+    return {quaternion.getX(), quaternion.getY(), quaternion.getZ(), quaternion.getW()};
+}

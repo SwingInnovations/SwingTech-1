@@ -25,6 +25,39 @@ BulletRigidBody::BulletRigidBody(Transform *transform, STRigidBody::RigidBodySha
     m_rigidBody->setUserPointer(((void*)transform->getEntity()));
 }
 
+BulletRigidBody::BulletRigidBody(Transform *transform, STRigidBody::RigidBodyShape shape,
+                                 std::vector<stReal> &dimensions) {
+    m_transform = transform;
+    if(transform->getEntity()->get<STAABBComponent>() == nullptr){
+        std::cerr << "Error, STAABBComponent needed. Forgot to initialize?" << std::endl;
+        return;
+    }
+
+    if(shape == AUTO){
+        auto knownBounds = transform->getEntity()->get<STAABBComponent>()->getBoundingBox();
+        auto knownExtents = knownBounds->getExtants();
+        m_collisionShape = new btBoxShape({knownExtents.getX(), knownExtents.getY(), knownExtents.getZ()});
+    }else if(shape == BOX){
+        m_collisionShape = new btBoxShape({dimensions[0], dimensions[1], dimensions[2]});
+    }else if(shape == STATIC_PLANE){
+        m_collisionShape = new btStaticPlaneShape({dimensions[0], dimensions[1], dimensions[2]}, dimensions[3]);
+    }else if(shape == SPHERE){
+        m_collisionShape = new btSphereShape(dimensions[0]);
+    }else if(shape == CAPSULE){
+        //TODO Implement This
+    }else if(shape == CYLINDER){
+        //TODO IMplement this
+    }
+    m_Mass = 10.0f;
+    btVector3 localInertia(0, 0, 0);
+    m_collisionShape->calculateLocalInertia(m_Mass, localInertia);
+    btDefaultMotionState* motionState = new btDefaultMotionState(btTransform(btQuaternion(0, 0, 0, 1), btVector3(0, 10, 0)));
+    btRigidBody::btRigidBodyConstructionInfo ctInfo(m_Mass, motionState, m_collisionShape, localInertia);
+
+    m_rigidBody = new btRigidBody(ctInfo);
+    m_rigidBody->setUserPointer(((void*)transform->getEntity()));
+}
+
 
 btRigidBody *BulletRigidBody::getRigidBody() {
     return m_rigidBody;
@@ -74,7 +107,6 @@ void BulletRigidBody::updateTransform() {
 void BulletRigidBody::applyImpulseForce(Vector3D vector) {
     m_ImpulseForce = vector;
     m_rigidBody->applyCentralImpulse({vector.getX(), vector.getY(), vector.getZ()});
-    //m_rigidBody->setLinearVelocity({vector.getX(), vector.getY(), vector.getZ()});
 }
 
 void BulletRigidBody::setActive(bool status) {
@@ -96,4 +128,6 @@ void BulletRigidBody::setRestitution(float value) {
 void BulletRigidBody::clearForces() {
     m_rigidBody->clearForces();
 }
+
+
 

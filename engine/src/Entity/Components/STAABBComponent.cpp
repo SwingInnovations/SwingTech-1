@@ -28,8 +28,8 @@ void STAABBComponent::calculateBounds() {
             minPoint = Vector3D::Min(minPoint, *v.getVertex());
             maxPoint = Vector3D::Max(maxPoint, *v.getVertex());
         }
-        m_boundingBox->setMinPoint(m_entity->transform()->getModel() * minPoint);
-        m_boundingBox->setMaxPoint(m_entity->transform()->getModel() * maxPoint);
+        m_boundingBox->setMinPoint(minPoint);
+        m_boundingBox->setMaxPoint(maxPoint);
         m_isCalculated = true;
     }
 }

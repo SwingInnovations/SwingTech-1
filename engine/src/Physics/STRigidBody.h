@@ -12,14 +12,17 @@ class Transform;
 class STRigidBody{
 public:
     enum RigidBodyShape : unsigned char{
+        AUTO,
         BOX,
+        STATIC_PLANE,
         SPHERE,
-        CAPSULSE,
+        CAPSULE,
         CYLINDER,
         CUSTOM
     };
     STRigidBody(){}
     STRigidBody(Transform* transform, RigidBodyShape shape){;}
+    STRigidBody(Transform* transform, RigidBodyShape shape, std::vector<stReal>& dimensions){;}
     virtual void setMass(stReal mass) = 0;
     virtual void setGravity(Vector3D gravity) = 0;
     virtual void applyGravity() = 0;

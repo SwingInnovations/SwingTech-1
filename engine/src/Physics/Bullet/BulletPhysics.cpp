@@ -27,7 +27,8 @@ void BulletPhysics::update(stUint delta) {
             std::vector<STEntity*> result;
             result.push_back(otherObject);
             auto eventComp = gameObject->get<STEventComponent>();
-            eventComp->setResultants(result, 0);
+            //eventComp->setResultants(result);
+            eventComp->setOther(otherObject);
             eventComp->setEvent("onCollision");
         }
 
@@ -35,27 +36,18 @@ void BulletPhysics::update(stUint delta) {
             auto collisionObj = m_dynamicsWorld->getCollisionObjectArray()[i];
             btRigidBody* rigidBody = btRigidBody::upcast(collisionObj);
             btTransform transform;
+            btScalar  rX, rY, rZ;
             if(rigidBody->getMotionState() != nullptr){
                 rigidBody->getMotionState()->getWorldTransform(transform);
             }else{
                 transform = rigidBody->getWorldTransform();
             }
+            transform.getRotation().getEulerZYX(rZ, rY, rX);
             auto entityTransform = ((STEntity*)rigidBody->getUserPointer())->transform();
             entityTransform->setTranslate(Vector3D(transform.getOrigin().getX(), transform.getOrigin().getY(), transform.getOrigin().getZ()));
+            entityTransform->setRotationMode(Transform::Local);
+            entityTransform->setRotate({rX, rY, rZ});
         }
-
-//        for(auto rigidBody : m_rigidBodyPool){
-//            auto rigidEnt = ((STEntity*)rigidBody->getUserPointer());
-//            auto transform = ((STEntity*)rigidBody->getUserPointer())->transform();
-//            btScalar* m = new btScalar[16];
-//            btScalar rX, rY, rZ;
-//            std::cout << rigidBody->getInvMass() << std::endl;
-//            rigidBody->getCenterOfMassTransform().getOpenGLMatrix(m);
-//            rigidBody->getCenterOfMassTransform().getRotation().getEulerZYX(rZ, rY, rX);
-//            transform->setTranslate(Vector3D(m[12], m[13], m[14]));
-//            transform->setRotate(Vector3D(rX, rY, rZ));
-//            delete m;
-//        }
     }
 }
 

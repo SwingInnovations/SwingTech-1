@@ -7,22 +7,37 @@
 class ST3DPhysicsComponent : public STComponent {
 public:
     ST3DPhysicsComponent();
+    ST3DPhysicsComponent(STRigidBody::RigidBodyShape bodyShape, std::vector<stReal> dimensions);
     ~ST3DPhysicsComponent();
     void init(STEntity* parent) override;
     STRigidBody* getRigidBody();
-    void update();
+
+    /**
+     * Applies gravity to Object
+     */
+    void applyGravity();
+    /**
+     * Applies force to object based off Axis
+     */
+    void applyForce(Vector3D);
     void dispose() override;
-    void setMass(const stReal mass);
+    void setMass(stReal mass);
     void setGravity(Vector3D gravity);
     void setActive(bool);
+    void setDamping(stReal, stReal);
+    /**
+     * Sets "Bounciness" of object
+     * @param value
+     */
+    void setRestitution(stReal value);
     void toggleFreeze(bool);
     void updateTransform();
-    void applyForce(Vector3D);
-    void setDamping(stReal, stReal);
-    void applyGravity();
-    void setRestitution(stReal value);
+
+    void update() override ;
 private:
     STRigidBody* m_rigidBody;
+    STRigidBody::RigidBodyShape m_initShape;
+    std::vector<stReal> m_dimensions;
 };
 
 

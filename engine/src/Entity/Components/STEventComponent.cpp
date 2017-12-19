@@ -43,7 +43,11 @@ void STEventComponent::updateEvent(std::string name, std::function<void(STEntity
     addEvent(name, alteredFunction);
 }
 
-void STEventComponent::setResultants(std::vector<STEntity*>& resultants, stUint numResultants) {
+void STEventComponent::setResultants(std::vector<STEntity*>& resultants) {
     this->resultants = resultants;
-    this->numResultants = numResultants;
+    this->numResultants = (stUint)resultants.size();
+}
+
+void STEventComponent::setOther(STEntity *other) {
+    this->other = other;
 }

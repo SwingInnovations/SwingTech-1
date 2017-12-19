@@ -2,8 +2,15 @@
 #include "../STEntity.h"
 #include "../../Physics/Bullet/BulletRigidBody.h"
 
-ST3DPhysicsComponent::ST3DPhysicsComponent() {
+ST3DPhysicsComponent::ST3DPhysicsComponent(){
+    m_initShape = STRigidBody::RigidBodyShape::BOX;
+}
 
+ST3DPhysicsComponent::ST3DPhysicsComponent(STRigidBody::RigidBodyShape bodyShape, std::vector<stReal> dimensions) {
+    m_initShape = bodyShape;
+    for(auto val : dimensions){
+        m_dimensions.push_back(val);
+    }
 }
 
 STRigidBody *ST3DPhysicsComponent::getRigidBody() {
@@ -13,11 +20,11 @@ STRigidBody *ST3DPhysicsComponent::getRigidBody() {
 void ST3DPhysicsComponent::init(STEntity *parent) {
     STComponent::init(parent);
     if(STGame::Get()->getPhysicsMode() == 1){
-        m_rigidBody = new BulletRigidBody(parent->transform(), STRigidBody::BOX);
+        m_rigidBody = new BulletRigidBody(parent->transform(), m_initShape, m_dimensions);
     }
 }
 
-void ST3DPhysicsComponent::setMass(const stReal mass) {
+void ST3DPhysicsComponent::setMass(stReal mass) {
     m_rigidBody->setMass(mass);
 }
 
@@ -71,4 +78,5 @@ void ST3DPhysicsComponent::applyGravity() {
 void ST3DPhysicsComponent::setRestitution(stReal value) {
     m_rigidBody->setRestitution(value);
 }
+
 

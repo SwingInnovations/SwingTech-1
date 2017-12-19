@@ -73,7 +73,6 @@ STActor::STActor(const std::string &filePath) {
     if(meshes[0].materialKey.empty()) addComponent(typeid(STGraphicsComponent), new STGraphicsComponent(new STMaterial(new GLShader("standard"))));
     else addComponent(typeid(STGraphicsComponent), new STGraphicsComponent(materials.at(meshes.at(0).materialKey)));
     addComponent(typeid(STAABBComponent), new STAABBComponent(this, meshes.at(0).m_minPt, meshes.at(0).m_maxPt));
-    addComponent(typeid(ST3DPhysicsComponent), new ST3DPhysicsComponent());
 }
 
 STActor::STActor(STEntity *parent, STMesh_Structure meshStructure, std::map<std::string, STMaterial *> materials) {
@@ -89,7 +88,6 @@ STActor::STActor(STEntity *parent, STMesh_Structure meshStructure, std::map<std:
         addComponent(typeid(ST3DAnimationComponent), new ST3DAnimationComponent(meshStructure));
     }
     addComponent(typeid(STAABBComponent), new STAABBComponent);
-    addComponent(typeid(ST3DPhysicsComponent), new ST3DPhysicsComponent);
     m_transform = new Transform(this);
 }
 

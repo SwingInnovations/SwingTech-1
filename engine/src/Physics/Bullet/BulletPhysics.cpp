@@ -93,9 +93,9 @@ void BulletPhysics::initScene(STScene *scene) {
 }
 
 BulletPhysics::~BulletPhysics() {
-    delete m_dynamicsWorld;
-    delete m_solver;
-    delete m_broadphase;
-    delete m_dispatcher;
     delete m_collisionConfiguration;
+    delete m_dispatcher;
+    delete m_broadphase;
+    delete m_solver;
+    delete m_dynamicsWorld;
 }

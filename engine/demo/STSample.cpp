@@ -48,8 +48,8 @@ public:
         diceBox->transform()->setTranslateY(10.f);
         diceBox->transform()->setTranslateZ(2.f);
         diceBox->addComponent(typeid(ST3DPhysicsComponent), new ST3DPhysicsComponent(STRigidBody::RigidBodyShape::SPHERE, {1.f}));
-        diceBox->get<ST3DPhysicsComponent>()->setMass(100.f);
-        diceBox->get<ST3DPhysicsComponent>()->setRestitution(50.0f);
+        diceBox->get<ST3DPhysicsComponent>()->setMass(10.f);
+        diceBox->get<ST3DPhysicsComponent>()->setRestitution(200.0f);
         diceBox->get<ST3DPhysicsComponent>()->updateTransform();
         diceBox->get<ST3DPhysicsComponent>()->toggleFreeze(true);
 
@@ -116,6 +116,7 @@ public:
         m_scene->dispose();
         delete m_scene;
     }
+
 private:
     stUint counter;
 };

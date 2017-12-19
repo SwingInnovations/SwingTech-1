@@ -24,14 +24,10 @@ public:
     void addEvent(std::string name, std::function<void(STEntity*, STEntity*)> newFunction);
     void updateEvent(std::string name, std::function<void(STEntity*, STEntity*)> alteredFunction);
 
-    void setResultants(std::vector<STEntity*>& resultants);
     void setOther(STEntity* other);
 private:
-
     std::map<std::string, std::function<void(STEntity*, STEntity*)>> m_Events;
     STEntity* other;
-    std::vector<STEntity*> resultants;
-    stUint numResultants;
     std::string m_currentEvent;
 };
 

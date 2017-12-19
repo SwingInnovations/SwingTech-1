@@ -129,5 +129,41 @@ void BulletRigidBody::clearForces() {
     m_rigidBody->clearForces();
 }
 
+void BulletRigidBody::applyTorqueImpulse(Vector3D torque) {
+    m_rigidBody->applyTorqueImpulse({torque.getX(), torque.getY(), torque.getZ()});
+}
+
+void BulletRigidBody::applyTorque(Vector3D torque) {
+    m_rigidBody->applyTorque({torque.getX(), torque.getY(), torque.getZ()});
+}
+
+void BulletRigidBody::setLinearVelocity(Vector3D lVec) {
+    m_rigidBody->setLinearVelocity({lVec.getX(), lVec.getY(), lVec.getZ()});
+}
+
+void BulletRigidBody::setAngularVelocity(Vector3D aVec) {
+    m_rigidBody->setAngularVelocity({aVec.getX(), aVec.getY(), aVec.getZ()});
+}
+
+Vector3D BulletRigidBody::getTotalForce() const {
+    auto ret = m_rigidBody->getTotalForce();
+    return {ret.getX(), ret.getY(), ret.getZ()};
+}
+
+Vector3D BulletRigidBody::getTorqueForce() const {
+    auto ret = m_rigidBody->getTotalTorque();
+    return {ret.getX(), ret.getY(), ret.getZ()};
+}
+
+Vector3D BulletRigidBody::getLinearVelocity() const {
+    auto ret = m_rigidBody->getLinearVelocity();
+    return { ret.getX(), ret.getY(), ret.getZ() };
+}
+
+Vector3D BulletRigidBody::getAngularVelocity() const {
+    auto ret = m_rigidBody->getAngularVelocity();
+    return {ret.getX(), ret.getY(), ret.getZ()};
+}
+
 
 

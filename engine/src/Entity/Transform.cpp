@@ -9,7 +9,7 @@ Transform::Transform(STEntity *parent) {
     rotateMode = Local;
 }
 
-void Transform::setTranslate(Vector3<stReal> &vec) {
+void Transform::setTranslate(Vector3<stReal> vec) {
     this->translate = vec;
     if(parent != nullptr){
         if(parent->hasChildren()){
@@ -76,7 +76,7 @@ void Transform::setTranslate(stReal _value) {
     setTranslateZ(_value);
 }
 
-void Transform::setRotate(Vector3<stReal> &vec) {
+void Transform::setRotate(Vector3<stReal> vec) {
     this->rotate = vec;
 }
 
@@ -173,7 +173,7 @@ Transform::Transform(STEntity *parent, Vector3D &translate, Vector3D &rotate, Ve
     rotateMode = Global;
 }
 
-void Transform::setScale(Vector3D &vec) { this->scale = vec; }
+void Transform::setScale(Vector3D vec) { this->scale = vec; }
 
 void Transform::setScaleZ(stReal _z) { this->scale.setZ(_z); }
 

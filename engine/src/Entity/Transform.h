@@ -56,7 +56,7 @@ public:
      * Sets position of Transform to Vector3
      * @param vec
      */
-    void setTranslate(Vector3D& vec);
+    void setTranslate(Vector3D vec);
     void setTranslateX(stReal _x);
     void setTranslateY(stReal _y);
     void setTranslateZ(stReal _z);
@@ -66,7 +66,7 @@ public:
      * Sets Rotation of Transform to Vector3
      * @param vec
      */
-    void setRotate(Vector3D& vec);
+    void setRotate(Vector3D vec);
     void setRotateX(stReal _x);
     void setRotateY(stReal _y);
     void setRotateZ(stReal _z);
@@ -75,7 +75,7 @@ public:
      * Sets Scale of Transform to Vector3
      * @param vec
      */
-    void setScale(Vector3D& vec);
+    void setScale(Vector3D vec);
     void setScaleX(stReal _x);
     void setScaleY(stReal _y);
     void setScaleZ(stReal _z);

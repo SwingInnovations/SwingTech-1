@@ -101,3 +101,7 @@ Quaternion Quaternion::normalize() {
 Quaternion Quaternion::conjugate() {
     return Quaternion(-m_val[0], -m_val[1], -m_val[2], m_val[3]);
 }
+
+Quaternion Quaternion::From(btQuaternion quaternion) {
+    return {quaternion.getX(), quaternion.getY(), quaternion.getZ(), quaternion.getW()};
+}

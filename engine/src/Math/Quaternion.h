@@ -3,6 +3,7 @@
 
 
 #include <assimp/quaternion.h>
+#include <LinearMath/btQuaternion.h>
 #include "../../include/json11/json11.hpp"
 #include "STCore.h"
 
@@ -34,6 +35,8 @@ public:
      * @return
      */
     static Quaternion From(aiQuaternion quaternion);
+
+    static Quaternion From(btQuaternion quaternion);
 
     /**
      * Sets X component of Quaternion

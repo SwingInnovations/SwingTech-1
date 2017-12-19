@@ -14,6 +14,7 @@ void BulletPhysics::init() {
     m_broadphase = new btDbvtBroadphase();
     m_solver = new btSequentialImpulseConstraintSolver;
     m_dynamicsWorld = new btDiscreteDynamicsWorld(m_dispatcher, m_broadphase, m_solver, m_collisionConfiguration);
+    m_dynamicsWorld->setGravity(btVector3(0, -10, 0));
 }
 
 void BulletPhysics::update(stUint delta) {
@@ -30,9 +31,31 @@ void BulletPhysics::update(stUint delta) {
             eventComp->setEvent("onCollision");
         }
 
-        for(auto rigidBody : m_rigidBodyPool){
-            auto transform = rigidBody->getWorldTransform();
+        for(int i = 0, L = m_dynamicsWorld->getNumCollisionObjects(); i < L; i++){
+            auto collisionObj = m_dynamicsWorld->getCollisionObjectArray()[i];
+            btRigidBody* rigidBody = btRigidBody::upcast(collisionObj);
+            btTransform transform;
+            if(rigidBody->getMotionState() != nullptr){
+                rigidBody->getMotionState()->getWorldTransform(transform);
+            }else{
+                transform = rigidBody->getWorldTransform();
+            }
+            auto entityTransform = ((STEntity*)rigidBody->getUserPointer())->transform();
+            entityTransform->setTranslate(Vector3D(transform.getOrigin().getX(), transform.getOrigin().getY(), transform.getOrigin().getZ()));
         }
+
+//        for(auto rigidBody : m_rigidBodyPool){
+//            auto rigidEnt = ((STEntity*)rigidBody->getUserPointer());
+//            auto transform = ((STEntity*)rigidBody->getUserPointer())->transform();
+//            btScalar* m = new btScalar[16];
+//            btScalar rX, rY, rZ;
+//            std::cout << rigidBody->getInvMass() << std::endl;
+//            rigidBody->getCenterOfMassTransform().getOpenGLMatrix(m);
+//            rigidBody->getCenterOfMassTransform().getRotation().getEulerZYX(rZ, rY, rX);
+//            transform->setTranslate(Vector3D(m[12], m[13], m[14]));
+//            transform->setRotate(Vector3D(rX, rY, rZ));
+//            delete m;
+//        }
     }
 }
 

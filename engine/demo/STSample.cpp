@@ -3,6 +3,7 @@
 #include "../src/Application/STSceneManager.h"
 #include "../src/Application/Util/STJson.h"
 #include "../src/Entity/Components/ST3DAnimationComponent.h"
+#include "../src/Entity/Components/ST3DPhysicsComponent.h"
 
 /**
  * This is an example class for demonstrating How a typical game state would be setup.
@@ -24,36 +25,43 @@ public:
         accentLight2->get<STLightComponent>()->setTarget(Vector3D());
         accentLight2->get<STLightComponent>()->getProperties()->intensity = 0.9f;
 
-        auto character = new STActor("humanoid.fbx");
-        character->setTag("Main");
-        character->get<STGraphicsComponent>()->getMaterial()->setMetallic(0.1f);
-        character->addComponent(typeid(STScriptComponent), new STScriptComponent("Suzanne_Control.lua"));
-        character->setAttribute("speedFactor", 0.025f);
-        character->transform()->setRotationMode(Transform::Local);
-
-        auto c2 = new STActor("animCylinder.fbx");
-        c2->transform()->setTranslateX(4.f);
-        c2->transform()->setTranslateZ(4.f);
-        c2->transform()->setRotationMode(Transform::Local);
-        c2->get<STGraphicsComponent>()->getMaterial()->setDiffuseColor(STColor(GREEN));
+//        auto character = new STActor("humanoid.fbx");
+//        character->setTag("Main");
+//        character->get<STGraphicsComponent>()->getMaterial()->setMetallic(0.1f);
+//        character->addComponent(typeid(STScriptComponent), new STScriptComponent("Suzanne_Control.lua"));
+//        character->setAttribute("speedFactor", 0.025f);
+//        character->transform()->setRotationMode(Transform::Local);
+//
+//        auto c2 = new STActor("animCylinder.fbx");
+//        c2->transform()->setTranslateX(4.f);
+//        c2->transform()->setTranslateZ(4.f);
+//        c2->transform()->setRotationMode(Transform::Local);
+//        c2->get<STGraphicsComponent>()->getMaterial()->setDiffuseColor(STColor(GREEN));
 
         auto diceBox = new STActor("dice.obj");
+        diceBox->setTag("Dice");
         diceBox->get<STGraphicsComponent>()->getMaterial()->setMetallic(1.f);
         diceBox->get<STGraphicsComponent>()->getMaterial()->setDiffuseTexture("Bronze_Albedo.jpg");
         diceBox->transform()->setTranslateX(1.0f);
+        diceBox->transform()->setTranslateY(1.f);
         diceBox->transform()->setTranslateZ(2.f);
+        diceBox->get<ST3DPhysicsComponent>()->setMass(100.f);
+        diceBox->get<ST3DPhysicsComponent>()->setRestitution(5.0f);
+        diceBox->get<ST3DPhysicsComponent>()->toggleFreeze(true);
+        diceBox->get<ST3DPhysicsComponent>()->updateTransform();
+
 
         auto plane = new STActor("plane.obj");
-        plane->transform()->setTranslateY(-0.5f);
+        plane->transform()->setTranslateY(-1.f);
         plane->get<STGraphicsComponent>()->setDiffuseTexture("grid.png");
+        plane->get<ST3DPhysicsComponent>()->setMass(0.0f);
+        plane->get<ST3DPhysicsComponent>()->updateTransform();
 
         m_scene->addLight(mainLight);
         m_scene->addLight(accentLight);
         m_scene->addLight(accentLight2);
-        m_scene->addActor(character);
         m_scene->addActor(diceBox);
         m_scene->addActor(plane);
-        m_scene->addActor(c2);
         counter = 0;
     }
 
@@ -68,6 +76,16 @@ public:
             counter++;
             game->setFullScreen(counter % 2);
         }
+
+        if(input->isKeyPressed(KEY::KEY_Y)){
+            for(auto actor : m_scene->getActors()){
+                if(actor->getTag() == "Dice"){
+                    actor->get<ST3DPhysicsComponent>()->toggleFreeze(false);
+                    actor->get<ST3DPhysicsComponent>()->applyForce(Vector3D(0, -10, 0));
+                }
+            }
+        }
+
         m_scene->update();
     }
 
@@ -92,7 +110,7 @@ int main(int argc, char** argv){
     win->setTargetFPS(60);
     STGraphics::YUp = false;
     win->getInput()->setInputMap(inputMapping);
-    win->addCamera(new Camera(*win, Vector3D(0.f, 0.f, -1.f), 0));
+    win->addCamera(new Camera(*win, Vector3D(0.f, 1.f, -1.f), 0));
     win->addState(new SampleState(0));
     win->enterState(0);
     win->getGraphics()->enableShadow(true);

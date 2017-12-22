@@ -23,7 +23,7 @@ STLabel::STLabel(stReal x, stReal y, std::string text) {
 void STLabel::update(STGame *window) {
     auto input = window->getInput();
     auto bounds = get<STRectBoundsComponent>()->bounds();
-    if(bounds->contains(input->getMouseCoords<stReal>()) ){
+    if(bounds->contains(input->getMouseCoords()) ){
         invokeHoverEvent(this, window);
     }
     eventType = None;

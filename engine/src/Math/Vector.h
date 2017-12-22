@@ -10,6 +10,8 @@
 #include "Quaternion.h"
 
 #include "../../include/json11/json11.hpp"
+#include "../../include/assimp/vector3.h"
+#include <LinearMath/btVector3.h>
 
 using namespace json11;
 
@@ -262,6 +264,14 @@ public:
         m_Val[2] = 0.0;
     }
 
+    static Vector3<stReal> From(const aiVector3D& vec){
+        return Vector3<stReal>(vec.x, vec.y, vec.z);
+    }
+
+    static Vector3<stReal> From(btVector3& vector){
+        return Vector3<stReal>(vector.getX(), vector.getY(), vector.getZ());
+    }
+
     /**
      * Constructs an minimum vector on a component basis
      * @param v1
@@ -269,16 +279,16 @@ public:
      * @return
      */
     static Vector3 Min(const Vector3& v1, const Vector3& v2){
-        const T x = v1.getX() < v2.getX() ? v1.getX() : v2.getX();
-        const T y = v1.getY() < v2.getY() ? v1.getY() : v2.getY();
-        const T z = v1.getZ() < v2.getZ() ? v1.getZ() : v2.getZ();
+        const T x = v1.getX() <= v2.getX() ? v1.getX() : v2.getX();
+        const T y = v1.getY() <= v2.getY() ? v1.getY() : v2.getY();
+        const T z = v1.getZ() <= v2.getZ() ? v1.getZ() : v2.getZ();
         return Vector3(x, y, z);
     }
 
     static Vector3 Max(const Vector3& v1, const Vector3& v2){
-        const T x = v1.getX() > v2.getX() ? v1.getX() : v2.getX();
-        const T y = v1.getY() > v2.getY() ? v1.getY() : v2.getY();
-        const T z = v1.getZ() > v2.getZ() ? v1.getZ() : v2.getZ();
+        const T x = v1.getX() >= v2.getX() ? v1.getX() : v2.getX();
+        const T y = v1.getY() >= v2.getY() ? v1.getY() : v2.getY();
+        const T z = v1.getZ() >= v2.getZ() ? v1.getZ() : v2.getZ();
         return Vector3(x, y, z);
     }
 
@@ -354,7 +364,7 @@ public:
      * @param angle Amount to rotate(degrees)
      * @param axis  Vector3 Axis
      */
-    inline void rotate(stReal angle, Vector3& axis){
+    void rotate(stReal angle, Vector3& axis){
         float hSinF = sinf(toRadian(angle/2));
         float hCosF = cosf(toRadian(angle/2));
 
@@ -629,6 +639,10 @@ Vector4<T> Vector4<T>::FromJson(const Json &doc) {
     auto vW = (T)doc["w"].number_value();
     return Vector4<T>(vX, vY, vZ, vW);
 }
+
+typedef class Vector2<stReal> Vector2D;
+typedef class Vector3<stReal> Vector3D;
+typedef class Vector4<stReal> Vector4D;
 
 
 #endif //WAHOO_VECTOR_H

@@ -8,7 +8,7 @@ Camera::Camera() {
     m_Height = 0;
 }
 
-Camera::Camera(STGame &win, Vector3<stReal> &pos, ViewProfile &viewProfile) {
+Camera::Camera(STGame &win, Vector3D &pos, ViewProfile &viewProfile) {
     m_start = false;
     m_Width = (float)win.getWidth();
     m_Height = (float)win.getHeight();
@@ -16,20 +16,20 @@ Camera::Camera(STGame &win, Vector3<stReal> &pos, ViewProfile &viewProfile) {
     m_transform = new Transform();
     m_transform->setTranslate(pos);
     m_viewProf = viewProfile;
-    m_Forward = Vector3<stReal>(1.0f, 0.0f, 0.0f);
-    m_Up = Vector3<stReal>(0.0f, 1.0f, 0.0f);
+    m_Forward = Vector3D(1.0f, 0.0f, 0.0f);
+    m_Up = Vector3D(0.0f, 1.0f, 0.0f);
     hAngle = 0.0f;
     vAngle = 0.0f;
 }
 
-Camera::Camera(STGame &win, Vector3<stReal> pos, int presetMode) {
+Camera::Camera(STGame &win, Vector3D pos, int presetMode) {
     m_start = false;
     m_Width = (float)win.getWidth();
     m_Height = (float)win.getHeight();
     m_transform = new Transform();
     m_transform->setTranslate(pos);
-    m_Forward = Vector3<stReal>(0.0f, 0.0f, 1.0f);
-    m_Up = Vector3<stReal>(0.0f, 1.0f, 0.0f);
+    m_Forward = Vector3D(0.0f, 0.0f, 1.0f);
+    m_Up = Vector3D(0.0f, 1.0f, 0.0f);
     m_Speed = 0.05f;
     ViewProfile viewProfile;
     if(presetMode == DefaultView_PERSP){
@@ -59,19 +59,19 @@ Camera::Camera(STGame &win, Vector3<stReal> pos, int presetMode) {
 void Camera::init(ViewProfile viewProfile) {
     m_viewProf= viewProfile;
     m_start = false;
-    m_Forward = Vector3<stReal>(0.0f, 0.0f, 1.0f);
+    m_Forward = Vector3D(0.0f, 0.0f, 1.0f);
     hAngle = 0.0f;
     vAngle = 0.0f;
 }
 
 void Camera::update() {
-    Vector3<stReal> vAxis(0.0f, 1.0f, 0.0f);
+    Vector3D vAxis(0.0f, 1.0f, 0.0f);
 
-    m_View = Vector3<stReal>(0.0f, 0.0f, 1.0f);
+    m_View = Vector3D(0.0f, 0.0f, 1.0f);
     m_View.rotate(hAngle, vAxis);
     m_View.normalize();
 
-    Vector3<stReal> hAxis = vAxis.cross(m_View);
+    Vector3D hAxis = vAxis.cross(m_View);
     hAxis.normalize();
     m_View.rotate(vAngle, hAxis);
 
@@ -150,13 +150,13 @@ void Camera::setVAngle(const stReal _v) {
 
 void Camera::processFPS(Input *input) {
     if(!m_start){
-        Vector3<stReal> vAxis( (stReal)0.0f, (stReal)1.0f, (stReal)0.0f );
+        Vector3D vAxis(0.0f, 1.0f, 0.0f );
 
-        m_View = Vector3<stReal>((stReal)1.0f, (stReal)0.0f, (stReal)0.0f);
+        m_View = Vector3D(1.0f, 0.0f, 0.0f);
         m_View.rotate(hAngle, vAxis);
         m_View.normalize();
 
-        Vector3<stReal> hAxis = vAxis.cross(m_View);
+        Vector3D hAxis = vAxis.cross(m_View);
         hAxis.normalize();
         m_View.rotate(vAngle, hAxis);
 
@@ -168,17 +168,17 @@ void Camera::processFPS(Input *input) {
         m_start = true;
     }else{
         if(input->isCursorBound()){
-            hAngle -= input->getMouseSensitivity() * ((m_Width/2) - input->getMouseCoords<int>().getX());
-            vAngle -= input->getMouseSensitivity() * ((m_Height/2) - input->getMouseCoords<int>().getY());
+            hAngle -= input->getMouseSensitivity() * ((m_Width/2) - input->getMouseCoords().getX());
+            vAngle -= input->getMouseSensitivity() * ((m_Height/2) - input->getMouseCoords().getY());
         }
 
-        Vector3<stReal> vAxis(0.0f, 1.0f, 0.0f);
+        Vector3D vAxis(0.0f, 1.0f, 0.0f);
 
-        m_View = Vector3<stReal>(1.0f, 0.0f, 0.0f);
+        m_View = Vector3D(1.0f, 0.0f, 0.0f);
         m_View.rotate(hAngle, vAxis);
         m_View.normalize();
 
-        Vector3<stReal> hAxis = vAxis.cross(m_View);
+        Vector3D hAxis = vAxis.cross(m_View);
         hAxis.normalize();
         m_View.rotate(vAngle, hAxis);
 

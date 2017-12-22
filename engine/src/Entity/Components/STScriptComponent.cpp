@@ -115,7 +115,7 @@ void STScriptComponent::initScript(const std::string &fileName) {
                                             sol::meta_function::division, [](Vector2<stReal> v1, Vector2<stReal> v2){
                                                                                 return v1 / v2;
                                                                             });
-    m_script.new_usertype<Vector3<stReal>>("Vector3", sol::constructors<sol::types<>, sol::types<stReal, stReal, stReal>>(),
+    m_script.new_usertype<Vector3D>("Vector3", sol::constructors<sol::types<>, sol::types<stReal, stReal, stReal>>(),
                                            "setX", &Vector3<stReal>::setX,
                                            "setY", &Vector3<stReal>::setY,
                                            "setZ", &Vector3<stReal>::setZ,
@@ -150,7 +150,7 @@ void STScriptComponent::initScript(const std::string &fileName) {
                                            "getLength", &Vector4<stReal>::getLength,
                                            "dot", &Vector4<stReal>::dot,
                                            "toVector3", &Vector4<stReal>::toVector3);
-    m_script.new_usertype<STEntity>("STEntity",
+    m_script.new_simple_usertype<STEntity>("STEntity",
                                     "getTag", &STEntity::getTag,
                                     "transform", &STEntity::transform,
                                     "setShdrUniformi", sol::resolve<void(const std::string&, int)>(&STEntity::setShdrUniform),
@@ -173,25 +173,24 @@ void STScriptComponent::initScript(const std::string &fileName) {
                                     "getAttribute2v", &STEntity::getAttribute2v,
                                     "getAttribute3v", &STEntity::getAttribute3v,
                                     "getAttribute4v", &STEntity::getAttribute4v);
-    m_script.new_usertype<Transform>("Transform", sol::constructors<sol::types<>>(),
-                                     "setTranslate", sol::resolve<void(Vector3<stReal>&)>(&Transform::setTranslate),
+    m_script.new_simple_usertype<Transform>("Transform", sol::constructors<sol::types<>>(),
+                                     "setTranslate", sol::resolve<void(Vector3<stReal>)>(&Transform::setTranslate),
                                      "setTranslateX", &Transform::setTranslateX,
                                      "setTranslateY", &Transform::setTranslateY,
                                      "setTranslateZ", &Transform::setTranslateZ,
                                      "getTranslate", &Transform::getTranslate,
-                                     "setRotate", sol::resolve<void(Vector3<stReal>&)>(&Transform::setRotate),
+                                     "setRotate", sol::resolve<void(Vector3<stReal>)>(&Transform::setRotate),
                                      "setRotateX", &Transform::setRotateX,
                                      "setRotateY", &Transform::setRotateY,
                                      "setRotateZ", &Transform::setRotateZ,
                                      "getRotate", &Transform::getRotate,
-                                     "setScale", sol::resolve<void(Vector3<stReal>&)>(&Transform::setScale),
+                                     "setScale", sol::resolve<void(Vector3<stReal>)>(&Transform::setScale),
                                      "getScale", &Transform::getScale,
-                                     "setRotationMode", &Transform::setRotationMode);
+                                     "setRotationMode", &Transform::setRotationMode,
+                                     "getForward", &Transform::getForward,
+                                     "getUp", &Transform::getUp,
+                                     "getRight", &Transform::getRight);
     m_script.script_file(fileName);
-    auto events = m_entity->get<STEventComponent>();
-    if(m_script["onHit"].valid()){
-        events->addEvent("onHit", m_script["onHit"]);
-    }
     m_script["start"](m_entity);
 }
 

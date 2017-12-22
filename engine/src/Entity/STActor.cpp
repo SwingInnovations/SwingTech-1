@@ -2,6 +2,8 @@
 #include "Components/STAABBComponent.h"
 #include "Components/STEventComponent.h"
 #include "Util/Loaders/STMeshLoader.h"
+#include "Components/ST3DAnimationComponent.h"
+#include "Components/ST3DPhysicsComponent.h"
 
 /**
  * Creates a new Actor Entity based off defined STMeshStructure, uniqueTag, and Material.
@@ -44,8 +46,6 @@ STActor::STActor(const std::string &filePath) {
     std::vector<STMesh_Structure> meshes;
     std::map<std::string, STMaterial*> materials;
 
-    m_transform = new Transform(this);
-    addComponent(typeid(STEventComponent), new STEventComponent);
     if(STMesh::Validate(filePath, &errFlag, &meshes, &materials)){
         for (const auto &mesh : meshes) {
             addChild_Actor(new STActor(this, mesh, materials));
@@ -63,59 +63,16 @@ STActor::STActor(const std::string &filePath) {
                 self->transform()->setRotateY(self->transform()->getRotate().getY() + STGame::Get()->getDelta() * 0.25f);
             });
             return;
-        }
-        addComponent(typeid(STMeshComponent), new STMeshComponent(meshes.at(0)));
-        if(meshes[0].materialKey.empty()) addComponent(typeid(STGraphicsComponent), new STGraphicsComponent(new STMaterial(new GLShader("standard"))));
-        else addComponent(typeid(STGraphicsComponent), new STGraphicsComponent(materials.at(meshes.at(0).materialKey)));
-        addComponent(typeid(STAABBComponent), new STAABBComponent(this, meshes.at(0).m_minPt, meshes.at(0).m_maxPt));
-
-
-}
-
-
-/**
- * Creates a new Actor Entity based on file path and material.
- * If multiple meshes are present in the file, then they will be added as children.
- * @param filePath Input File Path.
- * @param material Material to be applied to actor.
- */
-STActor::STActor(const std::string &filePath, STMaterial *material) {
-    m_transform = new Transform();
-    m_type = Actor;
-    m_visible = true;
-    stInt flag = 0;
-    bool errFlag = true;
-    std::vector<std::string> tags;
-    std::vector<STMesh_Structure> meshes;
-    addComponent(typeid(STEventComponent), new STEventComponent());
-
-    if(STMesh::Validate(filePath, &errFlag, &tags, &meshes)){
-        for(stUint i = 0, S = meshes.size(); i < S; i++){
-            this->addChild_Actor(new STActor(meshes.at(i), tags.at(i), material));
-        }
-        return;
-    }else{
-        if(!errFlag || meshes.size() < 1){
-            addComponent(typeid(STMeshComponent), new STMeshComponent(MeshLoader::Load("base/ErrorMesh.obj")));
-            addComponent(typeid(STGraphicsComponent), new STGraphicsComponent(new STMaterial(new GLShader("base/errorObject"))));
-            get<STEventComponent>()->addEvent("update", [](STEntity* self, STEntity* other){
-                auto grphx = self->get<STGraphicsComponent>();
-                grphx->setShdrUniform("intensity", (stReal)sin(STGame::Get()->getTick() * 0.1f));
-                self->transform()->setRotateY(STGame::Get()->getDelta() * 0.025f);
-            });
-            this->transform()->setRotateY(180.0f);
-            return;
-        }else{
-            addComponent(typeid(STMeshComponent), new STMeshComponent(meshes.at(0)));
-            addComponent(typeid(STGraphicsComponent), new STGraphicsComponent(material));
-            addComponent(typeid(STAABBComponent), new STAABBComponent((STEntity*)this, meshes[0].m_minPt, meshes[0].m_maxPt));
-        }
     }
-
-    if(tags.size() > 0)
-        m_tag = tags.at(0);
-    else m_tag = "Actor";
-
+    m_transform = new Transform(this);
+    addComponent(typeid(STEventComponent), new STEventComponent);
+    addComponent(typeid(STMeshComponent), new STMeshComponent(meshes.at(0)));
+    if(meshes.at(0).m_hasAnimations){
+        addComponent(typeid(ST3DAnimationComponent), new ST3DAnimationComponent(meshes.at(0)));
+    }
+    if(meshes[0].materialKey.empty()) addComponent(typeid(STGraphicsComponent), new STGraphicsComponent(new STMaterial(new GLShader("standard"))));
+    else addComponent(typeid(STGraphicsComponent), new STGraphicsComponent(materials.at(meshes.at(0).materialKey)));
+    addComponent(typeid(STAABBComponent), new STAABBComponent(this, meshes.at(0).m_minPt, meshes.at(0).m_maxPt));
 }
 
 STActor::STActor(STEntity *parent, STMesh_Structure meshStructure, std::map<std::string, STMaterial *> materials) {
@@ -127,6 +84,9 @@ STActor::STActor(STEntity *parent, STMesh_Structure meshStructure, std::map<std:
     if(meshStructure.materialKey.empty()) addComponent(typeid(STGraphicsComponent), new STGraphicsComponent(new STMaterial(new GLShader("standard"))));
     else addComponent(typeid(STGraphicsComponent), new STGraphicsComponent(materials.at(meshStructure.materialKey)));
     addComponent(typeid(STEventComponent), new STEventComponent());
+    if(meshStructure.m_hasAnimations){
+        addComponent(typeid(ST3DAnimationComponent), new ST3DAnimationComponent(meshStructure));
+    }
     addComponent(typeid(STAABBComponent), new STAABBComponent);
     m_transform = new Transform(this);
 }
@@ -189,6 +149,12 @@ void STActor::draw(STMaterial* overrideMaterial, bool flag){
     auto mesh = get<STMeshComponent>();
     auto grphx = get<STGraphicsComponent>();
     auto cam = STGame::Get()->getCamera();
+    if(m_children.size() > 0){
+        for(auto child : m_children){
+            ((STActor*)child)->draw(overrideMaterial, flag);
+        }
+        return;
+    }
     if(flag){
         overrideMaterial->draw(grphx->GetUniforms(), grphx->getMaterial()->GetUniforms(), *m_transform, *cam);
         mesh->draw();

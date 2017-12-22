@@ -26,7 +26,6 @@ STEventComponent::~STEventComponent() {
 
 }
 
-
 void STEventComponent::addEvent(std::string name, std::function<void(STEntity*, STEntity*)> newFunction) {
     m_Events.insert(std::pair<std::string, std::function<void(STEntity*, STEntity*)>>(name, newFunction));
 }
@@ -41,4 +40,8 @@ void STEventComponent::updateEvent(std::string name, std::function<void(STEntity
         return;
     }
     addEvent(name, alteredFunction);
+}
+
+void STEventComponent::setOther(STEntity *other) {
+    this->other = other;
 }

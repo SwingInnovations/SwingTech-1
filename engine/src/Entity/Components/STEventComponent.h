@@ -23,8 +23,9 @@ public:
     void setEvent(const std::string& event);
     void addEvent(std::string name, std::function<void(STEntity*, STEntity*)> newFunction);
     void updateEvent(std::string name, std::function<void(STEntity*, STEntity*)> alteredFunction);
-private:
 
+    void setOther(STEntity* other);
+private:
     std::map<std::string, std::function<void(STEntity*, STEntity*)>> m_Events;
     STEntity* other;
     std::string m_currentEvent;

@@ -4,6 +4,7 @@
 #include "../Graphics/STGraphics.h"
 #include "../Graphics/GL/GLGraphics.h"
 #include "../Graphics/Camera.h"
+#include "../Physics/Bullet/BulletPhysics.h"
 
 int STGame::RES_WIDTH = 0;
 int STGame::RES_HEIGHT = 0;
@@ -30,6 +31,7 @@ STGame::~STGame() {
     m_gameStates.clear();
     g->cleanup();
     delete g;
+    delete m_physics;
     SDL_GL_DeleteContext(m_Context);
     SDL_DestroyWindow(m_Window);
     m_Window = nullptr;
@@ -120,13 +122,21 @@ void STGame::calcDelta() {
     }
 }
 
+stReal STGame::getDeltaTIme() const {
+    return (stReal)(oldTime - newTime) / 1000.f;
+}
+
 void STGame::start(){
     isRunning = true;
     init();
+    if(m_physics) m_physics->initScene(m_gameStates[m_currentIndex]->getScene());
     while(isRunning){
         if(!isPause){
             calcDelta();
             Input::Get()->setDelta(delta);
+            if(m_physics){
+                m_physics->update(delta);
+            }
         }else{
             delta = 0;
         }
@@ -148,7 +158,10 @@ void STGame::init() {
 
 void STGame::enterState(unsigned int index) {
     if(!m_gameStates.empty() && index < m_gameStates.size()){
+        auto physicsValid = (m_physics != nullptr);
+        if(physicsValid){ m_physics->dispose(); }
         m_currentIndex = index;
+        if(physicsValid && m_gameStates[m_currentIndex]->getScene() != nullptr){ m_physics->initScene(m_gameStates[m_currentIndex]->getScene()); }
     }
 }
 
@@ -187,6 +200,12 @@ void STGame::centerCursor() {
 
 STGame *STGame::Init(const std::string &title, const stUint WIDTH, const stUint HEIGHT) {
     m_instance = new STGame(title, WIDTH, HEIGHT);
+    return m_instance;
+}
+
+STGame *STGame::Init(const std::string &title, stUint width, stUint height, STPhysics::PhysicsEngine mode) {
+    m_instance = new STGame(title, width, height);
+    m_instance->InitPhysics(mode);
     return m_instance;
 }
 
@@ -232,3 +251,17 @@ void STGame::setFullScreen(int flag) {
 STScene *STGame::GetCurrentScene() {
     return m_gameStates[m_currentIndex]->getScene();
 }
+
+void STGame::InitPhysics(STPhysics::PhysicsEngine mode) {
+    if(mode == STPhysics::BULLET){
+        m_physics = new BulletPhysics;
+        m_physics->init(mode);
+        m_physicsMode = mode;
+    }
+}
+
+stInt STGame::getPhysicsMode() const {
+    return m_physicsMode;
+}
+
+

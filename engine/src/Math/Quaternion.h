@@ -1,13 +1,13 @@
 #ifndef WAHOO_QUATERNION_H
 #define WAHOO_QUATERNION_H
 
+
+#include <assimp/quaternion.h>
+#include <LinearMath/btQuaternion.h>
 #include "../../include/json11/json11.hpp"
+#include "STCore.h"
 
-#include "Vector.h"
-
-template<typename>class Vector3;
-
-class Vector3f;
+template <typename T> class Vector3;
 
 using namespace json11;
 
@@ -17,12 +17,7 @@ public:
      *
      * @return
      */
-    Quaternion(){
-        m_val[0] = 0.0f;
-        m_val[1] = 0.0f;
-        m_val[2] = 0.0f;
-        m_val[3] = 1.0f;
-    }
+    Quaternion();
 
     /** Quaternion Constructor
      *
@@ -32,13 +27,21 @@ public:
      * @param _w    W - Component
      * @return
      */
-    Quaternion(const float _x, const float _y, const float _z, const float _w){
-        m_val[0] = _x;
-        m_val[1] = _y;
-        m_val[2] = _z;
-        m_val[3] = _w;
-    }
+    Quaternion(const float _x, const float _y, const float _z, const float _w);
 
+    /**
+     * Initializes ST Quaternion from assimp quaternion
+     * @param quaternion
+     * @return
+     */
+    static Quaternion From(aiQuaternion quaternion);
+
+    static Quaternion From(btQuaternion quaternion);
+
+    /**
+     * Sets X component of Quaternion
+     * @param _x
+     */
     inline void setX(const float _x){ m_val[0] = _x; }
     inline void setY(const float _y){ m_val[1] = _y; }
     inline void setZ(const float _z){ m_val[2] = _z; }
@@ -56,22 +59,13 @@ public:
      *
      * @return quaternion normalized.
      */
-    inline Quaternion normalize(){
-        float len = getLength();
-        m_val[0] /= len;
-        m_val[1] /= len;
-        m_val[2] /= len;
-        m_val[3] /= len;
-        return *this;
-    }
+    Quaternion normalize();
 
     /**Returns the Conjugate of the Quaternion
      *
      * @return Conjugate of the quaternion.
      */
-    inline Quaternion conjugate(){
-        return Quaternion(-m_val[0], -m_val[1], -m_val[2], m_val[3]);
-    }
+    Quaternion conjugate();
 
     /**Converts Quaternion to Vector3
      *
@@ -85,36 +79,28 @@ public:
         Vector3<T> ret(_x, _y, _z);
         return ret;
     }
+    static stReal dot(Quaternion& q1, Quaternion& q2);
 
-    inline Quaternion multiply(Quaternion& r)const{
-        float _x = this->getW()*r.getX() + this->getX()*r.getW() + this->getY()*r.getZ() - this->getZ() * r.getY();
-        float _y = this->getW()*r.getY() - this->getX()*r.getZ() + this->getY()*r.getW() + this->getZ()*r.getX();
-        float _z = this->getW()*r.getZ() + this->getX()*r.getY() - this->getY()*r.getX() + this->getZ()*r.getW();
-        float _w = this->getW()*r.getW() - this->getX()*r.getX() - this->getY()*r.getY() - this->getZ()*r.getZ();
-        return Quaternion(_x, _y, _z, _w);
-    }
+    static Quaternion lerp(Quaternion& q1, Quaternion& q2, stReal t);
 
+    static Quaternion slerp(Quaternion& q1, Quaternion& q2, stReal t);
 
-    template<typename T>inline Quaternion multiply(Vector3<T>& vec)const{
-        float _x = (this->getW()*(float)vec.getX()) + (this->getY() * (float)vec.getZ()) - (this->getZ() * (float)vec.getY());
-        float _y = (this->getW()*(float)vec.getY()) + (this->getZ() * (float)vec.getX()) - (this->getX() * (float)vec.getZ());
-        float _z = (this->getW()*(float)vec.getZ()) + (this->getX() * (float)vec.getY()) - (this->getY() * (float)vec.getX());
-        float _w = -(this->getX()*(float)vec.getX()) - (this->getY() * (float)vec.getY()) - (this->getZ() * (float)vec.getZ());
-        return Quaternion(_x, _y, _z, _w);
-    }
+    Quaternion multiply(Quaternion& r)const;
 
-    Json to_json()const {
-        return Json::object{
-                {"x", m_val[0]},
-                {"y", m_val[1]},
-                {"z", m_val[2]},
-                {"w", m_val[3]}
-        };
+    Quaternion multiply(Vector3<stReal>& vec)const;
 
-    }
+    const Quaternion operator*(float scale)const;
+
+    const Quaternion operator+(const Quaternion& q)const;
+
+    const Quaternion operator/(float scale) const;
+
+    const Quaternion operator -()const;
+
+    Json to_json()const;
 
 private:
-    float m_val[4];
+    float m_val[4]{};
 };
 
 #endif //WAHOO_QUATERNION_H

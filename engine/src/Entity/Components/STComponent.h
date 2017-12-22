@@ -15,9 +15,12 @@ public:
     /**
      * Initializes stuff
      */
-    virtual void initScriptingFunctions(sol::state m_script){;}
+    virtual void initScriptingFunctions(sol::state& m_script){;}
     virtual void update() = 0;
     virtual void draw(){ }
+    /**
+     * @brief Independently called to clear contents of component.
+     */
     virtual void dispose(){}
     virtual ~STComponent(){}
 

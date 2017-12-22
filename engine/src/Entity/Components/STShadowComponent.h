@@ -13,6 +13,10 @@ struct STShadowProperties{
 class STShadowComponent : public STComponent{
 public:
     STShadowComponent(){;}
+    /**
+     * Gets the Shadow Properties
+     * @return Shadow Properties Struct
+     */
     STShadowProperties* getProperties(){ return &m_Properties; }
     void update(){
 

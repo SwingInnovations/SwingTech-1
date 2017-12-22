@@ -212,16 +212,7 @@ public:
     inline void setCursorBound(bool v){ cursorBound = v; }
     inline InputMap* inputMapping(){ return inputMap; }
 
-
-    template<typename T>  [[deprecated("Used the Non-templated Vector2f Function")]]
-    Vector2<T> getMouseCoords(){
-        T _x = (T)mouseX;
-        T _y = (T)mouseY;
-        Vector2<T> ret(_x, _y);
-        return ret;
-    }
-
-    Vector2<stReal> GetMouseCoords(){
+    Vector2D getMouseCoords(){
         return {(stReal)mouseX, (stReal)mouseY};
     }
 

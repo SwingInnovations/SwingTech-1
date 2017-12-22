@@ -15,8 +15,9 @@ public:
 
     void update() override;
 
-    Vector3<stReal> getMinPoint()const{ return m_boundingBox->getMinPoint(); }
-    Vector3<stReal> getMaxPoint()const{ return m_boundingBox->getMaxPoint(); }
+    Vector3D getMinPoint()const{ return m_boundingBox->getMinPoint(); }
+    Vector3D getMaxPoint()const{ return m_boundingBox->getMaxPoint(); }
+    STBoundingBox* getBoundingBox();
 
     bool contains(STEntity* other) override;
     bool intersects(STEntity* other) override;
@@ -24,6 +25,7 @@ public:
 
 private:
     STBoundingBox* m_boundingBox;
+    bool m_isCalculated;
 };
 
 

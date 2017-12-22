@@ -15,6 +15,8 @@ GLShader::GLShader() {
     glBindAttribLocation(m_Program, 2, "normal");
     glBindAttribLocation(m_Program, 3, "tangent");
     glBindAttribLocation(m_Program, 4, "biTangent");
+    glBindAttribLocation(m_Program, 5, "boneID");
+    glBindAttribLocation(m_Program, 6, "boneWeights");
 
     glLinkProgram(m_Program);
     checkShaderStatus(m_Program, GL_LINK_STATUS, true, "Error Linking Shader Program");
@@ -48,6 +50,8 @@ GLShader::GLShader(const std::string &filePath) {
     glBindAttribLocation(m_Program, 2, "normal");
     glBindAttribLocation(m_Program, 3, "tangent");
     glBindAttribLocation(m_Program, 4, "biTangent");
+    glBindAttribLocation(m_Program, 5, "boneID");
+    glBindAttribLocation(m_Program, 6, "boneWeights");
 
     glLinkProgram(m_Program);
     checkShaderStatus(m_Program, GL_LINK_STATUS, true, "Error Linking Shader Program");
@@ -82,6 +86,8 @@ GLShader::GLShader(const std::string &vShaderPath, const std::string &fShaderPat
     glBindAttribLocation(m_Program, 2, "normal");
     glBindAttribLocation(m_Program, 3, "tangent");
     glBindAttribLocation(m_Program, 4, "biTangent");
+    glBindAttribLocation(m_Program, 5, "boneID");
+    glBindAttribLocation(m_Program, 6, "boneWeights");
 
     glLinkProgram(m_Program);
     checkShaderStatus(m_Program, GL_LINK_STATUS, true, "Error Linking Shader Program");

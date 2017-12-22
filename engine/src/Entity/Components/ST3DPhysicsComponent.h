@@ -10,6 +10,7 @@ public:
     ST3DPhysicsComponent(STRigidBody::RigidBodyShape bodyShape, std::vector<stReal> dimensions);
     ~ST3DPhysicsComponent();
     void init(STEntity* parent) override;
+    void initScriptingFunctions(sol::state& state) override ;
     STRigidBody* getRigidBody();
 
     /**

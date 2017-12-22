@@ -32,15 +32,14 @@ public:
 //        character->setAttribute("speedFactor", 0.025f);
 //        character->transform()->setRotationMode(Transform::Local);
 //
-//        auto c2 = new STActor("animCylinder.fbx");
-//        c2->transform()->setTranslateX(4.f);
-//        c2->transform()->setTranslateZ(4.f);
-//        c2->transform()->setRotationMode(Transform::Local);
-//        c2->get<STGraphicsComponent>()->getMaterial()->setDiffuseColor(STColor(GREEN));
+        auto c2 = new STActor("animCylinder.fbx");
+        c2->transform()->setTranslateX(4.f);
+        c2->transform()->setTranslateZ(4.f);
+        c2->transform()->setRotationMode(Transform::Local);
+        c2->get<STGraphicsComponent>()->getMaterial()->setDiffuseColor(STColor(GREEN));
 
         auto diceBox = new STActor("smooth_sphere.obj");
         diceBox->setTag("Dice");
-        diceBox->addComponent(typeid(STScriptComponent), new STScriptComponent("dice.lua"));
         diceBox->get<STGraphicsComponent>()->getMaterial()->setMetallic(0.2f);
         diceBox->get<STGraphicsComponent>()->getMaterial()->setRoughness(0.1f);
         diceBox->get<STGraphicsComponent>()->getMaterial()->setDiffuseTexture("Bronze_Albedo.jpg");
@@ -52,6 +51,7 @@ public:
         diceBox->get<ST3DPhysicsComponent>()->setRestitution(200.0f);
         diceBox->get<ST3DPhysicsComponent>()->updateTransform();
         diceBox->get<ST3DPhysicsComponent>()->toggleFreeze(true);
+        diceBox->addComponent(typeid(STScriptComponent), new STScriptComponent("dice.lua"));
 
         plane = new STActor("plane.obj");
         plane->setTag("ground");
@@ -67,6 +67,7 @@ public:
         m_scene->addLight(accentLight2);
         m_scene->addActor(diceBox);
         m_scene->addActor(plane);
+        m_scene->addActor(c2);
         counter = 0;
     }
 
@@ -95,30 +96,20 @@ public:
             plane->get<ST3DPhysicsComponent>()->updateTransform();
         }
 
-        if(input->isKeyPressed(KEY::KEY_Y)) {
-            for (auto actor : m_scene->getActors()) {
-                if (actor->getTag() == "Dice") {
-                    actor->get<ST3DPhysicsComponent>()->toggleFreeze(false);
-                    actor->get<ST3DPhysicsComponent>()->applyForce(Vector3D(0, -20, 0));
-                    actor->get<ST3DPhysicsComponent>()->applyGravity();
-                }
-            }
-        }
-
-        if(input->isKeyPressed(KEY::KEY_R)){
-            for(auto actor : m_scene->getActors()){
-                if(actor->getTag() == "Dice"){
-                    actor->transform()->setTranslateZ(2.f);
-                    actor->transform()->setTranslateY(10.f);
-                    actor->transform()->setTranslateX(1.f);
-                    actor->get<ST3DPhysicsComponent>()->updateTransform();
-                    actor->get<ST3DPhysicsComponent>()->toggleFreeze(false);
-                    actor->get<ST3DPhysicsComponent>()->setActive(true);
-                    actor->get<ST3DPhysicsComponent>()->applyForce(Vector3D(0, -20, 0));
-                    actor->get<ST3DPhysicsComponent>()->applyGravity();
-                }
-            }
-        }
+//        if(input->isKeyPressed(KEY::KEY_R)){
+//            for(auto actor : m_scene->getActors()){
+//                if(actor->getTag() == "Dice"){
+//                    actor->transform()->setTranslateZ(2.f);
+//                    actor->transform()->setTranslateY(10.f);
+//                    actor->transform()->setTranslateX(1.f);
+//                    actor->get<ST3DPhysicsComponent>()->updateTransform();
+//                    actor->get<ST3DPhysicsComponent>()->toggleFreeze(false);
+//                    actor->get<ST3DPhysicsComponent>()->setActive(true);
+//                    actor->get<ST3DPhysicsComponent>()->applyForce(Vector3D(0, -20, 0));
+//                    actor->get<ST3DPhysicsComponent>()->applyGravity();
+//                }
+//            }
+//        }
         m_scene->update();
     }
 

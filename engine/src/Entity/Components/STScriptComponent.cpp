@@ -27,6 +27,11 @@ void STScriptComponent::initScript(const std::string &fileName) {
     m_script.set_function("addEvent", [](STEntity* ent, const std::string& name){
         ent->get<STScriptComponent>()->registerEvent(ent, name);
     });
+
+    for(auto comp : m_entity->getAllComponents()){
+            comp.second->initScriptingFunctions(m_script);
+    }
+
     m_script.new_usertype<Input>("Input",
                                 "isKeyPressed", &Input::isKeyPressed,
                                 "isKeyDown", &Input::isKeyDown,

@@ -79,4 +79,19 @@ void ST3DPhysicsComponent::setRestitution(stReal value) {
     m_rigidBody->setRestitution(value);
 }
 
+void ST3DPhysicsComponent::initScriptingFunctions(sol::state &state) {
+    state.set_function("get3DPhysicsComponent", [](STEntity* self){
+        return self->get<ST3DPhysicsComponent>();
+    });
+    state.new_simple_usertype<ST3DPhysicsComponent>("ST3DPhysicsComponent",
+                                "applyGravity", &ST3DPhysicsComponent::applyGravity,
+                                "applyForce", &ST3DPhysicsComponent::applyForce,
+                                "setMass", &ST3DPhysicsComponent::setMass,
+                                "setActive", &ST3DPhysicsComponent::setActive,
+                                "setDamping", &ST3DPhysicsComponent::setDamping,
+                                "setRestitution", &ST3DPhysicsComponent::setRestitution,
+                                "toggleFreeze", &ST3DPhysicsComponent::toggleFreeze,
+                                "updateTransform", &ST3DPhysicsComponent::updateTransform);
+}
+
 

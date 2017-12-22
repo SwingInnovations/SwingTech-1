@@ -8,4 +8,5 @@ end
 
 function onCollision(self, other)
     print("Collided with: " .. other:getTag())
+    print("Other stuff happening too");
 end

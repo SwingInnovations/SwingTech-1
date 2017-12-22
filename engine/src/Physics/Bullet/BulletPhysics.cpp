@@ -5,7 +5,11 @@
 #include <iostream>
 
 BulletPhysics::BulletPhysics() {
-
+    m_collisionConfiguration = nullptr;
+    m_dispatcher = nullptr;
+    m_broadphase = nullptr;
+    m_solver = nullptr;
+    m_dynamicsWorld = nullptr;
 }
 
 void BulletPhysics::init() {
@@ -20,6 +24,7 @@ void BulletPhysics::init() {
 void BulletPhysics::update(stUint delta) {
     if(m_dynamicsWorld){
         m_dynamicsWorld->stepSimulation(delta);
+
         for(stUint i = 0; i < m_dynamicsWorld->getDispatcher()->getNumManifolds(); i++){
             auto collision = m_dynamicsWorld->getDispatcher()->getManifoldByIndexInternal(i);
             auto gameObject = ((STEntity*)collision->getBody0()->getUserPointer());
@@ -27,7 +32,6 @@ void BulletPhysics::update(stUint delta) {
             std::vector<STEntity*> result;
             result.push_back(otherObject);
             auto eventComp = gameObject->get<STEventComponent>();
-            //eventComp->setResultants(result);
             eventComp->setOther(otherObject);
             eventComp->setEvent("onCollision");
         }
@@ -42,7 +46,13 @@ void BulletPhysics::update(stUint delta) {
             }else{
                 transform = rigidBody->getWorldTransform();
             }
+            transform = rigidBody->getWorldTransform();
             transform.getRotation().getEulerZYX(rZ, rY, rX);
+
+            rX = toDegree(rX);
+            rY = toDegree(rY);
+            rZ = toDegree(rZ);
+
             auto entityTransform = ((STEntity*)rigidBody->getUserPointer())->transform();
             entityTransform->setTranslate(Vector3D(transform.getOrigin().getX(), transform.getOrigin().getY(), transform.getOrigin().getZ()));
             entityTransform->setRotationMode(Transform::Local);
@@ -50,6 +60,7 @@ void BulletPhysics::update(stUint delta) {
         }
     }
 }
+
 
 void BulletPhysics::setGravity(stReal gravity) {
     if(m_dynamicsWorld){
@@ -77,7 +88,6 @@ void BulletPhysics::init(STPhysics::PhysicsEngine engineMode) {
 
 void BulletPhysics::clearScene() {
     m_dynamicsWorld->getCollisionObjectArray().clear();
-    m_rigidBodyPool.clear();
 }
 
 void BulletPhysics::initScene(STScene *scene) {
@@ -87,7 +97,6 @@ void BulletPhysics::initScene(STScene *scene) {
         if(physComponent != nullptr){
             auto rigidBody = ((BulletRigidBody*)physComponent->getRigidBody())->getRigidBody();
             m_dynamicsWorld->addRigidBody(rigidBody);
-            m_rigidBodyPool.push_back(rigidBody);
         }
     }
 }

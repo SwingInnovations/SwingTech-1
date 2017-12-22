@@ -53,11 +53,11 @@ public:
         diceBox->get<ST3DPhysicsComponent>()->updateTransform();
         diceBox->get<ST3DPhysicsComponent>()->toggleFreeze(true);
 
-        auto plane = new STActor("plane.obj");
+        plane = new STActor("plane.obj");
         plane->setTag("ground");
         plane->transform()->setTranslateY(-2.f);
         plane->get<STGraphicsComponent>()->setDiffuseTexture("grid.png");
-        plane->addComponent(typeid(ST3DPhysicsComponent), new ST3DPhysicsComponent(STRigidBody::RigidBodyShape::BOX, {20, 0.01, 20, 4}));
+        plane->addComponent(typeid(ST3DPhysicsComponent), new ST3DPhysicsComponent(STRigidBody::RigidBodyShape::BOX, {5, 0.01, 5, 4}));
         plane->get<ST3DPhysicsComponent>()->setMass(10.0f);
         plane->get<ST3DPhysicsComponent>()->updateTransform();
         plane->get<ST3DPhysicsComponent>()->toggleFreeze(true);
@@ -82,9 +82,22 @@ public:
             game->setFullScreen(counter % 2);
         }
 
-        if(input->isKeyPressed(KEY::KEY_Y)){
-            for(auto actor : m_scene->getActors()){
-                if(actor->getTag() == "Dice"){
+
+        if(input->isKeyDown(KEY::KEY_O)){
+            auto rX = plane->transform()->getRotate().getX();
+            plane->transform()->setRotateX(rX + 0.025f * game->getDelta());
+            plane->get<ST3DPhysicsComponent>()->updateTransform();
+        }
+
+        if(input->isKeyDown(KEY::KEY_U)){
+            auto rX = plane->transform()->getRotate().getX();
+            plane->transform()->setRotateX(rX - 0.025f * game->getDelta());
+            plane->get<ST3DPhysicsComponent>()->updateTransform();
+        }
+
+        if(input->isKeyPressed(KEY::KEY_Y)) {
+            for (auto actor : m_scene->getActors()) {
+                if (actor->getTag() == "Dice") {
                     actor->get<ST3DPhysicsComponent>()->toggleFreeze(false);
                     actor->get<ST3DPhysicsComponent>()->applyForce(Vector3D(0, -20, 0));
                     actor->get<ST3DPhysicsComponent>()->applyGravity();
@@ -95,15 +108,17 @@ public:
         if(input->isKeyPressed(KEY::KEY_R)){
             for(auto actor : m_scene->getActors()){
                 if(actor->getTag() == "Dice"){
+                    actor->transform()->setTranslateZ(2.f);
                     actor->transform()->setTranslateY(10.f);
+                    actor->transform()->setTranslateX(1.f);
                     actor->get<ST3DPhysicsComponent>()->updateTransform();
+                    actor->get<ST3DPhysicsComponent>()->toggleFreeze(false);
                     actor->get<ST3DPhysicsComponent>()->setActive(true);
                     actor->get<ST3DPhysicsComponent>()->applyForce(Vector3D(0, -20, 0));
                     actor->get<ST3DPhysicsComponent>()->applyGravity();
                 }
             }
         }
-
         m_scene->update();
     }
 
@@ -119,6 +134,7 @@ public:
 
 private:
     stUint counter;
+    STActor* plane;
 };
 
 int main(int argc, char** argv){

@@ -21,7 +21,6 @@ public:
 
     void clearScene();
 private:
-    std::vector<btRigidBody*>       m_rigidBodyPool;
     btDefaultCollisionConfiguration* m_collisionConfiguration;
     btBroadphaseInterface*           m_broadphase;
     btConstraintSolver*              m_solver;

@@ -96,9 +96,11 @@ void BulletRigidBody::setAngularFactor(Vector3D vector) {
 void BulletRigidBody::updateTransform() {
     auto trans = m_transform->getTranslate();
     auto rot = m_transform->getRotate();
+    btQuaternion quat;
+    quat.setEulerZYX(toRadian(rot.getZ()), toRadian(rot.getY()), toRadian(rot.getX()));
     btTransform initTransform;
     initTransform.setOrigin(btVector3(trans.getX(), trans.getY(), trans.getZ()));
-    initTransform.setRotation(btQuaternion(rot.getX(), rot.getY(), rot.getZ()));
+    initTransform.setRotation(quat);
     m_rigidBody->setWorldTransform(initTransform);
     m_rigidBody->getMotionState()->setWorldTransform(initTransform);
     m_rigidBody->clearForces();

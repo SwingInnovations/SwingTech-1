@@ -150,7 +150,7 @@ void STScriptComponent::initScript(const std::string &fileName) {
                                            "getLength", &Vector4<stReal>::getLength,
                                            "dot", &Vector4<stReal>::dot,
                                            "toVector3", &Vector4<stReal>::toVector3);
-    m_script.new_usertype<STEntity>("STEntity",
+    m_script.new_simple_usertype<STEntity>("STEntity",
                                     "getTag", &STEntity::getTag,
                                     "transform", &STEntity::transform,
                                     "setShdrUniformi", sol::resolve<void(const std::string&, int)>(&STEntity::setShdrUniform),
@@ -173,7 +173,7 @@ void STScriptComponent::initScript(const std::string &fileName) {
                                     "getAttribute2v", &STEntity::getAttribute2v,
                                     "getAttribute3v", &STEntity::getAttribute3v,
                                     "getAttribute4v", &STEntity::getAttribute4v);
-    m_script.new_usertype<Transform>("Transform", sol::constructors<sol::types<>>(),
+    m_script.new_simple_usertype<Transform>("Transform", sol::constructors<sol::types<>>(),
                                      "setTranslate", sol::resolve<void(Vector3<stReal>)>(&Transform::setTranslate),
                                      "setTranslateX", &Transform::setTranslateX,
                                      "setTranslateY", &Transform::setTranslateY,

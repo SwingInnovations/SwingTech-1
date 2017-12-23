@@ -20,6 +20,7 @@ class STGraphicsComponent : public STComponent{
 public:
     explicit STGraphicsComponent(Shader* shdr);
     STGraphicsComponent(const STGraphicsComponent& copy);
+    void initScriptingFunctions(sol::state& state) override;
 
     explicit STGraphicsComponent(STMaterial* mat);
 
@@ -56,11 +57,6 @@ public:
     void setShdrUniform(const std::string& name, Matrix4f value);
     void setShdrUniform_Texture(const std::string& name, stUint value);
     void setShdrUniform_CubeMap(const std::string& name, stUint value);
-
-    void addSpriteSheet(Texture* tex, uint32_t rowCount, uint32_t colCount);
-    void setSpriteSheetIndex(int, int);
-    void setSpriteSheetRow(int);
-    void nextFrame();
 
     inline void setShader(Shader* shdr){ m_shdr = shdr; }
 

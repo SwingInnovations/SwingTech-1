@@ -42,7 +42,7 @@ public:
         diceBox->setTag("Dice");
         diceBox->get<STGraphicsComponent>()->getMaterial()->setMetallic(0.2f);
         diceBox->get<STGraphicsComponent>()->getMaterial()->setRoughness(0.1f);
-        diceBox->get<STGraphicsComponent>()->getMaterial()->setDiffuseTexture("Bronze_Albedo.jpg");
+        //diceBox->get<STGraphicsComponent>()->getMaterial()->setDiffuseTexture("Bronze_Albedo.jpg");
         diceBox->transform()->setTranslateX(1.0f);
         diceBox->transform()->setTranslateY(10.f);
         diceBox->transform()->setTranslateZ(2.f);

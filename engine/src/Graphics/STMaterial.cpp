@@ -123,6 +123,11 @@ void STMaterial::setDiffuseColor(STColor color) {
     if(m_Uniforms.count("Material.Diffuse_Color") > 0) m_Uniforms.at("Material.Diffuse_Color").value = STShader::toString(color.color);
 }
 
+void STMaterial::setDiffuseColor(Vector4D color) {
+    if(m_Uniforms.count("Material.Diffuse_Color") > 0) m_Uniforms.at("Material.Diffuse_Color").value = STShader::toString(color);
+}
+
+
 STMaterial *STMaterial::copy() {
     STMaterial* ret = new STMaterial(shader);
     ret->setUniforms(m_Uniforms);
@@ -132,6 +137,7 @@ STMaterial *STMaterial::copy() {
 void STMaterial::setUniforms(std::map<std::string, STShader::ShaderAttrib> newUniforms) {
     m_Uniforms = newUniforms;
 }
+
 
 
 

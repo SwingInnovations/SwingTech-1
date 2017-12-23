@@ -88,6 +88,7 @@ public:
     void setDiffuseTexture(const std::string& fileName);
 
     void setDiffuseColor(STColor);
+    void setDiffuseColor(Vector4D);
     void setNormalTexture(const std::string& fileName);
     void setMetallic(stReal);
     void setMetallic(const std::string& fileName);

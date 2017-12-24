@@ -345,7 +345,7 @@ void GLGraphics::drawScene(STScene *scene) {
                 glEnable(GL_CULL_FACE);
                 glCullFace(GL_FRONT);
                 for (auto &actor : actors) {
-                    actor->setShdrUniform("lightSpaceMatrix", shadowProps->projections[0]);
+                    actor->get<STGraphicsComponent>()->setShdrUniform("lightSpaceMatrix", shadowProps->projections[0]);
                     if(actor->get<ST3DAnimationComponent>() != nullptr){
                         actor->draw(m_directionalSkinnedOverrideMat, true);
                     }else{
@@ -373,7 +373,7 @@ void GLGraphics::drawScene(STScene *scene) {
                         glEnable(GL_CULL_FACE);
                         glCullFace(GL_FRONT);
 
-                        actors[j]->setShdrUniform("lightSpaceMatrix", ortho * shadowProps->projections[k]);
+                        actors[j]->get<STGraphicsComponent>()->setShdrUniform("lightSpaceMatrix", ortho * shadowProps->projections[k]);
                         actors[j]->draw(lights[i]->get<STGraphicsComponent>()->getMaterial());
                         glBindFramebuffer(GL_FRAMEBUFFER, 0);
                     }
@@ -416,25 +416,46 @@ void GLGraphics::drawScene(STScene *scene) {
         glDepthFunc(GL_EQUAL);
         glDepthMask(GL_TRUE);
 
-        for(stUint i =0; i < actors.size(); i++){
-            actors[i]->setShdrUniform("_CameraPos", getActiveCamera()->transform()->getTranslate());
-            actors[i]->setShdrUniform_CubeMap("_WorldCubeMap", rendScene->m_skybox);
-            actors[i]->setShdrUniform_Texture2DArray("shadowArray", shadowArray, 1);
-            actors[i]->setShdrUniform("LightCount", (stInt)lights.size());
-            for(stUint j =0; j < lights.size(); j++) {
+//        for(stUint i =0; i < actors.size(); i++){
+//            actors[i]->setShdrUniform("_CameraPos", getActiveCamera()->transform()->getTranslate());
+//            actors[i]->setShdrUniform_CubeMap("_WorldCubeMap", rendScene->m_skybox);
+//            actors[i]->setShdrUniform_Texture2DArray("shadowArray", shadowArray, 1);
+//            actors[i]->setShdrUniform("LightCount", (stInt)lights.size());
+//            for(stUint j =0; j < lights.size(); j++) {
+//                auto lightProps = lights[j]->get<STLightComponent>()->getProperties();
+//                auto shadowProps = lights[j]->get<STShadowComponent>()->getProperties();
+//
+//                actors[i]->setShdrUniform("Light["+std::to_string(j)+"].LightType", (stInt)lightProps->direction.getW());
+//                actors[i]->setShdrUniform("Light["+std::to_string(j)+"].Color", lightProps->color);
+//                actors[i]->setShdrUniform("Light["+std::to_string(j)+"].Position", lights[j]->transform()->getTranslate());
+//                actors[i]->setShdrUniform("Light["+std::to_string(j)+"].Direction", lightProps->direction);
+//                actors[i]->setShdrUniform("Light["+std::to_string(j)+"].Radius", lightProps->radius);
+//                actors[i]->setShdrUniform("Light["+std::to_string(j)+"].Intensity", lightProps->intensity);
+//                actors[i]->setShdrUniform("Light["+std::to_string(j)+"].UseShadow", lightProps->useShadow);
+//                actors[i]->setShdrUniform("Light["+std::to_string(j)+"].ShadowIndex", (stInt)shadowProps->shadowIndex);
+//            }
+//            actors[i]->draw();
+//        }
+        for(auto actor : actors){
+            auto gfx = actor->get<STGraphicsComponent>();
+            gfx->setShdrUniform("_CameraPos", getActiveCamera()->transform()->getTranslate());
+            gfx->setShdrUniform_CubeMap("_WorldCubeMap", rendScene->m_skybox);
+            gfx->setShdrUniform_Texture2DArray("shadowArray", shadowArray, 1);
+            gfx->setShdrUniform("LightCount", (stInt)lights.size());
+            for(stUint j = 0; j < lights.size(); j++){
                 auto lightProps = lights[j]->get<STLightComponent>()->getProperties();
                 auto shadowProps = lights[j]->get<STShadowComponent>()->getProperties();
+                gfx->setShdrUniform("Light["+std::to_string(j)+"].LightType", (stInt)lightProps->direction.getW());
+                gfx->setShdrUniform("Light["+std::to_string(j)+"].Color", lightProps->color);
+                gfx->setShdrUniform("Light["+std::to_string(j)+"].Position", lights[j]->transform()->getTranslate());
+                gfx->setShdrUniform("Light["+std::to_string(j)+"].Direction", lightProps->direction);
+                gfx->setShdrUniform("Light["+std::to_string(j)+"].Radius", lightProps->radius);
+                gfx->setShdrUniform("Light["+std::to_string(j)+"].Intensity", lightProps->intensity);
+                gfx->setShdrUniform("Light["+std::to_string(j)+"].UseShadow", lightProps->useShadow);
+                gfx->setShdrUniform("Light["+std::to_string(j)+"].ShadowIndex", (stInt)shadowProps->shadowIndex);
 
-                actors[i]->setShdrUniform("Light["+std::to_string(j)+"].LightType", (stInt)lightProps->direction.getW());
-                actors[i]->setShdrUniform("Light["+std::to_string(j)+"].Color", lightProps->color);
-                actors[i]->setShdrUniform("Light["+std::to_string(j)+"].Position", lights[j]->transform()->getTranslate());
-                actors[i]->setShdrUniform("Light["+std::to_string(j)+"].Direction", lightProps->direction);
-                actors[i]->setShdrUniform("Light["+std::to_string(j)+"].Radius", lightProps->radius);
-                actors[i]->setShdrUniform("Light["+std::to_string(j)+"].Intensity", lightProps->intensity);
-                actors[i]->setShdrUniform("Light["+std::to_string(j)+"].UseShadow", lightProps->useShadow);
-                actors[i]->setShdrUniform("Light["+std::to_string(j)+"].ShadowIndex", (stInt)shadowProps->shadowIndex);
             }
-            actors[i]->draw();
+            actor->draw();
         }
 
 

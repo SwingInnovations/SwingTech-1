@@ -2,7 +2,7 @@
 
 STLight *STLight::InitPointLight(Vector3<stReal> position, Vector3<stReal> color, stReal radius) {
     STLight* ret = new STLight;
-    ret->setTranslate(position);
+    ret->transform()->setTranslate(position);
     ret->addComponent(typeid(STLightComponent), new STLightComponent);
     ret->addComponent(typeid(STShadowComponent), new STShadowComponent);
     ret->get<STLightComponent>()->setType(STLightComponent::POINT_LIGHT);
@@ -18,7 +18,7 @@ STLight *
 STLight::InitSpotLight(Vector3<stReal> position, Vector3<stReal> direction, Vector3<stReal> color, stReal coneAngle,
                        stReal coneDistance) {
     STLight* ret = new STLight;
-    ret->setTranslate(position);
+    ret->transform()->setTranslate(position);
     ret->addComponent(typeid(STLightComponent), new STLightComponent);
     ret->addComponent(typeid(STShadowComponent), new STShadowComponent);
     ret->get<STLightComponent>()->setType(STLightComponent::SPOT_LIGHT);
@@ -35,7 +35,7 @@ STLight *STLight::InitDirectionalLight(Vector3<stReal> position, Vector3<stReal>
     STLight* ret = new STLight;
     ret->addComponent(typeid(STLightComponent), new STLightComponent);
     ret->addComponent(typeid(STShadowComponent), new STShadowComponent);
-    ret->setTranslate(position);
+    ret->transform()->setTranslate(position);
     ret->get<STLightComponent>()->setType(STLightComponent::DIRECTIONAL_LIGHT);
     ret->get<STLightComponent>()->setParent(ret);
     auto lightProps = ret->get<STLightComponent>()->getProperties();

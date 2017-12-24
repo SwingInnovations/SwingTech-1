@@ -46,7 +46,7 @@ public:
         diceBox->transform()->setTranslateX(1.0f);
         diceBox->transform()->setTranslateY(10.f);
         diceBox->transform()->setTranslateZ(2.f);
-        diceBox->addComponent(typeid(ST3DPhysicsComponent), new ST3DPhysicsComponent(STRigidBody::RigidBodyShape::SPHERE, {1.f}));
+        diceBox->addComponent(typeid(ST3DPhysicsComponent), new ST3DPhysicsComponent(STRigidBody::RigidBodyShape::SPHERE, {0.9f}));
         diceBox->get<ST3DPhysicsComponent>()->setMass(10.f);
         diceBox->get<ST3DPhysicsComponent>()->setRestitution(200.0f);
         diceBox->get<ST3DPhysicsComponent>()->updateTransform();

@@ -32,12 +32,11 @@ public:
 //        character->setAttribute("speedFactor", 0.025f);
 //        character->transform()->setRotationMode(Transform::Local);
 //
-        auto c2 = new STActor("animCylinder.fbx");
-        c2->transform()->setTranslateX(4.f);
-        c2->transform()->setTranslateZ(4.f);
+        auto c2 = new STActor("OrbThing.fbx");
+        c2->get<STGraphicsComponent>()->getMaterial()->setMetallic(0.2f);
+        c2->get<STGraphicsComponent>()->getMaterial()->setRoughness(0.1f);
         c2->transform()->setRotationMode(Transform::Local);
-        c2->get<STGraphicsComponent>()->getMaterial()->setDiffuseColor(STColor(GREEN));
-
+        
         auto diceBox = new STActor("smooth_sphere.obj");
         diceBox->setTag("Dice");
         diceBox->get<STGraphicsComponent>()->getMaterial()->setMetallic(0.2f);

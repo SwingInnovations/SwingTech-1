@@ -20,7 +20,6 @@ function update(self)
 end
 
 function onCollision(self, other)
-    print("Collided with: " .. other:getTag())
     local gfx = getGraphicsComponent(self)
     gfx:getMaterial():setDiffuseColor(Vector4.new(0, 1, 0, 1))
 end

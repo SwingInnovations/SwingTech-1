@@ -128,7 +128,8 @@ void ST3DAnimationComponent::ReadNodeHeirarchy(float AnimationTime, STMeshNode *
         Matrix4f transM;
         transM.initTranslation(translation);
 
-        nodeTransform = scaleM * rotM * transM;
+        //nodeTransform = scaleM * rotM * transM;
+        nodeTransform = transM * rotM * scaleM;
     }
 
     Matrix4f GlobalTransform = parentTransform * nodeTransform;

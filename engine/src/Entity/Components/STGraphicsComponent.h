@@ -9,11 +9,6 @@
 #include "../../Graphics/STMaterial.h"
 
 
-struct SpriteSheet{
-    int width, height;
-    uint32_t rowCount, colCount, rowIndex, colIndex, row_cellSize, col_cellSize;
-};
-
 class STComponent;
 
 class STGraphicsComponent : public STComponent{
@@ -78,7 +73,6 @@ public:
 
     void draw(Transform& T, Camera& C);
 private:
-    SpriteSheet m_spriteSheet;
     Shader* m_shdr;
     STMaterial* m_material;
     bool useTexture;

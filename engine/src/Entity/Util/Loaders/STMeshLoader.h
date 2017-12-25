@@ -125,7 +125,7 @@ public:
                     if(rootNode->mNumChildren < 1) return;
                     auto newNode = new STMeshNode;
                     newNode->m_Name = rootNode->mName.C_Str();
-                    newNode->transform = Matrix4f::From(rootNode->mTransformation);
+                    newNode->transform = Matrix4f::From(rootNode->mTransformation).transpose();
                     node->m_children.addLast(newNode);
                     for(stUint i = 0, S = rootNode->mNumChildren; i < S; i++){
                         recursiveAddNode(rootNode->mChildren[i], newNode);
@@ -133,7 +133,7 @@ public:
                 };
                 stMesh.m_node = new STMeshNode;
                 stMesh.m_node->m_Name = scene->mRootNode->mName.C_Str();
-                stMesh.m_node->transform = Matrix4f::From(scene->mRootNode->mTransformation);
+                stMesh.m_node->transform = Matrix4f::From(scene->mRootNode->mTransformation).transpose();
                 for(stUint i = 0; i < scene->mRootNode->mNumChildren; i++){
                     recursiveAddNode(scene->mRootNode->mChildren[i], stMesh.m_node);
                 }

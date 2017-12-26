@@ -1,8 +1,7 @@
 {
   "ExpandedNodes": [
     "",
-    "\\src\\Entity",
-    "\\src\\Entity\\Components"
+    "\\lib\\windows\\MSVC"
   ],
   "SelectedNode": "\\CMakeLists.txt",
   "PreviewInSolutionExplorer": false

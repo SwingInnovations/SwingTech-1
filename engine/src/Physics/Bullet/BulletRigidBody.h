@@ -1,8 +1,8 @@
 #ifndef SWINGTECH1_BULLETRIGIDBODYSHAPE_H
 #define SWINGTECH1_BULLETRIGIDBODYSHAPE_H
 
+#include <vector>
 #include <btBulletDynamicsCommon.h>
-#include <c++/vector>
 #include <BulletCollision/CollisionShapes/btCollisionShape.h>
 #include <BulletDynamics/Dynamics/btRigidBody.h>
 #include "../STRigidBody.h"

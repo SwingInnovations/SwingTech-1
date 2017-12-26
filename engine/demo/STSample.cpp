@@ -36,7 +36,7 @@ public:
         c2->get<STGraphicsComponent>()->getMaterial()->setMetallic(0.2f);
         c2->get<STGraphicsComponent>()->getMaterial()->setRoughness(0.1f);
         c2->transform()->setRotationMode(Transform::Local);
-        
+
         auto diceBox = new STActor("smooth_sphere.obj");
         diceBox->setTag("Dice");
         diceBox->get<STGraphicsComponent>()->getMaterial()->setMetallic(0.2f);
@@ -82,33 +82,30 @@ public:
             game->setFullScreen(counter % 2);
         }
 
+		if (input->isKeyDown(KEY::KEY_L)) {
+			auto rZ = plane->transform()->getRotate().getZ();
+			plane->transform()->setRotateZ(rZ + 0.025f * game->getDelta());
+			plane->get<ST3DPhysicsComponent>()->updateTransform();
+		}
 
-        if(input->isKeyDown(KEY::KEY_O)){
+		if (input->isKeyDown(KEY::KEY_J)) {
+			auto rZ = plane->transform()->getRotate().getZ();
+			plane->transform()->setRotateZ(rZ - 0.025f * game->getDelta());
+			plane->get<ST3DPhysicsComponent>()->updateTransform();
+		}
+
+        if(input->isKeyDown(KEY::KEY_I)){
             auto rX = plane->transform()->getRotate().getX();
             plane->transform()->setRotateX(rX + 0.025f * game->getDelta());
             plane->get<ST3DPhysicsComponent>()->updateTransform();
         }
 
-        if(input->isKeyDown(KEY::KEY_U)){
+        if(input->isKeyDown(KEY::KEY_K)){
             auto rX = plane->transform()->getRotate().getX();
             plane->transform()->setRotateX(rX - 0.025f * game->getDelta());
             plane->get<ST3DPhysicsComponent>()->updateTransform();
         }
 
-//        if(input->isKeyPressed(KEY::KEY_R)){
-//            for(auto actor : m_scene->getActors()){
-//                if(actor->getTag() == "Dice"){
-//                    actor->transform()->setTranslateZ(2.f);
-//                    actor->transform()->setTranslateY(10.f);
-//                    actor->transform()->setTranslateX(1.f);
-//                    actor->get<ST3DPhysicsComponent>()->updateTransform();
-//                    actor->get<ST3DPhysicsComponent>()->toggleFreeze(false);
-//                    actor->get<ST3DPhysicsComponent>()->setActive(true);
-//                    actor->get<ST3DPhysicsComponent>()->applyForce(Vector3D(0, -20, 0));
-//                    actor->get<ST3DPhysicsComponent>()->applyGravity();
-//                }
-//            }
-//        }
         m_scene->update();
     }
 

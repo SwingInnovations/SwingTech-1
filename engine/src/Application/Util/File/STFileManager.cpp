@@ -17,3 +17,4 @@ int STFileManager::CreateDir(const std::string &filePath) {
 	return 0;
 #endif
 }
+

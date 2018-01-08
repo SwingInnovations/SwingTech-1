@@ -1,6 +1,8 @@
 #ifndef WAHOO_STCOMPONENT_H
 #define WAHOO_STCOMPONENT_H
 
+#include <utility>
+
 #include "../../../include/sol.hpp"
 #include "../../Application/STGame.h"
 
@@ -11,7 +13,7 @@ class STEntity;
  */
 class STComponent {
 public:
-    virtual void init(STEntity* newParent){this->m_entity = newParent;}      //This will actually initialize anything dependent on the m_entity pointer.
+    virtual void init(std::shared_ptr<STEntity> newParent){this->m_entity = std::move(newParent);}      //This will actually initialize anything dependent on the m_entity pointer.
     /**
      * Initializes stuff
      */
@@ -24,11 +26,11 @@ public:
     virtual void dispose(){}
     virtual ~STComponent(){}
 
-    inline void setParent(STEntity* parent){ this->m_entity = parent; }
-    STEntity* getParent(){ return this->m_entity; }
+    inline void setParent(std::shared_ptr<STEntity> parent){ this->m_entity = std::move(parent); }
+    STEntity* getParent(){ return this->m_entity.get(); }
 
 protected:
-    STEntity* m_entity;
+    std::shared_ptr<STEntity> m_entity;
 };
 
 

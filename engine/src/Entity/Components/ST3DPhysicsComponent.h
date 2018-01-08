@@ -9,8 +9,13 @@ public:
     ST3DPhysicsComponent();
     ST3DPhysicsComponent(STRigidBody::RigidBodyShape bodyShape, std::vector<stReal> dimensions);
     ~ST3DPhysicsComponent();
-    void init(STEntity* parent) override;
+    void init(std::shared_ptr<STEntity> parent) override;
+    /**
+     * Allows for scripting access.
+     * @param state
+     */
     void initScriptingFunctions(sol::state& state) override ;
+
     STRigidBody* getRigidBody();
 
     /**
@@ -21,8 +26,13 @@ public:
      * Applies force to object based off Axis
      */
     void applyForce(Vector3D);
-    void dispose() override;
+
     void setMass(stReal mass);
+
+    /**
+     * Sets the gravity parameter
+     * @param gravity
+     */
     void setGravity(Vector3D gravity);
     void setActive(bool);
     void setDamping(stReal, stReal);
@@ -35,6 +45,7 @@ public:
     void updateTransform();
 
     void update() override ;
+    void dispose() override;
 private:
     STRigidBody* m_rigidBody;
     STRigidBody::RigidBodyShape m_initShape;

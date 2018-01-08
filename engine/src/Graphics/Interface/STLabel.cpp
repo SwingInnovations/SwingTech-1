@@ -16,7 +16,7 @@ STLabel::STLabel(stReal x, stReal y, std::string text) {
     int width = 0, height = 0;
     m_visible = true;
     STFontMetrics::bounds(m_text, m_fontSize, m_font, &width, &height);
-    addComponent(typeid(STRectBoundsComponent), new STRectBoundsComponent(x, y, width, height, STGraphics::YUp));
+    //addComponent(typeid(STRectBoundsComponent), new STRectBoundsComponent(x, y, width, height, STGraphics::YUp));
     m_Panel = new STPanel(x, y, width, height);
 }
 

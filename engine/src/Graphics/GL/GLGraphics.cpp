@@ -297,7 +297,7 @@ void GLGraphics::drawScene(STScene *scene) {
                     shadowProperties->projections[5] = Matrix4f::LookAt(pos, pos - Vector3<stReal>(0.0, 0.0, -1.0f),
                                                                  Vector3<stReal>(0.0, -1.0f, 0.0));    //Far
                     lights[i]->addComponent(typeid(STGraphicsComponent),
-                                            new STGraphicsComponent(new GLShader("spotLight_shadows")));
+                                            std::make_shared<STGraphicsComponent>(new GLShader("spotLight_shadows")));
                     for (stUint j = 0; j < 6; j++) {
                         glGenFramebuffers(1, &shadowProperties->shadowFrameBuffer[j]);
                         glGenTextures(1, &shadowProperties->shadowMapID[j]);

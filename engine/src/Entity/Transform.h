@@ -10,6 +10,9 @@
 #include "../Math/Vector.h"
 #include "../Math/Euler.h"
 
+#include <cereal/cereal.hpp>
+#include <cereal/types/memory.hpp>
+
 class STEntity;
 
 using namespace json11;
@@ -31,7 +34,7 @@ public:
      * Default Constructor
      * @param parent
      */
-    explicit Transform(STEntity* parent);
+    explicit Transform(std::shared_ptr<STEntity> parent);
 
     Transform();
 
@@ -50,8 +53,9 @@ public:
      * @param rotate        Initial Rotation
      * @param scale         Initial Scale.
      */
-    Transform(STEntity* parent, Vector3D& translate, Vector3D& rotate, Vector3D& scale);
-
+    [[deprecated]]
+    Transform(std::shared_ptr<STEntity> parent, Vector3D& translate, Vector3D& rotate, Vector3D& scale);
+    Transform(Vector3D& translate, Vector3D& rotate, Vector3D& scale);
     /**
      * Sets position of Transform to Vector3
      * @param vec
@@ -104,14 +108,15 @@ public:
     Vector3D getRight()const;
 
     Json to_json()const;
-
+    void setEntity(std::shared_ptr<STEntity> entity);
     STEntity* getEntity();
 
+    template<class Archive> void serialize(Archive& ar){
+        ar(CEREAL_NVP(translate), CEREAL_NVP(rotate), CEREAL_NVP(scale), rotateMode);
+    }
+
 private:
-    /**
-     * Calculates the Forward Right and Up Vectors
-     */
-    STEntity* parent;
+    std::shared_ptr<STEntity> parent;
     Vector3D translate;
     Vector3D rotate;
     Vector3D scale;

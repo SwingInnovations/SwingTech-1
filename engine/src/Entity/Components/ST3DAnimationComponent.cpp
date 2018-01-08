@@ -1,8 +1,8 @@
 #include "ST3DAnimationComponent.h"
 
 
-void ST3DAnimationComponent::init(STEntity* parent) {
-    m_entity = parent;
+void ST3DAnimationComponent::init(std::shared_ptr<STEntity> entity) {
+    m_entity = entity;
     m_gfxComponent = m_entity->get<STGraphicsComponent>();
 }
 

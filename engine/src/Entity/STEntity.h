@@ -58,7 +58,7 @@ struct STAttribute{
     std::string m_value;
 };
 
-class STEntity {
+class STEntity : public std::enable_shared_from_this<STEntity>{
 public:
     enum Type{
         Actor = 0,
@@ -73,9 +73,9 @@ public:
     STEntity();
 
     ~STEntity();
+    void init();
 
-    void addComponent(std::type_index, STComponent*);
-    void addScriptComponent(const std::string& script);
+    void addComponent(std::type_index, std::shared_ptr<STComponent>);
     void addChild(STEntity* entity);
     STEntity* getChild(int ind);
 
@@ -127,12 +127,12 @@ public:
     std::vector<std::string> getLoadedComponentNames(){
         std::vector<std::string> ret;
         for(auto comp : m_components){
-            ret.push_back(comp.first.name());
+            ret.emplace_back(comp.first.name());
         }
         return ret;
     }
 
-    const std::map<std::type_index, STComponent *> &getAllComponents() const;
+    const std::map<std::type_index, std::shared_ptr<STComponent>> &getAllComponents() const;
 
     /**
      * @brief Returns Component Added to Entity.
@@ -142,64 +142,31 @@ public:
     template<typename T> inline T* get(){
         auto it = m_components.find(std::type_index(typeid(T)));
         if(it != m_components.end()){
-            return dynamic_cast<T*>(it->second);
+            return dynamic_cast<T*>(it->second.get());
         }
         return nullptr;
     }
 
-    inline Transform* transform(){ return m_transform; }
+    inline Transform* transform(){ return m_transform.get(); }
 
     virtual void update();
 
-    virtual void draw(){
-        auto grphx = get<STGraphicsComponent>();
-        auto mesh = get<STMeshComponent>();
-        grphx->draw();
-        mesh->draw();
-        if(hasChildren()){
-            for (auto &child : m_children) {
-                child->draw();
-            }
-        }
-    }
+    virtual void draw();
 
     virtual void draw(STGraphics* grphx);
 
-    void draw(Camera* cam){
-        auto grphx = this->get<STGraphicsComponent>();
-        auto mesh = this->get<STMeshComponent>();
-        grphx->draw();
-        grphx->shdr()->update(*m_transform, *cam);
-        mesh->draw();
-        if(hasChildren()){
-            for(unsigned int i = 0, lim = (unsigned int)m_children.size(); i < lim; i++){
-                m_children.at(i)->draw(cam);
-            }
-        }
-    }
+    void draw(Camera* cam);
 
-
-    virtual void draw(Camera* cam, int drawMode){
-        auto grphx = this->get<STGraphicsComponent>();
-        auto mesh = this->get<STMeshComponent>();
-        grphx->draw();
-        grphx->shdr()->update(*m_transform, *cam);
-        mesh->draw(drawMode);
-
-        if(hasChildren()){
-            for (auto &child : m_children) {
-                child->draw(cam, drawMode);
-            }
-        }
-    }
+    virtual void draw(Camera* cam, int drawMode);
 
 protected:
     Type m_type;
     std::string m_name;
     std::string m_tag;
-    Transform* m_transform;
+    std::shared_ptr<Transform> m_transform;
     bool m_visible;
-    std::map<std::type_index, STComponent*> m_components;
+    std::map<std::type_index, std::shared_ptr<STComponent>> m_components;
+    STEntity* m_parent;
 protected:
     std::map<std::string, STAttribute*> m_attributes;
     std::vector<STEntity*> m_children;

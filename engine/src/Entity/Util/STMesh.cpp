@@ -17,5 +17,9 @@
  */
 bool STMesh::Validate(const std::string &fileName, bool* errFlag, std::vector<STMesh_Structure>* meshes,
                       std::map<std::string, STMaterial *>* materials) {
-    return MeshLoader::Validate(fileName, errFlag, meshes, materials);
+    if(fileName.substr(fileName.length() - 9) == ".stEntity"){
+        return false;
+    }else{
+        return MeshLoader::Validate(fileName, errFlag, meshes, materials);
+    }
 }

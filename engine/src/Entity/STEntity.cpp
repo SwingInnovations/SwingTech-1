@@ -3,18 +3,17 @@
 #include "Components/STAABBComponent.h"
 
 STEntity::STEntity() {
-    m_transform = new Transform();
+//    m_transform = std::make_shared<Transform>();
+//    m_transform->setEntity(shared_from_this());
 }
 
 STEntity::~STEntity() {
-    delete m_transform;
-    m_transform = 0;
     m_components.clear();
 }
 
-void STEntity::addComponent(std::type_index type, STComponent *component) {
+void STEntity::addComponent(std::type_index type, std::shared_ptr<STComponent> component) {
     m_components[type] = component;
-    m_components[type]->init(this);
+    m_components[type]->init(shared_from_this());
 }
 
 void STEntity::addChild(STEntity *entity) {
@@ -28,14 +27,10 @@ STEntity* STEntity::getChild(int ind) {
 }
 
 STEntity *STEntity::childAtTag(const std::string &tag) {
-    for(auto ent : m_children){
-        if(ent->m_tag == tag) return ent;
+    for (auto ent : m_children) {
+        if (ent->m_tag == tag) return ent;
     }
     return nullptr;
-}
-
-void STEntity::addScriptComponent(const std::string &script) {
-    addComponent(typeid(STScriptComponent*), new STScriptComponent(this, script));
 }
 
 //Start moving to this method of drawing
@@ -158,8 +153,52 @@ void STEntity::dispose() {
     m_components.clear();
 }
 
-const std::map<std::type_index, STComponent *> &STEntity::getAllComponents() const {
+const std::map<std::type_index, std::shared_ptr<STComponent>> &STEntity::getAllComponents() const {
     return m_components;
+}
+
+void STEntity::draw(Camera *cam, int drawMode) {
+    auto grphx = this->get<STGraphicsComponent>();
+    auto mesh = this->get<STMeshComponent>();
+    grphx->draw();
+    grphx->shdr()->update(*m_transform, *cam);
+    mesh->draw(drawMode);
+
+    if(hasChildren()){
+        for (auto &child : m_children) {
+            child->draw(cam, drawMode);
+        }
+    }
+}
+
+void STEntity::draw(Camera *cam) {
+    auto grphx = this->get<STGraphicsComponent>();
+    auto mesh = this->get<STMeshComponent>();
+    grphx->draw();
+    grphx->shdr()->update(*m_transform, *cam);
+    mesh->draw();
+    if(hasChildren()){
+        for(unsigned int i = 0, lim = (unsigned int)m_children.size(); i < lim; i++){
+            m_children.at(i)->draw(cam);
+        }
+    }
+}
+
+void STEntity::draw() {
+    auto grphx = get<STGraphicsComponent>();
+    auto mesh = get<STMeshComponent>();
+    grphx->draw();
+    mesh->draw();
+    if(hasChildren()){
+        for (auto &child : m_children) {
+            child->draw();
+        }
+    }
+}
+
+void STEntity::init() {
+    m_transform = std::make_shared<Transform>();
+    m_transform->setEntity(shared_from_this());
 }
 
 STAttribute::STAttribute(const Vector2<stReal> &value){

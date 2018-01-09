@@ -3,7 +3,11 @@
 
 #include <map>
 #include <vector>
+#include <memory>
 #include <typeindex>
+
+#include <cereal/cereal.hpp>
+#include <cereal/types/memory.hpp>
 
 #include "../Math/Vector.h"
 #include "Transform.h"
@@ -34,7 +38,6 @@ struct STAttribute{
         Vec3 = 4,
         Vec4 = 5
     };
-
     static std::string toString(const int& value);
     static std::string toString(const float& value);
     static std::string toString(const Vector2<stReal>& vec);
@@ -102,7 +105,7 @@ public:
 
     STEntity* childAtTag(const std::string& tag);
     inline stUint getChildSize(){ return (stUint)m_children.size(); }
-    std::vector<STEntity*> getChildren(){ return m_children; }
+    std::vector<std::shared_ptr<STEntity>> getChildren(){ return m_children; }
 
     inline void setTag(const std::string& name){ m_tag = name; }
 
@@ -146,18 +149,16 @@ public:
         }
         return nullptr;
     }
-
     inline Transform* transform(){ return m_transform.get(); }
 
+    void setParent(std::shared_ptr<STEntity> p);
     virtual void update();
-
     virtual void draw();
-
     virtual void draw(STGraphics* grphx);
-
     void draw(Camera* cam);
-
     virtual void draw(Camera* cam, int drawMode);
+
+    template<class Archive> void serialize(Archive& ar);
 
 protected:
     Type m_type;
@@ -166,10 +167,10 @@ protected:
     std::shared_ptr<Transform> m_transform;
     bool m_visible;
     std::map<std::type_index, std::shared_ptr<STComponent>> m_components;
-    STEntity* m_parent;
+    std::shared_ptr<STEntity> m_parent;
 protected:
     std::map<std::string, STAttribute*> m_attributes;
-    std::vector<STEntity*> m_children;
+    std::vector<std::shared_ptr<STEntity>> m_children;
 };
 
 

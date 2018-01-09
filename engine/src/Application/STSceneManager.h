@@ -64,13 +64,13 @@ public:
      * Adds Actor to scene.
      * @param actor
      */
-    void addActor(STActor* actor);
+    void addActor(std::shared_ptr<STActor> actor);
 
     /**
      * Adds Light to the scene
      * @param light
      */
-    void addLight(STLight* light);
+    void addLight(std::shared_ptr<STLight> light);
 
     void addUIElement(STInterWidget* ui);
 
@@ -96,8 +96,8 @@ public:
      */
     inline void addSkybox(const std::string& file, const std::string& shader);
 
-    const std::vector<STActor*> &getActors()const{ return actors; }
-    const std::vector<STLight*> &getLights()const{ return lights; }
+    const std::vector<std::shared_ptr<STActor>> &getActors()const{ return actors; }
+    const std::vector<std::shared_ptr<STLight>> &getLights()const{ return lights; }
     const std::vector<STInterWidget*> &getUIElements()const{ return uiElements; }
 
     const std::string& getSkyboxName()const{ return skyboxName; }
@@ -110,8 +110,8 @@ private:
     stUint m_numShadows;
     STQueue<STEntity*> pendingEntities;
     OctNode* rootNode;
-    std::vector<STActor*> actors;
-    std::vector<STLight*> lights;
+    std::vector<std::shared_ptr<STActor>> actors;
+    std::vector<std::shared_ptr<STLight>> lights;
     std::vector<STInterWidget*> uiElements;
     std::string skyboxName;
     std::string skyboxShader;

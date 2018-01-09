@@ -24,7 +24,6 @@ STActor::STActor(STMesh_Structure structure, std::string &tag, STMaterial* mater
 //    m_transform->setEntity(shared_from_this());
 }
 
-[[deprecated]]
 STActor::STActor(STMesh_Structure meshStructure, std::map<std::string, STMaterial *> materials) {
 //    m_tag = meshStructure.name;
 //    m_type = Actor;
@@ -37,8 +36,34 @@ STActor::STActor(STMesh_Structure meshStructure, std::map<std::string, STMateria
 }
 
 std::shared_ptr<STActor> STActor::Create(const std::string &filename) {
-    auto ret = std::make_shared<STActor>(filename);
+    auto ret = std::make_shared<STActor>();
     ret->init();
+    stInt flag = 0;
+    bool errFlag = true;
+    std::vector<STMesh_Structure> meshes;
+    std::map<std::string, STMaterial*> materials;
+    if(STMesh::Validate(filename, &errFlag, &meshes, &materials)){
+        for(const auto &mesh : meshes){
+            ret->AddChildActor(std::make_shared<STActor>(mesh, materials));
+        }
+        for(auto& child : ret->getChildren()){
+            child->setParent(std::move(ret));
+        }
+        return std::move(ret);
+    }
+    if(!errFlag || meshes.empty()){
+        //TODO Implement error mesh;
+    }
+
+    //Assuming Singular mesh
+    ret->addComponent(typeid(STEventComponent), std::make_shared<STEventComponent>());
+    ret->addComponent(typeid(STMeshComponent), std::make_shared<STMeshComponent>(meshes.at(0)));
+    if(meshes.at(0).m_hasAnimations){
+        ret->addComponent(typeid(ST3DAnimationComponent), std::make_shared<ST3DAnimationComponent>(meshes.at(0)));
+    }
+    if(meshes.at(0).materialKey.empty()) ret->addComponent(typeid(STGraphicsComponent), std::make_shared<STGraphicsComponent>(new STMaterial(new GLShader("standard"))));
+    else ret->addComponent(typeid(STGraphicsComponent), std::make_shared<STGraphicsComponent>(materials.at(meshes.at(0).materialKey)));
+
     return ret;
 }
 
@@ -55,7 +80,8 @@ STActor::STActor(const std::string &filePath) {
 
     if(STMesh::Validate(filePath, &errFlag, &meshes, &materials)){
         for (const auto &mesh : meshes) {
-            addChild_Actor(new STActor(this, mesh, materials));
+            //addChild_Actor(new STActor(this, mesh, materials));
+            AddChildActor(std::make_shared<STActor>(mesh, materials));
         }
         return;
     }
@@ -108,7 +134,8 @@ void STActor::draw() {
         if(grphx != nullptr)grphx->draw(*m_transform, *cam);
         if(mesh != nullptr)mesh->draw();
         for(auto child : m_children){
-            dynamic_cast<STActor*>(child)->draw();
+            //dynamic_cast<STActor*>(child)->draw();
+            child->draw();
         }
     }
 }
@@ -139,7 +166,7 @@ void STActor::draw(STMaterial *material) {
         if(grphx!= nullptr) material->draw(grphx->GetUniforms(), *m_transform, *cam);
         if(mesh != nullptr) mesh->draw();
         for(auto child : m_children){
-            dynamic_cast<STActor*>(child)->draw(material);
+            ((STActor*)child.get())->draw(material);
         }
     }
 }
@@ -155,7 +182,7 @@ void STActor::draw(STMaterial* overrideMaterial, bool flag){
     auto cam = STGame::Get()->getCamera();
     if(!m_children.empty()){
         for(auto child : m_children){
-            ((STActor*)child)->draw(overrideMaterial, flag);
+            ((STActor*)child.get())->draw(overrideMaterial, flag);
         }
         return;
     }
@@ -163,19 +190,24 @@ void STActor::draw(STMaterial* overrideMaterial, bool flag){
         overrideMaterial->draw(grphx->GetUniforms(), grphx->getMaterial()->GetUniforms(), *m_transform, *cam);
         mesh->draw();
         for(auto child : m_children){
-            dynamic_cast<STActor*>(child)->draw(overrideMaterial, flag);
+            dynamic_cast<STActor*>(child.get())->draw(overrideMaterial, flag);
         }
     }else{
         overrideMaterial->draw(grphx->GetUniforms(), *m_transform, *cam);
         mesh->draw();
         for(auto child : m_children){
-            dynamic_cast<STActor*>(child)->draw(overrideMaterial, flag);
+            dynamic_cast<STActor*>(child.get())->draw(overrideMaterial, flag);
         }
     }
 }
 
 STActor::~STActor() {
 
+}
+
+void STActor::AddChildActor(std::shared_ptr<STActor> actor) {
+    actor->init();
+    m_children.emplace_back(actor);
 }
 
 

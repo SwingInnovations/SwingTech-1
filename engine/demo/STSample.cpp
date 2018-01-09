@@ -47,17 +47,10 @@ public:
 
         std::cout << "Generated Lights" << std::endl;
 
-//        auto character = new STActor("humanoid.fbx");
-//        character->setTag("Main");
-//        character->get<STGraphicsComponent>()->getMaterial()->setMetallic(0.1f);
-//        character->addComponent(typeid(STScriptComponent), new STScriptComponent("Suzanne_Control.lua"));
-//        character->setAttribute("speedFactor", 0.025f);
-//        character->transform()->setRotationMode(Transform::Local);
-//
-//        auto c2 = new STActor("OrbThing.fbx");
-//        c2->get<STGraphicsComponent>()->getMaterial()->setMetallic(0.2f);
-//        c2->get<STGraphicsComponent>()->getMaterial()->setRoughness(0.1f);
-//        c2->transform()->setRotationMode(Transform::Local);
+        auto c2 = STActor::Create("OrbThing.fbx");
+        c2->setTag("Orb");
+        c2->get<STGraphicsComponent>()->getMaterial()->setMetallic(0.2f);
+        c2->get<STGraphicsComponent>()->getMaterial()->setRoughness(0.1f);
 
 //        auto diceBox = new STActor("smooth_sphere.obj");
 //        diceBox->setTag("Dice");
@@ -73,7 +66,9 @@ public:
 //        diceBox->get<ST3DPhysicsComponent>()->updateTransform();
 //        diceBox->get<ST3DPhysicsComponent>()->toggleFreeze(true);
 //        diceBox->addComponent(typeid(STScriptComponent), new STScriptComponent("dice.lua"));
-//
+
+        auto p = STActor::Create("plane.obj");
+        p->get<STGraphicsComponent>()->getMaterial()->setDiffuseTexture("grid.png");
 //        plane = new STActor("plane.obj");
 //        plane->setTag("ground");
 //        plane->transform()->setTranslateY(-2.f);
@@ -83,12 +78,12 @@ public:
 //        plane->get<ST3DPhysicsComponent>()->updateTransform();
 //        plane->get<ST3DPhysicsComponent>()->toggleFreeze(true);
 //
-//        m_scene->addLight(mainLight);
-//        m_scene->addLight(accentLight);
-//        m_scene->addLight(accentLight2);
+        m_scene->addLight(mainLight);
+        m_scene->addLight(accentLight);
+        m_scene->addLight(accentLight2);
 //        m_scene->addActor(diceBox);
-//        m_scene->addActor(plane);
-//        m_scene->addActor(c2);
+        m_scene->addActor(p);
+        m_scene->addActor(c2);
 //        counter = 0;
     }
 
@@ -104,29 +99,29 @@ public:
             game->setFullScreen(counter % 2);
         }
 
-		if (input->isKeyDown(KEY::KEY_L)) {
-			auto rZ = plane->transform()->getRotate().getZ();
-			plane->transform()->setRotateZ(rZ + 0.025f * game->getDelta());
-			plane->get<ST3DPhysicsComponent>()->updateTransform();
-		}
-
-		if (input->isKeyDown(KEY::KEY_J)) {
-			auto rZ = plane->transform()->getRotate().getZ();
-			plane->transform()->setRotateZ(rZ - 0.025f * game->getDelta());
-			plane->get<ST3DPhysicsComponent>()->updateTransform();
-		}
-
-        if(input->isKeyDown(KEY::KEY_I)){
-            auto rX = plane->transform()->getRotate().getX();
-            plane->transform()->setRotateX(rX + 0.025f * game->getDelta());
-            plane->get<ST3DPhysicsComponent>()->updateTransform();
-        }
-
-        if(input->isKeyDown(KEY::KEY_K)){
-            auto rX = plane->transform()->getRotate().getX();
-            plane->transform()->setRotateX(rX - 0.025f * game->getDelta());
-            plane->get<ST3DPhysicsComponent>()->updateTransform();
-        }
+//		if (input->isKeyDown(KEY::KEY_L)) {
+//			auto rZ = plane->transform()->getRotate().getZ();
+//			plane->transform()->setRotateZ(rZ + 0.025f * game->getDelta());
+//			plane->get<ST3DPhysicsComponent>()->updateTransform();
+//		}
+//
+//		if (input->isKeyDown(KEY::KEY_J)) {
+//			auto rZ = plane->transform()->getRotate().getZ();
+//			plane->transform()->setRotateZ(rZ - 0.025f * game->getDelta());
+//			plane->get<ST3DPhysicsComponent>()->updateTransform();
+//		}
+//
+//        if(input->isKeyDown(KEY::KEY_I)){
+//            auto rX = plane->transform()->getRotate().getX();
+//            plane->transform()->setRotateX(rX + 0.025f * game->getDelta());
+//            plane->get<ST3DPhysicsComponent>()->updateTransform();
+//        }
+//
+//        if(input->isKeyDown(KEY::KEY_K)){
+//            auto rX = plane->transform()->getRotate().getX();
+//            plane->transform()->setRotateX(rX - 0.025f * game->getDelta());
+//            plane->get<ST3DPhysicsComponent>()->updateTransform();
+//        }
 
         m_scene->update();
     }
@@ -143,7 +138,6 @@ public:
 
 private:
     stUint counter;
-    STActor* plane;
 };
 
 int main(int argc, char** argv){

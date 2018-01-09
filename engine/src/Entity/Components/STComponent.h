@@ -3,6 +3,9 @@
 
 #include <utility>
 
+#include <cereal/cereal.hpp>
+#include <cereal/types/memory.hpp>
+
 #include "../../../include/sol.hpp"
 #include "../../Application/STGame.h"
 
@@ -13,7 +16,7 @@ class STEntity;
  */
 class STComponent {
 public:
-    virtual void init(std::shared_ptr<STEntity> newParent){this->m_entity = std::move(newParent);}      //This will actually initialize anything dependent on the m_entity pointer.
+    virtual void init(std::shared_ptr<STEntity>& newParent){this->m_entity = newParent;}      //This will actually initialize anything dependent on the m_entity pointer.
     /**
      * Initializes stuff
      */

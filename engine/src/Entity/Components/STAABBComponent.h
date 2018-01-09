@@ -11,7 +11,7 @@ public:
     STAABBComponent(STEntity* parent, Vector3<stReal> minPoint, Vector3<stReal> maxPoint);
     ~STAABBComponent();
 
-    void init(std::shared_ptr<STEntity> parent) override;
+    void init(std::shared_ptr<STEntity>& parent) override;
 
     void update() override;
 

@@ -1,9 +1,10 @@
 #include "ST3DAnimationComponent.h"
 
 
-void ST3DAnimationComponent::init(std::shared_ptr<STEntity> entity) {
+void ST3DAnimationComponent::init(std::shared_ptr<STEntity>& entity) {
     m_entity = entity;
     m_gfxComponent = m_entity->get<STGraphicsComponent>();
+    std::cout << "Initialized 3D component" << std::endl;
 }
 
 ST3DAnimationComponent::ST3DAnimationComponent() {

@@ -23,11 +23,6 @@ STGame::STGame() {
 STGame::~STGame() {
 
     m_currentIndex = 0;
-    if(!m_gameStates.empty()){
-        for(auto state : m_gameStates){
-            delete state;
-        }
-    }
     m_gameStates.clear();
     g->cleanup();
     delete g;

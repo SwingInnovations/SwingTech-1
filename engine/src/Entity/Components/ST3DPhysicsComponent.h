@@ -9,7 +9,7 @@ public:
     ST3DPhysicsComponent();
     ST3DPhysicsComponent(STRigidBody::RigidBodyShape bodyShape, std::vector<stReal> dimensions);
     ~ST3DPhysicsComponent();
-    void init(std::shared_ptr<STEntity> parent) override;
+    void init(std::shared_ptr<STEntity>& parent) override;
     /**
      * Allows for scripting access.
      * @param state

@@ -19,7 +19,7 @@ public:
     ~ST3DAnimationComponent();
     void initScriptingFunctions(sol::state& script) override ;
     void loadBones();
-    void init(std::shared_ptr<STEntity> entity);
+    void init(std::shared_ptr<STEntity>& entity) override ;
     void update() override ;
     void setCurrentAnimation(const std::string& anim);
 protected:

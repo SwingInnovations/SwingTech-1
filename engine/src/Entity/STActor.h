@@ -10,17 +10,19 @@ class STEntity;
  */
 class STActor : public STEntity {
 public:
-    explicit STActor(const std::string& filePath);
+    STActor() = default;
+    STActor(const std::string& filePath);
     STActor(STMesh_Structure structure, std::string& tag, STMaterial* material);
     STActor(STMesh_Structure, std::map<std::string, STMaterial*>);
     STActor(STEntity* parent, STMesh_Structure, std::map<std::string, STMaterial*>);
     ~STActor();
 
     inline void addChild_Actor(STActor* actor){
-        actor->init();
-        this->m_children.push_back((STEntity*)actor);
+//        actor->init();
+//        this->m_children.push_back((STEntity*)actor);
     }
 
+    void AddChildActor(std::shared_ptr<STActor> actor);
     static std::shared_ptr<STActor> Create(const std::string& filename);
 
     void draw() override;

@@ -6,7 +6,7 @@ STAABBComponent::STAABBComponent(){
 
 }
 
-void STAABBComponent::init(std::shared_ptr<STEntity> parent) {
+void STAABBComponent::init(std::shared_ptr<STEntity>& parent) {
     this->m_entity = parent;
     this->m_boundingBox = new STBoundingBox();
     m_isCalculated = false;

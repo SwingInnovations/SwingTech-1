@@ -17,7 +17,7 @@ STRigidBody *ST3DPhysicsComponent::getRigidBody() {
     return m_rigidBody;
 }
 
-void ST3DPhysicsComponent::init(std::shared_ptr<STEntity> parent) {
+void ST3DPhysicsComponent::init(std::shared_ptr<STEntity>& parent) {
     STComponent::init(parent);
     if(STGame::Get()->getPhysicsMode() == 1){
         m_rigidBody = new BulletRigidBody(parent->transform(), m_initShape, m_dimensions);

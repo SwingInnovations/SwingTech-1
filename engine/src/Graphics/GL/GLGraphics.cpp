@@ -249,7 +249,7 @@ void GLGraphics::drawScene(STScene *scene) {
             glTexParameteri(GL_TEXTURE_2D_ARRAY, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
             glBindTexture(GL_TEXTURE_2D_ARRAY, 0);
 
-            for (stInt i = 0, S = lights.size(); i < S; i++) {
+            for (stInt i = 0, S = (stInt)lights.size(); i < S; i++) {
                 auto lightProperties = lights[i]->get<STLightComponent>()->getProperties();
                 if(lightProperties->useShadow == 0) lightProperties->useShadow = 1;
                 auto shadowProperties = lights[i]->get<STShadowComponent>()->getProperties();
@@ -331,12 +331,12 @@ void GLGraphics::drawScene(STScene *scene) {
         auto ortho = Matrix4f().initOrthographicProjection(-50.f, 50.f, -50.f, 50.f, 1.f, 50.f);
         auto persp = Matrix4f().initPerpectiveProjection(45, 10, 10, 1.f, 10);
 
-        for(stUint i = 0; i < lights.size(); i++){
-            auto shadowProps = lights[i]->get<STShadowComponent>()->getProperties();
-            auto lightProps = lights[i]->get<STLightComponent>()->getProperties();
-            if((lights[i]->get<STLightComponent>()->getType() == STLightComponent::DIRECTIONAL_LIGHT ||
-                    lights[i]->get<STLightComponent>()->getType() == STLightComponent::SPOT_LIGHT) && lightProps->useShadow == 1) {
-                shadowProps->projections[0] = ortho * lights[i]->get<STLightComponent>()->getLookAt();
+        for (auto &light : lights) {
+            auto shadowProps = light->get<STShadowComponent>()->getProperties();
+            auto lightProps = light->get<STLightComponent>()->getProperties();
+            if((light->get<STLightComponent>()->getType() == STLightComponent::DIRECTIONAL_LIGHT ||
+                    light->get<STLightComponent>()->getType() == STLightComponent::SPOT_LIGHT) && lightProps->useShadow == 1) {
+                shadowProps->projections[0] = ortho * light->get<STLightComponent>()->getLookAt();
 
                 auto data = new GLfloat[m_shadowRes*m_shadowRes*sizeof(GLfloat)];
                 glBindFramebuffer(GL_FRAMEBUFFER, shadowProps->shadowFrameBuffer[0]);
@@ -364,8 +364,8 @@ void GLGraphics::drawScene(STScene *scene) {
                 glBindTexture(GL_TEXTURE_2D_ARRAY, 0);
 
                 delete[] data;
-            }else if(lights[i]->get<STLightComponent>()->getType() == STLightComponent::POINT_LIGHT){
-                for(stUint j = 0; j < actors.size(); j++){
+            }else if(light->get<STLightComponent>()->getType() == STLightComponent::POINT_LIGHT){
+                for (auto &actor : actors) {
                     for(stUint k = 0; k < 6; k++){
                         //TODO test this.
                         glBindFramebuffer(GL_FRAMEBUFFER, shadowProps->shadowFrameBuffer[k]);
@@ -373,8 +373,8 @@ void GLGraphics::drawScene(STScene *scene) {
                         glEnable(GL_CULL_FACE);
                         glCullFace(GL_FRONT);
 
-                        actors[j]->get<STGraphicsComponent>()->setShdrUniform("lightSpaceMatrix", ortho * shadowProps->projections[k]);
-                        actors[j]->draw(lights[i]->get<STGraphicsComponent>()->getMaterial());
+                        actor->get<STGraphicsComponent>()->setShdrUniform("lightSpaceMatrix", ortho * shadowProps->projections[k]);
+                        actor->draw(light->get<STGraphicsComponent>()->getMaterial());
                         glBindFramebuffer(GL_FRAMEBUFFER, 0);
                     }
                 }
@@ -479,7 +479,7 @@ void GLGraphics::drawScene(STScene *scene) {
         glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, velocityTexture, 0);
 
         //Predepth pass for velocity
-        for(auto actor : actors){
+        for(auto &actor : actors){
             actor->draw(m_velocityMat);
         }
 
@@ -493,11 +493,11 @@ void GLGraphics::drawScene(STScene *scene) {
         //Geometry Pass
         glEnable(GL_CULL_FACE);
         glCullFace(GL_FRONT);
-        for(stUint i = 0, S = actors.size(); i < S; i++){
-            if(actors[i]->get<ST3DAnimationComponent>() != nullptr){
-                actors[i]->draw(m_GBufferOverrideSkinnedMat, true);
+        for (auto &actor : actors) {
+            if(actor->get<ST3DAnimationComponent>() != nullptr){
+                actor->draw(m_GBufferOverrideSkinnedMat, true);
             }else{
-                actors[i]->draw(m_GBufferOverrideMat, true);
+                actor->draw(m_GBufferOverrideMat, true);
             }
 
         }

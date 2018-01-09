@@ -13,22 +13,23 @@ STEntity::~STEntity() {
 
 void STEntity::addComponent(std::type_index type, std::shared_ptr<STComponent> component) {
     m_components[type] = component;
-    m_components[type]->init(shared_from_this());
+    auto t = shared_from_this();
+    m_components[type]->init(t);
 }
 
 void STEntity::addChild(STEntity *entity) {
-    m_children.push_back(entity);
+    //m_children.push_back(entity);
 }
 
 STEntity* STEntity::getChild(int ind) {
     auto ret = m_children.at(ind);
     if(ret == nullptr) return nullptr;
-    return ret;
+    return ret.get();
 }
 
 STEntity *STEntity::childAtTag(const std::string &tag) {
     for (auto ent : m_children) {
-        if (ent->m_tag == tag) return ent;
+        if (ent->m_tag == tag) return ent.get();
     }
     return nullptr;
 }
@@ -199,6 +200,15 @@ void STEntity::draw() {
 void STEntity::init() {
     m_transform = std::make_shared<Transform>();
     m_transform->setEntity(shared_from_this());
+}
+
+template<class Archive>
+void STEntity::serialize(Archive &ar) {
+    ar(m_transform);
+}
+
+void STEntity::setParent(std::shared_ptr<STEntity> p) {
+    this->m_parent = p;
 }
 
 STAttribute::STAttribute(const Vector2<stReal> &value){

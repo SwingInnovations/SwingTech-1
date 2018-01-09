@@ -199,7 +199,7 @@ void STScriptComponent::registerFunction(const std::string &functionName, std::f
     m_script.set_function(functionName.c_str(), newFunction);
 }
 
-void STScriptComponent::init(std::shared_ptr<STEntity> parent) {
+void STScriptComponent::init(std::shared_ptr<STEntity>& parent) {
     this->m_entity = parent;
     this->initScript(this->scriptName);
 }

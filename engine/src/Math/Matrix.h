@@ -202,6 +202,10 @@ public:
      */
     std::string getInfo();
 
+    template<class Archive> void serialize(Archive& ar){
+        ar(m);
+    }
+
     stReal m[4][4];
 };
 

@@ -29,8 +29,9 @@ public:
         LINE_LOOP = 2,
     };
 
-    static bool Validate(const std::string& fileName, bool* errFlag, std::vector<STMesh_Structure>* meshes, std::map<std::string, STMaterial*>* materials);
+    static bool Validate(const std::string& fileName, bool* errFlag, std::vector<STMesh_Structure>* meshes, std::map<std::string, std::shared_ptr<STMaterial>>* materials);
     STMesh(){}
+    STMesh(STMesh_Structure& structure){;}
     STMesh(const std::string& fileName, int type){}
     STMesh(Shape& shape){ }
     STMesh(STRect* rect){ }

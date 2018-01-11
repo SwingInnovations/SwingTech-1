@@ -131,12 +131,16 @@ public:
 
     Shader* shdr(){ return shader; }
 
+    template<class Archive> void serialize(Archive& ar);
+
     void draw(std::map<std::string, STShader::ShaderAttrib>& entityUniforms, Transform& T, Camera& C);
     void draw(std::map<std::string, STShader::ShaderAttrib>& entityUniform, std::map<std::string, STShader::ShaderAttrib> originalMaterialUniforms, Transform &T, Camera& C);
+
 private:
     void init_GLShaders(ShaderList list);
     void init_GLTextures(TextureList list);
     Shader* shader;
+    std::shared_ptr<Shader> m_shdr;
     Vector3<stReal> m_baseColor;
     std::map<std::string, STShader::ShaderAttrib> m_Uniforms;
 };

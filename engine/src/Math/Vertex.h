@@ -4,6 +4,9 @@
 #include <string>
 #include <sstream>
 
+#include <cereal/cereal.hpp>
+#include <cereal/types/memory.hpp>
+
 #include "Vector.h"
 
 class Vertex{
@@ -20,6 +23,11 @@ public:
         buff << "Texcoord(X, Y, Z): " << _texCoord.getX()<< " , " << _texCoord.getY() << "\n";
         buff << "Normal(X, Y, Z): " << _normal.getX() << " , " << _normal.getY() << " , "<< _normal.getZ() << "\n";
         return buff.str();
+    }
+
+    template<class Archive> void serialize(Archive& ar)
+    {
+        ar(_vertex, _texCoord, _normal);
     }
 
     Vector3<stReal> *getVertex(){ return &_vertex; }

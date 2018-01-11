@@ -46,6 +46,8 @@ public:
 
     void update() override ;
     void dispose() override;
+
+    template<typename Archive> void serialize(Archive& ar);
 private:
     STRigidBody* m_rigidBody;
     STRigidBody::RigidBodyShape m_initShape;

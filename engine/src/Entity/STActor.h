@@ -13,7 +13,7 @@ public:
     STActor() = default;
     STActor(const std::string& filePath);
     STActor(STMesh_Structure structure, std::string& tag, STMaterial* material);
-    STActor(STMesh_Structure, std::map<std::string, STMaterial*>);
+    STActor(STMesh_Structure, std::map<std::string, std::shared_ptr<STMaterial>>);
     STActor(STEntity* parent, STMesh_Structure, std::map<std::string, STMaterial*>);
     ~STActor();
 

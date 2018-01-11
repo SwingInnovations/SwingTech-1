@@ -1,22 +1,30 @@
 #ifndef SWINGTECH1_STLIST_H
 #define SWINGTECH1_STLIST_H
 
+#include <memory>
+#include <cereal/cereal.hpp>
+#include <cereal/types/memory.hpp>
+
 #include "../../../Math/STCore.h"
 
 template<typename T>
 class STList{
 public:
+    /**
+     * Internal Class.
+     */
     struct Node{
-        Node(T data){
+        explicit Node(T data){
             this->data = data;
         }
         T data;
-        Node* next = nullptr;
+        std::shared_ptr<Node> Next;
+        template<class Archive> void serialize(Archive& ar){
+            ar(data, Next);
+        }
     };
 
-    /**
-     *
-     */
+
     class iterator : public std::iterator<std::output_iterator_tag, T>{
     public:
         explicit iterator(STList<T> &list, stUint startIndex): m_list(list) {
@@ -48,8 +56,6 @@ public:
      * Constructor
      */
     STList(){
-        head = NULL;
-        tail = NULL;
         m_Size = 0;
     }
 
@@ -57,22 +63,22 @@ public:
      * Checks if list is empty.
      * @return True if list is empty, otherwise false;
      */
-    bool isEmpty()const{ return head != NULL; }
+    bool isEmpty()const{ return Head.get() == nullptr; }
 
     /**
      * Adds to beginning of the list
      * @param data
      */
     void addFirst(T data){
-        auto node = new Node(data);
-        if(head == nullptr){
-            head = tail = node;
+        auto node = std::make_shared<Node>(data);
+        if(Head.get() == nullptr){
+            Head = Tail = node;
             ++m_Size;
             return;
         }
-        node->next = head;
-        head = node;
-        ++m_Size;
+        node->Next = Head;
+        Head = node;
+        m_Size++;
     }
 
     /**
@@ -80,14 +86,14 @@ public:
      * @param data
      */
     void addLast(T data){
-        auto node = new Node(data);
-        if(head == nullptr){
-            head = tail = node;
+        auto node = std::make_shared<Node>(data);
+        if(Head == nullptr){
+            Head = Tail = node;
             ++m_Size;
             return;
         }
-        tail->next = node;
-        tail = node;
+        Tail->Next = node;
+        Tail = node;
         ++m_Size;
     }
 
@@ -96,7 +102,7 @@ public:
      */
     void clear(){
         m_Size = 0;
-        while(head != nullptr){
+        while(Head.get() != nullptr){
             removeLast();
         }
     }
@@ -106,11 +112,10 @@ public:
      * @return Data from first Node.
      */
     T removeFirst(){
-        if(head == nullptr)
-            return  NULL;
-        T data = head->data;
-        Node* tmp = head;
-        head = head->next;
+        if(Head.get() == nullptr) return nullptr;
+        T data = Head->data;
+        auto tmp = Head;
+        Head = Head->Next;
         delete tmp;
         m_Size--;
         return data;
@@ -121,31 +126,30 @@ public:
      * @return Data from last node.
      */
     T removeLast(){
-        if(head == nullptr || tail == nullptr) return nullptr;
-        Node* cur = head;
-        Node* prev = nullptr;
-        while(cur->next != nullptr){
+        if(Head.get() == nullptr || Tail.get() == nullptr) return nullptr;
+        auto cur = Head;
+        std::shared_ptr<Node> prev;
+        while(cur->Next.get() != nullptr){
             prev = cur;
-            cur = cur->next;
+            cur = cur->Next;
         }
-        tail = prev;
-        prev->next = nullptr;
-        delete cur;
+        Tail = prev;
+        prev->Next.reset();
         m_Size--;
         return prev->data;
     }
 
     T operator[](stUint index){
         if(index < size()){
-            Node* counter = head;
+            auto counter = Head;
             stUint c = 0;
             while(c < index){
-                counter = counter->next;
+                counter = counter->Next;
                 c++;
             }
             return counter->data;
         }
-        return NULL;
+        return nullptr;
     }
 
     /**
@@ -170,10 +174,14 @@ public:
         return iterator(*this, size());
     }
 
+    template<class Archive> void serialize(Archive& ar){
+        ar(m_Size, Head, Tail);
+    }
+
 private:
-    stUint m_Size{};
-    Node* head = nullptr;
-    Node* tail = nullptr;
+    stUint m_Size;
+    std::shared_ptr<Node> Head;
+    std::shared_ptr<Node> Tail;
 };
 
 #endif //SWINGTECH1_STLIST_H

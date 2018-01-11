@@ -6,6 +6,9 @@
 #include <fstream>
 #include <iostream>
 
+#include <cereal/cereal.hpp>
+#include <cereal/types/memory.hpp>
+
 #include "STComponent.h"
 #include "../../Math/Vector.h"
 #include "../../Math/Vertex.h"
@@ -43,17 +46,20 @@ public:
     STMesh *getMesh() const;
 
     inline void draw() override {
-        m_mesh->draw();
+        m_Mesh->draw();
     }
 
     void dispose() override;
 
     inline void draw(int drawMode){
-        m_mesh->draw(drawMode);
+        m_Mesh->draw(drawMode);
     }
+
+    template<class Archive> void serialize(Archive& ar);
 private:
 
     STMesh* m_mesh;
+    std::shared_ptr<STMesh> m_Mesh;
 
 };
 

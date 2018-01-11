@@ -94,4 +94,9 @@ void ST3DPhysicsComponent::initScriptingFunctions(sol::state &state) {
                                 "updateTransform", &ST3DPhysicsComponent::updateTransform);
 }
 
+template<typename Archive>
+void ST3DPhysicsComponent::serialize(Archive &ar) {
+    //TODO Implement
+}
+
 

@@ -13,6 +13,7 @@ public:
     inline BoundRect* bounds(){ return rect; }
     void reset(const stReal x, const stReal y, const stReal w, const stReal h);
     std::string info();
+    template<class Archive> void serialize(Archive& ar);
 private:
     BoundRect* rect;
 };

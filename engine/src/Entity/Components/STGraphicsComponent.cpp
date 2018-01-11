@@ -4,25 +4,26 @@
 #include "../../Graphics/STGraphics.h"
 
 STGraphicsComponent::STGraphicsComponent(const STGraphicsComponent &copy) {
-    this->m_material = copy.m_material;
     this->m_entity = copy.m_entity;
 }
 
 STGraphicsComponent::STGraphicsComponent(Shader *shdr) {
-    m_shdr = shdr;
     useTexture = false;
     useMaterial = false;
 }
 
 STGraphicsComponent::STGraphicsComponent(const std::string &shdr) {
-    m_shdr = new GLShader(shdr);
     useTexture = false;
     useMaterial = false;
 }
 
 STGraphicsComponent::STGraphicsComponent(STMaterial *mat) {
-    m_material = mat;
     useMaterial = true;
+}
+
+STGraphicsComponent::STGraphicsComponent(std::shared_ptr<STMaterial> material) {
+    //TODO Implement this
+    m_Material = material;
 }
 
 void STGraphicsComponent::addShdrUniform(const std::string &name, int value) {
@@ -175,16 +176,16 @@ void STGraphicsComponent::update() {
 }
 
 void STGraphicsComponent::draw(Transform &T, Camera &C) {
-    //m_material->draw(m_uniforms, T, C);
-    m_material->draw(m_Uniforms, T, C);
+    //m_material->draw(m_Uniforms, T, C);
+    m_Material->draw(m_Uniforms, T, C);
 }
 
 void STGraphicsComponent::setDiffuseTexture(const std::string &fileName) {
-    m_material->setDiffuseTexture(fileName);
+    m_Material->setDiffuseTexture(fileName);
 }
 
 void STGraphicsComponent::setNormalTexture(const std::string &fileName) {
-    m_material->setNormalTexture(fileName);
+    m_Material->setNormalTexture(fileName);
 }
 
 std::map<std::string, STShader::ShaderAttrib> &STGraphicsComponent::GetUniforms() {
@@ -205,7 +206,7 @@ void STGraphicsComponent::dispose() {
             }
         }
     }
-    delete m_material;
+    m_Material.reset();
 }
 
 void STGraphicsComponent::initScriptingFunctions(sol::state &state) {
@@ -235,5 +236,12 @@ void STGraphicsComponent::initScriptingFunctions(sol::state &state) {
                                                    "setShdrUniform4v", sol::resolve<void(const std::string&, Vector4D)>(&STGraphicsComponent::setShdrUniform),
                                                    "getMaterial", &STGraphicsComponent::getMaterial);
 }
+
+template<class Archive>
+void STGraphicsComponent::serialize(Archive &ar) {
+    ar(m_Material);
+}
+
+
 
 

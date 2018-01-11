@@ -70,7 +70,7 @@ public:
      * @param dataMesh - MeshData itself.
      * @return
      */
-    static bool Validate(const std::string& fileName, bool* errFlag, std::vector<STMesh_Structure>* dataMeshes, std::map<std::string, STMaterial*>* materials){
+    static bool Validate(const std::string& fileName, bool* errFlag, std::vector<STMesh_Structure>* dataMeshes, std::map<std::string, std::shared_ptr<STMaterial>>* materials){
         Assimp::Importer importer;
         std::vector<int> indices;
 
@@ -81,7 +81,20 @@ public:
             return false;
         }
 
+        std::function<void(aiNode*, std::shared_ptr<STMeshNode>)> RecursiveAddNode;
+        RecursiveAddNode = [&RecursiveAddNode](aiNode* rootNode, std::shared_ptr<STMeshNode> node) -> void{
+            if(rootNode->mNumChildren < 1) return;
+            auto newNode = std::make_shared<STMeshNode>();
+            newNode->m_Name = rootNode->mName.C_Str();
+            newNode->transform = Matrix4f::From(rootNode->mTransformation).transpose();
+            node->m_Children.addLast(newNode);
+            for(stUint i = 0; i < rootNode->mNumChildren; i++){
+                RecursiveAddNode(rootNode->mChildren[i], newNode);
+            }
+        };
+
         if(scene->mNumMeshes == 1){
+            //For Singular Meshes
             const aiMesh* mesh = scene->mMeshes[0];
             for(stUint i = 0, S = mesh->mNumFaces; i < S; i++){
                 const aiFace& faces = mesh->mFaces[i];
@@ -92,13 +105,13 @@ public:
             }
 
             STMesh_Structure stMesh;
-            stMesh.m_node = new STMeshNode;
+            stMesh.m_Node = std::make_shared<STMeshNode>();
             stMesh.globalInverseMat = Matrix4f::From(scene->mRootNode->mTransformation.Inverse());
             if(scene->mNumAnimations > 0){
                 stMesh.m_hasAnimations = true;
                 for(stUint i = 0, S = scene->mNumAnimations; i < S; i++){
-                    auto * anim = new STAnimation;
-                    anim->name = scene->mAnimations[i]->mName.C_Str();
+                    auto anim = std::make_shared<STAnimation>();
+                    anim->name = scene->mAnimations[i]->mName.C_Str();;
                     anim->m_Duration = (stReal)scene->mAnimations[i]->mDuration;
                     anim->m_TicksPerSecond = (stReal)scene->mAnimations[i]->mTicksPerSecond;
                     for(stUint j = 0; j < scene->mAnimations[i]->mNumChannels; j++){
@@ -115,27 +128,16 @@ public:
                         }
                         anim->m_channels.addLast(nodeAnim);
                     }
-                    stMesh.m_animations.addLast(anim);
+                    stMesh.m_Animations.addLast(anim);
                 }
             }
 
             if(scene->mRootNode->mNumChildren > 0){
-                std::function<void(aiNode*, STMeshNode*)> recursiveAddNode;
-                recursiveAddNode = [&recursiveAddNode](aiNode* rootNode, STMeshNode* node) -> void {
-                    if(rootNode->mNumChildren < 1) return;
-                    auto newNode = new STMeshNode;
-                    newNode->m_Name = rootNode->mName.C_Str();
-                    newNode->transform = Matrix4f::From(rootNode->mTransformation).transpose();
-                    node->m_children.addLast(newNode);
-                    for(stUint i = 0, S = rootNode->mNumChildren; i < S; i++){
-                        recursiveAddNode(rootNode->mChildren[i], newNode);
-                    }
-                };
-                stMesh.m_node = new STMeshNode;
-                stMesh.m_node->m_Name = scene->mRootNode->mName.C_Str();
-                stMesh.m_node->transform = Matrix4f::From(scene->mRootNode->mTransformation).transpose();
+                stMesh.m_Node = std::make_shared<STMeshNode>();
+                stMesh.m_Node->m_Name = scene->mRootNode->mName.C_Str();
+                stMesh.m_Node->transform = Matrix4f::From(scene->mRootNode->mTransformation).transpose();
                 for(stUint i = 0; i < scene->mRootNode->mNumChildren; i++){
-                    recursiveAddNode(scene->mRootNode->mChildren[i], stMesh.m_node);
+                    RecursiveAddNode(scene->mRootNode->mChildren[i], stMesh.m_Node);
                 }
             }
 
@@ -162,14 +164,14 @@ public:
                 stMesh.m_hasBones = true;
                 for(stUint i = 0, L = mesh->mNumBones; i < L; i++){
                     stUint boneIndex = 0;
-                    auto boneData = new STBoneData;
+                    auto boneData = std::make_shared<STBoneData>();
                     std::string boneName = boneData->m_name = mesh->mBones[i]->mName.C_Str();
 
                     if(stMesh.m_boneMap.find(boneName) == stMesh.m_boneMap.end()){
                         boneIndex = numBones;
                         numBones++;
-                        stMesh.m_boneData.addLast(boneData);
-                        stMesh.m_boneData[boneIndex]->m_offsetMatrix = Matrix4f::From(mesh->mBones[i]->mOffsetMatrix);
+                        stMesh.m_BoneData.addLast(boneData);
+                        stMesh.m_BoneData[boneIndex]->m_offsetMatrix = Matrix4f::From(mesh->mBones[i]->mOffsetMatrix);
                         stMesh.m_boneMap[boneName] = boneIndex;
                     }else{
                         boneIndex = stMesh.m_boneMap[boneName];
@@ -183,7 +185,7 @@ public:
                 }
             }
             (*dataMeshes).push_back(stMesh);
-            (*materials).insert(std::pair<std::string, STMaterial*>(stMesh.materialKey, PopulateMaterial(mesh->mMaterialIndex, scene, stMesh.m_hasBones)));
+            (*materials).insert(std::pair<std::string, std::shared_ptr<STMaterial>>(stMesh.materialKey, PopulateMaterial(mesh->mMaterialIndex, scene, stMesh.m_hasBones)));
             return false;
         }
 
@@ -193,7 +195,7 @@ public:
         for(stUint k = 0, S = scene->mNumMeshes; k < S; k++){
             const aiMesh* mesh = scene->mMeshes[k];
             STMesh_Structure stMesh;
-            stMesh.m_node = new STMeshNode;
+            stMesh.m_Node = std::make_shared<STMeshNode>();
             stMesh.m_baseVertex = baseVertex;
             stMesh.m_baseIndex = baseIndex;
             baseVertex += mesh->mNumVertices;
@@ -203,7 +205,7 @@ public:
             if(scene->mNumAnimations > 0){
                 stMesh.m_hasAnimations = true;
                 for(stUint i = 0, T = scene->mNumAnimations; i < T; i++){
-                    auto * anim = new STAnimation;
+                    auto  anim = std::make_shared<STAnimation>();
                     anim->name = scene->mAnimations[i]->mName.C_Str();
                     anim->m_Duration = (stReal)scene->mAnimations[i]->mDuration;
                     anim->m_TicksPerSecond = (stReal)scene->mAnimations[i]->mTicksPerSecond;
@@ -221,27 +223,16 @@ public:
                         }
                         anim->m_channels.addLast(nodeAnim);
                     }
-                    stMesh.m_animations.addLast(anim);
+                    stMesh.m_Animations.addLast(anim);
                 }
             }
 
             if(scene->mRootNode->mNumChildren > 0){
-                std::function<void(aiNode*, STMeshNode*)> recursiveAddNode;
-                recursiveAddNode = [&recursiveAddNode](aiNode* rootNode, STMeshNode* node) -> void {
-                    if(rootNode->mNumChildren < 1) return;
-                    auto newNode = new STMeshNode;
-                    newNode->m_Name = rootNode->mName.C_Str();
-                    newNode->transform = Matrix4f::From(rootNode->mTransformation);
-                    node->m_children.addLast(newNode);
-                    for(stUint i = 0, T = rootNode->mNumChildren; i < T; i++){
-                        recursiveAddNode(rootNode->mChildren[i], newNode);
-                    }
-                };
-                stMesh.m_node = new STMeshNode;
-                stMesh.m_node->m_Name = scene->mRootNode->mName.C_Str();
-                stMesh.m_node->transform = Matrix4f::From(scene->mRootNode->mTransformation);
+                stMesh.m_Node = std::make_shared<STMeshNode>();
+                stMesh.m_Node->m_Name = scene->mRootNode->mName.C_Str();
+                stMesh.m_Node->transform = Matrix4f::From(scene->mRootNode->mTransformation).transpose();
                 for(stUint i = 0; i < scene->mRootNode->mNumChildren; i++){
-                    recursiveAddNode(scene->mRootNode->mChildren[i], stMesh.m_node);
+                    RecursiveAddNode(scene->mRootNode->mChildren[i], stMesh.m_Node);
                 }
             }
 
@@ -273,14 +264,14 @@ public:
                 stMesh.m_hasBones = true;
                 for(stUint i = 0, L = mesh->mNumBones; i < L; i++){
                     stUint boneIndex = 0;
-                    auto boneData = new STBoneData;
+                    auto boneData = std::make_shared<STBoneData>();
                     std::string boneName = boneData->m_name = mesh->mBones[i]->mName.C_Str();
 
                     if(stMesh.m_boneMap.find(boneName) == stMesh.m_boneMap.end()){
                         boneIndex = numBones;
                         numBones++;
-                        stMesh.m_boneData.addLast(boneData);
-                        stMesh.m_boneData[boneIndex]->m_offsetMatrix = Matrix4f::From(mesh->mBones[i]->mOffsetMatrix);
+                        stMesh.m_BoneData.addLast(boneData);
+                        stMesh.m_BoneData[boneIndex]->m_offsetMatrix = Matrix4f::From(mesh->mBones[i]->mOffsetMatrix);
                         stMesh.m_boneMap[boneName] = boneIndex;
                     }else{
                         boneIndex = stMesh.m_boneMap[boneName];
@@ -325,13 +316,14 @@ public:
         return ret;
     }
 
-    static STMaterial* PopulateMaterial(stUint index, const aiScene* scene, bool flag){
+    static std::shared_ptr<STMaterial> PopulateMaterial(stUint index, const aiScene* scene, bool flag){
         const aiMaterial* material = scene->mMaterials[index];
-        STMaterial* ret;
+        std::shared_ptr<STMaterial> ret;
         if(flag)
-            ret = new STMaterial(new GLShader("standardSkinned", "standard"));
+            ret = std::make_shared<STMaterial>(new GLShader("standardSkinned", "standard"));
         else
-            ret = new STMaterial(new GLShader("standard"));
+            ret = std::make_shared<STMaterial>(new GLShader("standard"));
+
         aiColor3D diffuse;
         aiColor3D specular;
         aiColor3D ambient;

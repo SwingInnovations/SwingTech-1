@@ -8,6 +8,8 @@
 #include "../STRigidBody.h"
 #include "../../Math/Vector.h"
 
+class STEntity;
+
 class BulletRigidBody : public STRigidBody{
 public:
     BulletRigidBody(Transform* transform, RigidBodyShape shape = BOX);

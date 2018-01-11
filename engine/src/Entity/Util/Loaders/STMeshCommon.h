@@ -12,9 +12,12 @@
 struct STMeshNode{
     std::string m_Name;
     Matrix4f transform;
-    STList<STMeshNode*> m_children;
+    STList<std::shared_ptr<STMeshNode>> m_Children;
     ~STMeshNode(){
-        m_children.clear();
+        m_Children.clear();
+    }
+    template<class Archive> void serialize(Archive& ar){
+        ar(m_Name, transform, m_Children);
     }
 };
 
@@ -36,12 +39,18 @@ struct STBoneWeight{
             }
         }
     }
+    template<class Archive>void serialize(Archive& ar){
+        ar(m_vertexID, m_weight);
+    }
 };
 
 struct STBoneData{
     std::string m_name;
     Matrix4f m_offsetMatrix;
     Matrix4f m_finalTransformation;
+    template<class Archive>void serialize(Archive& ar){
+        ar(m_name, m_offsetMatrix, m_finalTransformation);
+    }
 };
 
 /**
@@ -56,14 +65,29 @@ struct STMesh_Structure{
     stUint m_baseIndex;
     std::vector<int> m_indices;
     std::vector<Vertex> m_vertices;
-    STList<STBoneData*> m_boneData;
     std::map<std::string, stUint> m_boneMap;
     std::vector<STBoneWeight> m_boneWeights;
-    STMeshNode* m_node;
-    STList<STAnimation*> m_animations;
+    STList< std::shared_ptr<STAnimation> > m_Animations;
+    std::shared_ptr<STMeshNode> m_Node;
+    STList<std::shared_ptr<STBoneData>> m_BoneData;
     bool m_hasAnimations = false;
     bool m_hasBones = false;
     Matrix4f globalInverseMat;
+
+    template<class Archive> void serialize(Archive& ar){
+        ar(name,
+           materialKey,
+           m_baseVertex,
+           m_baseIndex,
+           m_indices,
+           m_vertices,
+           m_hasAnimations,
+           m_hasBones,
+           globalInverseMat,
+            m_BoneData,
+            m_boneMap,
+        m_boneWeights);
+    }
 
     Vertex* getVertices(){ return &m_vertices[0]; }
     int* getIndicies(){ return &m_indices[0]; }

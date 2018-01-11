@@ -19,6 +19,9 @@ struct STVectorKey{
 
     stReal m_time;
     Vector3D m_Value;
+    template<class Archive>void serialize(Archive& ar){
+        ar(m_time, m_Value);
+    }
 };
 
 struct STQuaternionKey{
@@ -33,6 +36,9 @@ struct STQuaternionKey{
 
     stReal m_time;
     Quaternion m_value;
+    template<class Archive>void serialize(Archive& ar){
+        ar(m_time, m_value);
+    }
 };
 
 struct STNodeAnim{
@@ -45,6 +51,10 @@ struct STNodeAnim{
         for(auto rot : m_rotations) delete rot;
         for(auto scale: m_scalings) delete scale;
     }
+    template<class Archive> void serialize(Archive& ar){
+        ar(name);
+        //TODO Implement the rest of this;
+    }
 };
 
 struct STAnimation{
@@ -55,6 +65,10 @@ struct STAnimation{
 
     ~STAnimation(){
         for(auto anim : m_channels)delete anim;
+    }
+
+    template<class Archive> void serialize(Archive& ar){
+        ar(name, m_Duration, m_TicksPerSecond);
     }
 };
 

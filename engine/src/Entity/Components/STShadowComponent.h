@@ -1,6 +1,9 @@
 #ifndef SWINGTECH1_STSHADOWCOMPONENT_H
 #define SWINGTECH1_STSHADOWCOMPONENT_H
 
+#include <cereal/cereal.hpp>
+#include <cereal/types/memory.hpp>
+
 #include "STComponent.h"
 
 struct STShadowProperties{
@@ -8,6 +11,9 @@ struct STShadowProperties{
     stUint shadowMapID[6];
     stUint shadowFrameBuffer[6];
     Matrix4f projections[6];
+    template<class Archive> void serialize(Archive& ar){
+        ar(shadowIndex, shadowMapID, shadowFrameBuffer);
+    }
 };
 
 class STShadowComponent : public STComponent{
@@ -26,6 +32,7 @@ public:
 
     }
 
+    template<class Archive> void serialize(Archive& ar);
     void dispose(){
         if(STGraphics::RENDERER == STGraphics::OPENGL){
             for(stUint i = 0; i < 6; i++){
@@ -39,5 +46,10 @@ public:
 private:
    STShadowProperties m_Properties;
 };
+
+template<class Archive>
+void STShadowComponent::serialize(Archive &ar) {
+    ar(m_Properties);
+}
 
 #endif //SWINGTECH1_STSHADOWCOMPONENT_H

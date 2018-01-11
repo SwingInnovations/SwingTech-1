@@ -1,6 +1,9 @@
 #ifndef WAHOO_STCOLOR_H
 #define WAHOO_STCOLOR_H
 
+#include <cereal/cereal.hpp>
+#include <cereal/types/memory.hpp>
+
 #include "../Math/STCore.h"
 #include "../Math/Vector.h"
 
@@ -128,6 +131,10 @@ struct STColor{
         auto val = value;
         if(value > 1.0f) val /= 255.0f;
         color.setZ(val);
+    }
+
+    template<class Archive> void serialize(Archive& ar){
+        ar(color);
     }
 
     Vector4<stReal> color;

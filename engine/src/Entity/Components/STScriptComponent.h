@@ -25,6 +25,7 @@ public:
     ~STScriptComponent() override;
 
     void update() override;
+    template<class Archive> void serialize(Archive& ar) ;
     sol::state m_script;
 private:
     void initScript(const std::string& fileName);

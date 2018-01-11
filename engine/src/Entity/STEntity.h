@@ -57,6 +57,10 @@ struct STAttribute{
     Vector3<stReal> toVector3()const;
     Vector4<stReal> toVector4()const;
 
+    template<class Archive> void serialize(Archive& ar){
+        ar(type, m_value);
+    }
+
     Type type;
     std::string m_value;
 };

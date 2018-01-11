@@ -41,7 +41,7 @@ void STEntity::draw(STGraphics *grphx) {
     auto camera = grphx->getActiveCamera();
 
     graphics->draw();
-    graphics->shdr()->update(*m_transform, *camera);
+    graphics->getMaterial()->shdr()->update(*m_transform, *camera);
     mesh->draw();
 
     graphics->draw();
@@ -162,7 +162,8 @@ void STEntity::draw(Camera *cam, int drawMode) {
     auto grphx = this->get<STGraphicsComponent>();
     auto mesh = this->get<STMeshComponent>();
     grphx->draw();
-    grphx->shdr()->update(*m_transform, *cam);
+    //grphx->shdr()->update(*m_transform, *cam);
+    grphx->getMaterial()->shdr()->update(*m_transform, *cam);
     mesh->draw(drawMode);
 
     if(hasChildren()){
@@ -176,11 +177,11 @@ void STEntity::draw(Camera *cam) {
     auto grphx = this->get<STGraphicsComponent>();
     auto mesh = this->get<STMeshComponent>();
     grphx->draw();
-    grphx->shdr()->update(*m_transform, *cam);
+    grphx->getMaterial()->shdr()->update(*m_transform, *cam);
     mesh->draw();
     if(hasChildren()){
-        for(unsigned int i = 0, lim = (unsigned int)m_children.size(); i < lim; i++){
-            m_children.at(i)->draw(cam);
+        for (auto &i : m_children) {
+            i->draw(cam);
         }
     }
 }
@@ -204,7 +205,7 @@ void STEntity::init() {
 
 template<class Archive>
 void STEntity::serialize(Archive &ar) {
-    ar(m_transform);
+    ar(m_transform, m_components, m_attributes);
 }
 
 void STEntity::setParent(std::shared_ptr<STEntity> p) {

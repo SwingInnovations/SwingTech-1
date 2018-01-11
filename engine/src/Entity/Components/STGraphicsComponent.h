@@ -13,15 +13,18 @@ class STComponent;
 
 class STGraphicsComponent : public STComponent{
 public:
+    [[deprecated]]
     explicit STGraphicsComponent(Shader* shdr);
     STGraphicsComponent(const STGraphicsComponent& copy);
     void initScriptingFunctions(sol::state& state) override;
 
+    [[deprecated]]
     explicit STGraphicsComponent(STMaterial* mat);
+    explicit STGraphicsComponent(std::shared_ptr<STMaterial> material);
 
     explicit STGraphicsComponent(const std::string& shdr);
     ~STGraphicsComponent() override {
-        delete m_material;
+        m_Material.reset();
         for(auto uniform : m_Uniforms){
             if(uniform.second.type == STShader::TEX) {
                 auto texHandle = (stUint)STShader::toVector2(uniform.second.value).getX();
@@ -53,17 +56,10 @@ public:
     void setShdrUniform_Texture(const std::string& name, stUint value);
     void setShdrUniform_CubeMap(const std::string& name, stUint value);
 
-    inline void setShader(Shader* shdr){ m_shdr = shdr; }
 
-    inline STMaterial* getMaterial(){ return m_material; }
+    inline STMaterial* getMaterial(){ return m_Material.get(); }
 
-    inline Shader* shdr(){
-        if(m_material != nullptr){
-            return m_material->shdr();
-        }
-        return m_shdr;
-
-    }
+    template<class Archive> void serialize(Archive& ar);
 
     void update() override;
     void draw() override;
@@ -73,8 +69,7 @@ public:
 
     void draw(Transform& T, Camera& C);
 private:
-    Shader* m_shdr;
-    STMaterial* m_material;
+    std::shared_ptr<STMaterial> m_Material;
     bool useTexture;
     bool useMaterial;
     std::map<std::string, STShader::ShaderAttrib> m_Uniforms;

@@ -17,6 +17,7 @@ class STEntity;
 class STComponent {
 public:
     virtual void init(std::shared_ptr<STEntity>& newParent){this->m_entity = newParent;}      //This will actually initialize anything dependent on the m_entity pointer.
+    virtual void ReInitFromSave(){ /*Reimplement this for every component as mandatory*/;}
     /**
      * Initializes stuff
      */
@@ -32,6 +33,7 @@ public:
     inline void setParent(std::shared_ptr<STEntity> parent){ this->m_entity = std::move(parent); }
     STEntity* getParent(){ return this->m_entity.get(); }
 
+    template <class Archive> void serialize(Archive& ar){ ; }
 protected:
     std::shared_ptr<STEntity> m_entity;
 };

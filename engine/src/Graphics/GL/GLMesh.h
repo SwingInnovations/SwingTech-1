@@ -17,7 +17,7 @@ class GLMesh : public STMesh{
 public:
     GLMesh();
     //GLMesh(const std::string& fileName);
-    explicit GLMesh(STMesh_Structure structure);
+    GLMesh(STMesh_Structure structure);
 
     explicit GLMesh(STRect* rect);
 

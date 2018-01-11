@@ -69,6 +69,7 @@ public:
 
         auto p = STActor::Create("plane.obj");
         p->get<STGraphicsComponent>()->getMaterial()->setDiffuseTexture("grid.png");
+        p->transform()->setTranslateY(-2.f);
 //        plane = new STActor("plane.obj");
 //        plane->setTag("ground");
 //        plane->transform()->setTranslateY(-2.f);

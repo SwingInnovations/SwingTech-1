@@ -4,7 +4,6 @@
 void ST3DAnimationComponent::init(std::shared_ptr<STEntity>& entity) {
     m_entity = entity;
     m_gfxComponent = m_entity->get<STGraphicsComponent>();
-    std::cout << "Initialized 3D component" << std::endl;
 }
 
 ST3DAnimationComponent::ST3DAnimationComponent() {
@@ -21,12 +20,12 @@ void ST3DAnimationComponent::update() {
 }
 
 ST3DAnimationComponent::ST3DAnimationComponent(STMesh_Structure &meshStructure) {
-    for(auto anim : meshStructure.m_animations){
+    for(auto anim : meshStructure.m_Animations){
         m_animationMap[anim->name] = anim;
     }
-    m_currentAnimation = meshStructure.m_animations[0]->name;
-    m_boneData = meshStructure.m_boneData;
-    m_nodeData = meshStructure.m_node;
+    m_currentAnimation = meshStructure.m_Animations[0]->name;
+    m_boneData = meshStructure.m_BoneData;
+    m_nodeData = meshStructure.m_Node;
     m_boneMap  = meshStructure.m_boneMap;
     m_globalInverseMat = meshStructure.globalInverseMat;
 }
@@ -112,7 +111,7 @@ void ST3DAnimationComponent::CalcInterpolatedScaling(Vector3D &out, float animTi
 void ST3DAnimationComponent::ReadNodeHeirarchy(float AnimationTime, STMeshNode *node, Matrix4f &parentTransform) {
     auto anim = m_animationMap[m_currentAnimation];
     Matrix4f nodeTransform = node->transform;
-    auto animNode = FindAnimMode(anim, node->m_Name);
+    auto animNode = FindAnimMode(anim.get(), node->m_Name);
     if(animNode){
         Vector3D scaling;
         CalcInterpolatedScaling(scaling, AnimationTime, animNode);
@@ -140,8 +139,8 @@ void ST3DAnimationComponent::ReadNodeHeirarchy(float AnimationTime, STMeshNode *
         m_boneData[boneIndex]->m_finalTransformation = GlobalTransform * m_boneData[boneIndex]->m_offsetMatrix;
     }
 
-    for(auto child : node->m_children){
-        ReadNodeHeirarchy(AnimationTime, child, GlobalTransform);
+    for(auto child : node->m_Children){
+        ReadNodeHeirarchy(AnimationTime, child.get(), GlobalTransform);
     }
 }
 
@@ -161,7 +160,7 @@ void ST3DAnimationComponent::MoveBones( stReal animationTime) {
         stReal TicksPerSecond = m_animationMap[m_currentAnimation]->m_TicksPerSecond != 0 ? m_animationMap[m_currentAnimation]->m_TicksPerSecond : 25.f;
         stReal TimeInTicks = animationTime * TicksPerSecond;
         float AnimationTime = fmodf(TimeInTicks, m_animationMap[m_currentAnimation]->m_Duration);
-        ReadNodeHeirarchy(AnimationTime, m_nodeData, Ident);
+        ReadNodeHeirarchy(AnimationTime, m_nodeData.get(), Ident);
 
         if(m_gfxComponent == nullptr) m_gfxComponent = getParent()->get<STGraphicsComponent>();
         if(m_gfxComponent!= nullptr){
@@ -180,7 +179,7 @@ void ST3DAnimationComponent::MoveBones( stReal animationTime) {
 
 ST3DAnimationComponent::~ST3DAnimationComponent() {
     m_boneData.clear();
-    delete m_nodeData;
+    m_nodeData.reset();
     m_boneMap.clear();
     m_animationMap.clear();
 }
@@ -191,4 +190,9 @@ void ST3DAnimationComponent::initScriptingFunctions(sol::state& script) {
     });
     script.new_usertype<ST3DAnimationComponent>("ST3DAnimation",
                                                 "setCurrentAnimation", &ST3DAnimationComponent::setCurrentAnimation);
+}
+
+template<class Archive>
+void ST3DAnimationComponent::serialize(Archive &ar) {
+    ar(m_currentAnimation, m_animationMap, m_boneData, m_boneMap, m_nodeData, m_globalInverseMat);
 }

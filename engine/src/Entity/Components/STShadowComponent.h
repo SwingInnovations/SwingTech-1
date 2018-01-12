@@ -2,7 +2,10 @@
 #define SWINGTECH1_STSHADOWCOMPONENT_H
 
 #include <cereal/cereal.hpp>
+#include <cereal/types/polymorphic.hpp>
 #include <cereal/types/memory.hpp>
+
+#include <cereal/archives/binary.hpp>
 
 #include "STComponent.h"
 
@@ -51,5 +54,7 @@ template<class Archive>
 void STShadowComponent::serialize(Archive &ar) {
     ar(m_Properties);
 }
+
+CEREAL_REGISTER_POLYMORPHIC_RELATION(STComponent, STShadowComponent);
 
 #endif //SWINGTECH1_STSHADOWCOMPONENT_H

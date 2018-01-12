@@ -45,8 +45,3 @@ void STEventComponent::updateEvent(std::string name, std::function<void(STEntity
 void STEventComponent::setOther(STEntity *other) {
     this->other = other;
 }
-
-template<class Archive>
-void STEventComponent::serialize(Archive &ar) {
-    ar(m_Events);
-}

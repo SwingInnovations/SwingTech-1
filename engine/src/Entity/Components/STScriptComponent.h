@@ -6,6 +6,8 @@
 
 #if __MINGW32__
 #include <sol.hpp>
+#include <cereal/archives/binary.hpp>
+#include <cereal/types/string.hpp>
 #elif __linux__
 #include <lua5.1/sol.hpp>
 #else
@@ -16,6 +18,7 @@ class STEntity;
 
 class STScriptComponent : public STComponent{
 public:
+    STScriptComponent();
     STScriptComponent(STEntity* entity, const std::string& fileName);
 
     explicit STScriptComponent(const std::string& fileName);
@@ -25,12 +28,13 @@ public:
     ~STScriptComponent() override;
 
     void update() override;
-    template<class Archive> void serialize(Archive& ar) ;
+    template<class Archive> void serialize(Archive& ar) {
+        ar(scriptName);
+    }
     sol::state m_script;
 private:
     void initScript(const std::string& fileName);
     std::string scriptName;
 };
-
 
 #endif //WAHOO_STSCRIPTCOMPONENT_H

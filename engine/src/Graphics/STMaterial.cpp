@@ -139,7 +139,7 @@ void STMaterial::setUniforms(std::map<std::string, STShader::ShaderAttrib> newUn
 }
 
 template<class Archive>
-void STMaterial::serialize(Archive &ar) {
+void STMaterial::serialize(Archive& ar) {
     ar(m_Uniforms);
 }
 

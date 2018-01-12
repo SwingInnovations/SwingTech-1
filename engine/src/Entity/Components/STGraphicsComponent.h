@@ -5,6 +5,11 @@
 #include "../../Graphics/Texture.h"
 #include "STComponent.h"
 
+#include <cereal/cereal.hpp>
+#include <cereal/types/memory.hpp>
+#include <cereal/types/map.hpp>
+#include <cereal/archives/binary.hpp>
+
 #include "../../Math/Vector.h"
 #include "../../Graphics/STMaterial.h"
 
@@ -22,6 +27,7 @@ public:
     explicit STGraphicsComponent(STMaterial* mat);
     explicit STGraphicsComponent(std::shared_ptr<STMaterial> material);
 
+    STGraphicsComponent();
     explicit STGraphicsComponent(const std::string& shdr);
     ~STGraphicsComponent() override {
         m_Material.reset();
@@ -59,7 +65,9 @@ public:
 
     inline STMaterial* getMaterial(){ return m_Material.get(); }
 
-    template<class Archive> void serialize(Archive& ar);
+    template<class Archive> void serialize(Archive& ar){
+        ar(m_Material, m_Uniforms);
+    }
 
     void update() override;
     void draw() override;
@@ -74,6 +82,5 @@ private:
     bool useMaterial;
     std::map<std::string, STShader::ShaderAttrib> m_Uniforms;
 };
-
 
 #endif //WAHOO_STGRAPHICSCOMPONENT_H

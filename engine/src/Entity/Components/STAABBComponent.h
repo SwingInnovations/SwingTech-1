@@ -5,6 +5,8 @@
 #include "../../Math/Vertex.h"
 #include "../../Math/Shape/BoundingBox.h"
 
+#include <cereal/archives/binary.hpp>
+
 class STAABBComponent : public STBoundsComponent{
 public:
     STAABBComponent();
@@ -23,7 +25,9 @@ public:
     bool intersects(STEntity* other) override;
     void calculateBounds() override;
 
-    template<class Archive> void serialize(Archive& ar);
+    template<class Archive> void serialize(Archive& ar){
+        //TODO Implement this
+    }
 
 private:
     STBoundingBox* m_boundingBox;

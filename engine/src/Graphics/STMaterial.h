@@ -9,6 +9,11 @@
 #include "GL/GLTexture.h"
 #include "STColor.h"
 
+#include <cereal/cereal.hpp>
+#include <cereal/types/memory.hpp>
+#include <cereal/archives/binary.hpp>
+#include <cereal/types/vector.hpp>
+
 class GLTexture;
 class STGraphics;
 

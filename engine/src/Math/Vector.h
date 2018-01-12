@@ -5,6 +5,8 @@
 #include <string>
 #include <sstream>
 #include <cereal/cereal.hpp>
+#include <cereal/types/memory.hpp>
+#include <cereal/archives/binary.hpp>
 #include <fstream>
 
 #include "STCore.h"
@@ -619,8 +621,8 @@ public:
         };
     }
 
-    template<class Archive> void serialize(Archive& ar){
-        ar(m_Val);
+    template<class Archive>void serialize(Archive& archive){
+        archive(m_Val);
     }
 
 private:

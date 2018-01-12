@@ -7,7 +7,9 @@
 #include <iostream>
 
 #include <cereal/cereal.hpp>
+#include <cereal/types/polymorphic.hpp>
 #include <cereal/types/memory.hpp>
+#include <cereal/archives/binary.hpp>
 
 #include "STComponent.h"
 #include "../../Math/Vector.h"
@@ -29,6 +31,7 @@ class STMeshComponent : public STComponent{
  *
  */
 public:
+    STMeshComponent();
     explicit STMeshComponent(STMesh_Structure structure);
 
     explicit STMeshComponent(Shape& shape);
@@ -55,13 +58,12 @@ public:
         m_Mesh->draw(drawMode);
     }
 
-    template<class Archive> void serialize(Archive& ar);
+    template<class Archive> void serialize(Archive& ar){
+        ar(m_Mesh);
+    }
 private:
-
-    STMesh* m_mesh;
     std::shared_ptr<STMesh> m_Mesh;
 
 };
-
 
 #endif //WAHOO_STMESHCOMPONENT_H

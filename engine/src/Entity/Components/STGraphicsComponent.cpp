@@ -3,6 +3,10 @@
 #include "../../Graphics/GL/GLShader.h"
 #include "../../Graphics/STGraphics.h"
 
+STGraphicsComponent::STGraphicsComponent() {
+
+}
+
 STGraphicsComponent::STGraphicsComponent(const STGraphicsComponent &copy) {
     this->m_entity = copy.m_entity;
 }
@@ -237,10 +241,7 @@ void STGraphicsComponent::initScriptingFunctions(sol::state &state) {
                                                    "getMaterial", &STGraphicsComponent::getMaterial);
 }
 
-template<class Archive>
-void STGraphicsComponent::serialize(Archive &ar) {
-    ar(m_Material);
-}
+
 
 
 

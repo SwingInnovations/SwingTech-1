@@ -4,6 +4,10 @@
 #include "../../Graphics/GL/GLSkinnedMesh.h"
 
 
+STMeshComponent::STMeshComponent() {
+
+}
+
 STMeshComponent::STMeshComponent(STMesh_Structure structure) {
     if(STGraphics::RENDERER == STGraphics::OPENGL){
         if(structure.m_hasBones){
@@ -58,11 +62,6 @@ void STMeshComponent::dispose() {
    m_Mesh.reset();
 }
 
-template<class Archive>
-void STMeshComponent::serialize(Archive &ar) {
-    //TODO Implement this;
-    ar(m_Mesh);
-}
 
 
 

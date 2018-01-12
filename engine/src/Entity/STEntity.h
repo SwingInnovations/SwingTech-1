@@ -8,6 +8,10 @@
 
 #include <cereal/cereal.hpp>
 #include <cereal/types/memory.hpp>
+#include <cereal/archives/binary.hpp>
+#include <cereal/types/map.hpp>
+#include <cereal/types/vector.hpp>
+#include <cereal/access.hpp>
 
 #include "../Math/Vector.h"
 #include "Transform.h"
@@ -30,7 +34,7 @@ class STScriptComponent;
  * Attributes that can be attached to entities.
  */
 struct STAttribute{
-    enum Type{
+    enum Type : unsigned char{
         Int = 0,
         Float = 1,
         String = 2,
@@ -44,6 +48,7 @@ struct STAttribute{
     static std::string toString(const Vector3<stReal>& vec);
     static std::string toString(const Vector4<stReal>& vec);
 
+    STAttribute();
     explicit STAttribute(const int& value);
     explicit STAttribute(const float& value);
     explicit STAttribute(const std::string& value);
@@ -67,6 +72,7 @@ struct STAttribute{
 
 class STEntity : public std::enable_shared_from_this<STEntity>{
 public:
+    friend class cereal::access;
     enum Type{
         Actor = 0,
         Light = 1,
@@ -81,6 +87,7 @@ public:
 
     ~STEntity();
     void init();
+    void ReloadFromSave();
 
     void addComponent(std::type_index, std::shared_ptr<STComponent>);
     void addChild(STEntity* entity);
@@ -162,7 +169,9 @@ public:
     void draw(Camera* cam);
     virtual void draw(Camera* cam, int drawMode);
 
-    template<class Archive> void serialize(Archive& ar);
+    template<class Archive> inline void serialize(Archive& ar){
+        ar(m_transform, m_attributes);
+    }
 
 protected:
     Type m_type;
@@ -173,7 +182,7 @@ protected:
     std::map<std::type_index, std::shared_ptr<STComponent>> m_components;
     std::shared_ptr<STEntity> m_parent;
 protected:
-    std::map<std::string, STAttribute*> m_attributes;
+    std::map<std::string, std::shared_ptr<STAttribute>> m_attributes;
     std::vector<std::shared_ptr<STEntity>> m_children;
 };
 

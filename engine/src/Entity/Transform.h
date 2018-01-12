@@ -12,6 +12,7 @@
 
 #include <cereal/cereal.hpp>
 #include <cereal/types/memory.hpp>
+#include <cereal/archives/binary.hpp>
 
 class STEntity;
 

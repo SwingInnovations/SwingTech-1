@@ -28,8 +28,3 @@ void STRectBoundsComponent::reset(const stReal x, const stReal y, const stReal w
 void STRectBoundsComponent::update() {
 
 }
-
-template<class Archive>
-void STRectBoundsComponent::serialize(Archive &ar) {
-    //TODO Implement this.
-}

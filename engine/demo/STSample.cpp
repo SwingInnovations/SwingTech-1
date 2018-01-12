@@ -21,19 +21,7 @@ public:
         m_scene->addSkybox("green");
         game->getCamera()->setSpeed(0.025f);
 
-        std::stringstream ss;
-        cereal::BinaryOutputArchive outputArchive(ss);
-        auto v1 = Vector3D(5, 6, 7);
-        auto t1 = std::make_shared<Transform>();
-        t1->setTranslate(Vector3D(0, 1, 2));
-        t1->setRotationMode(Transform::RotationMode::Local);
-        outputArchive(t1);
 
-        cereal::BinaryInputArchive inputArchive(ss);
-        auto v2 = std::make_shared<Transform>();
-        inputArchive(v2);
-
-        auto t2 = v2.get();
 
         auto mainLight = STLight::InitDirectionalLight(Vector3D(4.f, 5.f, 3.f), Vector3D(-.5f, -.5f, -.5f), Vector3D(0.25f, 0.25f, 0.85f));
         mainLight->get<STLightComponent>()->setTarget(Vector3D(0.f, 0.f, 0.f));
@@ -49,9 +37,13 @@ public:
 
         auto c2 = STActor::Create("OrbThing.fbx");
         c2->setTag("Orb");
+        c2->transform()->setTranslate(Vector3D(1.f, 0, 2.f));
         c2->get<STGraphicsComponent>()->getMaterial()->setMetallic(0.2f);
         c2->get<STGraphicsComponent>()->getMaterial()->setRoughness(0.1f);
+        STFileManager::WriteEntity<STActor>("test.stentity", c2);
 
+        auto ent2 = STFileManager::ReadEntity<STActor>("test.stentity");
+        auto t2 = ent2->transform();
 //        auto diceBox = new STActor("smooth_sphere.obj");
 //        diceBox->setTag("Dice");
 //        diceBox->get<STGraphicsComponent>()->getMaterial()->setMetallic(0.2f);

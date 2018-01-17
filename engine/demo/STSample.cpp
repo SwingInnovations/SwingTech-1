@@ -6,9 +6,6 @@
 #include "../src/Entity/Components/ST3DPhysicsComponent.h"
 #include "../src/Application/Util/File/STFileManager.h"
 
-#include <cereal/cereal.hpp>
-#include <cereal/archives/binary.hpp>
-
 class STFileManager;
 
 /**
@@ -40,10 +37,12 @@ public:
         c2->transform()->setTranslate(Vector3D(1.f, 0, 2.f));
         c2->get<STGraphicsComponent>()->getMaterial()->setMetallic(0.2f);
         c2->get<STGraphicsComponent>()->getMaterial()->setRoughness(0.1f);
-        STFileManager::WriteEntity<STActor>("test.stentity", c2);
 
-        auto ent2 = STFileManager::ReadEntity<STActor>("test.stentity");
-        auto t2 = ent2->transform();
+
+        auto physSphere = STActor::Create("smooth_sphere.obj");
+        physSphere->transform()->setTranslate(Vector3D(1.f, 10.f, 1.f));
+        physSphere->addComponent(typeid(ST3DPhysicsComponent), std::make_shared<ST3DPhysicsComponent>(ST3DPhysicsComponent(STRigidBody::RigidBodyShape::SPHERE, {0.9f})));
+        auto physHandle = physSphere->get<ST3DPhysicsComponent>();
 //        auto diceBox = new STActor("smooth_sphere.obj");
 //        diceBox->setTag("Dice");
 //        diceBox->get<STGraphicsComponent>()->getMaterial()->setMetallic(0.2f);
@@ -62,6 +61,10 @@ public:
         auto p = STActor::Create("plane.obj");
         p->get<STGraphicsComponent>()->getMaterial()->setDiffuseTexture("grid.png");
         p->transform()->setTranslateY(-2.f);
+        p->addComponent(typeid(ST3DPhysicsComponent), std::make_shared<ST3DPhysicsComponent>( ST3DPhysicsComponent(STRigidBody::RigidBodyShape::BOX, {5, 0.01, 5, 4})));
+        auto pHandle = p->get<ST3DPhysicsComponent>();
+        pHandle->updateTransform();
+        pHandle->toggleFreeze(true);
 //        plane = new STActor("plane.obj");
 //        plane->setTag("ground");
 //        plane->transform()->setTranslateY(-2.f);
@@ -74,6 +77,7 @@ public:
         m_scene->addLight(mainLight);
         m_scene->addLight(accentLight);
         m_scene->addLight(accentLight2);
+        m_scene->addActor(physSphere);
 //        m_scene->addActor(diceBox);
         m_scene->addActor(p);
         m_scene->addActor(c2);

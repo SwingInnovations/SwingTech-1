@@ -4,9 +4,6 @@
 #include <cmath>
 #include <string>
 #include <sstream>
-#include <cereal/cereal.hpp>
-#include <cereal/types/memory.hpp>
-#include <cereal/archives/binary.hpp>
 #include <fstream>
 
 #include "STCore.h"
@@ -200,10 +197,6 @@ public:
                 {"x", m_val[0]},
                 {"y", m_val[1]}
         };
-    }
-
-    template<class Archive>void serialize(Archive& archive){
-        archive(m_val);
     }
 
 private:
@@ -487,10 +480,6 @@ public:
         return (getX() == other.getX()) && (getY() == other.getY()) && (getZ()==other.getZ());
     }
 
-    template<class Archive>void serialize(Archive& archive){
-        archive(m_Val);
-    }
-
     Json to_json()const{
         return Json::object{
                 {"x", m_Val[0]},
@@ -619,10 +608,6 @@ public:
                 {"z", m_Val[2]},
                 {"w", m_Val[3]}
         };
-    }
-
-    template<class Archive>void serialize(Archive& archive){
-        archive(m_Val);
     }
 
 private:

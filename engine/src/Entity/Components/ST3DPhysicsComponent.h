@@ -1,9 +1,6 @@
 #ifndef SWINGTECH1_ST3DPHYSICSCOMPONENT_H
 #define SWINGTECH1_ST3DPHYSICSCOMPONENT_H
 
-#include <cereal/archives/binary.hpp>
-#include <cereal/types/vector.hpp>
-
 #include "STComponent.h"
 #include "../../Physics/STRigidBody.h"
 
@@ -12,8 +9,9 @@ class ST3DPhysicsComponent : public STComponent {
 public:
     ST3DPhysicsComponent();
     ST3DPhysicsComponent(STRigidBody::RigidBodyShape bodyShape, std::vector<stReal> dimensions);
-    ~ST3DPhysicsComponent();
+    ~ST3DPhysicsComponent() override ;
     void init(std::shared_ptr<STEntity>& parent) override;
+
     /**
      * Allows for scripting access.
      * @param state
@@ -51,9 +49,6 @@ public:
     void update() override ;
     void dispose() override;
 
-    template<typename Archive> inline void serialize(Archive& ar){
-        ar(m_initShape, m_dimensions);
-    }
 private:
     STRigidBody* m_rigidBody;
     STRigidBody::RigidBodyShape m_initShape;

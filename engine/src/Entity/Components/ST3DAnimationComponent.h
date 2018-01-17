@@ -2,8 +2,7 @@
 #define SWINGTECH1_ST3DANIMATIONCOMPONENT_H
 
 #include <sol.hpp>
-#include <cereal/types/memory.hpp>
-#include <cereal/archives/binary.hpp>
+
 
 #include "STComponent.h"
 #include "STGraphicsComponent.h"
@@ -24,16 +23,6 @@ public:
     void init(std::shared_ptr<STEntity>& entity) override ;
     void update() override ;
     void setCurrentAnimation(const std::string& anim);
-    template<class Archive> void serialize(Archive& ar){
-        ar(
-            m_isRoot,
-            m_currentAnimation,
-            m_boneData,
-            m_nodeData,
-            m_boneMap,
-            m_globalInverseMat,
-            m_animationMap);
-    }
 protected:
     bool                                m_isRoot;
     std::string                         m_currentAnimation;
@@ -55,6 +44,7 @@ private:
     void CalcInterpolatedPosition(Vector3D& out, float animTime, STNodeAnim* node);
     void CalcInterpolatedRotation(Quaternion& out, float animTime, STNodeAnim* node);
     void CalcInterpolatedScaling(Vector3D& out, float animTime, STNodeAnim* node);
-};
+};;
+
 
 #endif //SWINGTECH1_ST3DANIMATIONCOMPONENT_H

@@ -12,9 +12,12 @@ STEntity::~STEntity() {
 }
 
 void STEntity::addComponent(std::type_index type, std::shared_ptr<STComponent> component) {
-    m_components[type] = component;
     auto t = shared_from_this();
-    m_components[type]->init(t);
+    component->init(t);
+    m_ComponentList.emplace_back(component);
+    m_components[type] = component;
+//    auto t = shared_from_this();
+//    m_components[type]->init(t);
 }
 
 void STEntity::addChild(STEntity *entity) {

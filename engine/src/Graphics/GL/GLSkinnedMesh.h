@@ -2,7 +2,6 @@
 #define SWINGTECH1_GLSKINNEDMESH_H
 
 #include <GL/glew.h>
-
 #include "../../Entity/Util/STMesh.h"
 
 class GLSkinnedMesh  : public STMesh{

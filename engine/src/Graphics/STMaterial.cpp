@@ -138,11 +138,6 @@ void STMaterial::setUniforms(std::map<std::string, STShader::ShaderAttrib> newUn
     m_Uniforms = newUniforms;
 }
 
-template<class Archive>
-void STMaterial::serialize(Archive& ar) {
-    ar(m_Uniforms);
-}
-
 
 
 

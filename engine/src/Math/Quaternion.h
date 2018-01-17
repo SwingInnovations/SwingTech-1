@@ -98,8 +98,6 @@ public:
 
     const Quaternion operator -()const;
 
-    template<class Archive> void serialize(Archive& ar);
-
     Json to_json()const;
 
 private:

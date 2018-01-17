@@ -33,11 +33,11 @@ void ST3DPhysicsComponent::update() {
 }
 
 void ST3DPhysicsComponent::dispose() {
-
+    delete m_rigidBody;
 }
 
 ST3DPhysicsComponent::~ST3DPhysicsComponent() {
-    delete m_rigidBody;
+
 }
 
 void ST3DPhysicsComponent::setGravity(Vector3D gravity) {

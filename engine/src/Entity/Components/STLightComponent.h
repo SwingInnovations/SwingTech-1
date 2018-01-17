@@ -4,8 +4,6 @@
 #include "STComponent.h"
 #include "../STEntity.h"
 
-#include <cereal/archives/binary.hpp>
-
 struct STLightProperties{
     Vector4<stReal> direction = Vector4<stReal>(0.f, 0.f, 0.f, 0.f);//4th component determines type. -1 for pointlights, 0 for directional, 1 for spotlight     //Specify the target.
     Vector3<stReal> color = Vector3<stReal>(1.f, 1.f, 1.f);
@@ -67,8 +65,6 @@ public:
 
     }
 
-    template<class Archive> void serialize(Archive& ar);
-
     STLightProperties* getProperties(){ return &m_Properties; }
     Matrix4f getLookAt(){
         auto props = this->getProperties();
@@ -89,9 +85,5 @@ private:
     bool m_hasTarget;
 };
 
-template<class Archive>
-void STLightComponent::serialize(Archive &ar) {
-    ar(m_type, m_Properties);
-}
 
 #endif //SWINGTECH1_STLIGHTCOMPONENT_H

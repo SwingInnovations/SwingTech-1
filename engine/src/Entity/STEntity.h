@@ -6,12 +6,6 @@
 #include <memory>
 #include <typeindex>
 
-#include <cereal/cereal.hpp>
-#include <cereal/types/memory.hpp>
-#include <cereal/archives/binary.hpp>
-#include <cereal/types/map.hpp>
-#include <cereal/types/vector.hpp>
-#include <cereal/access.hpp>
 
 #include "../Math/Vector.h"
 #include "Transform.h"
@@ -62,17 +56,12 @@ struct STAttribute{
     Vector3<stReal> toVector3()const;
     Vector4<stReal> toVector4()const;
 
-    template<class Archive> void serialize(Archive& ar){
-        ar(type, m_value);
-    }
-
     Type type;
     std::string m_value;
 };
 
 class STEntity : public std::enable_shared_from_this<STEntity>{
 public:
-    friend class cereal::access;
     enum Type{
         Actor = 0,
         Light = 1,
@@ -169,10 +158,6 @@ public:
     void draw(Camera* cam);
     virtual void draw(Camera* cam, int drawMode);
 
-    template<class Archive> inline void serialize(Archive& ar){
-        ar(m_transform, m_attributes);
-    }
-
 protected:
     Type m_type;
     std::string m_name;
@@ -180,6 +165,7 @@ protected:
     std::shared_ptr<Transform> m_transform;
     bool m_visible;
     std::map<std::type_index, std::shared_ptr<STComponent>> m_components;
+    std::vector<std::shared_ptr<STComponent>> m_ComponentList;
     std::shared_ptr<STEntity> m_parent;
 protected:
     std::map<std::string, std::shared_ptr<STAttribute>> m_attributes;

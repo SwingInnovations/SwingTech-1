@@ -6,8 +6,6 @@
 
 #if __MINGW32__
 #include <sol.hpp>
-#include <cereal/archives/binary.hpp>
-#include <cereal/types/string.hpp>
 #elif __linux__
 #include <lua5.1/sol.hpp>
 #else
@@ -28,9 +26,6 @@ public:
     ~STScriptComponent() override;
 
     void update() override;
-    template<class Archive> void serialize(Archive& ar) {
-        ar(scriptName);
-    }
     sol::state m_script;
 private:
     void initScript(const std::string& fileName);

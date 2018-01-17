@@ -2,6 +2,7 @@
 #define SWINGTECH1_STMESHCOMMON_H
 
 #include <vector>
+
 #include "../../../Application/Util/Data_Structure/STList.h"
 #include "../../../Math/STCore.h"
 #include "../../../Math/Vector.h"
@@ -48,9 +49,6 @@ struct STBoneData{
     std::string m_name;
     Matrix4f m_offsetMatrix;
     Matrix4f m_finalTransformation;
-    template<class Archive>void serialize(Archive& ar){
-        ar(m_name, m_offsetMatrix, m_finalTransformation);
-    }
 };
 
 /**
@@ -73,21 +71,6 @@ struct STMesh_Structure{
     bool m_hasAnimations = false;
     bool m_hasBones = false;
     Matrix4f globalInverseMat;
-
-    template<class Archive> void serialize(Archive& ar){
-        ar(name,
-           materialKey,
-           m_baseVertex,
-           m_baseIndex,
-           m_indices,
-           m_vertices,
-           m_hasAnimations,
-           m_hasBones,
-           globalInverseMat,
-            m_BoneData,
-            m_boneMap,
-        m_boneWeights);
-    }
 
     Vertex* getVertices(){ return &m_vertices[0]; }
     int* getIndicies(){ return &m_indices[0]; }

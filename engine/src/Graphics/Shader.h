@@ -6,8 +6,6 @@
 #include <iostream>
 #include <sstream>
 #include <vector>
-#include <cereal/cereal.hpp>
-#include <cereal/types/memory.hpp>
 #include <map>
 
 #include "../Math/Vector.h"
@@ -199,6 +197,10 @@ namespace STShader{
     }
 
     struct ShaderAttrib{
+
+        ShaderAttrib(){
+
+        }
         /*!
          *
          * @param name Unique name for the uniform
@@ -215,9 +217,6 @@ namespace STShader{
         int type;
         std::string value;
 
-        template<class Archive>void serialize(Archive& ar){
-            ar(name, type, value);
-        }
     };
 };
 class Shader {

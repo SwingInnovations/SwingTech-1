@@ -28,10 +28,10 @@ BulletRigidBody::BulletRigidBody(Transform *transform, STRigidBody::RigidBodySha
 BulletRigidBody::BulletRigidBody(Transform *transform, STRigidBody::RigidBodyShape shape,
                                  std::vector<stReal> &dimensions) {
     m_transform = transform;
-    if(transform->getEntity()->get<STAABBComponent>() == nullptr){
-        std::cerr << "Error, STAABBComponent needed. Forgot to initialize?" << std::endl;
-        return;
-    }
+//    if(transform->getEntity()->get<STAABBComponent>() == nullptr){
+//        std::cerr << "Error, STAABBComponent needed. Forgot to initialize?" << std::endl;
+//        return;
+//    }
 
     if(shape == AUTO){
         auto knownBounds = transform->getEntity()->get<STAABBComponent>()->getBoundingBox();

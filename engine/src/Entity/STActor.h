@@ -3,12 +3,6 @@
 
 #include "STEntity.h"
 
-#include <cereal/cereal.hpp>
-#include <cereal/types/memory.hpp>
-#include <cereal/archives/binary.hpp>
-#include <cereal/types/map.hpp>
-#include <cereal/types/vector.hpp>
-
 /**
  * @brief 3D Object. Use STSpriteActor for 2D Character
  */
@@ -24,9 +18,6 @@ public:
     void AddChildActor(std::shared_ptr<STActor> actor);
     static std::shared_ptr<STActor> Create(const std::string& filename);
 
-    template<typename Archive> inline void serialize(Archive& ar){
-        ar(cereal::virtual_base_class<STEntity>(this));
-    }
 
     void draw() override;
     void draw(STMaterial*);

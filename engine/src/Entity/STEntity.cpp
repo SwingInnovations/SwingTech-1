@@ -203,11 +203,6 @@ void STEntity::init() {
     m_transform->setEntity(shared_from_this());
 }
 
-template<class Archive>
-void STEntity::serialize(Archive &ar) {
-    ar(m_transform, m_components, m_attributes);
-}
-
 void STEntity::setParent(std::shared_ptr<STEntity> p) {
     this->m_parent = p;
 }

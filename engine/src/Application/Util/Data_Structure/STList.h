@@ -2,9 +2,6 @@
 #define SWINGTECH1_STLIST_H
 
 #include <memory>
-#include <cereal/cereal.hpp>
-#include <cereal/types/memory.hpp>
-
 #include "../../../Math/STCore.h"
 
 template<typename T>
@@ -19,9 +16,6 @@ public:
         }
         T data;
         std::shared_ptr<Node> Next;
-        template<class Archive> void serialize(Archive& ar){
-            ar(data, Next);
-        }
     };
 
 
@@ -172,10 +166,6 @@ public:
      */
     iterator end(){
         return iterator(*this, size());
-    }
-
-    template<class Archive> void serialize(Archive& ar){
-        ar(m_Size, Head, Tail);
     }
 
 private:

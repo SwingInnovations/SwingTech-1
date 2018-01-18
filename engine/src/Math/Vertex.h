@@ -3,9 +3,7 @@
 
 #include <string>
 #include <sstream>
-
-#include <cereal/cereal.hpp>
-#include <cereal/types/memory.hpp>
+#include <fstream>
 
 #include "Vector.h"
 
@@ -25,9 +23,16 @@ public:
         return buff.str();
     }
 
-    template<class Archive> void serialize(Archive& ar)
-    {
-        ar(_vertex, _texCoord, _normal);
+    void load(std::ifstream& in){
+        _vertex.load(in);
+        _texCoord.load(in);
+        _normal.load(in);
+    }
+
+    void save(std::ofstream& out){
+        _vertex.save(out);
+        _texCoord.save(out);
+        _normal.save(out);
     }
 
     Vector3<stReal> *getVertex(){ return &_vertex; }

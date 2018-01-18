@@ -6,9 +6,6 @@
 #include <memory>
 #include <typeindex>
 
-#include <cereal/cereal.hpp>
-#include <cereal/types/memory.hpp>
-
 #include "../Math/Vector.h"
 #include "Transform.h"
 #include "Components/STComponent.h"
@@ -161,8 +158,6 @@ public:
     virtual void draw(STGraphics* grphx);
     void draw(Camera* cam);
     virtual void draw(Camera* cam, int drawMode);
-
-    template<class Archive> void serialize(Archive& ar);
 
 protected:
     Type m_type;

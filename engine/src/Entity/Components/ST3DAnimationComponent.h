@@ -21,7 +21,6 @@ public:
     void init(std::shared_ptr<STEntity>& entity) override ;
     void update() override ;
     void setCurrentAnimation(const std::string& anim);
-    template<class Archive> void serialize(Archive& ar);
 protected:
     bool                                m_isRoot;
     std::string                         m_currentAnimation;

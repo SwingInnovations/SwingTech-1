@@ -191,8 +191,3 @@ void ST3DAnimationComponent::initScriptingFunctions(sol::state& script) {
     script.new_usertype<ST3DAnimationComponent>("ST3DAnimation",
                                                 "setCurrentAnimation", &ST3DAnimationComponent::setCurrentAnimation);
 }
-
-template<class Archive>
-void ST3DAnimationComponent::serialize(Archive &ar) {
-    ar(m_currentAnimation, m_animationMap, m_boneData, m_boneMap, m_nodeData, m_globalInverseMat);
-}

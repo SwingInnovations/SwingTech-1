@@ -23,8 +23,6 @@ public:
     bool intersects(STEntity* other) override;
     void calculateBounds() override;
 
-    template<class Archive> void serialize(Archive& ar);
-
 private:
     STBoundingBox* m_boundingBox;
     bool m_isCalculated;

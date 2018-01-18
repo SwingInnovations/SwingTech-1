@@ -3,9 +3,6 @@
 
 #include <utility>
 
-#include <cereal/cereal.hpp>
-#include <cereal/types/memory.hpp>
-
 #include "../../../include/sol.hpp"
 #include "../../Application/STGame.h"
 
@@ -33,7 +30,6 @@ public:
     inline void setParent(std::shared_ptr<STEntity> parent){ this->m_entity = std::move(parent); }
     STEntity* getParent(){ return this->m_entity.get(); }
 
-    template <class Archive> void serialize(Archive& ar){ ; }
 protected:
     std::shared_ptr<STEntity> m_entity;
 };

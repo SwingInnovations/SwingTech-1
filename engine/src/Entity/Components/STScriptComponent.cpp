@@ -203,9 +203,3 @@ void STScriptComponent::init(std::shared_ptr<STEntity>& parent) {
     this->m_entity = parent;
     this->initScript(this->scriptName);
 }
-
-template<class Archive>
-void STScriptComponent::serialize(Archive &ar) {
-    ar(scriptName);
-}
-

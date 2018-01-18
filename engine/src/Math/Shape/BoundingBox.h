@@ -1,8 +1,6 @@
 #ifndef SWINGTECH1_BOUNDINGBOX_H
 #define SWINGTECH1_BOUNDINGBOX_H
 
-#include <cereal/cereal.hpp>
-#include <cereal/types/memory.hpp>
 
 #include "../STCore.h"
 #include "../Vector.h"
@@ -107,9 +105,6 @@ public:
         return Vector3<stReal>(h_dX, h_dY, h_dZ);
     }
 
-    template<class Archive> void serialize(Archive& ar){
-        ar(minPoint, maxPoint);
-    }
 
 private:
     Vector3<stReal> minPoint;

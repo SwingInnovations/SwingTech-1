@@ -61,11 +61,4 @@ STBoundingBox *STAABBComponent::getBoundingBox() {
     return m_boundingBox;
 }
 
-template<class Archive>
-void STAABBComponent::serialize(Archive &ar) {
-    //TODO Implement
-}
-
-
-
 

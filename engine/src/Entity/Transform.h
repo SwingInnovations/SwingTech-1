@@ -10,9 +10,6 @@
 #include "../Math/Vector.h"
 #include "../Math/Euler.h"
 
-#include <cereal/cereal.hpp>
-#include <cereal/types/memory.hpp>
-
 class STEntity;
 
 using namespace json11;
@@ -111,8 +108,18 @@ public:
     void setEntity(std::shared_ptr<STEntity> entity);
     STEntity* getEntity();
 
-    template<class Archive> void serialize(Archive& ar){
-        ar(CEREAL_NVP(translate), CEREAL_NVP(rotate), CEREAL_NVP(scale), rotateMode);
+    void load(std::ifstream& in){
+        translate.load(in);
+        rotate.load(in);
+        scale.load(in);
+        in.read((char*)&rotateMode, sizeof(rotateMode));
+    }
+
+    void save(std::ofstream& out){
+        translate.save(out);
+        rotate.save(out);
+        scale.save(out);
+        out.write((char*)&rotateMode, sizeof(rotateMode));
     }
 
 private:

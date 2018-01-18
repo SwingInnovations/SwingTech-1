@@ -23,9 +23,6 @@ struct STLightProperties{
         direction = Vector4<stReal>(dir.getX(), dir.getY(), dir.getZ(), state);
         return direction;
     }
-    template<class Archive> void serialize(Archive& ar){
-        ar(direction, color, spotLightAtribs, intensity, radius, useShadow, target);
-    }
 };
 
 /*
@@ -86,11 +83,5 @@ private:
     STLightProperties m_Properties;
     bool m_hasTarget;
 };
-
-template<class Archive>
-void STLightComponent::serialize(Archive &ar) {
-    ar(m_type, m_Properties);
-}
-
 
 #endif //SWINGTECH1_STLIGHTCOMPONENT_H

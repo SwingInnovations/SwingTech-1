@@ -6,8 +6,6 @@
 #include <iostream>
 #include <sstream>
 #include <vector>
-#include <cereal/cereal.hpp>
-#include <cereal/types/memory.hpp>
 #include <map>
 
 #include "../Math/Vector.h"
@@ -214,10 +212,6 @@ namespace STShader{
         std::string name;
         int type;
         std::string value;
-
-        template<class Archive>void serialize(Archive& ar){
-            ar(name, type, value);
-        }
     };
 };
 class Shader {

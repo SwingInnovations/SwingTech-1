@@ -5,10 +5,6 @@
 #include "../src/Entity/Components/ST3DAnimationComponent.h"
 #include "../src/Entity/Components/ST3DPhysicsComponent.h"
 #include "../src/Application/Util/File/STFileManager.h"
-
-#include <cereal/cereal.hpp>
-#include <cereal/archives/binary.hpp>
-
 class STFileManager;
 
 /**
@@ -21,19 +17,12 @@ public:
         m_scene->addSkybox("green");
         game->getCamera()->setSpeed(0.025f);
 
-        std::stringstream ss;
-        cereal::BinaryOutputArchive outputArchive(ss);
-        auto v1 = Vector3D(5, 6, 7);
         auto t1 = std::make_shared<Transform>();
-        t1->setTranslate(Vector3D(0, 1, 2));
-        t1->setRotationMode(Transform::RotationMode::Local);
-        outputArchive(t1);
+        t1->setTranslate(Vector3D(1, 2, 3));
+        t1->setRotate(Vector3D(4, 5, 6));
+        STFileManager::Write("testTransform.bin", t1.get());
 
-        cereal::BinaryInputArchive inputArchive(ss);
-        auto v2 = std::make_shared<Transform>();
-        inputArchive(v2);
-
-        auto t2 = v2.get();
+        auto t2 = STFileManager::Read<Transform>("testTransform.bin");
 
         auto mainLight = STLight::InitDirectionalLight(Vector3D(4.f, 5.f, 3.f), Vector3D(-.5f, -.5f, -.5f), Vector3D(0.25f, 0.25f, 0.85f));
         mainLight->get<STLightComponent>()->setTarget(Vector3D(0.f, 0.f, 0.f));

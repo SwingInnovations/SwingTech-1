@@ -4,7 +4,6 @@
 #include <cmath>
 #include <string>
 #include <sstream>
-#include <cereal/cereal.hpp>
 #include <fstream>
 
 #include "STCore.h"
@@ -200,8 +199,12 @@ public:
         };
     }
 
-    template<class Archive>void serialize(Archive& archive){
-        archive(m_val);
+    void load(std::ifstream& in){
+        in.read((char*)m_val, sizeof(m_val));
+    }
+
+    void save(std::ofstream& out){
+        out.write((char*)m_val, sizeof(m_val));
     }
 
 private:
@@ -485,8 +488,12 @@ public:
         return (getX() == other.getX()) && (getY() == other.getY()) && (getZ()==other.getZ());
     }
 
-    template<class Archive>void serialize(Archive& archive){
-        archive(m_Val);
+    void load(std::ifstream& in){
+        in.read((char*)m_Val, sizeof(m_Val));
+    }
+
+    void save(std::ofstream& out){
+        out.write((char*)m_Val, sizeof(m_Val));
     }
 
     Json to_json()const{
@@ -619,8 +626,12 @@ public:
         };
     }
 
-    template<class Archive> void serialize(Archive& ar){
-        ar(m_Val);
+    void load(std::ifstream& in){
+        in.read((char*)m_Val, sizeof(m_Val));
+    }
+
+    void save(std::ofstream& out){
+        out.write((char*)m_Val, sizeof(m_Val));
     }
 
 private:

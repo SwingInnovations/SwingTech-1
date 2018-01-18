@@ -58,12 +58,5 @@ void STMeshComponent::dispose() {
    m_Mesh.reset();
 }
 
-template<class Archive>
-void STMeshComponent::serialize(Archive &ar) {
-    //TODO Implement this;
-    ar(m_Mesh);
-}
-
-
 
 

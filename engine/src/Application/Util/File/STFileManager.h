@@ -19,12 +19,12 @@ public:
 
 template<typename T>
 bool STFileManager::Write(const std::string &path, T *param) {
-    std::fstream file(path, std::ios::binary | std::ios::out | std::ios::trunc);
+    std::ofstream file(path, std::ios::binary | std::ios::out | std::ios::trunc);
     if(!file.is_open()){
         std::cerr << "Failed to open: " << path << std::endl;
         return false;
     }
-    file.write((char*)param, sizeof(T));
+    param->save(file);
     file.flush();
     file.close();
     return true;
@@ -32,14 +32,13 @@ bool STFileManager::Write(const std::string &path, T *param) {
 
 template<typename T>
 T *STFileManager::Read(const std::string &path) {
-    T* ret = nullptr;
-    std::fstream file(path, std::ios::binary | std::ios::in | std::ios::trunc);
+    T* ret = new T();
+    std::ifstream file(path, std::ios::binary | std::ios::in);
     if(!file.is_open()){
         std::cerr << "Failed to open: " << path << std::endl;
         return nullptr;
     }
-    file.seekg(0);
-    file.read((char*)ret, sizeof(T));
+    ret->load(file);
     file.close();
     return ret;
 }

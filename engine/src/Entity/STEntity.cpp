@@ -14,10 +14,7 @@ STEntity::~STEntity() {
 void STEntity::addComponent(std::type_index type, std::shared_ptr<STComponent> component) {
     auto t = shared_from_this();
     component->init(t);
-    m_ComponentList.emplace_back(component);
     m_components[type] = component;
-//    auto t = shared_from_this();
-//    m_components[type]->init(t);
 }
 
 void STEntity::addChild(STEntity *entity) {
@@ -215,10 +212,6 @@ void STEntity::ReloadFromSave() {
     for(auto comp : m_components){
         comp.second->ReInitFromSave(shared_from_this());
     }
-}
-
-STAttribute::STAttribute() {
-
 }
 
 STAttribute::STAttribute(const Vector2<stReal> &value){

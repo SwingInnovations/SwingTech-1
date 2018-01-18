@@ -78,6 +78,7 @@ public:
 
     ~STEntity();
     void init();
+    void ReloadFromSave();
 
     void addComponent(std::type_index, std::shared_ptr<STComponent>);
     void addChild(STEntity* entity);
@@ -168,7 +169,7 @@ protected:
     std::map<std::type_index, std::shared_ptr<STComponent>> m_components;
     std::shared_ptr<STEntity> m_parent;
 protected:
-    std::map<std::string, STAttribute*> m_attributes;
+    std::map<std::string, std::shared_ptr<STAttribute>> m_attributes;
     std::vector<std::shared_ptr<STEntity>> m_children;
 };
 

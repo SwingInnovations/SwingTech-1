@@ -131,6 +131,7 @@ public:
 
         return ret;
     }
+
 private:
     STMesh_Structure mesh;
 };

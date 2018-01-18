@@ -24,6 +24,4 @@ private:
     STEntity* other;
     std::string m_currentEvent;
 };
-
-
 #endif //WAHOO_STEVENTCOMPONENT_H

@@ -2,6 +2,8 @@
 #define SWINGTECH1_ST3DANIMATIONCOMPONENT_H
 
 #include <sol.hpp>
+
+
 #include "STComponent.h"
 #include "STGraphicsComponent.h"
 #include "../STEntity.h"
@@ -42,7 +44,7 @@ private:
     void CalcInterpolatedPosition(Vector3D& out, float animTime, STNodeAnim* node);
     void CalcInterpolatedRotation(Quaternion& out, float animTime, STNodeAnim* node);
     void CalcInterpolatedScaling(Vector3D& out, float animTime, STNodeAnim* node);
-};
+};;
 
 
 #endif //SWINGTECH1_ST3DANIMATIONCOMPONENT_H

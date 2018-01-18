@@ -4,12 +4,14 @@
 #include "STComponent.h"
 #include "../../Physics/STRigidBody.h"
 
+
 class ST3DPhysicsComponent : public STComponent {
 public:
     ST3DPhysicsComponent();
     ST3DPhysicsComponent(STRigidBody::RigidBodyShape bodyShape, std::vector<stReal> dimensions);
-    ~ST3DPhysicsComponent();
+    ~ST3DPhysicsComponent() override ;
     void init(std::shared_ptr<STEntity>& parent) override;
+
     /**
      * Allows for scripting access.
      * @param state
@@ -52,6 +54,5 @@ private:
     STRigidBody::RigidBodyShape m_initShape;
     std::vector<stReal> m_dimensions;
 };
-
 
 #endif //SWINGTECH1_ST3DPHYSICSCOMPONENT_H

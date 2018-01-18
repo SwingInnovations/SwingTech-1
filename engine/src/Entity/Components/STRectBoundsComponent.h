@@ -18,4 +18,5 @@ private:
 };
 
 
+
 #endif //WAHOO_STRECTBOUNDSCOMPONENT_H

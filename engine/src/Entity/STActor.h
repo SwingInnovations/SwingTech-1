@@ -3,8 +3,6 @@
 
 #include "STEntity.h"
 
-class STEntity;
-
 /**
  * @brief 3D Object. Use STSpriteActor for 2D Character
  */
@@ -17,19 +15,13 @@ public:
     STActor(STEntity* parent, STMesh_Structure, std::map<std::string, STMaterial*>);
     ~STActor();
 
-    inline void addChild_Actor(STActor* actor){
-//        actor->init();
-//        this->m_children.push_back((STEntity*)actor);
-    }
-
     void AddChildActor(std::shared_ptr<STActor> actor);
     static std::shared_ptr<STActor> Create(const std::string& filename);
+
 
     void draw() override;
     void draw(STMaterial*);
     void draw(Camera*, int) override;
     void draw(STMaterial *overrideMaterial, bool flag);
 };
-
-
 #endif //WAHOO_STACTOR_H

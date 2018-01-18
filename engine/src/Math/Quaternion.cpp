@@ -107,7 +107,3 @@ Quaternion Quaternion::From(btQuaternion quaternion) {
     return {quaternion.getX(), quaternion.getY(), quaternion.getZ(), quaternion.getW()};
 }
 
-template<class Archive>
-void Quaternion::serialize(Archive &ar) {
-    ar(m_val);
-}

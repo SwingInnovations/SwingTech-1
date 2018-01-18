@@ -16,6 +16,7 @@ class STEntity;
 
 class STScriptComponent : public STComponent{
 public:
+    STScriptComponent();
     STScriptComponent(STEntity* entity, const std::string& fileName);
 
     explicit STScriptComponent(const std::string& fileName);
@@ -30,6 +31,5 @@ private:
     void initScript(const std::string& fileName);
     std::string scriptName;
 };
-
 
 #endif //WAHOO_STSCRIPTCOMPONENT_H

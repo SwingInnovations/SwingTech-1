@@ -12,9 +12,12 @@ STEntity::~STEntity() {
 }
 
 void STEntity::addComponent(std::type_index type, std::shared_ptr<STComponent> component) {
-    m_components[type] = component;
     auto t = shared_from_this();
-    m_components[type]->init(t);
+    component->init(t);
+    m_ComponentList.emplace_back(component);
+    m_components[type] = component;
+//    auto t = shared_from_this();
+//    m_components[type]->init(t);
 }
 
 void STEntity::addChild(STEntity *entity) {
@@ -62,23 +65,23 @@ void STEntity::update() {
 }
 
 void STEntity::addAttribute(const std::string &name, const int &value) {
-    m_attributes.insert(std::pair<std::string, STAttribute*>(name, new STAttribute(value)));
+    m_attributes.insert(std::pair<std::string, std::shared_ptr<STAttribute>>(name, std::make_shared<STAttribute>(value)));
 }
 
 void STEntity::addAttribute(const std::string &name, const float &value) {
-    m_attributes.insert(std::pair<std::string, STAttribute*>(name, new STAttribute(value)));
+    m_attributes.insert(std::pair<std::string, std::shared_ptr<STAttribute>>(name, std::make_shared<STAttribute>(value)));
 }
 
 void STEntity::addAttribute(const std::string &name, const Vector2<stReal> &value) {
-    m_attributes.insert(std::pair<std::string, STAttribute*>(name, new STAttribute(value)));
+    m_attributes.insert(std::pair<std::string, std::shared_ptr<STAttribute>>(name, std::make_shared<STAttribute>(value)));
 }
 
 void STEntity::addAttribute(const std::string &name, const Vector3<stReal> &value) {
-    m_attributes.insert(std::pair<std::string, STAttribute*>(name, new STAttribute(value)));
+    m_attributes.insert(std::pair<std::string, std::shared_ptr<STAttribute>>(name, std::make_shared<STAttribute>(value)));
 }
 
 void STEntity::addAttribute(const std::string &name, const Vector4<stReal> &value) {
-    m_attributes.insert(std::pair<std::string, STAttribute*>(name, new STAttribute(value)));
+    m_attributes.insert(std::pair<std::string, std::shared_ptr<STAttribute>>(name, std::make_shared<STAttribute>(value)));
 }
 
 void STEntity::setAttribute(const std::string &name, const int &value) {
@@ -207,6 +210,17 @@ void STEntity::setParent(std::shared_ptr<STEntity> p) {
     this->m_parent = p;
 }
 
+void STEntity::ReloadFromSave() {
+    m_transform->setEntity(shared_from_this());
+    for(auto comp : m_components){
+        comp.second->ReInitFromSave(shared_from_this());
+    }
+}
+
+STAttribute::STAttribute() {
+
+}
+
 STAttribute::STAttribute(const Vector2<stReal> &value){
     type = Vec2;
     m_value = STAttribute::toString(value);
@@ -317,5 +331,6 @@ Vector4<stReal> STAttribute::toVector4() const {
         return Vector4<stReal>(_x, _y, _z, _w);
     }
 }
+
 
 

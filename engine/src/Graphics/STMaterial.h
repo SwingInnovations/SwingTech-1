@@ -131,8 +131,6 @@ public:
 
     Shader* shdr(){ return shader; }
 
-    template<class Archive> void serialize(Archive& ar);
-
     void draw(std::map<std::string, STShader::ShaderAttrib>& entityUniforms, Transform& T, Camera& C);
     void draw(std::map<std::string, STShader::ShaderAttrib>& entityUniform, std::map<std::string, STShader::ShaderAttrib> originalMaterialUniforms, Transform &T, Camera& C);
 

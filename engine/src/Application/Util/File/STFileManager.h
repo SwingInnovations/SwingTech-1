@@ -4,8 +4,12 @@
 #include <iostream>
 #include <fstream>
 #include <string>
+#include <memory>
 #include <sys/stat.h>
 
+
+#include "../../../Entity/STEntity.h"
+#include "../../../Entity/STActor.h"
 /**
  * Wrapper class for file operations.
  */
@@ -42,7 +46,6 @@ T *STFileManager::Read(const std::string &path) {
     file.close();
     return ret;
 }
-
 
 
 #endif //SWINGTECH1_STFILEMANAGER_H

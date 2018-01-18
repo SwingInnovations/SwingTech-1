@@ -46,5 +46,4 @@ private:
     stUint m_numIndicies;
 };
 
-
 #endif //WAHOO_GLMESH_H

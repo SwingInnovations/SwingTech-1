@@ -26,6 +26,7 @@ class STMeshComponent : public STComponent{
  *
  */
 public:
+    STMeshComponent();
     explicit STMeshComponent(STMesh_Structure structure);
 
     explicit STMeshComponent(Shape& shape);
@@ -53,10 +54,7 @@ public:
     }
 
 private:
-
-    STMesh* m_mesh;
     std::shared_ptr<STMesh> m_Mesh;
-
 };
 
 

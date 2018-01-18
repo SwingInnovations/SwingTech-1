@@ -22,6 +22,7 @@ public:
     explicit STGraphicsComponent(STMaterial* mat);
     explicit STGraphicsComponent(std::shared_ptr<STMaterial> material);
 
+    STGraphicsComponent();
     explicit STGraphicsComponent(const std::string& shdr);
     ~STGraphicsComponent() override {
         m_Material.reset();
@@ -59,7 +60,6 @@ public:
 
     inline STMaterial* getMaterial(){ return m_Material.get(); }
 
-    template<class Archive> void serialize(Archive& ar);
 
     void update() override;
     void draw() override;
@@ -74,6 +74,5 @@ private:
     bool useMaterial;
     std::map<std::string, STShader::ShaderAttrib> m_Uniforms;
 };
-
 
 #endif //WAHOO_STGRAPHICSCOMPONENT_H

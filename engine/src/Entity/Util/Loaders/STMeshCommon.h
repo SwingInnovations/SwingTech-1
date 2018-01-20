@@ -77,6 +77,50 @@ struct STMesh_Structure{
 
     inline stInt getVertexSize()const { return (stInt)m_vertices.size(); }
     inline stInt getIndexSize() const { return (stInt)m_indices.size(); }
+
+    void save(std::ofstream& out){
+        out.write((char*)&m_hasBones, sizeof(bool));
+        out.write((char*)&m_hasAnimations, sizeof(bool));
+        stUint vertexSize = (stUint)m_vertices.size();
+        out.write((char*)&vertexSize, sizeof(vertexSize));
+        for(auto v : m_vertices){
+            v.save(out);
+        }
+        stUint indSize = (stUint)m_indices.size();
+        out.write((char*)&indSize, sizeof(stUint));
+        for(auto ind : m_indices){
+            out.write((char*)&ind, sizeof(ind));
+        }
+    }
+
+    void load(std::ifstream& in, bool hasAnimations){
+        m_hasAnimations = hasAnimations;
+        bool hasAnim = false;
+        in.read((char*)&hasAnim, sizeof(bool));
+        stUint vertexSize = 0;
+        int indSize = 0;
+
+        in.read((char*)&vertexSize, sizeof(stUint));
+        for(stUint i = 0; i < vertexSize; i++){
+            auto v = Vector3D();
+            auto t = Vector2D();
+            auto n = Vector3D();
+            v.load(in);
+            t.load(in);
+            n.load(in);
+            m_vertices.emplace_back(Vertex(v, t, n));
+        }
+        in.read((char*)&indSize, sizeof(stUint));
+        for(stUint i = 0; i < indSize; i++){
+            int ind = 0;
+            in.read((char*)&ind, sizeof(int));
+            m_indices.emplace_back(ind);
+        }
+    }
+
+    void load(std::ifstream& in){
+
+    }
 };
 
 #endif //SWINGTECH1_STMESHCOMMON_H

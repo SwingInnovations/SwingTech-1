@@ -26,6 +26,9 @@ public:
     ~STScriptComponent() override;
 
     void update() override;
+
+    void save(std::ofstream& out) override;
+    void load(std::ifstream& in) override;
     sol::state m_script;
 private:
     void initScript(const std::string& fileName);

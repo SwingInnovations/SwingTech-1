@@ -23,6 +23,8 @@ public:
     void init(std::shared_ptr<STEntity>& entity) override ;
     void update() override ;
     void setCurrentAnimation(const std::string& anim);
+    void save(std::ofstream& out) override;
+    void load(std::ifstream& in) override;
 protected:
     bool                                m_isRoot;
     std::string                         m_currentAnimation;

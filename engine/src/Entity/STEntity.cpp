@@ -3,8 +3,9 @@
 #include "Components/STAABBComponent.h"
 
 STEntity::STEntity() {
-//    m_transform = std::make_shared<Transform>();
+    m_transform = std::make_shared<Transform>();
 //    m_transform->setEntity(shared_from_this());
+    numComponents = 0;
 }
 
 STEntity::~STEntity() {
@@ -14,7 +15,8 @@ STEntity::~STEntity() {
 void STEntity::addComponent(std::type_index type, std::shared_ptr<STComponent> component) {
     auto t = shared_from_this();
     component->init(t);
-    m_components[type] = component;
+    m_components[type.name()] = component;
+    numComponents++;
 }
 
 void STEntity::addChild(STEntity *entity) {
@@ -154,7 +156,7 @@ void STEntity::dispose() {
     m_components.clear();
 }
 
-const std::map<std::type_index, std::shared_ptr<STComponent>> &STEntity::getAllComponents() const {
+const std::map<std::string, std::shared_ptr<STComponent>> &STEntity::getAllComponents() const {
     return m_components;
 }
 
@@ -211,6 +213,36 @@ void STEntity::ReloadFromSave() {
     m_transform->setEntity(shared_from_this());
     for(auto comp : m_components){
         comp.second->ReInitFromSave(shared_from_this());
+    }
+}
+
+void STEntity::load(std::ifstream &in) {
+    m_transform->load(in);
+    in.read((char*)&numComponents, sizeof(numComponents));
+    for(stUint i = 0; i < numComponents; i++){
+        size_t len = 0;
+        in.read((char*)&len, sizeof(stUint));
+        char* componentNameBuffer = new char[len];
+        componentNameBuffer[len] = '\0';
+        in.read(componentNameBuffer, len);
+        auto comp = STComponentObject::create(componentNameBuffer);
+        comp->load(in);
+        auto t = shared_from_this();
+        comp->init(t);
+        m_components[componentNameBuffer] = comp;
+    }
+}
+
+void STEntity::save(std::ofstream &out) {
+    m_transform->save(out);
+    out.write((char*)&numComponents, sizeof(numComponents));
+    int status = 0;
+    for(auto comp : m_components){
+        auto compName = abi::__cxa_demangle(comp.first.c_str(), 0, 0, &status);
+        auto len = (stUint)strlen(compName);
+        out.write((char*)&len, sizeof(stUint));
+        out.write(compName, len);
+        comp.second->save(out);
     }
 }
 

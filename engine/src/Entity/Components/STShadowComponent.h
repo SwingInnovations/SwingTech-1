@@ -26,7 +26,14 @@ public:
 
     }
 
-    template<class Archive> void serialize(Archive& ar);
+    void save(std::ofstream& out) override {
+
+    }
+
+    void load(std::ifstream& in) override {
+
+    }
+
     void dispose(){
         if(STGraphics::RENDERER == STGraphics::OPENGL){
             for(stUint i = 0; i < 6; i++){

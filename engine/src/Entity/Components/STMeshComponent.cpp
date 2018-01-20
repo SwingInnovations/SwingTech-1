@@ -3,6 +3,10 @@
 #include "../../Graphics/GL/GLMesh.h"
 #include "../../Graphics/GL/GLSkinnedMesh.h"
 
+STMeshComponent::STMeshComponent() {
+
+}
+
 
 STMeshComponent::STMeshComponent(STMesh_Structure structure) {
     if(STGraphics::RENDERER == STGraphics::OPENGL){
@@ -58,5 +62,24 @@ void STMeshComponent::dispose() {
    m_Mesh.reset();
 }
 
+void STMeshComponent::save(std::ofstream &out) {
+    m_Mesh->save(out);
+}
+
+void STMeshComponent::load(std::ifstream &in) {
+    bool hasAnimation = false;
+    in.read((char*)&hasAnimation, sizeof(bool));
+    if(STGraphics::RENDERER == STGraphics::OPENGL){
+        if(hasAnimation){
+            m_Mesh = std::make_shared<GLSkinnedMesh>();
+            m_Mesh->load(in, hasAnimation);
+        }else{
+            m_Mesh = std::make_shared<GLMesh>();
+            m_Mesh->load(in, hasAnimation);
+        }
+    }
+}
+
+REGISTER_COMPONENT(STMeshComponent)
 
 

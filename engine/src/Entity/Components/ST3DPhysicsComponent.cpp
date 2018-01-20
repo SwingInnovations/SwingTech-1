@@ -93,3 +93,13 @@ void ST3DPhysicsComponent::initScriptingFunctions(sol::state &state) {
                                 "toggleFreeze", &ST3DPhysicsComponent::toggleFreeze,
                                 "updateTransform", &ST3DPhysicsComponent::updateTransform);
 }
+
+void ST3DPhysicsComponent::save(std::ofstream &out) {
+
+}
+
+void ST3DPhysicsComponent::load(std::ifstream &in) {
+
+}
+
+REGISTER_COMPONENT(ST3DPhysicsComponent)

@@ -1,0 +1,6 @@
+#ifndef SWINGTECH1_STMAP_H
+#define SWINGTECH1_STMAP_H
+
+
+
+#endif //SWINGTECH1_STMAP_H

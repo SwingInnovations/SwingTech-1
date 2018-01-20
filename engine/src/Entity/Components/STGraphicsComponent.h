@@ -60,10 +60,12 @@ public:
 
     inline STMaterial* getMaterial(){ return m_Material.get(); }
 
-
     void update() override;
     void draw() override;
     void dispose() override;
+
+    void save(std::ofstream& out) override;
+    void load(std::ifstream& in) override;
 
     std::map<std::string, STShader::ShaderAttrib> &GetUniforms();
 
@@ -74,5 +76,4 @@ private:
     bool useMaterial;
     std::map<std::string, STShader::ShaderAttrib> m_Uniforms;
 };
-
 #endif //WAHOO_STGRAPHICSCOMPONENT_H

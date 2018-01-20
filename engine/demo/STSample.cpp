@@ -17,13 +17,6 @@ public:
         m_scene->addSkybox("green");
         game->getCamera()->setSpeed(0.025f);
 
-        auto t1 = std::make_shared<Transform>();
-        t1->setTranslate(Vector3D(1, 2, 3));
-        t1->setRotate(Vector3D(4, 5, 6));
-        STFileManager::Write("testTransform.bin", t1.get());
-
-        auto t2 = STFileManager::Read<Transform>("testTransform.bin");
-
         auto mainLight = STLight::InitDirectionalLight(Vector3D(4.f, 5.f, 3.f), Vector3D(-.5f, -.5f, -.5f), Vector3D(0.25f, 0.25f, 0.85f));
         mainLight->get<STLightComponent>()->setTarget(Vector3D(0.f, 0.f, 0.f));
 
@@ -41,6 +34,9 @@ public:
         c2->get<STGraphicsComponent>()->getMaterial()->setMetallic(0.2f);
         c2->get<STGraphicsComponent>()->getMaterial()->setRoughness(0.1f);
 
+        STFileManager::Write("testEntity.bin", c2.get());
+
+        auto readActor = STFileManager::Read_Temp<STActor>("testEntity.bin");
 //        auto diceBox = new STActor("smooth_sphere.obj");
 //        diceBox->setTag("Dice");
 //        diceBox->get<STGraphicsComponent>()->getMaterial()->setMetallic(0.2f);

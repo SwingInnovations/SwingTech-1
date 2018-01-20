@@ -19,6 +19,9 @@ public:
     void addEvent(std::string name, std::function<void(STEntity*, STEntity*)> newFunction);
     void updateEvent(std::string name, std::function<void(STEntity*, STEntity*)> alteredFunction);
     void setOther(STEntity* other);
+
+    void save(std::ofstream& out) override;
+    void load(std::ifstream& in) override;
 private:
     std::map<std::string, std::function<void(STEntity*, STEntity*)>> m_Events;
     STEntity* other;

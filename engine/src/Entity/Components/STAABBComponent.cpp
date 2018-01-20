@@ -61,4 +61,12 @@ STBoundingBox *STAABBComponent::getBoundingBox() {
     return m_boundingBox;
 }
 
+void STAABBComponent::save(std::ofstream &out) {
+
+}
+
+void STAABBComponent::load(std::ifstream &in) {
+
+}
+
 

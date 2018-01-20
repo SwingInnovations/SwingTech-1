@@ -49,6 +49,9 @@ public:
     void update() override ;
     void dispose() override;
 
+    void save(std::ofstream& out) override;
+    void load(std::ifstream& in) override;
+
 private:
     STRigidBody* m_rigidBody;
     STRigidBody::RigidBodyShape m_initShape;

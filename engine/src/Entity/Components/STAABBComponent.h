@@ -23,6 +23,9 @@ public:
     bool intersects(STEntity* other) override;
     void calculateBounds() override;
 
+    void save(std::ofstream& out) override;
+    void load(std::ifstream& in) override;
+
 private:
     STBoundingBox* m_boundingBox;
     bool m_isCalculated;

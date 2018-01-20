@@ -62,7 +62,13 @@ public:
 
     }
 
-    template<class Archive> void serialize(Archive& ar);
+    void save(std::ofstream& out) override {
+
+    }
+
+    void load(std::ifstream& in) override {
+
+    }
 
     STLightProperties* getProperties(){ return &m_Properties; }
     Matrix4f getLookAt(){

@@ -49,6 +49,9 @@ public:
 
     void dispose() override;
 
+    void save(std::ofstream& out) override;
+    void load(std::ifstream& in) override;
+
     inline void draw(int drawMode){
         m_Mesh->draw(drawMode);
     }
@@ -56,6 +59,5 @@ public:
 private:
     std::shared_ptr<STMesh> m_Mesh;
 };
-
 
 #endif //WAHOO_STMESHCOMPONENT_H

@@ -5,6 +5,7 @@
 #include <vector>
 #include <memory>
 #include <typeindex>
+#include <cxxabi.h>
 
 #include "../Math/Vector.h"
 #include "Transform.h"
@@ -132,12 +133,12 @@ public:
     std::vector<std::string> getLoadedComponentNames(){
         std::vector<std::string> ret;
         for(auto comp : m_components){
-            ret.emplace_back(comp.first.name());
+            ret.emplace_back(comp.first);
         }
         return ret;
     }
 
-    const std::map<std::type_index, std::shared_ptr<STComponent>> &getAllComponents() const;
+    const std::map<std::string, std::shared_ptr<STComponent>> &getAllComponents() const;
 
     /**
      * @brief Returns Component Added to Entity.
@@ -145,7 +146,7 @@ public:
      * @return Component Requested
      */
     template<typename T> inline T* get(){
-        auto it = m_components.find(std::type_index(typeid(T)));
+        auto it = m_components.find(std::type_index(typeid(T)).name());
         if(it != m_components.end()){
             return dynamic_cast<T*>(it->second.get());
         }
@@ -160,13 +161,16 @@ public:
     void draw(Camera* cam);
     virtual void draw(Camera* cam, int drawMode);
 
+    void load(std::ifstream& in);
+    void save(std::ofstream& out);
 protected:
     Type m_type;
     std::string m_name;
     std::string m_tag;
+    stUint numComponents;
     std::shared_ptr<Transform> m_transform;
     bool m_visible;
-    std::map<std::type_index, std::shared_ptr<STComponent>> m_components;
+    std::map<std::string, std::shared_ptr<STComponent>> m_components;
     std::shared_ptr<STEntity> m_parent;
 protected:
     std::map<std::string, std::shared_ptr<STAttribute>> m_attributes;

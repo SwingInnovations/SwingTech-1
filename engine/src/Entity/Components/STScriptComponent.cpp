@@ -203,3 +203,17 @@ void STScriptComponent::init(std::shared_ptr<STEntity>& parent) {
     this->m_entity = parent;
     this->initScript(this->scriptName);
 }
+
+STScriptComponent::STScriptComponent() {
+
+}
+
+void STScriptComponent::save(std::ofstream &out) {
+
+}
+
+void STScriptComponent::load(std::ifstream &in) {
+
+}
+
+REGISTER_COMPONENT(STScriptComponent)

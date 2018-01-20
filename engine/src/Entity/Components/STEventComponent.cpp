@@ -45,3 +45,13 @@ void STEventComponent::updateEvent(std::string name, std::function<void(STEntity
 void STEventComponent::setOther(STEntity *other) {
     this->other = other;
 }
+
+void STEventComponent::save(std::ofstream &out) {
+
+}
+
+void STEventComponent::load(std::ifstream &in) {
+
+}
+
+REGISTER_COMPONENT(STEventComponent)

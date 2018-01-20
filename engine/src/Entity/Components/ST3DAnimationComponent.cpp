@@ -191,3 +191,13 @@ void ST3DAnimationComponent::initScriptingFunctions(sol::state& script) {
     script.new_usertype<ST3DAnimationComponent>("ST3DAnimation",
                                                 "setCurrentAnimation", &ST3DAnimationComponent::setCurrentAnimation);
 }
+
+void ST3DAnimationComponent::save(std::ofstream &out) {
+
+}
+
+void ST3DAnimationComponent::load(std::ifstream &in) {
+
+}
+
+REGISTER_COMPONENT(ST3DAnimationComponent)

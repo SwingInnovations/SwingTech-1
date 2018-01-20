@@ -241,6 +241,15 @@ void STGraphicsComponent::initScriptingFunctions(sol::state &state) {
                                                    "getMaterial", &STGraphicsComponent::getMaterial);
 }
 
+void STGraphicsComponent::save(std::ofstream &out) {
+
+}
+
+void STGraphicsComponent::load(std::ifstream &in) {
+
+}
+
+REGISTER_COMPONENT(STGraphicsComponent)
 
 
 

@@ -48,6 +48,15 @@ public:
         this->mesh = meshStructure;
     }
 
+    void save(std::ofstream& out){
+        mesh.save(out);
+    }
+
+    void load(std::ifstream& in, bool hasAnimation){
+        mesh = STMesh_Structure();
+        mesh.load(in, hasAnimation);
+    }
+
     STMesh_Structure getMeshStructure()const{
         return mesh;
     }

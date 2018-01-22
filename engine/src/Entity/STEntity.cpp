@@ -1,6 +1,7 @@
 #include "STEntity.h"
 #include "Components/STEventComponent.h"
 #include "Components/STAABBComponent.h"
+#include "../Application/Util/File/STSerializeable.h"
 
 STEntity::STEntity() {
     m_transform = std::make_shared<Transform>();
@@ -220,16 +221,12 @@ void STEntity::load(std::ifstream &in) {
     m_transform->load(in);
     in.read((char*)&numComponents, sizeof(numComponents));
     for(stUint i = 0; i < numComponents; i++){
-        size_t len = 0;
-        in.read((char*)&len, sizeof(stUint));
-        char* componentNameBuffer = new char[len];
-        componentNameBuffer[len] = '\0';
-        in.read(componentNameBuffer, len);
-        auto comp = STComponentObject::create(componentNameBuffer);
+        auto componentName = STSerializableUtility::ReadString(in);
+        auto comp = STComponentObject::create(componentName);
         comp->load(in);
         auto t = shared_from_this();
         comp->init(t);
-        m_components[componentNameBuffer] = comp;
+        m_components[componentName] = comp;
     }
 }
 
@@ -239,9 +236,7 @@ void STEntity::save(std::ofstream &out) {
     int status = 0;
     for(auto comp : m_components){
         auto compName = abi::__cxa_demangle(comp.first.c_str(), 0, 0, &status);
-        auto len = (stUint)strlen(compName);
-        out.write((char*)&len, sizeof(stUint));
-        out.write(compName, len);
+        STSerializableUtility::WriteString(compName, out);
         comp.second->save(out);
     }
 }
@@ -355,6 +350,17 @@ Vector4<stReal> STAttribute::toVector4() const {
         _w = (stReal)atof(vW.c_str());
         return Vector4<stReal>(_x, _y, _z, _w);
     }
+}
+
+void STAttribute::save(std::ofstream &out) {
+    out.write((char*)&type, sizeof(type));
+    STSerializableUtility::WriteString(m_value.c_str(), out);
+}
+
+void STAttribute::load(std::ifstream &in) {
+    stUint dataSize = 0;
+    in.read((char*)&type, sizeof(type));
+    m_value = STSerializableUtility::ReadString(in);
 }
 
 

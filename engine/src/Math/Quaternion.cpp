@@ -107,3 +107,11 @@ Quaternion Quaternion::From(btQuaternion quaternion) {
     return {quaternion.getX(), quaternion.getY(), quaternion.getZ(), quaternion.getW()};
 }
 
+void Quaternion::save(std::ofstream &out) {
+    out.write((char*)&m_val, sizeof(m_val));
+}
+
+void Quaternion::load(std::ifstream &in) {
+    in.read((char*)&m_val, sizeof(m_val));
+}
+

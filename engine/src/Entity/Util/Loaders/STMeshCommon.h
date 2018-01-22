@@ -9,6 +9,7 @@
 #include "../../../Math/Vertex.h"
 #include "../../../Math/Matrix.h"
 #include "STAnimationCommon.h"
+#include "../../../Application/Util/File/STSerializeable.h"
 
 struct STMeshNode{
     std::string m_Name;
@@ -16,9 +17,6 @@ struct STMeshNode{
     STList<std::shared_ptr<STMeshNode>> m_Children;
     ~STMeshNode(){
         m_Children.clear();
-    }
-    template<class Archive> void serialize(Archive& ar){
-        ar(m_Name, transform, m_Children);
     }
 };
 
@@ -31,6 +29,16 @@ struct STBoneWeight{
     stUint m_vertexID[NUM_BONE_FOR_VERTS];
     stReal m_weight[NUM_BONE_FOR_VERTS];
 
+    inline void save(std::ofstream& out){
+        out.write((char*)&m_vertexID, sizeof(m_vertexID));
+        out.write((char*)&m_weight, sizeof(m_weight));
+    }
+
+    inline void load(std::ifstream& in){
+        in.read((char*)&m_vertexID, sizeof(m_vertexID));
+        in.read((char*)&m_weight, sizeof(m_weight));
+    }
+
     inline void addBoneData(stUint id, stReal weight){
         for(stUint i = 0; i < 4; i++){
             if(m_weight[i] == 0.0f){
@@ -40,15 +48,24 @@ struct STBoneWeight{
             }
         }
     }
-    template<class Archive>void serialize(Archive& ar){
-        ar(m_vertexID, m_weight);
-    }
 };
 
 struct STBoneData{
     std::string m_name;
     Matrix4f m_offsetMatrix;
     Matrix4f m_finalTransformation;
+
+    void save(std::ofstream& out){
+        STSerializableUtility::WriteString(m_name.c_str(), out);
+        m_offsetMatrix.save(out);
+        m_finalTransformation.save(out);
+    }
+
+    void load(std::ifstream& in){
+        m_name = STSerializableUtility::ReadString(in);
+        m_offsetMatrix.load(in);
+        m_finalTransformation.load(in);
+    }
 };
 
 /**
@@ -81,26 +98,73 @@ struct STMesh_Structure{
     void save(std::ofstream& out){
         out.write((char*)&m_hasBones, sizeof(bool));
         out.write((char*)&m_hasAnimations, sizeof(bool));
+
+        STSerializableUtility::WriteString(name.c_str(), out);
+        STSerializableUtility::WriteString(materialKey.c_str(), out);
+
         stUint vertexSize = (stUint)m_vertices.size();
         out.write((char*)&vertexSize, sizeof(vertexSize));
+
+        stUint indSize = (stUint)m_indices.size();
+        out.write((char*)&indSize, sizeof(stUint));
+
+        stUint boneCount = m_BoneData.size();
+        out.write((char*)&boneCount, sizeof(boneCount));
+
+        stUint boneWeightCount = (stUint)m_boneWeights.size();
+        out.write((char*)&boneWeightCount, sizeof(stUint));
+
+        stUint boneMapCount = (stUint)m_boneMap.size();
+        out.write((char*)&boneMapCount, sizeof(stUint));
+
+        stUint animCount = m_Animations.size();
+        out.write((char*)&animCount, sizeof(stUint));
+
         for(auto v : m_vertices){
             v.save(out);
         }
-        stUint indSize = (stUint)m_indices.size();
-        out.write((char*)&indSize, sizeof(stUint));
+
         for(auto ind : m_indices){
             out.write((char*)&ind, sizeof(ind));
         }
+
+        for(auto bone : m_BoneData){
+            bone->save(out);
+        }
+
+
+        for(auto boneWeight : m_boneWeights){
+            boneWeight.save(out);
+        }
+
+        for(auto bone : m_boneMap){
+            STSerializableUtility::WriteString(bone.first.c_str(), out);
+            out.write((char*)&bone.second, sizeof(stUint));
+        }
+
+        for(auto anim : m_Animations){
+            anim->save(out);
+        }
+
     }
 
-    void load(std::ifstream& in, bool hasAnimations){
-        m_hasAnimations = hasAnimations;
+    void load(std::ifstream& in, bool hasBones){
+        m_hasBones = hasBones;
         bool hasAnim = false;
         in.read((char*)&hasAnim, sizeof(bool));
-        stUint vertexSize = 0;
-        int indSize = 0;
+        m_hasAnimations = hasAnim;
 
+        name = STSerializableUtility::ReadString(in);
+        materialKey = STSerializableUtility::ReadString(in);
+
+        stUint vertexSize, indSize, boneCount, boneWeightCount, boneMapCount, animCount;
         in.read((char*)&vertexSize, sizeof(stUint));
+        in.read((char*)&indSize, sizeof(stUint));
+        in.read((char*)&boneCount, sizeof(stUint));
+        in.read((char*)&boneWeightCount, sizeof(stUint));
+        in.read((char*)&boneMapCount, sizeof(stUint));
+        in.read((char*)&animCount, sizeof(stUint));
+
         for(stUint i = 0; i < vertexSize; i++){
             auto v = Vector3D();
             auto t = Vector2D();
@@ -110,12 +174,38 @@ struct STMesh_Structure{
             n.load(in);
             m_vertices.emplace_back(Vertex(v, t, n));
         }
-        in.read((char*)&indSize, sizeof(stUint));
+
         for(stUint i = 0; i < indSize; i++){
             int ind = 0;
             in.read((char*)&ind, sizeof(int));
             m_indices.emplace_back(ind);
         }
+
+        for(stUint i = 0; i < boneCount; i++){
+            auto bone = std::make_shared<STBoneData>();
+            bone->load(in);
+            m_BoneData.addLast(bone);
+        }
+
+        for(stUint i = 0; i < boneWeightCount; i++){
+            STBoneWeight boneWeight;
+            boneWeight.load(in);
+            m_boneWeights.push_back(boneWeight);
+        }
+
+        for(stUint i = 0; i < boneMapCount; i++){
+            auto boneName = STSerializableUtility::ReadString(in);
+            stUint value = 0;
+            in.read((char*)&value, sizeof(stUint));
+            m_boneMap[boneName] = value;
+        }
+
+        for(stUint i = 0; i < animCount; i++){
+            auto anim = std::make_shared<STAnimation>();
+            anim->load(in);
+            m_Animations.addLast(anim);
+        }
+
     }
 
     void load(std::ifstream& in){

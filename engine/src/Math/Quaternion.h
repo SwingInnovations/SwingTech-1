@@ -98,6 +98,9 @@ public:
 
     const Quaternion operator -()const;
 
+    void save(std::ofstream& out);
+    void load(std::ifstream& in);
+
     Json to_json()const;
 
 private:

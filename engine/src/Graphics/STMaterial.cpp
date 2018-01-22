@@ -138,6 +138,14 @@ void STMaterial::setUniforms(std::map<std::string, STShader::ShaderAttrib> newUn
     m_Uniforms = newUniforms;
 }
 
+void STMaterial::save(std::ofstream &out) {
+
+}
+
+void STMaterial::load(std::ifstream &in) {
+
+}
+
 
 
 

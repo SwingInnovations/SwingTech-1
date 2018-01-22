@@ -15,6 +15,29 @@ struct STMeshNode{
     std::string m_Name;
     Matrix4f transform;
     STList<std::shared_ptr<STMeshNode>> m_Children;
+
+    void save(std::ofstream& out){
+        stUint numChildren = m_Children.size();
+        STSerializableUtility::WriteString(m_Name.c_str(), out);
+        transform.save(out);
+        out.write((char*)&numChildren, sizeof(stUint));
+        for(auto child : m_Children){
+            child->save(out);
+        }
+    }
+
+    void load(std::ifstream& in){
+        stUint numChildren = 0;
+        m_Name = STSerializableUtility::ReadString(in);
+        transform.load(in);
+        in.read((char*)&numChildren, sizeof(stUint));
+        for(stUint i = 0; i < numChildren; i++){
+            auto child = std::make_shared<STMeshNode>();
+            child->load(in);
+            m_Children.addLast(child);
+        }
+    }
+
     ~STMeshNode(){
         m_Children.clear();
     }
@@ -132,7 +155,6 @@ struct STMesh_Structure{
             bone->save(out);
         }
 
-
         for(auto boneWeight : m_boneWeights){
             boneWeight.save(out);
         }
@@ -145,7 +167,8 @@ struct STMesh_Structure{
         for(auto anim : m_Animations){
             anim->save(out);
         }
-
+        m_Node->save(out);
+        auto nodePeek = m_Node.get();
     }
 
     void load(std::ifstream& in, bool hasBones){
@@ -205,7 +228,9 @@ struct STMesh_Structure{
             anim->load(in);
             m_Animations.addLast(anim);
         }
-
+        m_Node = std::make_shared<STMeshNode>();
+        m_Node->load(in);
+        auto nodePeek = m_Node.get();
     }
 
     void load(std::ifstream& in){

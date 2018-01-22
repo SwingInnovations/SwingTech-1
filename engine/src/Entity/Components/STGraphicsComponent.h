@@ -72,7 +72,9 @@ public:
     void draw(Transform& T, Camera& C);
 private:
     std::shared_ptr<STMaterial> m_Material;
+    [[deprecated]]
     bool useTexture;
+    [[deprecated]]
     bool useMaterial;
     std::map<std::string, STShader::ShaderAttrib> m_Uniforms;
 };

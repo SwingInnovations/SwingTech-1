@@ -11,6 +11,7 @@ public:
     ~GLSkinnedMesh();
     void draw() override;
     void draw(int drawMode) override;
+    void load(std::ifstream& in, bool hasBones) override ;
 private:
     enum{
         VERTEX_BUFFER,

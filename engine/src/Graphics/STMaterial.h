@@ -120,6 +120,8 @@ public:
          m_Uniforms.insert(std::pair<std::string, STShader::ShaderAttrib>("Material.Roughness", STShader::ShaderAttrib("Material.Roughness", STShader::VEC2, STShader::toString(Vector2<stReal>(0.f, 1.f)))));
      }
 
+    void save(std::ofstream& out);
+    void load(std::ifstream& in);
 
     /*!
      * @details Main update that gets called in the render loop.

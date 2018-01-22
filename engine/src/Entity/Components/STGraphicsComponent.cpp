@@ -242,11 +242,11 @@ void STGraphicsComponent::initScriptingFunctions(sol::state &state) {
 }
 
 void STGraphicsComponent::save(std::ofstream &out) {
-
+    m_Material->save(out);
 }
 
 void STGraphicsComponent::load(std::ifstream &in) {
-
+    m_Material->load(in);
 }
 
 REGISTER_COMPONENT(STGraphicsComponent)

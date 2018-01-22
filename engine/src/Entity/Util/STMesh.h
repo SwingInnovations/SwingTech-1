@@ -52,9 +52,9 @@ public:
         mesh.save(out);
     }
 
-    void load(std::ifstream& in, bool hasAnimation){
+    virtual void load(std::ifstream& in, bool hasBones){
         mesh = STMesh_Structure();
-        mesh.load(in, hasAnimation);
+        mesh.load(in, hasBones);
     }
 
     STMesh_Structure getMeshStructure()const{
@@ -141,7 +141,7 @@ public:
         return ret;
     }
 
-private:
+protected:
     STMesh_Structure mesh;
 };
 

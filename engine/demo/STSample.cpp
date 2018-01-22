@@ -34,9 +34,12 @@ public:
         c2->get<STGraphicsComponent>()->getMaterial()->setMetallic(0.2f);
         c2->get<STGraphicsComponent>()->getMaterial()->setRoughness(0.1f);
 
+        auto c2Peek = c2.get();
+
         STFileManager::Write("testEntity.bin", c2.get());
 
         auto readActor = STFileManager::Read_Temp<STActor>("testEntity.bin");
+        auto readPeek = readActor.get();
 //        auto diceBox = new STActor("smooth_sphere.obj");
 //        diceBox->setTag("Dice");
 //        diceBox->get<STGraphicsComponent>()->getMaterial()->setMetallic(0.2f);

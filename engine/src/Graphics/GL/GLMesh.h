@@ -23,6 +23,8 @@ public:
 
     explicit GLMesh(STQuad* quad);
 
+    void load(std::ifstream& in, bool hasBones) override;
+
     explicit GLMesh(STCube* cube);
     GLMesh(float vert[], int vSize, float tex[], int tSize, int ind[], int indSize);
     ~GLMesh();

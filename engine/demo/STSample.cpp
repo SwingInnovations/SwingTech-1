@@ -40,6 +40,9 @@ public:
 
         auto readActor = STFileManager::Read_Temp<STActor>("testEntity.bin");
         auto readPeek = readActor.get();
+        readActor->transform()->setTranslate(Vector3D(3, 3, 1));;
+        readActor->get<STGraphicsComponent>()->GetMaterial()->setDiffuseColor(Vector4D(0, 1, 0, 1));
+
 //        auto diceBox = new STActor("smooth_sphere.obj");
 //        diceBox->setTag("Dice");
 //        diceBox->get<STGraphicsComponent>()->getMaterial()->setMetallic(0.2f);
@@ -58,18 +61,11 @@ public:
         auto p = STActor::Create("plane.obj");
         p->get<STGraphicsComponent>()->getMaterial()->setDiffuseTexture("grid.png");
         p->transform()->setTranslateY(-2.f);
-//        plane = new STActor("plane.obj");
-//        plane->setTag("ground");
-//        plane->transform()->setTranslateY(-2.f);
-//        plane->get<STGraphicsComponent>()->setDiffuseTexture("grid.png");
-//        plane->addComponent(typeid(ST3DPhysicsComponent), new ST3DPhysicsComponent(STRigidBody::RigidBodyShape::BOX, {5, 0.01, 5, 4}));
-//        plane->get<ST3DPhysicsComponent>()->setMass(10.0f);
-//        plane->get<ST3DPhysicsComponent>()->updateTransform();
-//        plane->get<ST3DPhysicsComponent>()->toggleFreeze(true);
 //
         m_scene->addLight(mainLight);
         m_scene->addLight(accentLight);
         m_scene->addLight(accentLight2);
+        m_scene->addActor(readActor);
 //        m_scene->addActor(diceBox);
         m_scene->addActor(p);
         m_scene->addActor(c2);

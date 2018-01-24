@@ -143,6 +143,7 @@ private:
     std::shared_ptr<Shader> m_shdr;
     Vector3<stReal> m_baseColor;
     std::map<std::string, STShader::ShaderAttrib> m_Uniforms;
+    std::map<std::string, std::string> m_pathReferences;
 };
 
 #endif //WAHOO_STMATERIAL_H

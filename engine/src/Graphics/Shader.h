@@ -10,6 +10,7 @@
 
 #include "../Math/Vector.h"
 #include "../Entity/Transform.h"
+#include "../Application/Util/File/STSerializeable.h"
 
 class Transform;
 class Camera;
@@ -197,6 +198,10 @@ namespace STShader{
     }
 
     struct ShaderAttrib{
+
+        ShaderAttrib(){
+
+        }
         /*!
          *
          * @param name Unique name for the uniform
@@ -209,6 +214,19 @@ namespace STShader{
             this->type = type;
             this->value = value;
         }
+
+        void save(std::ofstream& out){
+            out.write((char*)&type, sizeof(int));
+            STSerializableUtility::WriteString(name.c_str(), out);
+            STSerializableUtility::WriteString(value.c_str(), out);
+        }
+
+        void load(std::ifstream& in){
+            in.read((char*)&type, sizeof(int));
+            name = STSerializableUtility::ReadString(in);
+            value = STSerializableUtility::ReadString(in);
+        }
+
         std::string name;
         int type;
         std::string value;
@@ -237,8 +255,11 @@ public:
     virtual void update_CubeMap(const std::string& name, stUint){ }
     void updateUniforms(std::map<std::string, STShader::ShaderAttrib>);
     virtual std::string getShaderName(){ return NULL; }
+    virtual void save(std::ofstream& out) = 0;
+    virtual void load(std::ifstream& in) = 0;
     virtual ~Shader(){}
-private:
+protected:
+    std::map<std::string, std::string> m_refPath;
 };
 
 #endif //WAHOO_SHADER_H

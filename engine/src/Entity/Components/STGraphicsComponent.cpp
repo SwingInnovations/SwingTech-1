@@ -246,6 +246,7 @@ void STGraphicsComponent::save(std::ofstream &out) {
 }
 
 void STGraphicsComponent::load(std::ifstream &in) {
+    m_Material = std::make_shared<STMaterial>();
     m_Material->load(in);
 }
 

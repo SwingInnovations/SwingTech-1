@@ -193,11 +193,65 @@ void ST3DAnimationComponent::initScriptingFunctions(sol::state& script) {
 }
 
 void ST3DAnimationComponent::save(std::ofstream &out) {
+    stUint animMapCount = (stUint)m_animationMap.size();
+    stUint boneDataCount = (stUint)m_boneData.size();
+    stUint boneMapCount = (stUint)m_boneMap.size();
 
+    out.write((char*)&animMapCount, sizeof(stUint));
+    out.write((char*)&boneDataCount, sizeof(stUint));
+    out.write((char*)&boneMapCount, sizeof(stUint));
+
+    STSerializableUtility::WriteString(m_currentAnimation.c_str(), out);
+    for(auto anim : m_animationMap){
+        STSerializableUtility::WriteString(anim.first.c_str(), out);
+        anim.second->save(out);
+    }
+
+    for(auto bone : m_boneData){
+        bone->save(out);
+    }
+
+    for(auto bone : m_boneMap){
+        STSerializableUtility::WriteString(bone.first.c_str(), out);
+        auto boneID = bone.second;
+        out.write((char*)&boneID, sizeof(stUint));
+    }
+
+    m_globalInverseMat.save(out);
+
+    m_nodeData->save(out);
 }
 
 void ST3DAnimationComponent::load(std::ifstream &in) {
+    stUint animCount, boneDataCount, boneMapCount;
+    in.read((char*)&animCount, sizeof(stUint));
+    in.read((char*)&boneDataCount, sizeof(stUint));
+    in.read((char*)&boneMapCount, sizeof(stUint));
 
+    m_currentAnimation = STSerializableUtility::ReadString(in);
+    for(stUint i = 0; i < animCount; i++){
+        auto key = STSerializableUtility::ReadString(in);
+        auto anim = std::make_shared<STAnimation>();
+        anim->load(in);
+        m_animationMap[key] = anim;
+    }
+
+    for(stUint i = 0; i < boneDataCount; i++){
+        auto boneData = std::make_shared<STBoneData>();
+        boneData->load(in);
+        m_boneData.addLast(boneData);
+    }
+
+    for(stUint i = 0; i < boneMapCount; i++){
+        auto key = STSerializableUtility::ReadString(in);
+        stUint boneID;
+        in.read((char*)&boneID, sizeof(stUint));
+        m_boneMap[key] = boneID;
+    }
+    m_globalInverseMat.load(in);
+
+    m_nodeData = std::make_shared<STMeshNode>();
+    m_nodeData->load(in);
 }
 
 REGISTER_COMPONENT(ST3DAnimationComponent)

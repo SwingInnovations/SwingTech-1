@@ -16,7 +16,9 @@ STEntity::~STEntity() {
 void STEntity::addComponent(std::type_index type, std::shared_ptr<STComponent> component) {
     auto t = shared_from_this();
     component->init(t);
-    m_components[type.name()] = component;
+    int status;
+    auto key = abi::__cxa_demangle(type.name(), 0, 0, &status);
+    m_components[key] = component;
     numComponents++;
 }
 
@@ -235,7 +237,8 @@ void STEntity::save(std::ofstream &out) {
     out.write((char*)&numComponents, sizeof(numComponents));
     int status = 0;
     for(auto comp : m_components){
-        auto compName = abi::__cxa_demangle(comp.first.c_str(), 0, 0, &status);
+        //auto compName = abi::__cxa_demangle(comp.first.c_str(), 0, 0, &status);
+        auto compName = comp.first.c_str();
         STSerializableUtility::WriteString(compName, out);
         comp.second->save(out);
     }

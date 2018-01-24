@@ -145,7 +145,10 @@ public:
      * @return Component Requested
      */
     template<typename T> inline T* get(){
-        auto it = m_components.find(std::type_index(typeid(T)).name());
+        int status = 0;
+        auto query = abi::__cxa_demangle(typeid(T).name(), 0, 0, &status);
+
+        auto it = m_components.find(query);
         if(it != m_components.end()){
             return dynamic_cast<T*>(it->second.get());
         }

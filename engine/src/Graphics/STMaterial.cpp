@@ -2,6 +2,7 @@
 #include "STGraphics.h"
 #include "GL/GLTexture.h"
 #include "GL/GLShader.h"
+#include "../Application/Util/File/STSerializeable.h"
 
 STMaterial::STMaterial() {
     shader = nullptr;
@@ -48,6 +49,7 @@ void STMaterial::setMetallic(const std::string &fileName) {
             //TODO Implement this
         }else{
             m_Uniforms.insert(std::pair<std::string, STShader::ShaderAttrib>("Material.Metallic_Tex", STShader::ShaderAttrib("Material.Metallic_Tex", STShader::TEX, STShader::toString(Vector2<stInt>(GLTexture::GenTex(fileName), 3)))));
+            m_pathReferences["Material.Metallic_Tex"] = fileName;
         }
         if(m_Uniforms.count("Material.Metallic") > 0){
             m_Uniforms.at("Material.Metallic").value = STShader::toString(Vector2<stReal>(0.f, 0.f));
@@ -67,6 +69,7 @@ void STMaterial::setRoughness(const std::string &fileName) {
             //TODO Proper cleanup and swap of textures
         }else{
             m_Uniforms.insert(std::pair<std::string, STShader::ShaderAttrib>("Material.Roughness_Tex", STShader::ShaderAttrib("Material.Roughness_Tex", STShader::TEX, STShader::toString(Vector2<stInt>(GLTexture::GenTex(fileName), 4)))));
+            m_pathReferences["Material.Roughness_Tex"] = fileName;
         }
         if(m_Uniforms.count("Material.Roughness") > 0){
             m_Uniforms.at("Material.Roughness").value = STShader::toString(Vector2<stReal>(0.f, 0.f));
@@ -81,6 +84,7 @@ void STMaterial::setDiffuseTexture(const std::string &fileName) {
             auto textureHandle = (stUint)STShader::toVector2(m_Uniforms.at("Material.Diffuse_Tex").value).getX();
             glDeleteTextures(0, &textureHandle);
             m_Uniforms.at("Material.Diffuse_Tex").value = STShader::toString(Vector2<stInt>(GLTexture::GenTex(fileName), 2));
+            m_pathReferences["Material.Diffuse_Tex"] = fileName;
         }else{
             m_Uniforms.insert(std::pair<std::string, STShader::ShaderAttrib>("Material.Diffuse_Tex", STShader::ShaderAttrib("Material.Diffuse_Tex", STShader::TEX, STShader::toString(Vector2<stInt>(GLTexture::GenTex(fileName), 2)))));
         }
@@ -95,6 +99,7 @@ void STMaterial::setNormalTexture(const std::string &fileName) {
         //TODO Implement some way of swapping the textures.
     }else{
         m_Uniforms.insert(std::pair<std::string, STShader::ShaderAttrib>("Material.Normal_Tex", STShader::ShaderAttrib("Material.Normal_Tex", STShader::TEX, STShader::toString(Vector2<stInt>(GLTexture::GenTex(fileName), 3)))));
+        m_pathReferences["Material.Normal_Tex"] = fileName;
     }
     if(m_Uniforms.count("Material.Normal_Use") > 0) m_Uniforms.at("Material.Normal_Use").value = std::to_string(1);
 }
@@ -139,11 +144,50 @@ void STMaterial::setUniforms(std::map<std::string, STShader::ShaderAttrib> newUn
 }
 
 void STMaterial::save(std::ofstream &out) {
-
+    shader->save(out);
+    auto refCount = (stUint)m_pathReferences.size();
+    out.write((char*)&refCount, sizeof(stUint));
+    for(auto ref : m_pathReferences){
+        STSerializableUtility::WriteString(ref.first.c_str(), out);
+        STSerializableUtility::WriteString(ref.second.c_str(), out);
+    }
+    auto uniformcount = (stUint)m_Uniforms.size();
+    out.write((char*)&uniformcount, sizeof(stUint));
+    for(auto uniform : m_Uniforms){
+        STSerializableUtility::WriteString(uniform.first.c_str(), out);
+        uniform.second.save(out);
+    }
 }
 
 void STMaterial::load(std::ifstream &in) {
+    if(STGraphics::RENDERER == STGraphics::OPENGL){
+        shader = new GLShader();
+        shader->load(in);
+    }
+    if(shader){
+        stUint refCount, uniformCount;
+        in.read((char*)&refCount, sizeof(stUint));
+        for(stUint i = 0; i < refCount; i++){
+            std::string key = STSerializableUtility::ReadString(in);
+            std::string value = STSerializableUtility::ReadString(in);
+            m_pathReferences[key] = value;
+        }
 
+        in.read((char*)&uniformCount, sizeof(stUint));
+        for(stUint i = 0; i < uniformCount; i++) {
+            std::string key = STSerializableUtility::ReadString(in);
+            STShader::ShaderAttrib shaderAttrib;
+            shaderAttrib.load(in);
+            m_Uniforms[key] = shaderAttrib;
+        }
+
+        for(auto ref : m_pathReferences){
+            auto oldTextureIndex = STShader::toVector2(m_Uniforms[ref.first].value).getY();
+            m_Uniforms[ref.first] = STShader::ShaderAttrib(ref.first, STShader::TEX, STShader::toString(Vector2<stInt>(GLTexture::GenTex(ref.second), (stInt)oldTextureIndex)));
+        }
+    }
+
+    std::cout << "Done Loading STMaterial" << std::endl;
 }
 
 

@@ -56,7 +56,7 @@ public:
     void setShdrUniform(const std::string& name, Matrix4f value);
     void setShdrUniform_Texture(const std::string& name, stUint value);
     void setShdrUniform_CubeMap(const std::string& name, stUint value);
-
+    std::shared_ptr<STMaterial> GetMaterial(){ return m_Material; }
 
     inline STMaterial* getMaterial(){ return m_Material.get(); }
 

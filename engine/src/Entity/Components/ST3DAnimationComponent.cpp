@@ -253,5 +253,3 @@ void ST3DAnimationComponent::load(std::ifstream &in) {
     m_nodeData = std::make_shared<STMeshNode>();
     m_nodeData->load(in);
 }
-
-REGISTER_COMPONENT(ST3DAnimationComponent)

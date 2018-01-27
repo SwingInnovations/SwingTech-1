@@ -87,6 +87,7 @@ void STMaterial::setDiffuseTexture(const std::string &fileName) {
             m_pathReferences["Material.Diffuse_Tex"] = fileName;
         }else{
             m_Uniforms.insert(std::pair<std::string, STShader::ShaderAttrib>("Material.Diffuse_Tex", STShader::ShaderAttrib("Material.Diffuse_Tex", STShader::TEX, STShader::toString(Vector2<stInt>(GLTexture::GenTex(fileName), 2)))));
+            m_pathReferences["Material.Diffuse_Tex"] = fileName;
         }
         if(m_Uniforms.count("Material.Diffuse_Color") > 0)
             m_Uniforms.at("Material.Diffuse_Color").value = STShader::toString(Vector4<stReal>(0.f, 0.f, 0.f, -1.0f));

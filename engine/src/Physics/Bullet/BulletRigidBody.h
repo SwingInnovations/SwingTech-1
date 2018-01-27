@@ -41,6 +41,9 @@ public:
     Vector3D getTorqueForce() const override ;
     Vector3D getLinearVelocity() const override ;
     Vector3D getAngularVelocity() const override;
+
+    void save(std::ofstream& out) override;
+    void load(std::ifstream& in) override ;
 private:
     btCollisionShape* m_collisionShape;
     btRigidBody*      m_rigidBody;

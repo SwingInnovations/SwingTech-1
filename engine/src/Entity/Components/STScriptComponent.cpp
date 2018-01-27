@@ -215,5 +215,3 @@ void STScriptComponent::save(std::ofstream &out) {
 void STScriptComponent::load(std::ifstream &in) {
 
 }
-
-REGISTER_COMPONENT(STScriptComponent)

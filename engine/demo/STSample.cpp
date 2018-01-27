@@ -29,20 +29,12 @@ public:
 
         std::cout << "Generated Lights" << std::endl;
 
-        auto c2 = STActor::Create("OrbThing.fbx");
-        c2->setTag("Orb");
-        c2->get<STGraphicsComponent>()->getMaterial()->setMetallic(0.2f);
-        c2->get<STGraphicsComponent>()->getMaterial()->setRoughness(0.1f);
-
-        auto c2Peek = c2.get();
-
-        STFileManager::Write("testEntity.bin", c2.get());
-
         auto readActor = STFileManager::Read_Temp<STActor>("testEntity.bin");
         auto readPeek = readActor.get();
         readActor->transform()->setTranslate(Vector3D(3, 3, 1));;
         readActor->get<STGraphicsComponent>()->GetMaterial()->setDiffuseColor(Vector4D(0, 1, 0, 1));
 
+        auto d = STFileManager::Read_Temp<STActor>("dice.stentity");
 //        auto diceBox = new STActor("smooth_sphere.obj");
 //        diceBox->setTag("Dice");
 //        diceBox->get<STGraphicsComponent>()->getMaterial()->setMetallic(0.2f);
@@ -65,10 +57,10 @@ public:
         m_scene->addLight(mainLight);
         m_scene->addLight(accentLight);
         m_scene->addLight(accentLight2);
-        m_scene->addActor(readActor);
+        m_scene->addActor(d);
 //        m_scene->addActor(diceBox);
         m_scene->addActor(p);
-        m_scene->addActor(c2);
+        m_scene->addActor(readActor);
 //        counter = 0;
     }
 

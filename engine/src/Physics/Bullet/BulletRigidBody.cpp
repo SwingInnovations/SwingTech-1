@@ -167,6 +167,22 @@ Vector3D BulletRigidBody::getAngularVelocity() const {
     return {ret.getX(), ret.getY(), ret.getZ()};
 }
 
+void BulletRigidBody::save(std::ofstream &out) {
+    out.write((char*)&m_Mass, sizeof(stReal));
+    m_gravity.save(out);
+    m_Linear.save(out);
+    m_Angular.save(out);
+    m_ImpulseForce.save(out);
+}
+
+void BulletRigidBody::load(std::ifstream &in) {
+    in.read((char*)&m_Mass, sizeof(stReal));
+    m_gravity.load(in);
+    m_Linear.load(in);
+    m_Angular.load(in);
+    m_ImpulseForce.load(in);
+}
+
 
 
 

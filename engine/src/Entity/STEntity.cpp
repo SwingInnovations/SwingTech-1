@@ -224,7 +224,7 @@ void STEntity::load(std::ifstream &in) {
     in.read((char*)&numComponents, sizeof(numComponents));
     for(stUint i = 0; i < numComponents; i++){
         auto componentName = STSerializableUtility::ReadString(in);
-        auto comp = STComponentObject::create(componentName);
+        auto comp = STComponentObjectFactory::Get()->create(componentName);
         comp->load(in);
         auto t = shared_from_this();
         comp->init(t);

@@ -95,11 +95,10 @@ void ST3DPhysicsComponent::initScriptingFunctions(sol::state &state) {
 }
 
 void ST3DPhysicsComponent::save(std::ofstream &out) {
+    out.write((char*)&m_initShape, sizeof(m_initShape));
 
 }
 
 void ST3DPhysicsComponent::load(std::ifstream &in) {
 
 }
-
-REGISTER_COMPONENT(ST3DPhysicsComponent)

@@ -38,39 +38,30 @@ protected:
 
 };
 
-class STComponentFactory{
+class STComponentObjectFactory{
 public:
-    virtual std::shared_ptr<STComponent> create() = 0;
-};
-
-class STComponentObject{
-public:
-    static void registerClass(const std::string& name, STComponentFactory* factory){
-        m_registeredTypes[name] = factory;
+    static std::shared_ptr<STComponentObjectFactory> Instance;
+    static std::shared_ptr<STComponentObjectFactory> Get(){
+        if(!Instance){
+            Instance = std::make_shared<STComponentObjectFactory>();
+        }
+        return Instance;
     }
 
-    static std::shared_ptr<STComponent> create(const std::string& name){
+    void registerClass(const std::string& name, std::function<std::shared_ptr<STComponent>(void)> createFunction){
+        m_registeredTypes[name] = createFunction;
+    }
+
+    std::shared_ptr<STComponent> create(const std::string& name){
         auto it = m_registeredTypes.find(name);
         if(it != m_registeredTypes.end()){
-            return m_registeredTypes[name]->create();
+            return m_registeredTypes[name]();
         }
+        std::cerr << "Could not find requested class" << std::endl;
         return nullptr;
     }
-
-    static std::map<std::string, STComponentFactory*> m_registeredTypes;
+protected:
+    std::map<std::string, std::function<std::shared_ptr<STComponent>(void)>> m_registeredTypes;
 };
-
-#define REGISTER_COMPONENT(CLASS) \
-    class CLASS##Factory : public STComponentFactory {\
-        public: \
-            CLASS##Factory()\
-                { \
-                    STComponentObject::registerClass(#CLASS, this); \
-                 } \
-            virtual std::shared_ptr<STComponent> create(){\
-                return std::make_shared<CLASS>(); \
-            } \
-        }; \
-        static CLASS##Factory global_##CLASS##Factory;
 
 #endif //WAHOO_STCOMPONENT_H

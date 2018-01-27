@@ -53,5 +53,3 @@ void STEventComponent::save(std::ofstream &out) {
 void STEventComponent::load(std::ifstream &in) {
 
 }
-
-REGISTER_COMPONENT(STEventComponent)

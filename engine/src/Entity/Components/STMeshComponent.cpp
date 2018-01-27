@@ -7,7 +7,6 @@ STMeshComponent::STMeshComponent() {
 
 }
 
-
 STMeshComponent::STMeshComponent(STMesh_Structure structure) {
     if(STGraphics::RENDERER == STGraphics::OPENGL){
         if(structure.m_hasBones){
@@ -79,7 +78,5 @@ void STMeshComponent::load(std::ifstream &in) {
         }
     }
 }
-
-REGISTER_COMPONENT(STMeshComponent)
 
 

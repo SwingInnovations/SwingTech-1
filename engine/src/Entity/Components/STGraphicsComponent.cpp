@@ -250,9 +250,5 @@ void STGraphicsComponent::load(std::ifstream &in) {
     m_Material->load(in);
 }
 
-REGISTER_COMPONENT(STGraphicsComponent)
-
-
-
 
 

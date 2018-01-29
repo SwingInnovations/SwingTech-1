@@ -1,11 +1,7 @@
 #ifndef SWINGTECH1_STBUTTON_H
 #define SWINGTECH1_STBUTTON_H
 
-#if __linux__
 #include <functional>
-#else
-#include <c++/functional>
-#endif
 #include "STInterWidget.h"
 #include "../STGraphics.h"
 #include "STButtonGroup.h"

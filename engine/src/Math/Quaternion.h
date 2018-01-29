@@ -2,6 +2,7 @@
 #define WAHOO_QUATERNION_H
 
 
+
 #include <assimp/quaternion.h>
 #include <LinearMath/btQuaternion.h>
 #include "../../include/json11/json11.hpp"
@@ -96,6 +97,9 @@ public:
     const Quaternion operator/(float scale) const;
 
     const Quaternion operator -()const;
+
+    void save(std::ofstream& out);
+    void load(std::ifstream& in);
 
     Json to_json()const;
 

@@ -2,16 +2,17 @@
 #include "../GL/GLShader.h"
 
 STPanel::STPanel(int x, int y, int width, int height) {
-    m_transform = new Transform();
+    m_transform = std::make_shared<Transform>();
+    m_transform->setEntity(shared_from_this());
     m_position.set(x, y);
     m_baseColor.set(Vector4<stReal>(0.24f, 0.24f, 0.24f, 1.0f));
     int bY = abs( y - STGame::RES_HEIGHT) - height;
-    addComponent(typeid(STMeshComponent), new STMeshComponent(new STRect(x, y, width, height)));
+    //addComponent(typeid(STMeshComponent), new STMeshComponent(new STRect(x, y, width, height)));
     Shader* shdr;
     if(STGraphics::RENDERER == STGraphics::OPENGL) shdr  = new GLShader("shdr/panel");
     else return;
-    addComponent(typeid(STGraphicsComponent), new STGraphicsComponent(new STMaterial(shdr)));
-    addComponent(typeid(STRectBoundsComponent), new STRectBoundsComponent(x, y, width, height, STGraphics::YUp));
+    //addComponent(typeid(STGraphicsComponent), new STGraphicsComponent(new STMaterial(shdr)));
+    //addComponent(typeid(STRectBoundsComponent), new STRectBoundsComponent(x, y, width, height, STGraphics::YUp));
 
     auto grphx = get<STGraphicsComponent>();
     grphx->addShdrUniform("baseColor", m_baseColor.color);

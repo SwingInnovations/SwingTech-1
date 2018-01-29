@@ -199,6 +199,14 @@ public:
         };
     }
 
+    void load(std::ifstream& in){
+        in.read((char*)m_val, sizeof(m_val));
+    }
+
+    void save(std::ofstream& out){
+        out.write((char*)m_val, sizeof(m_val));
+    }
+
 private:
     T m_val[2];
 };
@@ -480,6 +488,14 @@ public:
         return (getX() == other.getX()) && (getY() == other.getY()) && (getZ()==other.getZ());
     }
 
+    void load(std::ifstream& in){
+        in.read((char*)m_Val, sizeof(m_Val));
+    }
+
+    void save(std::ofstream& out){
+        out.write((char*)m_Val, sizeof(m_Val));
+    }
+
     Json to_json()const{
         return Json::object{
                 {"x", m_Val[0]},
@@ -608,6 +624,14 @@ public:
                 {"z", m_Val[2]},
                 {"w", m_Val[3]}
         };
+    }
+
+    void load(std::ifstream& in){
+        in.read((char*)m_Val, sizeof(m_Val));
+    }
+
+    void save(std::ofstream& out){
+        out.write((char*)m_Val, sizeof(m_Val));
     }
 
 private:

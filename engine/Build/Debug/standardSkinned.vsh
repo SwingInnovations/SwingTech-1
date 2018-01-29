@@ -30,10 +30,6 @@ out vec4 FragPosLightSpace;
 out ShadowSpecs shadowSpecs[64];
 
 void main(void){
-//    mat4 BoneTransform = gBones[boneID.x] * boneWeights[0];
-//    BoneTransform +=     gBones[boneID.y] * boneWeights[1];
-//    BoneTransform +=     gBones[boneID.z] * boneWeights[2];
-//    BoneTransform +=     gBones[boneID.w] * boneWeights[3];
     mat4 BoneTransform = gBones[boneID.x] * boneWeights.x;
     BoneTransform +=     gBones[boneID.y] * boneWeights.y;
     BoneTransform +=     gBones[boneID.z] * boneWeights.z;
@@ -50,7 +46,7 @@ void main(void){
     vec3 T = vec3(model * vec4(tangent,   0.0));
     Tangent = T;
 
-    vec4 NormalL = vec4(normal, 0.0);
+    vec4 NormalL = transpose(BoneTransform) * vec4(normal, 0.0);
 
   	//vec3 N = vec3(model * vec4(normal,    0.0));
   	vec3 N = vec3(model * NormalL);

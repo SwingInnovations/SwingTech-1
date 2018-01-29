@@ -40,6 +40,8 @@ public:
     void update_Texture(const std::string& name, Vector2<stInt> val) override;
     void update_Texture2DArray(const std::string& name, Vector2<stInt> val) override;
     void update_CubeMap(const std::string& name, stUint id) override;
+    void save(std::ofstream& out) override;
+    void load(std::ifstream& in) override;
 
     std::string getShaderName() override { return m_shaderName; }
 
@@ -57,7 +59,7 @@ private:
 
     GLuint m_Program;
     GLuint m_Shaders[NUM_SHADER];
-    GLint m_uniforms[6]; // 3 pre-defined uniforms that are essential
+    GLint m_uniforms[6]; // 6 pre-defined uniforms that are essential
     Matrix4f m_cachedMVP;
 
 };

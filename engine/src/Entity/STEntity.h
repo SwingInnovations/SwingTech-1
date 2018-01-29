@@ -3,7 +3,9 @@
 
 #include <map>
 #include <vector>
+#include <memory>
 #include <typeindex>
+#include <cxxabi.h>
 
 #include "../Math/Vector.h"
 #include "Transform.h"
@@ -34,7 +36,6 @@ struct STAttribute{
         Vec3 = 4,
         Vec4 = 5
     };
-
     static std::string toString(const int& value);
     static std::string toString(const float& value);
     static std::string toString(const Vector2<stReal>& vec);
@@ -54,11 +55,14 @@ struct STAttribute{
     Vector3<stReal> toVector3()const;
     Vector4<stReal> toVector4()const;
 
+    void save(std::ofstream& out);
+    void load(std::ifstream& in);
+
     Type type;
     std::string m_value;
 };
 
-class STEntity {
+class STEntity : public std::enable_shared_from_this<STEntity>{
 public:
     enum Type{
         Actor = 0,
@@ -73,9 +77,10 @@ public:
     STEntity();
 
     ~STEntity();
+    void init();
+    void ReloadFromSave();
 
-    void addComponent(std::type_index, STComponent*);
-    void addScriptComponent(const std::string& script);
+    void addComponent(std::type_index, std::shared_ptr<STComponent>);
     void addChild(STEntity* entity);
     STEntity* getChild(int ind);
 
@@ -100,49 +105,9 @@ public:
     Vector3<stReal> getAttribute3v(const std::string& name) const;
     Vector4<stReal> getAttribute4v(const std::string& name) const;
 
-    //Overload Transforms
-    void setTranslate(Vector3<stReal>& vec);
-    void setTranslate(stReal _value);
-    void setTranslateX(stReal _x);
-    void setTranslateY(stReal _y);
-    void setTranslateZ(stReal _z);
-
-    void setRotate(Vector3<stReal>& vec);
-    void setRotateX(stReal _x);
-    void setRotateY(stReal _y);
-    void setRotateZ(stReal _z);
-
-    void setScale(Vector3<stReal>& vec);
-    void setScale(stReal _value);
-    void setScaleX(stReal _x);
-    void setScaleY(stReal _y);
-    void setScaleZ(stReal _z);
-
-    void addShdrUniform(const std::string& name, int value);
-    void addShdrUniform(const std::string& name, float value);
-    void addShdrUniform(const std::string& name, Vector2<stReal> value);
-    void addShdrUniform(const std::string& name, Vector3<stReal> value);
-    void addShdrUniform(const std::string& name, Vector4<stReal> value);
-    void addShdrUniform(const std::string& name, Matrix4f value);
-    void addShdrUniform_Texture(const std::string& name, stUint tag);
-    void addShdrUniform_CubeMap(const std::string& name, stUint tag);
-    void setDiffuseTexture(const std::string& fileName);
-    void setNormalTexture(const std::string& fileName);
-
-    void setShdrUniform(const std::string& name, int value);
-    void setShdrUniform(const std::string& name, float value);
-    void setShdrUniform(const std::string& name, Vector2<stReal> value);
-    void setShdrUniform(const std::string& name, Vector3<stReal> value);
-    void setShdrUniform(const std::string& name, Vector4<stReal> value);
-    void setShdrUniform(const std::string& name, Matrix4f value);
-    void setShdrUniform_Texture(const std::string& name, stUint id, stUint index);
-    void setShdrUniform_Texture2DArray(const std::string& name, stUint id, stUint index);
-    void setShdrUniform_Texture(const std::string& name, stUint tag);
-    void setShdrUniform_CubeMap(const std::string& name, stUint tag);
-
     STEntity* childAtTag(const std::string& tag);
     inline stUint getChildSize(){ return (stUint)m_children.size(); }
-    std::vector<STEntity*> getChildren(){ return m_children; }
+    std::vector<std::shared_ptr<STEntity>> getChildren(){ return m_children; }
 
     inline void setTag(const std::string& name){ m_tag = name; }
 
@@ -167,12 +132,12 @@ public:
     std::vector<std::string> getLoadedComponentNames(){
         std::vector<std::string> ret;
         for(auto comp : m_components){
-            ret.push_back(comp.first.name());
+            ret.emplace_back(comp.first);
         }
         return ret;
     }
 
-    const std::map<std::type_index, STComponent *> &getAllComponents() const;
+    const std::map<std::string, std::shared_ptr<STComponent>> &getAllComponents() const;
 
     /**
      * @brief Returns Component Added to Entity.
@@ -180,69 +145,38 @@ public:
      * @return Component Requested
      */
     template<typename T> inline T* get(){
-        auto it = m_components.find(std::type_index(typeid(T)));
+        int status = 0;
+        auto query = abi::__cxa_demangle(typeid(T).name(), 0, 0, &status);
+
+        auto it = m_components.find(query);
         if(it != m_components.end()){
-            return dynamic_cast<T*>(it->second);
+            return dynamic_cast<T*>(it->second.get());
         }
         return nullptr;
     }
+    inline Transform* transform(){ return m_transform.get(); }
 
-    inline Transform* transform(){ return m_transform; }
-
+    void setParent(std::shared_ptr<STEntity> p);
     virtual void update();
-
-    virtual void draw(){
-        auto grphx = get<STGraphicsComponent>();
-        auto mesh = get<STMeshComponent>();
-        grphx->draw();
-        mesh->draw();
-        if(hasChildren()){
-            for (auto &child : m_children) {
-                child->draw();
-            }
-        }
-    }
-
+    virtual void draw();
     virtual void draw(STGraphics* grphx);
+    void draw(Camera* cam);
+    virtual void draw(Camera* cam, int drawMode);
 
-    void draw(Camera* cam){
-        auto grphx = this->get<STGraphicsComponent>();
-        auto mesh = this->get<STMeshComponent>();
-        grphx->draw();
-        grphx->shdr()->update(*m_transform, *cam);
-        mesh->draw();
-        if(hasChildren()){
-            for(unsigned int i = 0, lim = (unsigned int)m_children.size(); i < lim; i++){
-                m_children.at(i)->draw(cam);
-            }
-        }
-    }
-
-
-    virtual void draw(Camera* cam, int drawMode){
-        auto grphx = this->get<STGraphicsComponent>();
-        auto mesh = this->get<STMeshComponent>();
-        grphx->draw();
-        grphx->shdr()->update(*m_transform, *cam);
-        mesh->draw(drawMode);
-
-        if(hasChildren()){
-            for (auto &child : m_children) {
-                child->draw(cam, drawMode);
-            }
-        }
-    }
-
+    void load(std::ifstream& in);
+    void save(std::ofstream& out);
 protected:
     Type m_type;
     std::string m_name;
     std::string m_tag;
-    Transform* m_transform;
+    stUint numComponents;
+    std::shared_ptr<Transform> m_transform;
     bool m_visible;
-    std::map<std::type_index, STComponent*> m_components;
+    std::map<std::string, std::shared_ptr<STComponent>> m_components;
+    std::shared_ptr<STEntity> m_parent;
 protected:
-    std::map<std::string, STAttribute*> m_attributes;
-    std::vector<STEntity*> m_children;
+    std::map<std::string, std::shared_ptr<STAttribute>> m_attributes;
+    std::vector<std::shared_ptr<STEntity>> m_children;
 };
 
 

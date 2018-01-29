@@ -1,6 +1,7 @@
 #ifndef SWINGTECH1_BOUNDINGBOX_H
 #define SWINGTECH1_BOUNDINGBOX_H
 
+
 #include "../STCore.h"
 #include "../Vector.h"
 
@@ -103,6 +104,7 @@ public:
         auto h_dZ = sqrtf((stReal)pow(maxPoint.getZ() - minPoint.getZ(), 2));
         return Vector3<stReal>(h_dX, h_dY, h_dZ);
     }
+
 
 private:
     Vector3<stReal> minPoint;

@@ -1,288 +1,41 @@
 #include "STEntity.h"
 #include "Components/STEventComponent.h"
 #include "Components/STAABBComponent.h"
+#include "../Application/Util/File/STSerializeable.h"
 
 STEntity::STEntity() {
-    m_transform = new Transform();
+    m_transform = std::make_shared<Transform>();
+    numComponents = 0;
 }
 
 STEntity::~STEntity() {
-    delete m_transform;
-    m_transform = 0;
     m_components.clear();
 }
 
-void STEntity::addComponent(std::type_index type, STComponent *component) {
-    m_components[type] = component;
-    m_components[type]->init(this);
+void STEntity::addComponent(std::type_index type, std::shared_ptr<STComponent> component) {
+    auto t = shared_from_this();
+    component->init(t);
+    int status;
+    auto key = abi::__cxa_demangle(type.name(), 0, 0, &status);
+    m_components[key] = component;
+    numComponents++;
 }
 
 void STEntity::addChild(STEntity *entity) {
-    m_children.push_back(entity);
+    //m_children.push_back(entity);
 }
 
 STEntity* STEntity::getChild(int ind) {
     auto ret = m_children.at(ind);
     if(ret == nullptr) return nullptr;
-    return ret;
-}
-
-void STEntity::setTranslate(Vector3<stReal> &vec) {
-    this->setTranslateX(vec.getX());
-    this->setTranslateY(vec.getY());
-    this->setTranslateZ(vec.getZ());
-    if(!m_children.empty()){
-        for(STEntity* entity : m_children){
-            Vector3<stReal> childPosition = entity->transform()->getTranslate();
-            childPosition = childPosition + vec;
-            entity->setTranslate(childPosition);
-        }
-    }
-}
-
-void STEntity::setTranslate(stReal _value){
-    this->setTranslateX(_value);
-    this->setTranslateY(_value);
-    this->setTranslateZ(_value);
-    if(!m_children.empty()){
-        for(auto entity : m_children){
-            Vector3<stReal> childPosition = entity->transform()->getTranslate();
-            childPosition = childPosition + _value;
-            entity->setTranslate(childPosition);
-        }
-    }
-
-}
-
-void STEntity::setTranslateX(stReal _x) {
-    m_transform->setTranslateX(_x);
-    if(!m_children.empty()){
-        for(auto entity : m_children){
-            stReal cX = entity->transform()->getTranslate().getX();
-             cX += _x;
-            entity->setTranslateX(_x);
-        }
-    }
-
-}
-
-void STEntity::setTranslateY(stReal _y) {
-    m_transform->setTranslateY(_y);
-    if(!m_children.empty()){
-        for(auto entity : m_children){
-            stReal cY = entity->transform()->getTranslate().getY();
-            cY += _y;
-            entity->setTranslateY(_y);
-        }
-    }
-}
-
-void STEntity::setTranslateZ(stReal _z){
-    m_transform->setTranslateZ(_z);
-    if(!m_children.empty()){
-        for(auto entity : m_children){
-            stReal cZ = entity->transform()->getTranslate().getZ();
-            cZ += _z;
-            entity->setTranslateZ(_z);
-        }
-    }
-}
-
-void STEntity::setRotate(Vector3<stReal> &vec) {
-    setRotateX(vec.getX());
-    setRotateY(vec.getY());
-    setRotateZ(vec.getZ());
-}
-
-void STEntity::setRotateX(stReal _x) {
-    m_transform->setRotateX(_x);
-}
-
-void STEntity::setRotateY(stReal _y){
-    m_transform->setRotateY(_y);
-}
-
-void STEntity::setRotateZ(stReal _z) {
-    m_transform->setRotateZ(_z);
-}
-
-
-void STEntity::setScale(Vector3<stReal> &vec) {
-    m_transform->setScale(vec);
-}
-
-void STEntity::setScale(stReal _value) {
-    m_transform->setScale(_value);
-}
-
-void STEntity::setScaleX(stReal _x) {
-    m_transform->setScale(_x);
-}
-
-void STEntity::setScaleY(stReal _y) {
-    m_transform->setScaleY(_y);
-}
-
-void STEntity::setScaleZ(stReal _z) {
-    m_transform->setScaleZ(_z);
-}
-
-void STEntity::addShdrUniform(const std::string &name, int value) {
-    get<STGraphicsComponent>()->addShdrUniform(name, value);
-    if(hasChildren()){
-        for(auto child : m_children){
-            child->addShdrUniform(name, value);
-        }
-    }
-}
-
-void STEntity::addShdrUniform(const std::string &name, float value) {
-    auto grphx = get<STGraphicsComponent>();
-    if(grphx != nullptr) grphx->addShdrUniform(name, value);
-    if(hasChildren()){
-        for(auto child : m_children){
-            child->addShdrUniform(name, value);
-        }
-    }
-}
-
-void STEntity::addShdrUniform(const std::string &name, Vector2<stReal> value) {
-    auto grphx = get<STGraphicsComponent>();
-    if(grphx != nullptr){ grphx->addShdrUniform(name, value); }
-    if(hasChildren()){
-        for(auto child : m_children){
-            child->addShdrUniform(name, value);
-        }
-    }
-}
-
-void STEntity::addShdrUniform(const std::string& name, Vector3<stReal> value){
-    auto grphx = get<STGraphicsComponent>();
-    if(grphx != nullptr) grphx->addShdrUniform(name, value);
-    if(hasChildren()){
-        for(auto child : m_children){
-            child->addShdrUniform(name, value);
-        }
-    }
-}
-
-void STEntity::addShdrUniform(const std::string &name, Vector4<stReal> value) {
-    auto grphx = get<STGraphicsComponent>();
-    if(grphx != nullptr) grphx->addShdrUniform(name, value);
-    if(hasChildren()){
-        for(auto child : m_children){
-            child->addShdrUniform(name, value);
-        }
-    }
-}
-
-void STEntity::addShdrUniform(const std::string &name, Matrix4f value) {
-    auto grphx = get<STGraphicsComponent>();
-    if(grphx != nullptr) grphx->addShdrUniform(name, value);
-    if(hasChildren()){
-        for(auto child : m_children) child->addShdrUniform(name, value);
-    }
-}
-
-void STEntity::addShdrUniform_Texture(const std::string &name, stUint tag) {
-    auto grphx = get<STGraphicsComponent>();
-    if(grphx != nullptr) grphx->addShdrUniform_Texture(name, tag);
-    if(hasChildren()){
-        for(auto child : m_children) child->addShdrUniform_Texture(name, tag);
-    }
-}
-
-void STEntity::addShdrUniform_CubeMap(const std::string &name, stUint tag) {
-    auto grphx = get<STGraphicsComponent>();
-    if(grphx != nullptr) grphx->addShdrUniform_CubeMap(name, tag);
-    if(hasChildren()){
-        for(auto child : m_children) child->addShdrUniform_CubeMap(name, tag);
-    }
-}
-
-void STEntity::setShdrUniform(const std::string &name,int value) {
-    auto grphx = get<STGraphicsComponent>();
-    if(grphx != nullptr) grphx->addShdrUniform(name, value);
-    if(hasChildren()){
-        for(auto child : m_children){
-            child->setShdrUniform(name, value);
-        }
-    }
-}
-
-void STEntity::setShdrUniform(const std::string &name, float value) {
-    auto grphx = get<STGraphicsComponent>();
-    if(grphx != nullptr) grphx->setShdrUniform(name, value);
-    if(hasChildren()){
-        for(auto child : m_children){
-            child->setShdrUniform(name, value);
-        }
-    }
-}
-
-void STEntity::setShdrUniform(const std::string &name, Vector2<stReal> value) {
-    auto grphx = get<STGraphicsComponent>();
-    if(grphx != nullptr) grphx->setShdrUniform(name, value);
-    if(hasChildren()){
-        for(auto child : m_children){
-            child->setShdrUniform(name, value);
-        }
-    }
-}
-
-void STEntity::setShdrUniform(const std::string &name, Vector3<stReal> value) {
-    auto grphx = get<STGraphicsComponent>();
-    if(grphx != nullptr) grphx->setShdrUniform(name, value);
-    if(hasChildren()){
-        for(auto child : m_children){
-            child->setShdrUniform(name, value);
-        }
-    }
-}
-
-void STEntity::setShdrUniform(const std::string &name, Vector4<stReal> value) {
-    auto grphx = get<STGraphicsComponent>();
-    if(grphx != nullptr) grphx->setShdrUniform(name, value);
-    if(hasChildren()){
-        for(auto child : m_children){
-            child->setShdrUniform(name, value);
-        }
-    }
-}
-
-void STEntity::setShdrUniform(const std::string &name, Matrix4f value) {
-    auto grphx = get<STGraphicsComponent>();
-    if(grphx != nullptr) grphx->setShdrUniform(name, value);
-    if(hasChildren()){
-        for(auto child : m_children) child->setShdrUniform(name, value);
-    }
-}
-
-void STEntity::setShdrUniform_Texture(const std::string &name, stUint tag) {
-    auto grphx = get<STGraphicsComponent>();
-    if(grphx != nullptr) grphx->setShdrUniform_Texture(name, tag);
-    if(hasChildren()){
-        for(auto child : m_children) child->setShdrUniform_Texture(name, tag);
-    }
-}
-
-void STEntity::setShdrUniform_CubeMap(const std::string &name, stUint tag) {
-    auto grphx = get<STGraphicsComponent>();
-    if(grphx != nullptr) grphx->setShdrUniform_CubeMap(name, tag);
-    if(hasChildren()){
-        for(auto child : m_children) child->setShdrUniform_CubeMap(name, tag);
-    }
+    return ret.get();
 }
 
 STEntity *STEntity::childAtTag(const std::string &tag) {
-    for(auto ent : m_children){
-        if(ent->m_tag == tag) return ent;
+    for (auto ent : m_children) {
+        if (ent->m_tag == tag) return ent.get();
     }
     return nullptr;
-}
-
-void STEntity::addScriptComponent(const std::string &script) {
-    addComponent(typeid(STScriptComponent*), new STScriptComponent(this, script));
 }
 
 //Start moving to this method of drawing
@@ -292,7 +45,7 @@ void STEntity::draw(STGraphics *grphx) {
     auto camera = grphx->getActiveCamera();
 
     graphics->draw();
-    graphics->shdr()->update(*m_transform, *camera);
+    graphics->getMaterial()->shdr()->update(*m_transform, *camera);
     mesh->draw();
 
     graphics->draw();
@@ -312,54 +65,24 @@ void STEntity::update() {
     }
 }
 
-void STEntity::setDiffuseTexture(const std::string &fileName) {
-    auto g = get<STGraphicsComponent>();
-    if(g != nullptr) g->setDiffuseTexture(fileName);
-    if(hasChildren()){
-        for(auto child : m_children){
-            child->setDiffuseTexture(fileName);
-        }
-    }
-}
-
-void STEntity::setNormalTexture(const std::string &fileName) {
-    auto g = get<STGraphicsComponent>();
-    if(g != nullptr) g->setNormalTexture(fileName);
-    if(hasChildren()){
-        for(auto child : m_children){
-            child->setNormalTexture(fileName);
-        }
-    }
-}
-
-void STEntity::setShdrUniform_Texture(const std::string &name, stUint id, stUint index) {
-    auto g = get<STGraphicsComponent>();
-    if(g != nullptr) g->setShdrUniform_Texture(name, id, index);
-}
-
-void STEntity::setShdrUniform_Texture2DArray(const std::string &name, stUint id, stUint index) {
-    auto g = get<STGraphicsComponent>();
-    if(g != nullptr) g->setShdrUniform_Texture2DArray(name, id, index);
-}
-
 void STEntity::addAttribute(const std::string &name, const int &value) {
-    m_attributes.insert(std::pair<std::string, STAttribute*>(name, new STAttribute(value)));
+    m_attributes.insert(std::pair<std::string, std::shared_ptr<STAttribute>>(name, std::make_shared<STAttribute>(value)));
 }
 
 void STEntity::addAttribute(const std::string &name, const float &value) {
-    m_attributes.insert(std::pair<std::string, STAttribute*>(name, new STAttribute(value)));
+    m_attributes.insert(std::pair<std::string, std::shared_ptr<STAttribute>>(name, std::make_shared<STAttribute>(value)));
 }
 
 void STEntity::addAttribute(const std::string &name, const Vector2<stReal> &value) {
-    m_attributes.insert(std::pair<std::string, STAttribute*>(name, new STAttribute(value)));
+    m_attributes.insert(std::pair<std::string, std::shared_ptr<STAttribute>>(name, std::make_shared<STAttribute>(value)));
 }
 
 void STEntity::addAttribute(const std::string &name, const Vector3<stReal> &value) {
-    m_attributes.insert(std::pair<std::string, STAttribute*>(name, new STAttribute(value)));
+    m_attributes.insert(std::pair<std::string, std::shared_ptr<STAttribute>>(name, std::make_shared<STAttribute>(value)));
 }
 
 void STEntity::addAttribute(const std::string &name, const Vector4<stReal> &value) {
-    m_attributes.insert(std::pair<std::string, STAttribute*>(name, new STAttribute(value)));
+    m_attributes.insert(std::pair<std::string, std::shared_ptr<STAttribute>>(name, std::make_shared<STAttribute>(value)));
 }
 
 void STEntity::setAttribute(const std::string &name, const int &value) {
@@ -435,8 +158,90 @@ void STEntity::dispose() {
     m_components.clear();
 }
 
-const std::map<std::type_index, STComponent *> &STEntity::getAllComponents() const {
+const std::map<std::string, std::shared_ptr<STComponent>> &STEntity::getAllComponents() const {
     return m_components;
+}
+
+void STEntity::draw(Camera *cam, int drawMode) {
+    auto grphx = this->get<STGraphicsComponent>();
+    auto mesh = this->get<STMeshComponent>();
+    grphx->draw();
+    grphx->getMaterial()->shdr()->update(*m_transform, *cam);
+    mesh->draw(drawMode);
+
+    if(hasChildren()){
+        for (auto &child : m_children) {
+            child->draw(cam, drawMode);
+        }
+    }
+}
+
+void STEntity::draw(Camera *cam) {
+    auto grphx = this->get<STGraphicsComponent>();
+    auto mesh = this->get<STMeshComponent>();
+    grphx->draw();
+    grphx->getMaterial()->shdr()->update(*m_transform, *cam);
+    mesh->draw();
+    if(hasChildren()){
+        for (auto &i : m_children) {
+            i->draw(cam);
+        }
+    }
+}
+
+void STEntity::draw() {
+    auto grphx = get<STGraphicsComponent>();
+    auto mesh = get<STMeshComponent>();
+    grphx->draw();
+    mesh->draw();
+    if(hasChildren()){
+        for (auto &child : m_children) {
+            child->draw();
+        }
+    }
+}
+
+void STEntity::init() {
+    m_transform = std::make_shared<Transform>();
+    m_transform->setEntity(shared_from_this());
+}
+
+void STEntity::setParent(std::shared_ptr<STEntity> p) {
+    this->m_parent = p;
+}
+
+void STEntity::ReloadFromSave() {
+    m_transform->setEntity(shared_from_this());
+    for(auto comp : m_components){
+        comp.second->ReInitFromSave(shared_from_this());
+    }
+}
+
+void STEntity::load(std::ifstream &in) {
+    std::cout << "Initial MapSize: " << m_components.size() << std::endl;
+    auto t = shared_from_this();
+    m_transform->load(in);
+    m_transform->setEntity(t);
+    in.read((char*)&numComponents, sizeof(numComponents));
+    m_components.clear();
+    for(stUint i = 0; i < numComponents; i++){
+        auto componentName = STSerializableUtility::ReadString(in);
+        auto comp = STComponentObjectFactory::Get()->create(componentName);
+        comp->init(t);
+        comp->load(in);
+        m_components[componentName] = comp;
+    }
+}
+
+void STEntity::save(std::ofstream &out) {
+    m_transform->save(out);
+    out.write((char*)&numComponents, sizeof(numComponents));
+    int status = 0;
+    for(auto comp : m_components){
+        auto compName = comp.first.c_str();
+        STSerializableUtility::WriteString(compName, out);
+        comp.second->save(out);
+    }
 }
 
 STAttribute::STAttribute(const Vector2<stReal> &value){
@@ -549,5 +354,17 @@ Vector4<stReal> STAttribute::toVector4() const {
         return Vector4<stReal>(_x, _y, _z, _w);
     }
 }
+
+void STAttribute::save(std::ofstream &out) {
+    out.write((char*)&type, sizeof(type));
+    STSerializableUtility::WriteString(m_value.c_str(), out);
+}
+
+void STAttribute::load(std::ifstream &in) {
+    stUint dataSize = 0;
+    in.read((char*)&type, sizeof(type));
+    m_value = STSerializableUtility::ReadString(in);
+}
+
 
 

@@ -29,8 +29,9 @@ public:
         LINE_LOOP = 2,
     };
 
-    static bool Validate(const std::string& fileName, bool* errFlag, std::vector<STMesh_Structure>* meshes, std::map<std::string, STMaterial*>* materials);
+    static bool Validate(const std::string& fileName, bool* errFlag, std::vector<STMesh_Structure>* meshes, std::map<std::string, std::shared_ptr<STMaterial>>* materials);
     STMesh(){}
+    STMesh(STMesh_Structure& structure){;}
     STMesh(const std::string& fileName, int type){}
     STMesh(Shape& shape){ }
     STMesh(STRect* rect){ }
@@ -45,6 +46,15 @@ public:
 
     void setMeshStructure(STMesh_Structure& meshStructure){
         this->mesh = meshStructure;
+    }
+
+    void save(std::ofstream& out){
+        mesh.save(out);
+    }
+
+    virtual void load(std::ifstream& in, bool hasBones){
+        mesh = STMesh_Structure();
+        mesh.load(in, hasBones);
     }
 
     STMesh_Structure getMeshStructure()const{
@@ -130,7 +140,8 @@ public:
 
         return ret;
     }
-private:
+
+protected:
     STMesh_Structure mesh;
 };
 

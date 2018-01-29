@@ -3,6 +3,7 @@
 
 #include <string>
 #include <sstream>
+#include <fstream>
 
 #include "Vector.h"
 
@@ -20,6 +21,18 @@ public:
         buff << "Texcoord(X, Y, Z): " << _texCoord.getX()<< " , " << _texCoord.getY() << "\n";
         buff << "Normal(X, Y, Z): " << _normal.getX() << " , " << _normal.getY() << " , "<< _normal.getZ() << "\n";
         return buff.str();
+    }
+
+    void load(std::ifstream& in){
+        _vertex.load(in);
+        _texCoord.load(in);
+        _normal.load(in);
+    }
+
+    void save(std::ofstream& out){
+        _vertex.save(out);
+        _texCoord.save(out);
+        _normal.save(out);
     }
 
     Vector3<stReal> *getVertex(){ return &_vertex; }

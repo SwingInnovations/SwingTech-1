@@ -202,6 +202,14 @@ public:
      */
     std::string getInfo();
 
+    void save(std::ofstream& out){
+        out.write((char*)&m, sizeof(m));
+    }
+
+    void load(std::ifstream& in){
+        in.read((char*)&m, sizeof(m));
+    }
+
     stReal m[4][4];
 };
 

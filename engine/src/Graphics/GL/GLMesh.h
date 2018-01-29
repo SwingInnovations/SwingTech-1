@@ -17,11 +17,13 @@ class GLMesh : public STMesh{
 public:
     GLMesh();
     //GLMesh(const std::string& fileName);
-    explicit GLMesh(STMesh_Structure structure);
+    GLMesh(STMesh_Structure structure);
 
     explicit GLMesh(STRect* rect);
 
     explicit GLMesh(STQuad* quad);
+
+    void load(std::ifstream& in, bool hasBones) override;
 
     explicit GLMesh(STCube* cube);
     GLMesh(float vert[], int vSize, float tex[], int tSize, int ind[], int indSize);
@@ -45,6 +47,5 @@ private:
     uint32_t m_drawCount;
     stUint m_numIndicies;
 };
-
 
 #endif //WAHOO_GLMESH_H

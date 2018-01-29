@@ -100,6 +100,9 @@ public:
      */
     virtual void clearForces() = 0;
 
+    virtual void save(std::ofstream& out) = 0;
+    virtual void load(std::ifstream& in) = 0;
+
     [[deprecated]]
     virtual void update(Transform* transform) = 0;
     /**

@@ -50,15 +50,7 @@ public:
      */
     STMaterial* copy();
 
-    ~STMaterial(){
-        delete shader;
-        for(auto uniform : m_Uniforms){
-            if(uniform.second.type == STShader::TEX){
-                auto texHandle = (stUint)STShader::toVector2(uniform.second.value).getX();
-                glDeleteTextures(1, &texHandle);
-            }
-        }
-    }
+    ~STMaterial();
 
     /**
      * Sets Uniform map.
@@ -88,6 +80,7 @@ public:
     void setDiffuseTexture(const std::string& fileName);
 
     void setDiffuseColor(STColor);
+    void setDiffuseColor(Vector4D);
     void setNormalTexture(const std::string& fileName);
     void setMetallic(stReal);
     void setMetallic(const std::string& fileName);
@@ -119,6 +112,8 @@ public:
          m_Uniforms.insert(std::pair<std::string, STShader::ShaderAttrib>("Material.Roughness", STShader::ShaderAttrib("Material.Roughness", STShader::VEC2, STShader::toString(Vector2<stReal>(0.f, 1.f)))));
      }
 
+    void save(std::ofstream& out);
+    void load(std::ifstream& in);
 
     /*!
      * @details Main update that gets called in the render loop.
@@ -132,12 +127,15 @@ public:
 
     void draw(std::map<std::string, STShader::ShaderAttrib>& entityUniforms, Transform& T, Camera& C);
     void draw(std::map<std::string, STShader::ShaderAttrib>& entityUniform, std::map<std::string, STShader::ShaderAttrib> originalMaterialUniforms, Transform &T, Camera& C);
+
 private:
     void init_GLShaders(ShaderList list);
     void init_GLTextures(TextureList list);
     Shader* shader;
+    std::shared_ptr<Shader> m_shdr;
     Vector3<stReal> m_baseColor;
     std::map<std::string, STShader::ShaderAttrib> m_Uniforms;
+    std::map<std::string, std::string> m_pathReferences;
 };
 
 #endif //WAHOO_STMATERIAL_H

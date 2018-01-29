@@ -11,7 +11,7 @@ public:
     STAABBComponent(STEntity* parent, Vector3<stReal> minPoint, Vector3<stReal> maxPoint);
     ~STAABBComponent();
 
-    void init(STEntity* parent) override;
+    void init(std::shared_ptr<STEntity>& parent) override;
 
     void update() override;
 
@@ -22,6 +22,9 @@ public:
     bool contains(STEntity* other) override;
     bool intersects(STEntity* other) override;
     void calculateBounds() override;
+
+    void save(std::ofstream& out) override;
+    void load(std::ifstream& in) override;
 
 private:
     STBoundingBox* m_boundingBox;

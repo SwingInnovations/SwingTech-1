@@ -26,6 +26,7 @@ class STMeshComponent : public STComponent{
  *
  */
 public:
+    STMeshComponent();
     explicit STMeshComponent(STMesh_Structure structure);
 
     explicit STMeshComponent(Shape& shape);
@@ -43,19 +44,20 @@ public:
     STMesh *getMesh() const;
 
     inline void draw() override {
-        m_mesh->draw();
+        m_Mesh->draw();
     }
 
     void dispose() override;
 
+    void save(std::ofstream& out) override;
+    void load(std::ifstream& in) override;
+
     inline void draw(int drawMode){
-        m_mesh->draw(drawMode);
+        m_Mesh->draw(drawMode);
     }
+
 private:
-
-    STMesh* m_mesh;
-
+    std::shared_ptr<STMesh> m_Mesh;
 };
-
 
 #endif //WAHOO_STMESHCOMPONENT_H

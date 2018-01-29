@@ -1,12 +1,14 @@
 #ifndef SWINGTECH1_BULLETRIGIDBODYSHAPE_H
 #define SWINGTECH1_BULLETRIGIDBODYSHAPE_H
 
+#include <vector>
 #include <btBulletDynamicsCommon.h>
-#include <c++/vector>
 #include <BulletCollision/CollisionShapes/btCollisionShape.h>
 #include <BulletDynamics/Dynamics/btRigidBody.h>
 #include "../STRigidBody.h"
 #include "../../Math/Vector.h"
+
+class STEntity;
 
 class BulletRigidBody : public STRigidBody{
 public:
@@ -39,6 +41,9 @@ public:
     Vector3D getTorqueForce() const override ;
     Vector3D getLinearVelocity() const override ;
     Vector3D getAngularVelocity() const override;
+
+    void save(std::ofstream& out) override;
+    void load(std::ifstream& in) override ;
 private:
     btCollisionShape* m_collisionShape;
     btRigidBody*      m_rigidBody;

@@ -101,10 +101,17 @@ STScene::STScene() {
 }
 
 void STScene::update() {
-    while(pendingEntities.size() > 0){
-        rootNode->insert(pendingEntities.pop());
+//    while(pendingEntities.size() > 0){
+//        rootNode->insert(pendingEntities.pop());
+//    }
+//    rootNode->update(); //Updates all entities.
+    for(const auto& actor : actors){
+        actor->update();
     }
-    rootNode->update(); //Updates all entities.
+
+    for(const auto& light : lights){
+        light->update();
+    }
 }
 
 void STScene::addUIElement(STInterWidget *ui) {
@@ -123,18 +130,6 @@ STScene::~STScene() {
     uiElements.clear();
 }
 
-void STScene::addActor(STActor *actor) {
-    actors.push_back(actor);
-    pendingEntities.push(actor);
-}
-
-void STScene::addLight(STLight *light) {
-    if(light->get<STLightComponent>()->getType() == STLightComponent::DIRECTIONAL_LIGHT ||
-       light->get<STLightComponent>()->getType() == STLightComponent::SPOT_LIGHT) m_numShadows++;
-    else m_numShadows += 6;
-    lights.push_back(light);
-}
-
 void STScene::addSkybox(const std::string &filePath) {
     this->skyboxShader = "skybox";
     this->skyboxName = filePath;
@@ -150,19 +145,30 @@ void STScene::setRenderScene(STRenderScene* scene) {
 }
 
 void STScene::sendMessage(const std::string &msg) {
-    for(auto actor : actors){
+    for(const auto& actor : actors){
         actor->get<STEventComponent>()->setEvent(msg);
     }
 }
 
 void STScene::dispose() {
-    for(auto actor : actors){
+    for(const auto& actor : actors){
         actor->dispose();
     }
 
-    for(auto light : lights){
+    for(const auto& light : lights){
         light->dispose();
     }
     actors.clear();
     m_renderScene->dispose();
+}
+
+void STScene::addActor(std::shared_ptr<STActor> actor) {
+    actors.emplace_back(actor);
+}
+
+void STScene::addLight(std::shared_ptr<STLight> light) {
+    if(light->get<STLightComponent>()->getType() == STLightComponent::DIRECTIONAL_LIGHT ||
+       light->get<STLightComponent>()->getType() == STLightComponent::SPOT_LIGHT) m_numShadows++;
+    else m_numShadows += 6;
+    lights.emplace_back(light);
 }

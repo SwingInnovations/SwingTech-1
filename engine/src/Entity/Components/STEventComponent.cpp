@@ -7,12 +7,12 @@ STEventComponent::STEventComponent() {
 void STEventComponent::update() {
     for(auto event : m_Events){
         if(event.first == m_currentEvent){
-            event.second(this->m_entity, other);
+            event.second(this->m_entity.get(), other);
             m_currentEvent = "";
         }
 
         if(event.first == "update"){
-            event.second(this->m_entity, other);
+            event.second(this->m_entity.get(), other);
         }
     }
 }
@@ -44,4 +44,12 @@ void STEventComponent::updateEvent(std::string name, std::function<void(STEntity
 
 void STEventComponent::setOther(STEntity *other) {
     this->other = other;
+}
+
+void STEventComponent::save(std::ofstream &out) {
+
+}
+
+void STEventComponent::load(std::ifstream &in) {
+
 }

@@ -6,7 +6,7 @@ STAABBComponent::STAABBComponent(){
 
 }
 
-void STAABBComponent::init(STEntity *parent) {
+void STAABBComponent::init(std::shared_ptr<STEntity>& parent) {
     this->m_entity = parent;
     this->m_boundingBox = new STBoundingBox();
     m_isCalculated = false;
@@ -14,7 +14,7 @@ void STAABBComponent::init(STEntity *parent) {
 }
 
 STAABBComponent::STAABBComponent(STEntity *parent, Vector3<stReal> minPoint, Vector3<stReal> maxPoint) {
-    this->m_entity = parent;
+    //this->m_entity = parent;
     m_boundingBox = new STBoundingBox(minPoint, maxPoint);
     calculateBounds();
 }
@@ -61,6 +61,12 @@ STBoundingBox *STAABBComponent::getBoundingBox() {
     return m_boundingBox;
 }
 
+void STAABBComponent::save(std::ofstream &out) {
 
+}
+
+void STAABBComponent::load(std::ifstream &in) {
+
+}
 
 

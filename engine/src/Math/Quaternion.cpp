@@ -3,8 +3,8 @@
 #include "Vector.h"
 
 float Quaternion::dot(Quaternion &q1, Quaternion &q2) {
-    auto vec1 = q1.toVector3<stReal>();
-    auto vec2 = q2.toVector3<stReal>();
+    Vector3D vec1 = {q1.getX(), q1.getY(), q1.getZ()};
+    Vector3D vec2 = {q2.getX(), q2.getY(), q2.getZ()};
     auto s1 = q1.getW();
     auto s2 = q2.getW();
     return ((stReal)vec1.dot(vec2) + s1 * s2);
@@ -29,7 +29,8 @@ Quaternion Quaternion::slerp(Quaternion &q1, Quaternion &q2, stReal t) {
     if(dot < 0.95f){
         float angle = acosf(dot);
         return (q1 * sinf(angle * (1-t)) + q3 * sinf(angle*t)) / sinf(angle);
-    }return lerp(q1, q3, t);
+    }
+    return lerp(q1, q3, t);
 }
 
 Quaternion Quaternion::lerp(Quaternion &q1, Quaternion &q2, stReal t) {
@@ -105,3 +106,12 @@ Quaternion Quaternion::conjugate() {
 Quaternion Quaternion::From(btQuaternion quaternion) {
     return {quaternion.getX(), quaternion.getY(), quaternion.getZ(), quaternion.getW()};
 }
+
+void Quaternion::save(std::ofstream &out) {
+    out.write((char*)&m_val, sizeof(m_val));
+}
+
+void Quaternion::load(std::ifstream &in) {
+    in.read((char*)&m_val, sizeof(m_val));
+}
+

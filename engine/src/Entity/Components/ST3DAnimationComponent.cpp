@@ -1,8 +1,8 @@
 #include "ST3DAnimationComponent.h"
 
 
-void ST3DAnimationComponent::init(STEntity* parent) {
-    m_entity = parent;
+void ST3DAnimationComponent::init(std::shared_ptr<STEntity>& entity) {
+    m_entity = entity;
     m_gfxComponent = m_entity->get<STGraphicsComponent>();
 }
 
@@ -20,12 +20,12 @@ void ST3DAnimationComponent::update() {
 }
 
 ST3DAnimationComponent::ST3DAnimationComponent(STMesh_Structure &meshStructure) {
-    for(auto anim : meshStructure.m_animations){
+    for(auto anim : meshStructure.m_Animations){
         m_animationMap[anim->name] = anim;
     }
-    m_currentAnimation = meshStructure.m_animations[0]->name;
-    m_boneData = meshStructure.m_boneData;
-    m_nodeData = meshStructure.m_node;
+    m_currentAnimation = meshStructure.m_Animations[0]->name;
+    m_boneData = meshStructure.m_BoneData;
+    m_nodeData = meshStructure.m_Node;
     m_boneMap  = meshStructure.m_boneMap;
     m_globalInverseMat = meshStructure.globalInverseMat;
 }
@@ -111,7 +111,7 @@ void ST3DAnimationComponent::CalcInterpolatedScaling(Vector3D &out, float animTi
 void ST3DAnimationComponent::ReadNodeHeirarchy(float AnimationTime, STMeshNode *node, Matrix4f &parentTransform) {
     auto anim = m_animationMap[m_currentAnimation];
     Matrix4f nodeTransform = node->transform;
-    auto animNode = FindAnimMode(anim, node->m_Name);
+    auto animNode = FindAnimMode(anim.get(), node->m_Name);
     if(animNode){
         Vector3D scaling;
         CalcInterpolatedScaling(scaling, AnimationTime, animNode);
@@ -128,7 +128,8 @@ void ST3DAnimationComponent::ReadNodeHeirarchy(float AnimationTime, STMeshNode *
         Matrix4f transM;
         transM.initTranslation(translation);
 
-        nodeTransform = scaleM * rotM * transM;
+        //nodeTransform = scaleM * rotM * transM;
+        nodeTransform = transM * rotM * scaleM;
     }
 
     Matrix4f GlobalTransform = parentTransform * nodeTransform;
@@ -138,8 +139,8 @@ void ST3DAnimationComponent::ReadNodeHeirarchy(float AnimationTime, STMeshNode *
         m_boneData[boneIndex]->m_finalTransformation = GlobalTransform * m_boneData[boneIndex]->m_offsetMatrix;
     }
 
-    for(auto child : node->m_children){
-        ReadNodeHeirarchy(AnimationTime, child, GlobalTransform);
+    for(auto child : node->m_Children){
+        ReadNodeHeirarchy(AnimationTime, child.get(), GlobalTransform);
     }
 }
 
@@ -159,7 +160,7 @@ void ST3DAnimationComponent::MoveBones( stReal animationTime) {
         stReal TicksPerSecond = m_animationMap[m_currentAnimation]->m_TicksPerSecond != 0 ? m_animationMap[m_currentAnimation]->m_TicksPerSecond : 25.f;
         stReal TimeInTicks = animationTime * TicksPerSecond;
         float AnimationTime = fmodf(TimeInTicks, m_animationMap[m_currentAnimation]->m_Duration);
-        ReadNodeHeirarchy(AnimationTime, m_nodeData, Ident);
+        ReadNodeHeirarchy(AnimationTime, m_nodeData.get(), Ident);
 
         if(m_gfxComponent == nullptr) m_gfxComponent = getParent()->get<STGraphicsComponent>();
         if(m_gfxComponent!= nullptr){
@@ -178,7 +179,7 @@ void ST3DAnimationComponent::MoveBones( stReal animationTime) {
 
 ST3DAnimationComponent::~ST3DAnimationComponent() {
     m_boneData.clear();
-    delete m_nodeData;
+    m_nodeData.reset();
     m_boneMap.clear();
     m_animationMap.clear();
 }
@@ -189,4 +190,66 @@ void ST3DAnimationComponent::initScriptingFunctions(sol::state& script) {
     });
     script.new_usertype<ST3DAnimationComponent>("ST3DAnimation",
                                                 "setCurrentAnimation", &ST3DAnimationComponent::setCurrentAnimation);
+}
+
+void ST3DAnimationComponent::save(std::ofstream &out) {
+    stUint animMapCount = (stUint)m_animationMap.size();
+    stUint boneDataCount = (stUint)m_boneData.size();
+    stUint boneMapCount = (stUint)m_boneMap.size();
+
+    out.write((char*)&animMapCount, sizeof(stUint));
+    out.write((char*)&boneDataCount, sizeof(stUint));
+    out.write((char*)&boneMapCount, sizeof(stUint));
+
+    STSerializableUtility::WriteString(m_currentAnimation.c_str(), out);
+    for(auto anim : m_animationMap){
+        STSerializableUtility::WriteString(anim.first.c_str(), out);
+        anim.second->save(out);
+    }
+
+    for(auto bone : m_boneData){
+        bone->save(out);
+    }
+
+    for(auto bone : m_boneMap){
+        STSerializableUtility::WriteString(bone.first.c_str(), out);
+        auto boneID = bone.second;
+        out.write((char*)&boneID, sizeof(stUint));
+    }
+
+    m_globalInverseMat.save(out);
+
+    m_nodeData->save(out);
+}
+
+void ST3DAnimationComponent::load(std::ifstream &in) {
+    stUint animCount, boneDataCount, boneMapCount;
+    in.read((char*)&animCount, sizeof(stUint));
+    in.read((char*)&boneDataCount, sizeof(stUint));
+    in.read((char*)&boneMapCount, sizeof(stUint));
+
+    m_currentAnimation = STSerializableUtility::ReadString(in);
+    for(stUint i = 0; i < animCount; i++){
+        auto key = STSerializableUtility::ReadString(in);
+        auto anim = std::make_shared<STAnimation>();
+        anim->load(in);
+        m_animationMap[key] = anim;
+    }
+
+    for(stUint i = 0; i < boneDataCount; i++){
+        auto boneData = std::make_shared<STBoneData>();
+        boneData->load(in);
+        m_boneData.addLast(boneData);
+    }
+
+    for(stUint i = 0; i < boneMapCount; i++){
+        auto key = STSerializableUtility::ReadString(in);
+        stUint boneID;
+        in.read((char*)&boneID, sizeof(stUint));
+        m_boneMap[key] = boneID;
+    }
+    m_globalInverseMat.load(in);
+
+    m_nodeData = std::make_shared<STMeshNode>();
+    m_nodeData->load(in);
 }

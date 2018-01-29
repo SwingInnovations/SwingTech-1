@@ -13,9 +13,19 @@ public:
     inline BoundRect* bounds(){ return rect; }
     void reset(const stReal x, const stReal y, const stReal w, const stReal h);
     std::string info();
+
+    void save(std::ofstream& out){
+
+    }
+
+    void load(std::ifstream& in){
+
+    }
+
 private:
     BoundRect* rect;
 };
+
 
 
 #endif //WAHOO_STRECTBOUNDSCOMPONENT_H

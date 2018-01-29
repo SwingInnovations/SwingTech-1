@@ -6,9 +6,14 @@
 #include "../Graphics/Camera.h"
 #include "../Physics/Bullet/BulletPhysics.h"
 
+#include "../Entity/Components/ST3DAnimationComponent.h"
+#include "../Entity/Components/ST3DPhysicsComponent.h"
+
 int STGame::RES_WIDTH = 0;
 int STGame::RES_HEIGHT = 0;
 STGame* STGame::m_instance = nullptr;
+
+class STShadowComponent;
 
 STGame::STGame() {
     m_Window = nullptr;
@@ -23,11 +28,6 @@ STGame::STGame() {
 STGame::~STGame() {
 
     m_currentIndex = 0;
-    if(!m_gameStates.empty()){
-        for(auto state : m_gameStates){
-            delete state;
-        }
-    }
     m_gameStates.clear();
     g->cleanup();
     delete g;
@@ -41,6 +41,15 @@ STGame::~STGame() {
 STGame::STGame(const std::string title, unsigned int WIDTH, unsigned int HEIGHT) {
     setWidth(WIDTH);
     setHeight(HEIGHT);
+    auto registerBaseComponents = STComponentObjectFactory::Get();
+    registerBaseComponents->registerClass("STMeshComponent", [=](void) -> std::shared_ptr<STComponent>{ return std::make_shared<STMeshComponent>(); });
+    registerBaseComponents->registerClass("STGraphicsComponent", [=](void) -> std::shared_ptr<STComponent>{ return std::make_shared<STGraphicsComponent>(); });
+    registerBaseComponents->registerClass("ST3DAnimationComponent", [=](void) -> std::shared_ptr<STComponent>{ return std::make_shared<ST3DAnimationComponent>(); });
+    registerBaseComponents->registerClass("ST3DPhysicsComponent", [=](void) -> std::shared_ptr<STComponent>{ return std::make_shared<ST3DPhysicsComponent>(); });
+    registerBaseComponents->registerClass("STLightComponent", [=](void) -> std::shared_ptr<STComponent>{ return std::make_shared<STLightComponent>(); });
+    registerBaseComponents->registerClass("STShadowComponent", [=](void) -> std::shared_ptr<STComponent>{ return std::make_shared<STShadowComponent>(); });
+    registerBaseComponents->registerClass("STEventComponent", [=](void) -> std::shared_ptr<STComponent>{ return std::make_shared<STEventComponent>(); });
+    registerBaseComponents->registerClass("STScriptComponent", [=](void) -> std::shared_ptr<STComponent>{ return std::make_shared<STScriptComponent>(); });
     if(SDL_Init(SDL_INIT_EVERYTHING | SDL_INIT_JOYSTICK) == -1){
         std::cout << "Error 399: Failed to load SDL in general: " << SDL_GetError() << std::endl;
         if(SDL_NumJoysticks() < 1){
@@ -150,6 +159,7 @@ void STGame::start(){
 }
 
 void STGame::init() {
+
     if(!m_gameStates.empty()){
         m_gameStates[m_currentIndex]->init_Internal(this);
         m_gameStates[m_currentIndex]->init(this);

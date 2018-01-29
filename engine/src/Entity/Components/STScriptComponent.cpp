@@ -22,11 +22,15 @@ void STScriptComponent::update() {
 void STScriptComponent::initScript(const std::string &fileName) {
     m_script.open_libraries(sol::lib::base, sol::lib::package, sol::lib::math);
     //Regsiter Commands
-    m_script.set_function("getGraphicsComponent",[](STEntity* ent){return ent->get<STGraphicsComponent>();});
     m_script.set_function("getEventComponent", [](STEntity* ent){ return ent->get<STEventComponent>(); });
     m_script.set_function("addEvent", [](STEntity* ent, const std::string& name){
         ent->get<STScriptComponent>()->registerEvent(ent, name);
     });
+
+    for(auto comp : m_entity->getAllComponents()){
+            comp.second->initScriptingFunctions(m_script);
+    }
+
     m_script.new_usertype<Input>("Input",
                                 "isKeyPressed", &Input::isKeyPressed,
                                 "isKeyDown", &Input::isKeyDown,
@@ -153,16 +157,6 @@ void STScriptComponent::initScript(const std::string &fileName) {
     m_script.new_simple_usertype<STEntity>("STEntity",
                                     "getTag", &STEntity::getTag,
                                     "transform", &STEntity::transform,
-                                    "setShdrUniformi", sol::resolve<void(const std::string&, int)>(&STEntity::setShdrUniform),
-                                    "setShdrUniformf", sol::resolve<void(const std::string&, float)>(&STEntity::setShdrUniform),
-                                    "setShdrUniformV3", sol::resolve<void(const std::string&, Vector3<stReal>)>(&STEntity::setShdrUniform),
-                                    "setShdrUniformV4", sol::resolve<void(const std::string&, Vector4<stReal>)>(&STEntity::setShdrUniform),
-                                    "setTranslateX", &STEntity::setTranslateX,
-                                    "setTranslateY", &STEntity::setTranslateY,
-                                    "setTranslateZ", &STEntity::setTranslateZ,
-                                    "setRotateX", &STEntity::setRotateX,
-                                    "setRotateY", &STEntity::setRotateY,
-                                    "setRotateZ", &STEntity::setRotateZ,
                                     "setAttributei", sol::resolve<void(const std::string&, const int&)>(&STEntity::setAttribute),
                                     "setAttributef", sol::resolve<void(const std::string&, const float&)>(&STEntity::setAttribute),
                                     "setAttribute2v", sol::resolve<void(const std::string&, const Vector2<stReal>&)>(&STEntity::setAttribute),
@@ -205,8 +199,19 @@ void STScriptComponent::registerFunction(const std::string &functionName, std::f
     m_script.set_function(functionName.c_str(), newFunction);
 }
 
-void STScriptComponent::init(STEntity *parent) {
+void STScriptComponent::init(std::shared_ptr<STEntity>& parent) {
     this->m_entity = parent;
     this->initScript(this->scriptName);
 }
 
+STScriptComponent::STScriptComponent() {
+
+}
+
+void STScriptComponent::save(std::ofstream &out) {
+
+}
+
+void STScriptComponent::load(std::ifstream &in) {
+
+}

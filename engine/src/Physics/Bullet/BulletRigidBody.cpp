@@ -28,10 +28,10 @@ BulletRigidBody::BulletRigidBody(Transform *transform, STRigidBody::RigidBodySha
 BulletRigidBody::BulletRigidBody(Transform *transform, STRigidBody::RigidBodyShape shape,
                                  std::vector<stReal> &dimensions) {
     m_transform = transform;
-    if(transform->getEntity()->get<STAABBComponent>() == nullptr){
-        std::cerr << "Error, STAABBComponent needed. Forgot to initialize?" << std::endl;
-        return;
-    }
+//    if(transform->getEntity()->get<STAABBComponent>() == nullptr){
+//        std::cerr << "Error, STAABBComponent needed. Forgot to initialize?" << std::endl;
+//        return;
+//    }
 
     if(shape == AUTO){
         auto knownBounds = transform->getEntity()->get<STAABBComponent>()->getBoundingBox();
@@ -166,6 +166,26 @@ Vector3D BulletRigidBody::getAngularVelocity() const {
     auto ret = m_rigidBody->getAngularVelocity();
     return {ret.getX(), ret.getY(), ret.getZ()};
 }
+
+void BulletRigidBody::save(std::ofstream &out) {
+    out.write((char*)&m_Mass, sizeof(stReal));
+    m_gravity.save(out);
+    m_Linear.save(out);
+    m_Angular.save(out);
+    m_ImpulseForce.save(out);
+}
+
+void BulletRigidBody::load(std::ifstream &in) {
+    in.read((char*)&m_Mass, sizeof(stReal));
+    m_gravity.load(in);
+    m_Linear.load(in);
+    m_Angular.load(in);
+    m_ImpulseForce.load(in);
+
+
+
+}
+
 
 
 

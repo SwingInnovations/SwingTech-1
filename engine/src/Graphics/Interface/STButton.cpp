@@ -18,7 +18,7 @@ STButton::STButton(const std::string &text) {
     m_visible = true;
     stInt width = 0, height  = 0;
     STFontMetrics::bounds(m_text, m_fontSize, m_font, &width, &height);
-    addComponent(typeid(STRectBoundsComponent), new STRectBoundsComponent(0, 0, width, height, STGraphics::YUp));
+    //addComponent(typeid(STRectBoundsComponent), new STRectBoundsComponent(0, 0, width, height, STGraphics::YUp));
     buttonType = PUSH;
     m_Panel = new STPanel(0, 0, width, height);
 }
@@ -32,7 +32,7 @@ STButton::STButton(stReal x, stReal y, std::string text) {
     int width = 0, height = 0;
     m_visible = true;
     STFontMetrics::bounds(m_text, m_fontSize, m_font, &width, &height);
-    addComponent(typeid(STRectBoundsComponent), new STRectBoundsComponent(x, y, width, height, STGraphics::getYUpSetting()));
+    //addComponent(typeid(STRectBoundsComponent), new STRectBoundsComponent(x, y, width, height, STGraphics::getYUpSetting()));
     buttonType = PUSH;
     m_Panel = new STPanel(x, y, width, height);
 }
@@ -46,7 +46,7 @@ STButton::STButton(stReal x, stReal y, std::string text, STButton::ButtonType ty
     int width = 0, height = 0;
     m_visible = true;
     STFontMetrics::bounds(m_text, m_fontSize, m_font, &width, &height);
-    addComponent(typeid(STRectBoundsComponent), new STRectBoundsComponent(x, y, width, height, STGraphics::getYUpSetting()));
+    //addComponent(typeid(STRectBoundsComponent), new STRectBoundsComponent(x, y, width, height, STGraphics::getYUpSetting()));
     buttonType = type;
     m_Panel = new STPanel(x, y, width, height);
 }

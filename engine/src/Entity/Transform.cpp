@@ -1,13 +1,21 @@
 #include "Transform.h"
 #include "STEntity.h"
 
-Transform::Transform(STEntity *parent) {
+Transform::Transform(std::shared_ptr<STEntity> parent) {
     this->parent = parent;
     this->translate = Vector3<stReal>(0.f, 0.f, 0.f);
     rotate = Vector3<stReal>(0.0f, 0.0f, 0.0f);
     scale = Vector3<stReal>(1.0f, 1.0f, 1.0f);
     rotateMode = Local;
 }
+
+Transform::Transform(Vector3D &translate, Vector3D &rotate, Vector3D &scale) {
+    rotateMode = Local;
+    this->translate = translate;
+    this->rotate = rotate;
+    this->scale = scale;
+}
+
 
 void Transform::setTranslate(Vector3<stReal> vec) {
     this->translate = vec;
@@ -165,7 +173,7 @@ void Transform::setRotationMode(Transform::RotationMode rotMode) {
     rotateMode = rotMode;
 }
 
-Transform::Transform(STEntity *parent, Vector3D &translate, Vector3D &rotate, Vector3D &scale) {
+Transform::Transform(std::shared_ptr<STEntity> parent, Vector3D &translate, Vector3D &rotate, Vector3D &scale) {
     this->parent = parent;
     this->translate = translate;
     this->rotate = rotate;
@@ -197,5 +205,10 @@ Vector3D Transform::getRight() const {
 }
 
 STEntity *Transform::getEntity() {
-    return parent;
+    return parent.get();
 }
+
+void Transform::setEntity(std::shared_ptr<STEntity> entity) {
+    this->parent = std::move(entity);
+}
+

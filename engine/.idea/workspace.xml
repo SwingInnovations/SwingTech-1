@@ -18,15 +18,23 @@
     </configurations>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="5ee8588a-b915-4eb2-8583-18cd73e205f4" name="Default" comment="">
+    <list default="true" id="5ee8588a-b915-4eb2-8583-18cd73e205f4" name="Default" comment="[-] Removed Macro Component registration in favor of singleton.">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change beforePath="$PROJECT_DIR$/Build/Debug/STSample.exe" afterPath="$PROJECT_DIR$/Build/Debug/STSample.exe" />
-      <change beforePath="$PROJECT_DIR$/Build/Debug/dice.lua" afterPath="$PROJECT_DIR$/Build/Debug/dice.lua" />
       <change beforePath="$PROJECT_DIR$/demo/STSample.cpp" afterPath="$PROJECT_DIR$/demo/STSample.cpp" />
-      <change beforePath="$PROJECT_DIR$/src/Entity/Components/STEventComponent.cpp" afterPath="$PROJECT_DIR$/src/Entity/Components/STEventComponent.cpp" />
-      <change beforePath="$PROJECT_DIR$/src/Entity/Components/STScriptComponent.cpp" afterPath="$PROJECT_DIR$/src/Entity/Components/STScriptComponent.cpp" />
-      <change beforePath="$PROJECT_DIR$/src/Physics/Bullet/BulletPhysics.cpp" afterPath="$PROJECT_DIR$/src/Physics/Bullet/BulletPhysics.cpp" />
-      <change beforePath="$PROJECT_DIR$/src/Physics/Bullet/BulletPhysics.h" afterPath="$PROJECT_DIR$/src/Physics/Bullet/BulletPhysics.h" />
+      <change beforePath="$PROJECT_DIR$/src/Application/STGame.h" afterPath="$PROJECT_DIR$/src/Application/STGame.h" />
+      <change beforePath="$PROJECT_DIR$/src/Application/Util/File/STFileManager.h" afterPath="$PROJECT_DIR$/src/Application/Util/File/STFileManager.h" />
+      <change beforePath="$PROJECT_DIR$/src/Entity/Components/ST3DPhysicsComponent.cpp" afterPath="$PROJECT_DIR$/src/Entity/Components/ST3DPhysicsComponent.cpp" />
+      <change beforePath="$PROJECT_DIR$/src/Entity/Components/STComponent.cpp" afterPath="$PROJECT_DIR$/src/Entity/Components/STComponent.cpp" />
+      <change beforePath="$PROJECT_DIR$/src/Entity/Components/STComponent.h" afterPath="$PROJECT_DIR$/src/Entity/Components/STComponent.h" />
+      <change beforePath="$PROJECT_DIR$/src/Entity/Components/STGraphicsComponent.cpp" afterPath="$PROJECT_DIR$/src/Entity/Components/STGraphicsComponent.cpp" />
+      <change beforePath="$PROJECT_DIR$/src/Entity/Components/STGraphicsComponent.h" afterPath="$PROJECT_DIR$/src/Entity/Components/STGraphicsComponent.h" />
+      <change beforePath="$PROJECT_DIR$/src/Entity/Components/STLightComponent.cpp" afterPath="$PROJECT_DIR$/src/Entity/Components/STLightComponent.cpp" />
+      <change beforePath="$PROJECT_DIR$/src/Entity/STEntity.cpp" afterPath="$PROJECT_DIR$/src/Entity/STEntity.cpp" />
+      <change beforePath="$PROJECT_DIR$/src/Entity/STLight.cpp" afterPath="$PROJECT_DIR$/src/Entity/STLight.cpp" />
+      <change beforePath="$PROJECT_DIR$/src/Entity/STLight.h" afterPath="$PROJECT_DIR$/src/Entity/STLight.h" />
+      <change beforePath="$PROJECT_DIR$/src/Graphics/STMaterial.cpp" afterPath="$PROJECT_DIR$/src/Graphics/STMaterial.cpp" />
+      <change beforePath="$PROJECT_DIR$/src/Graphics/STMaterial.h" afterPath="$PROJECT_DIR$/src/Graphics/STMaterial.h" />
       <change beforePath="$PROJECT_DIR$/src/Physics/Bullet/BulletRigidBody.cpp" afterPath="$PROJECT_DIR$/src/Physics/Bullet/BulletRigidBody.cpp" />
     </list>
     <ignored path="Wahoo.iws" />
@@ -48,95 +56,91 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="BulletPhysics.h" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/Physics/Bullet/BulletPhysics.h">
+      <file leaf-file-name="STEntity.cpp" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/Entity/STEntity.cpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="551">
-              <caret line="22" column="8" lean-forward="false" selection-start-line="22" selection-start-column="8" selection-end-line="22" selection-end-column="8" />
+            <state relative-caret-position="416">
+              <caret line="230" column="0" lean-forward="false" selection-start-line="230" selection-start-column="0" selection-end-line="230" selection-end-column="0" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="STPhysics.h" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/Physics/STPhysics.h">
+      <file leaf-file-name="STEntity.h" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/Entity/STEntity.h">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="899">
-              <caret line="31" column="0" lean-forward="false" selection-start-line="31" selection-start-column="0" selection-end-line="31" selection-end-column="0" />
+            <state relative-caret-position="727">
+              <caret line="171" column="25" lean-forward="true" selection-start-line="171" selection-start-column="25" selection-end-line="171" selection-end-column="25" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="BulletRigidBody.h" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/Physics/Bullet/BulletRigidBody.h">
+      <file leaf-file-name="STFileManager.h" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/Application/Util/File/STFileManager.h">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="684">
-              <caret line="33" column="19" lean-forward="false" selection-start-line="33" selection-start-column="19" selection-end-line="33" selection-end-column="19" />
+            <state relative-caret-position="872">
+              <caret line="44" column="0" lean-forward="false" selection-start-line="44" selection-start-column="0" selection-end-line="44" selection-end-column="0" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="BulletPhysics.cpp" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/Physics/Bullet/BulletPhysics.cpp">
+      <file leaf-file-name="STLight.cpp" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/Entity/STLight.cpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1052">
-              <caret line="59" column="9" lean-forward="false" selection-start-line="59" selection-start-column="9" selection-end-line="59" selection-end-column="9" />
-              <folding>
-                <element signature="e#0#26#0" expanded="true" />
-              </folding>
+            <state relative-caret-position="2">
+              <caret line="14" column="1" lean-forward="false" selection-start-line="14" selection-start-column="1" selection-end-line="14" selection-end-column="1" />
+              <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="STSample.cpp" pinned="false" current-in-tab="true">
+      <file leaf-file-name="STSample.cpp" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/demo/STSample.cpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-244">
-              <caret line="108" column="51" lean-forward="true" selection-start-line="108" selection-start-column="51" selection-end-line="108" selection-end-column="51" />
+            <state relative-caret-position="290">
+              <caret line="37" column="0" lean-forward="false" selection-start-line="37" selection-start-column="0" selection-end-line="37" selection-end-column="0" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Vector.h" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/Math/Vector.h">
+      <file leaf-file-name="STActor.h" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/Entity/STActor.h">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1719">
-              <caret line="375" column="43" lean-forward="false" selection-start-line="375" selection-start-column="43" selection-end-line="375" selection-end-column="43" />
+            <state relative-caret-position="232">
+              <caret line="8" column="6" lean-forward="false" selection-start-line="8" selection-start-column="6" selection-end-line="8" selection-end-column="6" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="STEventComponent.cpp" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/Entity/Components/STEventComponent.cpp">
+      <file leaf-file-name="STShadowComponent.h" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/Entity/Components/STShadowComponent.h">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="298">
-              <caret line="16" column="5" lean-forward="false" selection-start-line="16" selection-start-column="5" selection-end-line="16" selection-end-column="5" />
+            <state relative-caret-position="495">
+              <caret line="26" column="0" lean-forward="false" selection-start-line="26" selection-start-column="0" selection-end-line="26" selection-end-column="0" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="ST3DPhysicsComponent.cpp" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/Entity/Components/ST3DPhysicsComponent.cpp">
+      <file leaf-file-name="STLightComponent.cpp" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/Entity/Components/STLightComponent.cpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="431">
-              <caret line="58" column="24" lean-forward="false" selection-start-line="58" selection-start-column="24" selection-end-line="58" selection-end-column="24" />
-              <folding>
-                <element signature="e#0#33#0" expanded="true" />
-              </folding>
+            <state relative-caret-position="406">
+              <caret line="14" column="0" lean-forward="false" selection-start-line="14" selection-start-column="0" selection-end-line="14" selection-end-column="0" />
+              <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="STRigidBody.h" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/Physics/STRigidBody.h">
+      <file leaf-file-name="STLight.h" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/Entity/STLight.h">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="626">
-              <caret line="107" column="17" lean-forward="false" selection-start-line="107" selection-start-column="17" selection-end-line="107" selection-end-column="17" />
+            <state relative-caret-position="147">
+              <caret line="25" column="44" lean-forward="false" selection-start-line="25" selection-start-column="44" selection-end-line="25" selection-end-column="44" />
               <folding />
             </state>
           </provider>
@@ -172,6 +176,8 @@
       <find>rotate</find>
       <find>override</find>
       <find>cleanup</find>
+      <find>typeid</find>
+      <find>setDiffuseTexture</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -193,57 +199,57 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/src/Application/Util/Data_Structure/STList.h" />
-        <option value="$PROJECT_DIR$/src/Entity/Util/Loaders/STMeshCommon.h" />
-        <option value="$PROJECT_DIR$/src/Entity/Components/ST3DAnimationComponent.cpp" />
-        <option value="$PROJECT_DIR$/src/Math/Matrix.cpp" />
-        <option value="$PROJECT_DIR$/src/Math/Matrix.h" />
-        <option value="$PROJECT_DIR$/src/Application/STSceneManager.cpp" />
-        <option value="$PROJECT_DIR$/src/Entity/STLight.h" />
-        <option value="$PROJECT_DIR$/src/Graphics/GL/GLGraphics.h" />
-        <option value="$PROJECT_DIR$/src/Graphics/GL/GLGraphics.cpp" />
-        <option value="$PROJECT_DIR$/src/Graphics/GL/GLShader.h" />
-        <option value="$PROJECT_DIR$/src/Graphics/GL/GLShader.cpp" />
-        <option value="$PROJECT_DIR$/src/Graphics/GL/GLTexture.h" />
-        <option value="$PROJECT_DIR$/include/bullet/BulletCollision/CollisionDispatch/btCollisionWorld.h" />
-        <option value="$PROJECT_DIR$/include/bullet/BulletCollision/CollisionDispatch/btCollisionObject.h" />
-        <option value="$PROJECT_DIR$/include/BulletCollision/CollisionDispatch/btCollisionWorld.h" />
-        <option value="$PROJECT_DIR$/src/Physics/STPhysics.cpp" />
-        <option value="$PROJECT_DIR$/src/Math/STCore.h" />
-        <option value="$PROJECT_DIR$/CMakeLists.txt" />
-        <option value="$PROJECT_DIR$/src/Physics/Bullet/BulletRigidBodyShape.h" />
-        <option value="$PROJECT_DIR$/src/Physics/STPhysics.h" />
-        <option value="$PROJECT_DIR$/src/Application/Input.h" />
-        <option value="$PROJECT_DIR$/src/Graphics/Interface/STLabel.cpp" />
-        <option value="$PROJECT_DIR$/src/Graphics/Interface/STButton.cpp" />
-        <option value="$PROJECT_DIR$/src/Graphics/Camera.cpp" />
-        <option value="$PROJECT_DIR$/src/Physics/Bullet/BulletRigidBodyShape.cpp" />
-        <option value="$PROJECT_DIR$/src/Application/STGame.h" />
-        <option value="$PROJECT_DIR$/src/Entity/Util/Loaders/STMeshLoader.h" />
-        <option value="$PROJECT_DIR$/src/Math/Vector.h" />
-        <option value="$PROJECT_DIR$/src/Math/Shape/BoundingBox.h" />
+        <option value="$PROJECT_DIR$/src/Application/Util/Data_Structure/STMap.h" />
+        <option value="$PROJECT_DIR$/src/Entity/Components/STEventComponent.h" />
+        <option value="$PROJECT_DIR$/src/Entity/Components/STScriptComponent.h" />
+        <option value="$PROJECT_DIR$/src/Entity/Components/ST3DPhysicsComponent.h" />
+        <option value="$PROJECT_DIR$/src/Entity/Components/ST3DAnimationComponent.h" />
         <option value="$PROJECT_DIR$/src/Entity/Components/STAABBComponent.h" />
-        <option value="$PROJECT_DIR$/src/Application/STGame.cpp" />
-        <option value="$PROJECT_DIR$/src/Application/STGameState.cpp" />
-        <option value="$PROJECT_DIR$/Build/Debug/Suzanne_Control.lua" />
+        <option value="$PROJECT_DIR$/src/Entity/Components/STAABBComponent.cpp" />
+        <option value="$PROJECT_DIR$/src/Entity/Components/STRectBoundsComponent.h" />
+        <option value="$PROJECT_DIR$/src/Application/Util/File/STFileManager.cpp" />
+        <option value="$PROJECT_DIR$/src/Math/Matrix.h" />
+        <option value="$PROJECT_DIR$/src/Entity/Util/Loaders/STMeshLoader.h" />
         <option value="$PROJECT_DIR$/src/Math/Quaternion.h" />
         <option value="$PROJECT_DIR$/src/Math/Quaternion.cpp" />
-        <option value="$PROJECT_DIR$/src/Entity/Transform.h" />
-        <option value="$PROJECT_DIR$/src/Entity/Transform.cpp" />
-        <option value="$PROJECT_DIR$/src/Entity/Components/STAABBComponent.cpp" />
-        <option value="$PROJECT_DIR$/src/Entity/STActor.cpp" />
-        <option value="$PROJECT_DIR$/src/Entity/Components/ST3DPhysicsComponent.h" />
-        <option value="$PROJECT_DIR$/src/Entity/Components/ST3DPhysicsComponent.cpp" />
-        <option value="$PROJECT_DIR$/src/Physics/Bullet/BulletRigidBody.h" />
+        <option value="$PROJECT_DIR$/src/Entity/Util/Loaders/STAnimationCommon.h" />
+        <option value="$PROJECT_DIR$/src/Application/Util/File/STSerializeable.h" />
+        <option value="$PROJECT_DIR$/src/Entity/Util/Loaders/STMeshCommon.h" />
+        <option value="$PROJECT_DIR$/src/Entity/Components/STMeshComponent.h" />
+        <option value="$PROJECT_DIR$/src/Graphics/GL/GLMesh.h" />
+        <option value="$PROJECT_DIR$/src/Graphics/GL/GLSkinnedMesh.h" />
+        <option value="$PROJECT_DIR$/src/Entity/Util/STMesh.h" />
+        <option value="$PROJECT_DIR$/src/Graphics/GL/GLSkinnedMesh.cpp" />
+        <option value="$PROJECT_DIR$/src/Graphics/GL/GLMesh.cpp" />
+        <option value="$PROJECT_DIR$/src/Graphics/STMaterial.h" />
+        <option value="$PROJECT_DIR$/src/Graphics/GL/GLShader.h" />
+        <option value="$PROJECT_DIR$/src/Graphics/Shader.h" />
+        <option value="$PROJECT_DIR$/src/Graphics/GL/GLShader.cpp" />
+        <option value="$PROJECT_DIR$/src/Entity/STEntity.h" />
         <option value="$PROJECT_DIR$/src/Physics/STRigidBody.h" />
-        <option value="$PROJECT_DIR$/src/Entity/Components/STEventComponent.h" />
+        <option value="$PROJECT_DIR$/src/Entity/Components/STLightComponent.h" />
+        <option value="$PROJECT_DIR$/src/Entity/Components/STShadowComponent.h" />
+        <option value="$PROJECT_DIR$/src/Entity/Components/STShadowComponent.cpp" />
+        <option value="$PROJECT_DIR$/src/Entity/Components/STMeshComponent.cpp" />
         <option value="$PROJECT_DIR$/src/Entity/Components/STScriptComponent.cpp" />
-        <option value="$PROJECT_DIR$/Build/Debug/dice.lua" />
         <option value="$PROJECT_DIR$/src/Entity/Components/STEventComponent.cpp" />
+        <option value="$PROJECT_DIR$/src/Entity/Components/ST3DAnimationComponent.cpp" />
+        <option value="$PROJECT_DIR$/src/Application/STGame.cpp" />
+        <option value="$PROJECT_DIR$/src/Application/STGame.h" />
+        <option value="$PROJECT_DIR$/src/Physics/Bullet/BulletRigidBody.h" />
+        <option value="$PROJECT_DIR$/src/Entity/Components/ST3DPhysicsComponent.cpp" />
         <option value="$PROJECT_DIR$/src/Physics/Bullet/BulletRigidBody.cpp" />
+        <option value="$PROJECT_DIR$/src/Graphics/STMaterial.cpp" />
+        <option value="$PROJECT_DIR$/src/Entity/Components/STGraphicsComponent.cpp" />
+        <option value="$PROJECT_DIR$/src/Entity/Components/STGraphicsComponent.h" />
+        <option value="$PROJECT_DIR$/src/Application/Util/File/STFileManager.h" />
+        <option value="$PROJECT_DIR$/src/Entity/STLight.h" />
+        <option value="$PROJECT_DIR$/src/Entity/STLight.cpp" />
+        <option value="$PROJECT_DIR$/src/Entity/Components/STComponent.h" />
+        <option value="$PROJECT_DIR$/src/Entity/Components/STComponent.cpp" />
+        <option value="$PROJECT_DIR$/src/Entity/Components/STLightComponent.cpp" />
+        <option value="$PROJECT_DIR$/src/Entity/STEntity.cpp" />
         <option value="$PROJECT_DIR$/demo/STSample.cpp" />
-        <option value="$PROJECT_DIR$/src/Physics/Bullet/BulletPhysics.h" />
-        <option value="$PROJECT_DIR$/src/Physics/Bullet/BulletPhysics.cpp" />
       </list>
     </option>
   </component>
@@ -255,10 +261,10 @@
   </component>
   <component name="OCFindUsagesOptions" text="true" ivars="false" properties="true" derivedClasses="false" />
   <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="970" />
-    <option name="y" value="-27" />
-    <option name="width" value="1863" />
-    <option name="height" value="1056" />
+    <option name="x" value="576" />
+    <option name="y" value="-12" />
+    <option name="width" value="1460" />
+    <option name="height" value="2011" />
   </component>
   <component name="ProjectInspectionProfilesVisibleTreeState">
     <entry key="Project Default">
@@ -309,51 +315,18 @@
             <path>
               <item name="SwingTech1" type="dad4c3:CidrFilesViewHelper$MyProjectTreeStructure$1" />
               <item name="engine" type="462c0819:PsiDirectoryNode" />
-              <item name="Build" type="462c0819:PsiDirectoryNode" />
-              <item name="Debug" type="462c0819:PsiDirectoryNode" />
+              <item name="demo" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="SwingTech1" type="dad4c3:CidrFilesViewHelper$MyProjectTreeStructure$1" />
               <item name="engine" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="SwingTech1" type="dad4c3:CidrFilesViewHelper$MyProjectTreeStructure$1" />
-              <item name="engine" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="Application" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="SwingTech1" type="dad4c3:CidrFilesViewHelper$MyProjectTreeStructure$1" />
               <item name="engine" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="Entity" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="SwingTech1" type="dad4c3:CidrFilesViewHelper$MyProjectTreeStructure$1" />
-              <item name="engine" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="Entity" type="462c0819:PsiDirectoryNode" />
-              <item name="Components" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="SwingTech1" type="dad4c3:CidrFilesViewHelper$MyProjectTreeStructure$1" />
-              <item name="engine" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="Math" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="SwingTech1" type="dad4c3:CidrFilesViewHelper$MyProjectTreeStructure$1" />
-              <item name="engine" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="Physics" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="SwingTech1" type="dad4c3:CidrFilesViewHelper$MyProjectTreeStructure$1" />
-              <item name="engine" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="Physics" type="462c0819:PsiDirectoryNode" />
-              <item name="Bullet" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -363,7 +336,7 @@
   </component>
   <component name="PropertiesComponent">
     <property name="recentsLimit" value="5" />
-    <property name="settings.editor.selected.configurable" value="preferences.fileTypes" />
+    <property name="settings.editor.selected.configurable" value="CPPToolchains" />
     <property name="settings.editor.splitter.proportion" value="0.20674269" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="js-jscs-nodeInterpreter" value="C:\Program Files\nodejs\node.exe" />
@@ -385,20 +358,20 @@
     <property name="FileHistory.git4idea.history.GitHistoryProvider_treeOrder3" value="3" />
     <property name="SearchEverywhereHistoryKey" value="&#9;FILE&#9;file://C:/Users/NDanq/Documents/Projects/Wahoo/src/Graphics/GL/GLGraphics.cpp" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="nodejs_interpreter_path" value="C:/Program Files/nodejs/node" />
+    <property name="nodejs_interpreter_path" value="node" />
     <property name="js.eslint.eslintPackage" value="" />
   </component>
   <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/Entity/Util/Loaders" />
+      <recent name="$PROJECT_DIR$/Build/Debug/shdr" />
+    </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\Users\NDanq\Documents\Project\SwingInnovations\SwingTech-1\engine\src\Physics" />
       <recent name="$PROJECT_DIR$/src/Application" />
       <recent name="$PROJECT_DIR$/src/Entity" />
       <recent name="$PROJECT_DIR$/include" />
       <recent name="C:\Users\NDanq\Documents\GitHub\SwingTech-1\engine\src\Entity" />
-    </key>
-    <key name="CopyFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$/src/Entity/Util/Loaders" />
-      <recent name="$PROJECT_DIR$/Build/Debug/shdr" />
     </key>
   </component>
   <component name="RunDashboard">
@@ -549,7 +522,7 @@
       <envs />
       <method />
     </configuration>
-    <configuration default="true" type="tests" factoryName="Doctests">
+    <configuration default="true" type="tests" factoryName="Attests">
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
       <envs />
@@ -568,54 +541,7 @@
       <option name="USE_PATTERN" value="false" />
       <method />
     </configuration>
-    <configuration default="true" type="tests" factoryName="Nosetests">
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs />
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="" />
-      <option name="IS_MODULE_SDK" value="false" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <module name="Wahoo" />
-      <option name="_new_regexPattern" value="&quot;&quot;" />
-      <option name="_new_additionalArguments" value="&quot;&quot;" />
-      <option name="_new_target" value="&quot;.&quot;" />
-      <option name="_new_targetType" value="&quot;PATH&quot;" />
-      <method />
-    </configuration>
-    <configuration default="true" type="tests" factoryName="Unittests">
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs />
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="" />
-      <option name="IS_MODULE_SDK" value="false" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <module name="Wahoo" />
-      <option name="_new_additionalArguments" value="&quot;&quot;" />
-      <option name="_new_target" value="&quot;.&quot;" />
-      <option name="_new_targetType" value="&quot;PATH&quot;" />
-      <method />
-    </configuration>
-    <configuration default="true" type="tests" factoryName="py.test">
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs />
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="" />
-      <option name="IS_MODULE_SDK" value="false" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <module name="Wahoo" />
-      <option name="_new_keywords" value="&quot;&quot;" />
-      <option name="_new_additionalArguments" value="&quot;&quot;" />
-      <option name="_new_target" value="&quot;.&quot;" />
-      <option name="_new_targetType" value="&quot;PATH&quot;" />
-      <method />
-    </configuration>
-    <configuration default="true" type="tests" factoryName="Attests">
+    <configuration default="true" type="tests" factoryName="Doctests">
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
       <envs />
@@ -646,6 +572,50 @@
       <arguments />
       <pass-parent-envs>true</pass-parent-envs>
       <envs />
+    </configuration>
+    <configuration default="true" type="tests" factoryName="Nosetests">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <module name="Wahoo" />
+      <option name="_new_regexPattern" value="&quot;&quot;" />
+      <option name="_new_additionalArguments" value="&quot;&quot;" />
+      <option name="_new_target" value="&quot;.&quot;" />
+      <option name="_new_targetType" value="&quot;PATH&quot;" />
+    </configuration>
+    <configuration default="true" type="tests" factoryName="Unittests">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <module name="Wahoo" />
+      <option name="_new_additionalArguments" value="&quot;&quot;" />
+      <option name="_new_target" value="&quot;.&quot;" />
+      <option name="_new_targetType" value="&quot;PATH&quot;" />
+    </configuration>
+    <configuration default="true" type="tests" factoryName="py.test">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <module name="Wahoo" />
+      <option name="_new_keywords" value="&quot;&quot;" />
+      <option name="_new_additionalArguments" value="&quot;&quot;" />
+      <option name="_new_target" value="&quot;.&quot;" />
+      <option name="_new_targetType" value="&quot;PATH&quot;" />
     </configuration>
     <list size="8">
       <item index="0" class="java.lang.String" itemvalue="Application.Wahoo" />
@@ -1237,90 +1207,75 @@
       <workItem from="1513829410145" duration="1105000" />
       <workItem from="1513901637315" duration="4084000" />
       <workItem from="1513908170381" duration="5154000" />
-    </task>
-    <task id="LOCAL-00016" summary="[*] Fixed Scripting Math Issue">
-      <created>1496285197890</created>
-      <option name="number" value="00016" />
-      <option name="presentableId" value="LOCAL-00016" />
-      <option name="project" value="LOCAL" />
-      <updated>1496285197890</updated>
-    </task>
-    <task id="LOCAL-00017" summary="[*] Some Code Cleanup. Moved OBJ Loader to new Loaders Folder.">
-      <created>1496557602615</created>
-      <option name="number" value="00017" />
-      <option name="presentableId" value="LOCAL-00017" />
-      <option name="project" value="LOCAL" />
-      <updated>1496557602615</updated>
-    </task>
-    <task id="LOCAL-00018" summary="[*] Implemented Singular OBJ Loader for Error Mesh&#10;[+] Began Implementing FBX Loader.">
-      <created>1496730144136</created>
-      <option name="number" value="00018" />
-      <option name="presentableId" value="LOCAL-00018" />
-      <option name="project" value="LOCAL" />
-      <updated>1496730144136</updated>
-    </task>
-    <task id="LOCAL-00019" summary="[*] Shitload of other changes.">
-      <created>1497336674345</created>
-      <option name="number" value="00019" />
-      <option name="presentableId" value="LOCAL-00019" />
-      <option name="project" value="LOCAL" />
-      <updated>1497336674345</updated>
-    </task>
-    <task id="LOCAL-00020" summary="[*] EventHandler can be added as a map.">
-      <created>1497492084511</created>
-      <option name="number" value="00020" />
-      <option name="presentableId" value="LOCAL-00020" />
-      <option name="project" value="LOCAL" />
-      <updated>1497492084511</updated>
-    </task>
-    <task id="LOCAL-00021" summary="[+] STMaterial created from .MTL File now.">
-      <created>1498169632709</created>
-      <option name="number" value="00021" />
-      <option name="presentableId" value="LOCAL-00021" />
-      <option name="project" value="LOCAL" />
-      <updated>1498169632709</updated>
-    </task>
-    <task id="LOCAL-00022" summary="[+] Metallic and Roughness Uniform Control">
-      <created>1498195767487</created>
-      <option name="number" value="00022" />
-      <option name="presentableId" value="LOCAL-00022" />
-      <option name="project" value="LOCAL" />
-      <updated>1498195767487</updated>
-    </task>
-    <task id="LOCAL-00023" summary="[+] PBR Fixes">
-      <created>1498199474593</created>
-      <option name="number" value="00023" />
-      <option name="presentableId" value="LOCAL-00023" />
-      <option name="project" value="LOCAL" />
-      <updated>1498199474593</updated>
-    </task>
-    <task id="LOCAL-00024" summary="[*] PBR Fixes">
-      <created>1498239874766</created>
-      <option name="number" value="00024" />
-      <option name="presentableId" value="LOCAL-00024" />
-      <option name="project" value="LOCAL" />
-      <updated>1498239874766</updated>
-    </task>
-    <task id="LOCAL-00025" summary="[*] PBR Fixes">
-      <created>1498454562308</created>
-      <option name="number" value="00025" />
-      <option name="presentableId" value="LOCAL-00025" />
-      <option name="project" value="LOCAL" />
-      <updated>1498454562308</updated>
-    </task>
-    <task id="LOCAL-00026" summary="[*] Transform Translate now affects Children.">
-      <created>1498484668471</created>
-      <option name="number" value="00026" />
-      <option name="presentableId" value="LOCAL-00026" />
-      <option name="project" value="LOCAL" />
-      <updated>1498484668471</updated>
-    </task>
-    <task id="LOCAL-00027" summary="[*] Single Key Input Working under linux&#10;[*] PBR Fixes.">
-      <created>1498517545248</created>
-      <option name="number" value="00027" />
-      <option name="presentableId" value="LOCAL-00027" />
-      <option name="project" value="LOCAL" />
-      <updated>1498517545248</updated>
+      <workItem from="1513958344274" duration="1167000" />
+      <workItem from="1513959819133" duration="379000" />
+      <workItem from="1513972874498" duration="330000" />
+      <workItem from="1514006027995" duration="934000" />
+      <workItem from="1514007498331" duration="2535000" />
+      <workItem from="1514069609682" duration="1622000" />
+      <workItem from="1514093295116" duration="2116000" />
+      <workItem from="1514150088034" duration="1259000" />
+      <workItem from="1514188141232" duration="3414000" />
+      <workItem from="1514217060941" duration="2951000" />
+      <workItem from="1514220855181" duration="171000" />
+      <workItem from="1514221604595" duration="1115000" />
+      <workItem from="1514238324360" duration="856000" />
+      <workItem from="1514248327756" duration="2414000" />
+      <workItem from="1514252150286" duration="299000" />
+      <workItem from="1514258870742" duration="335000" />
+      <workItem from="1514267133791" duration="974000" />
+      <workItem from="1514329556895" duration="2968000" />
+      <workItem from="1514413175462" duration="950000" />
+      <workItem from="1514498785319" duration="115000" />
+      <workItem from="1514499014665" duration="403000" />
+      <workItem from="1514499434605" duration="2966000" />
+      <workItem from="1514659983875" duration="454000" />
+      <workItem from="1514753664608" duration="258000" />
+      <workItem from="1514956926653" duration="1195000" />
+      <workItem from="1515124314643" duration="34000" />
+      <workItem from="1515124735865" duration="1935000" />
+      <workItem from="1515215377479" duration="274000" />
+      <workItem from="1515216365139" duration="760000" />
+      <workItem from="1515220977428" duration="367000" />
+      <workItem from="1515265440744" duration="1452000" />
+      <workItem from="1515311010370" duration="312000" />
+      <workItem from="1515380374697" duration="11533000" />
+      <workItem from="1515393981736" duration="226000" />
+      <workItem from="1515430756922" duration="1181000" />
+      <workItem from="1515481779865" duration="3892000" />
+      <workItem from="1515535958274" duration="7872000" />
+      <workItem from="1515606652492" duration="7250000" />
+      <workItem from="1515616306232" duration="7765000" />
+      <workItem from="1516297136687" duration="6652000" />
+      <workItem from="1516318961729" duration="610000" />
+      <workItem from="1516327424118" duration="740000" />
+      <workItem from="1516330721476" duration="3746000" />
+      <workItem from="1516337899982" duration="6075000" />
+      <workItem from="1516344476835" duration="6566000" />
+      <workItem from="1516353168444" duration="91000" />
+      <workItem from="1516375181562" duration="480000" />
+      <workItem from="1516375714639" duration="99000" />
+      <workItem from="1516388858338" duration="5258000" />
+      <workItem from="1516433905531" duration="2815000" />
+      <workItem from="1516513683177" duration="8960000" />
+      <workItem from="1516576941495" duration="306000" />
+      <workItem from="1516578162687" duration="4081000" />
+      <workItem from="1516609493864" duration="256000" />
+      <workItem from="1516610514199" duration="262000" />
+      <workItem from="1516644926609" duration="1525000" />
+      <workItem from="1516651775272" duration="3616000" />
+      <workItem from="1516665574290" duration="187000" />
+      <workItem from="1516763853815" duration="4894000" />
+      <workItem from="1516784217124" duration="8686000" />
+      <workItem from="1516857607405" duration="4933000" />
+      <workItem from="1516935721539" duration="2975000" />
+      <workItem from="1516938878847" duration="1434000" />
+      <workItem from="1517003789730" duration="5692000" />
+      <workItem from="1517072083310" duration="2050000" />
+      <workItem from="1517118720766" duration="2112000" />
+      <workItem from="1517124657069" duration="976000" />
+      <workItem from="1517170963196" duration="4763000" />
+      <workItem from="1517203894548" duration="4135000" />
     </task>
     <task id="LOCAL-00028" summary="[*] Moar PBR!">
       <created>1498540121253</created>
@@ -1581,11 +1536,95 @@
       <option name="project" value="LOCAL" />
       <updated>1513666372627</updated>
     </task>
-    <option name="localTasksCounter" value="65" />
+    <task id="LOCAL-00065" summary="[*] Can Flesh out components scriptability end.">
+      <created>1513929853940</created>
+      <option name="number" value="00065" />
+      <option name="presentableId" value="LOCAL-00065" />
+      <option name="project" value="LOCAL" />
+      <updated>1513929853940</updated>
+    </task>
+    <task id="LOCAL-00066" summary="[*] Enabled Scripting for Graphics Component">
+      <created>1514010028092</created>
+      <option name="number" value="00066" />
+      <option name="presentableId" value="LOCAL-00066" />
+      <option name="project" value="LOCAL" />
+      <updated>1514010028093</updated>
+    </task>
+    <task id="LOCAL-00067" summary="[-] Removed Redundant Overloads from STEntity.">
+      <created>1514095399655</created>
+      <option name="number" value="00067" />
+      <option name="presentableId" value="LOCAL-00067" />
+      <option name="project" value="LOCAL" />
+      <updated>1514095399656</updated>
+    </task>
+    <task id="LOCAL-00068" summary="[*] Started Transitioning Everything to smartpointers.">
+      <created>1515394119016</created>
+      <option name="number" value="00068" />
+      <option name="presentableId" value="LOCAL-00068" />
+      <option name="project" value="LOCAL" />
+      <updated>1515394119018</updated>
+    </task>
+    <task id="LOCAL-00069" summary="[*] Working Renderable objects with SmartPointers.">
+      <created>1515540898560</created>
+      <option name="number" value="00069" />
+      <option name="presentableId" value="LOCAL-00069" />
+      <option name="project" value="LOCAL" />
+      <updated>1515540898561</updated>
+    </task>
+    <task id="LOCAL-00070" summary="[*] Working Transform serialization.">
+      <created>1516302545111</created>
+      <option name="number" value="00070" />
+      <option name="presentableId" value="LOCAL-00070" />
+      <option name="project" value="LOCAL" />
+      <updated>1516302545111</updated>
+    </task>
+    <task id="LOCAL-00071" summary="[*] Additional Fixes">
+      <created>1516303098482</created>
+      <option name="number" value="00071" />
+      <option name="presentableId" value="LOCAL-00071" />
+      <option name="project" value="LOCAL" />
+      <updated>1516303098482</updated>
+    </task>
+    <task id="LOCAL-00072" summary="[*] Entity Reconstruction Somewhat works.">
+      <created>1516436117221</created>
+      <option name="number" value="00072" />
+      <option name="presentableId" value="LOCAL-00072" />
+      <option name="project" value="LOCAL" />
+      <updated>1516436117221</updated>
+    </task>
+    <task id="LOCAL-00073" summary="[*] Standardized String Serialization">
+      <created>1516583163056</created>
+      <option name="number" value="00073" />
+      <option name="presentableId" value="LOCAL-00073" />
+      <option name="project" value="LOCAL" />
+      <updated>1516583163058</updated>
+    </task>
+    <task id="LOCAL-00074" summary="[*] GL Mesh Generation from load.">
+      <created>1516655360941</created>
+      <option name="number" value="00074" />
+      <option name="presentableId" value="LOCAL-00074" />
+      <option name="project" value="LOCAL" />
+      <updated>1516655360942</updated>
+    </task>
+    <task id="LOCAL-00075" summary="[*] Working Read from Serialization">
+      <created>1516812042434</created>
+      <option name="number" value="00075" />
+      <option name="presentableId" value="LOCAL-00075" />
+      <option name="project" value="LOCAL" />
+      <updated>1516812042435</updated>
+    </task>
+    <task id="LOCAL-00076" summary="[-] Removed Macro Component registration in favor of singleton.">
+      <created>1517041550134</created>
+      <option name="number" value="00076" />
+      <option name="presentableId" value="LOCAL-00076" />
+      <option name="project" value="LOCAL" />
+      <updated>1517041550136</updated>
+    </task>
+    <option name="localTasksCounter" value="77" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="895521000" />
+    <option name="totallyTimeSpent" value="1069823000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -1597,28 +1636,28 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="98" y="-12" width="2914" height="2024" extended-state="6" />
+    <frame x="112" y="-12" width="2900" height="2024" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.13252595" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.2232416" sideWeight="0.49675325" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.24466339" sideWeight="0.70044965" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="CMake" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.18664478" sideWeight="0.35849568" order="11" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.195758" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.22228444" sideWeight="0.49532712" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.36124796" sideWeight="0.6095271" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="CMake" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.18645017" sideWeight="0.35849568" order="11" side_tool="false" content_ui="tabs" />
       <window_info id="LuaJ" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33825943" sideWeight="0.46419924" order="8" side_tool="true" content_ui="tabs" />
-      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32925585" sideWeight="0.496875" order="9" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.2714833" sideWeight="0.5714286" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.36124796" sideWeight="0.3904729" order="8" side_tool="true" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32922733" sideWeight="0.496875" order="9" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.26929393" sideWeight="0.4749652" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32924336" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32875896" sideWeight="0.5697745" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.27695677" sideWeight="0.53580076" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.2955665" sideWeight="0.7785118" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Documentation" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="FLOATING" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" x="596" y="340" width="555" height="239" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3256705" sideWeight="0.47872707" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.325179" sideWeight="0.47872707" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Data View" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.17015566" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
     </layout>
@@ -1658,18 +1697,6 @@
   <component name="VcsManagerConfiguration">
     <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_NEW_TODO" value="false" />
-    <MESSAGE value="[*] Tuneups and fixes" />
-    <MESSAGE value="[+] Movement Example script&#10;[+] Additional Documentation&#10;[*] Bounding Box improvements" />
-    <MESSAGE value="[+] Implemented Attribute System" />
-    <MESSAGE value="[*] C++14 Modernizations" />
-    <MESSAGE value="[+] InputMapping via JSON file." />
-    <MESSAGE value="[*] InputFixes" />
-    <MESSAGE value="[+] Dropbox' C++11 Json implementation. Smaller..easier.. and just works!" />
-    <MESSAGE value="[*] Intermediary work" />
-    <MESSAGE value="[*] Basic Framework for JSON writing." />
-    <MESSAGE value="[*] Internal Optimizations" />
-    <MESSAGE value="[*] Upgraded to GLEW 2.1.0 on Linux" />
-    <MESSAGE value="[*] Internal improvements." />
     <MESSAGE value="[*] Cleaned up internal structure quite a bit" />
     <MESSAGE value="[*] SDL Version Upgrade on Linux Side" />
     <MESSAGE value="[*] Deferred Rendering with Post Processing Works!" />
@@ -1683,36 +1710,78 @@
     <MESSAGE value="[*] Initial Collisions working!" />
     <MESSAGE value="[*] Most functions for rigid body mapped, but still yielding wrong results..." />
     <MESSAGE value="[*] Passable Dynamics Implementation" />
-    <option name="LAST_COMMIT_MESSAGE" value="[*] Passable Dynamics Implementation" />
+    <MESSAGE value="[*] Can Flesh out components scriptability end." />
+    <MESSAGE value="[*] Enabled Scripting for Graphics Component" />
+    <MESSAGE value="[-] Removed Redundant Overloads from STEntity." />
+    <MESSAGE value="[*] Started Transitioning Everything to smartpointers." />
+    <MESSAGE value="[*] Working Renderable objects with SmartPointers." />
+    <MESSAGE value="[*] Working Transform serialization." />
+    <MESSAGE value="[*] Additional Fixes" />
+    <MESSAGE value="[*] Entity Reconstruction Somewhat works." />
+    <MESSAGE value="[*] Standardized String Serialization" />
+    <MESSAGE value="[*] GL Mesh Generation from load." />
+    <MESSAGE value="[*] Working Read from Serialization" />
+    <MESSAGE value="[-] Removed Macro Component registration in favor of singleton." />
+    <option name="LAST_COMMIT_MESSAGE" value="[-] Removed Macro Component registration in favor of singleton." />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
-          <url>file://$PROJECT_DIR$/src/Entity/STEntity.cpp</url>
-          <line>18</line>
-          <option name="timeStamp" value="335" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
-          <url>file://$PROJECT_DIR$/src/Entity/STEntity.cpp</url>
-          <line>41</line>
-          <option name="timeStamp" value="678" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
           <url>file://$PROJECT_DIR$/demo/demo_main.cpp</url>
           <line>52</line>
           <option name="timeStamp" value="784" />
         </line-breakpoint>
-        <line-breakpoint enabled="true" type="lua-line">
-          <url>file://$PROJECT_DIR$/Build/Debug/dice.lua</url>
-          <line>10</line>
-          <option name="timeStamp" value="1005" />
+        <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
+          <url>file://$PROJECT_DIR$/src/Math/Quaternion.cpp</url>
+          <line>30</line>
+          <option name="timeStamp" value="1030" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
+          <url>file://$PROJECT_DIR$/src/Graphics/GL/GLGraphics.cpp</url>
+          <line>440</line>
+          <option name="timeStamp" value="1059" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
+          <url>file://$PROJECT_DIR$/demo/STSample.cpp</url>
+          <line>57</line>
+          <option name="timeStamp" value="1098" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
+          <url>file://$PROJECT_DIR$/demo/STSample.cpp</url>
+          <line>54</line>
+          <option name="timeStamp" value="1102" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
+          <url>file://$PROJECT_DIR$/demo/STSample.cpp</url>
+          <line>38</line>
+          <option name="timeStamp" value="1178" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
+          <url>file://$PROJECT_DIR$/src/Entity/Components/STLightComponent.cpp</url>
+          <line>14</line>
+          <option name="timeStamp" value="1215" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
+          <url>file://$PROJECT_DIR$/src/Entity/STEntity.cpp</url>
+          <line>242</line>
+          <option name="timeStamp" value="1221" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
+          <url>file://$PROJECT_DIR$/src/Entity/Components/STLightComponent.cpp</url>
+          <line>8</line>
+          <option name="timeStamp" value="1222" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
+          <url>file://$PROJECT_DIR$/src/Entity/Components/STShadowComponent.h</url>
+          <line>25</line>
+          <option name="timeStamp" value="1223" />
         </line-breakpoint>
       </breakpoints>
       <breakpoints-dialog>
         <breakpoints-dialog />
       </breakpoints-dialog>
-      <option name="time" value="1025" />
+      <option name="time" value="1224" />
     </breakpoint-manager>
     <watches-manager />
   </component>
@@ -1731,382 +1800,396 @@
     </expressions>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/Application/Input.h">
+    <entry file="file://$PROJECT_DIR$/src/Entity/Util/Loaders/STMeshCommon.h">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="6148">
-          <caret line="212" column="55" lean-forward="false" selection-start-line="212" selection-start-column="55" selection-end-line="212" selection-end-column="55" />
+        <state relative-caret-position="416">
+          <caret line="87" column="0" lean-forward="false" selection-start-line="87" selection-start-column="0" selection-end-line="87" selection-end-column="0" />
         </state>
       </provider>
     </entry>
-    <entry file="file://C:/Program Files/mingw-w64/5.4.0/mingw64/x86_64-w64-mingw32/include/ntddpar.h">
+    <entry file="file://$PROJECT_DIR$/src/Physics/STRigidBody.h">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="447">
-          <caret line="31" column="12" lean-forward="false" selection-start-line="31" selection-start-column="12" selection-end-line="31" selection-end-column="12" />
+        <state relative-caret-position="402">
+          <caret line="103" column="44" lean-forward="false" selection-start-line="103" selection-start-column="44" selection-end-line="103" selection-end-column="44" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/Graphics/STGraphics.h">
+    <entry file="file://$PROJECT_DIR$/src/Graphics/Shader.h">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="427">
-          <caret line="71" column="17" lean-forward="false" selection-start-line="71" selection-start-column="17" selection-end-line="71" selection-end-column="17" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Math/STCore.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="87">
-          <caret line="4" column="22" lean-forward="false" selection-start-line="4" selection-start-column="22" selection-end-line="4" selection-end-column="22" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Math/STMath.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Math/Vertex.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Math/Matrix.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Entity/STEntity.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="319">
-          <caret line="11" column="0" lean-forward="false" selection-start-line="11" selection-start-column="0" selection-end-line="11" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Graphics/STColor.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Graphics/Shader.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Graphics/Camera.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="3016">
-          <caret line="104" column="27" lean-forward="false" selection-start-line="104" selection-start-column="27" selection-end-line="104" selection-end-column="27" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Graphics/GL/GLMesh.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Entity/Components/STMeshComponent.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="812">
-          <caret line="28" column="0" lean-forward="false" selection-start-line="28" selection-start-column="0" selection-end-line="28" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Entity/Util/Loaders/STMeshLoader.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="4234">
-          <caret line="146" column="66" lean-forward="false" selection-start-line="146" selection-start-column="66" selection-end-line="146" selection-end-column="66" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Entity/Components/STMeshComponent.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="203">
-          <caret line="10" column="0" lean-forward="false" selection-start-line="10" selection-start-column="0" selection-end-line="10" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Entity/Components/STBoundsComponent.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Math/Shape/BoundingBox.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="983">
-          <caret line="34" column="34" lean-forward="false" selection-start-line="34" selection-start-column="34" selection-end-line="34" selection-end-column="34" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Entity/STActor.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="522">
-          <caret line="18" column="47" lean-forward="false" selection-start-line="18" selection-start-column="47" selection-end-line="18" selection-end-column="47" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://C:/Program Files/mingw-w64/5.4.0/mingw64/x86_64-w64-mingw32/include/c++/bits/stl_vector.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="427">
-          <caret line="556" column="0" lean-forward="false" selection-start-line="556" selection-start-column="0" selection-end-line="556" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Application/STGameState.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="406">
-          <caret line="14" column="17" lean-forward="false" selection-start-line="14" selection-start-column="17" selection-end-line="14" selection-end-column="17" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Application/STGameState.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="377">
-          <caret line="14" column="22" lean-forward="false" selection-start-line="14" selection-start-column="22" selection-end-line="14" selection-end-column="22" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Math/Quaternion.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1026">
-          <caret line="105" column="88" lean-forward="false" selection-start-line="105" selection-start-column="88" selection-end-line="105" selection-end-column="88" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Entity/Transform.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="774">
-          <caret line="172" column="24" lean-forward="false" selection-start-line="172" selection-start-column="24" selection-end-line="172" selection-end-column="24" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Math/Quaternion.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1102">
-          <caret line="38" column="22" lean-forward="false" selection-start-line="38" selection-start-column="22" selection-end-line="38" selection-end-column="22" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Entity/Transform.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2233">
-          <caret line="77" column="26" lean-forward="false" selection-start-line="77" selection-start-column="26" selection-end-line="77" selection-end-column="26" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Entity/STEntity.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="406">
-          <caret line="16" column="0" lean-forward="false" selection-start-line="16" selection-start-column="0" selection-end-line="16" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Entity/Components/STAABBComponent.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-273">
-          <caret line="18" column="22" lean-forward="false" selection-start-line="18" selection-start-column="22" selection-end-line="18" selection-end-column="22" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Entity/Components/STAABBComponent.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="580">
-          <caret line="22" column="28" lean-forward="false" selection-start-line="22" selection-start-column="28" selection-end-line="22" selection-end-column="28" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Entity/Components/STComponent.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="261">
-          <caret line="9" column="18" lean-forward="false" selection-start-line="9" selection-start-column="18" selection-end-line="9" selection-end-column="18" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/include/BulletDynamics/Dynamics/btRigidBody.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="6865">
-          <caret line="258" column="0" lean-forward="false" selection-start-line="258" selection-start-column="0" selection-end-line="258" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Build/Debug/Suzanne_Control.lua">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="725">
-          <caret line="25" column="42" lean-forward="false" selection-start-line="25" selection-start-column="42" selection-end-line="25" selection-end-column="42" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Entity/Components/ST3DPhysicsComponent.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="116">
-          <caret line="4" column="38" lean-forward="false" selection-start-line="4" selection-start-column="38" selection-end-line="4" selection-end-column="38" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Application/STGame.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="4002">
-          <caret line="138" column="13" lean-forward="false" selection-start-line="138" selection-start-column="13" selection-end-line="138" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Application/STGame.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="6902">
-          <caret line="238" column="24" lean-forward="false" selection-start-line="238" selection-start-column="24" selection-end-line="238" selection-end-column="24" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Application/STAssetManager.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        <state relative-caret-position="7482">
+          <caret line="258" column="17" lean-forward="false" selection-start-line="258" selection-start-column="17" selection-end-line="258" selection-end-column="17" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/Entity/Components/STEventComponent.h">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="87">
-          <caret line="3" column="13" lean-forward="false" selection-start-line="3" selection-start-column="13" selection-end-line="3" selection-end-column="13" />
+          <caret line="3" column="9" lean-forward="false" selection-start-line="3" selection-start-column="9" selection-end-line="3" selection-end-column="9" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/demo/demo_main.cpp">
+    <entry file="file://C:/mingw-w64/x86_64-5.4.0-posix-seh-rt_v5-rev0/mingw64/x86_64-w64-mingw32/include/c++/bits/stl_pair.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="503">
+          <caret line="144" column="0" lean-forward="false" selection-start-line="144" selection-start-column="0" selection-end-line="144" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://C:/mingw-w64/x86_64-5.4.0-posix-seh-rt_v5-rev0/mingw64/x86_64-w64-mingw32/include/c++/bits/shared_ptr_base.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="416">
+          <caret line="525" column="0" lean-forward="false" selection-start-line="525" selection-start-column="0" selection-end-line="525" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Entity/Components/ST3DAnimationComponent.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="580">
+          <caret line="25" column="12" lean-forward="false" selection-start-line="25" selection-start-column="12" selection-end-line="25" selection-end-column="12" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Entity/Components/STMeshComponent.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1065">
+          <caret line="80" column="0" lean-forward="false" selection-start-line="80" selection-start-column="0" selection-end-line="80" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Entity/Components/STShadowComponent.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="783">
+          <caret line="27" column="1" lean-forward="true" selection-start-line="27" selection-start-column="1" selection-end-line="27" selection-end-column="1" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Entity/Components/STSpriteComponent.h">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Entity/Components/STRectBoundsComponent.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Entity/Components/ST3DAnimationComponent.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="7366">
+          <caret line="254" column="1" lean-forward="false" selection-start-line="254" selection-start-column="1" selection-end-line="254" selection-end-column="1" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Entity/Components/STEventComponent.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1566">
+          <caret line="54" column="1" lean-forward="false" selection-start-line="54" selection-start-column="1" selection-end-line="54" selection-end-column="1" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Entity/Components/STAABBComponent.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-965">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Physics/STPhysics.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Physics/Bullet/BulletPhysics.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Entity/Components/ST3DPhysicsComponent.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1508">
+          <caret line="52" column="12" lean-forward="false" selection-start-line="52" selection-start-column="12" selection-end-line="52" selection-end-column="12" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Entity/Components/ST3DPhysicsComponent.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2668">
+          <caret line="92" column="72" lean-forward="false" selection-start-line="92" selection-start-column="72" selection-end-line="92" selection-end-column="72" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Physics/Bullet/BulletRigidBody.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="435">
+          <caret line="15" column="97" lean-forward="false" selection-start-line="15" selection-start-column="97" selection-end-line="15" selection-end-column="97" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Physics/Bullet/BulletRigidBody.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-530">
+          <caret line="134" column="36" lean-forward="false" selection-start-line="134" selection-start-column="36" selection-end-line="134" selection-end-column="36" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Graphics/STMaterial.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="697">
+          <caret line="191" column="13" lean-forward="false" selection-start-line="191" selection-start-column="13" selection-end-line="191" selection-end-column="13" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Graphics/STMaterial.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="3886">
+          <caret line="134" column="35" lean-forward="false" selection-start-line="134" selection-start-column="35" selection-end-line="134" selection-end-column="35" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Entity/Components/STGraphicsComponent.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="6844">
+          <caret line="236" column="1" lean-forward="false" selection-start-line="236" selection-start-column="1" selection-end-line="236" selection-end-column="1" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Application/STGame.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1392">
+          <caret line="48" column="140" lean-forward="false" selection-start-line="48" selection-start-column="140" selection-end-line="48" selection-end-column="140" />
           <folding>
-            <element signature="e#0#31#0" expanded="false" />
+            <element signature="e#0#27#0" expanded="false" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/Entity/Components/STScriptComponent.cpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="754">
-          <caret line="26" column="81" lean-forward="false" selection-start-line="26" selection-start-column="81" selection-end-line="26" selection-end-column="81" />
+        <state relative-caret-position="6293">
+          <caret line="217" column="0" lean-forward="false" selection-start-line="217" selection-start-column="0" selection-end-line="217" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://C:/mingw-w64/x86_64-5.4.0-posix-seh-rt_v5-rev0/mingw64/x86_64-w64-mingw32/include/c++/bits/stl_tree.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="416">
+          <caret line="2169" column="0" lean-forward="false" selection-start-line="2169" selection-start-column="0" selection-end-line="2169" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://C:/mingw-w64/x86_64-5.4.0-posix-seh-rt_v5-rev0/mingw64/x86_64-w64-mingw32/include/c++/bits/alloc_traits.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="416">
+          <caret line="490" column="0" lean-forward="false" selection-start-line="490" selection-start-column="0" selection-end-line="490" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://C:/mingw-w64/x86_64-5.4.0-posix-seh-rt_v5-rev0/mingw64/x86_64-w64-mingw32/include/c++/bits/move.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="416">
+          <caret line="185" column="0" lean-forward="false" selection-start-line="185" selection-start-column="0" selection-end-line="185" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Application/Util/File/STSerializeable.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="377">
+          <caret line="16" column="23" lean-forward="false" selection-start-line="16" selection-start-column="23" selection-end-line="16" selection-end-column="23" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Application/STGame.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1044">
+          <caret line="48" column="64" lean-forward="false" selection-start-line="48" selection-start-column="64" selection-end-line="48" selection-end-column="64" />
+          <folding>
+            <element signature="e#320#339#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://C:/mingw-w64/x86_64-5.4.0-posix-seh-rt_v5-rev0/mingw64/x86_64-w64-mingw32/include/c++/bits/basic_string.tcc">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="6438">
+          <caret line="222" column="0" lean-forward="false" selection-start-line="222" selection-start-column="0" selection-end-line="222" selection-end-column="0" />
+          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/Entity/STActor.cpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1653">
-          <caret line="57" column="40" lean-forward="false" selection-start-line="57" selection-start-column="40" selection-end-line="57" selection-end-column="40" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Physics/STPhysics.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="203">
-          <caret line="7" column="16" lean-forward="false" selection-start-line="7" selection-start-column="16" selection-end-line="7" selection-end-column="16" />
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Build/Debug/dice.lua">
+    <entry file="file://$PROJECT_DIR$/src/Entity/Transform.cpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="290">
-          <caret line="10" column="39" lean-forward="false" selection-start-line="10" selection-start-column="39" selection-end-line="10" selection-end-column="39" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Physics/STPhysics.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="899">
-          <caret line="31" column="0" lean-forward="false" selection-start-line="31" selection-start-column="0" selection-end-line="31" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Math/Vector.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1719">
-          <caret line="375" column="43" lean-forward="false" selection-start-line="375" selection-start-column="43" selection-end-line="375" selection-end-column="43" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Entity/Components/ST3DPhysicsComponent.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="431">
-          <caret line="58" column="24" lean-forward="false" selection-start-line="58" selection-start-column="24" selection-end-line="58" selection-end-column="24" />
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
-            <element signature="e#0#33#0" expanded="true" />
+            <element signature="e#0#22#0" expanded="false" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/Physics/STRigidBody.h">
+    <entry file="file://$PROJECT_DIR$/src/Entity/Components/STMeshComponent.h">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="626">
-          <caret line="107" column="17" lean-forward="false" selection-start-line="107" selection-start-column="17" selection-end-line="107" selection-end-column="17" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Physics/Bullet/BulletRigidBody.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="684">
-          <caret line="33" column="19" lean-forward="false" selection-start-line="33" selection-start-column="19" selection-end-line="33" selection-end-column="19" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Physics/Bullet/BulletRigidBody.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="721">
-          <caret line="105" column="31" lean-forward="true" selection-start-line="105" selection-start-column="31" selection-end-line="105" selection-end-column="31" />
+        <state relative-caret-position="87">
+          <caret line="3" column="9" lean-forward="false" selection-start-line="3" selection-start-column="9" selection-end-line="3" selection-end-column="9" />
           <folding>
-            <element signature="e#0#28#0" expanded="false" />
+            <element signature="e#65#82#0" expanded="false" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/Physics/Bullet/BulletPhysics.h">
+    <entry file="file://$PROJECT_DIR$/src/Entity/Components/STScriptComponent.h">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="551">
-          <caret line="22" column="8" lean-forward="false" selection-start-line="22" selection-start-column="8" selection-end-line="22" selection-end-column="8" />
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/Physics/Bullet/BulletPhysics.cpp">
+    <entry file="file://$PROJECT_DIR$/src/Entity/Components/STComponent.cpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1052">
-          <caret line="59" column="9" lean-forward="false" selection-start-line="59" selection-start-column="9" selection-end-line="59" selection-end-column="9" />
-          <folding>
-            <element signature="e#0#26#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="145">
+          <caret line="5" column="0" lean-forward="false" selection-start-line="5" selection-start-column="0" selection-end-line="5" selection-end-column="0" />
+          <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/Entity/Components/STEventComponent.cpp">
+    <entry file="file://$PROJECT_DIR$/src/Entity/Components/STGraphicsComponent.h">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="298">
-          <caret line="16" column="5" lean-forward="false" selection-start-line="16" selection-start-column="5" selection-end-line="16" selection-end-column="5" />
+        <state relative-caret-position="-85">
+          <caret line="33" column="62" lean-forward="false" selection-start-line="33" selection-start-column="62" selection-end-line="33" selection-end-column="62" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Entity/Components/STLightComponent.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="383">
+          <caret line="85" column="10" lean-forward="false" selection-start-line="85" selection-start-column="10" selection-end-line="85" selection-end-column="10" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://C:/mingw-w64/x86_64-5.4.0-posix-seh-rt_v5-rev0/mingw64/x86_64-w64-mingw32/include/c++/bits/stl_map.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="416">
+          <caret line="482" column="0" lean-forward="false" selection-start-line="482" selection-start-column="0" selection-end-line="482" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/include/LinearMath/btMotionState.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="731">
+          <caret line="29" column="0" lean-forward="false" selection-start-line="29" selection-start-column="0" selection-end-line="29" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Entity/Components/STComponent.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="677">
+          <caret line="30" column="17" lean-forward="false" selection-start-line="30" selection-start-column="17" selection-end-line="30" selection-end-column="17" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://C:/mingw-w64/x86_64-5.4.0-posix-seh-rt_v5-rev0/mingw64/x86_64-w64-mingw32/include/c++/ext/new_allocator.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="503">
+          <caret line="103" column="0" lean-forward="false" selection-start-line="103" selection-start-column="0" selection-end-line="103" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Application/Util/File/STFileManager.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="872">
+          <caret line="44" column="0" lean-forward="false" selection-start-line="44" selection-start-column="0" selection-end-line="44" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Entity/STLight.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2">
+          <caret line="14" column="1" lean-forward="false" selection-start-line="14" selection-start-column="1" selection-end-line="14" selection-end-column="1" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Entity/Components/STShadowComponent.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="495">
+          <caret line="26" column="0" lean-forward="false" selection-start-line="26" selection-start-column="0" selection-end-line="26" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Entity/Components/STLightComponent.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="406">
+          <caret line="14" column="0" lean-forward="false" selection-start-line="14" selection-start-column="0" selection-end-line="14" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Entity/STLight.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="147">
+          <caret line="25" column="44" lean-forward="false" selection-start-line="25" selection-start-column="44" selection-end-line="25" selection-end-column="44" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/demo/STSample.cpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-244">
-          <caret line="108" column="51" lean-forward="true" selection-start-line="108" selection-start-column="51" selection-end-line="108" selection-end-column="51" />
+        <state relative-caret-position="290">
+          <caret line="37" column="0" lean-forward="false" selection-start-line="37" selection-start-column="0" selection-end-line="37" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Entity/STActor.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="232">
+          <caret line="8" column="6" lean-forward="false" selection-start-line="8" selection-start-column="6" selection-end-line="8" selection-end-column="6" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Entity/STEntity.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="416">
+          <caret line="230" column="0" lean-forward="false" selection-start-line="230" selection-start-column="0" selection-end-line="230" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Entity/STEntity.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="727">
+          <caret line="171" column="25" lean-forward="true" selection-start-line="171" selection-start-column="25" selection-end-line="171" selection-end-column="25" />
           <folding />
         </state>
       </provider>

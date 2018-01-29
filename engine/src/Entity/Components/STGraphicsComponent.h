@@ -9,23 +9,19 @@
 #include "../../Graphics/STMaterial.h"
 
 
-struct SpriteSheet{
-    int width, height;
-    uint32_t rowCount, colCount, rowIndex, colIndex, row_cellSize, col_cellSize;
-};
-
 class STComponent;
 
 class STGraphicsComponent : public STComponent{
 public:
-    explicit STGraphicsComponent(Shader* shdr);
+    explicit STGraphicsComponent(std::shared_ptr<STMaterial> material);
     STGraphicsComponent(const STGraphicsComponent& copy);
+    void initScriptingFunctions(sol::state& state) override;
 
-    explicit STGraphicsComponent(STMaterial* mat);
-
-    explicit STGraphicsComponent(const std::string& shdr);
+    STGraphicsComponent();
+    [[deprecated]]
+    STGraphicsComponent(Shader* shdr);
     ~STGraphicsComponent() override {
-        delete m_material;
+        m_Material.reset();
         for(auto uniform : m_Uniforms){
             if(uniform.second.type == STShader::TEX) {
                 auto texHandle = (stUint)STShader::toVector2(uniform.second.value).getX();
@@ -56,39 +52,22 @@ public:
     void setShdrUniform(const std::string& name, Matrix4f value);
     void setShdrUniform_Texture(const std::string& name, stUint value);
     void setShdrUniform_CubeMap(const std::string& name, stUint value);
+    std::shared_ptr<STMaterial> GetMaterial(){ return m_Material; }
 
-    void addSpriteSheet(Texture* tex, uint32_t rowCount, uint32_t colCount);
-    void setSpriteSheetIndex(int, int);
-    void setSpriteSheetRow(int);
-    void nextFrame();
-
-    inline void setShader(Shader* shdr){ m_shdr = shdr; }
-
-    inline STMaterial* getMaterial(){ return m_material; }
-
-    inline Shader* shdr(){
-        if(m_material != nullptr){
-            return m_material->shdr();
-        }
-        return m_shdr;
-
-    }
+    inline STMaterial* getMaterial(){ return m_Material.get(); }
 
     void update() override;
     void draw() override;
     void dispose() override;
 
+    void save(std::ofstream& out) override;
+    void load(std::ifstream& in) override;
+
     std::map<std::string, STShader::ShaderAttrib> &GetUniforms();
 
     void draw(Transform& T, Camera& C);
 private:
-    SpriteSheet m_spriteSheet;
-    Shader* m_shdr;
-    STMaterial* m_material;
-    bool useTexture;
-    bool useMaterial;
+    std::shared_ptr<STMaterial> m_Material;
     std::map<std::string, STShader::ShaderAttrib> m_Uniforms;
 };
-
-
 #endif //WAHOO_STGRAPHICSCOMPONENT_H

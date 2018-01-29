@@ -4,6 +4,8 @@
 #include "../src/Application/Util/STJson.h"
 #include "../src/Entity/Components/ST3DAnimationComponent.h"
 #include "../src/Entity/Components/ST3DPhysicsComponent.h"
+#include "../src/Application/Util/File/STFileManager.h"
+class STFileManager;
 
 /**
  * This is an example class for demonstrating How a typical game state would be setup.
@@ -25,49 +27,43 @@ public:
         accentLight2->get<STLightComponent>()->setTarget(Vector3D());
         accentLight2->get<STLightComponent>()->getProperties()->intensity = 0.9f;
 
-//        auto character = new STActor("humanoid.fbx");
-//        character->setTag("Main");
-//        character->get<STGraphicsComponent>()->getMaterial()->setMetallic(0.1f);
-//        character->addComponent(typeid(STScriptComponent), new STScriptComponent("Suzanne_Control.lua"));
-//        character->setAttribute("speedFactor", 0.025f);
-//        character->transform()->setRotationMode(Transform::Local);
-//
-//        auto c2 = new STActor("animCylinder.fbx");
-//        c2->transform()->setTranslateX(4.f);
-//        c2->transform()->setTranslateZ(4.f);
-//        c2->transform()->setRotationMode(Transform::Local);
-//        c2->get<STGraphicsComponent>()->getMaterial()->setDiffuseColor(STColor(GREEN));
+        STFileManager::Write("testLight.bin", accentLight2.get());
 
-        auto diceBox = new STActor("smooth_sphere.obj");
-        diceBox->setTag("Dice");
-        diceBox->addComponent(typeid(STScriptComponent), new STScriptComponent("dice.lua"));
-        diceBox->get<STGraphicsComponent>()->getMaterial()->setMetallic(0.2f);
-        diceBox->get<STGraphicsComponent>()->getMaterial()->setRoughness(0.1f);
-        diceBox->get<STGraphicsComponent>()->getMaterial()->setDiffuseTexture("Bronze_Albedo.jpg");
-        diceBox->transform()->setTranslateX(1.0f);
-        diceBox->transform()->setTranslateY(10.f);
-        diceBox->transform()->setTranslateZ(2.f);
-        diceBox->addComponent(typeid(ST3DPhysicsComponent), new ST3DPhysicsComponent(STRigidBody::RigidBodyShape::SPHERE, {1.f}));
-        diceBox->get<ST3DPhysicsComponent>()->setMass(10.f);
-        diceBox->get<ST3DPhysicsComponent>()->setRestitution(200.0f);
-        diceBox->get<ST3DPhysicsComponent>()->updateTransform();
-        diceBox->get<ST3DPhysicsComponent>()->toggleFreeze(true);
+        std::cout << "Generated Lights" << std::endl;
 
-        plane = new STActor("plane.obj");
-        plane->setTag("ground");
-        plane->transform()->setTranslateY(-2.f);
-        plane->get<STGraphicsComponent>()->setDiffuseTexture("grid.png");
-        plane->addComponent(typeid(ST3DPhysicsComponent), new ST3DPhysicsComponent(STRigidBody::RigidBodyShape::BOX, {5, 0.01, 5, 4}));
-        plane->get<ST3DPhysicsComponent>()->setMass(10.0f);
-        plane->get<ST3DPhysicsComponent>()->updateTransform();
-        plane->get<ST3DPhysicsComponent>()->toggleFreeze(true);
+        auto readActor = STFileManager::Read<STActor>("testEntity.bin");
+        auto readPeek = readActor.get();
+        readActor->transform()->setTranslate(Vector3D(3, 3, 1));;
+        readActor->get<STGraphicsComponent>()->GetMaterial()->setDiffuseColor(Vector4D(0, 1, 0, 1));
 
+        auto d = STFileManager::Read<STActor>("dice.stentity");
+//        auto diceBox = new STActor("smooth_sphere.obj");
+//        diceBox->setTag("Dice");
+//        diceBox->get<STGraphicsComponent>()->getMaterial()->setMetallic(0.2f);
+//        diceBox->get<STGraphicsComponent>()->getMaterial()->setRoughness(0.1f);
+//        //diceBox->get<STGraphicsComponent>()->getMaterial()->setDiffuseTexture("Bronze_Albedo.jpg");
+//        diceBox->transform()->setTranslateX(1.0f);
+//        diceBox->transform()->setTranslateY(10.f);
+//        diceBox->transform()->setTranslateZ(2.f);
+//        diceBox->addComponent(typeid(ST3DPhysicsComponent), new ST3DPhysicsComponent(STRigidBody::RigidBodyShape::SPHERE, {0.9f}));
+//        diceBox->get<ST3DPhysicsComponent>()->setMass(10.f);
+//        diceBox->get<ST3DPhysicsComponent>()->setRestitution(200.0f);
+//        diceBox->get<ST3DPhysicsComponent>()->updateTransform();
+//        diceBox->get<ST3DPhysicsComponent>()->toggleFreeze(true);
+//        diceBox->addComponent(typeid(STScriptComponent), new STScriptComponent("dice.lua"));
+
+        auto p = STActor::Create("plane.obj");
+        p->get<STGraphicsComponent>()->getMaterial()->setDiffuseTexture("grid.png");
+        p->transform()->setTranslateY(-2.f);
         m_scene->addLight(mainLight);
         m_scene->addLight(accentLight);
-        m_scene->addLight(accentLight2);
-        m_scene->addActor(diceBox);
-        m_scene->addActor(plane);
-        counter = 0;
+        //m_scene->addLight(l);
+        //m_scene->addLight(accentLight2);
+        m_scene->addActor(d);
+//        m_scene->addActor(diceBox);
+        m_scene->addActor(p);
+        m_scene->addActor(readActor);
+//        counter = 0;
     }
 
     void update(STGame* game) override{
@@ -82,43 +78,30 @@ public:
             game->setFullScreen(counter % 2);
         }
 
+//		if (input->isKeyDown(KEY::KEY_L)) {
+//			auto rZ = plane->transform()->getRotate().getZ();
+//			plane->transform()->setRotateZ(rZ + 0.025f * game->getDelta());
+//			plane->get<ST3DPhysicsComponent>()->updateTransform();
+//		}
+//
+//		if (input->isKeyDown(KEY::KEY_J)) {
+//			auto rZ = plane->transform()->getRotate().getZ();
+//			plane->transform()->setRotateZ(rZ - 0.025f * game->getDelta());
+//			plane->get<ST3DPhysicsComponent>()->updateTransform();
+//		}
+//
+//        if(input->isKeyDown(KEY::KEY_I)){
+//            auto rX = plane->transform()->getRotate().getX();
+//            plane->transform()->setRotateX(rX + 0.025f * game->getDelta());
+//            plane->get<ST3DPhysicsComponent>()->updateTransform();
+//        }
+//
+//        if(input->isKeyDown(KEY::KEY_K)){
+//            auto rX = plane->transform()->getRotate().getX();
+//            plane->transform()->setRotateX(rX - 0.025f * game->getDelta());
+//            plane->get<ST3DPhysicsComponent>()->updateTransform();
+//        }
 
-        if(input->isKeyDown(KEY::KEY_O)){
-            auto rX = plane->transform()->getRotate().getX();
-            plane->transform()->setRotateX(rX + 0.025f * game->getDelta());
-            plane->get<ST3DPhysicsComponent>()->updateTransform();
-        }
-
-        if(input->isKeyDown(KEY::KEY_U)){
-            auto rX = plane->transform()->getRotate().getX();
-            plane->transform()->setRotateX(rX - 0.025f * game->getDelta());
-            plane->get<ST3DPhysicsComponent>()->updateTransform();
-        }
-
-        if(input->isKeyPressed(KEY::KEY_Y)) {
-            for (auto actor : m_scene->getActors()) {
-                if (actor->getTag() == "Dice") {
-                    actor->get<ST3DPhysicsComponent>()->toggleFreeze(false);
-                    actor->get<ST3DPhysicsComponent>()->applyForce(Vector3D(0, -20, 0));
-                    actor->get<ST3DPhysicsComponent>()->applyGravity();
-                }
-            }
-        }
-
-        if(input->isKeyPressed(KEY::KEY_R)){
-            for(auto actor : m_scene->getActors()){
-                if(actor->getTag() == "Dice"){
-                    actor->transform()->setTranslateZ(2.f);
-                    actor->transform()->setTranslateY(10.f);
-                    actor->transform()->setTranslateX(1.f);
-                    actor->get<ST3DPhysicsComponent>()->updateTransform();
-                    actor->get<ST3DPhysicsComponent>()->toggleFreeze(false);
-                    actor->get<ST3DPhysicsComponent>()->setActive(true);
-                    actor->get<ST3DPhysicsComponent>()->applyForce(Vector3D(0, -20, 0));
-                    actor->get<ST3DPhysicsComponent>()->applyGravity();
-                }
-            }
-        }
         m_scene->update();
     }
 
@@ -134,7 +117,6 @@ public:
 
 private:
     stUint counter;
-    STActor* plane;
 };
 
 int main(int argc, char** argv){

@@ -3,36 +3,36 @@
 #include "../../Application/STGame.h"
 
 GLShader::GLShader() {
-    m_Program = glCreateProgram();
-    m_Shaders[0] = createShader(loadShader("standardShader.vsh"), GL_VERTEX_SHADER);
-    m_Shaders[1] = createShader(loadShader("standardShader.fsh"), GL_FRAGMENT_SHADER);
-    for(unsigned int i = 0; i < NUM_SHADER; i++){
-        glAttachShader(m_Program, m_Shaders[i]);
-    }
-
-    glBindAttribLocation(m_Program, 0, "position");
-    glBindAttribLocation(m_Program, 1, "texCoord");
-    glBindAttribLocation(m_Program, 2, "normal");
-    glBindAttribLocation(m_Program, 3, "tangent");
-    glBindAttribLocation(m_Program, 4, "biTangent");
-    glBindAttribLocation(m_Program, 5, "boneID");
-    glBindAttribLocation(m_Program, 6, "boneWeights");
-
-    glLinkProgram(m_Program);
-    checkShaderStatus(m_Program, GL_LINK_STATUS, true, "Error Linking Shader Program");
-
-    glValidateProgram(m_Program);
-    checkShaderStatus(m_Program, GL_LINK_STATUS, true, "Invalid Shader Program");
-
-    m_uniforms[0] = glGetUniformLocation(m_Program, "model");
-    m_uniforms[1] = glGetUniformLocation(m_Program, "camera");
-    m_uniforms[2] = glGetUniformLocation(m_Program, "cameraPosition");
-    m_uniforms[3] = glGetUniformLocation(m_Program, "view");
-    m_uniforms[4] = glGetUniformLocation(m_Program, "projection");
-    m_uniforms[5] = glGetUniformLocation(m_Program, "cachedMVP");
-    for(unsigned int i = 0; i < NUM_SHADER; i++){
-        glDeleteShader(m_Shaders[i]);
-    }
+//    m_Program = glCreateProgram();
+//    m_Shaders[0] = createShader(loadShader("standardShader.vsh"), GL_VERTEX_SHADER);
+//    m_Shaders[1] = createShader(loadShader("standardShader.fsh"), GL_FRAGMENT_SHADER);
+//    for(unsigned int i = 0; i < NUM_SHADER; i++){
+//        glAttachShader(m_Program, m_Shaders[i]);
+//    }
+//
+//    glBindAttribLocation(m_Program, 0, "position");
+//    glBindAttribLocation(m_Program, 1, "texCoord");
+//    glBindAttribLocation(m_Program, 2, "normal");
+//    glBindAttribLocation(m_Program, 3, "tangent");
+//    glBindAttribLocation(m_Program, 4, "biTangent");
+//    glBindAttribLocation(m_Program, 5, "boneID");
+//    glBindAttribLocation(m_Program, 6, "boneWeights");
+//
+//    glLinkProgram(m_Program);
+//    checkShaderStatus(m_Program, GL_LINK_STATUS, true, "Error Linking Shader Program");
+//
+//    glValidateProgram(m_Program);
+//    checkShaderStatus(m_Program, GL_LINK_STATUS, true, "Invalid Shader Program");
+//
+//    m_uniforms[0] = glGetUniformLocation(m_Program, "model");
+//    m_uniforms[1] = glGetUniformLocation(m_Program, "camera");
+//    m_uniforms[2] = glGetUniformLocation(m_Program, "cameraPosition");
+//    m_uniforms[3] = glGetUniformLocation(m_Program, "view");
+//    m_uniforms[4] = glGetUniformLocation(m_Program, "projection");
+//    m_uniforms[5] = glGetUniformLocation(m_Program, "cachedMVP");
+//    for(unsigned int i = 0; i < NUM_SHADER; i++){
+//        glDeleteShader(m_Shaders[i]);
+//    }
 }
 
 GLShader::GLShader(const std::string &filePath) {
@@ -44,6 +44,9 @@ GLShader::GLShader(const std::string &filePath) {
     for(unsigned int i = 0; i < NUM_SHADER; i++){
         glAttachShader(m_Program, m_Shaders[i]);
     }
+
+    m_refPath["VERTEX_SHADER"] = filePath+".vsh";
+    m_refPath["FRAGMENT_SHADER"] = filePath+".fsh";
 
     glBindAttribLocation(m_Program, 0, "position");
     glBindAttribLocation(m_Program, 1, "texCoord");
@@ -80,6 +83,9 @@ GLShader::GLShader(const std::string &vShaderPath, const std::string &fShaderPat
     for(unsigned int i = 0; i < NUM_SHADER; i++){
         glAttachShader(m_Program, m_Shaders[i]);
     }
+
+    m_refPath["VERTEX_SHADER"] = vShaderPath+".vsh";
+    m_refPath["FRAGMENT_SHADER"] = fShaderPath+".fsh";
 
     glBindAttribLocation(m_Program, 0, "position");
     glBindAttribLocation(m_Program, 1, "texCoord");
@@ -278,6 +284,58 @@ void GLShader::update_Texture2DArray(const std::string &name, Vector2<stInt> val
     }
 }
 
+void GLShader::save(std::ofstream &out) {
+    auto shaderCount = (stUint)m_refPath.size();
+    out.write((char*)&shaderCount, sizeof(stUint));
+    for(auto shader : m_refPath){
+        STSerializableUtility::WriteString(shader.first.c_str(), out);
+        STSerializableUtility::WriteString(shader.second.c_str(), out);
+    }
+}
+
+void GLShader::load(std::ifstream &in) {
+    stUint shaderCount;
+    in.read((char*)&shaderCount, sizeof(stUint));
+    for(stUint i = 0; i < shaderCount; i++){
+        auto key = STSerializableUtility::ReadString(in);
+        auto value = STSerializableUtility::ReadString(in);
+        m_refPath[key] = value;
+    }
+
+    m_shaderName = m_refPath["VERTEX_SHADER"];
+    m_fragShaderName = m_refPath["FRAGMENT_SHADER"];
+    m_Program = glCreateProgram();
+    m_Shaders[0] = createShader(loadShader(m_shaderName), GL_VERTEX_SHADER);
+    m_Shaders[1] = createShader(loadShader(m_fragShaderName), GL_FRAGMENT_SHADER);
+    for (unsigned int m_Shader : m_Shaders) {
+        glAttachShader(m_Program, m_Shader);
+    }
+
+    glBindAttribLocation(m_Program, 0, "position");
+    glBindAttribLocation(m_Program, 1, "texCoord");
+    glBindAttribLocation(m_Program, 2, "normal");
+    glBindAttribLocation(m_Program, 3, "tangent");
+    glBindAttribLocation(m_Program, 4, "biTangent");
+    glBindAttribLocation(m_Program, 5, "boneID");
+    glBindAttribLocation(m_Program, 6, "boneWeights");
+
+    glLinkProgram(m_Program);
+    checkShaderStatus(m_Program, GL_LINK_STATUS, true, "Error Linking Shader Program");
+
+    glValidateProgram(m_Program);
+    checkShaderStatus(m_Program, GL_LINK_STATUS, true, "Invalid Shader Program");
+
+    m_uniforms[0] = glGetUniformLocation(m_Program, "model");
+    m_uniforms[1] = glGetUniformLocation(m_Program, "camera");
+    m_uniforms[2] = glGetUniformLocation(m_Program, "cameraPosition");
+    m_uniforms[3] = glGetUniformLocation(m_Program, "view");
+    m_uniforms[4] = glGetUniformLocation(m_Program, "projection");
+    m_uniforms[5] = glGetUniformLocation(m_Program, "cachedMVP");
+
+    for (unsigned int m_Shader : m_Shaders) {
+        glDeleteShader(m_Shader);
+    }
+}
 
 
 

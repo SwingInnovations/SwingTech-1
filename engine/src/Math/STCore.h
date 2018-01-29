@@ -2,7 +2,11 @@
 #define WAHOO_STECH_CORE_H
 
 #include <cmath>
+#if MINGW
 #include <c++/cstdint>
+#else
+#include <cstdint>
+#endif
 
 #define ST_PI 3.1415926535
 #define toRadian(x) (float)(((x) * ST_PI / 180.0f))

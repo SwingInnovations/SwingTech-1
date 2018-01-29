@@ -11,7 +11,9 @@ bool STFileManager::DirExists(const std::string &str) {
 int STFileManager::CreateDir(const std::string &filePath) {
 #if __MINGW32__
     return mkdir(filePath.c_str());
-#else
+#elif __linux__
     return mkdir(filePath.c_str(), S_IFDIR);
-    #endif
+#else
+	return 0;
+#endif
 }

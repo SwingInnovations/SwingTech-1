@@ -16,8 +16,6 @@
 
 class STLight :public STEntity{
 public:
-
-    using STLightPtr = std::shared_ptr<STLight>;
     /**
      * Initializes a Directional Light.
      * @param position  Position in scene
@@ -25,7 +23,7 @@ public:
      * @param color     Color of light
      * @return new STLight
      */
-    static STLightPtr InitDirectionalLight(Vector3D position, Vector3D direction, Vector3D color);
+    static std::shared_ptr<STLight> InitDirectionalLight(Vector3D position, Vector3D direction, Vector3D color);
 
     /**
      * Initializes a Spotlight.
@@ -49,7 +47,6 @@ public:
 
     STLight();
 
-    ~STLight();
 
     bool isDebug(){ return m_debug; }
     bool setDebug(bool value){

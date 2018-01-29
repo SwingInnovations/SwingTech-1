@@ -5,7 +5,6 @@
 
 STEntity::STEntity() {
     m_transform = std::make_shared<Transform>();
-//    m_transform->setEntity(shared_from_this());
     numComponents = 0;
 }
 
@@ -167,7 +166,6 @@ void STEntity::draw(Camera *cam, int drawMode) {
     auto grphx = this->get<STGraphicsComponent>();
     auto mesh = this->get<STMeshComponent>();
     grphx->draw();
-    //grphx->shdr()->update(*m_transform, *cam);
     grphx->getMaterial()->shdr()->update(*m_transform, *cam);
     mesh->draw(drawMode);
 
@@ -220,14 +218,17 @@ void STEntity::ReloadFromSave() {
 }
 
 void STEntity::load(std::ifstream &in) {
+    std::cout << "Initial MapSize: " << m_components.size() << std::endl;
+    auto t = shared_from_this();
     m_transform->load(in);
+    m_transform->setEntity(t);
     in.read((char*)&numComponents, sizeof(numComponents));
+    m_components.clear();
     for(stUint i = 0; i < numComponents; i++){
         auto componentName = STSerializableUtility::ReadString(in);
         auto comp = STComponentObjectFactory::Get()->create(componentName);
-        comp->load(in);
-        auto t = shared_from_this();
         comp->init(t);
+        comp->load(in);
         m_components[componentName] = comp;
     }
 }
@@ -237,7 +238,6 @@ void STEntity::save(std::ofstream &out) {
     out.write((char*)&numComponents, sizeof(numComponents));
     int status = 0;
     for(auto comp : m_components){
-        //auto compName = abi::__cxa_demangle(comp.first.c_str(), 0, 0, &status);
         auto compName = comp.first.c_str();
         STSerializableUtility::WriteString(compName, out);
         comp.second->save(out);

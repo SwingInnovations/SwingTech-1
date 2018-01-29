@@ -96,9 +96,15 @@ void ST3DPhysicsComponent::initScriptingFunctions(sol::state &state) {
 
 void ST3DPhysicsComponent::save(std::ofstream &out) {
     out.write((char*)&m_initShape, sizeof(m_initShape));
-
+    out.write((char*)&m_dimensions, sizeof(m_dimensions));
+    m_rigidBody->save(out);
 }
 
 void ST3DPhysicsComponent::load(std::ifstream &in) {
-
+    in.read((char*)&m_initShape, sizeof(m_initShape));
+    in.read((char*)&m_dimensions, sizeof(m_dimensions));
+    if(STGame::Get()->getPhysicsMode() == 1){
+        m_rigidBody = new BulletRigidBody(m_entity->transform(), m_initShape, m_dimensions);
+        m_rigidBody->load(in);
+    }
 }

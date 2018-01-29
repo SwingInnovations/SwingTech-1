@@ -1,7 +1,5 @@
 #include "STLight.h"
 
-using STLightPtr = STLight::STLightPtr;
-
 STLight *STLight::InitPointLight(Vector3<stReal> position, Vector3<stReal> color, stReal radius) {
 //    STLight* ret = new STLight;
 //    ret->transform()->setTranslate(position);
@@ -33,7 +31,7 @@ STLight::InitSpotLight(Vector3<stReal> position, Vector3<stReal> direction, Vect
 //    return ret;
 }
 
-STLightPtr STLight::InitDirectionalLight(Vector3<stReal> position, Vector3<stReal> direction, Vector3<stReal> color) {
+std::shared_ptr<STLight> STLight::InitDirectionalLight(Vector3<stReal> position, Vector3<stReal> direction, Vector3<stReal> color) {
     auto ret = std::make_shared<STLight>();
     ret->init();
     ret->addComponent(typeid(STLightComponent), std::make_shared<STLightComponent>());
@@ -51,8 +49,4 @@ STLightPtr STLight::InitDirectionalLight(Vector3<stReal> position, Vector3<stRea
 
 STLight::STLight() {
 
-}
-
-STLight::~STLight() {
-    delete m_material;
 }

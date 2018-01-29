@@ -11,20 +11,6 @@ STGraphicsComponent::STGraphicsComponent(const STGraphicsComponent &copy) {
     this->m_entity = copy.m_entity;
 }
 
-STGraphicsComponent::STGraphicsComponent(Shader *shdr) {
-    useTexture = false;
-    useMaterial = false;
-}
-
-STGraphicsComponent::STGraphicsComponent(const std::string &shdr) {
-    useTexture = false;
-    useMaterial = false;
-}
-
-STGraphicsComponent::STGraphicsComponent(STMaterial *mat) {
-    useMaterial = true;
-}
-
 STGraphicsComponent::STGraphicsComponent(std::shared_ptr<STMaterial> material) {
     //TODO Implement this
     m_Material = material;
@@ -248,6 +234,10 @@ void STGraphicsComponent::save(std::ofstream &out) {
 void STGraphicsComponent::load(std::ifstream &in) {
     m_Material = std::make_shared<STMaterial>();
     m_Material->load(in);
+}
+
+STGraphicsComponent::STGraphicsComponent(Shader *shdr) {
+
 }
 
 

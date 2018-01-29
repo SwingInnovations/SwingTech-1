@@ -14,7 +14,7 @@ class STEntity;
  */
 class STComponent {
 public:
-    virtual void init(std::shared_ptr<STEntity>& newParent){this->m_entity = newParent;}      //This will actually initialize anything dependent on the m_entity pointer.
+    virtual void init(std::shared_ptr<STEntity>& newParent);      //This will actually initialize anything dependent on the m_entity pointer.
     virtual void ReInitFromSave(std::shared_ptr<STEntity> parent ){ /*Reimplement this for every component as mandatory*/;}
     /**
      * Initializes stuff

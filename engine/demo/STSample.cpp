@@ -27,14 +27,16 @@ public:
         accentLight2->get<STLightComponent>()->setTarget(Vector3D());
         accentLight2->get<STLightComponent>()->getProperties()->intensity = 0.9f;
 
+        STFileManager::Write("testLight.bin", accentLight2.get());
+
         std::cout << "Generated Lights" << std::endl;
 
-        auto readActor = STFileManager::Read_Temp<STActor>("testEntity.bin");
+        auto readActor = STFileManager::Read<STActor>("testEntity.bin");
         auto readPeek = readActor.get();
         readActor->transform()->setTranslate(Vector3D(3, 3, 1));;
         readActor->get<STGraphicsComponent>()->GetMaterial()->setDiffuseColor(Vector4D(0, 1, 0, 1));
 
-        auto d = STFileManager::Read_Temp<STActor>("dice.stentity");
+        auto d = STFileManager::Read<STActor>("dice.stentity");
 //        auto diceBox = new STActor("smooth_sphere.obj");
 //        diceBox->setTag("Dice");
 //        diceBox->get<STGraphicsComponent>()->getMaterial()->setMetallic(0.2f);
@@ -53,10 +55,10 @@ public:
         auto p = STActor::Create("plane.obj");
         p->get<STGraphicsComponent>()->getMaterial()->setDiffuseTexture("grid.png");
         p->transform()->setTranslateY(-2.f);
-//
         m_scene->addLight(mainLight);
         m_scene->addLight(accentLight);
-        m_scene->addLight(accentLight2);
+        //m_scene->addLight(l);
+        //m_scene->addLight(accentLight2);
         m_scene->addActor(d);
 //        m_scene->addActor(diceBox);
         m_scene->addActor(p);

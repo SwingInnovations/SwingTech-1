@@ -187,8 +187,16 @@ void STMaterial::load(std::ifstream &in) {
             m_Uniforms[ref.first] = STShader::ShaderAttrib(ref.first, STShader::TEX, STShader::toString(Vector2<stInt>(GLTexture::GenTex(ref.second), (stInt)oldTextureIndex)));
         }
     }
+}
 
-    std::cout << "Done Loading STMaterial" << std::endl;
+STMaterial::~STMaterial() {
+    delete shader;
+    for(auto uniform : m_Uniforms){
+        if(uniform.second.type == STShader::TEX){
+            auto texHandle = (stUint)STShader::toVector2(uniform.second.value).getX();
+            glDeleteTextures(1, &texHandle);
+        }
+    }
 }
 
 

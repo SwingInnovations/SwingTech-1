@@ -13,17 +13,13 @@ class STComponent;
 
 class STGraphicsComponent : public STComponent{
 public:
-    [[deprecated]]
-    explicit STGraphicsComponent(Shader* shdr);
+    explicit STGraphicsComponent(std::shared_ptr<STMaterial> material);
     STGraphicsComponent(const STGraphicsComponent& copy);
     void initScriptingFunctions(sol::state& state) override;
 
-    [[deprecated]]
-    explicit STGraphicsComponent(STMaterial* mat);
-    explicit STGraphicsComponent(std::shared_ptr<STMaterial> material);
-
     STGraphicsComponent();
-    explicit STGraphicsComponent(const std::string& shdr);
+    [[deprecated]]
+    STGraphicsComponent(Shader* shdr);
     ~STGraphicsComponent() override {
         m_Material.reset();
         for(auto uniform : m_Uniforms){
@@ -72,10 +68,6 @@ public:
     void draw(Transform& T, Camera& C);
 private:
     std::shared_ptr<STMaterial> m_Material;
-    [[deprecated]]
-    bool useTexture;
-    [[deprecated]]
-    bool useMaterial;
     std::map<std::string, STShader::ShaderAttrib> m_Uniforms;
 };
 #endif //WAHOO_STGRAPHICSCOMPONENT_H

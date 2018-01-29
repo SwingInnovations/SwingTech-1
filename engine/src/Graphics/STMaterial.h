@@ -50,15 +50,7 @@ public:
      */
     STMaterial* copy();
 
-    ~STMaterial(){
-        delete shader;
-        for(auto uniform : m_Uniforms){
-            if(uniform.second.type == STShader::TEX){
-                auto texHandle = (stUint)STShader::toVector2(uniform.second.value).getX();
-                glDeleteTextures(1, &texHandle);
-            }
-        }
-    }
+    ~STMaterial();
 
     /**
      * Sets Uniform map.

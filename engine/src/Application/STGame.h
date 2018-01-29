@@ -46,7 +46,7 @@ public:
 
     static STGame* m_instance;
 
-    static STGame* Init(const std::string& title, const stUint WIDTH, const stUint HEIGHT);
+    static STGame* Init(const std::string& title, stUint WIDTH, stUint HEIGHT);
     static STGame* Init(const std::string& title, stUint width, stUint height, STPhysics::PhysicsEngine mode);
     static STGame* Get();
 

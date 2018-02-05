@@ -15,18 +15,27 @@ class STEntity;
 class STComponent {
 public:
     virtual void init(std::shared_ptr<STEntity>& newParent);      //This will actually initialize anything dependent on the m_entity pointer.
-    virtual void ReInitFromSave(std::shared_ptr<STEntity> parent ){ /*Reimplement this for every component as mandatory*/;}
 
     /**
-     * Initializes stuff
+     * Enables Scripting access to the Entity.
      */
     virtual void initScriptingFunctions(sol::state& m_script){;}
+
+    /**
+     * Called in the Update Loop
+     */
     virtual void update() = 0;
+
+    /**
+     * Called in the Draw Loop.
+     */
     virtual void draw(){ }
+
     /**
      * @brief Independently called to clear contents of component.
      */
     virtual void dispose(){;};
+
     virtual ~STComponent() = default;
 
     /**
@@ -41,12 +50,15 @@ public:
      */
     virtual void load(std::ifstream& in) = 0;
 
+    /**
+     * Sets the Link to the Entity the Component is a part of.
+     * @param parent
+     */
     inline void setParent(std::shared_ptr<STEntity> parent){ this->m_entity = std::move(parent); }
 
     STEntity* getParent(){ return this->m_entity.get(); }
 protected:
     std::shared_ptr<STEntity> m_entity;
-
 };
 
 /**

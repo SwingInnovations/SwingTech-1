@@ -10,26 +10,22 @@
 #include "../../Graphics/GL/GLTexture.h"
 
 struct STShadowProperties{
-    stUint shadowIndex{};
-    stUint shadowMapID[6]{};
-    stUint shadowFrameBuffer[6]{};
+    stUint shadowIndex;
+    stUint shadowMapID[6];
+    stUint shadowFrameBuffer[6];
     Matrix4f projections[6];
 
     STShadowProperties() = default;
 
     void save(std::ofstream& out){
-        out.write((char*)&shadowIndex, sizeof(shadowIndex));
-        out.write((char*)&shadowMapID, sizeof(shadowMapID));
-        out.write((char*)&shadowFrameBuffer, sizeof(shadowFrameBuffer));
+        out.write((char*)&shadowIndex, sizeof(stUint));
         for (auto &projection : projections) {
             projection.save(out);
         }
     }
 
     void load(std::ifstream& in){
-        in.read((char*)&shadowIndex, sizeof(shadowIndex));
-        in.read((char*)&shadowMapID, sizeof(shadowMapID));
-        in.read((char*)&shadowFrameBuffer, sizeof(shadowFrameBuffer));
+        in.read((char*)&shadowIndex, sizeof(stUint));
         for (auto &projection : projections) {
             projection.load(in);
         }
@@ -48,11 +44,7 @@ public:
      */
     STShadowProperties* getProperties(){ return &m_Properties; }
     void update()override{
-
-    }
-
-    void draw()override{
-
+        ;
     }
 
     void save(std::ofstream& out) override;

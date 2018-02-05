@@ -11,7 +11,7 @@ class STGame;
 
 using namespace std;
 
-class STGraphicsComponent;
+class STRendererComponent;
 
 class TestState : public STGameState {
 public:
@@ -39,8 +39,8 @@ public:
         //auto actor = new STActor("sample.FBX", resManager->getMaterial("default")->copy());
 
         _testActor2 = new STActor("smooth_sphere.obj");
-        //_testActor2->get<STGraphicsComponent>()->getMaterial()->setRoughness("Bronze_Roughness.jpg");
-        _testActor2->get<STGraphicsComponent>()->getMaterial()->setDiffuseColor(STColor(1.f, 0.f, 0.f, 1.f));
+        //_testActor2->get<STRendererComponent>()->getMaterial()->setRoughness("Bronze_Roughness.jpg");
+        _testActor2->get<STRendererComponent>()->getMaterial()->setDiffuseColor(STColor(1.f, 0.f, 0.f, 1.f));
         _testActor2->transform()->setRotationMode(Transform::RotationMode::Local);
         _testActor2->addComponent(typeid(STScriptComponent), new STScriptComponent("example_Movement.lua"));
         _testActor2->get<STScriptComponent>()->registerEvent("OnStrike");
@@ -52,11 +52,11 @@ public:
 
         _testActor = new STActor("teapot.obj");
         _testActor->addComponent(typeid(STScriptComponent), new STScriptComponent("teapot.lua"));
-        _testActor->get<STGraphicsComponent>()->getMaterial()->setDiffuseTexture("Bronze_Albedo.jpg");
-        _testActor->get<STGraphicsComponent>()->getMaterial()->setMetallic("Bronze_Roughness.jpg");
-        _testActor->get<STGraphicsComponent>()->getMaterial()->setRoughness("Bronze_Roughness.jpg");
+        _testActor->get<STRendererComponent>()->getMaterial()->setDiffuseTexture("Bronze_Albedo.jpg");
+        _testActor->get<STRendererComponent>()->getMaterial()->setMetallic("Bronze_Roughness.jpg");
+        _testActor->get<STRendererComponent>()->getMaterial()->setRoughness("Bronze_Roughness.jpg");
         _plane = new STActor("plane.obj");
-        _plane->get<STGraphicsComponent>()->getMaterial()->setRoughness(0.0);
+        _plane->get<STRendererComponent>()->getMaterial()->setRoughness(0.0);
         _plane->transform()->setTranslateY(1.f);
         _plane->setDiffuseTexture("checker.jpg");
 

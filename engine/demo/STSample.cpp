@@ -29,39 +29,23 @@ public:
 
         auto sphere = STActor::Create("smooth_Sphere.obj");
         sphere->transform()->setTranslate( {1.f, 5.f, 1.f} );
-        sphere->addComponent(typeid(ST3DPhysicsComponent), new ST3DPhysicsComponent(STRigidBody::SPHERE, {0.9f}));
-        sphere->get<ST3DPhysicsComponent>()->updateTransform();
+        auto physHandle = sphere->addComponent<ST3DPhysicsComponent>(new ST3DPhysicsComponent(STRigidBody::SPHERE, {0.9f}));
+        physHandle->updateTransform();
 
         STFileManager::Write("testEntity.bin", sphere);
         auto sp2 = STFileManager::Read<STActor>("testEntity.bin");
 
         STFileManager::Write("testLight", accentLight2);
 
-//        auto readActor = STFileManager::Read<STActor>("testEntity.bin");
-//        auto readPeek = readActor.get();
-//        readActor->transform()->setTranslate(Vector3D(3, 3, 1));;
-//        readActor->get<STGraphicsComponent>()->GetMaterial()->setDiffuseColor(Vector4D(0, 1, 0, 1));
-
-        //auto l = STFileManager::Read<STLight>("testLight");
-
-//        auto diceBox = new STActor("smooth_sphere.obj");
-//        diceBox->setTag("Dice");
-//        diceBox->get<STGraphicsComponent>()->getMaterial()->setMetallic(0.2f);
-//        diceBox->get<STGraphicsComponent>()->getMaterial()->setRoughness(0.1f);
-//        //diceBox->get<STGraphicsComponent>()->getMaterial()->setDiffuseTexture("Bronze_Albedo.jpg");
-//        diceBox->transform()->setTranslateX(1.0f);
-//        diceBox->transform()->setTranslateY(10.f);
-//        diceBox->transform()->setTranslateZ(2.f);
-//        diceBox->addComponent(typeid(ST3DPhysicsComponent), new ST3DPhysicsComponent(STRigidBody::RigidBodyShape::SPHERE, {0.9f}));
-//        diceBox->get<ST3DPhysicsComponent>()->setMass(10.f);
-//        diceBox->get<ST3DPhysicsComponent>()->setRestitution(200.0f);
-//        diceBox->get<ST3DPhysicsComponent>()->updateTransform();
-//        diceBox->get<ST3DPhysicsComponent>()->toggleFreeze(true);
-//        diceBox->addComponent(typeid(STScriptComponent), new STScriptComponent("dice.lua"));
+        auto l = STFileManager::Read<STLight>("testLight");
 
         auto p = STActor::Create("plane.obj");
-        p->get<STGraphicsComponent>()->getMaterial()->setDiffuseTexture("grid.png");
+        p->get<STRendererComponent>()->getMaterial()->setDiffuseTexture("grid.png");
         p->transform()->setTranslateY(-2.f);
+        auto pHandle = p->addComponent<ST3DPhysicsComponent>(new ST3DPhysicsComponent(STRigidBody::RigidBodyShape::BOX, {5.f, 0.1f, 5.f}));
+        pHandle->toggleFreeze(true);
+        pHandle->updateTransform();
+
         m_scene->addLight(mainLight);
         m_scene->addLight(accentLight);
         //m_scene->addLight(l);

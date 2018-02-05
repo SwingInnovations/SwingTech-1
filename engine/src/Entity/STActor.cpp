@@ -63,8 +63,8 @@ std::shared_ptr<STActor> STActor::Create(const std::string &filename) {
     if(meshes.at(0).m_hasAnimations){
         ret->addComponent(typeid(ST3DAnimationComponent), new ST3DAnimationComponent(meshes.at(0)));
     }
-    if(meshes.at(0).materialKey.empty()) ret->addComponent(typeid(STGraphicsComponent), new STGraphicsComponent(std::make_shared<STMaterial>(new GLShader("standard"))));
-    else ret->addComponent(typeid(STGraphicsComponent), new STGraphicsComponent(materials.at(meshes.at(0).materialKey)));
+    if(meshes.at(0).materialKey.empty()) ret->addComponent(typeid(STRendererComponent), new STRendererComponent(std::make_shared<STMaterial>(new GLShader("standard"))));
+    else ret->addComponent(typeid(STRendererComponent), new STRendererComponent(materials.at(meshes.at(0).materialKey)));
 
     return ret;
 }
@@ -132,7 +132,7 @@ STActor::STActor(STEntity *parent, STMesh_Structure meshStructure, std::map<std:
 void STActor::draw() {
     if(m_visible){
         auto mesh = this->get<STMeshComponent>();
-        auto grphx = this->get<STGraphicsComponent>();
+        auto grphx = this->get<STRendererComponent>();
         auto cam = STGame::Get()->getCamera();
 
         if(grphx != nullptr)grphx->draw(*m_transform, *cam);
@@ -152,7 +152,7 @@ void STActor::draw() {
 void STActor::draw(Camera *camera, int drawMode) {
     if(m_visible){
         auto mesh = this->get<STMeshComponent>();
-        auto grphx = this->get<STGraphicsComponent>();
+        auto grphx = this->get<STRendererComponent>();
         grphx->draw(*m_transform, *camera);
         mesh->draw(drawMode);
     }
@@ -165,7 +165,7 @@ void STActor::draw(Camera *camera, int drawMode) {
 void STActor::draw(STMaterial *material) {
     if(m_visible){
         auto mesh = this->get<STMeshComponent>();
-        auto grphx = this->get<STGraphicsComponent>();
+        auto grphx = this->get<STRendererComponent>();
         auto cam = STGame::Get()->getCamera();
         if(grphx!= nullptr) material->draw(grphx->GetUniforms(), *m_transform, *cam);
         if(mesh != nullptr) mesh->draw();
@@ -182,7 +182,7 @@ void STActor::draw(STMaterial *material) {
  */
 void STActor::draw(STMaterial* overrideMaterial, bool flag){
     auto mesh = get<STMeshComponent>();
-    auto grphx = get<STGraphicsComponent>();
+    auto grphx = get<STRendererComponent>();
     auto cam = STGame::Get()->getCamera();
     if(!m_children.empty()){
         for(const auto &child : m_children){

@@ -22,7 +22,7 @@ class Camera;
 class STGraphics;
 class STComponent;
 class STMeshComponent;
-class STGraphicsComponent;
+class STRendererComponent;
 class STScriptComponent;
 
 /**
@@ -82,6 +82,8 @@ public:
     void ReloadFromSave();
 
     void addComponent(std::type_index, STComponent*);
+    template<typename T> T* addComponent();
+    template<typename T> T* addComponent(STComponent*);
     void addChild(STEntity* entity);
     STEntity* getChild(int ind);
 
@@ -179,6 +181,18 @@ protected:
     std::map<std::string, std::shared_ptr<STAttribute>> m_attributes;
     std::vector<std::shared_ptr<STEntity>> m_children;
 };
+
+template<typename T> T* STEntity::addComponent() {
+    auto ret = new T;
+    addComponent(typeid(T), ret);
+    return ret;
+}
+
+template<typename T> T* STEntity::addComponent(STComponent *newComp) {
+    auto ret = dynamic_cast<T*>(newComp);
+    addComponent(typeid(T), ret);
+    return ret;
+}
 
 
 #endif //WAHOO_STENTITY_H

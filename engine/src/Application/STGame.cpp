@@ -45,7 +45,7 @@ STGame::STGame(const std::string title, unsigned int WIDTH, unsigned int HEIGHT)
     setHeight(HEIGHT);
     auto registerBaseComponents = STComponentObjectFactory::Get();
     registerBaseComponents->registerClass("STMeshComponent", [=]() -> STComponent*{ return new STMeshComponent; });
-    registerBaseComponents->registerClass("STGraphicsComponent", [=]() -> STComponent*{ return new STGraphicsComponent; });
+    registerBaseComponents->registerClass("STRendererComponent", [=]() -> STComponent*{ return new STRendererComponent; });
     registerBaseComponents->registerClass("ST3DAnimationComponent", [=]() -> STComponent*{ return new ST3DAnimationComponent; });
     registerBaseComponents->registerClass("ST3DPhysicsComponent", [=]() -> STComponent*{ return new ST3DPhysicsComponent; });
     registerBaseComponents->registerClass("STLightComponent", [=]() -> STComponent*{ return new STLightComponent; });

@@ -28,7 +28,7 @@ public:
 protected:
     bool                                m_isRoot;
     std::string                         m_currentAnimation;
-    STGraphicsComponent*                m_gfxComponent;
+    STRendererComponent*                m_gfxComponent;
     std::map<std::string, std::shared_ptr<STAnimation>> m_animationMap;
     STList<std::shared_ptr<STBoneData>> m_boneData;
     std::shared_ptr<STMeshNode>         m_nodeData;

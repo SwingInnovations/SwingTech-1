@@ -3,7 +3,7 @@
 
 void ST3DAnimationComponent::init(std::shared_ptr<STEntity>& entity) {
     m_entity = entity;
-    m_gfxComponent = m_entity->get<STGraphicsComponent>();
+    m_gfxComponent = m_entity->get<STRendererComponent>();
 }
 
 ST3DAnimationComponent::ST3DAnimationComponent() {
@@ -162,7 +162,7 @@ void ST3DAnimationComponent::MoveBones( stReal animationTime) {
         float AnimationTime = fmodf(TimeInTicks, m_animationMap[m_currentAnimation]->m_Duration);
         ReadNodeHeirarchy(AnimationTime, m_nodeData.get(), Ident);
 
-        if(m_gfxComponent == nullptr) m_gfxComponent = getParent()->get<STGraphicsComponent>();
+        if(m_gfxComponent == nullptr) m_gfxComponent = getParent()->get<STRendererComponent>();
         if(m_gfxComponent!= nullptr){
             for(stUint i = 0; i < m_boneData.size(); i++){
                 m_gfxComponent->setShdrUniform("gBones["+std::to_string(i)+"]", m_boneData[i]->m_finalTransformation);

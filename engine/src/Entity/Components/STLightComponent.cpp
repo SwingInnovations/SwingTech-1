@@ -5,20 +5,22 @@ void STLightComponent::setTarget(Vector3<stReal> target) {
     m_hasTarget = true;
 }
 
-void STLightComponent::save(std::ofstream &out) {
+void STLightComponent::save(std::ofstream &out){
+    out.write((char*)&m_type, sizeof(char));
+    out.write((char*)&m_hasTarget, sizeof(bool));
     m_Properties.save(out);
-    out.write((char*)&m_type, sizeof(m_type));
-    out.write((char*)&m_hasTarget, sizeof(m_hasTarget));
 }
 
 void STLightComponent::load(std::ifstream &in) {
+    in.read((char*)&m_type, sizeof(char));
+    in.read((char*)&m_hasTarget, sizeof(bool));
+    std::cout << m_hasTarget << std::endl;
     m_Properties.load(in);
-    in.read((char*)&m_type, sizeof(m_type));
-    in.read((char*)&m_hasTarget, sizeof(m_hasTarget));
 }
 
 STLightComponent::STLightComponent() {
     m_hasTarget = false;
+    m_type = DIRECTIONAL_LIGHT;
     m_Properties = STLightProperties();
 }
 

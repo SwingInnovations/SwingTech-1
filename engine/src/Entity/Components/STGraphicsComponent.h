@@ -11,16 +11,16 @@
 
 class STComponent;
 
-class STGraphicsComponent : public STComponent{
+class STRendererComponent : public STComponent{
 public:
-    explicit STGraphicsComponent(std::shared_ptr<STMaterial> material);
-    STGraphicsComponent(const STGraphicsComponent& copy);
+    explicit STRendererComponent(std::shared_ptr<STMaterial> material);
+    STRendererComponent(const STRendererComponent& copy);
     void initScriptingFunctions(sol::state& state) override;
 
-    STGraphicsComponent();
+    STRendererComponent();
     [[deprecated]]
-    STGraphicsComponent(Shader* shdr);
-    ~STGraphicsComponent() override {
+    STRendererComponent(Shader* shdr);
+    ~STRendererComponent() override {
         m_Material.reset();
         for(auto uniform : m_Uniforms){
             if(uniform.second.type == STShader::TEX) {

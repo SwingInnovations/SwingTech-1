@@ -43,7 +43,7 @@ STEntity *STEntity::childAtTag(const std::string &tag) {
 
 //Start moving to this method of drawing
 void STEntity::draw(STGraphics *grphx) {
-    auto graphics = this->get<STGraphicsComponent>();
+    auto graphics = this->get<STRendererComponent>();
     auto mesh = this->get<STMeshComponent>();
     auto camera = grphx->getActiveCamera();
 
@@ -166,7 +166,7 @@ const std::map<std::string, STComponent*> &STEntity::getAllComponents() const {
 }
 
 void STEntity::draw(Camera *cam, int drawMode) {
-    auto grphx = this->get<STGraphicsComponent>();
+    auto grphx = this->get<STRendererComponent>();
     auto mesh = this->get<STMeshComponent>();
     grphx->draw();
     grphx->getMaterial()->shdr()->update(*m_transform, *cam);
@@ -180,7 +180,7 @@ void STEntity::draw(Camera *cam, int drawMode) {
 }
 
 void STEntity::draw(Camera *cam) {
-    auto grphx = this->get<STGraphicsComponent>();
+    auto grphx = this->get<STRendererComponent>();
     auto mesh = this->get<STMeshComponent>();
     grphx->draw();
     grphx->getMaterial()->shdr()->update(*m_transform, *cam);
@@ -193,7 +193,7 @@ void STEntity::draw(Camera *cam) {
 }
 
 void STEntity::draw() {
-    auto grphx = get<STGraphicsComponent>();
+    auto grphx = get<STRendererComponent>();
     auto mesh = get<STMeshComponent>();
     grphx->draw();
     mesh->draw();
@@ -211,13 +211,6 @@ void STEntity::init() {
 
 void STEntity::setParent(std::shared_ptr<STEntity> p) {
     this->m_parent = p;
-}
-
-void STEntity::ReloadFromSave() {
-    m_transform->setEntity(shared_from_this());
-    for(auto comp : m_components){
-        comp.second->ReInitFromSave(shared_from_this());
-    }
 }
 
 void STEntity::load(std::ifstream &in) {

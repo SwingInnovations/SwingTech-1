@@ -13,7 +13,7 @@
 
 using namespace std;
 
-class STGraphicsComponent;
+class STRendererComponent;
 
 class TestState : public STGameState {
 public:

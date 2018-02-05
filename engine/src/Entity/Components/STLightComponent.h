@@ -33,7 +33,7 @@ struct STLightProperties{
         target.load(in);
         in.read((char*)&intensity, sizeof(stReal));
         in.read((char*)&radius, sizeof(stReal));
-        in.read((char*)&useShadow, sizeof(in));
+        in.read((char*)&useShadow, sizeof(int));
     }
 
     void save(std::ofstream& out){
@@ -74,7 +74,9 @@ public:
     STLightComponent(const STLightComponent& copy);
     ~STLightComponent() override ;
     explicit STLightComponent(STLightProperties prop) {
-        this->m_Properties = prop;
+        m_Properties = prop;
+        m_type = DIRECTIONAL_LIGHT;
+        m_hasTarget = false;
     }
 
     void setType(LIGHT_TYPE type){
@@ -82,15 +84,10 @@ public:
     }
 
     void setTarget(Vector3<stReal> target);
-
     LIGHT_TYPE getType() const {   return this->m_type; }
 
-    void update() {
-
-    }
-
-    void draw(){
-
+    void update() override {
+        ;
     }
 
     void save(std::ofstream& out) override;

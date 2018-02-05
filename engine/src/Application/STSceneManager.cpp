@@ -1,4 +1,5 @@
 #include "STSceneManager.h"
+#include "../Entity/Components/STEventComponent.h"
 
 OctNode::OctNode(STBoundingBox *boundingBox) {
     this->boundingBox = boundingBox;

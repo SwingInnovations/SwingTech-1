@@ -27,16 +27,23 @@ public:
         accentLight2->get<STLightComponent>()->setTarget(Vector3D());
         accentLight2->get<STLightComponent>()->getProperties()->intensity = 0.9f;
 
-        STFileManager::Write("testLight.bin", accentLight2.get());
+        auto sphere = STActor::Create("smooth_Sphere.obj");
+        sphere->transform()->setTranslate( {1.f, 5.f, 1.f} );
+        sphere->addComponent(typeid(ST3DPhysicsComponent), new ST3DPhysicsComponent(STRigidBody::SPHERE, {0.9f}));
+        sphere->get<ST3DPhysicsComponent>()->updateTransform();
 
-        std::cout << "Generated Lights" << std::endl;
+        STFileManager::Write("testEntity.bin", sphere);
+        auto sp2 = STFileManager::Read<STActor>("testEntity.bin");
 
-        auto readActor = STFileManager::Read<STActor>("testEntity.bin");
-        auto readPeek = readActor.get();
-        readActor->transform()->setTranslate(Vector3D(3, 3, 1));;
-        readActor->get<STGraphicsComponent>()->GetMaterial()->setDiffuseColor(Vector4D(0, 1, 0, 1));
+        STFileManager::Write("testLight", accentLight2);
 
-        auto d = STFileManager::Read<STActor>("dice.stentity");
+//        auto readActor = STFileManager::Read<STActor>("testEntity.bin");
+//        auto readPeek = readActor.get();
+//        readActor->transform()->setTranslate(Vector3D(3, 3, 1));;
+//        readActor->get<STGraphicsComponent>()->GetMaterial()->setDiffuseColor(Vector4D(0, 1, 0, 1));
+
+        //auto l = STFileManager::Read<STLight>("testLight");
+
 //        auto diceBox = new STActor("smooth_sphere.obj");
 //        diceBox->setTag("Dice");
 //        diceBox->get<STGraphicsComponent>()->getMaterial()->setMetallic(0.2f);
@@ -58,11 +65,9 @@ public:
         m_scene->addLight(mainLight);
         m_scene->addLight(accentLight);
         //m_scene->addLight(l);
-        //m_scene->addLight(accentLight2);
-        m_scene->addActor(d);
 //        m_scene->addActor(diceBox);
         m_scene->addActor(p);
-        m_scene->addActor(readActor);
+        m_scene->addActor(sp2);
 //        counter = 0;
     }
 

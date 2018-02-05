@@ -2,6 +2,7 @@
 #include "../../Application/STSceneManager.h"
 #include "../../Entity/Components/ST3DPhysicsComponent.h"
 #include "BulletRigidBody.h"
+#include "../../Entity/Components/STEventComponent.h"
 #include <iostream>
 
 BulletPhysics::BulletPhysics() {

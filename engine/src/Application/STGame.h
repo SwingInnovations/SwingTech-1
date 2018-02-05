@@ -2,7 +2,7 @@
 #define WAHOO_STECHWINDOW_H
 
 #if __MINGW32__
-#include "../include/GL/glew.h"
+#include <GL/glew.h>
 extern "C"{
     #include <SDL2/SDL.h>
     #include <SDL2/SDL_opengl.h>
@@ -25,13 +25,13 @@ extern "C"{
 #include "../Physics/STPhysics.h"
 #include "STGameState.h"
 #include "../Math/Vector.h"
+#include "../Graphics/Camera.h"
 
 class Input;
 class STScene;
 class STGameState;
 class STGraphics;
 class GLGraphics;
-class Camera;
 
 //! STGame Class
 /*!

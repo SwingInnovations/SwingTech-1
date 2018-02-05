@@ -9,10 +9,13 @@ STEntity::STEntity() {
 }
 
 STEntity::~STEntity() {
+    for(auto comp : m_components){
+        delete comp.second;
+    }
     m_components.clear();
 }
 
-void STEntity::addComponent(std::type_index type, std::shared_ptr<STComponent> component) {
+void STEntity::addComponent(std::type_index type, STComponent* component) {
     auto t = shared_from_this();
     component->init(t);
     int status;
@@ -158,7 +161,7 @@ void STEntity::dispose() {
     m_components.clear();
 }
 
-const std::map<std::string, std::shared_ptr<STComponent>> &STEntity::getAllComponents() const {
+const std::map<std::string, STComponent*> &STEntity::getAllComponents() const {
     return m_components;
 }
 
@@ -218,25 +221,22 @@ void STEntity::ReloadFromSave() {
 }
 
 void STEntity::load(std::ifstream &in) {
-    std::cout << "Initial MapSize: " << m_components.size() << std::endl;
     auto t = shared_from_this();
     m_transform->load(in);
-    m_transform->setEntity(t);
     in.read((char*)&numComponents, sizeof(numComponents));
-    m_components.clear();
     for(stUint i = 0; i < numComponents; i++){
         auto componentName = STSerializableUtility::ReadString(in);
-        auto comp = STComponentObjectFactory::Get()->create(componentName);
+        auto comp = STComponentObjectFactory::Get()->create(componentName);;
         comp->init(t);
         comp->load(in);
-        m_components[componentName] = comp;
+        //m_components[componentName] = comp;
+        m_components.insert(std::make_pair(componentName, comp));
     }
 }
 
 void STEntity::save(std::ofstream &out) {
     m_transform->save(out);
     out.write((char*)&numComponents, sizeof(numComponents));
-    int status = 0;
     for(auto comp : m_components){
         auto compName = comp.first.c_str();
         STSerializableUtility::WriteString(compName, out);

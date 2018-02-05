@@ -6,6 +6,7 @@
 #include <memory>
 #include <typeindex>
 #include <cxxabi.h>
+#include <string>
 
 #include "../Math/Vector.h"
 #include "Transform.h"
@@ -80,7 +81,7 @@ public:
     void init();
     void ReloadFromSave();
 
-    void addComponent(std::type_index, std::shared_ptr<STComponent>);
+    void addComponent(std::type_index, STComponent*);
     void addChild(STEntity* entity);
     STEntity* getChild(int ind);
 
@@ -137,7 +138,7 @@ public:
         return ret;
     }
 
-    const std::map<std::string, std::shared_ptr<STComponent>> &getAllComponents() const;
+    const std::map<std::string, STComponent*> &getAllComponents() const;
 
     /**
      * @brief Returns Component Added to Entity.
@@ -150,7 +151,7 @@ public:
 
         auto it = m_components.find(query);
         if(it != m_components.end()){
-            return dynamic_cast<T*>(it->second.get());
+            return dynamic_cast<T*>(it->second);
         }
         return nullptr;
     }
@@ -172,7 +173,7 @@ protected:
     stUint numComponents;
     std::shared_ptr<Transform> m_transform;
     bool m_visible;
-    std::map<std::string, std::shared_ptr<STComponent>> m_components;
+    std::map<std::string, STComponent*> m_components;
     std::shared_ptr<STEntity> m_parent;
 protected:
     std::map<std::string, std::shared_ptr<STAttribute>> m_attributes;

@@ -40,6 +40,8 @@ class STShadowComponent : public STComponent{
 public:
     STShadowComponent();
     STShadowComponent(const STShadowComponent& copy);
+    ~STShadowComponent()override ;
+
     /**
      * Gets the Shadow Properties
      * @return Shadow Properties Struct

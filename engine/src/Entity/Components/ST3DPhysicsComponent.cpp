@@ -20,7 +20,9 @@ STRigidBody *ST3DPhysicsComponent::getRigidBody() {
 void ST3DPhysicsComponent::init(std::shared_ptr<STEntity>& parent) {
     STComponent::init(parent);
     if(STGame::Get()->getPhysicsMode() == 1){
-        m_rigidBody = new BulletRigidBody(parent->transform(), m_initShape, m_dimensions);
+        if(!m_dimensions.empty()){
+            m_rigidBody = new BulletRigidBody(parent->transform(), m_initShape, m_dimensions);
+        }
     }
 }
 

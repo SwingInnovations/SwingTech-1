@@ -6,6 +6,8 @@
 #include "../Graphics/Camera.h"
 #include "../Physics/Bullet/BulletPhysics.h"
 
+#include "../Entity/Components/STLightComponent.h"
+#include "../Entity/Components/STEventComponent.h"
 #include "../Entity/Components/ST3DAnimationComponent.h"
 #include "../Entity/Components/ST3DPhysicsComponent.h"
 
@@ -42,14 +44,14 @@ STGame::STGame(const std::string title, unsigned int WIDTH, unsigned int HEIGHT)
     setWidth(WIDTH);
     setHeight(HEIGHT);
     auto registerBaseComponents = STComponentObjectFactory::Get();
-    registerBaseComponents->registerClass("STMeshComponent", [=](void) -> std::shared_ptr<STComponent>{ return std::make_shared<STMeshComponent>(); });
-    registerBaseComponents->registerClass("STGraphicsComponent", [=](void) -> std::shared_ptr<STComponent>{ return std::make_shared<STGraphicsComponent>(); });
-    registerBaseComponents->registerClass("ST3DAnimationComponent", [=](void) -> std::shared_ptr<STComponent>{ return std::make_shared<ST3DAnimationComponent>(); });
-    registerBaseComponents->registerClass("ST3DPhysicsComponent", [=](void) -> std::shared_ptr<STComponent>{ return std::make_shared<ST3DPhysicsComponent>(); });
-    registerBaseComponents->registerClass("STLightComponent", [=](void) -> std::shared_ptr<STComponent>{ return std::make_shared<STLightComponent>(); });
-    registerBaseComponents->registerClass("STShadowComponent", [=](void) -> std::shared_ptr<STComponent>{ return std::make_shared<STShadowComponent>(); });
-    registerBaseComponents->registerClass("STEventComponent", [=](void) -> std::shared_ptr<STComponent>{ return std::make_shared<STEventComponent>(); });
-    registerBaseComponents->registerClass("STScriptComponent", [=](void) -> std::shared_ptr<STComponent>{ return std::make_shared<STScriptComponent>(); });
+    registerBaseComponents->registerClass("STMeshComponent", [=]() -> STComponent*{ return new STMeshComponent; });
+    registerBaseComponents->registerClass("STGraphicsComponent", [=]() -> STComponent*{ return new STGraphicsComponent; });
+    registerBaseComponents->registerClass("ST3DAnimationComponent", [=]() -> STComponent*{ return new ST3DAnimationComponent; });
+    registerBaseComponents->registerClass("ST3DPhysicsComponent", [=]() -> STComponent*{ return new ST3DPhysicsComponent; });
+    registerBaseComponents->registerClass("STLightComponent", [=]() -> STComponent*{ return new STLightComponent; });
+    registerBaseComponents->registerClass("STShadowComponent", [=]() -> STComponent*{ return new STShadowComponent; });
+    registerBaseComponents->registerClass("STEventComponent", [=]() -> STComponent*{ return new STEventComponent; });
+    registerBaseComponents->registerClass("STScriptComponent", [=]() -> STComponent*{ return new STScriptComponent; });
     if(SDL_Init(SDL_INIT_EVERYTHING | SDL_INIT_JOYSTICK) == -1){
         std::cout << "Error 399: Failed to load SDL in general: " << SDL_GetError() << std::endl;
         if(SDL_NumJoysticks() < 1){

@@ -37,6 +37,7 @@ STActor::STActor(STMesh_Structure meshStructure, std::map<std::string, std::shar
 
 std::shared_ptr<STActor> STActor::Create(const std::string &filename) {
     auto ret = std::make_shared<STActor>();
+    ret->m_type = Actor;
     ret->init();
     stInt flag = 0;
     bool errFlag = true;
@@ -53,16 +54,17 @@ std::shared_ptr<STActor> STActor::Create(const std::string &filename) {
     }
     if(!errFlag || meshes.empty()){
         //TODO Implement error mesh;
+        return nullptr;
     }
 
     //Assuming Singular mesh
-    ret->addComponent(typeid(STEventComponent), std::make_shared<STEventComponent>());
-    ret->addComponent(typeid(STMeshComponent), std::make_shared<STMeshComponent>(meshes.at(0)));
+    ret->addComponent(typeid(STEventComponent), new STEventComponent);
+    ret->addComponent(typeid(STMeshComponent), new STMeshComponent(meshes.at(0)));
     if(meshes.at(0).m_hasAnimations){
-        ret->addComponent(typeid(ST3DAnimationComponent), std::make_shared<ST3DAnimationComponent>(meshes.at(0)));
+        ret->addComponent(typeid(ST3DAnimationComponent), new ST3DAnimationComponent(meshes.at(0)));
     }
-    if(meshes.at(0).materialKey.empty()) ret->addComponent(typeid(STGraphicsComponent), std::make_shared<STGraphicsComponent>(std::make_shared<STMaterial>(new GLShader("standard"))));
-    else ret->addComponent(typeid(STGraphicsComponent), std::make_shared<STGraphicsComponent>(materials.at(meshes.at(0).materialKey)));
+    if(meshes.at(0).materialKey.empty()) ret->addComponent(typeid(STGraphicsComponent), new STGraphicsComponent(std::make_shared<STMaterial>(new GLShader("standard"))));
+    else ret->addComponent(typeid(STGraphicsComponent), new STGraphicsComponent(materials.at(meshes.at(0).materialKey)));
 
     return ret;
 }
@@ -183,7 +185,7 @@ void STActor::draw(STMaterial* overrideMaterial, bool flag){
     auto grphx = get<STGraphicsComponent>();
     auto cam = STGame::Get()->getCamera();
     if(!m_children.empty()){
-        for(auto child : m_children){
+        for(const auto &child : m_children){
             ((STActor*)child.get())->draw(overrideMaterial, flag);
         }
         return;
@@ -191,13 +193,13 @@ void STActor::draw(STMaterial* overrideMaterial, bool flag){
     if(flag){
         overrideMaterial->draw(grphx->GetUniforms(), grphx->getMaterial()->GetUniforms(), *m_transform, *cam);
         mesh->draw();
-        for(auto child : m_children){
+        for(const auto &child : m_children){
             dynamic_cast<STActor*>(child.get())->draw(overrideMaterial, flag);
         }
     }else{
         overrideMaterial->draw(grphx->GetUniforms(), *m_transform, *cam);
         mesh->draw();
-        for(auto child : m_children){
+        for(const auto &child : m_children){
             dynamic_cast<STActor*>(child.get())->draw(overrideMaterial, flag);
         }
     }

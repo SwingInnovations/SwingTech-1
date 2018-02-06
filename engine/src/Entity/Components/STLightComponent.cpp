@@ -14,7 +14,6 @@ void STLightComponent::save(std::ofstream &out){
 void STLightComponent::load(std::ifstream &in) {
     in.read((char*)&m_type, sizeof(char));
     in.read((char*)&m_hasTarget, sizeof(bool));
-    std::cout << m_hasTarget << std::endl;
     m_Properties.load(in);
 }
 

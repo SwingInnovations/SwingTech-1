@@ -42,14 +42,6 @@ public:
     static STLight* InitPointLight(Vector3D position, Vector3D color, stReal radius);
 
     STLight();
-
-
-    bool isDebug(){ return m_debug; }
-    bool setDebug(bool value){
-        this->m_debug = value;
-    }
-private :
-    bool m_debug{};
 };
 
 

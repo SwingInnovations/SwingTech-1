@@ -31,6 +31,8 @@ public:
         sphere->transform()->setTranslate( {1.f, 5.f, 1.f} );
         auto physHandle = sphere->addComponent<ST3DPhysicsComponent>(new ST3DPhysicsComponent(STRigidBody::SPHERE, {0.9f}));
         physHandle->updateTransform();
+        sphere->setName("Sphere");
+        sphere->setTag("object");
 
         STFileManager::Write("testEntity.bin", sphere);
         auto sp2 = STFileManager::Read<STActor>("testEntity.bin");
@@ -48,11 +50,9 @@ public:
 
         m_scene->addLight(mainLight);
         m_scene->addLight(accentLight);
-        //m_scene->addLight(l);
-//        m_scene->addActor(diceBox);
+        m_scene->addLight(l);
         m_scene->addActor(p);
         m_scene->addActor(sp2);
-//        counter = 0;
     }
 
     void update(STGame* game) override{

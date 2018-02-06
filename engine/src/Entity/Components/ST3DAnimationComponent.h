@@ -5,7 +5,7 @@
 
 
 #include "STComponent.h"
-#include "STGraphicsComponent.h"
+#include "STRendererComponent.h"
 #include "../STEntity.h"
 
 class STComponent;

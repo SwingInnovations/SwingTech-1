@@ -1,4 +1,4 @@
-#include "STGraphicsComponent.h"
+#include "STRendererComponent.h"
 #include "../STEntity.h"
 #include "../../Graphics/GL/GLShader.h"
 #include "../../Graphics/STGraphics.h"

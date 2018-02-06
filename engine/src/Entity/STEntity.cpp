@@ -215,25 +215,57 @@ void STEntity::setParent(std::shared_ptr<STEntity> p) {
 
 void STEntity::load(std::ifstream &in) {
     auto t = shared_from_this();
+    stUint childCount = 0, attribCount = 0;
+    m_name = STSerializableUtility::ReadString(in);
+    m_tag = STSerializableUtility::ReadString(in);
     m_transform->load(in);
+    in.read((char*)&childCount, sizeof(stUint));
     in.read((char*)&numComponents, sizeof(numComponents));
+    in.read((char*)&attribCount, sizeof(stUint));
     for(stUint i = 0; i < numComponents; i++){
         auto componentName = STSerializableUtility::ReadString(in);
         auto comp = STComponentObjectFactory::Get()->create(componentName);;
         comp->init(t);
         comp->load(in);
-        //m_components[componentName] = comp;
-        m_components.insert(std::make_pair(componentName, comp));
+        m_components[componentName] = comp;
+    }
+
+    for(stUint i = 0; i < childCount; i++){
+        auto child = std::make_shared<STEntity>();
+        child->load(in);
+        m_children.emplace_back(child);
+    }
+
+    for(stUint i = 0; i < attribCount; i++){
+        auto key = STSerializableUtility::ReadString(in);
+        auto value = std::make_shared<STAttribute>();
+        value->load(in);
+        m_attributes[key] = value;
     }
 }
 
 void STEntity::save(std::ofstream &out) {
+    STSerializableUtility::WriteString(m_name.c_str(), out);
+    STSerializableUtility::WriteString(m_tag.c_str(), out);
+    auto childCount = (stUint)m_children.size();
+    auto attribCount = (stUint)m_attributes.size();
     m_transform->save(out);
+    out.write((char*)&childCount, sizeof(stUint));
     out.write((char*)&numComponents, sizeof(numComponents));
-    for(auto comp : m_components){
+    out.write((char*)&attribCount, sizeof(stUint));
+    for(auto comp : m_components) {
         auto compName = comp.first.c_str();
         STSerializableUtility::WriteString(compName, out);
         comp.second->save(out);
+    }
+
+    for(const auto child : m_children){
+        child->save(out);
+    }
+
+    for(const auto attrib : m_attributes){
+        STSerializableUtility::WriteString(attrib.first.c_str(), out);
+        attrib.second->save(out);
     }
 }
 
@@ -358,6 +390,8 @@ void STAttribute::load(std::ifstream &in) {
     in.read((char*)&type, sizeof(type));
     m_value = STSerializableUtility::ReadString(in);
 }
+
+STAttribute::STAttribute() = default;
 
 
 

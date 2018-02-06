@@ -97,14 +97,25 @@ void ST3DPhysicsComponent::initScriptingFunctions(sol::state &state) {
 }
 
 void ST3DPhysicsComponent::save(std::ofstream &out) {
+    auto dimensionCount = (stUint)m_dimensions.size();
     out.write((char*)&m_initShape, sizeof(m_initShape));
-    out.write((char*)&m_dimensions, sizeof(m_dimensions));
+    out.write((char*)&dimensionCount, sizeof(stUint));
+    for(auto dim : m_dimensions){
+        out.write((char*)&dim, sizeof(stReal));
+    }
     m_rigidBody->save(out);
 }
 
 void ST3DPhysicsComponent::load(std::ifstream &in) {
+    stUint dimCount;
     in.read((char*)&m_initShape, sizeof(m_initShape));
-    in.read((char*)&m_dimensions, sizeof(m_dimensions));
+    in.read((char*)&dimCount, sizeof(stUint));
+    for(stUint i = 0; i < dimCount; i++){
+        stReal val;
+        in.read((char*)&val, sizeof(stReal));
+        m_dimensions.push_back(val);
+    }
+
     if(STGame::Get()->getPhysicsMode() == 1){
         m_rigidBody = new BulletRigidBody(m_entity->transform(), m_initShape, m_dimensions);
         m_rigidBody->load(in);

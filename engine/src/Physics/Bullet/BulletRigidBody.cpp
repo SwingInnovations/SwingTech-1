@@ -181,9 +181,6 @@ void BulletRigidBody::load(std::ifstream &in) {
     m_Linear.load(in);
     m_Angular.load(in);
     m_ImpulseForce.load(in);
-
-
-
 }
 
 

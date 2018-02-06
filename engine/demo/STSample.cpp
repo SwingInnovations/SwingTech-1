@@ -5,6 +5,8 @@
 #include "../src/Entity/Components/ST3DAnimationComponent.h"
 #include "../src/Entity/Components/ST3DPhysicsComponent.h"
 #include "../src/Application/Util/File/STFileManager.h"
+#include "../src/Entity/Components/STEventComponent.h"
+
 class STFileManager;
 
 /**
@@ -27,21 +29,32 @@ public:
         accentLight2->get<STLightComponent>()->setTarget(Vector3D());
         accentLight2->get<STLightComponent>()->getProperties()->intensity = 0.9f;
 
-        auto sphere = STActor::Create("smooth_Sphere.obj");
-        sphere->transform()->setTranslate( {1.f, 5.f, 1.f} );
-        auto physHandle = sphere->addComponent<ST3DPhysicsComponent>(new ST3DPhysicsComponent(STRigidBody::SPHERE, {0.9f}));
-        physHandle->updateTransform();
-        sphere->setName("Sphere");
-        sphere->setTag("object");
+//        auto s = STActor::Create("smooth_sphere.obj");
+//        s->transform()->setTranslate({0.f, 5.f, 0.f});
+//        auto physHandle = s->addComponent<ST3DPhysicsComponent>(new ST3DPhysicsComponent(STRigidBody::SPHERE, {0.9f}));
+//        physHandle->updateTransform();
+//
+//        STFileManager::Write("testEntity.bin", s);
 
-        STFileManager::Write("testEntity.bin", sphere);
-        auto sp2 = STFileManager::Read<STActor>("testEntity.bin");
+        auto sphere = STFileManager::Read<STActor>("testEntity.bin");
+        sphere->get<ST3DPhysicsComponent>()->updateTransform();
+        sphere->get<ST3DPhysicsComponent>()->setMass(30.f);
+        sphere->get<ST3DPhysicsComponent>()->setRestitution(200.f);
+        sphere->get<STEventComponent>()->addEvent("onCollision", [](STEntity* self, STEntity* other){
+            if(other != nullptr){
+                auto gfx = self->get<STRendererComponent>();
+                gfx->getMaterial()->setDiffuseColor(Vector4D(1.f, 0.f, 0.f, 1.f));
+                gfx->getMaterial()->setMetallic(0.2f);
+                gfx->getMaterial()->setRoughness(0.f);
+            }
+        });
 
         STFileManager::Write("testLight", accentLight2);
 
         auto l = STFileManager::Read<STLight>("testLight");
 
         auto p = STActor::Create("plane.obj");
+        p->setName("Plane");
         p->get<STRendererComponent>()->getMaterial()->setDiffuseTexture("grid.png");
         p->transform()->setTranslateY(-2.f);
         auto pHandle = p->addComponent<ST3DPhysicsComponent>(new ST3DPhysicsComponent(STRigidBody::RigidBodyShape::BOX, {5.f, 0.1f, 5.f}));
@@ -52,7 +65,7 @@ public:
         m_scene->addLight(accentLight);
         m_scene->addLight(l);
         m_scene->addActor(p);
-        m_scene->addActor(sp2);
+        m_scene->addActor(sphere);
     }
 
     void update(STGame* game) override{
@@ -66,30 +79,6 @@ public:
             counter++;
             game->setFullScreen(counter % 2);
         }
-
-//		if (input->isKeyDown(KEY::KEY_L)) {
-//			auto rZ = plane->transform()->getRotate().getZ();
-//			plane->transform()->setRotateZ(rZ + 0.025f * game->getDelta());
-//			plane->get<ST3DPhysicsComponent>()->updateTransform();
-//		}
-//
-//		if (input->isKeyDown(KEY::KEY_J)) {
-//			auto rZ = plane->transform()->getRotate().getZ();
-//			plane->transform()->setRotateZ(rZ - 0.025f * game->getDelta());
-//			plane->get<ST3DPhysicsComponent>()->updateTransform();
-//		}
-//
-//        if(input->isKeyDown(KEY::KEY_I)){
-//            auto rX = plane->transform()->getRotate().getX();
-//            plane->transform()->setRotateX(rX + 0.025f * game->getDelta());
-//            plane->get<ST3DPhysicsComponent>()->updateTransform();
-//        }
-//
-//        if(input->isKeyDown(KEY::KEY_K)){
-//            auto rX = plane->transform()->getRotate().getX();
-//            plane->transform()->setRotateX(rX - 0.025f * game->getDelta());
-//            plane->get<ST3DPhysicsComponent>()->updateTransform();
-//        }
 
         m_scene->update();
     }
@@ -106,6 +95,7 @@ public:
 
 private:
     stUint counter;
+    std::shared_ptr<STEntity> sphere;
 };
 
 int main(int argc, char** argv){

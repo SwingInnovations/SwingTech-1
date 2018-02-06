@@ -30,11 +30,13 @@ void BulletPhysics::update(stUint delta) {
             auto collision = m_dynamicsWorld->getDispatcher()->getManifoldByIndexInternal(i);
             auto gameObject = ((STEntity*)collision->getBody0()->getUserPointer());
             auto otherObject = ((STEntity*)collision->getBody1()->getUserPointer());
-            std::vector<STEntity*> result;
-            result.push_back(otherObject);
-            auto eventComp = gameObject->get<STEventComponent>();
-            eventComp->setOther(otherObject);
-            eventComp->setEvent("onCollision");
+            auto ev1 = gameObject->get<STEventComponent>();
+            auto ev2 = otherObject->get<STEventComponent>();
+            ev1->setOther(otherObject);
+            ev2->setOther(gameObject);
+
+            ev1->setEvent("onCollision");
+            ev2->setEvent("onCollision");
         }
 
         for(int i = 0, L = m_dynamicsWorld->getNumCollisionObjects(); i < L; i++){
@@ -70,7 +72,11 @@ void BulletPhysics::setGravity(stReal gravity) {
 }
 
 void BulletPhysics::dispose() {
-    //TODO Cleanup bullet stuff here.
+//    delete m_collisionConfiguration;
+//    delete m_dispatcher;
+//    delete m_broadphase;
+//    delete m_solver;
+//    delete m_dynamicsWorld;
 }
 
 

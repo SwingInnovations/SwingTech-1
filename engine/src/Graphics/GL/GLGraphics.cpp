@@ -400,8 +400,8 @@ void GLGraphics::drawScene(STScene *scene) {
         glClear(GL_COLOR_BUFFER_BIT);
 
         //Depth Pre-Pass
-        for(int i =0; i< actors.size(); i++){
-            actors[i]->draw(m_velocityMat);
+        for (auto &actor : actors) {
+            actor->draw(m_velocityMat);
         }
 
         glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, frameTexBuffer, 0);

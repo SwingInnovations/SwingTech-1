@@ -20,6 +20,7 @@ public:
     void dispose() override;
 
     void clearScene();
+    STList<STEntity*> RaycaseHelper(Vector3D start, Vector3D end) override ;
 private:
     btDefaultCollisionConfiguration* m_collisionConfiguration;
     btBroadphaseInterface*           m_broadphase;

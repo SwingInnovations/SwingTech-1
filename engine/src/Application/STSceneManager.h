@@ -105,6 +105,9 @@ public:
 
     const stUint getIndex()const{ return m_index; }
     const stUint getShadowCount()const{ return m_numShadows; }
+
+    void save(std::ofstream& out);
+    void load(std::ifstream& in);
 private:
     stUint m_index;
     stUint m_numShadows;

@@ -37,6 +37,7 @@ public:
 //        STFileManager::Write("testEntity.bin", s);
 
         auto sphere = STFileManager::Read<STActor>("testEntity.bin");
+        sphere->setName("Sphere");
         sphere->get<ST3DPhysicsComponent>()->updateTransform();
         sphere->get<ST3DPhysicsComponent>()->setMass(30.f);
         sphere->get<ST3DPhysicsComponent>()->setRestitution(200.f);
@@ -73,11 +74,23 @@ public:
         if(input->isKeyPressed(KEY::KEY_ESC)) input->requestClose();
         if(input->isKeyPressed(KEY::KEY_Q)){
             input->setCursorBound(!input->isCursorBound());
+            input->setCursorVisible(!input->isCursorBound());
         }
 
         if(input->isKeyPressed(KEY::KEY_F)){
             counter++;
             game->setFullScreen(counter % 2);
+        }
+
+        if(input->isMouseDown(1)){
+            auto pos = game->getCamera()->transform()->getTranslate();
+            auto forward = game->getCamera()->getForward();
+            auto end = forward * 5.f;
+
+            auto res = game->getPhysics()->Raycast(pos, end);
+            if(!res.isEmpty()){
+                std::cout << "Picked " << res[0]->getName()  << std::endl;
+            }
         }
 
         m_scene->update();
@@ -87,8 +100,9 @@ public:
         game->getGraphics()->drawScene(m_scene);
     }
 
-    ~SampleState(){
+    ~SampleState()override{
         std::cout << "Clearing Game State" << std::endl;
+        STFileManager::Write("testScene.bin", m_scene);
         m_scene->dispose();
         delete m_scene;
     }

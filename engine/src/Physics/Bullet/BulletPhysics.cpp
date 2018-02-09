@@ -115,3 +115,19 @@ BulletPhysics::~BulletPhysics() {
     delete m_solver;
     delete m_dynamicsWorld;
 }
+
+STList<STEntity *> BulletPhysics::RaycaseHelper(Vector3D start, Vector3D end) {
+    auto btStart = btVector3(start.getX(), start.getY(), start.getZ());
+    auto btEnd = btVector3(end.getX(), end.getY(), end.getZ());
+    auto ret = STList<STEntity *>();
+
+    btCollisionWorld::AllHitsRayResultCallback RayCallback(btStart, btEnd);
+    m_dynamicsWorld->rayTest(btStart, btEnd, RayCallback);
+    if(RayCallback.hasHit()){
+        for(stUint i = 0, L = (stUint)RayCallback.m_collisionObjects.size(); i < L; i++)
+        {
+            ret.addLast((STEntity*)RayCallback.m_collisionObjects[i]->getUserPointer());
+        }
+    }
+    return ret;
+}

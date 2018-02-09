@@ -181,7 +181,8 @@ public:
      * Get the current active scene in the game.
      * @return STScene Object
      */
-    STScene* GetCurrentScene();
+    STScene* getCurrentScene();
+    STPhysics* getPhysics();
 
     int getGraphicsMajorVersion(){ return this->m_graphics_MAJOR; }
     int getGraphicsMinorVersion(){ return this->m_graphics_MINOR; }

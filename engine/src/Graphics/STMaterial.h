@@ -127,7 +127,8 @@ public:
 
     void draw(std::map<std::string, STShader::ShaderAttrib>& entityUniforms, Transform& T, Camera& C);
     void draw(std::map<std::string, STShader::ShaderAttrib>& entityUniform, std::map<std::string, STShader::ShaderAttrib> originalMaterialUniforms, Transform &T, Camera& C);
-
+    void setRenderQueue(stUint value);
+    stUint getRenderQueue()const;
 private:
     void init_GLShaders(ShaderList list);
     void init_GLTextures(TextureList list);
@@ -136,6 +137,7 @@ private:
     Vector3<stReal> m_baseColor;
     std::map<std::string, STShader::ShaderAttrib> m_Uniforms;
     std::map<std::string, std::string> m_pathReferences;
+    stUint m_renderQueue;
 };
 
 #endif //WAHOO_STMATERIAL_H

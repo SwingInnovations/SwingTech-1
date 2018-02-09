@@ -173,3 +173,35 @@ void STScene::addLight(std::shared_ptr<STLight> light) {
     else m_numShadows += 6;
     lights.emplace_back(light);
 }
+
+void STScene::save(std::ofstream &out) {
+    stUint numActors, numLights;
+    numActors = (stUint)actors.size();
+    numLights = (stUint)lights.size();
+    out.write((char*)&numActors, sizeof(stUint));
+    out.write((char*)&numLights, sizeof(stUint));
+    for(auto actor : actors){
+        actor->save(out);
+    }
+
+    for(auto light : lights){
+        light->save(out);
+    }
+}
+
+void STScene::load(std::ifstream &in) {
+    stUint numActors, numLights;
+    in.read((char*)&numActors, sizeof(stUint));
+    in.read((char*)&numLights, sizeof(stUint));
+    for(stUint i = 0; i < numActors; i++){
+        auto actor = std::make_shared<STActor>();
+        actor->load(in);
+        actors.emplace_back(actor);
+    }
+
+    for(stUint i = 0; i < numLights; i++){
+        auto light = std::make_shared<STLight>();
+        light->load(in);
+        lights.emplace_back(light);
+    }
+}

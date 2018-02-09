@@ -28,8 +28,10 @@ STGame::STGame() {
 }
 
 STGame::~STGame() {
-
     m_currentIndex = 0;
+   for(stUint i = 0; i < m_gameStates.size(); i++){
+       delete m_gameStates[i];
+   }
     m_gameStates.clear();
     g->cleanup();
     delete g;
@@ -60,7 +62,7 @@ STGame::STGame(const std::string title, unsigned int WIDTH, unsigned int HEIGHT)
     }else{
         m_Window = SDL_CreateWindow(title.c_str(), SDL_WINDOWPOS_CENTERED,
                                     SDL_WINDOWPOS_CENTERED, this->WIDTH,
-                                    this->HEIGHT, SDL_WINDOW_SHOWN | SDL_WINDOW_OPENGL);
+                                    this->HEIGHT, SDL_WINDOW_SHOWN | SDL_WINDOW_OPENGL | SDL_WINDOW_RESIZABLE);
         if(m_Window == nullptr){
             std::cout << "Error 400: Failed to load Window:  " << SDL_GetError() << std::endl;
         }else{
@@ -260,7 +262,7 @@ void STGame::setFullScreen(int flag) {
     }
 }
 
-STScene *STGame::GetCurrentScene() {
+STScene *STGame::getCurrentScene() {
     return m_gameStates[m_currentIndex]->getScene();
 }
 
@@ -274,6 +276,10 @@ void STGame::InitPhysics(STPhysics::PhysicsEngine mode) {
 
 stInt STGame::getPhysicsMode() const {
     return m_physicsMode;
+}
+
+STPhysics *STGame::getPhysics() {
+    return m_physics;
 }
 
 

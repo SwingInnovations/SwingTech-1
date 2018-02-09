@@ -5,6 +5,8 @@
 #include "../src/Entity/Components/ST3DAnimationComponent.h"
 #include "../src/Entity/Components/ST3DPhysicsComponent.h"
 #include "../src/Application/Util/File/STFileManager.h"
+#include "../src/Entity/Components/STEventComponent.h"
+
 class STFileManager;
 
 /**
@@ -27,43 +29,44 @@ public:
         accentLight2->get<STLightComponent>()->setTarget(Vector3D());
         accentLight2->get<STLightComponent>()->getProperties()->intensity = 0.9f;
 
-        STFileManager::Write("testLight.bin", accentLight2.get());
+//        auto s = STActor::Create("smooth_sphere.obj");
+//        s->transform()->setTranslate({0.f, 5.f, 0.f});
+//        auto physHandle = s->addComponent<ST3DPhysicsComponent>(new ST3DPhysicsComponent(STRigidBody::SPHERE, {0.9f}));
+//        physHandle->updateTransform();
+//
+//        STFileManager::Write("testEntity.bin", s);
 
-        std::cout << "Generated Lights" << std::endl;
+        auto sphere = STFileManager::Read<STActor>("testEntity.bin");
+        sphere->setName("Sphere");
+        sphere->get<ST3DPhysicsComponent>()->updateTransform();
+        sphere->get<ST3DPhysicsComponent>()->setMass(30.f);
+        sphere->get<ST3DPhysicsComponent>()->setRestitution(200.f);
+        sphere->get<STEventComponent>()->addEvent("onCollision", [](STEntity* self, STEntity* other){
+            if(other != nullptr){
+                auto gfx = self->get<STRendererComponent>();
+                gfx->getMaterial()->setDiffuseColor(Vector4D(1.f, 0.f, 0.f, 1.f));
+                gfx->getMaterial()->setMetallic(0.2f);
+                gfx->getMaterial()->setRoughness(0.f);
+            }
+        });
 
-        auto readActor = STFileManager::Read<STActor>("testEntity.bin");
-        auto readPeek = readActor.get();
-        readActor->transform()->setTranslate(Vector3D(3, 3, 1));;
-        readActor->get<STGraphicsComponent>()->GetMaterial()->setDiffuseColor(Vector4D(0, 1, 0, 1));
+        STFileManager::Write("testLight", accentLight2);
 
-        auto d = STFileManager::Read<STActor>("dice.stentity");
-//        auto diceBox = new STActor("smooth_sphere.obj");
-//        diceBox->setTag("Dice");
-//        diceBox->get<STGraphicsComponent>()->getMaterial()->setMetallic(0.2f);
-//        diceBox->get<STGraphicsComponent>()->getMaterial()->setRoughness(0.1f);
-//        //diceBox->get<STGraphicsComponent>()->getMaterial()->setDiffuseTexture("Bronze_Albedo.jpg");
-//        diceBox->transform()->setTranslateX(1.0f);
-//        diceBox->transform()->setTranslateY(10.f);
-//        diceBox->transform()->setTranslateZ(2.f);
-//        diceBox->addComponent(typeid(ST3DPhysicsComponent), new ST3DPhysicsComponent(STRigidBody::RigidBodyShape::SPHERE, {0.9f}));
-//        diceBox->get<ST3DPhysicsComponent>()->setMass(10.f);
-//        diceBox->get<ST3DPhysicsComponent>()->setRestitution(200.0f);
-//        diceBox->get<ST3DPhysicsComponent>()->updateTransform();
-//        diceBox->get<ST3DPhysicsComponent>()->toggleFreeze(true);
-//        diceBox->addComponent(typeid(STScriptComponent), new STScriptComponent("dice.lua"));
+        auto l = STFileManager::Read<STLight>("testLight");
 
         auto p = STActor::Create("plane.obj");
-        p->get<STGraphicsComponent>()->getMaterial()->setDiffuseTexture("grid.png");
+        p->setName("Plane");
+        p->get<STRendererComponent>()->getMaterial()->setDiffuseTexture("grid.png");
         p->transform()->setTranslateY(-2.f);
+        auto pHandle = p->addComponent<ST3DPhysicsComponent>(new ST3DPhysicsComponent(STRigidBody::RigidBodyShape::BOX, {5.f, 0.1f, 5.f}));
+        pHandle->toggleFreeze(true);
+        pHandle->updateTransform();
+
         m_scene->addLight(mainLight);
         m_scene->addLight(accentLight);
-        //m_scene->addLight(l);
-        //m_scene->addLight(accentLight2);
-        m_scene->addActor(d);
-//        m_scene->addActor(diceBox);
+        m_scene->addLight(l);
         m_scene->addActor(p);
-        m_scene->addActor(readActor);
-//        counter = 0;
+        m_scene->addActor(sphere);
     }
 
     void update(STGame* game) override{
@@ -71,6 +74,7 @@ public:
         if(input->isKeyPressed(KEY::KEY_ESC)) input->requestClose();
         if(input->isKeyPressed(KEY::KEY_Q)){
             input->setCursorBound(!input->isCursorBound());
+            input->setCursorVisible(!input->isCursorBound());
         }
 
         if(input->isKeyPressed(KEY::KEY_F)){
@@ -78,29 +82,16 @@ public:
             game->setFullScreen(counter % 2);
         }
 
-//		if (input->isKeyDown(KEY::KEY_L)) {
-//			auto rZ = plane->transform()->getRotate().getZ();
-//			plane->transform()->setRotateZ(rZ + 0.025f * game->getDelta());
-//			plane->get<ST3DPhysicsComponent>()->updateTransform();
-//		}
-//
-//		if (input->isKeyDown(KEY::KEY_J)) {
-//			auto rZ = plane->transform()->getRotate().getZ();
-//			plane->transform()->setRotateZ(rZ - 0.025f * game->getDelta());
-//			plane->get<ST3DPhysicsComponent>()->updateTransform();
-//		}
-//
-//        if(input->isKeyDown(KEY::KEY_I)){
-//            auto rX = plane->transform()->getRotate().getX();
-//            plane->transform()->setRotateX(rX + 0.025f * game->getDelta());
-//            plane->get<ST3DPhysicsComponent>()->updateTransform();
-//        }
-//
-//        if(input->isKeyDown(KEY::KEY_K)){
-//            auto rX = plane->transform()->getRotate().getX();
-//            plane->transform()->setRotateX(rX - 0.025f * game->getDelta());
-//            plane->get<ST3DPhysicsComponent>()->updateTransform();
-//        }
+        if(input->isMouseDown(1)){
+            auto pos = game->getCamera()->transform()->getTranslate();
+            auto forward = game->getCamera()->getForward();
+            auto end = forward * 5.f;
+
+            auto res = game->getPhysics()->Raycast(pos, end);
+            if(!res.isEmpty()){
+                std::cout << "Picked " << res[0]->getName()  << std::endl;
+            }
+        }
 
         m_scene->update();
     }
@@ -109,14 +100,16 @@ public:
         game->getGraphics()->drawScene(m_scene);
     }
 
-    ~SampleState(){
+    ~SampleState()override{
         std::cout << "Clearing Game State" << std::endl;
+        STFileManager::Write("testScene.bin", m_scene);
         m_scene->dispose();
         delete m_scene;
     }
 
 private:
     stUint counter;
+    std::shared_ptr<STEntity> sphere;
 };
 
 int main(int argc, char** argv){

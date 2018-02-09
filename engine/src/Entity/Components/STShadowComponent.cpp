@@ -24,5 +24,9 @@ STShadowComponent::STShadowComponent() {
 }
 
 STShadowComponent::STShadowComponent(const STShadowComponent &copy) {
+    m_Properties = copy.m_Properties;
+}
+
+STShadowComponent::~STShadowComponent() {
 
 }

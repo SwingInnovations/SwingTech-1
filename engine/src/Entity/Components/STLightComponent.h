@@ -13,9 +13,18 @@ struct STLightProperties{
     stReal intensity = 0.5f;
     stReal radius = -0.1f;
     int useShadow = 0;
-    Vector3<stReal> target = Vector3<stReal>(0, 0, 0);
+    Vector3<stReal> target = Vector3D(0, 0, 0);
 
     STLightProperties() = default;
+    STLightProperties(const STLightProperties& other){
+        direction = other.direction;
+        color = other.color;
+        spotLightAtribs = other.spotLightAtribs;
+        intensity = other.intensity;
+        radius = other.radius;
+        useShadow = other.useShadow;
+        target = other.target;
+    }
 
     void load(std::ifstream& in){
         direction.load(in);
@@ -24,7 +33,7 @@ struct STLightProperties{
         target.load(in);
         in.read((char*)&intensity, sizeof(stReal));
         in.read((char*)&radius, sizeof(stReal));
-        in.read((char*)&useShadow, sizeof(in));
+        in.read((char*)&useShadow, sizeof(int));
     }
 
     void save(std::ofstream& out){
@@ -63,8 +72,11 @@ public:
 
     STLightComponent();
     STLightComponent(const STLightComponent& copy);
-    STLightComponent(STLightProperties prop) {
-        this->m_Properties = prop;
+    ~STLightComponent() override ;
+    explicit STLightComponent(STLightProperties prop) {
+        m_Properties = prop;
+        m_type = DIRECTIONAL_LIGHT;
+        m_hasTarget = false;
     }
 
     void setType(LIGHT_TYPE type){
@@ -72,35 +84,18 @@ public:
     }
 
     void setTarget(Vector3<stReal> target);
+    LIGHT_TYPE getType() const {   return this->m_type; }
 
-    LIGHT_TYPE getType(){   return this->m_type; }
-
-    void update() {
-
-    }
-
-    void draw(){
-
+    void update() override {
+        ;
     }
 
     void save(std::ofstream& out) override;
 
     void load(std::ifstream& in) override;
 
-    STLightProperties* getProperties(){ return &m_Properties; }
-    Matrix4f getLookAt(){
-        auto props = this->getProperties();
-        Vector3<stReal> dir = (m_entity->transform()->getTranslate() - props->target);
-        if(m_hasTarget){
-            return Matrix4f::LookAt(m_entity->transform()->getTranslate(),
-                                    dir.normalize(),
-                                    Vector3<stReal>(0.f, 1.f, 0.f));
-        }
-        auto normDir = props->direction.toVector3().normalize();
-        return Matrix4f::LookAt(m_entity->transform()->getTranslate(),
-                                normDir,
-                                Vector3<stReal>(0.f, 1.f, 0.f));
-    }
+    STLightProperties* getProperties();
+    Matrix4f getLookAt();
 private:
     LIGHT_TYPE m_type;
     STLightProperties m_Properties;

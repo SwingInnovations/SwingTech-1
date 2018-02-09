@@ -14,12 +14,12 @@ STPanel::STPanel(int x, int y, int width, int height) {
     //addComponent(typeid(STGraphicsComponent), new STGraphicsComponent(new STMaterial(shdr)));
     //addComponent(typeid(STRectBoundsComponent), new STRectBoundsComponent(x, y, width, height, STGraphics::YUp));
 
-    auto grphx = get<STGraphicsComponent>();
+    auto grphx = get<STRendererComponent>();
     grphx->addShdrUniform("baseColor", m_baseColor.color);
 }
 
 void STPanel::draw(STGraphics *grphx) {
-    auto gfx = get<STGraphicsComponent>();
+    auto gfx = get<STRendererComponent>();
     auto mesh = get<STMeshComponent>();
 
     grphx->enableBlend();

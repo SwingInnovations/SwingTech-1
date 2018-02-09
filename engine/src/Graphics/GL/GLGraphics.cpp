@@ -296,8 +296,8 @@ void GLGraphics::drawScene(STScene *scene) {
                                                                  Vector3<stReal>(0.0, -1.0f, 0.0));    //Near
                     shadowProperties->projections[5] = Matrix4f::LookAt(pos, pos - Vector3<stReal>(0.0, 0.0, -1.0f),
                                                                  Vector3<stReal>(0.0, -1.0f, 0.0));    //Far
-                    lights[i]->addComponent(typeid(STGraphicsComponent),
-                                            std::make_shared<STGraphicsComponent>(new GLShader("spotLight_shadows")));
+                    lights[i]->addComponent(typeid(STRendererComponent),
+                                          new STRendererComponent(new GLShader("spotLight_shadows")));
                     for (stUint j = 0; j < 6; j++) {
                         glGenFramebuffers(1, &shadowProperties->shadowFrameBuffer[j]);
                         glGenTextures(1, &shadowProperties->shadowMapID[j]);
@@ -345,7 +345,7 @@ void GLGraphics::drawScene(STScene *scene) {
                 glEnable(GL_CULL_FACE);
                 glCullFace(GL_FRONT);
                 for (auto &actor : actors) {
-                    actor->get<STGraphicsComponent>()->setShdrUniform("lightSpaceMatrix", shadowProps->projections[0]);
+                    actor->get<STRendererComponent>()->setShdrUniform("lightSpaceMatrix", shadowProps->projections[0]);
                     if(actor->get<ST3DAnimationComponent>() != nullptr){
                         actor->draw(m_directionalSkinnedOverrideMat, true);
                     }else{
@@ -373,8 +373,8 @@ void GLGraphics::drawScene(STScene *scene) {
                         glEnable(GL_CULL_FACE);
                         glCullFace(GL_FRONT);
 
-                        actor->get<STGraphicsComponent>()->setShdrUniform("lightSpaceMatrix", ortho * shadowProps->projections[k]);
-                        actor->draw(light->get<STGraphicsComponent>()->getMaterial());
+                        actor->get<STRendererComponent>()->setShdrUniform("lightSpaceMatrix", ortho * shadowProps->projections[k]);
+                        actor->draw(light->get<STRendererComponent>()->getMaterial());
                         glBindFramebuffer(GL_FRAMEBUFFER, 0);
                     }
                 }
@@ -400,8 +400,8 @@ void GLGraphics::drawScene(STScene *scene) {
         glClear(GL_COLOR_BUFFER_BIT);
 
         //Depth Pre-Pass
-        for(int i =0; i< actors.size(); i++){
-            actors[i]->draw(m_velocityMat);
+        for (auto &actor : actors) {
+            actor->draw(m_velocityMat);
         }
 
         glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, frameTexBuffer, 0);
@@ -437,7 +437,7 @@ void GLGraphics::drawScene(STScene *scene) {
 //            actors[i]->draw();
 //        }
         for(auto actor : actors){
-            auto gfx = actor->get<STGraphicsComponent>();
+            auto gfx = actor->get<STRendererComponent>();
             gfx->setShdrUniform("_CameraPos", getActiveCamera()->transform()->getTranslate());
             gfx->setShdrUniform_CubeMap("_WorldCubeMap", rendScene->m_skybox);
             gfx->setShdrUniform_Texture2DArray("shadowArray", shadowArray, 1);

@@ -9,10 +9,13 @@ STEntity::STEntity() {
 }
 
 STEntity::~STEntity() {
+    for(auto comp : m_components){
+        delete comp.second;
+    }
     m_components.clear();
 }
 
-void STEntity::addComponent(std::type_index type, std::shared_ptr<STComponent> component) {
+void STEntity::addComponent(std::type_index type, STComponent* component) {
     auto t = shared_from_this();
     component->init(t);
     int status;
@@ -40,7 +43,7 @@ STEntity *STEntity::childAtTag(const std::string &tag) {
 
 //Start moving to this method of drawing
 void STEntity::draw(STGraphics *grphx) {
-    auto graphics = this->get<STGraphicsComponent>();
+    auto graphics = this->get<STRendererComponent>();
     auto mesh = this->get<STMeshComponent>();
     auto camera = grphx->getActiveCamera();
 
@@ -158,12 +161,12 @@ void STEntity::dispose() {
     m_components.clear();
 }
 
-const std::map<std::string, std::shared_ptr<STComponent>> &STEntity::getAllComponents() const {
+const std::map<std::string, STComponent*> &STEntity::getAllComponents() const {
     return m_components;
 }
 
 void STEntity::draw(Camera *cam, int drawMode) {
-    auto grphx = this->get<STGraphicsComponent>();
+    auto grphx = this->get<STRendererComponent>();
     auto mesh = this->get<STMeshComponent>();
     grphx->draw();
     grphx->getMaterial()->shdr()->update(*m_transform, *cam);
@@ -177,7 +180,7 @@ void STEntity::draw(Camera *cam, int drawMode) {
 }
 
 void STEntity::draw(Camera *cam) {
-    auto grphx = this->get<STGraphicsComponent>();
+    auto grphx = this->get<STRendererComponent>();
     auto mesh = this->get<STMeshComponent>();
     grphx->draw();
     grphx->getMaterial()->shdr()->update(*m_transform, *cam);
@@ -190,7 +193,7 @@ void STEntity::draw(Camera *cam) {
 }
 
 void STEntity::draw() {
-    auto grphx = get<STGraphicsComponent>();
+    auto grphx = get<STRendererComponent>();
     auto mesh = get<STMeshComponent>();
     grphx->draw();
     mesh->draw();
@@ -210,37 +213,59 @@ void STEntity::setParent(std::shared_ptr<STEntity> p) {
     this->m_parent = p;
 }
 
-void STEntity::ReloadFromSave() {
-    m_transform->setEntity(shared_from_this());
-    for(auto comp : m_components){
-        comp.second->ReInitFromSave(shared_from_this());
-    }
-}
-
 void STEntity::load(std::ifstream &in) {
-    std::cout << "Initial MapSize: " << m_components.size() << std::endl;
     auto t = shared_from_this();
+    stUint childCount = 0, attribCount = 0;
+    m_name = STSerializableUtility::ReadString(in);
+    m_tag = STSerializableUtility::ReadString(in);
     m_transform->load(in);
-    m_transform->setEntity(t);
+    in.read((char*)&childCount, sizeof(stUint));
     in.read((char*)&numComponents, sizeof(numComponents));
-    m_components.clear();
+    in.read((char*)&attribCount, sizeof(stUint));
     for(stUint i = 0; i < numComponents; i++){
         auto componentName = STSerializableUtility::ReadString(in);
-        auto comp = STComponentObjectFactory::Get()->create(componentName);
+        auto comp = STComponentObjectFactory::Get()->create(componentName);;
         comp->init(t);
         comp->load(in);
         m_components[componentName] = comp;
     }
+
+    for(stUint i = 0; i < childCount; i++){
+        auto child = std::make_shared<STEntity>();
+        child->load(in);
+        m_children.emplace_back(child);
+    }
+
+    for(stUint i = 0; i < attribCount; i++){
+        auto key = STSerializableUtility::ReadString(in);
+        auto value = std::make_shared<STAttribute>();
+        value->load(in);
+        m_attributes[key] = value;
+    }
 }
 
 void STEntity::save(std::ofstream &out) {
+    STSerializableUtility::WriteString(m_name.c_str(), out);
+    STSerializableUtility::WriteString(m_tag.c_str(), out);
+    auto childCount = (stUint)m_children.size();
+    auto attribCount = (stUint)m_attributes.size();
     m_transform->save(out);
+    out.write((char*)&childCount, sizeof(stUint));
     out.write((char*)&numComponents, sizeof(numComponents));
-    int status = 0;
-    for(auto comp : m_components){
+    out.write((char*)&attribCount, sizeof(stUint));
+    for(auto comp : m_components) {
         auto compName = comp.first.c_str();
         STSerializableUtility::WriteString(compName, out);
         comp.second->save(out);
+    }
+
+    for(const auto child : m_children){
+        child->save(out);
+    }
+
+    for(const auto attrib : m_attributes){
+        STSerializableUtility::WriteString(attrib.first.c_str(), out);
+        attrib.second->save(out);
     }
 }
 
@@ -365,6 +390,8 @@ void STAttribute::load(std::ifstream &in) {
     in.read((char*)&type, sizeof(type));
     m_value = STSerializableUtility::ReadString(in);
 }
+
+STAttribute::STAttribute() = default;
 
 
 

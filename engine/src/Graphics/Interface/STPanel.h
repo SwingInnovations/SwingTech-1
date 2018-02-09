@@ -10,7 +10,7 @@ public:
     void draw(STGraphics* grphx);
     inline void setColor(STColor color){
         this->m_baseColor = color;
-        auto gfx = get<STGraphicsComponent>();
+        auto gfx = get<STRendererComponent>();
         if(gfx != nullptr) gfx->setShdrUniform("m_baseColor", m_baseColor.color);
     }
 

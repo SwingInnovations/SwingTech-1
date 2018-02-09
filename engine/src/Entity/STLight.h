@@ -6,10 +6,6 @@
 #include "Transform.h"
 #include "STEntity.h"
 #include "../Graphics/STMaterial.h"
-#include "../Graphics/GL/GLShader.h"
-#include "Components/STGraphicsComponent.h"
-#include "Components/STMeshComponent.h"
-#include "Components/STEventComponent.h"
 #include "Components/STLightComponent.h"
 #include "Components/STShadowComponent.h"
 
@@ -46,15 +42,6 @@ public:
     static STLight* InitPointLight(Vector3D position, Vector3D color, stReal radius);
 
     STLight();
-
-
-    bool isDebug(){ return m_debug; }
-    bool setDebug(bool value){
-        this->m_debug = value;
-    }
-private :
-    STMaterial* m_material{};
-    bool m_debug{};
 };
 
 

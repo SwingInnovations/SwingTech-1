@@ -6,11 +6,12 @@
 #include <memory>
 #include <typeindex>
 #include <cxxabi.h>
+#include <string>
 
 #include "../Math/Vector.h"
 #include "Transform.h"
 #include "Components/STComponent.h"
-#include "Components/STGraphicsComponent.h"
+#include "Components/STRendererComponent.h"
 #include "Components/STMeshComponent.h"
 #include "Components/STScriptComponent.h"
 #include "../Math/Matrix.h"
@@ -21,7 +22,7 @@ class Camera;
 class STGraphics;
 class STComponent;
 class STMeshComponent;
-class STGraphicsComponent;
+class STRendererComponent;
 class STScriptComponent;
 
 /**
@@ -41,6 +42,8 @@ struct STAttribute{
     static std::string toString(const Vector2<stReal>& vec);
     static std::string toString(const Vector3<stReal>& vec);
     static std::string toString(const Vector4<stReal>& vec);
+
+    STAttribute();
 
     explicit STAttribute(const int& value);
     explicit STAttribute(const float& value);
@@ -78,9 +81,10 @@ public:
 
     ~STEntity();
     void init();
-    void ReloadFromSave();
 
-    void addComponent(std::type_index, std::shared_ptr<STComponent>);
+    void addComponent(std::type_index, STComponent*);
+    template<typename T> T* addComponent();
+    template<typename T> T* addComponent(STComponent*);
     void addChild(STEntity* entity);
     STEntity* getChild(int ind);
 
@@ -109,9 +113,11 @@ public:
     inline stUint getChildSize(){ return (stUint)m_children.size(); }
     std::vector<std::shared_ptr<STEntity>> getChildren(){ return m_children; }
 
+    inline void setName(const std::string& name){ m_name = name; }
     inline void setTag(const std::string& name){ m_tag = name; }
 
-    std::string getTag()const{ return m_tag; }
+    inline std::string getTag()const{ return m_tag; }
+    inline std::string getName() const{ return m_name; }
 
     void setVisible(bool value);
     bool isVisible();
@@ -137,7 +143,7 @@ public:
         return ret;
     }
 
-    const std::map<std::string, std::shared_ptr<STComponent>> &getAllComponents() const;
+    const std::map<std::string, STComponent*> &getAllComponents() const;
 
     /**
      * @brief Returns Component Added to Entity.
@@ -150,7 +156,7 @@ public:
 
         auto it = m_components.find(query);
         if(it != m_components.end()){
-            return dynamic_cast<T*>(it->second.get());
+            return dynamic_cast<T*>(it->second);
         }
         return nullptr;
     }
@@ -171,13 +177,27 @@ protected:
     std::string m_tag;
     stUint numComponents;
     std::shared_ptr<Transform> m_transform;
-    bool m_visible;
-    std::map<std::string, std::shared_ptr<STComponent>> m_components;
+
+    std::map<std::string, STComponent*> m_components;
     std::shared_ptr<STEntity> m_parent;
-protected:
+    bool m_visible;
+    bool m_isDebug;
+
     std::map<std::string, std::shared_ptr<STAttribute>> m_attributes;
     std::vector<std::shared_ptr<STEntity>> m_children;
 };
+
+template<typename T> T* STEntity::addComponent() {
+    auto ret = new T;
+    addComponent(typeid(T), ret);
+    return ret;
+}
+
+template<typename T> T* STEntity::addComponent(STComponent *newComp) {
+    auto ret = dynamic_cast<T*>(newComp);
+    addComponent(typeid(T), ret);
+    return ret;
+}
 
 
 #endif //WAHOO_STENTITY_H

@@ -20,7 +20,7 @@ public:
     virtual void deinit() = 0;
 
 protected:
-    stInt           m_level;        //Indicates Level in which asset is loaded. -1 indicates asset is global.
+    stInt           m_accessLevel;        //Indicates Level in which asset is loaded. -1 indicates asset is global.
     std::string     m_uid;
     std::string     m_name;
     STAsset_Type    m_type;

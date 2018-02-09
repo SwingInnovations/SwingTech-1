@@ -16,6 +16,8 @@
 class STFileManager {
 public:
     template<typename T> static bool Write(const std::string& path, T* param);
+    template<typename T> static bool Write(const std::string& path, std::shared_ptr<T> param);
+
     template <typename T> static std::shared_ptr<T> Read(const std::string& path);
 
     static bool DirExists(const std::string& str);
@@ -35,8 +37,21 @@ bool STFileManager::Write(const std::string &path, T *param) {
     return true;
 }
 
+template<typename T> bool STFileManager::Write(const std::string &path, std::shared_ptr<T> param) {
+    std::ofstream file(path, std::ios::binary | std::ios::out | std::ios::trunc);
+    if(!file.is_open()){
+        std::cerr << "Failed to open: " << path << std::endl;
+        return false;
+    }
+    param->save(file);
+    file.flush();
+    file.close();
+    return true;
+}
+
 template<typename T> std::shared_ptr<T> STFileManager::Read(const std::string &path) {
     auto ret = std::make_shared<T>();
+    ret->init();
     std::ifstream file(path, std::ios::binary | std::ios::in);
     if(!file.is_open()){
         std::cerr << "Failed to open: " << path << std::endl;

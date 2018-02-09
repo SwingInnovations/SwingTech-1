@@ -34,8 +34,8 @@ STLight::InitSpotLight(Vector3<stReal> position, Vector3<stReal> direction, Vect
 std::shared_ptr<STLight> STLight::InitDirectionalLight(Vector3<stReal> position, Vector3<stReal> direction, Vector3<stReal> color) {
     auto ret = std::make_shared<STLight>();
     ret->init();
-    ret->addComponent(typeid(STLightComponent), std::make_shared<STLightComponent>());
-    ret->addComponent(typeid(STShadowComponent), std::make_shared<STShadowComponent>());
+    ret->addComponent(typeid(STLightComponent), new STLightComponent);
+    ret->addComponent(typeid(STShadowComponent), new STShadowComponent);
     ret->transform()->setTranslate(position);
     ret->get<STLightComponent>()->setType(STLightComponent::DIRECTIONAL_LIGHT);
     auto lightProps = ret->get<STLightComponent>()->getProperties();
@@ -48,5 +48,5 @@ std::shared_ptr<STLight> STLight::InitDirectionalLight(Vector3<stReal> position,
 }
 
 STLight::STLight() {
-
+    m_type = Light;
 }

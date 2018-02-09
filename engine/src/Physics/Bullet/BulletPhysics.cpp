@@ -2,6 +2,7 @@
 #include "../../Application/STSceneManager.h"
 #include "../../Entity/Components/ST3DPhysicsComponent.h"
 #include "BulletRigidBody.h"
+#include "../../Entity/Components/STEventComponent.h"
 #include <iostream>
 
 BulletPhysics::BulletPhysics() {
@@ -29,11 +30,13 @@ void BulletPhysics::update(stUint delta) {
             auto collision = m_dynamicsWorld->getDispatcher()->getManifoldByIndexInternal(i);
             auto gameObject = ((STEntity*)collision->getBody0()->getUserPointer());
             auto otherObject = ((STEntity*)collision->getBody1()->getUserPointer());
-            std::vector<STEntity*> result;
-            result.push_back(otherObject);
-            auto eventComp = gameObject->get<STEventComponent>();
-            eventComp->setOther(otherObject);
-            eventComp->setEvent("onCollision");
+            auto ev1 = gameObject->get<STEventComponent>();
+            auto ev2 = otherObject->get<STEventComponent>();
+            ev1->setOther(otherObject);
+            ev2->setOther(gameObject);
+
+            ev1->setEvent("onCollision");
+            ev2->setEvent("onCollision");
         }
 
         for(int i = 0, L = m_dynamicsWorld->getNumCollisionObjects(); i < L; i++){
@@ -69,7 +72,11 @@ void BulletPhysics::setGravity(stReal gravity) {
 }
 
 void BulletPhysics::dispose() {
-    //TODO Cleanup bullet stuff here.
+//    delete m_collisionConfiguration;
+//    delete m_dispatcher;
+//    delete m_broadphase;
+//    delete m_solver;
+//    delete m_dynamicsWorld;
 }
 
 
@@ -107,4 +114,20 @@ BulletPhysics::~BulletPhysics() {
     delete m_broadphase;
     delete m_solver;
     delete m_dynamicsWorld;
+}
+
+STList<STEntity *> BulletPhysics::RaycaseHelper(Vector3D start, Vector3D end) {
+    auto btStart = btVector3(start.getX(), start.getY(), start.getZ());
+    auto btEnd = btVector3(end.getX(), end.getY(), end.getZ());
+    auto ret = STList<STEntity *>();
+
+    btCollisionWorld::AllHitsRayResultCallback RayCallback(btStart, btEnd);
+    m_dynamicsWorld->rayTest(btStart, btEnd, RayCallback);
+    if(RayCallback.hasHit()){
+        for(stUint i = 0, L = (stUint)RayCallback.m_collisionObjects.size(); i < L; i++)
+        {
+            ret.addLast((STEntity*)RayCallback.m_collisionObjects[i]->getUserPointer());
+        }
+    }
+    return ret;
 }

@@ -199,6 +199,14 @@ STMaterial::~STMaterial() {
     }
 }
 
+stUint STMaterial::getRenderQueue() const {
+    return m_renderQueue;
+}
+
+void STMaterial::setRenderQueue(stUint value) {
+    m_renderQueue = value;
+}
+
 
 
 

@@ -2,6 +2,7 @@
 #define SWINGTECH1_BULLETPHYSICS_H
 
 #include "../STPhysics.h"
+#include "../STRigidBody.h"
 
 #include <btBulletDynamicsCommon.h>
 #include <vector>
@@ -21,6 +22,7 @@ public:
 
     void clearScene();
     STList<STEntity*> RaycaseHelper(Vector3D start, Vector3D end) override ;
+    void addToPhysicsWorld(STRigidBody* rigidBody) override;
 private:
     btDefaultCollisionConfiguration* m_collisionConfiguration;
     btBroadphaseInterface*           m_broadphase;

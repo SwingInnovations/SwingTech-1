@@ -1,5 +1,6 @@
 #include "STSceneManager.h"
 #include "../Entity/Components/STEventComponent.h"
+#include "../Entity/Components/ST3DPhysicsComponent.h"
 
 OctNode::OctNode(STBoundingBox *boundingBox) {
     this->boundingBox = boundingBox;
@@ -165,6 +166,10 @@ void STScene::dispose() {
 
 void STScene::addActor(std::shared_ptr<STActor> actor) {
     actors.emplace_back(actor);
+    auto p = actor->get<ST3DPhysicsComponent>();
+    if(p != nullptr){
+        STGame::Get()->getPhysics()->addToPhysicsWorld(p->getRigidBody());
+    }
 }
 
 void STScene::addLight(std::shared_ptr<STLight> light) {

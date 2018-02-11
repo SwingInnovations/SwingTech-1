@@ -40,7 +40,7 @@ public:
         sphere->setName("Sphere");
         sphere->get<ST3DPhysicsComponent>()->updateTransform();
         sphere->get<ST3DPhysicsComponent>()->setMass(30.f);
-        sphere->get<ST3DPhysicsComponent>()->setRestitution(200.f);
+        sphere->get<ST3DPhysicsComponent>()->setRestitution(0.5f);
         sphere->get<STEventComponent>()->addEvent("onCollision", [](STEntity* self, STEntity* other){
             if(other != nullptr){
                 auto gfx = self->get<STRendererComponent>();
@@ -58,7 +58,7 @@ public:
         p->setName("Plane");
         p->get<STRendererComponent>()->getMaterial()->setDiffuseTexture("grid.png");
         p->transform()->setTranslateY(-2.f);
-        auto pHandle = p->addComponent<ST3DPhysicsComponent>(new ST3DPhysicsComponent(STRigidBody::RigidBodyShape::BOX, {5.f, 0.1f, 5.f}));
+        auto pHandle = p->addComponent<ST3DPhysicsComponent>(new ST3DPhysicsComponent(STRigidBody::RigidBodyShape::BOX, {4.f, 0.1f, 4.f}));
         pHandle->toggleFreeze(true);
         pHandle->updateTransform();
 
@@ -82,15 +82,35 @@ public:
             game->setFullScreen(counter % 2);
         }
 
-        if(input->isMouseDown(1)){
+        if(input->isMousePressed(1)){
             auto pos = game->getCamera()->transform()->getTranslate();
             auto forward = game->getCamera()->getForward();
             auto end = forward * 5.f;
 
-            auto res = game->getPhysics()->Raycast(pos, end);
-            if(!res.isEmpty()){
-                std::cout << "Picked " << res[0]->getName()  << std::endl;
-            }
+            auto newSphere = STActor::Create("smooth_sphere.obj");
+            auto nX = (rand() % 6) - 3.f;
+            auto nZ = (rand() % 6) - 3.f;
+
+            auto s = (stReal)(rand() % 3);
+            newSphere->transform()->setScale({s, s, s});
+
+            newSphere->transform()->setTranslate({nX, 5.f, nZ});
+            newSphere->addAttribute("hasChanged", 0);
+            newSphere->get<STEventComponent>()->addEvent("onCollision", [](STEntity* self, STEntity* other){
+                if(self->getAttributei("hasChanged") == 0){
+                    self->setAttribute("hasChanged", 1);
+                    auto r = (rand() % 100) / 100.f;
+                    auto g = (rand() % 100) / 100.f;
+                    auto b = (rand() % 100) / 100.f;
+                    self->get<STRendererComponent>()->getMaterial()->setDiffuseColor(Vector4D(r, g, b, 1.f));
+                }
+            });
+            auto p = newSphere->addComponent<ST3DPhysicsComponent>(new ST3DPhysicsComponent(STRigidBody::SPHERE, {s}));
+            p->updateTransform();
+            p->setMass(50.0f);
+            p->setRestitution(0.5f);
+
+            m_scene->addActor(newSphere);
         }
 
         m_scene->update();

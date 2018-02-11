@@ -99,11 +99,10 @@ void BulletPhysics::clearScene() {
 
 void BulletPhysics::initScene(STScene *scene) {
     m_scene = scene;
-    for(auto actor : scene->getActors()){
+    for(const auto& actor : scene->getActors()){
         auto physComponent = actor->get<ST3DPhysicsComponent>();
         if(physComponent != nullptr){
-            auto rigidBody = ((BulletRigidBody*)physComponent->getRigidBody())->getRigidBody();
-            m_dynamicsWorld->addRigidBody(rigidBody);
+            m_dynamicsWorld->addRigidBody(((BulletRigidBody*)physComponent->getRigidBody())->getRigidBody());
         }
     }
 }
@@ -130,4 +129,8 @@ STList<STEntity *> BulletPhysics::RaycaseHelper(Vector3D start, Vector3D end) {
         }
     }
     return ret;
+}
+
+void BulletPhysics::addToPhysicsWorld(STRigidBody *rigidBody) {
+    m_dynamicsWorld->addRigidBody(((BulletRigidBody*)rigidBody)->getRigidBody());
 }

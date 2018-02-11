@@ -29,8 +29,8 @@ STGame::STGame() {
 
 STGame::~STGame() {
     m_currentIndex = 0;
-   for(stUint i = 0; i < m_gameStates.size(); i++){
-       delete m_gameStates[i];
+   for (auto &m_gameState : m_gameStates) {
+       delete m_gameState;
    }
     m_gameStates.clear();
     g->cleanup();

@@ -32,11 +32,14 @@ void BulletPhysics::update(stUint delta) {
             auto otherObject = ((STEntity*)collision->getBody1()->getUserPointer());
             auto ev1 = gameObject->get<STEventComponent>();
             auto ev2 = otherObject->get<STEventComponent>();
-            ev1->setOther(otherObject);
-            ev2->setOther(gameObject);
-
-            ev1->setEvent("onCollision");
-            ev2->setEvent("onCollision");
+            if(ev1){
+                ev1->setOther(otherObject);
+                ev1->setEvent("onCollision");
+            }
+            if(ev2){
+                ev2->setOther(gameObject);
+                ev2->setEvent("onCollision");
+            }
         }
 
         for(int i = 0, L = m_dynamicsWorld->getNumCollisionObjects(); i < L; i++){
@@ -133,4 +136,8 @@ STList<STEntity *> BulletPhysics::RaycaseHelper(Vector3D start, Vector3D end) {
 
 void BulletPhysics::addToPhysicsWorld(STRigidBody *rigidBody) {
     m_dynamicsWorld->addRigidBody(((BulletRigidBody*)rigidBody)->getRigidBody());
+}
+
+void BulletPhysics::removeFromPhysicsWorld(STRigidBody *rigidBody) {
+    m_dynamicsWorld->removeRigidBody(((BulletRigidBody*)rigidBody)->getRigidBody());
 }

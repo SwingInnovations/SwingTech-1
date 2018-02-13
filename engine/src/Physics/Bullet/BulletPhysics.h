@@ -19,7 +19,7 @@ public:
     void update(stUint delta) override;
     void setGravity(stReal gravity) override;
     void dispose() override;
-
+    void removeFromPhysicsWorld(STRigidBody* rigidBody) override;
     void clearScene();
     STList<STEntity*> RaycaseHelper(Vector3D start, Vector3D end) override ;
     void addToPhysicsWorld(STRigidBody* rigidBody) override;

@@ -108,11 +108,17 @@ void STScene::update() {
 //    }
 //    rootNode->update(); //Updates all entities.
     for(const auto& actor : actors){
-        actor->update();
+        if(actor){
+            actor->update();
+        }
     }
 
     for(const auto& light : lights){
         light->update();
+    }
+
+    for(auto ent : removeQueue){
+        STScene::RemoveEntity(ent);
     }
 }
 
@@ -209,4 +215,33 @@ void STScene::load(std::ifstream &in) {
         light->load(in);
         lights.emplace_back(light);
     }
+}
+
+void STScene::RemoveEntity(STEntity *entity) {
+    auto type = entity->getType();
+    if(type == STEntity::Type::Actor){
+        auto actors = STGame::Get()->getCurrentScene()->actors;
+        for(stUint i = 0; i < actors.size(); i++){
+            if(actors[i].get() == entity){
+                actors[i]->dispose();
+                actors.erase(actors.begin() + i);
+                STGame::Get()->getCurrentScene()->actors = actors;
+            }
+        }
+    }else if(type == STEntity::Type::Light){
+        auto lights = STGame::Get()->getCurrentScene()->lights;
+        for(stUint i = 0; i < lights.size(); i++){
+            if(lights[i].get() == entity){
+                lights.erase(lights.begin() + i);
+            }
+        }
+    }else{
+
+    }
+
+}
+
+void STScene::RemoveEntityQueue(STEntity *entity) {
+    auto scene = STGame::Get()->getCurrentScene();
+    scene->removeQueue.addFirst(entity);
 }

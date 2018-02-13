@@ -36,7 +36,7 @@ public:
 //
 //        STFileManager::Write("testEntity.bin", s);
 
-        auto sphere = STFileManager::Read<STActor>("testEntity.bin");
+        sphere = STFileManager::Read<STActor>("testEntity.bin");
         sphere->setName("Sphere");
         sphere->get<ST3DPhysicsComponent>()->updateTransform();
         sphere->get<ST3DPhysicsComponent>()->setMass(30.f);
@@ -49,6 +49,13 @@ public:
                 gfx->getMaterial()->setRoughness(0.f);
             }
         });
+
+        auto s2 = STFileManager::Read<STActor>("testEntity.bin");
+        s2->setName("Sphere2");
+        s2->transform()->setTranslate({3.5f, 5, 3.5f});
+        s2->get<ST3DPhysicsComponent>()->updateTransform();
+        s2->get<ST3DPhysicsComponent>()->setRestitution(0.5f);
+        s2->addComponent<STScriptComponent>(new STScriptComponent("SphereScript.lua"));
 
         STFileManager::Write("testLight", accentLight2);
 
@@ -66,6 +73,7 @@ public:
         m_scene->addLight(accentLight);
         m_scene->addLight(l);
         m_scene->addActor(p);
+        m_scene->addActor(s2);
         m_scene->addActor(sphere);
     }
 
@@ -105,6 +113,11 @@ public:
                     self->get<STRendererComponent>()->getMaterial()->setDiffuseColor(Vector4D(r, g, b, 1.f));
                 }
             });
+            newSphere->get<STEventComponent>()->updateEvent("update", [](STEntity* self, STEntity* other){
+                if(self->transform()->getTranslate().getY() <= -10.0f){
+                    STScene::RemoveEntity(self);
+                }
+            });
             auto p = newSphere->addComponent<ST3DPhysicsComponent>(new ST3DPhysicsComponent(STRigidBody::SPHERE, {s}));
             p->updateTransform();
             p->setMass(50.0f);
@@ -113,6 +126,11 @@ public:
             m_scene->addActor(newSphere);
         }
 
+        if(input->isKeyPressed(KEY::KEY_E)){
+            if(sphere){
+                STScene::RemoveEntity(sphere.get());
+            }
+        }
         m_scene->update();
     }
 
@@ -129,7 +147,7 @@ public:
 
 private:
     stUint counter;
-    std::shared_ptr<STEntity> sphere;
+    std::shared_ptr<STActor> sphere;
 };
 
 int main(int argc, char** argv){

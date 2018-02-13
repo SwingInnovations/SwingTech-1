@@ -32,24 +32,6 @@ function update(self)
         self:transform():setTranslateX(oldX - forward:getX() * (speedFactor * delta))
         self:transform():setTranslateZ(oldZ - forward:getZ() * (speedFactor * delta))
     end
-
-
---    if input:isKeyDown(KEY.KEY_L) then
---        self:transform():setTranslateX(oldX + (speedFactor * delta))
---    elseif input:isKeyDown(KEY.KEY_J) then
---        self:transform():setTranslateX(oldX - (speedFactor * delta))
---    elseif input:isKeyDown(KEY.KEY_I) then
---        self:transform():setTranslateZ(oldZ + (speedFactor * delta))
---    elseif input:isKeyDown(KEY.KEY_K) then
---        self:transform():setTranslateZ(oldZ - (speedFactor * delta))
---    end
---
---    self:transform():setRotateY(counter);
---    counter = counter + 1;
---
---    local scale = Vector3.new(0.5, 0.5, 0.5);
---    self:transform():setScale(scale);
---
 end
 
 function onCollision(self, other)

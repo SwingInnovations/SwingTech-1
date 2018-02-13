@@ -2,6 +2,7 @@
 
 #include "../../Graphics/Camera.h"
 #include "STEventComponent.h"
+#include "../../Application/STSceneManager.h"
 
 STScriptComponent::STScriptComponent(STEntity *entity, const std::string &fileName) {
     initScript(fileName);
@@ -23,8 +24,11 @@ void STScriptComponent::initScript(const std::string &fileName) {
     m_script.open_libraries(sol::lib::base, sol::lib::package, sol::lib::math);
     //Regsiter Commands
     m_script.set_function("getEventComponent", [](STEntity* ent){ return ent->get<STEventComponent>(); });
-    m_script.set_function("addEvent", [](STEntity* ent, const std::string& name){
+    m_script.set_function("AddEvent", [](STEntity* ent, const std::string& name){
         ent->get<STScriptComponent>()->registerEvent(ent, name);
+    });
+    m_script.set_function("Remove", [](STEntity* ent) {
+       STScene::RemoveEntityQueue(ent);
     });
 
     for(auto comp : m_entity->getAllComponents()){
@@ -155,8 +159,10 @@ void STScriptComponent::initScript(const std::string &fileName) {
                                            "dot", &Vector4<stReal>::dot,
                                            "toVector3", &Vector4<stReal>::toVector3);
     m_script.new_simple_usertype<STEntity>("STEntity",
+                                           "getName", &STEntity::getName,
                                     "getTag", &STEntity::getTag,
                                     "transform", &STEntity::transform,
+                                           "addComponent", &STEntity::_addComponent,
                                     "setAttributei", sol::resolve<void(const std::string&, const int&)>(&STEntity::setAttribute),
                                     "setAttributef", sol::resolve<void(const std::string&, const float&)>(&STEntity::setAttribute),
                                     "setAttribute2v", sol::resolve<void(const std::string&, const Vector2<stReal>&)>(&STEntity::setAttribute),
@@ -185,7 +191,7 @@ void STScriptComponent::initScript(const std::string &fileName) {
                                      "getUp", &Transform::getUp,
                                      "getRight", &Transform::getRight);
     m_script.script_file(fileName);
-    m_script["start"](m_entity);
+    m_script["start"](m_entity.get());
 }
 
 void STScriptComponent::registerEvent(STEntity *self, const std::string &eventName) {

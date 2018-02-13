@@ -27,6 +27,7 @@ public:
     virtual void setGravity(stReal gravity) = 0;
     virtual void dispose() = 0;
     virtual void addToPhysicsWorld(STRigidBody* rigidBody) = 0;
+    virtual void removeFromPhysicsWorld(STRigidBody* rigidBody) = 0;
     inline PhysicsEngine getPhysicsEngineMode() const{ return m_physicsEngine; }
     STList<STEntity*> Raycast(Vector3D start, Vector3D end)const;
     virtual STList<STEntity*> RaycaseHelper(Vector3D start, Vector3D end) = 0;

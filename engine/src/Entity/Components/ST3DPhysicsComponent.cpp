@@ -35,7 +35,7 @@ void ST3DPhysicsComponent::update() {
 }
 
 void ST3DPhysicsComponent::dispose() {
-
+    STGame::Get()->getPhysics()->removeFromPhysicsWorld(m_rigidBody);
 }
 
 ST3DPhysicsComponent::~ST3DPhysicsComponent() {

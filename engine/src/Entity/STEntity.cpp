@@ -17,10 +17,10 @@ STEntity::~STEntity() {
 
 void STEntity::addComponent(std::type_index type, STComponent* component) {
     auto t = shared_from_this();
-    component->init(t);
     int status;
     auto key = abi::__cxa_demangle(type.name(), 0, 0, &status);
     m_components[key] = component;
+    m_components[key]->init(t);
     numComponents++;
 }
 
@@ -64,7 +64,9 @@ bool STEntity::isVisible() {
 
 void STEntity::update() {
     for(auto comp : m_components){
-        comp.second->update();
+        if(!m_components.empty()){
+            comp.second->update();
+        }
     }
 }
 
@@ -267,6 +269,19 @@ void STEntity::save(std::ofstream &out) {
         STSerializableUtility::WriteString(attrib.first.c_str(), out);
         attrib.second->save(out);
     }
+}
+
+void STEntity::_addComponent(const std::string &requestedComponent) {
+    auto comp = STComponentObjectFactory::Get()->create(requestedComponent);
+    if(comp != nullptr){
+        auto t = shared_from_this();
+        comp->init(t);
+        m_components[requestedComponent] = comp;
+    }
+}
+
+STEntity::Type STEntity::getType() const {
+    return m_type;
 }
 
 STAttribute::STAttribute(const Vector2<stReal> &value){

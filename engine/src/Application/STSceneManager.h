@@ -10,7 +10,6 @@
 #include "Util/Data_Structure/STQueue.h"
 
 class STRenderScene;
-
 class STLight;
 class STInterWidget;
 
@@ -54,6 +53,9 @@ public:
     STScene();
 
     STScene(stUint index);
+
+    static void RemoveEntity(STEntity* entity);
+    static void RemoveEntityQueue(STEntity* entity);
 
     void setRenderScene(STRenderScene* renderScene);
     STRenderScene* getRenderScene(){ return m_renderScene; }
@@ -116,6 +118,7 @@ private:
     std::vector<std::shared_ptr<STActor>> actors;
     std::vector<std::shared_ptr<STLight>> lights;
     std::vector<STInterWidget*> uiElements;
+    STList<STEntity*> removeQueue;
     std::string skyboxName;
     std::string skyboxShader;
     STRenderScene* m_renderScene;

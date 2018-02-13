@@ -82,7 +82,10 @@ public:
     ~STEntity();
     void init();
 
+    Type getType()const;
+
     void addComponent(std::type_index, STComponent*);
+    void _addComponent(const std::string& componentName);
     template<typename T> T* addComponent();
     template<typename T> T* addComponent(STComponent*);
     void addChild(STEntity* entity);

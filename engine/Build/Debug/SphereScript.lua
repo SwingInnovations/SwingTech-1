@@ -1,8 +1,16 @@
---
--- Created by IntelliJ IDEA.
--- User: NDanq
--- Date: 7/2/2017
--- Time: 10:22 PM
--- To change this template use File | Settings | File Templates.
---
+--Initialize stuff here
+function start(self)
+    print("Initializing Script");
+    AddEvent(self, "onCollision");
+end
 
+function update(self)
+
+end
+
+-- On Collision Flag
+function onCollision(self, other)
+    if other:getName() == "Plane" then
+        Remove(self)
+    end
+end

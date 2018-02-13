@@ -26,6 +26,7 @@ extern "C"{
 #include "STGameState.h"
 #include "../Math/Vector.h"
 #include "../Graphics/Camera.h"
+#include "Util/Data_Structure/STQueue.h"
 
 class Input;
 class STScene;
@@ -108,6 +109,8 @@ public:
      *  \param val Target FPS(Frames per Second)
      */
     void setTargetFPS(float val){ this->fps = (Uint32)val; }
+
+    void queueDefferedEvent(std::function<void()> newFunc);
 
     //! Sets Cursor Visible
     /*!
@@ -225,6 +228,7 @@ private:
 
     unsigned int m_currentIndex;
     std::vector<STGameState *> m_gameStates;
+    STList<std::function<void()>> m_deferredUpdates;
     SDL_Window* m_Window;
     SDL_GLContext m_Context;
     SDL_Event m_e;

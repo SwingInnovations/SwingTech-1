@@ -11,6 +11,7 @@ end
 -- On Collision Flag
 function onCollision(self, other)
     if other:getName() == "Plane" then
-        Remove(self)
+--        Remove(self)
+        print("Collided");
     end
 end

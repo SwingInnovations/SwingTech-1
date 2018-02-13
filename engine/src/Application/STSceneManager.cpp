@@ -120,6 +120,7 @@ void STScene::update() {
     for(auto ent : removeQueue){
         STScene::RemoveEntity(ent);
     }
+    if(!removeQueue.empty()) removeQueue.clear();
 }
 
 void STScene::addUIElement(STInterWidget *ui) {
@@ -243,5 +244,5 @@ void STScene::RemoveEntity(STEntity *entity) {
 
 void STScene::RemoveEntityQueue(STEntity *entity) {
     auto scene = STGame::Get()->getCurrentScene();
-    scene->removeQueue.addFirst(entity);
+    scene->removeQueue.emplace_back(entity);
 }

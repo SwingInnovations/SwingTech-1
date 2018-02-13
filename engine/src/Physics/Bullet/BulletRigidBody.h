@@ -14,6 +14,7 @@ class BulletRigidBody : public STRigidBody{
 public:
     BulletRigidBody(Transform* transform, RigidBodyShape shape = BOX);
     BulletRigidBody(Transform* transform, RigidBodyShape shape, std::vector<stReal>& dimensions);
+    ~BulletRigidBody() override ;
     btRigidBody*    getRigidBody();
 
     void applyGravity() override ;

@@ -183,6 +183,11 @@ void BulletRigidBody::load(std::ifstream &in) {
     m_ImpulseForce.load(in);
 }
 
+BulletRigidBody::~BulletRigidBody() {
+    delete m_rigidBody->getMotionState();
+    delete m_rigidBody->getCollisionShape();
+}
+
 
 
 

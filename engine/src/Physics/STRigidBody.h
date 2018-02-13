@@ -26,7 +26,7 @@ public:
     STRigidBody(){}
     STRigidBody(Transform* transform, RigidBodyShape shape){;}
     STRigidBody(Transform* transform, RigidBodyShape shape, std::vector<stReal>& dimensions){;}
-
+    virtual ~STRigidBody() {}
     /**
      * Sets Gravity of Rigid Body
      * @param gravity

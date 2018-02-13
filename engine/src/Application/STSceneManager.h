@@ -118,7 +118,7 @@ private:
     std::vector<std::shared_ptr<STActor>> actors;
     std::vector<std::shared_ptr<STLight>> lights;
     std::vector<STInterWidget*> uiElements;
-    STList<STEntity*> removeQueue;
+    std::vector<STEntity*> removeQueue;
     std::string skyboxName;
     std::string skyboxShader;
     STRenderScene* m_renderScene;

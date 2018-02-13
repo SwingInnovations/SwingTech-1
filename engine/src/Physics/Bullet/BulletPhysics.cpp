@@ -24,6 +24,7 @@ void BulletPhysics::init() {
 
 void BulletPhysics::update(stUint delta) {
     if(m_dynamicsWorld){
+        auto count = m_dynamicsWorld->getNumCollisionObjects();
         m_dynamicsWorld->stepSimulation(delta);
 
         for(stUint i = 0; i < m_dynamicsWorld->getDispatcher()->getNumManifolds(); i++){
@@ -139,5 +140,19 @@ void BulletPhysics::addToPhysicsWorld(STRigidBody *rigidBody) {
 }
 
 void BulletPhysics::removeFromPhysicsWorld(STRigidBody *rigidBody) {
-    m_dynamicsWorld->removeRigidBody(((BulletRigidBody*)rigidBody)->getRigidBody());
+//    delete ((BulletRigidBody*)rigidBody)->getRigidBody()->getMotionState();
+//    delete ((BulletRigidBody*)rigidBody)->getRigidBody()->getCollisionShape();
+//    m_dynamicsWorld->removeCollisionObject(((BulletRigidBody*)rigidBody)->getRigidBody());
+//    delete ((BulletRigidBody*)rigidBody)->getRigidBody();
+    for(int i = 0; i < m_dynamicsWorld->getNumCollisionObjects(); i++){
+        auto obj = m_dynamicsWorld->getCollisionObjectArray()[i];
+        auto r = btRigidBody::upcast(obj);
+        if(r == ((BulletRigidBody*)rigidBody)->getRigidBody()){
+            if(r && r->getMotionState()){
+                delete r->getMotionState();
+            }
+            m_dynamicsWorld->removeCollisionObject(obj);
+            delete obj;
+        }
+    }
 }

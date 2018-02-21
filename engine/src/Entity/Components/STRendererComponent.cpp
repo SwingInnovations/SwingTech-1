@@ -200,7 +200,7 @@ void STRendererComponent::dispose() {
 }
 
 void STRendererComponent::initScriptingFunctions(sol::state &state) {
-    state.set_function("getGraphicsComponent", [](STEntity* self){
+    state.set_function("GetRendererComponent", [](STEntity* self){
         return self->get<STRendererComponent>();
     });
 

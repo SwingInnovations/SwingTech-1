@@ -120,6 +120,7 @@ void STScene::update() {
     for(auto ent : removeQueue){
         STScene::RemoveEntity(ent);
     }
+
     if(!removeQueue.empty()) removeQueue.clear();
 }
 
@@ -192,11 +193,11 @@ void STScene::save(std::ofstream &out) {
     numLights = (stUint)lights.size();
     out.write((char*)&numActors, sizeof(stUint));
     out.write((char*)&numLights, sizeof(stUint));
-    for(auto actor : actors){
+    for(auto& actor : actors){
         actor->save(out);
     }
 
-    for(auto light : lights){
+    for(auto& light : lights){
         light->save(out);
     }
 }
@@ -220,26 +221,29 @@ void STScene::load(std::ifstream &in) {
 
 void STScene::RemoveEntity(STEntity *entity) {
     auto type = entity->getType();
-    if(type == STEntity::Type::Actor){
-        auto actors = STGame::Get()->getCurrentScene()->actors;
-        for(stUint i = 0; i < actors.size(); i++){
-            if(actors[i].get() == entity){
-                actors[i]->dispose();
-                actors.erase(actors.begin() + i);
-                STGame::Get()->getCurrentScene()->actors = actors;
-            }
-        }
-    }else if(type == STEntity::Type::Light){
-        auto lights = STGame::Get()->getCurrentScene()->lights;
-        for(stUint i = 0; i < lights.size(); i++){
-            if(lights[i].get() == entity){
-                lights.erase(lights.begin() + i);
-            }
-        }
-    }else{
+    auto actors = STGame::Get()->getCurrentScene()->actors;
+    auto lights = STGame::Get()->getCurrentScene()->lights;
 
+    switch(entity->getType()){
+        case STEntity::Type ::Actor:
+            for(stUint i = 0; i < actors.size(); i++){
+                if(actors[i].get() == entity){
+                    actors[i]->dispose();
+                    actors.erase(actors.begin() + i);
+                    STGame::Get()->getCurrentScene()->actors = actors;
+                }
+            }
+            break;
+        case STEntity::Type::Light:
+            for(stUint i = 0; i < lights.size(); i++){
+                if(lights[i].get() == entity){
+                    lights.erase(lights.begin() + i);
+                }
+            }
+            break;
+        default:
+            ;
     }
-
 }
 
 void STScene::RemoveEntityQueue(STEntity *entity) {

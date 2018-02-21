@@ -44,7 +44,7 @@ public:
         sphere->get<STEventComponent>()->addEvent("onCollision", [](STEntity* self, STEntity* other){
             if(other != nullptr){
                 auto gfx = self->get<STRendererComponent>();
-                gfx->getMaterial()->setDiffuseColor(Vector4D(1.f, 0.f, 0.f, 1.f));
+                gfx->getMaterial()->setDiffuseColor(Vector4D(1.f, 0.f, 1.f, 1.f));
                 gfx->getMaterial()->setMetallic(0.2f);
                 gfx->getMaterial()->setRoughness(0.f);
             }
@@ -55,7 +55,8 @@ public:
         s2->transform()->setTranslate({3.5f, 5, 3.5f});
         s2->get<ST3DPhysicsComponent>()->updateTransform();
         s2->get<ST3DPhysicsComponent>()->setRestitution(0.5f);
-        s2->addComponent<STScriptComponent>(new STScriptComponent("SphereScript.lua"));
+        s2->addScript("SphereScript.lua");
+        sphere2 = s2;
 
         STFileManager::Write("testLight", accentLight2);
 
@@ -85,10 +86,12 @@ public:
             input->setCursorVisible(!input->isCursorBound());
         }
 
-        if(input->isKeyPressed(KEY::KEY_F)){
+        if(input->isKeyPressed(KEY::KEY_F)) {
             counter++;
             game->setFullScreen(counter % 2);
         }
+
+        auto sphere2Handle = sphere2.get();
 
         if(input->isMousePressed(1)){
             auto pos = game->getCamera()->transform()->getTranslate();
@@ -148,6 +151,7 @@ public:
 private:
     stUint counter;
     std::shared_ptr<STActor> sphere;
+    std::shared_ptr<STActor> sphere2;
 };
 
 int main(int argc, char** argv){

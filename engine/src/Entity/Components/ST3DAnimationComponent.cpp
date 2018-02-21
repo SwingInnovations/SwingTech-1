@@ -185,7 +185,7 @@ ST3DAnimationComponent::~ST3DAnimationComponent() {
 }
 
 void ST3DAnimationComponent::initScriptingFunctions(sol::state& script) {
-    script.set_function("get3DAnimationComponent", [](STEntity* ent){
+    script.set_function("Get3DAnimationComponent", [](STEntity* ent){
         return ent->get<ST3DAnimationComponent>();
     });
     script.new_usertype<ST3DAnimationComponent>("ST3DAnimation",

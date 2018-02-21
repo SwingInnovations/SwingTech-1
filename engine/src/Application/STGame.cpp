@@ -282,8 +282,7 @@ STPhysics *STGame::getPhysics() {
     return m_physics;
 }
 
-void STGame::queueDefferedEvent(std::function<void()> newFunc) {
-    m_deferredUpdates.addFirst(newFunc);
+stUint STGame::getTargetFPS() const {
+    return fps;
 }
-
 

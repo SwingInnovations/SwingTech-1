@@ -16,6 +16,7 @@ public:
     BulletRigidBody(Transform* transform, RigidBodyShape shape, std::vector<stReal>& dimensions);
     ~BulletRigidBody() override ;
     btRigidBody*    getRigidBody();
+    btCollisionShape* getCollisionShape();
 
     void applyGravity() override ;
     void applyImpulseForce(Vector3D) override;
@@ -36,6 +37,7 @@ public:
 
     void updateTransform() override;
     void clearForces() override;
+    void clearUserPointer() override;
 
     stReal getMass()const override;
     Vector3D getTotalForce() const override ;
@@ -45,6 +47,8 @@ public:
 
     void save(std::ofstream& out) override;
     void load(std::ifstream& in) override ;
+
+
 private:
     btCollisionShape* m_collisionShape;
     btRigidBody*      m_rigidBody;

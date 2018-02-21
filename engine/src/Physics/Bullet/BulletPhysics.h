@@ -12,7 +12,7 @@ class btDiscreteDynamicsWorld;
 class BulletPhysics : public STPhysics{
 public:
     BulletPhysics();
-    ~BulletPhysics();
+    ~BulletPhysics() override ;
     void init() override ;
     void init(STPhysics::PhysicsEngine engineMode) override;
     void initScene(STScene* scene) override ;
@@ -20,6 +20,7 @@ public:
     void setGravity(stReal gravity) override;
     void dispose() override;
     void removeFromPhysicsWorld(STRigidBody* rigidBody) override;
+    void addToRemoveQueue(STRigidBody* rigidBody) override;
     void clearScene();
     STList<STEntity*> RaycaseHelper(Vector3D start, Vector3D end) override ;
     void addToPhysicsWorld(STRigidBody* rigidBody) override;

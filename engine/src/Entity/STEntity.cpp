@@ -284,6 +284,10 @@ STEntity::Type STEntity::getType() const {
     return m_type;
 }
 
+void STEntity::addScript(const std::string& name) {
+    addComponent<STScriptComponent>(new STScriptComponent(name));
+}
+
 STAttribute::STAttribute(const Vector2<stReal> &value){
     type = Vec2;
     m_value = STAttribute::toString(value);

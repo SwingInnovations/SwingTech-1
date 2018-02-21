@@ -26,7 +26,7 @@ public:
     STRigidBody(){}
     STRigidBody(Transform* transform, RigidBodyShape shape){;}
     STRigidBody(Transform* transform, RigidBodyShape shape, std::vector<stReal>& dimensions){;}
-    virtual ~STRigidBody() {}
+    virtual ~STRigidBody(){;}
     /**
      * Sets Gravity of Rigid Body
      * @param gravity
@@ -99,6 +99,8 @@ public:
      * Clears forces on rigid body
      */
     virtual void clearForces() = 0;
+
+    virtual void clearUserPointer() = 0;
 
     virtual void save(std::ofstream& out) = 0;
     virtual void load(std::ifstream& in) = 0;

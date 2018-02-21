@@ -24,8 +24,18 @@ void BulletPhysics::init() {
 
 void BulletPhysics::update(stUint delta) {
     if(m_dynamicsWorld){
-        auto count = m_dynamicsWorld->getNumCollisionObjects();
-        m_dynamicsWorld->stepSimulation(delta);
+        int numCount = m_dynamicsWorld->getNumCollisionObjects();   //Keep Track Before Removal
+        for(auto rigidBody : m_removeQueue){
+            removeFromPhysicsWorld(rigidBody);
+            delete rigidBody;
+        }
+        numCount = m_dynamicsWorld->getNumCollisionObjects(); //Amount after removal
+        if(!m_removeQueue.empty()) {
+            m_removeQueue.clear();
+        }
+
+
+        m_dynamicsWorld->stepSimulation(delta, 1, (1.0f / (stReal)STGame::Get()->getTargetFPS()));
 
         for(stUint i = 0; i < m_dynamicsWorld->getDispatcher()->getNumManifolds(); i++){
             auto collision = m_dynamicsWorld->getDispatcher()->getManifoldByIndexInternal(i);
@@ -103,20 +113,14 @@ void BulletPhysics::clearScene() {
 
 void BulletPhysics::initScene(STScene *scene) {
     m_scene = scene;
-    for(const auto& actor : scene->getActors()){
-        auto physComponent = actor->get<ST3DPhysicsComponent>();
-        if(physComponent != nullptr){
-            m_dynamicsWorld->addRigidBody(((BulletRigidBody*)physComponent->getRigidBody())->getRigidBody());
-        }
-    }
 }
 
 BulletPhysics::~BulletPhysics() {
+    delete m_dynamicsWorld;
+    delete m_solver;
     delete m_collisionConfiguration;
     delete m_dispatcher;
     delete m_broadphase;
-    delete m_solver;
-    delete m_dynamicsWorld;
 }
 
 STList<STEntity *> BulletPhysics::RaycaseHelper(Vector3D start, Vector3D end) {
@@ -129,6 +133,7 @@ STList<STEntity *> BulletPhysics::RaycaseHelper(Vector3D start, Vector3D end) {
     if(RayCallback.hasHit()){
         for(stUint i = 0, L = (stUint)RayCallback.m_collisionObjects.size(); i < L; i++)
         {
+            ((STEntity*)RayCallback.m_collisionObjects[i]->getUserPointer())->get<STEventComponent>()->setEvent("onRayHit");
             ret.addLast((STEntity*)RayCallback.m_collisionObjects[i]->getUserPointer());
         }
     }
@@ -140,19 +145,15 @@ void BulletPhysics::addToPhysicsWorld(STRigidBody *rigidBody) {
 }
 
 void BulletPhysics::removeFromPhysicsWorld(STRigidBody *rigidBody) {
-//    delete ((BulletRigidBody*)rigidBody)->getRigidBody()->getMotionState();
-//    delete ((BulletRigidBody*)rigidBody)->getRigidBody()->getCollisionShape();
-//    m_dynamicsWorld->removeCollisionObject(((BulletRigidBody*)rigidBody)->getRigidBody());
-//    delete ((BulletRigidBody*)rigidBody)->getRigidBody();
-    for(int i = 0; i < m_dynamicsWorld->getNumCollisionObjects(); i++){
-        auto obj = m_dynamicsWorld->getCollisionObjectArray()[i];
-        auto r = btRigidBody::upcast(obj);
-        if(r == ((BulletRigidBody*)rigidBody)->getRigidBody()){
-            if(r && r->getMotionState()){
-                delete r->getMotionState();
-            }
-            m_dynamicsWorld->removeCollisionObject(obj);
-            delete obj;
-        }
+    btRigidBody* r = dynamic_cast<BulletRigidBody*>(rigidBody)->getRigidBody();
+    assert(r);
+    for(int j = (r->getNumConstraintRefs() - 1); j >=0;  --j){
+        m_dynamicsWorld->removeConstraint(r->getConstraintRef(j));
     }
+    m_broadphase->getOverlappingPairCache()->cleanProxyFromPairs(r->getBroadphaseHandle(), m_dynamicsWorld->getDispatcher());
+    m_dynamicsWorld->removeRigidBody(r);
+}
+
+void BulletPhysics::addToRemoveQueue(STRigidBody *rigidBody) {
+    m_removeQueue.emplace_back(rigidBody);
 }

@@ -35,11 +35,11 @@ void ST3DPhysicsComponent::update() {
 }
 
 void ST3DPhysicsComponent::dispose() {
-    STGame::Get()->getPhysics()->removeFromPhysicsWorld(m_rigidBody);
+    STGame::Get()->getPhysics()->addToRemoveQueue(m_rigidBody);
 }
 
 ST3DPhysicsComponent::~ST3DPhysicsComponent() {
-    delete m_rigidBody;
+    m_rigidBody->clearUserPointer();
 }
 
 void ST3DPhysicsComponent::setGravity(Vector3D gravity) {
@@ -82,7 +82,7 @@ void ST3DPhysicsComponent::setRestitution(stReal value) {
 }
 
 void ST3DPhysicsComponent::initScriptingFunctions(sol::state &state) {
-    state.set_function("get3DPhysicsComponent", [](STEntity* self){
+    state.set_function("Get3DPhysicsComponent", [](STEntity* self){
         return self->get<ST3DPhysicsComponent>();
     });
     state.new_simple_usertype<ST3DPhysicsComponent>("ST3DPhysicsComponent",

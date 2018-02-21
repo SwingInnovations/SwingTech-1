@@ -184,8 +184,19 @@ void BulletRigidBody::load(std::ifstream &in) {
 }
 
 BulletRigidBody::~BulletRigidBody() {
-    delete m_rigidBody->getMotionState();
+    if(m_rigidBody->getMotionState()){
+        delete m_rigidBody->getMotionState();
+    }
     delete m_rigidBody->getCollisionShape();
+    delete m_rigidBody;
+}
+
+btCollisionShape *BulletRigidBody::getCollisionShape() {
+    return m_collisionShape;
+}
+
+void BulletRigidBody::clearUserPointer() {
+    m_rigidBody->setUserPointer(nullptr);
 }
 
 

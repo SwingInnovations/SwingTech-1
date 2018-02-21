@@ -17,7 +17,7 @@ STScriptComponent::~STScriptComponent() {
 }
 
 void STScriptComponent::update() {
-    m_script["update"](m_entity);
+    m_script["update"](m_entity.get());
 }
 
 void STScriptComponent::initScript(const std::string &fileName) {
@@ -172,7 +172,8 @@ void STScriptComponent::initScript(const std::string &fileName) {
                                     "getAttributef", &STEntity::getAttributef,
                                     "getAttribute2v", &STEntity::getAttribute2v,
                                     "getAttribute3v", &STEntity::getAttribute3v,
-                                    "getAttribute4v", &STEntity::getAttribute4v);
+                                    "getAttribute4v", &STEntity::getAttribute4v,
+                                    "addScript", &STEntity::addScript);
     m_script.new_simple_usertype<Transform>("Transform", sol::constructors<sol::types<>>(),
                                      "setTranslate", sol::resolve<void(Vector3<stReal>)>(&Transform::setTranslate),
                                      "setTranslateX", &Transform::setTranslateX,
@@ -191,7 +192,7 @@ void STScriptComponent::initScript(const std::string &fileName) {
                                      "getUp", &Transform::getUp,
                                      "getRight", &Transform::getRight);
     m_script.script_file(fileName);
-    m_script["start"](m_entity.get());
+    m_script["init"](m_entity.get());
 }
 
 void STScriptComponent::registerEvent(STEntity *self, const std::string &eventName) {
@@ -206,8 +207,8 @@ void STScriptComponent::registerFunction(const std::string &functionName, std::f
 }
 
 void STScriptComponent::init(std::shared_ptr<STEntity>& parent) {
-    this->m_entity = parent;
-    this->initScript(this->scriptName);
+    m_entity = parent;
+    initScript(this->scriptName);
 }
 
 STScriptComponent::STScriptComponent() {

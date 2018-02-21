@@ -91,6 +91,8 @@ public:
     void addChild(STEntity* entity);
     STEntity* getChild(int ind);
 
+    void addScript(const std::string& scriptName);
+
     inline bool hasChildren(){ return m_children.size() > 0; }
 
     //Attributes

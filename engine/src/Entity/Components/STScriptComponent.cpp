@@ -73,7 +73,8 @@ void STScriptComponent::initScript(const std::string &fileName) {
                 "KEY_W", KEY::KEY_W,
                 "KEY_X", KEY::KEY_X,
                 "KEY_Y", KEY::KEY_Y,
-                "KEY_Z", KEY::KEY_Z);
+                "KEY_Z", KEY::KEY_Z,
+                "KEY_SPACE", KEY::KEY_SPACE);
     m_script.new_enum("JOYSTICK_AXIS",
                 "X_AXIS", JOYSTICK_AXIS::X_AXIS,
                 "Y_AXIS", JOYSTICK_AXIS::Y_AXIS,

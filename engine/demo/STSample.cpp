@@ -29,26 +29,27 @@ public:
         accentLight2->get<STLightComponent>()->setTarget(Vector3D());
         accentLight2->get<STLightComponent>()->getProperties()->intensity = 0.9f;
 
-//        auto s = STActor::Create("smooth_sphere.obj");
-//        s->transform()->setTranslate({0.f, 5.f, 0.f});
-//        auto physHandle = s->addComponent<ST3DPhysicsComponent>(new ST3DPhysicsComponent(STRigidBody::SPHERE, {0.9f}));
-//        physHandle->updateTransform();
+        auto s = STActor::Create("smooth_sphere.obj");
+        s->transform()->setTranslate({0.f, 5.f, 0.f});
+        auto physHandle = s->addComponent<ST3DPhysicsComponent>(new ST3DPhysicsComponent(STRigidBody::CAPSULE_Y, {0.9f, 2.0f}));
+        physHandle->updateTransform();
+        s->addScript("Control.lua");
 //
 //        STFileManager::Write("testEntity.bin", s);
 
-        sphere = STFileManager::Read<STActor>("testEntity.bin");
-        sphere->setName("Sphere");
-        sphere->get<ST3DPhysicsComponent>()->updateTransform();
-        sphere->get<ST3DPhysicsComponent>()->setMass(30.f);
-        sphere->get<ST3DPhysicsComponent>()->setRestitution(0.5f);
-        sphere->get<STEventComponent>()->addEvent("onCollision", [](STEntity* self, STEntity* other){
-            if(other != nullptr){
-                auto gfx = self->get<STRendererComponent>();
-                gfx->getMaterial()->setDiffuseColor(Vector4D(1.f, 0.f, 1.f, 1.f));
-                gfx->getMaterial()->setMetallic(0.2f);
-                gfx->getMaterial()->setRoughness(0.f);
-            }
-        });
+//        sphere = STFileManager::Read<STActor>("testEntity.bin");
+//        sphere->setName("Sphere");
+//        sphere->get<ST3DPhysicsComponent>()->updateTransform();
+//        sphere->get<ST3DPhysicsComponent>()->setMass(30.f);
+//        sphere->get<ST3DPhysicsComponent>()->setRestitution(0.5f);
+//        sphere->get<STEventComponent>()->addEvent("onCollision", [](STEntity* self, STEntity* other){
+//            if(other != nullptr){
+//                auto gfx = self->get<STRendererComponent>();
+//                gfx->getMaterial()->setDiffuseColor(Vector4D(1.f, 0.f, 1.f, 1.f));
+//                gfx->getMaterial()->setMetallic(0.2f);
+//                gfx->getMaterial()->setRoughness(0.f);
+//            }
+//        });
 
         auto s2 = STFileManager::Read<STActor>("testEntity.bin");
         s2->setName("Sphere2");
@@ -61,6 +62,7 @@ public:
         STFileManager::Write("testLight", accentLight2);
 
         auto l = STFileManager::Read<STLight>("testLight");
+        l->transform()->setTranslate({2.f, 10.f, 2.f});
 
         auto p = STActor::Create("plane.obj");
         p->setName("Plane");
@@ -74,8 +76,7 @@ public:
         m_scene->addLight(accentLight);
         m_scene->addLight(l);
         m_scene->addActor(p);
-        m_scene->addActor(s2);
-        m_scene->addActor(sphere);
+        m_scene->addActor(s);
     }
 
     void update(STGame* game) override{
@@ -106,25 +107,11 @@ public:
             newSphere->transform()->setScale({s, s, s});
 
             newSphere->transform()->setTranslate({nX, 5.f, nZ});
-            newSphere->addAttribute("hasChanged", 0);
-            newSphere->get<STEventComponent>()->addEvent("onCollision", [](STEntity* self, STEntity* other){
-                if(self->getAttributei("hasChanged") == 0){
-                    self->setAttribute("hasChanged", 1);
-                    auto r = (rand() % 100) / 100.f;
-                    auto g = (rand() % 100) / 100.f;
-                    auto b = (rand() % 100) / 100.f;
-                    self->get<STRendererComponent>()->getMaterial()->setDiffuseColor(Vector4D(r, g, b, 1.f));
-                }
-            });
-            newSphere->get<STEventComponent>()->updateEvent("update", [](STEntity* self, STEntity* other){
-                if(self->transform()->getTranslate().getY() <= -10.0f){
-                    STScene::RemoveEntity(self);
-                }
-            });
             auto p = newSphere->addComponent<ST3DPhysicsComponent>(new ST3DPhysicsComponent(STRigidBody::SPHERE, {s}));
             p->updateTransform();
             p->setMass(50.0f);
             p->setRestitution(0.5f);
+            newSphere->addScript("SphereScript.lua");
 
             m_scene->addActor(newSphere);
         }
@@ -167,6 +154,7 @@ int main(int argc, char** argv){
     win->enterState(0);
     win->getGraphics()->enableShadow(true);
     win->getGraphics()->setRenderMode(STGraphics::DEFERRED);
+    win->getGraphics()->enablePostEffect(STGraphics::BLOOM | STGraphics::MOTION_BLUR);
     win->start();
 
     return 0;

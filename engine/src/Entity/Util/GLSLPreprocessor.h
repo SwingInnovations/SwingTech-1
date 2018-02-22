@@ -8,9 +8,7 @@
 #include <fstream>
 using namespace std;
 
-
-
-static string Process(string source) {
+static string Process(const string& source) {
     vector<string> lines;
 
     std::string delimiter = "\n";
@@ -47,9 +45,7 @@ static string Process(string source) {
                     replacment += temp+"\n";
                 }
             }
-
             lines[i]= replacment;
-
         }
     }
 

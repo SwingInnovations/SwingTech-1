@@ -43,8 +43,12 @@ BulletRigidBody::BulletRigidBody(Transform *transform, STRigidBody::RigidBodySha
         m_collisionShape = new btStaticPlaneShape({dimensions[0], dimensions[1], dimensions[2]}, dimensions[3]);
     }else if(shape == SPHERE){
         m_collisionShape = new btSphereShape(dimensions[0]);
-    }else if(shape == CAPSULE){
-        //TODO Implement This
+    }else if(shape == CAPSULE_X) {
+        m_collisionShape = new btCapsuleShapeX(dimensions[0], dimensions[1]);
+    }else if(shape == CAPSULE_Y){
+        m_collisionShape = new btCapsuleShape(dimensions[0], dimensions[1]);
+    }else if(shape == CAPSULE_Z){
+        m_collisionShape = new btCapsuleShapeZ(dimensions[0], dimensions[1]);
     }else if(shape == CYLINDER){
         //TODO IMplement this
     }

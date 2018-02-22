@@ -92,6 +92,7 @@ void ST3DPhysicsComponent::initScriptingFunctions(sol::state &state) {
                                 "setActive", &ST3DPhysicsComponent::setActive,
                                 "setDamping", &ST3DPhysicsComponent::setDamping,
                                 "setRestitution", &ST3DPhysicsComponent::setRestitution,
+                                "setGravity", &ST3DPhysicsComponent::setGravity,
                                 "toggleFreeze", &ST3DPhysicsComponent::toggleFreeze,
                                 "updateTransform", &ST3DPhysicsComponent::updateTransform);
 }

@@ -19,7 +19,9 @@ public:
         BOX,
         STATIC_PLANE,
         SPHERE,
-        CAPSULE,
+        CAPSULE_X,
+        CAPSULE_Y,
+        CAPSULE_Z,
         CYLINDER,
         CUSTOM
     };

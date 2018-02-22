@@ -86,11 +86,7 @@ void BulletPhysics::setGravity(stReal gravity) {
 }
 
 void BulletPhysics::dispose() {
-//    delete m_collisionConfiguration;
-//    delete m_dispatcher;
-//    delete m_broadphase;
-//    delete m_solver;
-//    delete m_dynamicsWorld;
+
 }
 
 
@@ -108,7 +104,15 @@ void BulletPhysics::init(STPhysics::PhysicsEngine engineMode) {
 }
 
 void BulletPhysics::clearScene() {
-    m_dynamicsWorld->getCollisionObjectArray().clear();
+//    for(auto i = (stUint)(m_dynamicsWorld->getNumCollisionObjects() - 1); i >= 0; --i){
+//        auto r = btRigidBody::upcast(m_dynamicsWorld->getCollisionObjectArray()[i]);
+//        m_dynamicsWorld->removeRigidBody(r);
+//        if(r->getMotionState()){
+//            delete r->getMotionState();
+//        }
+//        delete r->getCollisionShape();
+//        delete r;
+//    }
 }
 
 void BulletPhysics::initScene(STScene *scene) {
@@ -116,6 +120,8 @@ void BulletPhysics::initScene(STScene *scene) {
 }
 
 BulletPhysics::~BulletPhysics() {
+    clearScene();
+
     delete m_dynamicsWorld;
     delete m_solver;
     delete m_collisionConfiguration;

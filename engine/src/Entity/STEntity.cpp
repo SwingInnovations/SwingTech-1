@@ -45,10 +45,10 @@ STEntity *STEntity::childAtTag(const std::string &tag) {
 void STEntity::draw(STGraphics *grphx) {
     auto graphics = this->get<STRendererComponent>();
     auto mesh = this->get<STMeshComponent>();
-    auto camera = grphx->getActiveCamera();
+    auto Camera = grphx->getCamera();
 
     graphics->draw();
-    graphics->getMaterial()->shdr()->update(*m_transform, *camera);
+    graphics->getMaterial()->shdr()->update(*m_transform, Camera);
     mesh->draw();
 
     graphics->draw();

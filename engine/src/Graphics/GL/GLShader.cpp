@@ -1,6 +1,7 @@
 #include "GLShader.h"
 #include "../../Entity/Util/GLSLPreprocessor.h"
 #include "../../Application/STGame.h"
+#include "../../Entity/Components/STComponent.h"
 
 GLShader::GLShader() {
 //    m_Program = glCreateProgram();
@@ -131,27 +132,30 @@ void GLShader::update(Transform& trans){
     glUniformMatrix4fv(m_uniforms[0], 1, GL_TRUE,  &transform.m[0][0]);
 }
 
-void GLShader::update(Camera& cam){
+
+void GLShader::update(STCamera *cam) {
     Matrix4f camera, view, projection;
-    camera = cam.getViewProjection();
-    view = cam.getView();
-    projection = cam.getProjection();
+    auto camComp = cam->get<STCameraComponent>();
+    camera = camComp->getViewProjection();
+    view = camComp->getView();
+    projection = camComp->getProjection();
     glUniformMatrix4fv(m_uniforms[1], 1, GL_TRUE, &camera.m[0][0]);
     glUniformMatrix4fv(m_uniforms[3], 1, GL_TRUE, &view.m[0][0]);
     glUniformMatrix4fv(m_uniforms[4], 1, GL_TRUE, &projection.m[0][0]);
 }
 
-void GLShader::update(Transform& trans, Camera& cam){ ;
-    Vector3<stReal> camPos = cam.transform()->getTranslate();
+void GLShader::update(Transform &trans, STCamera *cam) {
+    auto campos = cam->transform()->getTranslate();
+    auto camComp = cam->get<STCameraComponent>();
 
     glUniformMatrix4fv(m_uniforms[0], 1, GL_TRUE, &trans.getModel().m[0][0]);
-    glUniformMatrix4fv(m_uniforms[1], 1, GL_TRUE, &cam.getViewProjection().m[0][0]);
-    glUniform3f(m_uniforms[2], camPos.getX(), camPos.getY(), camPos.getZ());
-    glUniformMatrix4fv(m_uniforms[3], 1, GL_TRUE, &cam.getView().m[0][0]);
-    glUniformMatrix4fv(m_uniforms[4], 1, GL_TRUE, &cam.getProjection().m[0][0]);
+    glUniformMatrix4fv(m_uniforms[1], 1, GL_TRUE, &camComp->getViewProjection().m[0][0]);
+    glUniform3f(m_uniforms[2], campos.getX(), campos.getY(), campos.getZ());
+    glUniformMatrix4fv(m_uniforms[3], 1, GL_TRUE, &camComp->getView().m[0][0]);
+    glUniformMatrix4fv(m_uniforms[4], 1, GL_TRUE, &camComp->getProjection().m[0][0]);
     glUniformMatrix4fv(m_uniforms[5], 1, GL_TRUE, &m_cachedMVP.m[0][0]);
 
-    m_cachedMVP = cam.getProjection()* cam.getView() * trans.getModel(); //Cache transform from last tick.
+    m_cachedMVP = camComp->getViewProjection() * trans.getModel();
 }
 
 void GLShader::update(const std::string &name, int val) {
@@ -336,6 +340,9 @@ void GLShader::load(std::ifstream &in) {
         glDeleteShader(m_Shader);
     }
 }
+
+
+
 
 
 

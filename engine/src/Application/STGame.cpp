@@ -3,7 +3,6 @@
 
 #include "../Graphics/STGraphics.h"
 #include "../Graphics/GL/GLGraphics.h"
-#include "../Graphics/Camera.h"
 #include "../Physics/Bullet/BulletPhysics.h"
 
 #include "../Entity/Components/STLightComponent.h"
@@ -184,7 +183,6 @@ void STGame::update() {
     if(input->isCloseRequested()){
         isRunning = false;
     }
-    if(getCamera() != nullptr) getCamera()->update(input);
     if(!m_gameStates.empty() && m_currentIndex < m_gameStates.size()) m_gameStates[m_currentIndex]->update(this);
 }
 
@@ -194,14 +192,6 @@ void STGame::render() {
     }
 
     SDL_GL_SwapWindow(m_Window);
-}
-
-void STGame::addCamera(Camera* cam){
-    g->addCamera(cam);
-}
-
-Camera*STGame::getCamera(){
-    return g->getActiveCamera();
 }
 
 STGraphics* STGame::getGraphics() {
@@ -237,10 +227,6 @@ void STGame::setIcon(const std::string &filePath) {
 
     SDL_FreeSurface(img);
     img = 0;
-}
-
-void STGame::setActiveCamera(stUint index) {
-    this->g->setCameraIndex(index);
 }
 
 void STGame::setFullScreen(int flag) {

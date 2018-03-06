@@ -23,6 +23,7 @@ public:
     void init(std::shared_ptr<STEntity>& entity) override ;
     void update() override ;
     void setCurrentAnimation(const std::string& anim);
+    void setAnimation(stReal mixFactor, stUint animCount, std::string* animations);
     void save(std::ofstream& out) override;
     void load(std::ifstream& in) override;
 protected:

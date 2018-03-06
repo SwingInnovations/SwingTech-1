@@ -16,7 +16,9 @@ function update(self)
     local oldX = self:transform():getTranslate():getX()
     local oldY = self:transform():getTranslate():getY()
     local oldZ = self:transform():getTranslate():getZ()
+    local rotY = self:transform():getRotate():getY()
     local physHandle = Get3DPhysicsComponent(self)
+    local animHandle = Get3DAnimationComponent(self)
 
     if oldY < -5.0 then
         Remove(self)
@@ -43,6 +45,18 @@ function update(self)
     if input:isKeyDown(KEY.KEY_K) then
         oldX = oldX - (0.025 * delta)
         self:transform():setTranslate(Vector3.new(oldX, oldY, oldZ))
+        physHandle:updateTransform()
+    end
+
+    if input:isKeyDown(KEY.KEY_O) then
+        rotY = rotY - (0.25 * delta)
+        self:transform():setRotateY(rotY)
+        physHandle:updateTransform()
+    end
+
+    if input:isKeyDown(KEY.KEY_U) then
+        rotY = rotY + (0.25 * delta)
+        self:transform():setRotateY(rotY)
         physHandle:updateTransform()
     end
 

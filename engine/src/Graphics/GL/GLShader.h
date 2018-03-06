@@ -14,8 +14,8 @@
 #endif
 
 #include "../Shader.h"
-#include "../Camera.h"
 #include "../../Math/Vector.h"
+#include "../../Entity/STCamera.h"
 
 class GLShader : public Shader{
 public:
@@ -27,8 +27,8 @@ public:
     void bind() override ;
     void unbind() override;
     void update(Transform& trans) override;
-    void update(Camera& cam) override;
-    void update(Transform& trans, Camera& cam) override;
+    void update(STCamera* camera) override;
+    void update(Transform& trans, STCamera* cam) override;
     void update(const std::string& name, int val) override;
     void update(const std::string& name, float val) override;
     void update(const std::string& name, Vector2<stReal> val) override;

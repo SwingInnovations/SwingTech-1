@@ -410,35 +410,16 @@ void GLGraphics::drawScene(STScene *scene) {
         glClearColor(clearColor.getX(), clearColor.getY(), clearColor.getZ(), clearColor.getZ());
         glClear(GL_COLOR_BUFFER_BIT);
 
-        rendScene->drawSkybox(*getActiveCamera());
+        //rendScene->drawSkybox(*getActiveCamera());
+        rendScene->drawSkybox(getCamera());
 
         glDisable(GL_BLEND);
         glDepthFunc(GL_EQUAL);
         glDepthMask(GL_TRUE);
 
-//        for(stUint i =0; i < actors.size(); i++){
-//            actors[i]->setShdrUniform("_CameraPos", getActiveCamera()->transform()->getTranslate());
-//            actors[i]->setShdrUniform_CubeMap("_WorldCubeMap", rendScene->m_skybox);
-//            actors[i]->setShdrUniform_Texture2DArray("shadowArray", shadowArray, 1);
-//            actors[i]->setShdrUniform("LightCount", (stInt)lights.size());
-//            for(stUint j =0; j < lights.size(); j++) {
-//                auto lightProps = lights[j]->get<STLightComponent>()->getProperties();
-//                auto shadowProps = lights[j]->get<STShadowComponent>()->getProperties();
-//
-//                actors[i]->setShdrUniform("Light["+std::to_string(j)+"].LightType", (stInt)lightProps->direction.getW());
-//                actors[i]->setShdrUniform("Light["+std::to_string(j)+"].Color", lightProps->color);
-//                actors[i]->setShdrUniform("Light["+std::to_string(j)+"].Position", lights[j]->transform()->getTranslate());
-//                actors[i]->setShdrUniform("Light["+std::to_string(j)+"].Direction", lightProps->direction);
-//                actors[i]->setShdrUniform("Light["+std::to_string(j)+"].Radius", lightProps->radius);
-//                actors[i]->setShdrUniform("Light["+std::to_string(j)+"].Intensity", lightProps->intensity);
-//                actors[i]->setShdrUniform("Light["+std::to_string(j)+"].UseShadow", lightProps->useShadow);
-//                actors[i]->setShdrUniform("Light["+std::to_string(j)+"].ShadowIndex", (stInt)shadowProps->shadowIndex);
-//            }
-//            actors[i]->draw();
-//        }
         for(auto actor : actors){
             auto gfx = actor->get<STRendererComponent>();
-            gfx->setShdrUniform("_CameraPos", getActiveCamera()->transform()->getTranslate());
+            gfx->setShdrUniform("_CameraPos", getCamera()->transform()->getTranslate());
             gfx->setShdrUniform_CubeMap("_WorldCubeMap", rendScene->m_skybox);
             gfx->setShdrUniform_Texture2DArray("shadowArray", shadowArray, 1);
             gfx->setShdrUniform("LightCount", (stInt)lights.size());
@@ -540,7 +521,8 @@ void GLGraphics::drawScene(STScene *scene) {
             Deff_LightPassShdr->update("Light["+std::to_string(i)+"].ShadowIndex", (stInt)shadowProps->shadowIndex);
             Deff_LightPassShdr->update("Light["+std::to_string(i)+"].LightSpaceMatrix", shadowProps->projections[0]);
         }
-        Deff_LightPassShdr->update("viewPos", getActiveCamera()->transform()->getTranslate());
+        //Deff_LightPassShdr->update("viewPos", getActiveCamera()->transform()->getTranslate());
+        Deff_LightPassShdr->update("viewPos", getCamera()->transform()->getTranslate());
         screenQuad->draw();
 
         glEnable(GL_DEPTH_TEST);
@@ -549,7 +531,8 @@ void GLGraphics::drawScene(STScene *scene) {
         glBlitFramebuffer(0, 0, WIDTH, HEIGHT, 0, 0, WIDTH, HEIGHT, GL_DEPTH_BUFFER_BIT, GL_NEAREST);
         glDepthFunc(GL_LEQUAL);
 
-        rendScene->drawSkybox(*getActiveCamera());
+        //rendScene->drawSkybox(*getActiveCamera());
+        rendScene->drawSkybox(getCamera());
         glDisable(GL_BLEND);
         glDepthFunc(GL_LESS);
 
@@ -936,3 +919,29 @@ void GLGraphics::setScreenShader(const std::string &shdrPath) {
     screenShdr = new GLShader("screen", shdrPath);
 }
 
+void GLGraphics::setShadowResolution(stUint res) { m_shadowRes = res;}
+
+void GLGraphics::enableShadow(bool value) { m_shadows = value; }
+
+Matrix4f GLGraphics::getOrthographicProjection() const {
+    return orthoProjection;
+}
+
+void GLRenderScene::drawSkybox(STCamera *camera) {
+    glDisable(GL_CULL_FACE);
+    glDepthFunc(GL_LEQUAL);
+    m_skyboxShdr->bind();
+    m_skyboxShdr->update(camera);
+    glActiveTexture(GL_TEXTURE0);
+    glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
+    glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+    glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+    glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+    glGenerateMipmap(GL_TEXTURE_CUBE_MAP);
+    glBindTexture(GL_TEXTURE_CUBE_MAP, m_skybox);
+    skyboxMesh->draw();
+    glDepthFunc(GL_LESS);
+    glEnable(GL_CULL_FACE);
+    glCullFace(GL_FRONT);
+}

@@ -6,6 +6,7 @@
 
 STMaterial::STMaterial() {
     shader = nullptr;
+    m_renderMode = OPAQUE;
 }
 
 STMaterial::STMaterial(ShaderList shaders, TextureList textures) {
@@ -14,6 +15,7 @@ STMaterial::STMaterial(ShaderList shaders, TextureList textures) {
         init_GLTextures(textures);
     }
     initBaseUniforms();
+    m_renderQueue = 3000;
 }
 
 STMaterial::STMaterial(Shader *shdr) {
@@ -21,7 +23,7 @@ STMaterial::STMaterial(Shader *shdr) {
     initBaseUniforms();
 }
 
-void STMaterial::draw(std::map<std::string, STShader::ShaderAttrib> &entityUniforms, Transform &T, Camera &C) {
+void STMaterial::draw(std::map<std::string, STShader::ShaderAttrib> &entityUniforms, Transform &T, STCamera *C) {
     shader->bind();
     shader->update(T, C);
     shader->updateUniforms(entityUniforms);
@@ -29,12 +31,14 @@ void STMaterial::draw(std::map<std::string, STShader::ShaderAttrib> &entityUnifo
 }
 
 void STMaterial::draw(std::map<std::string, STShader::ShaderAttrib> &entityUniform,
-                      std::map<std::string, STShader::ShaderAttrib> originalMaterialUniforms, Transform &T, Camera &C) {
+                      std::map<std::string, STShader::ShaderAttrib> originalMaterialUniforms, Transform &T,
+                      STCamera *C) {
     shader->bind();
     shader->update(T, C);
     shader->updateUniforms(entityUniform);
     shader->updateUniforms(originalMaterialUniforms);
 }
+
 
 
 void STMaterial::setMetallic(stReal value) {
@@ -205,6 +209,14 @@ stUint STMaterial::getRenderQueue() const {
 
 void STMaterial::setRenderQueue(stUint value) {
     m_renderQueue = value;
+}
+
+void STMaterial::setRenderMode(STMaterial::RenderMode renderMode) {
+    m_renderMode = renderMode;
+}
+
+STMaterial::RenderMode STMaterial::getRenderMode() const {
+    return m_renderMode;
 }
 
 

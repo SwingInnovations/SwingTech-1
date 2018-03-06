@@ -189,7 +189,8 @@ void ST3DAnimationComponent::initScriptingFunctions(sol::state& script) {
         return ent->get<ST3DAnimationComponent>();
     });
     script.new_usertype<ST3DAnimationComponent>("ST3DAnimation",
-                                                "setCurrentAnimation", &ST3DAnimationComponent::setCurrentAnimation);
+                                                "setCurrentAnimation", &ST3DAnimationComponent::setCurrentAnimation,
+                                                "setAnimation", &ST3DAnimationComponent::setAnimation);
 }
 
 void ST3DAnimationComponent::save(std::ofstream &out) {
@@ -253,3 +254,10 @@ void ST3DAnimationComponent::load(std::ifstream &in) {
     m_nodeData = std::make_shared<STMeshNode>();
     m_nodeData->load(in);
 }
+
+void ST3DAnimationComponent::setAnimation(stReal mixFactor, stUint animCount, std::string *animations) {
+    for(stUint i = 0; i < animCount; i++){
+        std::cout << animations[i] << std::endl;
+    }
+}
+

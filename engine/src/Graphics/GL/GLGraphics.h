@@ -41,25 +41,7 @@ struct GLRenderScene : public STRenderScene{
         m_skyboxShdr = new GLShader(shdr);
     }
 
-    inline void drawSkybox(Camera& cam){
-        glDisable(GL_CULL_FACE);
-        glDepthFunc(GL_LEQUAL);
-        m_skyboxShdr->bind();
-        m_skyboxShdr->update(cam);
-        glActiveTexture(GL_TEXTURE0);
-        glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-        glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
-        glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-        glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-        glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_R, GL_CLAMP_TO_EDGE);
-        glGenerateMipmap(GL_TEXTURE_CUBE_MAP);
-        glBindTexture(GL_TEXTURE_CUBE_MAP, m_skybox);
-
-        skyboxMesh->draw();
-        glDepthFunc(GL_LESS);
-        glEnable(GL_CULL_FACE);
-        glCullFace(GL_FRONT);
-    }
+    inline void drawSkybox(STCamera* camera) override ;
 
     void dispose(){
         delete m_skyboxShdr;
@@ -77,26 +59,24 @@ public:
     GLGraphics();
     GLGraphics(STGame*);
 
-    std::string getVendor();
+    std::string getVendor() override;
 
-    void cleanup();
-    void init(stUint w, stUint h);
+    void cleanup() override ;
+    void init(stUint w, stUint h) override ;
 
-    void loadFont(const std::string&);
+    void loadFont(const std::string&)override;
 
-    void drawText(Vector2<stReal> pos, const std::string& text, stReal fontSize );
-    void drawText(Vector2<stReal> pos, const std::string& text, stReal fontSize, Vector4<stReal>* color);
-    void drawText(Vector2<stReal> pos, const std::string& text, stReal fontSize, stReal value);
-    void drawText(Vector2<stReal> pos, const std::string& text, stReal fontSize, std::string& msg);
+    void drawText(Vector2<stReal> pos, const std::string& text, stReal fontSize ) override;
+    void drawText(Vector2<stReal> pos, const std::string& text, stReal fontSize, Vector4<stReal>* color) override;
+    void drawText(Vector2<stReal> pos, const std::string& text, stReal fontSize, stReal value) override;
+    void drawText(Vector2<stReal> pos, const std::string& text, stReal fontSize, std::string& msg) override;
 
-    Matrix4f getOrthographicProjection()const {
-        return orthoProjection;
-    }
+    Matrix4f getOrthographicProjection()const override;
 
     void setScreenShader(const std::string& screenShdr) override ;
 
-    virtual void drawScene(STScene* scene);
-    void initScene(STScene* scene);
+    void drawScene(STScene* scene) override;
+    void initScene(STScene* scene) override;
 
     void setResolution(stUint w, stUint h);
 
@@ -105,19 +85,17 @@ public:
      * Note - Must be 2^n
      * @param res
      */
-    void setShadowResolution(const stUint res){ m_shadowRes = res;}
+    void setShadowResolution(stUint res)override;
 
-    void enableShadow(bool value){ m_shadows = value; }
+    void enableShadow(bool value)override;
 
-    inline void enableBlend(){
+    inline void enableBlend()override{
         glEnable(GL_BLEND);
     }
 
-    inline void disableBlend(){
+    inline void disableBlend()override {
         glDisable(GL_BLEND);
     }
-
-
 
     static Vector3<stReal> TextColor;
 
@@ -158,6 +136,7 @@ private:
     GLuint bloomThresBuf;
 
     //Render Buffer
+    GLuint gTransparencyBuffer;
     GLuint gBuffer;
     GLuint gPosition;
     GLuint gNormal;

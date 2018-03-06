@@ -27,6 +27,10 @@ struct TextureList{
 
 class STMaterial{
 public:
+    enum RenderMode : unsigned char{
+        OPAQUE,
+        TRANSPARENT
+    };
     STMaterial();
 
     STMaterial(ShaderList, TextureList);
@@ -125,10 +129,13 @@ public:
 
     Shader* shdr(){ return shader; }
 
-    void draw(std::map<std::string, STShader::ShaderAttrib>& entityUniforms, Transform& T, Camera& C);
-    void draw(std::map<std::string, STShader::ShaderAttrib>& entityUniform, std::map<std::string, STShader::ShaderAttrib> originalMaterialUniforms, Transform &T, Camera& C);
+    void draw(std::map<std::string, STShader::ShaderAttrib>& entityUniforms, Transform& T, STCamera* C);
+    void draw(std::map<std::string, STShader::ShaderAttrib>& entityUniform, std::map<std::string, STShader::ShaderAttrib> originalMaterialUniforms, Transform &T, STCamera* C);
     void setRenderQueue(stUint value);
     stUint getRenderQueue()const;
+
+    void setRenderMode(RenderMode renderMode);
+    RenderMode getRenderMode()const;
 private:
     void init_GLShaders(ShaderList list);
     void init_GLTextures(TextureList list);
@@ -138,6 +145,7 @@ private:
     std::map<std::string, STShader::ShaderAttrib> m_Uniforms;
     std::map<std::string, std::string> m_pathReferences;
     stUint m_renderQueue;
+    RenderMode m_renderMode;
 };
 
 #endif //WAHOO_STMATERIAL_H

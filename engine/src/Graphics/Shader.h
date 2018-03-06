@@ -14,6 +14,7 @@
 
 class Transform;
 class Camera;
+class STCamera;
 class Matrix4f;
 
 /*!
@@ -242,7 +243,9 @@ public:
     virtual void unbind(){ }
     virtual void update(Transform& trans){  }
     virtual void update(Camera& cam){  }
+    virtual void update(STCamera* cam){}
     virtual void update(Transform& trans, Camera& cam){ }
+    virtual void update(Transform& trans, STCamera* camera){ }
     virtual void update(const std::string& name, int val){}
     virtual void update(const std::string& name, float val){ }
     virtual void update(const std::string& name, Vector2<stReal> val){ }

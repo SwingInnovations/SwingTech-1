@@ -165,8 +165,7 @@ void STRendererComponent::update() {
 
 }
 
-void STRendererComponent::draw(Transform &T, Camera &C) {
-    //m_material->draw(m_Uniforms, T, C);
+void STRendererComponent::draw(Transform &T, STCamera *C) {
     m_Material->draw(m_Uniforms, T, C);
 }
 
@@ -239,6 +238,8 @@ void STRendererComponent::load(std::ifstream &in) {
 STRendererComponent::STRendererComponent(Shader *shdr) {
 
 }
+
+
 
 
 

@@ -25,7 +25,6 @@ extern "C"{
 #include "../Physics/STPhysics.h"
 #include "STGameState.h"
 #include "../Math/Vector.h"
-#include "../Graphics/Camera.h"
 #include "Util/Data_Structure/STQueue.h"
 
 class Input;
@@ -127,14 +126,6 @@ public:
      */
     void enterState(unsigned int);
 
-    //! Sets Camera for Game
-    /*!
-     *  Sets Camera for STGame. Note, camera will be persistant
-     *  for all game states.
-     *  \param cam Pointer to Camera
-     */
-    void addCamera(Camera* cam);
-
     inline void setDimension(DIMENSION_MODE dim){
         this->dimMode = dim;
     }
@@ -144,13 +135,6 @@ public:
     static void SetResolutionWidth(int val){ STGame::RES_WIDTH = val; }
     static void SetResolutionHeight(int val){ STGame::RES_HEIGHT = val; }
 
-    /**
-     * Sets the Active Index for the Camera.
-     * @param index
-     */
-
-    void setActiveCamera(stUint index);
-
     /*-The Getters-*/
     //! Gets pointer to Input
     /*!
@@ -159,13 +143,7 @@ public:
      *  \return Returns pointer to Input
      */
     Input* getInput();
-    //! Gets pointer to Input
-    /*!
-     *  Note: This is global and persistant,
-     *  for all STGameStates.
-     *  \return Returns pointer to Camera.
-     */
-    Camera* getCamera();
+
     //! Gets pointer to STGraphics
     /*!
      *  Note: This is global and persistant,

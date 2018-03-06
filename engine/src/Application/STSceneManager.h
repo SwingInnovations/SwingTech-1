@@ -6,6 +6,7 @@
 #include "../Entity/STEntity.h"
 #include "../Entity/STActor.h"
 #include "../Entity/STLight.h"
+#include "../Entity/STCamera.h"
 #include "../Math/Shape/BoundingBox.h"
 #include "Util/Data_Structure/STQueue.h"
 
@@ -52,7 +53,7 @@ class STScene{
 public:
     STScene();
 
-    STScene(stUint index);
+    explicit STScene(stUint index);
 
     static void RemoveEntity(STEntity* entity);
     static void RemoveEntityQueue(STEntity* entity);
@@ -61,6 +62,8 @@ public:
     STRenderScene* getRenderScene(){ return m_renderScene; }
 
     ~STScene();
+
+    void addCamera(std::shared_ptr<STCamera> newCamera);
 
     /**
      * Adds Actor to scene.
@@ -102,6 +105,8 @@ public:
     const std::vector<std::shared_ptr<STLight>> &getLights()const{ return lights; }
     const std::vector<STInterWidget*> &getUIElements()const{ return uiElements; }
 
+    STCamera*  getActiveCamera()const;
+
     const std::string& getSkyboxName()const{ return skyboxName; }
     const std::string& getSkyboxShader()const{ return skyboxShader; }
 
@@ -122,6 +127,8 @@ private:
     std::string skyboxName;
     std::string skyboxShader;
     STRenderScene* m_renderScene;
+    std::vector<std::shared_ptr<STCamera>> m_cameras;
+    stUint m_activeCameraIndex;
 };
 
 #endif //WAHOO_STSCENEMANAGER_H

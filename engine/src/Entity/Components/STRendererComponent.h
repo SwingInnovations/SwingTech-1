@@ -65,7 +65,7 @@ public:
 
     std::map<std::string, STShader::ShaderAttrib> &GetUniforms();
 
-    void draw(Transform& T, Camera& C);
+    void draw(Transform& T, STCamera* C);
 private:
     std::shared_ptr<STMaterial> m_Material;
     std::map<std::string, STShader::ShaderAttrib> m_Uniforms;

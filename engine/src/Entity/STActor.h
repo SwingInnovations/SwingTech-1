@@ -21,7 +21,6 @@ public:
 
     void draw() override;
     void draw(STMaterial*);
-    void draw(Camera*, int) override;
     void draw(STMaterial *overrideMaterial, bool flag);
 };
 #endif //WAHOO_STACTOR_H

@@ -13,7 +13,7 @@ class STGame;
 class STSceneManager;
 class STScene;
 
-enum ST_YUpState{
+enum ST_YUpState : unsigned char{
     YPos_Down = false,
     YPos_Up = true
 };
@@ -21,6 +21,7 @@ enum ST_YUpState{
 struct STRenderScene{
     virtual void initSkybox(const std::string& shdr, const std::string& skybox){;}
     virtual void drawSkybox(Camera& cam){;};
+    virtual void drawSkybox(STCamera* cam) = 0;
     virtual void dispose() = 0;
     bool m_initiated;
 };
@@ -35,7 +36,7 @@ public:
         FXAA=8
     };
 
-    enum Deferred_RenderNetwork : char{
+    enum Deferred_RenderNetwork : unsigned char{
         BLINNPHONG = 0,
         PBR = 1,
         CUSTOM = 2
@@ -45,8 +46,8 @@ public:
     enum Renderer{ OPENGL, VULKAN };
     static int RENDERER;
     static bool YUp;
-    static Vector4<stReal> ClearColor;
-    static Vector3<stReal> GlobalAmbient;
+    static Vector4D ClearColor;
+    static Vector3D GlobalAmbient;
     STGraphics();
     STGraphics(STGame *);
     ~STGraphics();
@@ -54,12 +55,7 @@ public:
     virtual void cleanup() = 0;
     virtual void init(stUint w, stUint h) = 0;
 
-    void setCurrentCamera(stUint cameraIndex);
     virtual void setScreenShader(const std::string&) = 0;
-
-    void addCamera(Camera* cam){
-        m_cameras.push_back(cam);
-    }
 
     void setResolution(stUint w, stUint h){;}
 
@@ -85,9 +81,6 @@ public:
 
     Vector4<stReal> getFontColor()const { return m_fontColor; }
 
-    void setCameraIndex(stUint index){ this->m_activeCameraIndex = index; }
-    stUint getActiveCameraIndex()const{ return this->m_activeCameraIndex; }
-
     virtual void drawText(Vector2<stReal> pos, const std::string& text, stReal fontSize ){ ; }
     virtual void drawText(Vector2<stReal> pos, const std::string& text, stReal fontSize, Vector4<stReal>* color){ ; }
     virtual void drawText(Vector2<stReal> pos, const std::string& text, stReal fontSize, stReal value){ ; }
@@ -100,11 +93,7 @@ public:
 
     virtual Matrix4f getOrthographicProjection()const{ return Matrix4f(); }
 
-    Camera* getActiveCamera(){
-        if(m_activeCameraIndex < m_cameras.size()) return m_cameras[m_activeCameraIndex];
-        return nullptr;
-    }
-
+    STCamera* getCamera();
 
     void enablePostEffect(int index){
         m_enabledEffects|=index;
@@ -126,9 +115,7 @@ public:
 protected:
     unsigned int m_enabledEffects = 0x00000000;
     unsigned int WIDTH, HEIGHT;
-    std::vector<Camera*> m_cameras;
-    stUint m_activeCameraIndex;
-    Vector4<stReal> m_fontColor;
+    Vector4D m_fontColor;
     RenderMode m_renderMode;
 };
 

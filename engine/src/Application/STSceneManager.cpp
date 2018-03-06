@@ -98,7 +98,9 @@ void OctNode::update() {
 STScene::STScene() {
     m_index = 0;
     m_numShadows = 0;
+    m_activeCameraIndex = 0;
     skyboxShader = "skybox";
+    addCamera(STCamera::Create(STCameraProperties::STViewProfile(), Vector3D(0, 0, 0)));
     rootNode = new OctNode(new STBoundingBox(Vector3<stReal>(-1000.f, -1000.f, -1000.f), Vector3<stReal>(1000.f, 1000.f, 1000.f)));
 }
 
@@ -107,6 +109,8 @@ void STScene::update() {
 //        rootNode->insert(pendingEntities.pop());
 //    }
 //    rootNode->update(); //Updates all entities.
+    getActiveCamera()->update();
+
     for(const auto& actor : actors){
         if(actor){
             actor->update();
@@ -130,6 +134,8 @@ void STScene::addUIElement(STInterWidget *ui) {
 
 STScene::STScene(stUint index) {
     m_index = index;
+    m_activeCameraIndex = 0;
+    addCamera(STCamera::Create(STCameraProperties::STViewProfile(), Vector3D(0, 0, 0)));
     rootNode = new OctNode(new STBoundingBox(Vector3<stReal>(-1000.f, -1000.f, -1000.f), Vector3<stReal>(1000.f, 1000.f, 1000.f)));
 }
 
@@ -249,4 +255,12 @@ void STScene::RemoveEntity(STEntity *entity) {
 void STScene::RemoveEntityQueue(STEntity *entity) {
     auto scene = STGame::Get()->getCurrentScene();
     scene->removeQueue.emplace_back(entity);
+}
+
+STCamera *STScene::getActiveCamera() const {
+    return m_cameras[m_activeCameraIndex].get();
+}
+
+void STScene::addCamera(std::shared_ptr<STCamera> newCamera) {
+    m_cameras.emplace_back(newCamera);
 }

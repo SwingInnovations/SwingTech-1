@@ -111,6 +111,7 @@ void STScene::update() {
 //    rootNode->update(); //Updates all entities.
     getActiveCamera()->update();
 
+    #pragma simd
     for(const auto& actor : actors){
         if(actor){
             actor->update();

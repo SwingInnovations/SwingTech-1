@@ -12,6 +12,8 @@ STLight *STLight::InitPointLight(Vector3<stReal> position, Vector3<stReal> color
 //    lightProps->direction = Vector4<stReal>(0.f, 0.f, 0.f, -1.f);
 //    lightProps->intensity = 1.f;
 //    return ret;
+    //TODO IMplement
+    return nullptr;
 }
 
 STLight *
@@ -29,6 +31,8 @@ STLight::InitSpotLight(Vector3<stReal> position, Vector3<stReal> direction, Vect
 //    lightProps->spotLightAtribs = Vector2<stReal>(coneAngle, coneDistance);
 //    lightProps->intensity = 1.f;
 //    return ret;
+    //TODO Implement
+    return nullptr;
 }
 
 std::shared_ptr<STLight> STLight::InitDirectionalLight(Vector3<stReal> position, Vector3<stReal> direction, Vector3<stReal> color) {
@@ -40,8 +44,8 @@ std::shared_ptr<STLight> STLight::InitDirectionalLight(Vector3<stReal> position,
     ret->get<STLightComponent>()->setType(STLightComponent::DIRECTIONAL_LIGHT);
     auto lightProps = ret->get<STLightComponent>()->getProperties();
     lightProps->color = color;
-    lightProps->spotLightAtribs = Vector2<stReal>(0.f, 0.f);
-    lightProps->direction = Vector4<stReal>(direction, 0.0f);
+    lightProps->spotLightAtribs = Vector2D(0.f, 0.f);
+    lightProps->direction = Vector4D(direction, 0.0f);
     lightProps->intensity = 1.f;
 
     return ret;

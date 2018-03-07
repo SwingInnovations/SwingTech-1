@@ -228,6 +228,10 @@ void GLGraphics::init(stUint w, stUint h) {
     glViewport(0, 0, w, h);
 }
 
+/**
+ * Draws the scene
+ * @param scene
+ */
 void GLGraphics::drawScene(STScene *scene) {
     auto rendScene = (GLRenderScene*)scene->getRenderScene();
     if(!scene->getRenderScene()->m_initiated) {

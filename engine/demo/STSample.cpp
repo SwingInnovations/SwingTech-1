@@ -18,6 +18,7 @@ public:
     void init(STGame* game) override {
         m_scene->addSkybox("green");
         m_scene->getActiveCamera()->get<STCameraComponent>()->setSpeed(0.025f);
+        m_scene->getActiveCamera()->transform()->setTranslate(Vector3D(-5.f, 0.f, 0.f));
 
         auto mainLight = STLight::InitDirectionalLight(Vector3D(4.f, 5.f, 3.f), Vector3D(-.5f, -.5f, -.5f), Vector3D(0.25f, 0.25f, 0.85f));
         mainLight->get<STLightComponent>()->setTarget(Vector3D(0.f, 0.f, 0.f));
@@ -95,6 +96,17 @@ public:
         auto sphere2Handle = sphere2.get();
 
         if(input->isMousePressed(1)){
+            auto newSphere = STActor::Create("smooth_Sphere.obj");
+            stReal nX =(rand() % 6) - 3.f, nZ = (rand() % 6) - 3.f;
+            auto s = (stReal)(rand() % 3);
+            newSphere->transform()->setScale({s, s, s});
+            newSphere->transform()->setTranslate({nX, 5.f, nZ});
+            auto p = newSphere->addComponent<ST3DPhysicsComponent>(new ST3DPhysicsComponent(STRigidBody::SPHERE, {s}));
+            p->updateTransform();
+            p->setMass(10.f);
+            newSphere->addScript("SphereScript.lua");
+            m_scene->addActor(newSphere);
+
 //            auto pos = game->getCamera()->transform()->getTranslate();
 //            auto forward = game->getCamera()->getForward();
 //            auto end = forward * 5.f;
@@ -149,7 +161,6 @@ int main(int argc, char** argv){
     win->setTargetFPS(60);
     STGraphics::YUp = false;
     win->getInput()->setInputMap(inputMapping);
-    //win->addCamera(new Camera(*win, Vector3D(0.f, 1.f, -1.f), 0));
     win->addState(new SampleState(0));
     win->enterState(0);
     win->getGraphics()->enableShadow(true);

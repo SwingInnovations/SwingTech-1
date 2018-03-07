@@ -77,7 +77,7 @@ void STCameraComponent::update() {
 
             if(input->isKeyDown(input->inputMapping()->get(MOVEMENT::STRAFE_LEFT))){
                 stReal x = transform->getTranslate().getX(), z = transform->getTranslate().getZ();
-                x += right.getY() * m_speed * delta;
+                x += right.getX() * m_speed * delta;
                 z += right.getZ() * m_speed * delta;
                 transform->setTranslateX(x);
                 transform->setTranslateZ(z);
@@ -85,7 +85,7 @@ void STCameraComponent::update() {
 
             if(input->isKeyDown(input->inputMapping()->get(MOVEMENT::STRAFE_RIGHT))){
                 stReal x = transform->getTranslate().getX(), z = transform->getTranslate().getZ();
-                x -= right.getY() * m_speed * delta;
+                x -= right.getX() * m_speed * delta;
                 z -= right.getZ() * m_speed * delta;
                 transform->setTranslateX(x);
                 transform->setTranslateZ(z);

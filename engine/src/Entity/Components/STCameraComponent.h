@@ -36,21 +36,48 @@ public:
     void update() override;
     void draw() override;
 
+    /**
+     * Sets a custom update Behavior
+     * @param customUpdate
+     */
     void setCustomUpdate(std::function<void(STCameraComponent*, Input* input)> customUpdate);
 
     Matrix4f getViewProjection() const;
     Matrix4f getView() const;
     Matrix4f getProjection() const;
 
+    /**
+     * Sets Horizontal Rotation
+     * @param h
+     */
     void setHAngle(stReal h);
+
+    /**
+     * Sets Verical Rotation
+     * @param v
+     */
     void setVAngle(stReal v);
+
+    /**
+     * Sets Speed of the Camera
+     * @param s
+     */
     void setSpeed(stReal s);
 
     Vector3D getForward() const;
     Vector3D getUp() const;
     void centerCamera(Input* input);
 
+    /**
+     * Loads from Serial Stream
+     * @param in
+     */
     void load(std::ifstream& in) override;
+
+    /**
+     * Reads from Serial Stream
+     * @param out
+     */
     void save(std::ofstream& out) override;
 private:
     void        updateCameraRotations(Input* input);

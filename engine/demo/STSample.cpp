@@ -96,7 +96,7 @@ public:
         auto sphere2Handle = sphere2.get();
 
         if(input->isMousePressed(1)){
-            auto newSphere = STActor::Create("smooth_Sphere.obj");
+            auto newSphere = STActor::Create("smooth_sphere.obj");
             stReal nX =(rand() % 6) - 3.f, nZ = (rand() % 6) - 3.f;
             auto s = (stReal)(rand() % 3);
             newSphere->transform()->setScale({s, s, s});
@@ -153,20 +153,50 @@ private:
     std::shared_ptr<STActor> sphere2;
 };
 
-int main(int argc, char** argv){
-    auto inputMapping = new InputMap("Input.json");
+#if _MSC_VER > 1900
+    //For use with MSVC Compiler
+    int CALLBACK WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR cmdLine, int nCmdShow){
+        auto inputMapping = new InputMap("Input.json");
 
-    auto win = STGame::Init("Swing Tech", 1440, 720, STPhysics::PhysicsEngine::BULLET);
-    win->setOpenGLVersion(4, 0);
-    win->setTargetFPS(60);
-    STGraphics::YUp = false;
-    win->getInput()->setInputMap(inputMapping);
-    win->addState(new SampleState(0));
-    win->enterState(0);
-    win->getGraphics()->enableShadow(true);
-    win->getGraphics()->setRenderMode(STGraphics::DEFERRED);
-    win->getGraphics()->enablePostEffect(STGraphics::BLOOM | STGraphics::MOTION_BLUR);
-    win->start();
+		STRenderInfo renderInfo;
+		renderInfo.renderer = STRenderInfo::OPENGL;
+		renderInfo.maxVersion = 4;
+		renderInfo.minVersion = 0;
 
-    return 0;
-}
+        auto win = STGame::Init("Swing Tech", 1440, 720, renderInfo, STPhysics::PhysicsEngine::BULLET);
+        win->setTargetFPS(60);
+        STGraphics::YUp = false;
+        win->getInput()->setInputMap(inputMapping);
+        win->addState(new SampleState(0));
+        win->enterState(0);
+        win->getGraphics()->enableShadow(true);
+        win->getGraphics()->setRenderMode(STGraphics::DEFERRED);
+        win->getGraphics()->enablePostEffect(STGraphics::BLOOM | STGraphics::MOTION_BLUR);
+        win->start();
+
+        return 0;
+    }
+#else
+    int main(int argc, char** argv){
+        auto inputMapping = new InputMap("Input.json");
+
+        STRenderInfo renderInfo;
+        renderInfo.renderer = STRenderInfo::OPENGL;
+        renderInfo.maxVersion = 4;
+        renderInfo.minVersion = 0;
+
+        auto win = STGame::Init("Swing Tech", 1440, 720, renderInfo, STPhysics::PhysicsEngine::BULLET);
+        win->setTargetFPS(60);
+        STGraphics::YUp = false;
+        win->getInput()->setInputMap(inputMapping);
+        win->addState(new SampleState(0));
+        win->enterState(0);
+        win->getGraphics()->enableShadow(true);
+        win->getGraphics()->setRenderMode(STGraphics::DEFERRED);
+        win->getGraphics()->enablePostEffect(STGraphics::BLOOM | STGraphics::MOTION_BLUR);
+        win->start();
+
+        return 0;
+    }
+#endif
+

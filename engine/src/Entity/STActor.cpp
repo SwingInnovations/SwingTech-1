@@ -50,7 +50,7 @@ std::shared_ptr<STActor> STActor::Create(const std::string &filename) {
         for(auto& child : ret->getChildren()){
             child->setParent(std::move(ret));
         }
-        return std::move(ret);
+        return ret;
     }
     if(!errFlag || meshes.empty()){
         //TODO Implement error mesh;
@@ -73,7 +73,6 @@ std::shared_ptr<STActor> STActor::Create(const std::string &filename) {
  * @brief Creates Actor based off location of asset in Path.
  * @param filePath Directory to load file
  */
-[[deprecated]]
 STActor::STActor(const std::string &filePath) {
 //    m_type = Actor;
 //    stInt flag = 0;
@@ -110,7 +109,6 @@ STActor::STActor(const std::string &filePath) {
     //addComponent(typeid(STAABBComponent), std::make_shared<STAABBComponent>(this, meshes.at(0).m_minPt, meshes.at(0).m_maxPt));
 }
 
-[[deprecated]]
 STActor::STActor(STEntity *parent, STMesh_Structure meshStructure, std::map<std::string, STMaterial *> materials) {
 //    m_tag = meshStructure.name;
 //    m_type = Actor;

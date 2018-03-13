@@ -56,7 +56,7 @@ BulletRigidBody::BulletRigidBody(Transform *transform, STRigidBody::RigidBodySha
     btVector3 localInertia(0, 0, 0);
     m_collisionShape->calculateLocalInertia(m_Mass, localInertia);
     btDefaultMotionState* motionState = new btDefaultMotionState(btTransform(btQuaternion(0, 0, 0, 1), btVector3(0, 10, 0)));
-    btRigidBody::btRigidBodyConstructionInfo ctInfo(m_Mass, motionState, m_collisionShape, localInertia);
+    btRigidBody::btRigidBodyConstructionInfo ctInfo((btScalar)m_Mass, motionState, m_collisionShape, localInertia);
 
     m_rigidBody = new btRigidBody(ctInfo);
     m_rigidBody->setUserPointer(((void*)transform->getEntity()));

@@ -181,6 +181,7 @@ public:
      */
     Matrix4f initCamera(const Vector3D& target, const Vector3D& up, const Vector3D& view, Vector3D translate);
 
+
     Matrix4f operator*(const Matrix4f& right)const;
     Vector3D operator*(const Vector3D& vec)const;
 

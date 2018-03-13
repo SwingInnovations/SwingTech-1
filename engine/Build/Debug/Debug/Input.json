@@ -1,0 +1,8 @@
+{
+    "KEY" : {
+        "FORWARD": "KEY_W",
+        "BACKWARD": "KEY_S",
+        "STRAFE_LEFT": "KEY_A",
+        "STRAFE_RIGHT": "KEY_D"
+    }
+}

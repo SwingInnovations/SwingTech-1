@@ -3,7 +3,6 @@
 
 #include <fstream>
 #include <string>
-#include <c++/cstring>
 #include "../../../Math/STCore.h"
 
 class STSerializableUtility{
@@ -34,6 +33,16 @@ public:
         delete[] stringBuffer;
         return ret;
     }
+
+#if _MSC_VER > 1900
+    static std::string SanitizeStringMSVC(std::string in){
+        if(in.find("class") != std::string::npos ||
+                in.find("struct") != std::string::npos){
+            return in.substr(6, in.length() - 1);
+        }
+        return in;
+    }
+#endif
 };
 
 #endif //SWINGTECH1_STSERIALIZEABLE_H

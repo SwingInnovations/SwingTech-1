@@ -7,11 +7,23 @@
 #include "Shader.h"
 
 #include <string>
+#include <SDL2/SDL_video.h>
 
 class Camera;
 class STGame;
 class STSceneManager;
 class STScene;
+
+struct STRenderInfo{
+    enum STRenderer : unsigned char{
+        OPENGL = 0,
+        VULKAN = 1
+    };
+
+    stUint minVersion = 0;
+    stUint maxVersion = 1;
+    STRenderer renderer = OPENGL;
+};
 
 enum ST_YUpState : unsigned char{
     YPos_Down = false,
@@ -23,7 +35,7 @@ struct STRenderScene{
     virtual void drawSkybox(Camera& cam){;};
     virtual void drawSkybox(STCamera* cam) = 0;
     virtual void dispose() = 0;
-    bool m_initiated;
+    bool m_initiated = false;
 };
 
 class STGraphics {
@@ -49,7 +61,7 @@ public:
     static Vector4D ClearColor;
     static Vector3D GlobalAmbient;
     STGraphics();
-    STGraphics(STGame *);
+    explicit STGraphics(STGame *);
     ~STGraphics();
 
     virtual void cleanup() = 0;
@@ -111,6 +123,7 @@ public:
         return m_renderMode;
     }
 
+    virtual void swapBuffer(SDL_Window* window) = 0;
 
 protected:
     unsigned int m_enabledEffects = 0x00000000;

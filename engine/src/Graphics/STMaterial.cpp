@@ -6,7 +6,7 @@
 
 STMaterial::STMaterial() {
     shader = nullptr;
-    m_renderMode = OPAQUE;
+    m_renderMode = OPAQUE_MATERIAL;
 }
 
 STMaterial::STMaterial(ShaderList shaders, TextureList textures) {
@@ -211,11 +211,11 @@ void STMaterial::setRenderQueue(stUint value) {
     m_renderQueue = value;
 }
 
-void STMaterial::setRenderMode(STMaterial::RenderMode renderMode) {
+void STMaterial::setRenderMode(STMaterial::MaterialRenderMode renderMode) {
     m_renderMode = renderMode;
 }
 
-STMaterial::RenderMode STMaterial::getRenderMode() const {
+STMaterial::MaterialRenderMode STMaterial::getRenderMode() const {
     return m_renderMode;
 }
 

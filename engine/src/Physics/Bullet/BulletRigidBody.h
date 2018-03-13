@@ -2,9 +2,11 @@
 #define SWINGTECH1_BULLETRIGIDBODYSHAPE_H
 
 #include <vector>
+
 #include <btBulletDynamicsCommon.h>
 #include <BulletCollision/CollisionShapes/btCollisionShape.h>
 #include <BulletDynamics/Dynamics/btRigidBody.h>
+
 #include "../STRigidBody.h"
 #include "../../Math/Vector.h"
 
@@ -12,7 +14,7 @@ class STEntity;
 
 class BulletRigidBody : public STRigidBody{
 public:
-    BulletRigidBody(Transform* transform, RigidBodyShape shape = BOX);
+    explicit BulletRigidBody(Transform* transform, RigidBodyShape shape = BOX);
     BulletRigidBody(Transform* transform, RigidBodyShape shape, std::vector<stReal>& dimensions);
     ~BulletRigidBody() override ;
     btRigidBody*    getRigidBody();

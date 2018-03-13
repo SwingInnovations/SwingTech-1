@@ -5,7 +5,11 @@
 #include <vector>
 #include <memory>
 #include <typeindex>
+#if _MSC_VER > 1900
+
+#else
 #include <cxxabi.h>
+#endif
 #include <string>
 
 #include "../Math/Vector.h"
@@ -156,9 +160,13 @@ public:
      * @return Component Requested
      */
     template<typename T> inline T* get(){
+        std::string query;
+#if _MSC_VER > 1900
+        query = STSerializableUtility::SanitizeStringMSVC(typeid(T).name());
+#else
         int status = 0;
-        auto query = abi::__cxa_demangle(typeid(T).name(), 0, 0, &status);
-
+        query = abi::__cxa_demangle(typeid(T).name(), 0, 0, &status);
+#endif
         auto it = m_components.find(query);
         if(it != m_components.end()){
             return dynamic_cast<T*>(it->second);

@@ -9,6 +9,8 @@
 #include <GL/glew.h>
 #endif
 
+#include <SDL2/SDL_video.h>
+
 
 #include "../../Entity/STLight.h"
 #include "../../Entity/STEntity.h"
@@ -57,7 +59,7 @@ struct GLRenderScene : public STRenderScene{
 class GLGraphics : public STGraphics{
 public:
     GLGraphics();
-    GLGraphics(STGame*);
+    explicit GLGraphics(STGame*);
 
     std::string getVendor() override;
 
@@ -98,6 +100,8 @@ public:
     }
 
     static Vector3<stReal> TextColor;
+
+    void swapBuffer(SDL_Window* window) override;
 
    ~GLGraphics(){
        delete screenShdr;

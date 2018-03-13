@@ -9,6 +9,7 @@
 #include "../Entity/Components/STEventComponent.h"
 #include "../Entity/Components/ST3DAnimationComponent.h"
 #include "../Entity/Components/ST3DPhysicsComponent.h"
+#include "../Graphics/VK/VKGraphics.h"
 
 int STGame::RES_WIDTH = 0;
 int STGame::RES_HEIGHT = 0;
@@ -39,6 +40,51 @@ STGame::~STGame() {
     SDL_DestroyWindow(m_Window);
     m_Window = nullptr;
     m_Context = 0;
+}
+
+STGame::STGame(const std::string &title, stUint width, stUint height, STRenderInfo &renderMode) {
+    setWidth(width);
+    setHeight(height);
+    auto registerBaseComponents = STComponentObjectFactory::Get();
+    registerBaseComponents->registerClass("STMeshComponent", [=]() -> STComponent*{ return new STMeshComponent; });
+    registerBaseComponents->registerClass("STRendererComponent", [=]() -> STComponent*{ return new STRendererComponent; });
+    registerBaseComponents->registerClass("ST3DAnimationComponent", [=]() -> STComponent*{ return new ST3DAnimationComponent; });
+    registerBaseComponents->registerClass("ST3DPhysicsComponent", [=]() -> STComponent*{ return new ST3DPhysicsComponent; });
+    registerBaseComponents->registerClass("STLightComponent", [=]() -> STComponent*{ return new STLightComponent; });
+    registerBaseComponents->registerClass("STShadowComponent", [=]() -> STComponent*{ return new STShadowComponent; });
+    registerBaseComponents->registerClass("STEventComponent", [=]() -> STComponent*{ return new STEventComponent; });
+    registerBaseComponents->registerClass("STScriptComponent", [=]() -> STComponent*{ return new STScriptComponent; });
+    registerBaseComponents->registerClass("STCameraComponent", [=]() -> STComponent*{ return new STCameraComponent; });
+    if(SDL_Init(SDL_INIT_EVERYTHING | SDL_INIT_JOYSTICK) == -1){
+        std::cout << "Error: Failed to load SDL in general" << SDL_GetError() << std::endl;
+    }else{
+        SDL_version linked;
+        SDL_GetVersion(&linked);
+        printf("Linked using SDL Version: %d.%d.%d\n", linked.major, linked
+        .minor, linked.patch);
+        if(renderMode.renderer == STRenderInfo::OPENGL){
+            //Initialize OpenGL
+            m_Window = SDL_CreateWindow(title.c_str(), SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, width, height, SDL_WINDOW_SHOWN | SDL_WINDOW_OPENGL | SDL_WINDOW_RESIZABLE);
+            if(m_Window == nullptr){
+                std::cout << "Error: Failed to initialize SDL Window" << SDL_GetError() << std::endl;
+            }else{
+                Input::Start(this, m_e);
+            }
+        }else{
+            m_Window = SDL_CreateWindow(title.c_str(), SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, width, height, SDL_WINDOW_SHOWN | SDL_WINDOW_VULKAN | SDL_WINDOW_RESIZABLE);
+            if(m_Window == nullptr){
+
+            }else{
+                Input::Start(this, m_e);
+            }
+        }
+    }
+    m_currentIndex = 0;
+    oldTime = 0;
+    newTime = SDL_GetTicks();
+    delta = 0;
+
+    isPause = false;
 }
 
 STGame::STGame(const std::string title, unsigned int WIDTH, unsigned int HEIGHT) {
@@ -112,6 +158,11 @@ void STGame::setOpenGLVersion(int MajorVersion, int MinorVersion) {
         std::cout << "Using Graphics Driver: " << glGetString(GL_VENDOR) << std::endl;
         g = new GLGraphics(this);
     }
+}
+
+void STGame::initializeVulkan() {
+    //SDL_Vulkan_CreateSurface(m_Window, m_vkInstance, &m_vkSurface);
+    g = new VKGraphics(this);
 }
 
 void STGame::addState(STGameState * gameState) {
@@ -191,7 +242,7 @@ void STGame::render() {
         m_gameStates.at(m_currentIndex)->render(this);
     }
 
-    SDL_GL_SwapWindow(m_Window);
+    g->swapBuffer(m_Window);
 }
 
 STGraphics* STGame::getGraphics() {
@@ -210,6 +261,18 @@ STGame *STGame::Init(const std::string &title, const stUint WIDTH, const stUint 
 STGame *STGame::Init(const std::string &title, stUint width, stUint height, STPhysics::PhysicsEngine mode) {
     m_instance = new STGame(title, width, height);
     m_instance->InitPhysics(mode);
+    return m_instance;
+}
+
+STGame *STGame::Init(const std::string &title, stUint width, stUint height, STRenderInfo &renderInfo,
+                     STPhysics::PhysicsEngine mode) {
+    m_instance = new STGame(title, width, height, renderInfo);
+    m_instance->InitPhysics(mode);
+    if(renderInfo.renderer == STRenderInfo::OPENGL){
+        m_instance->setOpenGLVersion(renderInfo.maxVersion, renderInfo.minVersion);
+    }else{
+        m_instance->initializeVulkan();
+    }
     return m_instance;
 }
 
@@ -271,4 +334,8 @@ STPhysics *STGame::getPhysics() {
 stUint STGame::getTargetFPS() const {
     return fps;
 }
+
+
+
+
 

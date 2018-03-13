@@ -6,6 +6,8 @@
 extern "C"{
     #include <SDL2/SDL.h>
     #include <SDL2/SDL_opengl.h>
+    #include <SDL2/SDL_vulkan.h>
+
 };
 #else
 #include <GL/glew.h>
@@ -31,6 +33,7 @@ class Input;
 class STScene;
 class STGameState;
 class STGraphics;
+struct STRenderInfo;
 class GLGraphics;
 
 //! STGame Class
@@ -48,6 +51,7 @@ public:
 
     static STGame* Init(const std::string& title, stUint WIDTH, stUint HEIGHT);
     static STGame* Init(const std::string& title, stUint width, stUint height, STPhysics::PhysicsEngine mode);
+    static STGame* Init(const std::string& title, stUint width, stUint height, STRenderInfo& renderInfo, STPhysics::PhysicsEngine mode);
     static STGame* Get();
 
     enum DIMENSION_MODE{
@@ -60,6 +64,8 @@ public:
      *  Default Constructor.
      */
     STGame();
+
+    STGame(const std::string& title, stUint width, stUint height, STRenderInfo& renderMode);
 
     //! Constructor
     /*!
@@ -190,6 +196,7 @@ private:
     bool useLua;
     bool isFullScreen;
     bool isCursorOnDisplay;
+    void initializeVulkan();
 
     void setWidth(int val){
         this->WIDTH = val;

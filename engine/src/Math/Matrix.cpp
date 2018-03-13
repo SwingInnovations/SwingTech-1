@@ -83,9 +83,9 @@ Matrix4f Matrix4f::initTranslation(float x, float y, float z) {
 Matrix4f Matrix4f::initRotate(stReal x, stReal y, stReal z) {
     Matrix4f rx, ry, rz;
 
-    const stReal _x = toRadian(x);
-    const stReal _y = toRadian(y);
-    const stReal _z = toRadian(z);
+    const auto _x = toRadian(x);
+    const auto _y = toRadian(y);
+    const auto _z = toRadian(z);
 
     rx.m[0][0] = 1.0f; rx.m[0][1] = 0.0f;     rx.m[0][2] = 0.0f;      rx.m[0][3] = 0.0f;
     rx.m[1][0] = 0.0f; rx.m[1][1] = cosf(_x); rx.m[1][2] = -sinf(_x); rx.m[1][3] = 0.0f;
@@ -116,7 +116,7 @@ Matrix4f Matrix4f::initRotate(const Euler3D &euler) {
 }
 
 void Matrix4f::initRotation(const Vector3D &vec, const stReal angle) {
-    stReal a = toRadian(angle);
+    auto a = toRadian(angle);
 
     Quaternion q;
     q.setX(vec.getX() * sinf(a / 2.0f));
@@ -237,12 +237,12 @@ Matrix4f Matrix4f::initOrthographicProjection(float left, float right, float top
 }
 
 Matrix4f Matrix4f::initCamera(const Vector3D &target, const Vector3D &up) {
-    Vector3<stReal> N = target;
+    Vector3D N = target;
     N.normalize();
-    Vector3<stReal> U = up;
+    Vector3D U = up;
     U.normalize();
     U = U.cross(N);
-    Vector3<stReal> V = N.cross(U);
+    Vector3D V = N.cross(U);
 
     m[0][0] = U.getX(); m[0][1] = U.getY(); m[0][2] = U.getZ(); m[0][3] = 0.0f;
     m[1][0] = V.getX(); m[1][1] = V.getY(); m[1][2] = V.getZ(); m[1][3] = 0.0f;
@@ -252,12 +252,12 @@ Matrix4f Matrix4f::initCamera(const Vector3D &target, const Vector3D &up) {
 }
 
 Matrix4f Matrix4f::initCamera(const Vector3D &target, const Vector3D &up, Vector3D translate) {
-    Vector3<stReal> N = target;
+    Vector3D N = target;
     N.normalize();
-    Vector3<stReal> U = up;
+    Vector3D U = up;
     U.normalize();
     U = U.cross(N);
-    Vector3<stReal> V = N.cross(U);
+    Vector3D V = N.cross(U);
 
     //translate = translate.negate();
 
@@ -284,6 +284,7 @@ Matrix4f Matrix4f::initCamera(const Vector3D &target, const Vector3D &up, const 
 
 Matrix4f Matrix4f::operator*(const Matrix4f &right) const {
     Matrix4f ret;
+    #pragma simd
     for (unsigned int i = 0; i < 4; i++) {
         for (unsigned int j = 0; j < 4; j++) {
             ret.m[i][j] = m[i][0] * right.m[0][j] +
@@ -298,13 +299,13 @@ Matrix4f Matrix4f::operator*(const Matrix4f &right) const {
 Vector3D Matrix4f::operator*(const Vector3D &vec) const {
     stReal vecData[4] = {vec.getX(), vec.getY(), vec.getZ(), 0.0f};
     stReal pts[4];
+    #pragma simd
     for(stUint i = 0; i < 4; i++){
         for(stUint j = 0; j < 4; j++){
             pts[i] += m[i][j] + vecData[j];
         }
     }
-    Vector3<stReal> ret(pts[0], pts[1], pts[2]);
-    return ret;
+    return Vector3D (pts[0], pts[1], pts[2]);
 }
 
 Vector4<stReal> Matrix4f::toVector4() const {
@@ -312,7 +313,7 @@ Vector4<stReal> Matrix4f::toVector4() const {
     const float _y = m[1][0] + m[1][1] + m[1][2] + m[1][3];
     const float _z = m[2][0] + m[2][1] + m[2][2] + m[2][3];
     const float _w = m[3][0] + m[3][1] + m[3][2] + m[3][3];
-    return Vector4<stReal>(_x, _y, _z, _w);
+    return Vector4D(_x, _y, _z, _w);
 }
 
 const Matrix4f Matrix4f::transpose() const {

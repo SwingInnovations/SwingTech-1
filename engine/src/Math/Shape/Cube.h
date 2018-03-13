@@ -38,7 +38,7 @@ public:
         initialPositions.push_back(Vector3<stReal>(1.0f, -1.0f, -1.0f));
         initialPositions.push_back(Vector3<stReal>(1.0f, 1.0f, -1.0f));
         initialPositions.push_back(Vector3<stReal>(-1.0f, 1.0f,-1.0f));
-        for (uint32_t i = 0, S = initialPositions.size(); i < S; i++) {
+        for (stUint i = 0, S = initialPositions.size(); i < S; i++) {
             vertex.push_back(Vertex(initialPositions[i], Vector2<stReal>(), Vector3<stReal>()));
         }
 
@@ -119,7 +119,7 @@ public:
         initialPositions.push_back(Vector3<stReal>(1.0f * size, 1.0f * size, -1.0f * size));
         initialPositions.push_back(Vector3<stReal>(-1.0f * size, 1.0f * size,-1.0f * size));
 
-        for (uint32_t i = 0, S = initialPositions.size(); i < S; i++) {
+        for (stUint i = 0, S = initialPositions.size(); i < S; i++) {
             vertex.push_back(Vertex(initialPositions[i], Vector2<stReal>(), Vector3<stReal>()));
         }
 

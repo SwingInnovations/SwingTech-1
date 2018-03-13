@@ -31,6 +31,7 @@ namespace STCameraProperties{
 
 class STCameraComponent : public STComponent {
 public:
+    STCameraComponent() = default;
     STCameraComponent(STCameraProperties::STViewProfile &viewProfile);
     void init(std::shared_ptr<STEntity>& entity) override ;
     void update() override;

@@ -9,6 +9,7 @@
 class STActor : public STEntity {
 public:
     STActor() = default;
+    [[deprecated]]
     STActor(const std::string& filePath);
     STActor(STMesh_Structure structure, std::string& tag, STMaterial* material);
     STActor(STMesh_Structure, std::map<std::string, std::shared_ptr<STMaterial>>);

@@ -17,8 +17,13 @@ STEntity::~STEntity() {
 
 void STEntity::addComponent(std::type_index type, STComponent* component) {
     auto t = shared_from_this();
+    std::string key;
+#if _MSC_VER > 1900
+    key = STSerializableUtility::SanitizeStringMSVC(type.name());
+#else
     int status;
     auto key = abi::__cxa_demangle(type.name(), 0, 0, &status);
+#endif
     m_components[key] = component;
     m_components[key]->init(t);
     numComponents++;
@@ -226,7 +231,7 @@ void STEntity::load(std::ifstream &in) {
     in.read((char*)&attribCount, sizeof(stUint));
     for(stUint i = 0; i < numComponents; i++){
         auto componentName = STSerializableUtility::ReadString(in);
-        auto comp = STComponentObjectFactory::Get()->create(componentName);;
+        auto comp = STComponentObjectFactory::Get()->create(componentName);
         comp->init(t);
         comp->load(in);
         m_components[componentName] = comp;

@@ -931,6 +931,10 @@ Matrix4f GLGraphics::getOrthographicProjection() const {
     return orthoProjection;
 }
 
+void GLGraphics::swapBuffer(SDL_Window *window) {
+    SDL_GL_SwapWindow(window);
+}
+
 void GLRenderScene::drawSkybox(STCamera *camera) {
     glDisable(GL_CULL_FACE);
     glDepthFunc(GL_LEQUAL);

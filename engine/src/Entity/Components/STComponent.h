@@ -54,7 +54,7 @@ public:
      * Sets the Link to the Entity the Component is a part of.
      * @param parent
      */
-    inline void setParent(std::shared_ptr<STEntity> parent){ this->m_entity = std::move(parent); }
+    inline void setParent(std::shared_ptr<STEntity> parent){ this->m_entity = parent; }
 
     STEntity* getParent(){ return this->m_entity.get(); }
 protected:

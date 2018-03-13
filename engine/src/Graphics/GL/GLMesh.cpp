@@ -160,14 +160,14 @@ GLMesh::GLMesh(STCube* cube){
 
 
 GLMesh::GLMesh(STQuad *quad) {
-    m_drawCount = (uint32_t)quad->getIndSize();
+    m_drawCount = (stUint)quad->getIndSize();
     int numVert = quad->getVertSize();
 
     std::vector<Vector3<stReal>> vertex;
     std::vector<Vector2<stReal>> texCoord;
     std::vector<Vector3<stReal>> normal;
 
-    for(uint32_t i = 0; i < numVert; i++){
+    for(stUint i = 0; i < numVert; i++){
         vertex.push_back(*quad->verticies[i].getVertex());
         texCoord.push_back(*quad->verticies[i].getTexCoord());
         normal.push_back(*quad->verticies[i].getNormal());

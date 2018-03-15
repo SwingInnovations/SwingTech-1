@@ -38,20 +38,9 @@
       <change beforePath="$PROJECT_DIR$/Build/Debug/STSample.exe" afterPath="$PROJECT_DIR$/Build/Debug/STSample.exe" />
       <change beforePath="$PROJECT_DIR$/Build/Debug/STSample.ilk" afterPath="$PROJECT_DIR$/Build/Debug/STSample.ilk" />
       <change beforePath="$PROJECT_DIR$/Build/Debug/STSample.pdb" afterPath="$PROJECT_DIR$/Build/Debug/STSample.pdb" />
-      <change beforePath="$PROJECT_DIR$/CMakeLists.txt" afterPath="$PROJECT_DIR$/CMakeLists.txt" />
       <change beforePath="$PROJECT_DIR$/demo/STSample.cpp" afterPath="$PROJECT_DIR$/demo/STSample.cpp" />
-      <change beforePath="$PROJECT_DIR$/src/Application/STGame.cpp" afterPath="$PROJECT_DIR$/src/Application/STGame.cpp" />
-      <change beforePath="$PROJECT_DIR$/src/Entity/Components/STScriptComponent.cpp" afterPath="$PROJECT_DIR$/src/Entity/Components/STScriptComponent.cpp" />
-      <change beforePath="$PROJECT_DIR$/src/Entity/STEntity.cpp" afterPath="$PROJECT_DIR$/src/Entity/STEntity.cpp" />
-      <change beforePath="$PROJECT_DIR$/src/Entity/Util/Loaders/STMeshLoader.h" afterPath="$PROJECT_DIR$/src/Entity/Util/Loaders/STMeshLoader.h" />
-      <change beforePath="$PROJECT_DIR$/src/Graphics/GL/GLGraphics.cpp" afterPath="$PROJECT_DIR$/src/Graphics/GL/GLGraphics.cpp" />
-      <change beforePath="$PROJECT_DIR$/src/Graphics/GL/GLGraphics.h" afterPath="$PROJECT_DIR$/src/Graphics/GL/GLGraphics.h" />
-      <change beforePath="$PROJECT_DIR$/src/Graphics/GL/GLTexture.h" afterPath="$PROJECT_DIR$/src/Graphics/GL/GLTexture.h" />
-      <change beforePath="$PROJECT_DIR$/src/Graphics/STGraphics.cpp" afterPath="$PROJECT_DIR$/src/Graphics/STGraphics.cpp" />
-      <change beforePath="$PROJECT_DIR$/src/Graphics/STGraphics.h" afterPath="$PROJECT_DIR$/src/Graphics/STGraphics.h" />
       <change beforePath="$PROJECT_DIR$/src/Graphics/VK/VKGraphics.cpp" afterPath="$PROJECT_DIR$/src/Graphics/VK/VKGraphics.cpp" />
       <change beforePath="$PROJECT_DIR$/src/Graphics/VK/VKGraphics.h" afterPath="$PROJECT_DIR$/src/Graphics/VK/VKGraphics.h" />
-      <change beforePath="$PROJECT_DIR$/src/SwingTech1.h" afterPath="$PROJECT_DIR$/src/SwingTech1.h" />
     </list>
     <ignored path="Wahoo.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -97,11 +86,9 @@
       <file leaf-file-name="VKGraphics.cpp" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/Graphics/VK/VKGraphics.cpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="558">
-              <caret line="27" column="0" lean-forward="true" selection-start-line="27" selection-start-column="0" selection-end-line="27" selection-end-column="0" />
-              <folding>
-                <element signature="e#1#29#0" expanded="true" />
-              </folding>
+            <state relative-caret-position="1167">
+              <caret line="93" column="1" lean-forward="true" selection-start-line="93" selection-start-column="1" selection-end-line="93" selection-end-column="1" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -167,8 +154,8 @@
       <file leaf-file-name="STSample.cpp" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/demo/STSample.cpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="5104">
-              <caret line="176" column="21" lean-forward="false" selection-start-line="176" selection-start-column="21" selection-end-line="176" selection-end-column="21" />
+            <state relative-caret-position="4669">
+              <caret line="161" column="0" lean-forward="false" selection-start-line="161" selection-start-column="0" selection-end-line="161" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -1455,14 +1442,8 @@
       <workItem from="1520983158451" duration="162000" />
       <workItem from="1520993817665" duration="1180000" />
       <workItem from="1521002277452" duration="199000" />
-      <workItem from="1521104771375" duration="3000" />
-    </task>
-    <task id="LOCAL-00037" summary="[*] Fixed Local Rotations">
-      <created>1499367081917</created>
-      <option name="number" value="00037" />
-      <option name="presentableId" value="LOCAL-00037" />
-      <option name="project" value="LOCAL" />
-      <updated>1499367081917</updated>
+      <workItem from="1521104771375" duration="295000" />
+      <workItem from="1521150490282" duration="25000" />
     </task>
     <task id="LOCAL-00038" summary="[*] Simple Data Structures.">
       <created>1500701153652</created>
@@ -1800,11 +1781,18 @@
       <option name="project" value="LOCAL" />
       <updated>1520920814859</updated>
     </task>
-    <option name="localTasksCounter" value="86" />
+    <task id="LOCAL-00086" summary="[+] Initial Vulkan Implementation">
+      <created>1521104810544</created>
+      <option name="number" value="00086" />
+      <option name="presentableId" value="LOCAL-00086" />
+      <option name="project" value="LOCAL" />
+      <updated>1521104810544</updated>
+    </task>
+    <option name="localTasksCounter" value="87" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="1302978000" />
+    <option name="totallyTimeSpent" value="1303295000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -1902,7 +1890,6 @@
   <component name="VcsManagerConfiguration">
     <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_NEW_TODO" value="false" />
-    <MESSAGE value="[+] Forward Up and Right Vectors In transform&#10;[*] Code Cleanup and consistency" />
     <MESSAGE value="[*] Initial Collisions working!" />
     <MESSAGE value="[*] Most functions for rigid body mapped, but still yielding wrong results..." />
     <MESSAGE value="[*] Passable Dynamics Implementation" />
@@ -1927,7 +1914,8 @@
     <MESSAGE value="[*] Moved Camera to Component so it's consistent with the rest of the system." />
     <MESSAGE value="[*] Camera Improvements." />
     <MESSAGE value="[*] MSVC Now Available.. Preferred for Windows platforms." />
-    <option name="LAST_COMMIT_MESSAGE" value="[*] MSVC Now Available.. Preferred for Windows platforms." />
+    <MESSAGE value="[+] Initial Vulkan Implementation" />
+    <option name="LAST_COMMIT_MESSAGE" value="[+] Initial Vulkan Implementation" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -1939,7 +1927,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
           <url>file://$PROJECT_DIR$/src/Graphics/GL/GLGraphics.cpp</url>
-          <line>426</line>
+          <line>627</line>
           <option name="timeStamp" value="1059" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
@@ -2207,8 +2195,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/demo/STSample.cpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="5104">
-          <caret line="176" column="21" lean-forward="false" selection-start-line="176" selection-start-column="21" selection-end-line="176" selection-end-column="21" />
+        <state relative-caret-position="4669">
+          <caret line="161" column="0" lean-forward="false" selection-start-line="161" selection-start-column="0" selection-end-line="161" selection-end-column="0" />
           <folding />
         </state>
       </provider>
@@ -2362,11 +2350,9 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/Graphics/VK/VKGraphics.cpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="558">
-          <caret line="27" column="0" lean-forward="true" selection-start-line="27" selection-start-column="0" selection-end-line="27" selection-end-column="0" />
-          <folding>
-            <element signature="e#1#29#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="1167">
+          <caret line="93" column="1" lean-forward="true" selection-start-line="93" selection-start-column="1" selection-end-line="93" selection-end-column="1" />
+          <folding />
         </state>
       </provider>
     </entry>

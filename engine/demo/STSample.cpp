@@ -34,7 +34,7 @@ public:
         s->transform()->setTranslate({0.f, 5.f, 0.f});
         auto physHandle = s->addComponent<ST3DPhysicsComponent>(new ST3DPhysicsComponent(STRigidBody::CAPSULE_Y, {0.9f, 2.0f}));
         physHandle->updateTransform();
-        //s->addScript("Control.lua");
+        s->addScript("Control.lua");
 //
 //        STFileManager::Write("testEntity.bin", s);
 
@@ -136,7 +136,10 @@ private:
 #if _MSC_VER > 1900
     //For use with MSVC Compiler
     int CALLBACK WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR cmdLine, int nCmdShow){
-        auto inputMapping = new InputMap("Input.json");
+#else
+	int main(int argc, char** argv){ 
+#endif
+		auto inputMapping = new InputMap("Input.json");
 
 		STRenderInfo renderInfo;
 		renderInfo.renderer = STRenderInfo::VULKAN;
@@ -156,27 +159,4 @@ private:
 
         return 0;
     }
-#else
-    int main(int argc, char** argv){
-        auto inputMapping = new InputMap("Input.json");
-
-        STRenderInfo renderInfo;
-        renderInfo.renderer = STRenderInfo::OPENGL;
-        renderInfo.maxVersion = 4;
-        renderInfo.minVersion = 0;
-
-        auto win = STGame::Init("Swing Tech", 1440, 720, renderInfo, STPhysics::PhysicsEngine::BULLET);
-        win->setTargetFPS(60);
-        STGraphics::YUp = false;
-        win->getInput()->setInputMap(inputMapping);
-        win->addState(new SampleState(0));
-        win->enterState(0);
-        win->getGraphics()->enableShadow(true);
-        win->getGraphics()->setRenderMode(STGraphics::DEFERRED);
-        win->getGraphics()->enablePostEffect(STGraphics::BLOOM | STGraphics::MOTION_BLUR);
-        win->start();
-
-        return 0;
-    }
-#endif
 

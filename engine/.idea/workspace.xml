@@ -38,9 +38,6 @@
       <change beforePath="$PROJECT_DIR$/Build/Debug/STSample.exe" afterPath="$PROJECT_DIR$/Build/Debug/STSample.exe" />
       <change beforePath="$PROJECT_DIR$/Build/Debug/STSample.ilk" afterPath="$PROJECT_DIR$/Build/Debug/STSample.ilk" />
       <change beforePath="$PROJECT_DIR$/Build/Debug/STSample.pdb" afterPath="$PROJECT_DIR$/Build/Debug/STSample.pdb" />
-      <change beforePath="$PROJECT_DIR$/demo/STSample.cpp" afterPath="$PROJECT_DIR$/demo/STSample.cpp" />
-      <change beforePath="$PROJECT_DIR$/src/Graphics/VK/VKGraphics.cpp" afterPath="$PROJECT_DIR$/src/Graphics/VK/VKGraphics.cpp" />
-      <change beforePath="$PROJECT_DIR$/src/Graphics/VK/VKGraphics.h" afterPath="$PROJECT_DIR$/src/Graphics/VK/VKGraphics.h" />
     </list>
     <ignored path="Wahoo.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -87,7 +84,7 @@
         <entry file="file://$PROJECT_DIR$/src/Graphics/VK/VKGraphics.cpp">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="1167">
-              <caret line="93" column="1" lean-forward="true" selection-start-line="93" selection-start-column="1" selection-end-line="93" selection-end-column="1" />
+              <caret line="93" column="1" lean-forward="false" selection-start-line="93" selection-start-column="1" selection-end-line="93" selection-end-column="1" />
               <folding />
             </state>
           </provider>
@@ -1443,14 +1440,7 @@
       <workItem from="1520993817665" duration="1180000" />
       <workItem from="1521002277452" duration="199000" />
       <workItem from="1521104771375" duration="295000" />
-      <workItem from="1521150490282" duration="25000" />
-    </task>
-    <task id="LOCAL-00038" summary="[*] Simple Data Structures.">
-      <created>1500701153652</created>
-      <option name="number" value="00038" />
-      <option name="presentableId" value="LOCAL-00038" />
-      <option name="project" value="LOCAL" />
-      <updated>1500701153652</updated>
+      <workItem from="1521150490282" duration="123000" />
     </task>
     <task id="LOCAL-00039" summary="[+] Working Octree Implementation">
       <created>1501538508865</created>
@@ -1788,11 +1778,18 @@
       <option name="project" value="LOCAL" />
       <updated>1521104810544</updated>
     </task>
-    <option name="localTasksCounter" value="87" />
+    <task id="LOCAL-00087" summary="[+] Vulkan Swapchain">
+      <created>1521150556934</created>
+      <option name="number" value="00087" />
+      <option name="presentableId" value="LOCAL-00087" />
+      <option name="project" value="LOCAL" />
+      <updated>1521150556935</updated>
+    </task>
+    <option name="localTasksCounter" value="88" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="1303295000" />
+    <option name="totallyTimeSpent" value="1303393000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -1890,7 +1887,6 @@
   <component name="VcsManagerConfiguration">
     <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_NEW_TODO" value="false" />
-    <MESSAGE value="[*] Initial Collisions working!" />
     <MESSAGE value="[*] Most functions for rigid body mapped, but still yielding wrong results..." />
     <MESSAGE value="[*] Passable Dynamics Implementation" />
     <MESSAGE value="[*] Can Flesh out components scriptability end." />
@@ -1915,7 +1911,8 @@
     <MESSAGE value="[*] Camera Improvements." />
     <MESSAGE value="[*] MSVC Now Available.. Preferred for Windows platforms." />
     <MESSAGE value="[+] Initial Vulkan Implementation" />
-    <option name="LAST_COMMIT_MESSAGE" value="[+] Initial Vulkan Implementation" />
+    <MESSAGE value="[+] Vulkan Swapchain" />
+    <option name="LAST_COMMIT_MESSAGE" value="[+] Vulkan Swapchain" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -2323,6 +2320,9 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="667">
           <caret line="23" column="18" lean-forward="false" selection-start-line="23" selection-start-column="18" selection-end-line="23" selection-end-column="18" />
+          <folding>
+            <element signature="e#94#120#0" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -2351,7 +2351,7 @@
     <entry file="file://$PROJECT_DIR$/src/Graphics/VK/VKGraphics.cpp">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1167">
-          <caret line="93" column="1" lean-forward="true" selection-start-line="93" selection-start-column="1" selection-end-line="93" selection-end-column="1" />
+          <caret line="93" column="1" lean-forward="false" selection-start-line="93" selection-start-column="1" selection-end-line="93" selection-end-column="1" />
           <folding />
         </state>
       </provider>

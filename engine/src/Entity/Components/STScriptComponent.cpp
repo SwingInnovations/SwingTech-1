@@ -2,6 +2,7 @@
 
 #include "STEventComponent.h"
 #include "../../Application/STSceneManager.h"
+#include "../../Application//Util/STDebug.h"
 
 STScriptComponent::STScriptComponent(STEntity *entity, const std::string &fileName) {
     initScript(fileName);
@@ -26,6 +27,9 @@ void STScriptComponent::initScript(const std::string &fileName) {
     m_script.set_function("AddEvent", [](STEntity* ent, const std::string& name){
         ent->get<STScriptComponent>()->registerEvent(ent, name);
     });
+	m_script.set_function("Log", [](const std::string& output) {
+		STDebug::Log(output);
+	});
     m_script.set_function("Remove", [](STEntity* ent) {
        STScene::RemoveEntityQueue(ent);
     });

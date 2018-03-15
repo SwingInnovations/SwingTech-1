@@ -1,5 +1,6 @@
 #include <SDL2/SDL_video.h>
 #include "STGame.h"
+#include "Util/STDebug.h"
 
 #include "../Graphics/STGraphics.h"
 #include "../Graphics/GL/GLGraphics.h"
@@ -56,7 +57,7 @@ STGame::STGame(const std::string &title, stUint width, stUint height, STRenderIn
     registerBaseComponents->registerClass("STScriptComponent", [=]() -> STComponent*{ return new STScriptComponent; });
     registerBaseComponents->registerClass("STCameraComponent", [=]() -> STComponent*{ return new STCameraComponent; });
     if(SDL_Init(SDL_INIT_EVERYTHING | SDL_INIT_JOYSTICK) == -1){
-        std::cout << "Error: Failed to load SDL in general" << SDL_GetError() << std::endl;
+		STDebug::Log("ERROR: Failed to load SDL in General");
     }else{
         SDL_version linked;
         SDL_GetVersion(&linked);
@@ -65,19 +66,18 @@ STGame::STGame(const std::string &title, stUint width, stUint height, STRenderIn
         if(renderMode.renderer == STRenderInfo::OPENGL){
             //Initialize OpenGL
             m_Window = SDL_CreateWindow(title.c_str(), SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, width, height, SDL_WINDOW_SHOWN | SDL_WINDOW_OPENGL | SDL_WINDOW_RESIZABLE);
-            if(m_Window == nullptr){
-                std::cout << "Error: Failed to initialize SDL Window" << SDL_GetError() << std::endl;
-            }else{
-                Input::Start(this, m_e);
-            }
         }else{
+			//Initialize Vulkan
             m_Window = SDL_CreateWindow(title.c_str(), SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, width, height, SDL_WINDOW_SHOWN | SDL_WINDOW_VULKAN | SDL_WINDOW_RESIZABLE);
-            if(m_Window == nullptr){
-
-            }else{
-                Input::Start(this, m_e);
-            }
         }
+
+		//Check if the window was properly initialized to initialize input.
+		if (m_Window == nullptr) {
+			STDebug::LogError("ERROR: Failed to initialize SDL Window");
+		}
+		else {
+			Input::Start(this, m_e);
+		}
     }
     m_currentIndex = 0;
     oldTime = 0;

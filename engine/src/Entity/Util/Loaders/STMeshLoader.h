@@ -319,32 +319,42 @@ public:
     static std::shared_ptr<STMaterial> PopulateMaterial(stUint index, const aiScene* scene, bool flag){
         const aiMaterial* material = scene->mMaterials[index];
         std::shared_ptr<STMaterial> ret;
-        if(flag)
-            ret = std::make_shared<STMaterial>(new GLShader("standardSkinned", "standard"));
-        else
-            ret = std::make_shared<STMaterial>(new GLShader("standard"));
+		
+		if (STGraphics::RENDERER == STGraphics::OPENGL) {
+			if (flag)
+				ret = std::make_shared<STMaterial>(new GLShader("standardSkinned", "standard"));
+			else
+				ret = std::make_shared<STMaterial>(new GLShader("standard"));
+		}
+		else {
+			//TODO Initialize vulkan versions of Materials here!
 
-        aiColor3D diffuse;
-        aiColor3D specular;
-        aiColor3D ambient;
-        if(material->Get(AI_MATKEY_COLOR_DIFFUSE, diffuse) == AI_SUCCESS){
-            ret->setDiffuseColor(STColor(diffuse.r, diffuse.g, diffuse.b, 1.0));
-        }
+		}
 
-        //Handle Textures later on
-        if(material->GetTextureCount(aiTextureType_DIFFUSE) > 0){
-            aiString path;
-            if(material->GetTexture(aiTextureType_DIFFUSE, 0, &path) == AI_SUCCESS){
-                ret->setDiffuseTexture(path.C_Str());
-            }
-        }
-        if(material->GetTextureCount(aiTextureType_NORMALS) > 0){
-            aiString path;
-            if(material->GetTexture(aiTextureType_NORMALS, 0, &path) == AI_SUCCESS){
-                ret->setNormalTexture(path.C_Str());
-            }
-        }
-        return ret;
+		if (ret) {
+			aiColor3D diffuse;
+			aiColor3D specular;
+			aiColor3D ambient;
+			if (material->Get(AI_MATKEY_COLOR_DIFFUSE, diffuse) == AI_SUCCESS) {
+				ret->setDiffuseColor(STColor(diffuse.r, diffuse.g, diffuse.b, 1.0));
+			}
+
+			//Handle Textures later on
+			if (material->GetTextureCount(aiTextureType_DIFFUSE) > 0) {
+				aiString path;
+				if (material->GetTexture(aiTextureType_DIFFUSE, 0, &path) == AI_SUCCESS) {
+					ret->setDiffuseTexture(path.C_Str());
+				}
+			}
+			if (material->GetTextureCount(aiTextureType_NORMALS) > 0) {
+				aiString path;
+				if (material->GetTexture(aiTextureType_NORMALS, 0, &path) == AI_SUCCESS) {
+					ret->setNormalTexture(path.C_Str());
+				}
+			}
+			return ret;
+		}
+		return nullptr;
     }
 };
 

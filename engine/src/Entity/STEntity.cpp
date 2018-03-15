@@ -232,9 +232,11 @@ void STEntity::load(std::ifstream &in) {
     for(stUint i = 0; i < numComponents; i++){
         auto componentName = STSerializableUtility::ReadString(in);
         auto comp = STComponentObjectFactory::Get()->create(componentName);
-        comp->init(t);
-        comp->load(in);
-        m_components[componentName] = comp;
+		if (comp != nullptr) {
+			comp->init(t);
+			comp->load(in);
+			m_components[componentName] = comp;
+		}
     }
 
     for(stUint i = 0; i < childCount; i++){

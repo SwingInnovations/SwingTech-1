@@ -26,3 +26,13 @@ STGraphics::~STGraphics() {
 STCamera *STGraphics::getCamera() {
     return STGame::Get()->getCurrentScene()->getActiveCamera();
 }
+
+void STGraphics::enableShadow(bool value)
+{
+	m_useShadow = value;
+}
+
+void STGraphics::setShadowResolution(stUint w)
+{
+	m_shadowResolution = w;
+}

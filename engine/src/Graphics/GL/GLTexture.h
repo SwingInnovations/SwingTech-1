@@ -36,7 +36,10 @@ public:
      * @param texHandle
      */
     static void   DisposeTex(GLuint texHandle);
+
+	[[deprecated]]
     void addTexture(const std::string& fileName) override;
+	[[deprecarted]]
     void addTexture(const std::string& fileName, int ind) override;
     void bind(unsigned int index) override;
     unsigned int getTextureCount() override;

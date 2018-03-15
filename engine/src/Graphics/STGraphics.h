@@ -66,6 +66,7 @@ public:
 
     virtual void cleanup() = 0;
     virtual void init(stUint w, stUint h) = 0;
+	virtual void init(STGame* game) = 0;
 
     virtual void setScreenShader(const std::string&) = 0;
 
@@ -81,8 +82,6 @@ public:
     virtual void drawScene(STScene* scene) = 0;
     virtual void setShader(int,Shader*){;}
 
-    virtual void setShadowResolution(const stUint res){  }
-
     /*
      *
      * @return Returns the Graphics Card Driver
@@ -93,12 +92,15 @@ public:
 
     Vector4<stReal> getFontColor()const { return m_fontColor; }
 
+	void enableShadow(bool);
+	void setShadowResolution(stUint w);
+
     virtual void drawText(Vector2<stReal> pos, const std::string& text, stReal fontSize ){ ; }
     virtual void drawText(Vector2<stReal> pos, const std::string& text, stReal fontSize, Vector4<stReal>* color){ ; }
     virtual void drawText(Vector2<stReal> pos, const std::string& text, stReal fontSize, stReal value){ ; }
     virtual void drawText(Vector2<stReal> pos, const std::string& text, stReal fontSize, std::string& msg){ ; }
 
-    virtual void enableShadow(bool) = 0;
+
     virtual void enableBlend() = 0;
     virtual void disableBlend() = 0;
     virtual void loadFont(const std::string&) = 0;  //TODO Implement this.
@@ -130,6 +132,8 @@ protected:
     unsigned int WIDTH, HEIGHT;
     Vector4D m_fontColor;
     RenderMode m_renderMode;
+	stUint m_shadowResolution;
+	bool m_useShadow;
 };
 
 

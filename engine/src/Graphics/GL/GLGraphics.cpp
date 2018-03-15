@@ -21,16 +21,15 @@ GLGraphics::GLGraphics() {
 }
 
 GLGraphics::GLGraphics(STGame *game) {
-    stUint width = (stUint)game->getWidth();
-    stUint height = (stUint)game->getHeight();
-    init(width, height);
+    init(game);
+	RENDERER = OPENGL;
 }
 
 void GLGraphics::init(stUint w, stUint h) {
     WIDTH = w;
     HEIGHT = h;
 
-    m_shadowRes = 1024;
+    m_shadowResolution = 1024;
 
     screenQuad = new GLMesh(new STQuad);
     screenShdr = new GLShader("screen");
@@ -228,6 +227,209 @@ void GLGraphics::init(stUint w, stUint h) {
     glViewport(0, 0, w, h);
 }
 
+void GLGraphics::init(STGame* game) {
+	stUint w = WIDTH = (stUint)game->getWidth();
+	stUint h = HEIGHT = (stUint)game->getHeight();
+
+	m_shadowResolution = 1024;
+
+	screenQuad = new GLMesh(new STQuad);
+	screenShdr = new GLShader("screen");
+	Bloom_Threshold = new GLShader("screen", "Bloom_Threshold");
+	Bloom_Composite = new GLShader("screen", "Bloom_Composite");
+	Motion_Blur = new GLShader("screen", "Motion_Blur");
+	Tone_Mapping = new GLShader("screen", "Tone_Mapping");
+	FXAAShader = new GLShader("screen", "FXAA");
+	Deff_LightPassShdr = new GLShader("screen", "deff_LightPassPBR");
+
+	FT_Library ft;
+	if (FT_Init_FreeType(&ft)) {
+		std::cerr << "Failed to load Freetype!" << std::endl;
+	}
+
+	FT_Face face;
+	if (FT_New_Face(ft, "fonts/arial.ttf", 0, &face)) { std::cout << "Something went wrong" << std::endl; }
+	FT_Set_Pixel_Sizes(face, 0, 128);
+
+	glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
+
+	for (GLubyte c = 0; c < 128; c++) {
+		if (FT_Load_Char(face, c, FT_LOAD_RENDER)) {
+			std::cout << "Failed to load Character" << std::endl;
+			continue;
+		}
+		GLuint texture;
+		glGenTextures(1, &texture);
+		glBindTexture(GL_TEXTURE_2D, texture);
+		glTexImage2D(GL_TEXTURE_2D,
+			0,
+			GL_RED,
+			face->glyph->bitmap.width,
+			face->glyph->bitmap.rows,
+			0,
+			GL_RED,
+			GL_UNSIGNED_BYTE,
+			face->glyph->bitmap.buffer);
+
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+
+		Character character = { texture,
+			Vector2<int>(face->glyph->bitmap.width,
+				face->glyph->bitmap.rows),
+			Vector2<int>(face->glyph->bitmap_left,
+				face->glyph->bitmap_top),
+				(GLuint)face->glyph->advance.x };
+		characters.insert(std::pair<GLchar, Character>(c, character));
+	}
+
+	glBindTexture(GL_TEXTURE_2D, 0);
+	FT_Done_Face(face);
+	FT_Done_FreeType(ft);
+
+	textShader = new GLShader("text");
+	orthoProjection.initOrthographicProjection(0, WIDTH, HEIGHT, 0, 0, 1000.0f);
+
+	//Setup Albedo and lit materials for forward rendering
+	m_directionalLightMat = new STMaterial(new GLShader("standard"));
+	m_pointLightMat = new STMaterial(new GLShader("standard", "standard_point_forward"));
+	m_albedoMat = new STMaterial(new GLShader("standard", "standard_abledo_forward"));
+	m_IBLMat = new STMaterial(new GLShader("standard", "standard_IBL"));
+	m_velocityMat = new STMaterial(new GLShader("Velocity"));
+	m_GBufferOverrideMat = new STMaterial(new GLShader("standard", "deff_geomPass"));
+	m_GBufferOverrideSkinnedMat = new STMaterial(new GLShader("standardSkinned", "deff_geomPass"));
+	m_directionalSkinnedOverrideMat = new STMaterial(new GLShader("direct_skinned_shadow"));
+	m_directShadowMat = new STMaterial(new GLShader("direct_shadows"));
+
+	glGenVertexArrays(1, &textVAO);
+	glGenBuffers(1, &textVBO);
+	glBindVertexArray(textVAO);
+	glBindBuffer(GL_ARRAY_BUFFER, textVBO);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(GL_FLOAT) * 6 * 4, NULL, GL_DYNAMIC_DRAW);
+	glEnableVertexAttribArray(0);
+	glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, 4 * sizeof(GL_FLOAT), nullptr);
+	glBindBuffer(GL_ARRAY_BUFFER, 0);
+	glBindVertexArray(0);
+
+	glGenFramebuffers(1, &frameBuffer);
+	glBindFramebuffer(GL_FRAMEBUFFER, frameBuffer);
+	glFramebufferParameteri(GL_FRAMEBUFFER, GL_FRAMEBUFFER_DEFAULT_WIDTH, w);
+	glFramebufferParameteri(GL_FRAMEBUFFER, GL_FRAMEBUFFER_DEFAULT_HEIGHT, h);
+	glFramebufferParameteri(GL_FRAMEBUFFER, GL_FRAMEBUFFER_DEFAULT_SAMPLES, 4);
+
+	glGenTextures(1, &frameTexBuffer);
+	glBindTexture(GL_TEXTURE_2D, frameTexBuffer);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, w, h, 0, GL_RGB, GL_UNSIGNED_BYTE, NULL);
+	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, frameTexBuffer, 0);
+	glGenerateMipmap(GL_TEXTURE_2D);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	glBindTexture(GL_TEXTURE_2D, 0);
+
+	glGenRenderbuffers(1, &rendBuffer);
+	glBindRenderbuffer(GL_RENDERBUFFER, rendBuffer);
+	glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH24_STENCIL8, w, h);
+	glBindRenderbuffer(GL_RENDERBUFFER, 0);
+	glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, rendBuffer);
+
+	GLenum drawBuffers[] = { GL_COLOR_ATTACHMENT0 };
+	glDrawBuffers(1, drawBuffers);
+	if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE) {
+		std::cerr << "Failed to create FrameBuffer" << std::endl;
+	}
+	else {
+		std::cout << "Successfully Created Frame buffer" << std::endl;
+	}
+	glBindFramebuffer(GL_FRAMEBUFFER, 0);
+
+	glGenTextures(1, &velocityTexture);
+	glBindTexture(GL_TEXTURE_2D, velocityTexture);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB16F, w, h, 0, GL_RG, GL_FLOAT, NULL);
+	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	glBindTexture(GL_TEXTURE_2D, 0);
+
+	glGenFramebuffers(1, &bloomThresBuf);
+	glBindFramebuffer(GL_FRAMEBUFFER, bloomThresBuf);
+	glGenTextures(1, &bloomThresTex);
+
+	glBindTexture(GL_TEXTURE_2D, bloomThresTex);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB32F, w, h, 0, GL_RGB, GL_FLOAT, NULL);
+	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, bloomThresTex, 0);
+	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	glBindTexture(GL_TEXTURE_2D, 0);
+
+	glDrawBuffer(GL_NONE);
+	glReadBuffer(GL_NONE);
+
+	if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
+		std::cerr << "Failed to generate Bloom Buffer" << std::endl;
+	GLenum drawBuffers1[] = { GL_COLOR_ATTACHMENT0 };
+	glDrawBuffers(1, drawBuffers1);
+	glBindFramebuffer(GL_FRAMEBUFFER, 0);
+
+
+	glGenFramebuffers(1, &gBuffer);
+	glBindFramebuffer(GL_FRAMEBUFFER, gBuffer);
+
+	glGenTextures(1, &gPosition);
+	glBindTexture(GL_TEXTURE_2D, gPosition);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB16F, w, h, 0, GL_RGB, GL_FLOAT, NULL);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, gPosition, 0);
+
+	glGenTextures(1, &gNormal);
+	glBindTexture(GL_TEXTURE_2D, gNormal);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB16F, w, h, 0, GL_RGB, GL_FLOAT, NULL);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT1, GL_TEXTURE_2D, gNormal, 0);
+
+	glGenTextures(1, &gColorSpec);
+	glBindTexture(GL_TEXTURE_2D, gColorSpec);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, w, h, 0, GL_RGBA, GL_UNSIGNED_BYTE, NULL);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT2, GL_TEXTURE_2D, gColorSpec, 0);;
+
+	glGenTextures(1, &gMRA);
+	glBindTexture(GL_TEXTURE_2D, gMRA);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB16F, w, h, 0, GL_RGB, GL_FLOAT, NULL);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT3, GL_TEXTURE_2D, gMRA, 0);
+
+	glGenTextures(1, &gTangent);
+	glBindTexture(GL_TEXTURE_2D, gTangent);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB16F, w, h, 0, GL_RGB, GL_FLOAT, NULL);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT4, GL_TEXTURE_2D, gTangent, 0);
+
+	GLuint glAttachments[5] = { GL_COLOR_ATTACHMENT0, GL_COLOR_ATTACHMENT1, GL_COLOR_ATTACHMENT2, GL_COLOR_ATTACHMENT3, GL_COLOR_ATTACHMENT4 };
+	glDrawBuffers(5, glAttachments);
+
+	glGenRenderbuffers(1, &rboDepth);
+	glBindRenderbuffer(GL_RENDERBUFFER, rboDepth);
+	glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT, w, h);
+	glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, rboDepth);
+	if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE) {
+		std::cerr << "Deffered Depth Buffer not complete!" << std::endl;
+	}
+	glBindFramebuffer(GL_FRAMEBUFFER, 0);
+	glViewport(0, 0, w, h);
+}
+
 /**
  * Draws the scene
  * @param scene
@@ -241,12 +443,12 @@ void GLGraphics::drawScene(STScene *scene) {
         auto h = STGame::RES_HEIGHT;
 
         //region Enable Shadows.
-        if (m_shadows) {
+        if (m_useShadow) {
             stUint lightInd = 0;
             auto lights = scene->getLights();
             glGenTextures(1, &shadowArray);
             glBindTexture(GL_TEXTURE_2D_ARRAY, shadowArray);
-            glTexImage3D(GL_TEXTURE_2D_ARRAY, 0, GL_DEPTH_COMPONENT, m_shadowRes, m_shadowRes, (stInt)lights.size(), 0, GL_DEPTH_COMPONENT, GL_FLOAT, NULL);
+            glTexImage3D(GL_TEXTURE_2D_ARRAY, 0, GL_DEPTH_COMPONENT, m_shadowResolution, m_shadowResolution, (stInt)lights.size(), 0, GL_DEPTH_COMPONENT, GL_FLOAT, NULL);
             glTexParameteri(GL_TEXTURE_2D_ARRAY, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
             glTexParameteri(GL_TEXTURE_2D_ARRAY, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
             glTexParameteri(GL_TEXTURE_2D_ARRAY, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
@@ -264,7 +466,7 @@ void GLGraphics::drawScene(STScene *scene) {
                     glBindFramebuffer(GL_FRAMEBUFFER, shadowProperties->shadowFrameBuffer[0]);
                     glGenTextures(1, &shadowProperties->shadowMapID[0]);
                     glBindTexture(GL_TEXTURE_2D, shadowProperties->shadowMapID[0]);
-                    glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT, m_shadowRes, m_shadowRes, 0, GL_DEPTH_COMPONENT, GL_FLOAT,
+                    glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT, m_shadowResolution, m_shadowResolution, 0, GL_DEPTH_COMPONENT, GL_FLOAT,
                                  NULL);
                     glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D,
                                            shadowProperties->shadowMapID[0], 0);
@@ -306,7 +508,7 @@ void GLGraphics::drawScene(STScene *scene) {
                         glGenFramebuffers(1, &shadowProperties->shadowFrameBuffer[j]);
                         glGenTextures(1, &shadowProperties->shadowMapID[j]);
                         glBindTexture(GL_TEXTURE_2D, shadowProperties->shadowMapID[j]);
-                        glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT, m_shadowRes, m_shadowRes, 0,
+                        glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT, m_shadowResolution, m_shadowResolution, 0,
                                      GL_DEPTH_COMPONENT, GL_FLOAT, NULL);
                         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
                         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
@@ -330,8 +532,8 @@ void GLGraphics::drawScene(STScene *scene) {
     auto actors = scene->getActors();
     auto lights = scene->getLights();
     //INITIALIZE the shadows;
-    if(m_shadows) {
-        glViewport(0, 0, m_shadowRes, m_shadowRes);
+    if(m_useShadow) {
+        glViewport(0, 0, m_shadowResolution, m_shadowResolution);
         auto ortho = Matrix4f().initOrthographicProjection(-50.f, 50.f, -50.f, 50.f, 1.f, 50.f);
         auto persp = Matrix4f().initPerpectiveProjection(45, 10, 10, 1.f, 10);
 
@@ -342,7 +544,7 @@ void GLGraphics::drawScene(STScene *scene) {
                     light->get<STLightComponent>()->getType() == STLightComponent::SPOT_LIGHT) && lightProps->useShadow == 1) {
                 shadowProps->projections[0] = ortho * light->get<STLightComponent>()->getLookAt();
 
-                auto data = new GLfloat[m_shadowRes*m_shadowRes*sizeof(GLfloat)];
+                auto data = new GLfloat[m_shadowResolution*m_shadowResolution*sizeof(GLfloat)];
                 glBindFramebuffer(GL_FRAMEBUFFER, shadowProps->shadowFrameBuffer[0]);
                 glClear(GL_DEPTH_BUFFER_BIT);
                 glEnable(GL_DEPTH_TEST);
@@ -364,7 +566,7 @@ void GLGraphics::drawScene(STScene *scene) {
                 glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
                 glBindTexture(GL_TEXTURE_2D_ARRAY, shadowArray);
-                glTexSubImage3D(GL_TEXTURE_2D_ARRAY, 0, 0, 0, (int)shadowProps->shadowIndex, m_shadowRes, m_shadowRes, 1, GL_DEPTH_COMPONENT, GL_FLOAT, data);
+                glTexSubImage3D(GL_TEXTURE_2D_ARRAY, 0, 0, 0, (int)shadowProps->shadowIndex, m_shadowResolution, m_shadowResolution, 1, GL_DEPTH_COMPONENT, GL_FLOAT, data);
                 glBindTexture(GL_TEXTURE_2D_ARRAY, 0);
 
                 delete[] data;
@@ -922,10 +1124,6 @@ void GLGraphics::setResolution(stUint w, stUint h) {
 void GLGraphics::setScreenShader(const std::string &shdrPath) {
     screenShdr = new GLShader("screen", shdrPath);
 }
-
-void GLGraphics::setShadowResolution(stUint res) { m_shadowRes = res;}
-
-void GLGraphics::enableShadow(bool value) { m_shadows = value; }
 
 Matrix4f GLGraphics::getOrthographicProjection() const {
     return orthoProjection;

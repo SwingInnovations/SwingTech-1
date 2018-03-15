@@ -65,6 +65,7 @@ public:
 
     void cleanup() override ;
     void init(stUint w, stUint h) override ;
+	void init(STGame* game) override;
 
     void loadFont(const std::string&)override;
 
@@ -81,15 +82,6 @@ public:
     void initScene(STScene* scene) override;
 
     void setResolution(stUint w, stUint h);
-
-    /**
-     * Sets the shadow resolution
-     * Note - Must be 2^n
-     * @param res
-     */
-    void setShadowResolution(stUint res)override;
-
-    void enableShadow(bool value)override;
 
     inline void enableBlend()override{
         glEnable(GL_BLEND);
@@ -170,15 +162,11 @@ private:
     STMaterial* m_IBLMat;
     STMaterial* m_velocityMat;
 
-    bool m_shadows;
-
     void Bloom();
     void MotionBlur();
     void ToneMapping();
     void RenderScreenWithShader(const std::string& shaderName);
     void RenderScreenWithShader(GLShader* shader);
-
-    stUint m_shadowRes;
 };
 
 

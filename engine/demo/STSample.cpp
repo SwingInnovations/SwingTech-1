@@ -18,7 +18,7 @@ public:
     void init(STGame* game) override {
         m_scene->addSkybox("green");
         m_scene->getActiveCamera()->get<STCameraComponent>()->setSpeed(0.025f);
-        m_scene->getActiveCamera()->transform()->setTranslate(Vector3D(-5.f, 0.f, 0.f));
+        m_scene->getActiveCamera()->transform()->setTranslate(Vector3D(0.f, 0.f, 0.f));
 
         auto mainLight = STLight::InitDirectionalLight(Vector3D(4.f, 5.f, 3.f), Vector3D(-.5f, -.5f, -.5f), Vector3D(0.25f, 0.25f, 0.85f));
         mainLight->get<STLightComponent>()->setTarget(Vector3D(0.f, 0.f, 0.f));
@@ -34,7 +34,7 @@ public:
         s->transform()->setTranslate({0.f, 5.f, 0.f});
         auto physHandle = s->addComponent<ST3DPhysicsComponent>(new ST3DPhysicsComponent(STRigidBody::CAPSULE_Y, {0.9f, 2.0f}));
         physHandle->updateTransform();
-        s->addScript("Control.lua");
+        //s->addScript("Control.lua");
 //
 //        STFileManager::Write("testEntity.bin", s);
 
@@ -57,7 +57,7 @@ public:
         s2->transform()->setTranslate({3.5f, 5, 3.5f});
         s2->get<ST3DPhysicsComponent>()->updateTransform();
         s2->get<ST3DPhysicsComponent>()->setRestitution(0.5f);
-        s2->addScript("SphereScript.lua");
+        //s2->addScript("SphereScript.lua");
         sphere2 = s2;
 
         STFileManager::Write("testLight", accentLight2);
@@ -96,36 +96,16 @@ public:
         auto sphere2Handle = sphere2.get();
 
         if(input->isMousePressed(1)){
-            auto newSphere = STActor::Create("smooth_sphere.obj");
-            stReal nX =(rand() % 6) - 3.f, nZ = (rand() % 6) - 3.f;
-            auto s = (stReal)(rand() % 3);
-            newSphere->transform()->setScale({s, s, s});
-            newSphere->transform()->setTranslate({nX, 5.f, nZ});
-            auto p = newSphere->addComponent<ST3DPhysicsComponent>(new ST3DPhysicsComponent(STRigidBody::SPHERE, {s}));
-            p->updateTransform();
-            p->setMass(10.f);
-            newSphere->addScript("SphereScript.lua");
-            m_scene->addActor(newSphere);
-
-//            auto pos = game->getCamera()->transform()->getTranslate();
-//            auto forward = game->getCamera()->getForward();
-//            auto end = forward * 5.f;
-//
-//            auto newSphere = STActor::Create("smooth_sphere.obj");
-//            auto nX = (rand() % 6) - 3.f;
-//            auto nZ = (rand() % 6) - 3.f;
-//
-//            auto s = (stReal)(rand() % 3);
-//            newSphere->transform()->setScale({s, s, s});
-//
-//            newSphere->transform()->setTranslate({nX, 5.f, nZ});
-//            auto p = newSphere->addComponent<ST3DPhysicsComponent>(new ST3DPhysicsComponent(STRigidBody::SPHERE, {s}));
-//            p->updateTransform();
-//            p->setMass(50.0f);
-//            p->setRestitution(0.5f);
-//            newSphere->addScript("SphereScript.lua");
-//
-//            m_scene->addActor(newSphere);
+            //auto newSphere = STActor::Create("smooth_sphere.obj");
+            //stReal nX =(rand() % 6) - 3.f, nZ = (rand() % 6) - 3.f;
+            //auto s = (stReal)(rand() % 3);
+            //newSphere->transform()->setScale({s, s, s});
+            //newSphere->transform()->setTranslate({nX, 5.f, nZ});
+            //auto p = newSphere->addComponent<ST3DPhysicsComponent>(new ST3DPhysicsComponent(STRigidBody::SPHERE, {s}));
+            //p->updateTransform();
+            //p->setMass(10.f);
+            //newSphere->addScript("SphereScript.lua");
+            //m_scene->addActor(newSphere);
         }
 
         if(input->isKeyPressed(KEY::KEY_E)){
@@ -142,7 +122,7 @@ public:
 
     ~SampleState()override{
         std::cout << "Clearing Game State" << std::endl;
-        STFileManager::Write("testScene.bin", m_scene);
+        //STFileManager::Write("testScene.bin", m_scene);
         m_scene->dispose();
         delete m_scene;
     }
@@ -159,7 +139,7 @@ private:
         auto inputMapping = new InputMap("Input.json");
 
 		STRenderInfo renderInfo;
-		renderInfo.renderer = STRenderInfo::OPENGL;
+		renderInfo.renderer = STRenderInfo::VULKAN;
 		renderInfo.maxVersion = 4;
 		renderInfo.minVersion = 0;
 

@@ -1440,14 +1440,7 @@
       <workItem from="1520993817665" duration="1180000" />
       <workItem from="1521002277452" duration="199000" />
       <workItem from="1521104771375" duration="295000" />
-      <workItem from="1521150490282" duration="123000" />
-    </task>
-    <task id="LOCAL-00039" summary="[+] Working Octree Implementation">
-      <created>1501538508865</created>
-      <option name="number" value="00039" />
-      <option name="presentableId" value="LOCAL-00039" />
-      <option name="project" value="LOCAL" />
-      <updated>1501538508865</updated>
+      <workItem from="1521150490282" duration="761000" />
     </task>
     <task id="LOCAL-00040" summary="[*] Tuneups and fixes">
       <created>1501561593392</created>
@@ -1785,11 +1778,18 @@
       <option name="project" value="LOCAL" />
       <updated>1521150556935</updated>
     </task>
-    <option name="localTasksCounter" value="88" />
+    <task id="LOCAL-00088" summary="[+] Dev Vulkan Branch">
+      <created>1521150649644</created>
+      <option name="number" value="00088" />
+      <option name="presentableId" value="LOCAL-00088" />
+      <option name="project" value="LOCAL" />
+      <updated>1521150649644</updated>
+    </task>
+    <option name="localTasksCounter" value="89" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="1303393000" />
+    <option name="totallyTimeSpent" value="1304031000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -1887,7 +1887,6 @@
   <component name="VcsManagerConfiguration">
     <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_NEW_TODO" value="false" />
-    <MESSAGE value="[*] Most functions for rigid body mapped, but still yielding wrong results..." />
     <MESSAGE value="[*] Passable Dynamics Implementation" />
     <MESSAGE value="[*] Can Flesh out components scriptability end." />
     <MESSAGE value="[*] Enabled Scripting for Graphics Component" />
@@ -1912,7 +1911,8 @@
     <MESSAGE value="[*] MSVC Now Available.. Preferred for Windows platforms." />
     <MESSAGE value="[+] Initial Vulkan Implementation" />
     <MESSAGE value="[+] Vulkan Swapchain" />
-    <option name="LAST_COMMIT_MESSAGE" value="[+] Vulkan Swapchain" />
+    <MESSAGE value="[+] Dev Vulkan Branch" />
+    <option name="LAST_COMMIT_MESSAGE" value="[+] Dev Vulkan Branch" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

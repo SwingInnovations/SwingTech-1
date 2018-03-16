@@ -34,7 +34,7 @@ public:
         s->transform()->setTranslate({0.f, 5.f, 0.f});
         auto physHandle = s->addComponent<ST3DPhysicsComponent>(new ST3DPhysicsComponent(STRigidBody::CAPSULE_Y, {0.9f, 2.0f}));
         physHandle->updateTransform();
-        s->addScript("Control.lua");
+        //s->addScript("Control.lua");
 //
 //        STFileManager::Write("testEntity.bin", s);
 

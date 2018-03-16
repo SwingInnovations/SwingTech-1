@@ -73,6 +73,7 @@ private:
 	VkQueue	m_gfxQueue;
 	VkQueue m_presentQueue;
 	std::vector<VkImage> m_swapChainImages;
+	std::vector<VkImageView> m_swapChainImageViews;
 	VkFormat m_swapChainImageFormat;
 	VkExtent2D m_swapChainExtent;
 
@@ -81,7 +82,8 @@ private:
 	void selectPhysicalDevice();
 	void initLogicalDevice();
 	void initSwapChain();
-	const char** getExtensions(STGame* game, stUint& extensionsCount) const;
+	void initImageViews();
+	const char** getInstanceExtensions(STGame* game, stUint& extensionsCount) const;
 
 	bool isDeviceSuitable(VkPhysicalDevice device);
 	bool checkDeviceExtensionSupport(VkPhysicalDevice device);

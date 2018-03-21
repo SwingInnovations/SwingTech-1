@@ -7,7 +7,7 @@
 #if __MINGW32__
 #include <sol.hpp>
 #elif __linux__
-#include <lua5.1/sol.hpp>
+#include <sol.hpp>
 #else
 #include <sol.hpp>
 #endif

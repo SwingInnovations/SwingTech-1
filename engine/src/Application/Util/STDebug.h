@@ -1,3 +1,5 @@
+
+#include <string>
 #include <iostream>
 #if _MSC_VER > 1900
 #include <Windows.h>
@@ -9,7 +11,7 @@ public:
 #if _MSC_VER > 1900
 		OutputDebugString((output + "\n").c_str());
 #else
-		std::cout << output << std::end;
+		//std::cout << output << std::end;
 #endif
 	}
 
@@ -17,7 +19,7 @@ public:
 #if _MSC_VER > 1900
 		OutputDebugString((output + "\n").c_str());
 #else
-		std::cerr << output << std::endl;
+		//std::cerr << output << std::endl;
 #endif
 	}
 };

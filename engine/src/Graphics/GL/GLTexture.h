@@ -39,7 +39,7 @@ public:
 
 	[[deprecated]]
     void addTexture(const std::string& fileName) override;
-	[[deprecarted]]
+	[[deprecated]]
     void addTexture(const std::string& fileName, int ind) override;
     void bind(unsigned int index) override;
     unsigned int getTextureCount() override;

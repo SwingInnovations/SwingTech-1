@@ -1,6 +1,6 @@
 
 extern "C" {
-	#include <SDl2/SDL_vulkan.h>
+	#include <SDL2/SDL_vulkan.h>
 };
 
 #include "VKGraphics.h"
@@ -20,7 +20,7 @@ void VKGraphics::init(STGame * game)
 	m_instance = 0;
 	m_physicalDevice = VK_NULL_HANDLE;
 
-	SDL_Vulkan_LoadLibrary(NULL);
+	//SDL_Vulkan_LoadLibrary(NULL);
 	initInstance(game);
 	initSurface(game);
 	selectPhysicalDevice();
@@ -108,7 +108,7 @@ void VKGraphics::initInstance(STGame* game){
 void VKGraphics::initSurface(STGame* game)
 {
 	//Initialize the Vulkan Surface
-	SDL_Vulkan_CreateSurface(game->getWindow(), (SDL_vulkanInstance)m_instance, (SDL_vulkanSurface*)&m_surface);
+	//SDL_Vulkan_CreateSurface(game->getWindow(), (SDL_vulkanInstance)m_instance, (SDL_vulkanSurface*)&m_surface);
 	if (!m_surface) {
 		STDebug::LogError("Failed to create Vulkan Surface");
 	}
@@ -333,7 +333,7 @@ void VKGraphics::initGraphicsPipeline(){
 const char ** VKGraphics::getInstanceExtensions(STGame* game, stUint & extensionsCount) const{
 	vkEnumerateInstanceExtensionProperties(nullptr, &extensionsCount, nullptr);
 	const char** extNames = (const char**)malloc(sizeof(VkExtensionProperties) * extensionsCount);
-	SDL_Vulkan_GetInstanceExtensions(game->getWindow(), &extensionsCount, extNames);
+	//SDL_Vulkan_GetInstanceExtensions(game->getWindow(), &extensionsCount, extNames);
 	STDebug::Log(std::to_string(extensionsCount) + " Vulkan Extensions Supported");
 	return extNames;
 }

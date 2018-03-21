@@ -1,5 +1,5 @@
 #include "STPhysics.h"
-#include "bullet/BulletPhysics.h"
+#include "Bullet/BulletPhysics.h"
 
 STPhysics::STPhysics() {
 

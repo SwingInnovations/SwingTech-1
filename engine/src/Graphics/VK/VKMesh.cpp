@@ -6,3 +6,11 @@ VKMesh::VKMesh(STMesh_Structure structure) {
 	m_attributes[0].location = 0;
 	m_attributes[0].format = VK_FORMAT_R32G32B32_SFLOAT;
 }
+
+void VKMesh::load(std::ifstream &in, bool hasBones) {
+	STMesh::load(in, hasBones);
+}
+
+void VKMesh::draw() {
+	STMesh::draw();
+}

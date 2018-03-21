@@ -22,7 +22,7 @@ void STEntity::addComponent(std::type_index type, STComponent* component) {
     key = STSerializableUtility::SanitizeStringMSVC(type.name());
 #else
     int status;
-    auto key = abi::__cxa_demangle(type.name(), 0, 0, &status);
+    key = abi::__cxa_demangle(type.name(), 0, 0, &status);
 #endif
     m_components[key] = component;
     m_components[key]->init(t);

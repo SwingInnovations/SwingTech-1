@@ -2,7 +2,7 @@
 #define SWINGTECH1_STSERIALIZEABLE_H
 
 #include <fstream>
-#include <string>
+#include <cstring>
 #include "../../../Math/STCore.h"
 
 class STSerializableUtility{
@@ -13,7 +13,7 @@ public:
      * @param out
      */
     static void WriteString(const char* name, std::ofstream& out){
-        auto len = (stUint)strlen(name)+1;
+        auto len = (stUint)std::strlen(name)+1;
         out.write((char*)&len, sizeof(stUint));
         out.write(name, len);
     }

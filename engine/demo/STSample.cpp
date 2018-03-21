@@ -58,7 +58,7 @@ public:
         s2->transform()->setTranslate({3.5f, 5, 3.5f});
         s2->get<ST3DPhysicsComponent>()->updateTransform();
         s2->get<ST3DPhysicsComponent>()->setRestitution(0.5f);
-        //s2->addScript("SphereScript.lua");
+        s2->addScript("SphereScript.lua");
         sphere2 = s2;
 
         auto l = STFileManager::Read<STLight>("testLight");
@@ -105,7 +105,7 @@ public:
             auto p = newSphere->addComponent<ST3DPhysicsComponent>(new ST3DPhysicsComponent(STRigidBody::SPHERE, {s}));
             p->updateTransform();
             p->setMass(10.f);
-            newSphere->addScript("SphereScript.lua");
+            //newSphere->addScript("SphereScript.lua");
             m_scene->addActor(newSphere);
         }
 

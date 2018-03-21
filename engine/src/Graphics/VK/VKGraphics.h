@@ -22,6 +22,7 @@ struct VKRenderScene : public STRenderScene {
 	}
 
 	void dispose() override {
+
 	}
 };
 
@@ -40,7 +41,6 @@ struct STSwapChainSupportDetails {
 class VKGraphics : public STGraphics{
 public:
     explicit VKGraphics(STGame*);
-    void init(stUint w, stUint h) override;
 	void init(STGame* game) override;
     void cleanup() override ;
     void setScreenShader(const std::string&) override;
@@ -52,6 +52,9 @@ public:
     void loadFont(const std::string &string) override;
 
     void swapBuffer(SDL_Window* window) override;
+
+	VkInstance getInstance() const;
+	VkDevice getDevice() const;
 
 private:
 	const std::vector<const char*> m_deviceExtensions = { 
@@ -76,6 +79,8 @@ private:
 	std::vector<VkImageView> m_swapChainImageViews;
 	VkFormat m_swapChainImageFormat;
 	VkExtent2D m_swapChainExtent;
+	VkRenderPass m_primaryRenderPass;
+	VkPipelineLayout m_primaryPipelineLayout;
 
 	void initInstance(STGame* game);
 	void initSurface(STGame* game);
@@ -83,6 +88,8 @@ private:
 	void initLogicalDevice();
 	void initSwapChain();
 	void initImageViews();
+	void initRenderPass();
+	void initGraphicsPipeline();
 	const char** getInstanceExtensions(STGame* game, stUint& extensionsCount) const;
 
 	bool isDeviceSuitable(VkPhysicalDevice device);

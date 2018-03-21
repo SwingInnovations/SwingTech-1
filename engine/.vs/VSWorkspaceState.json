@@ -1,7 +1,15 @@
 {
   "ExpandedNodes": [
-    ""
+    "",
+    "\\Build",
+    "\\Build\\bin",
+    "\\Build\\Debug",
+    "\\Build\\Debug\\Debug",
+    "\\demo",
+    "\\src",
+    "\\src\\Application",
+    "\\src\\Graphics\\VK"
   ],
-  "SelectedNode": "\\CMakeLists.txt",
+  "SelectedNode": "\\src\\Application\\STGame.cpp",
   "PreviewInSolutionExplorer": false
 }

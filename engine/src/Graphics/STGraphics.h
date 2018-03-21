@@ -45,7 +45,8 @@ public:
         BLOOM = 1,
         MOTION_BLUR = 2,
         TONE_MAPPING=4,
-        FXAA=8
+        FXAA=8,
+		SSAO= 16
     };
 
     enum Deferred_RenderNetwork : unsigned char{
@@ -65,7 +66,6 @@ public:
     ~STGraphics();
 
     virtual void cleanup() = 0;
-    virtual void init(stUint w, stUint h) = 0;
 	virtual void init(STGame* game) = 0;
 
     virtual void setScreenShader(const std::string&) = 0;

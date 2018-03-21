@@ -13,11 +13,6 @@ VKGraphics::VKGraphics(STGame * game){
 	init(game);
 }
 
-
-void VKGraphics::init(stUint w, stUint h) {
-
-}
-
 void VKGraphics::init(STGame * game)
 {
 	WIDTH = (stUint)game->getWidth();
@@ -32,9 +27,11 @@ void VKGraphics::init(STGame * game)
 	initLogicalDevice();
 	initSwapChain();
 	initImageViews();
+	initRenderPass();
 }
 
 void VKGraphics::cleanup() {
+	vkDestroyRenderPass(m_device, m_primaryRenderPass, nullptr);
 	for (auto imgView : m_swapChainImageViews) {
 		vkDestroyImageView(m_device, imgView, nullptr);
 	}
@@ -72,6 +69,16 @@ void VKGraphics::loadFont(const std::string &string) {
 void VKGraphics::swapBuffer(SDL_Window *window) {
     //TODO Implement this.
 	//STDebug::Log("Using VK Swap");
+}
+
+VkInstance VKGraphics::getInstance() const
+{
+	return m_instance;
+}
+
+VkDevice VKGraphics::getDevice() const
+{
+	return m_device;
 }
 
 void VKGraphics::initInstance(STGame* game){
@@ -248,6 +255,79 @@ void VKGraphics::initImageViews()
 		}
 	}
 	STDebug::Log("Generated ImageViews");
+}
+
+void VKGraphics::initRenderPass(){
+	//Initialize Default renderpass;
+	VkAttachmentDescription colorAttachment = {};
+	colorAttachment.format = m_swapChainImageFormat;
+	colorAttachment.samples = VK_SAMPLE_COUNT_1_BIT;
+	colorAttachment.loadOp = VK_ATTACHMENT_LOAD_OP_CLEAR;
+	colorAttachment.storeOp = VK_ATTACHMENT_STORE_OP_STORE;
+	colorAttachment.stencilLoadOp = VK_ATTACHMENT_LOAD_OP_DONT_CARE;
+	colorAttachment.stencilStoreOp = VK_ATTACHMENT_STORE_OP_DONT_CARE;
+	colorAttachment.initialLayout = VK_IMAGE_LAYOUT_UNDEFINED;
+	colorAttachment.finalLayout = VK_IMAGE_LAYOUT_PRESENT_SRC_KHR;
+
+	VkAttachmentReference colorAttachmentRef = {};
+	colorAttachmentRef.attachment = 0;
+	colorAttachmentRef.layout = VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL;
+
+	VkSubpassDescription subPass = {};
+	subPass.pipelineBindPoint = VK_PIPELINE_BIND_POINT_GRAPHICS;
+	subPass.colorAttachmentCount = 1;
+	subPass.pColorAttachments = &colorAttachmentRef;
+
+	VkRenderPassCreateInfo renderPassInfo = {};
+	renderPassInfo.sType = VK_STRUCTURE_TYPE_RENDER_PASS_CREATE_INFO;
+	renderPassInfo.attachmentCount = 1;
+	renderPassInfo.pAttachments = &colorAttachment;
+	renderPassInfo.subpassCount = 1;
+	renderPassInfo.pSubpasses = &subPass;
+
+	if (VK_SUCCESS != vkCreateRenderPass(m_device, &renderPassInfo, nullptr, &m_primaryRenderPass)) {
+		STDebug::LogError("Failed to create Render Pass!");
+	}
+	STDebug::Log("Created Render Pass");
+}
+
+void VKGraphics::initGraphicsPipeline(){
+	VkViewport viewport = {};
+	viewport.x = 0.f;
+	viewport.y = 0.f;
+	viewport.width = (stReal)WIDTH;
+	viewport.height = (stReal)HEIGHT;
+	viewport.minDepth = 0.0f;
+	viewport.maxDepth = 0.0f;
+
+	VkRect2D scissor = {};
+	scissor.offset = { 0, 0 };
+	scissor.extent = m_swapChainExtent;
+
+	VkPipelineViewportStateCreateInfo viewportState = {};
+	viewportState.sType = VK_STRUCTURE_TYPE_PIPELINE_VIEWPORT_STATE_CREATE_INFO;
+	viewportState.viewportCount = 1;
+	viewportState.pViewports = &viewport;
+	viewportState.scissorCount = 1;
+	viewportState.pScissors = &scissor;
+
+	VkPipelineRasterizationStateCreateInfo rasterizer = {};
+	rasterizer.sType = VK_STRUCTURE_TYPE_PIPELINE_RASTERIZATION_STATE_CREATE_INFO;
+	rasterizer.depthClampEnable = VK_FALSE;
+	rasterizer.rasterizerDiscardEnable = VK_FALSE;
+	rasterizer.polygonMode = VK_POLYGON_MODE_FILL;
+	rasterizer.lineWidth = 1.0f;
+	rasterizer.cullMode = VK_CULL_MODE_BACK_BIT;
+	rasterizer.frontFace = VK_FRONT_FACE_CLOCKWISE;
+	rasterizer.depthBiasEnable = VK_FALSE;
+
+	VkPipelineMultisampleStateCreateInfo multisampling = {};
+	multisampling.sType = VK_STRUCTURE_TYPE_PIPELINE_MULTISAMPLE_STATE_CREATE_INFO;
+	multisampling.sampleShadingEnable = VK_FALSE;
+	multisampling.rasterizationSamples = VK_SAMPLE_COUNT_1_BIT;
+
+	VkPipelineColorBlendAttachmentState colorBlendAttachment = {};
+
 }
 
 const char ** VKGraphics::getInstanceExtensions(STGame* game, stUint & extensionsCount) const{

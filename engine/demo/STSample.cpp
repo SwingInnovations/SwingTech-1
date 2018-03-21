@@ -32,9 +32,10 @@ public:
 
         auto s = STActor::Create("OrbThing.fbx");
         s->transform()->setTranslate({0.f, 5.f, 0.f});
+		s->get<STRendererComponent>()->GetMaterial()->setDiffuseColor(STColor(1.0, 0.8, 0.0, 1.0));
         auto physHandle = s->addComponent<ST3DPhysicsComponent>(new ST3DPhysicsComponent(STRigidBody::CAPSULE_Y, {0.9f, 2.0f}));
         physHandle->updateTransform();
-        //s->addScript("Control.lua");
+        s->addScript("Control.lua");
 //
 //        STFileManager::Write("testEntity.bin", s);
 
@@ -60,10 +61,9 @@ public:
         //s2->addScript("SphereScript.lua");
         sphere2 = s2;
 
-        STFileManager::Write("testLight", accentLight2);
-
         auto l = STFileManager::Read<STLight>("testLight");
         l->transform()->setTranslate({2.f, 10.f, 2.f});
+		light = l;
 
         auto p = STActor::Create("plane.obj");
         p->setName("Plane");
@@ -82,6 +82,7 @@ public:
 
     void update(STGame* game) override{
         auto input = game->getInput();
+		auto delta = game->getDelta();
         if(input->isKeyPressed(KEY::KEY_ESC)) input->requestClose();
         if(input->isKeyPressed(KEY::KEY_Q)){
             input->setCursorBound(!input->isCursorBound());
@@ -96,17 +97,29 @@ public:
         auto sphere2Handle = sphere2.get();
 
         if(input->isMousePressed(1)){
-            //auto newSphere = STActor::Create("smooth_sphere.obj");
-            //stReal nX =(rand() % 6) - 3.f, nZ = (rand() % 6) - 3.f;
-            //auto s = (stReal)(rand() % 3);
-            //newSphere->transform()->setScale({s, s, s});
-            //newSphere->transform()->setTranslate({nX, 5.f, nZ});
-            //auto p = newSphere->addComponent<ST3DPhysicsComponent>(new ST3DPhysicsComponent(STRigidBody::SPHERE, {s}));
-            //p->updateTransform();
-            //p->setMass(10.f);
-            //newSphere->addScript("SphereScript.lua");
-            //m_scene->addActor(newSphere);
+            auto newSphere = STActor::Create("smooth_sphere.obj");
+            stReal nX =(rand() % 6) - 3.f, nZ = (rand() % 6) - 3.f;
+            auto s = (stReal)(rand() % 3);
+            newSphere->transform()->setScale({s, s, s});
+            newSphere->transform()->setTranslate({nX, 5.f, nZ});
+            auto p = newSphere->addComponent<ST3DPhysicsComponent>(new ST3DPhysicsComponent(STRigidBody::SPHERE, {s}));
+            p->updateTransform();
+            p->setMass(10.f);
+            newSphere->addScript("SphereScript.lua");
+            m_scene->addActor(newSphere);
         }
+
+		if (input->isKeyDown(KEY::KEY_B)) { 
+			auto oldPos = light->transform()->getTranslate().getX();
+			oldPos += 0.025f * delta;
+			light->transform()->setTranslateX(oldPos);
+		}
+
+		if (input->isKeyDown(KEY::KEY_N)) {
+			auto oldPos = light->transform()->getTranslate().getX();
+			oldPos -= 0.025f * delta;
+			light->transform()->setTranslateX(oldPos);
+		}
 
         if(input->isKeyPressed(KEY::KEY_E)){
             if(sphere){
@@ -131,6 +144,7 @@ private:
     stUint counter;
     std::shared_ptr<STActor> sphere;
     std::shared_ptr<STActor> sphere2;
+	std::shared_ptr<STLight> light;
 };
 
 #if _MSC_VER > 1900
@@ -142,7 +156,7 @@ private:
 		auto inputMapping = new InputMap("Input.json");
 
 		STRenderInfo renderInfo;
-		renderInfo.renderer = STRenderInfo::VULKAN;
+		renderInfo.renderer = STRenderInfo::OPENGL;
 		renderInfo.maxVersion = 4;
 		renderInfo.minVersion = 0;
 
@@ -153,6 +167,7 @@ private:
         win->addState(new SampleState(0));
         win->enterState(0);
         win->getGraphics()->enableShadow(true);
+		win->getGraphics()->setShadowResolution(768);
         win->getGraphics()->setRenderMode(STGraphics::DEFERRED);
         win->getGraphics()->enablePostEffect(STGraphics::BLOOM | STGraphics::MOTION_BLUR);
         win->start();

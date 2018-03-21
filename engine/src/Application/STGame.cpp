@@ -154,8 +154,10 @@ void STGame::setOpenGLVersion(int MajorVersion, int MinorVersion) {
             std::cout << "Using GLEW Version: " << glewGetString(GLEW_VERSION) << std::endl;
         }
 
-        std::cout << "Using OpenGL Version: " << glGetString(GL_VERSION) << std::endl;
-        std::cout << "Using Graphics Driver: " << glGetString(GL_VENDOR) << std::endl;
+		auto glVerString = std::string(reinterpret_cast<const char*>(glGetString(GL_VERSION)));
+		auto glVenString = std::string(reinterpret_cast<const char*>(glGetString(GL_VENDOR)));
+		STDebug::Log("Using OpenGL Version: " + glVerString);
+		STDebug::Log("Using Graphics Driver: " + glVenString);
         g = new GLGraphics(this);
     }
 }

@@ -64,7 +64,6 @@ public:
     std::string getVendor() override;
 
     void cleanup() override ;
-    void init(stUint w, stUint h) override ;
 	void init(STGame* game) override;
 
     void loadFont(const std::string&)override;

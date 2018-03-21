@@ -9,8 +9,8 @@
   </component>
   <component name="CMakeRunConfigurationManager" shouldGenerate="true" shouldDeleteObsolete="true" buildAllGenerated="true">
     <generated>
-      <config projectName="SwingTech1" targetName="ds_test" />
       <config projectName="SwingTech1" targetName="STSample" />
+      <config projectName="SwingTech1" targetName="ds_test" />
       <config projectName="SwingTech1" targetName="SwingTech_1" />
     </generated>
   </component>
@@ -20,25 +20,28 @@
     </configurations>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="5ee8588a-b915-4eb2-8583-18cd73e205f4" name="Default" comment="">
-      <change beforePath="" afterPath="$PROJECT_DIR$/Build/Debug/Debug/STSample.exe" />
+    <list default="true" id="5ee8588a-b915-4eb2-8583-18cd73e205f4" name="Default" comment="[+] Dev Vulkan Branch">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change beforePath="$PROJECT_DIR$/.vs/ProjectSettings.json" afterPath="$PROJECT_DIR$/.vs/ProjectSettings.json" />
       <change beforePath="$PROJECT_DIR$/.vs/VSWorkspaceState.json" afterPath="$PROJECT_DIR$/.vs/VSWorkspaceState.json" />
       <change beforePath="$PROJECT_DIR$/.vs/engine/v15/.suo" afterPath="$PROJECT_DIR$/.vs/engine/v15/.suo" />
       <change beforePath="$PROJECT_DIR$/.vs/launch.vs.json" afterPath="" />
       <change beforePath="$PROJECT_DIR$/.vs/slnx.sqlite" afterPath="$PROJECT_DIR$/.vs/slnx.sqlite" />
       <change beforePath="$PROJECT_DIR$/.vs/tasks.vs.json" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Build/Debug/Debug/Control.lua" afterPath="$PROJECT_DIR$/Build/Debug/Debug/Control.lua" />
-      <change beforePath="$PROJECT_DIR$/Build/Debug/Debug/STSample.ilk" afterPath="$PROJECT_DIR$/Build/Debug/Debug/STSample.ilk" />
-      <change beforePath="$PROJECT_DIR$/Build/Debug/Debug/STSample.pdb" afterPath="$PROJECT_DIR$/Build/Debug/Debug/STSample.pdb" />
-      <change beforePath="$PROJECT_DIR$/Build/Debug/Debug/ds_test.exe" afterPath="$PROJECT_DIR$/Build/Debug/Debug/ds_test.exe" />
-      <change beforePath="$PROJECT_DIR$/Build/Debug/Debug/ds_test.ilk" afterPath="$PROJECT_DIR$/Build/Debug/Debug/ds_test.ilk" />
-      <change beforePath="$PROJECT_DIR$/Build/Debug/Debug/ds_test.pdb" afterPath="$PROJECT_DIR$/Build/Debug/Debug/ds_test.pdb" />
-      <change beforePath="$PROJECT_DIR$/Build/Debug/Debug/testScene.bin" afterPath="$PROJECT_DIR$/Build/Debug/Debug/testScene.bin" />
+      <change beforePath="$PROJECT_DIR$/Build/Debug/Control.lua" afterPath="$PROJECT_DIR$/Build/Debug/Control.lua" />
+      <change beforePath="$PROJECT_DIR$/Build/Debug/Debug/shdr/PBR.glinc" afterPath="$PROJECT_DIR$/Build/Debug/Debug/shdr/PBR.glinc" />
       <change beforePath="$PROJECT_DIR$/Build/Debug/STSample.exe" afterPath="$PROJECT_DIR$/Build/Debug/STSample.exe" />
       <change beforePath="$PROJECT_DIR$/Build/Debug/STSample.ilk" afterPath="$PROJECT_DIR$/Build/Debug/STSample.ilk" />
       <change beforePath="$PROJECT_DIR$/Build/Debug/STSample.pdb" afterPath="$PROJECT_DIR$/Build/Debug/STSample.pdb" />
+      <change beforePath="$PROJECT_DIR$/Build/Debug/deff_LightPassPBR.fsh" afterPath="$PROJECT_DIR$/Build/Debug/deff_LightPassPBR.fsh" />
+      <change beforePath="$PROJECT_DIR$/Build/Debug/shadow.glinc" afterPath="$PROJECT_DIR$/Build/Debug/shadow.glinc" />
+      <change beforePath="$PROJECT_DIR$/CMakeLists.txt" afterPath="$PROJECT_DIR$/CMakeLists.txt" />
+      <change beforePath="$PROJECT_DIR$/CMakeSettings.json" afterPath="$PROJECT_DIR$/CMakeSettings.json" />
       <change beforePath="$PROJECT_DIR$/demo/STSample.cpp" afterPath="$PROJECT_DIR$/demo/STSample.cpp" />
+      <change beforePath="$PROJECT_DIR$/src/Application/STGame.cpp" afterPath="$PROJECT_DIR$/src/Application/STGame.cpp" />
+      <change beforePath="$PROJECT_DIR$/src/Graphics/GL/GLGraphics.cpp" afterPath="$PROJECT_DIR$/src/Graphics/GL/GLGraphics.cpp" />
+      <change beforePath="$PROJECT_DIR$/src/Graphics/GL/GLGraphics.h" afterPath="$PROJECT_DIR$/src/Graphics/GL/GLGraphics.h" />
+      <change beforePath="$PROJECT_DIR$/src/Graphics/STGraphics.h" afterPath="$PROJECT_DIR$/src/Graphics/STGraphics.h" />
       <change beforePath="$PROJECT_DIR$/src/Graphics/VK/VKGraphics.cpp" afterPath="$PROJECT_DIR$/src/Graphics/VK/VKGraphics.cpp" />
       <change beforePath="$PROJECT_DIR$/src/Graphics/VK/VKGraphics.h" afterPath="$PROJECT_DIR$/src/Graphics/VK/VKGraphics.h" />
     </list>
@@ -71,36 +74,32 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="BulletPhysics.h" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/Physics/Bullet/BulletPhysics.h">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="87">
-              <caret line="3" column="9" lean-forward="false" selection-start-line="3" selection-start-column="9" selection-end-line="3" selection-end-column="9" />
-              <folding>
-                <element signature="e#71#96#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="VKGraphics.cpp" pinned="false" current-in-tab="true">
+      <file leaf-file-name="VKGraphics.cpp" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/Graphics/VK/VKGraphics.cpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1167">
-              <caret line="93" column="1" lean-forward="true" selection-start-line="93" selection-start-column="1" selection-end-line="93" selection-end-column="1" />
+            <state relative-caret-position="1740">
+              <caret line="60" column="33" lean-forward="false" selection-start-line="60" selection-start-column="33" selection-end-line="60" selection-end-column="33" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="BulletPhysics.cpp" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/Physics/Bullet/BulletPhysics.cpp">
+      <file leaf-file-name="deff_LightPass.fsh" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Build/Debug/deff_LightPass.fsh">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="0">
               <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-              <folding>
-                <element signature="e#0#26#0" expanded="true" />
-              </folding>
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="deff_LightPassPBR.fsh" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/Build/Debug/deff_LightPassPBR.fsh">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="561">
+              <caret line="44" column="13" lean-forward="false" selection-start-line="44" selection-start-column="13" selection-end-line="44" selection-end-column="13" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -154,19 +153,11 @@
       <file leaf-file-name="STSample.cpp" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/demo/STSample.cpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="4669">
-              <caret line="161" column="0" lean-forward="false" selection-start-line="161" selection-start-column="0" selection-end-line="161" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Vector.h" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/Math/Vector.h">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="10121">
-              <caret line="349" column="21" lean-forward="false" selection-start-line="349" selection-start-column="21" selection-end-line="349" selection-end-column="21" />
-              <folding />
+            <state relative-caret-position="4321">
+              <caret line="149" column="19" lean-forward="false" selection-start-line="149" selection-start-column="19" selection-end-line="149" selection-end-column="19" />
+              <folding>
+                <element signature="e#5645#5677#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -233,8 +224,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/src/Physics/STPhysics.h" />
-        <option value="$PROJECT_DIR$/src/Entity/Components/ST3DPhysicsComponent.h" />
         <option value="$PROJECT_DIR$/Build/Debug/SphereScript.lua" />
         <option value="$PROJECT_DIR$/src/Physics/STRigidBody.h" />
         <option value="$PROJECT_DIR$/src/Entity/Util/GLSLPreprocessor.h" />
@@ -279,11 +268,13 @@
         <option value="$PROJECT_DIR$/src/Entity/STActor.h" />
         <option value="$PROJECT_DIR$/src/Entity/STActor.cpp" />
         <option value="$PROJECT_DIR$/src/Graphics/STMaterial.cpp" />
-        <option value="$PROJECT_DIR$/demo/STSample.cpp" />
         <option value="$PROJECT_DIR$/src/Physics/Bullet/BulletRigidBody.h" />
         <option value="$PROJECT_DIR$/src/Physics/Bullet/BulletRigidBody.cpp" />
         <option value="$PROJECT_DIR$/CMakeLists.txt" />
         <option value="$PROJECT_DIR$/src/Graphics/VK/VKGraphics.cpp" />
+        <option value="$PROJECT_DIR$/demo/STSample.cpp" />
+        <option value="$PROJECT_DIR$/Build/Debug/deff_LightPassPBR.fsh" />
+        <option value="$PROJECT_DIR$/Build/Debug/Debug/shadow.glinc" />
       </list>
     </option>
   </component>
@@ -347,31 +338,23 @@
             <path>
               <item name="SwingTech1" type="dad4c3:CidrFilesViewHelper$MyProjectTreeStructure$1" />
               <item name="engine" type="462c0819:PsiDirectoryNode" />
+              <item name="Build" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="SwingTech1" type="dad4c3:CidrFilesViewHelper$MyProjectTreeStructure$1" />
+              <item name="engine" type="462c0819:PsiDirectoryNode" />
+              <item name="Build" type="462c0819:PsiDirectoryNode" />
+              <item name="Debug" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="SwingTech1" type="dad4c3:CidrFilesViewHelper$MyProjectTreeStructure$1" />
+              <item name="engine" type="462c0819:PsiDirectoryNode" />
               <item name="demo" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="SwingTech1" type="dad4c3:CidrFilesViewHelper$MyProjectTreeStructure$1" />
               <item name="engine" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="SwingTech1" type="dad4c3:CidrFilesViewHelper$MyProjectTreeStructure$1" />
-              <item name="engine" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="Application" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="SwingTech1" type="dad4c3:CidrFilesViewHelper$MyProjectTreeStructure$1" />
-              <item name="engine" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="Entity" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="SwingTech1" type="dad4c3:CidrFilesViewHelper$MyProjectTreeStructure$1" />
-              <item name="engine" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="Entity" type="462c0819:PsiDirectoryNode" />
-              <item name="Components" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="SwingTech1" type="dad4c3:CidrFilesViewHelper$MyProjectTreeStructure$1" />
@@ -420,7 +403,7 @@
   </component>
   <component name="PropertiesComponent">
     <property name="recentsLimit" value="5" />
-    <property name="settings.editor.selected.configurable" value="CPPToolchains" />
+    <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
     <property name="settings.editor.splitter.proportion" value="0.20674269" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="js-jscs-nodeInterpreter" value="C:\Program Files\nodejs\node.exe" />
@@ -1443,21 +1426,12 @@
       <workItem from="1520993817665" duration="1180000" />
       <workItem from="1521002277452" duration="199000" />
       <workItem from="1521104771375" duration="295000" />
-      <workItem from="1521150490282" duration="25000" />
-    </task>
-    <task id="LOCAL-00038" summary="[*] Simple Data Structures.">
-      <created>1500701153652</created>
-      <option name="number" value="00038" />
-      <option name="presentableId" value="LOCAL-00038" />
-      <option name="project" value="LOCAL" />
-      <updated>1500701153652</updated>
-    </task>
-    <task id="LOCAL-00039" summary="[+] Working Octree Implementation">
-      <created>1501538508865</created>
-      <option name="number" value="00039" />
-      <option name="presentableId" value="LOCAL-00039" />
-      <option name="project" value="LOCAL" />
-      <updated>1501538508865</updated>
+      <workItem from="1521150490282" duration="761000" />
+      <workItem from="1521217675434" duration="21000" />
+      <workItem from="1521312050314" duration="182000" />
+      <workItem from="1521343535020" duration="127000" />
+      <workItem from="1521343675046" duration="525000" />
+      <workItem from="1521608307415" duration="62000" />
     </task>
     <task id="LOCAL-00040" summary="[*] Tuneups and fixes">
       <created>1501561593392</created>
@@ -1788,11 +1762,25 @@
       <option name="project" value="LOCAL" />
       <updated>1521104810544</updated>
     </task>
-    <option name="localTasksCounter" value="87" />
+    <task id="LOCAL-00087" summary="[+] Vulkan Swapchain">
+      <created>1521150556934</created>
+      <option name="number" value="00087" />
+      <option name="presentableId" value="LOCAL-00087" />
+      <option name="project" value="LOCAL" />
+      <updated>1521150556935</updated>
+    </task>
+    <task id="LOCAL-00088" summary="[+] Dev Vulkan Branch">
+      <created>1521150649644</created>
+      <option name="number" value="00088" />
+      <option name="presentableId" value="LOCAL-00088" />
+      <option name="project" value="LOCAL" />
+      <updated>1521150649644</updated>
+    </task>
+    <option name="localTasksCounter" value="89" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="1303295000" />
+    <option name="totallyTimeSpent" value="1304948000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -1807,7 +1795,7 @@
     <frame x="112" y="-12" width="2900" height="2024" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.29602358" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.21551108" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.22228444" sideWeight="0.49392423" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="CMake" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.18645017" sideWeight="0.35632595" order="11" side_tool="false" content_ui="tabs" />
       <window_info id="LuaJ" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -1819,7 +1807,7 @@
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.2967525" sideWeight="0.73614585" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.45520717" sideWeight="0.799857" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.45520717" sideWeight="0.799857" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Documentation" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="FLOATING" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" x="596" y="340" width="555" height="239" />
@@ -1890,8 +1878,6 @@
   <component name="VcsManagerConfiguration">
     <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_NEW_TODO" value="false" />
-    <MESSAGE value="[*] Initial Collisions working!" />
-    <MESSAGE value="[*] Most functions for rigid body mapped, but still yielding wrong results..." />
     <MESSAGE value="[*] Passable Dynamics Implementation" />
     <MESSAGE value="[*] Can Flesh out components scriptability end." />
     <MESSAGE value="[*] Enabled Scripting for Graphics Component" />
@@ -1915,7 +1901,9 @@
     <MESSAGE value="[*] Camera Improvements." />
     <MESSAGE value="[*] MSVC Now Available.. Preferred for Windows platforms." />
     <MESSAGE value="[+] Initial Vulkan Implementation" />
-    <option name="LAST_COMMIT_MESSAGE" value="[+] Initial Vulkan Implementation" />
+    <MESSAGE value="[+] Vulkan Swapchain" />
+    <MESSAGE value="[+] Dev Vulkan Branch" />
+    <option name="LAST_COMMIT_MESSAGE" value="[+] Dev Vulkan Branch" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -1927,7 +1915,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
           <url>file://$PROJECT_DIR$/src/Graphics/GL/GLGraphics.cpp</url>
-          <line>627</line>
+          <line>425</line>
           <option name="timeStamp" value="1059" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
@@ -1952,7 +1940,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
           <url>file://$PROJECT_DIR$/src/Application/STGame.cpp</url>
-          <line>271</line>
+          <line>273</line>
           <option name="timeStamp" value="1357" />
         </line-breakpoint>
       </breakpoints>
@@ -1978,27 +1966,6 @@
     </expressions>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/Entity/Components/STScriptComponent.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2842">
-          <caret line="98" column="64" lean-forward="false" selection-start-line="98" selection-start-column="64" selection-end-line="98" selection-end-column="64" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Graphics/Shader.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Graphics/Shader.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="7105">
-          <caret line="245" column="39" lean-forward="false" selection-start-line="245" selection-start-column="39" selection-end-line="245" selection-end-column="39" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/Entity/Components/STRendererComponent.cpp">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="282">
@@ -2193,14 +2160,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/demo/STSample.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="4669">
-          <caret line="161" column="0" lean-forward="false" selection-start-line="161" selection-start-column="0" selection-end-line="161" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/Graphics/STMaterial.h">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="4002">
@@ -2243,7 +2202,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="10121">
           <caret line="349" column="21" lean-forward="false" selection-start-line="349" selection-start-column="21" selection-end-line="349" selection-end-column="21" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -2265,9 +2223,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="87">
           <caret line="3" column="9" lean-forward="false" selection-start-line="3" selection-start-column="9" selection-end-line="3" selection-end-column="9" />
-          <folding>
-            <element signature="e#71#96#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -2348,10 +2303,44 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/demo/STSample.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="4321">
+          <caret line="149" column="19" lean-forward="false" selection-start-line="149" selection-start-column="19" selection-end-line="149" selection-end-column="19" />
+          <folding>
+            <element signature="e#5645#5677#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/Graphics/VK/VKGraphics.cpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1167">
-          <caret line="93" column="1" lean-forward="true" selection-start-line="93" selection-start-column="1" selection-end-line="93" selection-end-column="1" />
+        <state relative-caret-position="1740">
+          <caret line="60" column="33" lean-forward="false" selection-start-line="60" selection-start-column="33" selection-end-line="60" selection-end-column="33" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Build/Debug/deff_LightPass.fsh">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Build/Debug/Debug/shadow.glinc">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="319">
+          <caret line="11" column="24" lean-forward="false" selection-start-line="11" selection-start-column="24" selection-end-line="11" selection-end-column="24" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Build/Debug/deff_LightPassPBR.fsh">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="561">
+          <caret line="44" column="13" lean-forward="false" selection-start-line="44" selection-start-column="13" selection-end-line="44" selection-end-column="13" />
           <folding />
         </state>
       </provider>

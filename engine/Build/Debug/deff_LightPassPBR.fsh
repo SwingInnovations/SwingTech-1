@@ -23,9 +23,10 @@ void main(void){
     vec3 B = cross(Tangent, Normal);
     mat3 TBN = mat3(Tangent, B, Normal);
 
-
     vec3 lighting = Color * vec3(0.001);
     vec3 viewDir = normalize(_CameraPos - FragPos);
+
+	float shadowIntensity = 0.9;
 
     vec3 N = normalize(Normal);
     vec3 V = normalize(viewPos - FragPos);
@@ -33,12 +34,15 @@ void main(void){
     F0 = mix(F0, Color, MRA.x);
     vec3 ambient = vec3(0.01) * Color * 1.0;
     vec3 Lo = vec3(0.0);
-    float shadow;
+    float shadow = 0.0;
+    
     for(int i = 0; i < LightCount; i++){
         if(Light[i].UseShadow == 1) {
             float bias = max(0.05 * (1.0 - dot(Normal, (Light[i].Position - FragPos))), 0.005);
             vec4 FPLS = transpose(Light[i].LightSpaceMatrix) * vec4(FragPos, 1.0);
-            shadow += calculateShadow(FPLS, shadowArray, Light[i].ShadowIndex, bias);
+			if(shadow < 1.0){
+				shadow += calculateShadowPCF(FPLS, shadowArray, Light[i].ShadowIndex, bias);
+			}
         }
         else shadow = 0.0;
 
@@ -46,7 +50,7 @@ void main(void){
             vec3 L = normalize(Light[i].Position - FragPos);
             vec3 H = normalize(V + L);
             float len = length(Light[i].Position - FragPos);
-            float distance = (len == 0) ? len : 1;
+            float distance = (len == 0.0) ? len : 1.0;
             float attenuation = 1.0 / (distance * distance);
             vec3 radiance = Light[i].Color * attenuation;
 
@@ -65,8 +69,9 @@ void main(void){
             float NdotL = max(dot(N,L), 0.0);
             Lo += (kD * Color / PI + specular) * radiance * NdotL;
         }
-        lighting += ambient + ((1.0 - clamp(shadow, 0.0, 1.0)) * Lo);
-        //lighting += DirectPBR((1.0 - shadow) * Color, MRA, FragPos, Normal, Light[i].Position, Light[i].Color, _CameraPos);
+        lighting += ambient + Lo;
+        //lighting += DirectPBR(Color, MRA, FragPos, Normal, Light[i].Position, Light[i].Color, _CameraPos);
+		lighting *= (1.0 - shadow * shadowIntensity);
     }
 
     lighting = lighting / (lighting + vec3(1.0));

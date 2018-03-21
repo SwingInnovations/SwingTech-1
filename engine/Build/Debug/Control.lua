@@ -78,6 +78,8 @@ function onCollision(self, other)
         local r = math.random()
         local g = math.random()
         local b = math.random()
-        GetRendererComponent(self):getMaterial():setDiffuseColor(Vector4.new(r,g,b, 1));
+        GetRendererComponent(self):getMaterial():setDiffuseColor(Vector4.new(r,g,b, 1))
+		GetRendererComponent(self):getMaterial():setMetallicF(0.0)
+		GetRendererComponent(self):getMaterial():setRoughnessF(0.0)
     end
 end

@@ -13,33 +13,35 @@ VKGraphics::VKGraphics(STGame * game){
 	init(game);
 }
 
-
-void VKGraphics::init(stUint w, stUint h) {
-
-}
-
 void VKGraphics::init(STGame * game)
 {
 	WIDTH = (stUint)game->getWidth();
 	HEIGHT = (stUint)game->getHeight();
 	m_instance = 0;
-	m_device = VK_NULL_HANDLE;
 	m_physicalDevice = VK_NULL_HANDLE;
 
+	SDL_Vulkan_LoadLibrary(NULL);
 	initInstance(game);
 	initSurface(game);
 	selectPhysicalDevice();
 	initLogicalDevice();
 	initSwapChain();
+	initImageViews();
+	initRenderPass();
 }
 
 void VKGraphics::cleanup() {
-	vkDestroySwapchainKHR(m_device, m_swapChain, nullptr);
+	vkDestroyRenderPass(m_device, m_primaryRenderPass, nullptr);
+	for (auto imgView : m_swapChainImageViews) {
+		vkDestroyImageView(m_device, imgView, nullptr);
+	}
+	if(m_swapChain) vkDestroySwapchainKHR(m_device, m_swapChain, nullptr);
 	vkDestroyDevice(m_device, nullptr);
-
+	
 	vkDestroySurfaceKHR(m_instance, m_surface, nullptr);
 	vkDestroyInstance(m_instance, nullptr);
 }
+
 void VKGraphics::setScreenShader(const std::string &) {
 
 }
@@ -66,7 +68,17 @@ void VKGraphics::loadFont(const std::string &string) {
 
 void VKGraphics::swapBuffer(SDL_Window *window) {
     //TODO Implement this.
-	STDebug::Log("Using VK Swap");
+	//STDebug::Log("Using VK Swap");
+}
+
+VkInstance VKGraphics::getInstance() const
+{
+	return m_instance;
+}
+
+VkDevice VKGraphics::getDevice() const
+{
+	return m_device;
 }
 
 void VKGraphics::initInstance(STGame* game){
@@ -84,13 +96,13 @@ void VKGraphics::initInstance(STGame* game){
 	createInfo.sType = VK_STRUCTURE_TYPE_INSTANCE_CREATE_INFO;
 	createInfo.pApplicationInfo = &appInfo;
 
-	auto extensions = getExtensions(game, extensionCount);
+	auto extensions = getInstanceExtensions(game, extensionCount);
 	createInfo.enabledExtensionCount = extensionCount;
 	createInfo.ppEnabledExtensionNames = extensions;
-
 	if (vkCreateInstance(&createInfo, nullptr, &m_instance) != VK_SUCCESS) {
 		STDebug::LogError("Failed to create Vulkan Instance");
 	}
+	free((void*)extensions);
 }
 
 void VKGraphics::initSurface(STGame* game)
@@ -124,6 +136,7 @@ void VKGraphics::selectPhysicalDevice(){
 	if (m_physicalDevice == VK_NULL_HANDLE) {
 		STDebug::LogError("Failed to find Suitable GPU");
 	}
+	STDebug::Log("Created Physical Device");
 }
 
 void VKGraphics::initLogicalDevice(){
@@ -133,13 +146,13 @@ void VKGraphics::initLogicalDevice(){
 	std::vector<VkDeviceQueueCreateInfo> queueCreateInfos;
 	std::set<int> uniqueQueueFams = { indices.graphicsFamily, indices.presentFamily };
 
-	stReal queuePriority = 1.f;
+	stReal queuePriority[] = { 1.f };
 	for (auto queueFamily : uniqueQueueFams) {
 		VkDeviceQueueCreateInfo queueCreateInfo = {};
 		queueCreateInfo.sType = VK_STRUCTURE_TYPE_DEVICE_QUEUE_CREATE_INFO;
 		queueCreateInfo.queueFamilyIndex = queueFamily;
 		queueCreateInfo.queueCount = 1;
-		queueCreateInfo.pQueuePriorities = &queuePriority;
+		queueCreateInfo.pQueuePriorities = &queuePriority[0];
 		queueCreateInfos.push_back(queueCreateInfo);
 	}
 
@@ -152,7 +165,7 @@ void VKGraphics::initLogicalDevice(){
 	createInfo.enabledExtensionCount = static_cast<stUint>(m_deviceExtensions.size());
 	createInfo.ppEnabledExtensionNames = m_deviceExtensions.data();
 
-	if (vkCreateDevice(m_physicalDevice, &createInfo, nullptr, &m_device) != VK_SUCCESS) {
+	if (VK_SUCCESS != vkCreateDevice(m_physicalDevice, &createInfo, nullptr, &m_device)) {
 		STDebug::LogError("Failed to create Logical Device!");
 	}
 	STDebug::Log("Created Logical Device");
@@ -161,6 +174,7 @@ void VKGraphics::initLogicalDevice(){
 }
 
 void VKGraphics::initSwapChain() {
+	//Initialize the swapchain.
 	STSwapChainSupportDetails swapChainSupport = querySwapChainSupport(m_physicalDevice);
 
 	auto surfaceFormat = chooseSwapSurfaceFormat(swapChainSupport.formats);
@@ -174,14 +188,13 @@ void VKGraphics::initSwapChain() {
 
 	VkSwapchainCreateInfoKHR createInfo = {};
 	createInfo.sType = VK_STRUCTURE_TYPE_SWAPCHAIN_CREATE_INFO_KHR;
-	createInfo.pNext = nullptr;
 	createInfo.surface = m_surface;
 	createInfo.minImageCount = imageCount;
 	createInfo.imageFormat = surfaceFormat.format;
 	createInfo.imageColorSpace = surfaceFormat.colorSpace;
 	createInfo.imageExtent = extent;
 	createInfo.imageArrayLayers = 1;
-	createInfo.imageUsage = VK_IMAGE_USAGE_COLOR_ATTACHMENT_BIT;
+	createInfo.imageUsage = VK_IMAGE_USAGE_COLOR_ATTACHMENT_BIT | VK_IMAGE_USAGE_TRANSFER_DST_BIT;
 
 	auto indices = findQueueFamilies(m_physicalDevice);
 	stUint queueFamIndices[] = { (stUint)indices.graphicsFamily, (stUint)indices.presentFamily };
@@ -192,6 +205,8 @@ void VKGraphics::initSwapChain() {
 	}
 	else {
 		createInfo.imageSharingMode = VK_SHARING_MODE_EXCLUSIVE;
+		createInfo.queueFamilyIndexCount = 0;
+		createInfo.pQueueFamilyIndices = VK_NULL_HANDLE;
 	}
 
 	createInfo.preTransform = swapChainSupport.capabilities.currentTransform;
@@ -199,9 +214,10 @@ void VKGraphics::initSwapChain() {
 	createInfo.presentMode = presentMode;
 	createInfo.clipped = VK_TRUE;
 	createInfo.oldSwapchain = nullptr;
-
-	if (vkCreateSwapchainKHR(m_device, &createInfo, nullptr, &m_swapChain) != VK_SUCCESS) {
+	VkResult res = vkCreateSwapchainKHR(m_device, &createInfo, nullptr, &m_swapChain);
+	if (res != VK_SUCCESS) {
 		STDebug::LogError("Failed to Create SwapChain");
+		return;
 	}
 	else {
 		vkGetSwapchainImagesKHR(m_device, m_swapChain, &imageCount, nullptr);
@@ -210,10 +226,111 @@ void VKGraphics::initSwapChain() {
 		m_swapChainImageFormat = surfaceFormat.format;
 		m_swapChainExtent = extent;
 	}
+	STDebug::Log("Created SwapChain");
+}
+
+void VKGraphics::initImageViews()
+{
+	//Initializes Actual Render Targets
+	VkResult res;
+	m_swapChainImageViews.resize(m_swapChainImages.size());
+	for (stUint i = 0, S = m_swapChainImages.size(); i < S; i++) {
+		VkImageViewCreateInfo createInfo = {};
+		createInfo.sType = VK_STRUCTURE_TYPE_IMAGE_VIEW_CREATE_INFO;
+		createInfo.format = m_swapChainImageFormat;
+		createInfo.image = m_swapChainImages[i];
+		createInfo.components.r = VK_COMPONENT_SWIZZLE_IDENTITY;
+		createInfo.components.g = VK_COMPONENT_SWIZZLE_IDENTITY;
+		createInfo.components.b = VK_COMPONENT_SWIZZLE_IDENTITY;
+		createInfo.components.a = VK_COMPONENT_SWIZZLE_IDENTITY;
+		createInfo.subresourceRange.aspectMask = VK_IMAGE_ASPECT_COLOR_BIT;
+		createInfo.subresourceRange.baseMipLevel = 0;
+		createInfo.subresourceRange.levelCount = 1;
+		createInfo.subresourceRange.baseArrayLayer = 0;
+		createInfo.subresourceRange.layerCount = 1;
+		res = vkCreateImageView(m_device, &createInfo, nullptr, &m_swapChainImageViews[i]);
+		if (res != VK_SUCCESS) {
+			STDebug::LogError("Failed to initialize SwapChainImage View");
+			return;
+		}
+	}
+	STDebug::Log("Generated ImageViews");
+}
+
+void VKGraphics::initRenderPass(){
+	//Initialize Default renderpass;
+	VkAttachmentDescription colorAttachment = {};
+	colorAttachment.format = m_swapChainImageFormat;
+	colorAttachment.samples = VK_SAMPLE_COUNT_1_BIT;
+	colorAttachment.loadOp = VK_ATTACHMENT_LOAD_OP_CLEAR;
+	colorAttachment.storeOp = VK_ATTACHMENT_STORE_OP_STORE;
+	colorAttachment.stencilLoadOp = VK_ATTACHMENT_LOAD_OP_DONT_CARE;
+	colorAttachment.stencilStoreOp = VK_ATTACHMENT_STORE_OP_DONT_CARE;
+	colorAttachment.initialLayout = VK_IMAGE_LAYOUT_UNDEFINED;
+	colorAttachment.finalLayout = VK_IMAGE_LAYOUT_PRESENT_SRC_KHR;
+
+	VkAttachmentReference colorAttachmentRef = {};
+	colorAttachmentRef.attachment = 0;
+	colorAttachmentRef.layout = VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL;
+
+	VkSubpassDescription subPass = {};
+	subPass.pipelineBindPoint = VK_PIPELINE_BIND_POINT_GRAPHICS;
+	subPass.colorAttachmentCount = 1;
+	subPass.pColorAttachments = &colorAttachmentRef;
+
+	VkRenderPassCreateInfo renderPassInfo = {};
+	renderPassInfo.sType = VK_STRUCTURE_TYPE_RENDER_PASS_CREATE_INFO;
+	renderPassInfo.attachmentCount = 1;
+	renderPassInfo.pAttachments = &colorAttachment;
+	renderPassInfo.subpassCount = 1;
+	renderPassInfo.pSubpasses = &subPass;
+
+	if (VK_SUCCESS != vkCreateRenderPass(m_device, &renderPassInfo, nullptr, &m_primaryRenderPass)) {
+		STDebug::LogError("Failed to create Render Pass!");
+	}
+	STDebug::Log("Created Render Pass");
+}
+
+void VKGraphics::initGraphicsPipeline(){
+	VkViewport viewport = {};
+	viewport.x = 0.f;
+	viewport.y = 0.f;
+	viewport.width = (stReal)WIDTH;
+	viewport.height = (stReal)HEIGHT;
+	viewport.minDepth = 0.0f;
+	viewport.maxDepth = 0.0f;
+
+	VkRect2D scissor = {};
+	scissor.offset = { 0, 0 };
+	scissor.extent = m_swapChainExtent;
+
+	VkPipelineViewportStateCreateInfo viewportState = {};
+	viewportState.sType = VK_STRUCTURE_TYPE_PIPELINE_VIEWPORT_STATE_CREATE_INFO;
+	viewportState.viewportCount = 1;
+	viewportState.pViewports = &viewport;
+	viewportState.scissorCount = 1;
+	viewportState.pScissors = &scissor;
+
+	VkPipelineRasterizationStateCreateInfo rasterizer = {};
+	rasterizer.sType = VK_STRUCTURE_TYPE_PIPELINE_RASTERIZATION_STATE_CREATE_INFO;
+	rasterizer.depthClampEnable = VK_FALSE;
+	rasterizer.rasterizerDiscardEnable = VK_FALSE;
+	rasterizer.polygonMode = VK_POLYGON_MODE_FILL;
+	rasterizer.lineWidth = 1.0f;
+	rasterizer.cullMode = VK_CULL_MODE_BACK_BIT;
+	rasterizer.frontFace = VK_FRONT_FACE_CLOCKWISE;
+	rasterizer.depthBiasEnable = VK_FALSE;
+
+	VkPipelineMultisampleStateCreateInfo multisampling = {};
+	multisampling.sType = VK_STRUCTURE_TYPE_PIPELINE_MULTISAMPLE_STATE_CREATE_INFO;
+	multisampling.sampleShadingEnable = VK_FALSE;
+	multisampling.rasterizationSamples = VK_SAMPLE_COUNT_1_BIT;
+
+	VkPipelineColorBlendAttachmentState colorBlendAttachment = {};
 
 }
 
-const char ** VKGraphics::getExtensions(STGame* game, stUint & extensionsCount) const{
+const char ** VKGraphics::getInstanceExtensions(STGame* game, stUint & extensionsCount) const{
 	vkEnumerateInstanceExtensionProperties(nullptr, &extensionsCount, nullptr);
 	const char** extNames = (const char**)malloc(sizeof(VkExtensionProperties) * extensionsCount);
 	SDL_Vulkan_GetInstanceExtensions(game->getWindow(), &extensionsCount, extNames);
@@ -235,10 +352,11 @@ bool VKGraphics::isDeviceSuitable(VkPhysicalDevice device){
 bool VKGraphics::checkDeviceExtensionSupport(VkPhysicalDevice device){
 
 	stUint extensionCount = 0;
-	vkEnumerateDeviceExtensionProperties(device, nullptr, &extensionCount, nullptr);
+	VkResult res;
+	res = vkEnumerateDeviceExtensionProperties(device, nullptr, &extensionCount, nullptr);
 
 	std::vector<VkExtensionProperties> availableExtensions(extensionCount);
-	vkEnumerateDeviceExtensionProperties(device, nullptr, &extensionCount, availableExtensions.data());
+	res = vkEnumerateDeviceExtensionProperties(device, nullptr, &extensionCount, availableExtensions.data());
 
 	std::set<std::string> requiredExtensions(m_deviceExtensions.begin(), m_deviceExtensions.end());
 	for (const auto& ext : availableExtensions) {
@@ -275,6 +393,9 @@ STQueueFamilyIndices VKGraphics::findQueueFamilies(VkPhysicalDevice device){
 STSwapChainSupportDetails VKGraphics::querySwapChainSupport(VkPhysicalDevice device)
 {
 	STSwapChainSupportDetails details;
+
+	vkGetPhysicalDeviceSurfaceCapabilitiesKHR(device, m_surface, &details.capabilities);
+
 	stUint formatCount = 0, presentModeCount = 0;
 	vkGetPhysicalDeviceSurfaceFormatsKHR(device, m_surface, &formatCount, nullptr);
 	if (formatCount != 0) {
@@ -294,7 +415,10 @@ STSwapChainSupportDetails VKGraphics::querySwapChainSupport(VkPhysicalDevice dev
 VkSurfaceFormatKHR VKGraphics::chooseSwapSurfaceFormat(const std::vector<VkSurfaceFormatKHR>& availableFormats)
 {
 	if (availableFormats.size() == 1 && availableFormats[0].format == VK_FORMAT_UNDEFINED) {
-		return { VK_FORMAT_B8G8R8A8_UNORM, VK_COLOR_SPACE_SRGB_NONLINEAR_KHR };
+		VkSurfaceFormatKHR ret = {};
+		ret.format = VK_FORMAT_R8G8B8A8_UNORM;
+		ret.colorSpace = VK_COLOR_SPACE_SRGB_NONLINEAR_KHR;
+		return ret;
 	}
 
 	for (const auto& availableFormat : availableFormats) {
@@ -322,14 +446,9 @@ VkPresentModeKHR VKGraphics::chooseSwapPresentMode(const std::vector<VkPresentMo
 
 VkExtent2D VKGraphics::chooseSwapExtent(const VkSurfaceCapabilitiesKHR & capabilities)
 {
-	if (capabilities.currentExtent.width != UINT32_MAX) {
-		return capabilities.currentExtent;
-	}
-	else {
-		VkExtent2D actualExtents = { WIDTH, HEIGHT };
-		actualExtents.width = std::max(capabilities.minImageExtent.width, std::min(capabilities.maxImageExtent.width, actualExtents.width));
-		actualExtents.height = std::max(capabilities.minImageExtent.height, std::min(capabilities.maxImageExtent.height, actualExtents.height));
-		return actualExtents;
-	}
+	VkExtent2D actualExtents = { WIDTH, HEIGHT };
+	actualExtents.width = WIDTH;
+	actualExtents.height = HEIGHT;
+	return actualExtents;
 }
 

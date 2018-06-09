@@ -35,6 +35,7 @@ struct STRenderScene{
     virtual void drawSkybox(Camera& cam){;};
     virtual void drawSkybox(STCamera* cam) = 0;
     virtual void dispose() = 0;
+	virtual void assignDPG(){  };
     bool m_initiated = false;
 };
 
@@ -44,9 +45,10 @@ public:
     {
         BLOOM = 1,
         MOTION_BLUR = 2,
-        TONE_MAPPING=4,
-        FXAA=8,
-		SSAO= 16
+        TONE_MAPPING = 4,
+        FXAA= 8,
+		SSAO= 16,
+		BOKEH_DOF = 32
     };
 
     enum Deferred_RenderNetwork : unsigned char{

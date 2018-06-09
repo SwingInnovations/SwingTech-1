@@ -18,6 +18,10 @@ public:
      */
     void initScriptingFunctions(sol::state& state) override ;
 
+	/**
+	*	Returns the rigid body
+	*	@returns RigidBody Abstracted Class
+	*/
     STRigidBody* getRigidBody();
 
     /**
@@ -29,6 +33,9 @@ public:
      */
     void applyForce(Vector3D);
 
+	/**
+	 * Sets the mass of the rigid body. 
+	 */
     void setMass(stReal mass);
 
     /**
@@ -36,14 +43,25 @@ public:
      * @param gravity
      */
     void setGravity(Vector3D gravity);
+
     void setActive(bool);
     void setDamping(stReal, stReal);
+
     /**
      * Sets "Bounciness" of object
      * @param value
      */
     void setRestitution(stReal value);
+	
+	/**
+	 * Toggles the rigid body as active.   
+	 * @param flag 
+	 */
     void toggleFreeze(bool);
+
+	/**
+	 * Enforces the rigid body is updated. 
+	 */
     void updateTransform();
 
     void update() override ;

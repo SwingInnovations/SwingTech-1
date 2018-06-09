@@ -1,10 +1,10 @@
 #ifndef WAHOO_INPUT_H
 #define WAHOO_INPUT_H
 
-#include "../../include/SDL2/SDL.h"
-#include "../../include/SDL2/SDL_joystick.h"
-#include "../../include/SDL2/SDL_gamecontroller.h"
-#include "../../include/json11/json11.hpp"
+#include <SDL2/SDL.h>
+#include <SDL2/SDL_joystick.h>
+#include <SDL2/SDL_gamecontroller.h>
+#include <json11/json11.hpp>
 #include "../Math/Vector.h"
 
 #include <string>

@@ -21,7 +21,11 @@ class Matrix4f;
  * @brief Contains information to describing how uniforms are updated.
  */
 namespace STShader{
-   enum Type{
+	enum ShadingModel : unsigned char {
+		PBR = 0
+	};
+
+   enum Type : unsigned char{
     INT = 0,
        FLOAT = 1,
        VEC3 = 2,
@@ -239,6 +243,9 @@ public:
     Shader(){;}
     Shader(const std::string& filePath){;}
     Shader(const std::string& vFilePath, const std::string& fFilePath){;}
+	/**
+	 * @brief Binds shader to current OpenGL Context
+	 */
     virtual void bind(){  }
     virtual void unbind(){ }
     virtual void update(Transform& trans){  }

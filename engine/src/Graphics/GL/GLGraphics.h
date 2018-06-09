@@ -90,7 +90,7 @@ public:
         glDisable(GL_BLEND);
     }
 
-    static Vector3<stReal> TextColor;
+    static Vector3D TextColor;
 
     void swapBuffer(SDL_Window* window) override;
 
@@ -124,6 +124,7 @@ private:
     Matrix4f orthoProjection;
     GLuint frameBuffer;
     GLuint frameTexBuffer;
+    GLuint frameDepthBuffer;
     GLuint velocityBuffer;
     GLuint velocityTexture;
     GLuint rendBuffer;
@@ -146,6 +147,7 @@ private:
     GLShader* Motion_Blur;
     GLShader* Tone_Mapping;
     GLShader* FXAAShader;
+    GLShader* Bokeh_DOF_Shdr;
     GLShader* GBufferShader;
     GLShader* Deff_LightPassShdr;
 
@@ -164,6 +166,7 @@ private:
     void Bloom();
     void MotionBlur();
     void ToneMapping();
+    void Bokeh_DOF();
     void RenderScreenWithShader(const std::string& shaderName);
     void RenderScreenWithShader(GLShader* shader);
 };

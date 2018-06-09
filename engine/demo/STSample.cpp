@@ -129,6 +129,7 @@ public:
         m_scene->update();
     }
 
+	
     void render(STGame* game) override {
         game->getGraphics()->drawScene(m_scene);
     }
@@ -169,7 +170,6 @@ private:
         win->getGraphics()->enableShadow(true);
 		win->getGraphics()->setShadowResolution(768);
         win->getGraphics()->setRenderMode(STGraphics::DEFERRED);
-        win->getGraphics()->enablePostEffect(STGraphics::BLOOM | STGraphics::MOTION_BLUR);
         win->start();
 
         return 0;

@@ -4,10 +4,12 @@
 #include "STBoundsComponent.h"
 #include "../../Math/Vertex.h"
 #include "../../Math/Shape/BoundingBox.h"
+#include "../Util/Loaders/STMeshCommon.h"
 
 class STAABBComponent : public STBoundsComponent{
 public:
     STAABBComponent();
+	explicit STAABBComponent(STMesh_Structure& meshStructure);
     STAABBComponent(STEntity* parent, Vector3<stReal> minPoint, Vector3<stReal> maxPoint);
     ~STAABBComponent();
 
@@ -27,8 +29,8 @@ public:
     void load(std::ifstream& in) override;
 
 private:
-    STBoundingBox* m_boundingBox;
-    bool m_isCalculated;
+    STBoundingBox*	m_boundingBox;
+    bool			m_isCalculated;
 };
 
 

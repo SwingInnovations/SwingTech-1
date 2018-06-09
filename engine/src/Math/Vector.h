@@ -293,6 +293,12 @@ public:
         return Vector3(x, y, z);
     }
 
+	/**
+	 * Constructs a maximum vector on component basis
+	 * @param v1
+	 * @param v2
+	 * @return
+	 */
     static Vector3 Max(const Vector3& v1, const Vector3& v2){
         const T x = v1.getX() >= v2.getX() ? v1.getX() : v2.getX();
         const T y = v1.getY() >= v2.getY() ? v1.getY() : v2.getY();
@@ -341,11 +347,11 @@ public:
      * @return Normalized Vector
      */
     inline Vector3 normalize(){
-        auto len = getLength();
+        stReal len = (stReal)getLength();
         if(len > 0){
-            m_Val[0] /= getLength();
-            m_Val[1] /= getLength();
-            m_Val[2] /= getLength();
+            m_Val[0] /= len;
+            m_Val[1] /= len;
+            m_Val[2] /= len;
         }
         return *this;
     }
@@ -359,7 +365,7 @@ public:
 
     /**
      * Printed components of the Vector
-     * @return Componenets in stirng form.
+     * @return Components in string form.
      */
     inline std::string getInfo() const {
         std::ostringstream str;

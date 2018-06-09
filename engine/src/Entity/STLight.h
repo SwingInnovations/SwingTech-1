@@ -30,7 +30,7 @@ public:
      * @param coneDistance
      * @return
      */
-    static STLight* InitSpotLight(Vector3D position, Vector3D direction, Vector3D color, stReal coneAngle, stReal coneDistance);
+    static std::shared_ptr<STLight> InitSpotLight(Vector3D direction, Vector3D color, stReal coneAngle, stReal coneDistance, Vector3D position);
 
     /**
      * Initializes a Point light. Illuminates all directions
@@ -39,7 +39,7 @@ public:
      * @param radius
      * @return
      */
-    static STLight* InitPointLight(Vector3D position, Vector3D color, stReal radius);
+    static std::shared_ptr<STLight> InitPointLight(Vector3D position, Vector3D color, stReal radius);
 
     STLight();
 };

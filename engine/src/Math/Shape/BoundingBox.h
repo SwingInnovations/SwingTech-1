@@ -4,6 +4,7 @@
 
 #include "../STCore.h"
 #include "../Vector.h"
+#include "../../Entity/Transform.h"
 
 class Transform;
 
@@ -14,8 +15,8 @@ public:
      * Initializes Minimum and Maximum Points of the Bounding Box
      */
     STBoundingBox(){
-        minPoint = Vector3<stReal>(0.f, 0.f, 0.f);
-        maxPoint = Vector3<stReal>(0.f, 0.f, 0.f);
+        m_extMinPoint = Vector3D(0.f, 0.f, 0.f);
+        m_extMaxPoint = Vector3D(0.f, 0.f, 0.f);
     }
 
     /**
@@ -23,8 +24,8 @@ public:
      * @param copy
      */
     STBoundingBox(const STBoundingBox& copy){
-        this->minPoint = copy.minPoint;
-        this->maxPoint = copy.maxPoint;
+        this->m_extMinPoint = copy.m_extMinPoint;
+        this->m_extMaxPoint = copy.m_extMaxPoint;
     }
 
     /**
@@ -33,8 +34,8 @@ public:
      * @param maxPoint
      */
     explicit STBoundingBox(const Vector3<stReal>& minPoint, const Vector3<stReal>& maxPoint){
-        this->minPoint = minPoint;
-        this->maxPoint = maxPoint;
+        this->m_extMinPoint = minPoint;
+        this->m_extMaxPoint = maxPoint;
     }
 
     /**
@@ -43,36 +44,39 @@ public:
      * @param extants
      */
     void setDimensions(const Vector3<stReal>& centerPoint, const Vector3<stReal>& extants){
-        this->minPoint = centerPoint - extants;
-        this->maxPoint = centerPoint + extants;
+        this->m_extMinPoint = centerPoint - extants;
+        this->m_extMaxPoint = centerPoint + extants;
     }
 
     void update(const Transform& transform){
         //Should be updating with transform
+		m_originPoint = transform.getTranslate();
+		m_transformedMinPoint = transform.getModel() * m_extMinPoint;
+		m_transformedMaxPoint = transform.getModel() * m_extMaxPoint;
     }
 
     /**
      * Sets the Min point of Bounding Box
      * @param minPoint
      */
-    void setMinPoint(const Vector3<stReal>& minPoint){ this->minPoint = minPoint; }
+    void setMinPoint(const Vector3<stReal>& minPoint){ this->m_extMinPoint = minPoint; }
     /**
      * Sets the Max point of Bounding Box
      * @param maxPoint
      */
-    void setMaxPoint(const Vector3<stReal>& maxPoint){ this->maxPoint = maxPoint; }
+    void setMaxPoint(const Vector3<stReal>& maxPoint){ this->m_extMaxPoint = maxPoint; }
 
     /**
      * Returns the bounding box's minimum point;
      * @return
      */
-    Vector3<stReal> getMinPoint()const{ return minPoint; }
+    Vector3<stReal> getMinPoint()const{ return m_extMinPoint; }
 
     /**
      * Returns the bounding box's maximum point.
      * @return
      */
-    Vector3<stReal> getMaxPoint()const{ return maxPoint; }
+    Vector3<stReal> getMaxPoint()const{ return m_extMaxPoint; }
 
     /**
      * Checks if bounding box contains point.
@@ -80,7 +84,7 @@ public:
      * @return
      */
     bool contains(const Vector3<stReal> point){
-        return (point >= minPoint) && (point <= maxPoint);
+        return (point >= m_extMinPoint) && (point <= m_extMaxPoint);
     }
 
     /**
@@ -88,9 +92,9 @@ public:
      * @return
      */
     Vector3<stReal> getOriginPoint()const {
-        stReal hX = (maxPoint.getX() + minPoint.getX()) / 2;
-        stReal hY = (maxPoint.getY() + minPoint.getY()) / 2;
-        stReal hZ = (maxPoint.getZ() + minPoint.getZ()) / 2;
+        stReal hX = (m_extMaxPoint.getX() + m_extMinPoint.getX()) / 2;
+        stReal hY = (m_extMaxPoint.getY() + m_extMinPoint.getY()) / 2;
+        stReal hZ = (m_extMaxPoint.getZ() + m_extMinPoint.getZ()) / 2;
         return Vector3<stReal>(hX, hY, hZ);
     }
 
@@ -99,16 +103,19 @@ public:
      * @return
      */
     Vector3<stReal> getExtants()const{
-        auto h_dX = sqrtf((stReal)pow(maxPoint.getX() - minPoint.getX(), 2));
-        auto h_dY = sqrtf((stReal)pow(maxPoint.getY() - minPoint.getY(), 2));
-        auto h_dZ = sqrtf((stReal)pow(maxPoint.getZ() - minPoint.getZ(), 2));
+        auto h_dX = sqrtf((stReal)pow(m_extMaxPoint.getX() - m_extMinPoint.getX(), 2));
+        auto h_dY = sqrtf((stReal)pow(m_extMaxPoint.getY() - m_extMinPoint.getY(), 2));
+        auto h_dZ = sqrtf((stReal)pow(m_extMaxPoint.getZ() - m_extMinPoint.getZ(), 2));
         return Vector3<stReal>(h_dX, h_dY, h_dZ);
     }
 
 
 private:
-    Vector3<stReal> minPoint;
-    Vector3<stReal> maxPoint;
+	Vector3D m_transformedMinPoint;	//After transformations
+	Vector3D m_transformedMaxPoint;	//After transformations
+    Vector3D m_extMinPoint;
+    Vector3D m_extMaxPoint;
+	Vector3D m_originPoint;			//Location in world space
 };
 
 #endif //SWINGTECH1_BOUNDINGBOX_H

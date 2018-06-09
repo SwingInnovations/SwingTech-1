@@ -38,6 +38,7 @@ void GLGraphics::init(STGame* game) {
 	Motion_Blur = new GLShader("screen", "Motion_Blur");
 	Tone_Mapping = new GLShader("screen", "Tone_Mapping");
 	FXAAShader = new GLShader("screen", "FXAA");
+	Bokeh_DOF_Shdr = new GLShader("screen", "Bokeh_DOF");
 	Deff_LightPassShdr = new GLShader("screen", "deff_LightPassPBR");
 
 	FT_Library ft;
@@ -117,6 +118,7 @@ void GLGraphics::init(STGame* game) {
 	glFramebufferParameteri(GL_FRAMEBUFFER, GL_FRAMEBUFFER_DEFAULT_HEIGHT, h);
 	glFramebufferParameteri(GL_FRAMEBUFFER, GL_FRAMEBUFFER_DEFAULT_SAMPLES, 4);
 
+	//Screen Buffer
 	glGenTextures(1, &frameTexBuffer);
 	glBindTexture(GL_TEXTURE_2D, frameTexBuffer);
 	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, w, h, 0, GL_RGB, GL_UNSIGNED_BYTE, NULL);
@@ -128,13 +130,24 @@ void GLGraphics::init(STGame* game) {
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 	glBindTexture(GL_TEXTURE_2D, 0);
 
-	glGenRenderbuffers(1, &rendBuffer);
+	glGenTextures(1, &frameDepthBuffer);
+	glBindTexture(GL_TEXTURE_2D, frameDepthBuffer);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, w, h, 0, GL_RGB, GL_UNSIGNED_BYTE, NULL);
+	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D, frameDepthBuffer, 0);
+	glGenerateMipmap(GL_TEXTURE_2D);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    glBindTexture(GL_TEXTURE_2D, 0);
+
+    glGenRenderbuffers(1, &rendBuffer);
 	glBindRenderbuffer(GL_RENDERBUFFER, rendBuffer);
 	glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH24_STENCIL8, w, h);
 	glBindRenderbuffer(GL_RENDERBUFFER, 0);
 	glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, rendBuffer);
 
-	GLenum drawBuffers[] = { GL_COLOR_ATTACHMENT0 };
+	GLenum drawBuffers[] = { GL_COLOR_ATTACHMENT0, GL_DEPTH_ATTACHMENT };
 	glDrawBuffers(1, drawBuffers);
 	if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE) {
 		std::cerr << "Failed to create FrameBuffer" << std::endl;
@@ -346,7 +359,7 @@ void GLGraphics::drawScene(STScene *scene) {
                 glBindFramebuffer(GL_FRAMEBUFFER, shadowProps->shadowFrameBuffer[0]);
                 glClear(GL_DEPTH_BUFFER_BIT);
                 glEnable(GL_DEPTH_TEST);
-                glEnable(GL_CULL_FACE);
+				glEnable(GL_CULL_FACE);
                 glCullFace(GL_FRONT);
                 for (auto &actor : actors) {
                     actor->get<STRendererComponent>()->setShdrUniform("lightSpaceMatrix", shadowProps->projections[0]);
@@ -438,11 +451,9 @@ void GLGraphics::drawScene(STScene *scene) {
                 gfx->setShdrUniform("Light["+std::to_string(j)+"].Intensity", lightProps->intensity);
                 gfx->setShdrUniform("Light["+std::to_string(j)+"].UseShadow", lightProps->useShadow);
                 gfx->setShdrUniform("Light["+std::to_string(j)+"].ShadowIndex", (stInt)shadowProps->shadowIndex);
-
             }
             actor->draw();
         }
-
 
         glDisable(GL_BLEND);
         glDepthFunc(GL_LESS);
@@ -550,6 +561,7 @@ void GLGraphics::drawScene(STScene *scene) {
     if((m_enabledEffects&MOTION_BLUR)>0)MotionBlur();
     if((m_enabledEffects&TONE_MAPPING)>0)ToneMapping();
     if((m_enabledEffects&FXAA)>0)RenderScreenWithShader(FXAAShader);
+    if((m_enabledEffects&BOKEH_DOF > 0)) Bokeh_DOF();
 
     glClearColor(1.0, 1.0, 1.0, 1.0);
 
@@ -603,6 +615,17 @@ void GLGraphics::MotionBlur(){
     glBindTexture(GL_TEXTURE_2D, velocityTexture);
     screenQuad->draw();
     Motion_Blur->unbind();
+
+    glBindFramebuffer(GL_FRAMEBUFFER, 0);
+}
+
+void GLGraphics::Bokeh_DOF() {
+    glBindFramebuffer(GL_FRAMEBUFFER, frameBuffer);
+
+    glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, frameTexBuffer, 0);
+    Bokeh_DOF_Shdr->bind();
+    screenQuad->draw();
+    Bokeh_DOF_Shdr->unbind();
 
     glBindFramebuffer(GL_FRAMEBUFFER, 0);
 }
@@ -900,6 +923,7 @@ void GLGraphics::cleanup() {
     delete Motion_Blur;
     delete Tone_Mapping;
     delete FXAAShader;
+    delete Bokeh_DOF_Shdr;
 
 }
 

@@ -40,6 +40,7 @@ struct STSwapChainSupportDetails {
 
 class VKGraphics : public STGraphics{
 public:
+	
     explicit VKGraphics(STGame*);
 	void init(STGame* game) override;
     void cleanup() override ;

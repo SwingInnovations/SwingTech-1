@@ -6,11 +6,27 @@ STAABBComponent::STAABBComponent(){
 
 }
 
+STAABBComponent::STAABBComponent(STMesh_Structure& meshStructure)
+{
+	//Build bounding box from given information.
+	auto vertex = meshStructure.m_vertices;
+
+	Vector3D minPoint, maxPoint;
+	for (auto &v : vertex)
+	{
+		minPoint = Vector3D::Min(minPoint, *v.getVertex());
+		maxPoint = Vector3D::Max(maxPoint, *v.getVertex());
+	}
+
+	m_boundingBox = new STBoundingBox(minPoint, maxPoint);
+	m_isCalculated = false;
+}
+
 void STAABBComponent::init(std::shared_ptr<STEntity>& parent) {
     this->m_entity = parent;
-    this->m_boundingBox = new STBoundingBox();
-    m_isCalculated = false;
-    calculateBounds();
+    //this->m_boundingBox = new STBoundingBox();
+    //m_isCalculated = false;
+    //calculateBounds();
 }
 
 STAABBComponent::STAABBComponent(STEntity *parent, Vector3<stReal> minPoint, Vector3<stReal> maxPoint) {
@@ -35,8 +51,7 @@ void STAABBComponent::calculateBounds() {
 }
 
 void STAABBComponent::update() {
-    calculateBounds();
-    if(m_isCalculated){
+    if(m_boundingBox){
         m_boundingBox->update(*m_entity->transform());
     }
 }

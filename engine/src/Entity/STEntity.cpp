@@ -6,6 +6,7 @@
 STEntity::STEntity() {
     m_transform = std::make_shared<Transform>();
     numComponents = 0;
+	m_hasSkinnedMesh = false;
 }
 
 STEntity::~STEntity() {
@@ -65,6 +66,11 @@ void STEntity::setVisible(bool value) {
 
 bool STEntity::isVisible() {
     return m_visible;
+}
+
+bool STEntity::hasSkinnedMesh() const
+{
+	return m_hasSkinnedMesh;
 }
 
 void STEntity::update() {

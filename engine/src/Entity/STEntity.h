@@ -5,11 +5,13 @@
 #include <vector>
 #include <memory>
 #include <typeindex>
+
 #if _MSC_VER > 1900
 
 #else
 #include <cxxabi.h>
 #endif
+
 #include <string>
 
 #include "../Math/Vector.h"
@@ -131,6 +133,8 @@ public:
     void setVisible(bool value);
     bool isVisible();
 
+	bool hasSkinnedMesh() const;
+
     void dispose();
 
     template<typename T> inline std::vector<T*> getInChildren(){
@@ -195,6 +199,7 @@ protected:
     std::shared_ptr<STEntity> m_parent;
     bool m_visible;
     bool m_isDebug;
+	bool m_hasSkinnedMesh;
 
     std::map<std::string, std::shared_ptr<STAttribute>> m_attributes;
     std::vector<std::shared_ptr<STEntity>> m_children;

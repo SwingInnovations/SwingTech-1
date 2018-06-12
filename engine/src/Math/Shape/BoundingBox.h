@@ -59,39 +59,39 @@ public:
      * Sets the Min point of Bounding Box
      * @param minPoint
      */
-    void setMinPoint(const Vector3<stReal>& minPoint){ this->m_extMinPoint = minPoint; }
+    void setMinPoint(const Vector3D& minPoint){ this->m_extMinPoint = minPoint; }
     /**
      * Sets the Max point of Bounding Box
      * @param maxPoint
      */
-    void setMaxPoint(const Vector3<stReal>& maxPoint){ this->m_extMaxPoint = maxPoint; }
+    void setMaxPoint(const Vector3D& maxPoint){ this->m_extMaxPoint = maxPoint; }
 
     /**
      * Returns the bounding box's minimum point;
      * @return
      */
-    Vector3<stReal> getMinPoint()const{ return m_extMinPoint; }
+    Vector3D getMinPoint()const{ return m_transformedMinPoint; }
 
     /**
      * Returns the bounding box's maximum point.
      * @return
      */
-    Vector3<stReal> getMaxPoint()const{ return m_extMaxPoint; }
+    Vector3D getMaxPoint()const{ return m_transformedMaxPoint; }
 
     /**
      * Checks if bounding box contains point.
      * @param point
      * @return
      */
-    bool contains(const Vector3<stReal> point){
-        return (point >= m_extMinPoint) && (point <= m_extMaxPoint);
+    bool contains(const Vector3D point){
+		return (point >= m_transformedMinPoint) && (point <= m_transformedMaxPoint );
     }
 
     /**
      * Returns the origin point.
      * @return
      */
-    Vector3<stReal> getOriginPoint()const {
+    Vector3D getOriginPoint()const {
         stReal hX = (m_extMaxPoint.getX() + m_extMinPoint.getX()) / 2;
         stReal hY = (m_extMaxPoint.getY() + m_extMinPoint.getY()) / 2;
         stReal hZ = (m_extMaxPoint.getZ() + m_extMinPoint.getZ()) / 2;
@@ -102,7 +102,7 @@ public:
      * Returns the extents(half dimensions) of the bounding box.
      * @return
      */
-    Vector3<stReal> getExtants()const{
+    Vector3D getExtants()const{
         auto h_dX = sqrtf((stReal)pow(m_extMaxPoint.getX() - m_extMinPoint.getX(), 2));
         auto h_dY = sqrtf((stReal)pow(m_extMaxPoint.getY() - m_extMinPoint.getY(), 2));
         auto h_dZ = sqrtf((stReal)pow(m_extMaxPoint.getZ() - m_extMinPoint.getZ(), 2));

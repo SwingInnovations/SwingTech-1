@@ -24,9 +24,6 @@ STAABBComponent::STAABBComponent(STMesh_Structure& meshStructure)
 
 void STAABBComponent::init(std::shared_ptr<STEntity>& parent) {
     this->m_entity = parent;
-    //this->m_boundingBox = new STBoundingBox();
-    //m_isCalculated = false;
-    //calculateBounds();
 }
 
 STAABBComponent::STAABBComponent(STEntity *parent, Vector3<stReal> minPoint, Vector3<stReal> maxPoint) {
@@ -57,10 +54,7 @@ void STAABBComponent::update() {
 }
 
 bool STAABBComponent::contains(STEntity *other) {
-    auto position = other->transform()->getTranslate();
-    auto minPt = m_boundingBox->getMinPoint();
-    auto maxPt = m_boundingBox->getMaxPoint();
-    return (position >= minPt) && (position <= maxPt);
+	return m_boundingBox->contains(other->transform()->getTranslate());
 }
 
 bool STAABBComponent::intersects(STEntity *other) {

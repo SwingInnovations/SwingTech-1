@@ -70,8 +70,15 @@ std::shared_ptr<STActor> STActor::Create(const std::string &filename) {
     }
 
     if(!errFlag || meshes.empty()){
-        //TODO Implement error mesh;
-        return nullptr;
+		std::cerr << "Failed to load: " << filename << std::endl;
+		ret->addComponent<STMeshComponent>(new STMeshComponent(MeshLoader::Load("base/ErrorMesh.obj")));
+		ret->addComponent<STRendererComponent>(new STRendererComponent(std::make_shared<STMaterial>(new GLShader("base/errorObject"))));
+		ret->get<STEventComponent>()->addEvent("update", [](STEntity* self, STEntity* other) {
+			self->get<STRendererComponent>()->setShdrUniform("intensity", (stReal)sinf(STGame::Get()->getTick() * 0.1f));
+			self->transform()->setRotationMode(Transform::RotationMode::Local);
+			self->transform()->setRotateY(self->transform()->getRotate().getY() * STGame::Get()->getDelta() * 0.25f);
+		});
+        return ret;
     }
 
     //Assuming Singular mesh
